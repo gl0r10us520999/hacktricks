@@ -17,25 +17,25 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-XPC, ambayo inasimama kwa XNU (kernel inayotumiwa na macOS) mawasiliano kati ya Mchakato, ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC inatoa mekanizma ya kufanya **kuitana kwa njia salama, zisizo za moja kwa moja kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mtindo wa usalama wa Apple, ikiruhusu **kuunda programu zenye mamlaka tofauti** ambapo kila **kipengele** kinakimbia na **idhini tu inazohitaji** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato ulioathirika.
+XPC, ambayo inasimama kwa XNU (kernel inayotumiwa na macOS) mawasiliano kati ya Mchakato, ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC inatoa mekanizma ya kufanya **kuitana kwa njia salama, zisizo za moja kwa moja kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mtindo wa usalama wa Apple, ikiruhusu **kuundwa kwa programu zenye mamlaka tofauti** ambapo kila **kipengele** kinakimbia na **idhini tu inazohitaji** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato ulioathirika.
 
 XPC inatumia aina ya Mawasiliano kati ya Mchakato (IPC), ambayo ni seti ya mbinu za programu tofauti zinazokimbia kwenye mfumo mmoja kutuma data mbele na nyuma.
 
 Faida kuu za XPC ni pamoja na:
 
 1. **Usalama**: Kwa kutenganisha kazi katika michakato tofauti, kila mchakato unaweza kupewa tu idhini inazohitaji. Hii inamaanisha kwamba hata kama mchakato umeathirika, ina uwezo mdogo wa kufanya madhara.
-2. **Utulivu**: XPC inasaidia kutenga ajali kwenye kipengele ambapo zinatokea. Ikiwa mchakato utaanguka, unaweza kuanzishwa tena bila kuathiri mfumo mzima.
+2. **Utulivu**: XPC husaidia kutenga ajali kwenye kipengele ambapo zinatokea. Ikiwa mchakato utaanguka, unaweza kuanzishwa tena bila kuathiri mfumo mzima.
 3. **Utendaji**: XPC inaruhusu urahisi wa ushirikiano, kwani kazi tofauti zinaweza kufanywa kwa wakati mmoja katika michakato tofauti.
 
-Pungufu pekee ni kwamba **kutenganisha programu katika michakato kadhaa** na kuwafanya komunikate kupitia XPC ni **kasi kidogo**. Lakini katika mifumo ya leo hii haionekani sana na faida ni bora.
+**Hasara** pekee ni kwamba **kutenganisha programu katika michakato kadhaa** na kuwafanya komunikate kupitia XPC ni **chini ya ufanisi**. Lakini katika mifumo ya leo hii haionekani sana na faida ni bora.
 
 ## Application Specific XPC services
 
 Vipengele vya XPC vya programu viko **ndani ya programu yenyewe.** Kwa mfano, katika Safari unaweza kuvikuta katika **`/Applications/Safari.app/Contents/XPCServices`**. Vina kiendelezi **`.xpc`** (kama **`com.apple.Safari.SandboxBroker.xpc`**) na pia ni **bundles** na binary kuu ndani yake: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` na `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Kama unavyoweza kufikiria, **kipengele cha XPC kitakuwa na idhini na mamlaka tofauti** na vipengele vingine vya XPC au binary kuu ya programu. ISIPOKUWA huduma ya XPC imewekwa na [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) iliyowekwa kuwa “True” katika **Faili yake ya Info.plist**. Katika kesi hii, huduma ya XPC itakimbia katika **sehemu moja ya usalama kama programu** iliyoiita.
+Kama unavyoweza kufikiria, **kipengele cha XPC kitakuwa na idhini na mamlaka tofauti** na vipengele vingine vya XPC au binary kuu ya programu. ISIPOKUWA huduma ya XPC imewekwa na [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) iliyowekwa kuwa “True” katika **faili yake ya Info.plist**. Katika kesi hii, huduma ya XPC itakimbia katika **sehemu moja ya usalama kama programu** iliyoiita.
 
-Huduma za XPC zinaanzishwa na **launchd** inapohitajika na **zinasitishwa** mara tu kazi zote zinapokamilika ili kuachilia rasilimali za mfumo. **Vipengele vya XPC vya programu vinaweza kutumiwa tu na programu**, hivyo kupunguza hatari inayohusiana na udhaifu unaoweza kutokea.
+Huduma za XPC zinaanzishwa na **launchd** inapohitajika na **zinaz shutdown** mara zote kazi zote **zitakapokamilika** ili kuachilia rasilimali za mfumo. **Vipengele vya XPC vya programu vinaweza kutumiwa tu na programu**, hivyo kupunguza hatari inayohusiana na udhaifu unaoweza kutokea.
 
 ## System Wide XPC services
 
@@ -103,7 +103,7 @@ Mfano wa **`xpc_pipe`** ni **bootstrap pipe** iliyoundwa na **`launchd`** ikifan
 
 * **`NSXPC*`**
 
-Hizi ni vitu vya kiwango cha juu vya Objective-C ambavyo vinaruhusu uabstrakto wa muunganisho wa XPC.\
+Hizi ni vitu vya kiwango cha juu vya Objective-C ambavyo vinaruhusu ubunifu wa muunganisho wa XPC.\
 Zaidi ya hayo, ni rahisi kurekebisha vitu hivi na DTrace kuliko zile za awali.
 
 * **`GCD Queues`**
@@ -113,7 +113,7 @@ XPC inatumia GCD kupitisha ujumbe, zaidi ya hayo inazalisha foleni fulani za dis
 ## XPC Services
 
 Hizi ni **bundles zenye kiendelezi `.xpc`** zilizoko ndani ya folda ya **`XPCServices`** ya miradi mingine na katika `Info.plist` zina `CFBundlePackageType` iliyowekwa kuwa **`XPC!`**.\
-Faili hii ina funguo zingine za usanidi kama `ServiceType` ambayo inaweza kuwa Programu, Mtumiaji, Mfumo au `_SandboxProfile` ambayo inaweza kufafanua sandbox au `_AllowedClients` ambayo inaweza kuashiria haki au ID inayohitajika kuwasiliana na seva. hizi na chaguzi zingine za usanidi zitakuwa na manufaa kuunda huduma wakati inazinduliwa.
+Faili hii ina funguo zingine za usanidi kama `ServiceType` ambayo inaweza kuwa Application, User, System au `_SandboxProfile` ambayo inaweza kufafanua sandbox au `_AllowedClients` ambayo inaweza kuashiria haki au ID inayohitajika kuwasiliana na seva. hizi na chaguzi zingine za usanidi zitakuwa na manufaa kuunda huduma wakati inazinduliwa.
 
 ### Starting a Service
 
@@ -125,7 +125,7 @@ Inawezekana kufuatilia vitendo vya `xpcproxy` kwa kutumia:
 ```bash
 supraudit S -C -o /tmp/output /dev/auditpipe
 ```
-The XPC library inatumia `kdebug` kurekodi vitendo vinavyopiga simu `xpc_ktrace_pid0` na `xpc_ktrace_pid1`. Mifumo inayotumika haijaandikwa, hivyo inahitajika kuiongeza kwenye `/usr/share/misc/trace.codes`. Wana kiambishi `0x29` na kwa mfano moja ni `0x29000004`: `XPC_serializer_pack`.\
+The XPC library inatumia `kdebug` kurekodi vitendo vinavyopiga `xpc_ktrace_pid0` na `xpc_ktrace_pid1`. Mifumo inayotumika haijaandikwa, hivyo inahitajika kuiongeza kwenye `/usr/share/misc/trace.codes`. Zina kiambishi `0x29` na kwa mfano moja ni `0x29000004`: `XPC_serializer_pack`.\
 Kifaa `xpcproxy` kinatumia kiambishi `0x22`, kwa mfano: `0x2200001c: xpcproxy:will_do_preexec`.
 
 ## XPC Event Messages
@@ -134,7 +134,7 @@ Programu zinaweza **kujiandikisha** kwa ujumbe tofauti wa **matukio**, na kuwapa
 
 ### XPC Connecting Process Check
 
-Wakati mchakato unajaribu kupiga simu njia kupitia muunganisho wa XPC, **huduma ya XPC inapaswa kuangalia kama mchakato huo unaruhusiwa kuungana**. Hapa kuna njia za kawaida za kuangalia hiyo na mtego wa kawaida:
+Wakati mchakato unajaribu kupiga simu kwa njia ya XPC, **huduma ya XPC inapaswa kuangalia kama mchakato huo unaruhusiwa kuungana**. Hapa kuna njia za kawaida za kuangalia hiyo na mtego wa kawaida:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
@@ -142,7 +142,7 @@ Wakati mchakato unajaribu kupiga simu njia kupitia muunganisho wa XPC, **huduma 
 
 ## XPC Authorization
 
-Apple pia inaruhusu programu **kuweka haki fulani na jinsi ya kuzipata** hivyo ikiwa mchakato unaopiga simu unao, itaruhusiwa **kupiga simu njia** kutoka huduma ya XPC:
+Apple pia inaruhusu programu **kuweka haki fulani na jinsi ya kuzipata** hivyo ikiwa mchakato unaopiga simu una hizo itaruhusiwa **kupiga simu kwa njia** kutoka huduma ya XPC:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -150,7 +150,7 @@ Apple pia inaruhusu programu **kuweka haki fulani na jinsi ya kuzipata** hivyo i
 
 ## XPC Sniffer
 
-Ili kunusa ujumbe wa XPC unaweza kutumia [**xpcspy**](https://github.com/hot3eed/xpcspy) ambayo inatumia **Frida**.
+Ili kunasa ujumbe wa XPC unaweza kutumia [**xpcspy**](https://github.com/hot3eed/xpcspy) ambayo inatumia **Frida**.
 ```bash
 # Install
 pip3 install xpcspy
@@ -454,13 +454,13 @@ return;
 ## Remote XPC
 
 Hii kazi inayotolewa na `RemoteXPC.framework` (kutoka `libxpc`) inaruhusu kuwasiliana kupitia XPC kati ya mwenyeji tofauti.\
-Huduma zinazosaidia remote XPC zitakuwa na katika plist yao ufunguo UsesRemoteXPC kama ilivyo katika `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Hata hivyo, ingawa huduma itasajiliwa na `launchd`, ni `UserEventAgent` pamoja na plugins `com.apple.remoted.plugin` na `com.apple.remoteservicediscovery.events.plugin` ambazo zinatoa kazi hiyo.
+Huduma zinazounga mkono remote XPC zitakuwa na katika plist yao ufunguo UsesRemoteXPC kama ilivyo katika `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Hata hivyo, ingawa huduma itasajiliwa na `launchd`, ni `UserEventAgent` pamoja na plugins `com.apple.remoted.plugin` na `com.apple.remoteservicediscovery.events.plugin` ambazo zinatoa kazi hiyo.
 
 Zaidi ya hayo, `RemoteServiceDiscovery.framework` inaruhusu kupata taarifa kutoka kwa `com.apple.remoted.plugin` ikionyesha kazi kama `get_device`, `get_unique_device`, `connect`...
 
-Mara tu `connect` inapotumika na socket `fd` ya huduma inakusanywa, inawezekana kutumia darasa `remote_xpc_connection_*`.
+Mara tu `connect` inapotumika na soketi `fd` ya huduma inakusanywa, inawezekana kutumia darasa la `remote_xpc_connection_*`.
 
-Inawezekana kupata taarifa kuhusu huduma za mbali kwa kutumia chombo cha cli `/usr/libexec/remotectl` kwa kutumia vigezo kama:
+Inawezekana kupata taarifa kuhusu huduma za mbali kwa kutumia zana ya cli `/usr/libexec/remotectl` kwa kutumia vigezo kama:
 ```bash
 /usr/libexec/remotectl list # Get bridge devices
 /usr/libexec/remotectl show ...# Get device properties and services
@@ -480,7 +480,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

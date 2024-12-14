@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-Ikiwa **unapohesabu** mashine **ndani** au **nje** unakuta **Splunk inafanya kazi** (port 8090), ikiwa kwa bahati unajua **akili halali** unaweza **kutumia huduma ya Splunk** ili **kutekeleza shell** kama mtumiaji anayekimbia Splunk. Ikiwa root inafanya kazi, unaweza kuongeza mamlaka hadi root.
+Ikiwa **unafanya orodha** ya mashine **ndani** au **nje** na unapata **Splunk inafanya kazi** (port 8090), ikiwa kwa bahati unajua **akili halali** unaweza **kutumia huduma ya Splunk** ili **kufanya shell** kama mtumiaji anayekimbia Splunk. Ikiwa root inakimbia, unaweza kuongeza mamlaka hadi root.
 
-Pia ikiwa wewe ni **root tayari na huduma ya Splunk haisikii tu kwenye localhost**, unaweza **kuiba** faili ya **nenosiri** **kutoka** kwa huduma ya Splunk na **kuvunja** nenosiri, au **kuongeza** akili mpya kwake. Na kudumisha uvumilivu kwenye mwenyeji.
+Pia ikiwa wewe ni **tayari root na huduma ya Splunk haisikii tu kwenye localhost**, unaweza **kuiba** faili ya **nenosiri** **kutoka** kwa huduma ya Splunk na **kuvunja** nenosiri, au **kuongeza** akili mpya kwake. Na kudumisha uthabiti kwenye mwenyeji.
 
 Katika picha ya kwanza hapa chini unaweza kuona jinsi ukurasa wa Splunkd unavyoonekana.
 
@@ -31,9 +31,9 @@ Kwa maelezo zaidi angalia chapisho [https://eapolsniper.github.io/2020/08/14/Abu
 Ulaghai unaolenga Splunk Universal Forwarder Agent (UF) unaruhusu washambuliaji wenye nenosiri la wakala kutekeleza msimbo wa kiholela kwenye mifumo inayokimbia wakala, ambayo inaweza kuhatarisha mtandao mzima.
 
 **Mambo Muhimu:**
-- Wakala wa UF hauhakiki muunganisho unaokuja au uhalali wa msimbo, hivyo unakuwa hatarini kwa utekelezaji wa msimbo usioidhinishwa.
-- Njia za kawaida za kupata nenosiri ni pamoja na kuzitafuta katika saraka za mtandao, kushiriki faili, au nyaraka za ndani.
-- Ulaghai uliofanikiwa unaweza kusababisha ufikiaji wa kiwango cha SYSTEM au root kwenye mwenyeji walioathirika, uhamasishaji wa data, na kuingia zaidi kwenye mtandao.
+- Wakala wa UF hauhakiki muunganisho unaokuja au uhalali wa msimbo, hivyo unafanya kuwa hatari kwa utekelezaji wa msimbo usioidhinishwa.
+- Njia za kawaida za kupata nenosiri ni pamoja na kuzitafuta kwenye saraka za mtandao, kushiriki faili, au nyaraka za ndani.
+- Ulaghai uliofanikiwa unaweza kusababisha ufikiaji wa kiwango cha SYSTEM au root kwenye mwenyeji walioathirika, kuhamasisha data, na kuingia zaidi kwenye mtandao.
 
 **Utekelezaji wa Ulaghai:**
 1. Mshambuliaji anapata nenosiri la wakala wa UF.

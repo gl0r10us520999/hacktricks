@@ -18,13 +18,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-IPC (Inter-Process Communication) namespace ni kipengele cha kernel ya Linux kinachotoa **kujitoa** kwa vitu vya System V IPC, kama vile foleni za ujumbe, sehemu za kumbukumbu zinazoshirikiwa, na semaphores. Kujitoa huku kunahakikisha kwamba michakato katika **namespaces tofauti za IPC haiwezi kufikia moja kwa moja au kubadilisha vitu vya IPC vya kila mmoja**, na kutoa safu ya ziada ya usalama na faragha kati ya vikundi vya michakato.
+Namespace ya IPC (Inter-Process Communication) ni kipengele cha kernel ya Linux kinachotoa **kujitengea** kwa vitu vya System V IPC, kama vile foleni za ujumbe, sehemu za kumbukumbu zinazoshirikiwa, na semaphores. Kujitengea huku kunahakikisha kwamba michakato katika **namespace tofauti za IPC haiwezi moja kwa moja kufikia au kubadilisha vitu vya IPC vya kila mmoja**, na kutoa safu ya ziada ya usalama na faragha kati ya vikundi vya michakato.
 
 ### How it works:
 
-1. Wakati namespace mpya ya IPC inaundwa, inaanza na **seti iliyojitenga kabisa ya vitu vya System V IPC**. Hii inamaanisha kwamba michakato inayofanya kazi katika namespace mpya ya IPC haiwezi kufikia au kuingilia vitu vya IPC katika namespaces nyingine au mfumo wa mwenyeji kwa default.
-2. Vitu vya IPC vilivyoundwa ndani ya namespace vinonekana na **vinapatikana tu kwa michakato ndani ya namespace hiyo**. Kila kitu cha IPC kinatambulishwa kwa funguo ya kipekee ndani ya namespace yake. Ingawa funguo inaweza kuwa sawa katika namespaces tofauti, vitu wenyewe vimejitengea na haviwezi kufikiwa kati ya namespaces.
-3. Michakato inaweza kuhamia kati ya namespaces kwa kutumia wito wa mfumo wa `setns()` au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWIPC`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia vitu vya IPC vinavyohusishwa na namespace hiyo.
+1. Wakati namespace mpya ya IPC inaundwa, inaanza na **seti iliyojitenga kabisa ya vitu vya System V IPC**. Hii inamaanisha kwamba michakato inayofanya kazi katika namespace mpya ya IPC haiwezi kufikia au kuingilia vitu vya IPC katika namespace nyingine au mfumo wa mwenyeji kwa default.
+2. Vitu vya IPC vilivyoundwa ndani ya namespace vinonekana na **vinapatikana tu kwa michakato ndani ya namespace hiyo**. Kila kitu cha IPC kinatambulishwa kwa funguo ya kipekee ndani ya namespace yake. Ingawa funguo inaweza kuwa sawa katika namespace tofauti, vitu wenyewe vimejitengea na haviwezi kufikiwa kati ya namespace.
+3. Michakato inaweza kuhamia kati ya namespace kwa kutumia wito wa mfumo wa `setns()` au kuunda namespace mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWIPC`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia vitu vya IPC vinavyohusishwa na namespace hiyo.
 
 ## Lab:
 
@@ -34,27 +34,27 @@ IPC (Inter-Process Communication) namespace ni kipengele cha kernel ya Linux kin
 ```bash
 sudo unshare -i [--mount-proc] /bin/bash
 ```
-Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba nafasi mpya ya kuunganisha ina **mtazamo sahihi na uliojitegemea wa taarifa za mchakato zinazohusiana na nafasi hiyo**.
+Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba namespace mpya ya kuunganisha ina **mtazamo sahihi na uliojitegemea wa taarifa za mchakato zinazohusiana na namespace hiyo**.
 
 <details>
 
 <summary>Kosa: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii katika nafasi mpya; ni watoto wake tu ndio wanaingia.
-- Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika nafasi ya awali ya PID.
-- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika nafasi mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa nafasi hiyo ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima ugawaji wa PID katika nafasi hiyo.
+- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu ndio wanaingia.
+- Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika namespace ya awali ya PID.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima ugawaji wa PID katika namespace hiyo.
 
 2. **Matokeo**:
-- Kuondoka kwa PID 1 katika nafasi mpya kunasababisha kusafishwa kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika namespace mpya kunasababisha usafishaji wa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
-- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda nafasi mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na watoto wake wanakuwa salama ndani ya nafasi hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa kawaida wa PID.
+- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda namespace mpya ya PID.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake sasa wanawekwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID wa kawaida.
 
-Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la kugawa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inakimbia na bendera ya `-f`, namespace mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la kugawa kumbukumbu.
 
 </details>
 
@@ -98,20 +98,20 @@ key        shmid      owner      perms      bytes      nattch     status
 # From the host
 ipcs -m # Nothing is seen
 ```
-## References
+## Marejeo
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

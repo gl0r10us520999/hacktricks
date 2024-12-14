@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## PID Reuse
 
-Wakati huduma ya **XPC** ya macOS inakagua mchakato ulioitwa kulingana na **PID** na siyo kwenye **audit token**, inakuwa hatarini kwa shambulio la PID reuse. Shambulio hili linategemea **race condition** ambapo **exploit** itakuwa **inatuma ujumbe kwa huduma ya XPC** **ikiabudu** kazi hiyo na tu **baada** ya hapo, inatekeleza **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** na **binary** iliyo **ruhusiwa**.
+Wakati huduma ya **XPC** ya macOS inakagua mchakato ulioitwa kulingana na **PID** na si kwenye **audit token**, inakuwa hatarini kwa shambulio la PID reuse. Shambulio hili linategemea **race condition** ambapo **exploit** itakuwa **inatuma ujumbe kwa huduma ya XPC** **ikikandamiza** kazi hiyo na tu **baada** ya hapo, inatekeleza **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** na **binary** iliyo **ruhusiwa**.
 
-Kazi hii itafanya **binary** iliyo **ruhusiwa** kuwa na PID lakini **ujumbe mbaya wa XPC utakuwa umetumwa** kabla tu. Hivyo, ikiwa huduma ya **XPC** **itatumia** **PID** kuthibitisha mtumaji na kuangalia **BAADA** ya utekelezaji wa **`posix_spawn`**, itadhani inatoka kwenye mchakato **uliothibitishwa**.
+Kazi hii itafanya **binary** iliyo **ruhusiwa** kuwa na **PID** lakini **ujumbe mbaya wa XPC utakuwa umetumwa** kabla tu. Hivyo, ikiwa huduma ya **XPC** **itatumia** **PID** kuthibitisha mtumaji na kuangalia **BAADA** ya utekelezaji wa **`posix_spawn`**, itadhani inatoka kwenye mchakato **uliothibitishwa**.
 
 ### Mfano wa Exploit
 
-Ikiwa unapata kazi **`shouldAcceptNewConnection`** au kazi inayoitwa na hiyo **ikiita** **`processIdentifier`** na siyo **`auditToken`**. Inaweza kuwa na uwezekano mkubwa kwamba inathibitisha **PID ya mchakato** na siyo audit token.\
+Ikiwa unapata kazi **`shouldAcceptNewConnection`** au kazi inayoitwa na hiyo **ikiita** **`processIdentifier`** na si kuita **`auditToken`**. Inaweza kuwa na uwezekano mkubwa kwamba inathibitisha **PID** ya mchakato na si audit token.\
 Kama kwa mfano katika picha hii (iliyopigwa kutoka kwenye rejea):
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
@@ -31,7 +31,7 @@ Kama kwa mfano katika picha hii (iliyopigwa kutoka kwenye rejea):
 Angalia mfano huu wa exploit (tena, uliochukuliwa kutoka kwenye rejea) ili kuona sehemu 2 za exploit:
 
 * Moja ambayo **inazalisha forks kadhaa**
-* **Kila fork** itatumia **payload** kwa huduma ya XPC wakati inatekeleza **`posix_spawn`** mara tu baada ya kutuma ujumbe.
+* **Kila fork** itatuma **payload** kwa huduma ya XPC wakati inatekeleza **`posix_spawn`** mara tu baada ya kutuma ujumbe.
 
 {% hint style="danger" %}
 Ili exploit ifanye kazi ni muhimu ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** au kuweka ndani ya exploit:
@@ -293,7 +293,7 @@ return 0;
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
 
-## Marejeo
+## Marejeleo
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)

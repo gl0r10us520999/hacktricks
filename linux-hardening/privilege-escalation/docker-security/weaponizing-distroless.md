@@ -28,11 +28,11 @@ Baadhi ya **mfano** wa **konteina zisizo na mfumo wa uendeshaji** ni:
 
 ## Weaponizing Distroless
 
-Lengo la kuunda silaha kutoka kwa kontena isiyo na mfumo wa uendeshaji ni kuwa na uwezo wa **kutekeleza binaries na payloads bila mipaka** inayohusishwa na **distroless** (ukosefu wa binaries za kawaida katika mfumo) na pia ulinzi unaopatikana mara nyingi katika kontena kama **kusoma tu** au **hakuna utekelezaji** katika `/dev/shm`.
+Lengo la kuunda silaha kutoka kwa kontena isiyo na mfumo wa uendeshaji ni kuwa na uwezo wa **kutekeleza binaries na payloads bila kikomo** kinachohusishwa na **distroless** (ukosefu wa binaries za kawaida katika mfumo) na pia ulinzi unaopatikana mara nyingi katika kontena kama **kusoma tu** au **hakuna utekelezaji** katika `/dev/shm`.
 
 ### Through memory
 
-Kuja katika wakati fulani wa 2023...
+Kujitokeza katika wakati fulani wa 2023...
 
 ### Via Existing binaries
 

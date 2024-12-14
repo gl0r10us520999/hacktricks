@@ -28,7 +28,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Ikiwa utaweza **kushawishi akauti za admin** ili kufikia jukwaa la usimamizi, unaweza **kushawishi kompyuta zote** kwa kusambaza programu yako ya uhalifu kwenye mashine.
+Ikiwa unafanikiwa **kushawishi akcredentials za admin** ili kufikia jukwaa la usimamizi, unaweza **kushawishi kompyuta zote** kwa kusambaza malware yako kwenye mashine.
 
 Kwa red teaming katika mazingira ya MacOS, inashauriwa sana kuwa na ufahamu wa jinsi MDM zinavyofanya kazi:
 
@@ -54,11 +54,11 @@ JAMF inaweza kuendesha **scripts za kawaida** (scripts zilizotengenezwa na sysad
 
 #### Usajili wa kujitegemea wa JAMF
 
-Nenda kwenye ukurasa kama `https://<company-name>.jamfcloud.com/enroll/` kuona kama wana **usajili wa kujitegemea ulioanzishwa**. Ikiwa wanaweza **kuomba akauti za kuingia**.
+Nenda kwenye ukurasa kama `https://<company-name>.jamfcloud.com/enroll/` kuona kama wana **usajili wa kujitegemea ulioanzishwa**. Ikiwa wanaweza **kuomba akcredentials za kufikia**.
 
 Unaweza kutumia script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) kufanya shambulio la password spraying.
 
-Zaidi ya hayo, baada ya kupata akauti sahihi unaweza kuwa na uwezo wa kujaribu nguvu majina mengine ya watumiaji kwa fomu ifuatayo:
+Zaidi ya hayo, baada ya kupata akcredentials sahihi unaweza kuwa na uwezo wa kujaribu nguvu majina mengine ya watumiaji kwa fomu ifuatayo:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -87,7 +87,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Hivyo, mshambuliaji anaweza kuweka kifurushi kibaya (`pkg`) ambacho **kinabadilisha faili hii** wakati wa usakinishaji na kuweka **URL kwa mskilizaji wa Mythic C2 kutoka kwa wakala wa Typhon** ili sasa aweze kutumia JAMF kama C2.
+Hivyo, mshambuliaji anaweza kuweka kifurushi kibaya (`pkg`) ambacho **kinabadilisha faili hii** wakati wa usakinishaji na kuweka **URL kwa mlistener wa Mythic C2 kutoka kwa wakala wa Typhon** ili sasa aweze kutumia JAMF kama C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -98,9 +98,9 @@ sudo jamf policy -id 0
 ```
 {% endcode %}
 
-#### JAMF Ujumbe wa Kuingilia
+#### JAMF Ujumbe wa Ujanja
 
-Ili **kuiga mawasiliano** kati ya kifaa na JMF unahitaji:
+Ili **kujifanya kama mawasiliano** kati ya kifaa na JAMF unahitaji:
 
 * **UUID** ya kifaa: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * **JAMF keychain** kutoka: `/Library/Application\ Support/Jamf/JAMF.keychain` ambayo ina cheti cha kifaa
@@ -155,22 +155,22 @@ Pia kuna zana zilizotayarishwa kwa MacOS ili kuhesabu moja kwa moja AD na kuchez
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
-### Watumiaji
+### Users
 
 Aina tatu za watumiaji wa MacOS ni:
 
-* **Watumiaji wa Mitaa** — Wanayosimamiwa na huduma ya OpenDirectory ya ndani, hawajashikamana kwa njia yoyote na Active Directory.
-* **Watumiaji wa Mtandao** — Watumiaji wa Active Directory wanaobadilika ambao wanahitaji muunganisho na seva ya DC ili kuthibitisha.
-* **Watumiaji wa Simu** — Watumiaji wa Active Directory wenye nakala ya ndani ya hati zao na faili.
+* **Local Users** — Inasimamiwa na huduma ya OpenDirectory ya ndani, hawajashikamana kwa njia yoyote na Active Directory.
+* **Network Users** — Watumiaji wa Active Directory wanaobadilika ambao wanahitaji muunganisho na seva ya DC ili kuthibitisha.
+* **Mobile Users** — Watumiaji wa Active Directory wenye nakala ya ndani ya hati zao na faili.
 
-Taarifa za ndani kuhusu watumiaji na vikundi zimehifadhiwa katika folda _/var/db/dslocal/nodes/Default._\
-Kwa mfano, taarifa kuhusu mtumiaji anayeitwa _mark_ zimehifadhiwa katika _/var/db/dslocal/nodes/Default/users/mark.plist_ na taarifa kuhusu kundi _admin_ ziko katika _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Taarifa za ndani kuhusu watumiaji na vikundi zinahifadhiwa katika folda _/var/db/dslocal/nodes/Default._\
+Kwa mfano, taarifa kuhusu mtumiaji anayeitwa _mark_ inahifadhiwa katika _/var/db/dslocal/nodes/Default/users/mark.plist_ na taarifa kuhusu kundi _admin_ iko katika _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-Mbali na kutumia mipaka ya HasSession na AdminTo, **MacHound inaongeza mipaka mitatu mipya** kwenye hifadhidata ya Bloodhound:
+Mbali na kutumia edges za HasSession na AdminTo, **MacHound inaongeza edges tatu mpya** kwenye hifadhidata ya Bloodhound:
 
 * **CanSSH** - chombo kinachoruhusiwa SSH kwa mwenyeji
 * **CanVNC** - chombo kinachoruhusiwa VNC kwa mwenyeji
-* **CanAE** - chombo kinachoruhusiwa kutekeleza skripti za AppleEvent kwenye mwenyeji
+* **CanAE** - chombo kinachoruhusiwa kutekeleza scripts za AppleEvent kwenye mwenyeji
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -235,13 +235,13 @@ Keychain ina uwezekano mkubwa wa kuwa na taarifa nyeti ambazo ikiwa zitafikiwa b
 
 ## Huduma za Nje
 
-MacOS Red Teaming ni tofauti na Red Teaming ya kawaida ya Windows kwani kawaida **MacOS imeunganishwa na majukwaa kadhaa ya nje moja kwa moja**. Mipangilio ya kawaida ya MacOS ni kupata kompyuta kwa kutumia **akidi zilizoratibiwa za OneLogin, na kufikia huduma kadhaa za nje** (kama github, aws...) kupitia OneLogin.
+MacOS Red Teaming ni tofauti na Red Teaming ya kawaida ya Windows kwani kawaida **MacOS imeunganishwa na majukwaa kadhaa ya nje moja kwa moja**. Mipangilio ya kawaida ya MacOS ni kupata kompyuta kwa kutumia **OneLogin iliyosawazishwa, na kufikia huduma kadhaa za nje** (kama github, aws...) kupitia OneLogin.
 
 ## Mbinu Mbalimbali za Timu Nyekundu
 
 ### Safari
 
-Wakati faili inapopakuliwa katika Safari, ikiwa ni faili "salama", itafunguliwa **automatically**. Hivyo kwa mfano, ikiwa **unapakua zip**, itafunguliwa moja kwa moja:
+Wakati faili inapopakuliwa katika Safari, ikiwa ni faili "salama", itafunguliwa **kiotomatiki**. Hivyo kwa mfano, ikiwa **unapakua zip**, itafunguliwa kiotomatiki:
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -257,7 +257,7 @@ Wakati faili inapopakuliwa katika Safari, ikiwa ni faili "salama", itafunguliwa 
 
 **Pata mtazamo wa hacker kuhusu programu zako za wavuti, mtandao, na wingu**
 
-**Pata na ripoti udhaifu muhimu, unaoweza kutumiwa kwa faida halisi ya biashara.** Tumia zana zetu zaidi ya 20 za kawaida kupanga uso wa shambulio, pata masuala ya usalama yanayokuruhusu kupandisha mamlaka, na tumia mashambulizi ya kiotomatiki kukusanya ushahidi muhimu, ukigeuza kazi yako ngumu kuwa ripoti za kushawishi.
+**Pata na ripoti udhaifu muhimu, unaoweza kutumiwa kwa faida halisi ya biashara.** Tumia zana zetu 20+ za kawaida kupanga uso wa shambulio, pata masuala ya usalama yanayokuruhusu kupandisha mamlaka, na tumia mashambulizi ya kiotomatiki kukusanya ushahidi muhimu, ukigeuza kazi yako ngumu kuwa ripoti za kushawishi.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 

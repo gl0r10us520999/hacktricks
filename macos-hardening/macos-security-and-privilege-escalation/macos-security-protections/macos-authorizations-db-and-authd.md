@@ -23,7 +23,7 @@ Hifadhidata iliyoko katika `/var/db/auth.db` ni hifadhidata inayotumika kuhifadh
 
 Kwanza, hifadhidata hii inaundwa kutoka kwa maudhui ya `/System/Library/Security/authorization.plist`. Kisha, huduma zingine zinaweza kuongeza au kubadilisha hifadhidata hii ili kuongeza ruhusa nyingine.
 
-Sheria zinaifadhiwa katika jedwali la `rules` ndani ya hifadhidata na zina vitu vifuatavyo:
+Sheria zinaifadhiwa katika jedwali la `rules` ndani ya hifadhidata na zina columns zifuatazo:
 
 * **id**: Kitambulisho cha kipekee kwa kila sheria, kinachoongezeka kiotomatiki na kutumikia kama funguo kuu.
 * **name**: Jina la kipekee la sheria linalotumika kutambua na kurejelea ndani ya mfumo wa idhini.
@@ -31,14 +31,14 @@ Sheria zinaifadhiwa katika jedwali la `rules` ndani ya hifadhidata na zina vitu 
 * **class**: Inagawanya sheria katika darasa maalum, kuhakikisha ni nambari chanya.
 * "allow" kwa ruhusu, "deny" kwa kataa, "user" ikiwa mali ya kundi inaonyesha kundi ambalo uanachama wake unaruhusu ufikiaji, "rule" inaonyesha katika orodha sheria inayopaswa kutimizwa, "evaluate-mechanisms" ikifuatwa na orodha ya `mechanisms` ambazo ni ama za ndani au jina la kifurushi ndani ya `/System/Library/CoreServices/SecurityAgentPlugins/` au /Library/Security//SecurityAgentPlugins
 * **group**: Inaonyesha kundi la mtumiaji linalohusishwa na sheria kwa ajili ya idhini ya msingi ya kundi.
-* **kofn**: Inawakilisha parameter ya "k-of-n", ikiamua ni subrules ngapi zinapaswa kutimizwa kutoka kwa jumla.
+* **kofn**: Inawakilisha parameter "k-of-n", ikiamua ni subrules ngapi zinapaswa kutimizwa kutoka kwa jumla.
 * **timeout**: Inaeleza muda katika sekunde kabla ya idhini iliyotolewa na sheria kuisha.
 * **flags**: Inashikilia bendera mbalimbali zinazobadilisha tabia na sifa za sheria.
 * **tries**: Inapunguza idadi ya majaribio ya idhini yanayoruhusiwa ili kuongeza usalama.
 * **version**: Inafuatilia toleo la sheria kwa ajili ya udhibiti wa toleo na masasisho.
 * **created**: Inarekodi muda wa kuunda sheria kwa ajili ya madhumuni ya ukaguzi.
 * **modified**: Inahifadhi muda wa mabadiliko ya mwisho yaliyofanywa kwa sheria.
-* **hash**: Inashikilia thamani ya hash ya sheria ili kuhakikisha uaminifu wake na kugundua udanganyifu.
+* **hash**: Inashikilia thamani ya hash ya sheria ili kuhakikisha uadilifu wake na kugundua udanganyifu.
 * **identifier**: Inatoa kitambulisho cha kipekee cha mfuatano, kama UUID, kwa marejeleo ya nje kwa sheria.
 * **requirement**: Inashikilia data iliyosimbwa ikielezea mahitaji maalum ya idhini ya sheria na mitambo.
 * **comment**: Inatoa maelezo yanayoweza kusomeka na binadamu au maoni kuhusu sheria kwa ajili ya nyaraka na uwazi.
@@ -88,11 +88,11 @@ Zaidi ya hayo katika [https://www.dssw.co.uk/reference/authorization-rights/auth
 ```
 ## Authd
 
-Ni deamon ambayo itapokea maombi ya kuidhinisha wateja kufanya vitendo nyeti. Inafanya kazi kama huduma ya XPC iliyoainishwa ndani ya folda ya `XPCServices/` na hutumia kuandika kumbukumbu zake katika `/var/log/authd.log`.
+Ni deamon ambayo itapokea maombi ya kuidhinisha wateja kufanya vitendo nyeti. Inafanya kazi kama huduma ya XPC iliyofafanuliwa ndani ya folda ya `XPCServices/` na hutumia kuandika kumbukumbu zake katika `/var/log/authd.log`.
 
-Zaidi ya hayo, kwa kutumia zana ya usalama inawezekana kujaribu APIs nyingi za `Security.framework`. Kwa mfano, `AuthorizationExecuteWithPrivileges` inayoendesha: `security execute-with-privileges /bin/ls`
+Zaidi ya hayo, kutumia zana ya usalama inawezekana kujaribu APIs nyingi za `Security.framework`. Kwa mfano, `AuthorizationExecuteWithPrivileges` inayoendesha: `security execute-with-privileges /bin/ls`
 
-Hiyo itafork na exec `/usr/libexec/security_authtrampoline /bin/ls` kama root, ambayo itauliza ruhusa katika dirisha la kuingia ili kutekeleza ls kama root:
+Hii itafork na exec `/usr/libexec/security_authtrampoline /bin/ls` kama root, ambayo itauliza ruhusa katika dirisha la kuingia ili kutekeleza ls kama root:
 
 <figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 

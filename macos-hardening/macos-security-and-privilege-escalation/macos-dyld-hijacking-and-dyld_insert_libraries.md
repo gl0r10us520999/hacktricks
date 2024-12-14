@@ -46,7 +46,7 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-Uwekaji:
+Injection:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
@@ -92,7 +92,7 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Kwa taarifa zilizopita, tunajua kwamba **haichunguzi saini ya maktaba zilizoloadiwa** na **inajaribu kupakia maktaba kutoka**:
+Kwa taarifa zilizopita tunajua kwamba **haichunguzi saini ya maktaba zilizopakiwa** na **inajaribu kupakia maktaba kutoka**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Njia ya reexport iliyoundwa katika maktaba ni ya kuhusiana na loader, hebu tuibadilishe kuwa njia kamili kwa maktaba ya kusafirisha:
+Njia ya reexport iliyoundwa katika maktaba ni ya uhusiano na loader, hebu tuibadilishe kuwa njia kamili ya maktaba ya kusafirisha:
 
 {% code overflow="wrap" %}
 ```bash
@@ -174,16 +174,16 @@ Ikiwa unapanga kujaribu kuingiza maktaba katika binaries zisizotarajiwa unaweza 
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

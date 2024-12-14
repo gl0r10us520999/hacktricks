@@ -62,7 +62,7 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-Ikiwa unakutana na kosa _**Kosa: Hakuna hifadhi ya kuhifadhiwa iliyopatikana. Tafadhali tengeneza hifadhi mpya ya kuhifadhiwa**_\
+Ikiwa unakutana na kosa _**Kosa: Hakuna hifadhi ya kuhifadhi iliyopatikana. Tafadhali tengeneza hifadhi mpya ya kuhifadhi**_\
 Kimbia **`lxd init`** na **rudia** kipande cha amri kilichopita
 {% endhint %}
 

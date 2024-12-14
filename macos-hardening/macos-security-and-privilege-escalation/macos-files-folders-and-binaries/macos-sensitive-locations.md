@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 ### Nywila za Kivuli
 
 Nywila za kivuli huhifadhiwa pamoja na usanidi wa mtumiaji katika plists zilizoko katika **`/var/db/dslocal/nodes/Default/users/`**.\
-Mstari ufuatao unaweza kutumika kutoa **habari zote kuhusu watumiaji** (ikiwemo habari za hash): 
+Mfuatano ufuatao unaweza kutumika kutoa **habari zote kuhusu watumiaji** (ikiwemo taarifa za hash): 
 
 {% code overflow="wrap" %}
 ```bash
@@ -63,9 +63,9 @@ Kulingana na maoni haya [juuso/keychaindump#10 (comment)](https://github.com/juu
 
 ### Muhtasari wa Keychaindump
 
-Zana inayoitwa **keychaindump** imeandaliwa kutoa nywila kutoka kwa funguo za macOS, lakini inakabiliwa na vizuizi katika toleo jipya la macOS kama Big Sur, kama ilivyoelezwa katika [majadiliano](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Matumizi ya **keychaindump** yanahitaji mshambuliaji kupata ufikiaji na kuongeza mamlaka hadi **root**. Zana hii inatumia ukweli kwamba funguo za macOS zimefunguliwa kwa default wakati wa kuingia kwa mtumiaji kwa urahisi, ikiruhusu programu kufikia bila kuhitaji nywila ya mtumiaji mara kwa mara. Hata hivyo, ikiwa mtumiaji atachagua kufunga funguo zao baada ya kila matumizi, **keychaindump** inakuwa isiyo na ufanisi.
+Zana inayoitwa **keychaindump** imeandaliwa kutoa nywila kutoka kwa funguo za macOS, lakini inakabiliwa na vizuizi katika matoleo mapya ya macOS kama Big Sur, kama ilivyoonyeshwa katika [majadiliano](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Matumizi ya **keychaindump** yanahitaji mshambuliaji kupata ufikiaji na kuongeza mamlaka hadi **root**. Zana hii inatumia ukweli kwamba funguo za keychain zimefunguliwa kwa default wakati wa kuingia kwa mtumiaji kwa urahisi, ikiruhusu programu kufikia bila kuhitaji nywila ya mtumiaji mara kwa mara. Hata hivyo, ikiwa mtumiaji atachagua kufunga funguo zao za keychain baada ya kila matumizi, **keychaindump** inakuwa isiyo na ufanisi.
 
-**Keychaindump** inafanya kazi kwa kulenga mchakato maalum unaoitwa **securityd**, ambao Apple inaelezea kama daemon wa mamlaka na operesheni za kificho, muhimu kwa kufikia funguo. Mchakato wa kutoa nywila unajumuisha kutambua **Master Key** inayotokana na nywila ya kuingia ya mtumiaji. Funguo hii ni muhimu kwa kusoma faili ya funguo. Ili kupata **Master Key**, **keychaindump** inachanganua kumbukumbu ya **securityd** kwa kutumia amri ya `vmmap`, ikitafuta funguo zinazoweza kuwa ndani ya maeneo yaliyoashiriwa kama `MALLOC_TINY`. Amri ifuatayo inatumika kukagua maeneo haya ya kumbukumbu:
+**Keychaindump** inafanya kazi kwa kulenga mchakato maalum unaoitwa **securityd**, ambao Apple inaelezea kama daemon wa idhini na operesheni za kificho, muhimu kwa kupata funguo za keychain. Mchakato wa kutoa unajumuisha kutambua **Master Key** inayotokana na nywila ya kuingia ya mtumiaji. Funguo hii ni muhimu kwa kusoma faili ya keychain. Ili kupata **Master Key**, **keychaindump** inachanganua kumbukumbu ya **securityd** kwa kutumia amri ya `vmmap`, ikitafuta funguo zinazoweza kuwa ndani ya maeneo yaliyoashiriwa kama `MALLOC_TINY`. Amri ifuatayo inatumika kukagua maeneo haya ya kumbukumbu:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
@@ -75,7 +75,7 @@ sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) inaweza kutumika kutoa aina zifuatazo za taarifa kutoka kwa keychain ya OSX kwa njia ya forensically sound:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) inaweza kutumika kutoa aina zifuatazo za taarifa kutoka kwa OSX keychain kwa njia ya forensically sound:
 
 * Nenosiri la Keychain lililohashwa, linalofaa kwa ajili ya kuvunja kwa kutumia [hashcat](https://hashcat.net/hashcat/) au [John the Ripper](https://www.openwall.com/john/)
 * Nenosiri za Mtandao
@@ -134,12 +134,12 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 Faili la **kcpassword** ni faili linaloshikilia **nenosiri la kuingia la mtumiaji**, lakini tu ikiwa mmiliki wa mfumo ame **wezeshwa kuingia kiotomatiki**. Hivyo, mtumiaji ataingia kiotomatiki bila kuulizwa nenosiri (ambayo si salama sana).
 
-Nenosiri linahifadhiwa katika faili **`/etc/kcpassword`** xored na ufunguo **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ikiwa nenosiri la mtumiaji ni refu zaidi ya ufunguo, ufunguo utarudiwa.\
+Nenosiri linahifadhiwa katika faili **`/etc/kcpassword`** xored na ufunguo **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ikiwa nenosiri la watumiaji ni refu zaidi ya ufunguo, ufunguo utarudiwa.\
 Hii inafanya nenosiri kuwa rahisi kurejesha, kwa mfano kwa kutumia scripts kama [**hii moja**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Taarifa za Kuvutia katika Maktaba
 
-### Ujumbe
+### Meseji
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -162,7 +162,7 @@ strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i
 
 ### Maelezo
 
-Maelezo ya watumiaji **notes** yanaweza kupatikana katika `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
+Kumbukumbu za watumiaji **notes** zinaweza kupatikana katika `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
 
 {% code overflow="wrap" %}
 ```bash
@@ -221,7 +221,7 @@ Faili hii inatoa ruhusa kwa watumiaji maalum kwa UUID (na si uid) ili waweze kuf
 
 ### Darwin Notifications
 
-Daemoni kuu wa arifa ni **`/usr/sbin/notifyd`**. Ili kupokea arifa, wateja lazima wajisajili kupitia bandari ya Mach `com.apple.system.notification_center` (angalia kwa `sudo lsmp -p <pid notifyd>`). Daemoni inaweza kusanidiwa kwa faili `/etc/notify.conf`.
+Daemoni kuu wa arifa ni **`/usr/sbin/notifyd`**. Ili kupokea arifa, wateja lazima wajisajili kupitia bandari ya Mach `com.apple.system.notification_center` (angalia kwa `sudo lsmp -p <pid notifyd>`). Daemoni inaweza kubadilishwa kwa kutumia faili `/etc/notify.conf`.
 
 Majina yanayotumika kwa arifa ni alama za kipekee za DNS za kinyume na wakati arifa inatumwa kwa moja yao, mteja(wateja) ambao wameonyesha wanaweza kushughulikia hiyo watapokea.
 
@@ -252,7 +252,7 @@ Kisha, watoa huduma, watakuwa pia wamezalisha token na wataweza kuungana na seva
 
 Mipangilio iko katika `/Library/Preferences/com.apple.apsd.plist`.
 
-Kuna hifadhidata ya ndani ya ujumbe iliyoko katika macOS katika `/Library/Application\ Support/ApplePushService/aps.db` na katika iOS katika `/var/mobile/Library/ApplePushService`. Ina meza 3: `incoming_messages`, `outgoing_messages` na `channel`.
+Kuna database ya ndani ya ujumbe iliyoko katika macOS katika `/Library/Application\ Support/ApplePushService/aps.db` na katika iOS katika `/var/mobile/Library/ApplePushService`. Ina meza 3: `incoming_messages`, `outgoing_messages` na `channel`.
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```

@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 {% hint style="warning" %}
-Kumbuka kwamba entitlements zinazohusika na **`com.apple`** hazipatikani kwa wahusika wengine, ni Apple pekee inayoweza kuzitoa.
+Kumbuka kwamba entitlements zinazohusisha **`com.apple`** hazipatikani kwa wahusika wengine, ni Apple pekee inayoweza kuzipatia.
 {% endhint %}
 
 ## High
@@ -35,11 +35,11 @@ Entitlement hii inaruhusu kupata **task port kwa mchakato wowote**, isipokuwa ke
 
 ### `com.apple.security.get-task-allow`
 
-Entitlement hii inaruhusu michakato mingine yenye entitlement **`com.apple.security.cs.debugger`** kupata task port ya mchakato unaotendwa na binary yenye entitlement hii na **kuingiza msimbo ndani yake**. Angalia [**hii kwa maelezo zaidi**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Entitlement hii inaruhusu michakato mingine yenye entitlement **`com.apple.security.cs.debugger`** kupata task port ya mchakato unaotendewa na binary yenye entitlement hii na **kuingiza msimbo ndani yake**. Angalia [**hii kwa maelezo zaidi**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Apps zenye Entitlement ya Zana za Ufuatiliaji zinaweza kuita `task_for_pid()` ili kupata task port halali kwa apps zisizosainiwa na wahusika wengine zenye entitlement ya `Get Task Allow` iliyowekwa kuwa `true`. Hata hivyo, hata na entitlement ya zana za ufuatiliaji, mfuatiliaji **hawezi kupata task ports** za michakato ambazo **hazina entitlement ya `Get Task Allow`**, na hivyo kulindwa na Ulinzi wa Uadilifu wa Mfumo. Angalia [**hii kwa maelezo zaidi**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Apps zenye Entitlement ya Zana za Ufuatiliaji zinaweza kuita `task_for_pid()` ili kupata task port halali kwa apps zisizosainiwa na za wahusika wengine zenye entitlement ya `Get Task Allow` iliyowekwa kuwa `true`. Hata hivyo, hata na entitlement ya zana za ufuatiliaji, debugger **hawezi kupata task ports** za michakato ambazo **hazina entitlement ya `Get Task Allow`**, na hivyo kulindwa na Ulinzi wa Uadilifu wa Mfumo. Angalia [**hii kwa maelezo zaidi**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
@@ -47,7 +47,7 @@ Entitlement hii inaruhusu **kupakia frameworks, plug-ins, au maktaba bila kusain
 
 ### `com.apple.private.security.clear-library-validation`
 
-Entitlement hii ni sawa sana na **`com.apple.security.cs.disable-library-validation`** lakini **badala** ya **kuondoa** uthibitisho wa maktaba moja kwa moja, inaruhusu mchakato **kuita `csops` system call kuondoa**.\
+Entitlement hii ni sawa sana na **`com.apple.security.cs.disable-library-validation`** lakini **badala** ya **kuondoa** uthibitishaji wa maktaba moja kwa moja, inaruhusu mchakato **kuita `csops` system call kuondoa**.\
 Angalia [**hii kwa maelezo zaidi**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -70,7 +70,7 @@ Entitlement inayohitajika kuomba **kernel kupakia nyongeza ya kernel**.
 
 Entitlement **`com.apple.private.icloud-account-access`** inaruhusu kuwasiliana na huduma ya XPC **`com.apple.iCloudHelper`** ambayo itatoa **tokens za iCloud**.
 
-**iMovie** na **Garageband** zilikuwa na entitlement hii.
+**iMovie** na **Garageband** walikuwa na entitlement hii.
 
 Kwa maelezo zaidi kuhusu exploit ya **kupata tokens za icloud** kutoka kwa entitlement hiyo angalia mazungumzo: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
@@ -80,11 +80,11 @@ TODO: Sijui hii inaruhusu kufanya nini
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: Katika [**ripoti hii**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **imeelezwa kuwa hii inaweza kutumika** kuboresha yaliyomo yaliyolindwa na SSV baada ya kuanzisha upya. Ikiwa unajua jinsi inavyofanya, tafadhali tuma PR!
+TODO: Katika [**ripoti hii**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **imeelezwa kuwa hii inaweza kutumika** kuboresha maudhui yaliyolindwa na SSV baada ya kuanzisha upya. Ikiwa unajua jinsi inavyofanya, tafadhali tuma PR!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: Katika [**ripoti hii**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **imeelezwa kuwa hii inaweza kutumika** kuboresha yaliyomo yaliyolindwa na SSV baada ya kuanzisha upya. Ikiwa unajua jinsi inavyofanya, tafadhali tuma PR!
+TODO: Katika [**ripoti hii**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **imeelezwa kuwa hii inaweza kutumika** kuboresha maudhui yaliyolindwa na SSV baada ya kuanzisha upya. Ikiwa unajua jinsi inavyofanya, tafadhali tuma PR!
 
 ### `keychain-access-groups`
 
@@ -119,7 +119,7 @@ Au kufanya ziweze kutekeleza **vitendo vya kiholela**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Inaruhusu, miongoni mwa ruhusa nyingine, **kuandika kwenye hifadhidata ya TCC ya watumiaji**.
+Inaruhusu, kati ya ruhusa nyingine, **kuandika kwenye hifadhidata ya TCC ya watumiaji**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
@@ -127,17 +127,17 @@ Inaruhusu **kubadilisha** sifa ya **`NFSHomeDirectory`** ya mtumiaji ambayo inab
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Inaruhusu kubadilisha faili ndani ya pakiti za programu (ndani ya app.app), ambayo **imezuiliwa kwa chaguo-msingi**.
+Inaruhusu kubadilisha faili ndani ya pakiti za programu (ndani ya app.app), ambayo **imepigwa marufuku kwa default**.
 
 <figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
-Inawezekana kuangalia ni nani mwenye ufikiaji huu katika _Mipangilio ya Mfumo_ > _Faragha & Usalama_ > _Usimamizi wa Programu._
+Inawezekana kuangalia ni nani mwenye ufikiaji huu katika _System Settings_ > _Privacy & Security_ > _App Management._
 
 ### `kTCCServiceAccessibility`
 
 Mchakato utaweza **kutumia vipengele vya upatikanaji wa macOS**, ambayo inamaanisha kwamba kwa mfano ataweza kubonyeza funguo. Hivyo anaweza kuomba ufikiaji wa kudhibiti programu kama Finder na kuidhinisha mazungumzo na ruhusa hii.
 
-## Kati
+## Medium
 
 ### `com.apple.security.cs.allow-jit`
 
@@ -145,7 +145,7 @@ Ruhusa hii inaruhusu **kuunda kumbukumbu ambayo inaweza kuandikwa na kutekelezwa
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Ruhusa hii inaruhusu **kufunika au kurekebisha msimbo wa C**, kutumia **`NSCreateObjectFileImageFromMemory`** ambayo imekuwa ikitumiwa kwa muda mrefu (ambayo kimsingi si salama), au kutumia mfumo wa **DVDPlayback**. Angalia [**hii kwa maelezo zaidi**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Ruhusa hii inaruhusu **kufuta au kubadilisha msimbo wa C**, kutumia **`NSCreateObjectFileImageFromMemory`** ambayo imepitwa na wakati, au kutumia mfumo wa **DVDPlayback**. Angalia [**hii kwa maelezo zaidi**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Kujumuisha ruhusa hii kunafichua programu yako kwa udhaifu wa kawaida katika lugha za msimbo zisizo salama. Fikiria kwa makini ikiwa programu yako inahitaji ubaguzi huu.
@@ -156,7 +156,7 @@ Kujumuisha ruhusa hii kunafichua programu yako kwa udhaifu wa kawaida katika lug
 Ruhusa hii inaruhusu **kubadilisha sehemu za faili zake za kutekeleza** kwenye diski ili kutoka kwa nguvu. Angalia [**hii kwa maelezo zaidi**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Ruhusa ya Kuondoa Ulinzi wa Kumbukumbu ya Kutekeleza ni ruhusa kali ambayo inatoa ulinzi wa msingi wa usalama kutoka kwa programu yako, ikifanya iwezekane kwa mshambuliaji kuandika upya msimbo wa kutekeleza wa programu yako bila kugundulika. Prefer ruhusa nyembamba ikiwa inawezekana.
+Ruhusa ya Kuondoa Ulinzi wa Kumbukumbu ya Kutekeleza ni ruhusa kali ambayo inafuta ulinzi wa msingi wa usalama kutoka kwa programu yako, ikifanya iwezekane kwa mshambuliaji kuandika upya msimbo wa kutekeleza wa programu yako bila kugundulika. Prefer ruhusa nyembamba ikiwa inawezekana.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -165,7 +165,7 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Ruhusa hii inaruhusu kuunganisha mfumo wa faili wa nullfs (uliokatazwa kwa chaguo-msingi). Chombo: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Ruhusa hii inaruhusu kuunganisha mfumo wa faili wa nullfs (uliopigwa marufuku kwa default). Chombo: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
@@ -180,8 +180,8 @@ Ruhusu mchakato **kuomba ruhusa zote za TCC**.
 
 ### **`kTCCServicePostEvent`**
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

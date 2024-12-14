@@ -27,6 +27,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
 ## Objective-C
 
@@ -77,9 +78,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Object & Call Method**
+### **Kitu & Wito wa Njia**
 
-Ili kuunda mfano wa darasa, njia ya **`alloc`** inaitwa ambayo **inagawanya kumbukumbu** kwa kila **sifa** na **kuweka sifahizi kuwa sifuri**. Kisha **`init`** inaitwa, ambayo **inaanzisha sifa** kwa **thamani zinazohitajika**.
+Ili kuunda mfano wa darasa, njia ya **`alloc`** inaitwa ambayo **inagawanya kumbukumbu** kwa kila **sifa** na **inazifanya sifahizi kuwa sifuri**. Kisha **`init`** inaitwa, ambayo **inaanzisha sifa** kwa **thamani zinazohitajika**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -195,7 +196,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Darasa za msingi ni **zisizoweza kubadilishwa**, hivyo ili kuongeza mfuatano wa herufi kwenye moja iliyopo **NSString mpya inahitaji kuundwa**.
+Darasa za msingi ni **zisizoweza kubadilishwa**, hivyo ili kuongeza mfuatano wa herufi kwenye mfuatano uliopo **NSString mpya inahitaji kuundwa**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -326,7 +327,7 @@ genericLogger(^{
 NSLog(@"%@", @"This is my second block");
 });
 ```
-### Faili
+### Files
 
 {% code overflow="wrap" %}
 ```objectivec

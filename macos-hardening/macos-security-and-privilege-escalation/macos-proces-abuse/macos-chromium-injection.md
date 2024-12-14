@@ -1,57 +1,59 @@
-# Uingizaji wa Chromium kwenye macOS
+# macOS Chromium Injection
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Vivinjari vilivyojengwa kwenye Chromium kama Google Chrome, Microsoft Edge, Brave, na vinginevyo. Vivinjari hivi vimejengwa kwenye mradi wa chanzo wazi wa Chromium, maana yake vinashiriki msingi wa pamoja na, kwa hivyo, vinafanana kwa kazi na chaguo za watengenezaji.
+Vivinjari vinavyotegemea Chromium kama Google Chrome, Microsoft Edge, Brave, na vinginevyo. Vivinjari hivi vimejengwa kwenye mradi wa wazi wa Chromium, ambayo inamaanisha vinashiriki msingi wa kawaida na, kwa hivyo, vina kazi na chaguzi za maendeleo zinazofanana.
 
-#### Bendera ya `--load-extension`
+#### `--load-extension` Flag
 
-Bendera ya `--load-extension` hutumiwa wakati wa kuanzisha kivinjari kilichojengwa kwenye Chromium kutoka kwenye mstari wa amri au skripti. Bendera hii inaruhusu **kupakia moja au zaidi ya nyongeza moja kwa moja** kwenye kivinjari wakati wa kuanzisha.
+Lipu ya `--load-extension` inatumika wakati wa kuanzisha kivinjari kinachotegemea Chromium kutoka kwa mstari wa amri au script. Lipu hii inaruhusu **kuongeza moja au zaidi ya nyongeza** kwenye kivinjari wakati wa kuanzishwa.
 
-#### Bendera ya `--use-fake-ui-for-media-stream`
+#### `--use-fake-ui-for-media-stream` Flag
 
-Bendera ya `--use-fake-ui-for-media-stream` ni chaguo lingine la mstari wa amri linaloweza kutumika kuanzisha vivinjari vilivyotegemea Chromium. Bendera hii imeundwa **kupuuza maombi ya kawaida ya mtumiaji yanayotaka idhini ya kupata mitiririko ya media kutoka kamera na mikrofoni**. Wakati bendera hii inapotumiwa, kivinjari kinatoa idhini moja kwa moja kwa wavuti au programu yoyote inayotaka kupata kamera au mikrofoni.
+Lipu ya `--use-fake-ui-for-media-stream` ni chaguo jingine la mstari wa amri ambalo linaweza kutumika kuanzisha vivinjari vinavyotegemea Chromium. Lipu hii imeundwa ili **kuepuka maonyo ya kawaida ya mtumiaji yanayouliza ruhusa ya kufikia mitiririko ya media kutoka kwa kamera na kipaza sauti**. Wakati lipu hii inatumika, kivinjari kinatoa ruhusa moja kwa moja kwa tovuti au programu yoyote inayohitaji ufikiaji wa kamera au kipaza sauti.
 
-### Zana
+### Tools
 
 * [https://github.com/breakpointHQ/snoop](https://github.com/breakpointHQ/snoop)
 * [https://github.com/breakpointHQ/VOODOO](https://github.com/breakpointHQ/VOODOO)
 
-### Mfano
+### Example
 ```bash
 # Intercept traffic
 voodoo intercept -b chrome
 ```
-## Marejeo
+Find more examples in the tools links
+
+## References
 
 * [https://twitter.com/RonMasas/status/1758106347222995007](https://twitter.com/RonMasas/status/1758106347222995007)
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

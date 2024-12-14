@@ -22,7 +22,7 @@ Permissions in a **directory**:
 * **read** - unaweza **kuhesabu** entries za directory
 * **write** - unaweza **kufuta/kandika** **files** katika directory na unaweza **kufuta folda tupu**.
 * Lakini huwezi **kufuta/kubadilisha folda zisizo tupu** isipokuwa una ruhusa za kuandika juu yake.
-* Huwezi **kubadilisha jina la folda** isipokuwa unamiliki.
+* Huwezi **kubadilisha jina la folda** isipokuwa unayo.
 * **execute** - ume **ruhusiwa kupita** katika directory - ikiwa huna haki hii, huwezi kufikia files zozote ndani yake, au katika folda ndogo zozote.
 
 ### Dangerous Combinations
@@ -31,9 +31,9 @@ Permissions in a **directory**:
 
 * Mmiliki mmoja wa **directory** katika njia ni mtumiaji
 * Mmiliki mmoja wa **directory** katika njia ni **kikundi cha watumiaji** chenye **ruhusa za kuandika**
-* Kikundi cha watumiaji kina **ruhusa za kuandika** kwa **file**
+* Kikundi cha watumiaji kina **ruhusa za kuandika** kwenye **file**
 
-Kwa yoyote ya mchanganyiko wa hapo juu, mshambuliaji anaweza **kuingiza** **sym/hard link** kwenye njia inayotarajiwa ili kupata kuandika kwa mamlaka.
+Kwa yoyote ya mchanganyiko hapo juu, mshambuliaji anaweza **kuingiza** **sym/hard link** kwenye njia inayotarajiwa ili kupata kuandika kwa kibali bila mipaka.
 
 ### Folder root R+X Special case
 
@@ -43,9 +43,9 @@ Mfano katika: [https://theevilbit.github.io/posts/exploiting\_directory\_permiss
 
 ## Symbolic Link / Hard Link
 
-Ikiwa mchakato wenye mamlaka unandika data katika **file** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuundwa awali** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye file nyingine** kupitia Symbolic au Hard link, na mchakato wenye mamlaka utaandika kwenye file hiyo.
+Ikiwa mchakato wenye kibali unandika data katika **file** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye kibali kidogo**, au ambayo inaweza **kuundwa awali** na mtumiaji mwenye kibali kidogo. Mtumiaji anaweza tu **kuielekeza kwenye file nyingine** kupitia Symbolic au Hard link, na mchakato wenye kibali utaandika kwenye file hiyo.
 
-Angalia katika sehemu nyingine ambapo mshambuliaji anaweza **kutumia kuandika kwa mamlaka ili kupandisha mamlaka**.
+Angalia katika sehemu nyingine ambapo mshambuliaji anaweza **kutumia kuandika bila mipaka ili kupandisha kibali**.
 
 ## .fileloc
 
@@ -77,7 +77,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable flag
 
-Ikiwa faili/folda ina sifa hii isiyobadilika haitakuwa na uwezo wa kuweka xattr juu yake.
+Ikiwa faili/folda ina sifa hii isiyoweza kubadilishwa, haitakuwa rahisi kuweka xattr juu yake.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 **AppleDouble** muundo wa faili unakopi faili pamoja na ACE zake.
 
-Katika [**kanuni ya chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kwamba uwakilishi wa maandiko wa ACL ulihifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili lililoshinikizwa. Hivyo, ikiwa umeweka programu katika faili la zip kwa muundo wa faili wa **AppleDouble** ukiwa na ACL inayozuia xattrs nyingine kuandikwa ndani yake... xattr ya karantini haikuwekwa katika programu:
+Katika [**kanuni ya chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kwamba uwakilishi wa maandiko wa ACL ulihifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili lililoshinikizwa. Hivyo, ikiwa umeweka programu katika faili la zip kwa muundo wa **AppleDouble** wenye ACL inayozuia xattrs nyingine kuandikwa ndani yake... xattr ya karantini haikuwekwa kwenye programu:
 
 Angalia [**ripoti ya asili**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
@@ -149,7 +149,7 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-Sio kweli inahitajika lakini naiacha hapa tu kwa sababu:
+Sio muhimu sana lakini naiacha hapa kwa ajili ya usalama:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -238,7 +238,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Kawaida macOS inachomeka diski kwa kuzungumza na huduma ya Mach `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa utaongeza paramu `-d` kwenye faili la LaunchDaemons plist na kuanzisha upya, itahifadhi kumbukumbu katika `/var/log/diskarbitrationd.log`.\
+Kawaida macOS inachomeka diski kwa kuzungumza na huduma ya Mach `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa unongeza paramu `-d` kwenye faili la LaunchDaemons plist na kuanzisha upya, itahifadhi kumbukumbu katika `/var/log/diskarbitrationd.log`.\
 Hata hivyo, inawezekana kutumia zana kama `hdik` na `hdiutil` kuwasiliana moja kwa moja na kext `com.apple.driver.DiskImages`.
 
 ## Maandishi ya Huru
@@ -251,7 +251,7 @@ Unaweza **kuigiza** utekelezaji wa skripti hii kwa: **`sudo periodic daily`**
 
 ### Daemons
 
-Andika **LaunchDaemon** ya huru kama **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** yenye plist inayotekeleza skripti ya huru kama:
+Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** yenye plist inayotekeleza skripti ya kiholela kama:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -296,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Shared Memory
 
-**POSIX shared memory** inaruhusu michakato katika mifumo ya uendeshaji inayokubaliana na POSIX kufikia eneo la kawaida la kumbukumbu, ikirahisisha mawasiliano ya haraka ikilinganishwa na mbinu nyingine za mawasiliano kati ya michakato. Inahusisha kuunda au kufungua kitu cha kumbukumbu ya pamoja kwa kutumia `shm_open()`, kuweka ukubwa wake kwa kutumia `ftruncate()`, na kuunganisha katika nafasi ya anwani ya mchakato kwa kutumia `mmap()`. Michakato inaweza kisha kusoma moja kwa moja kutoka na kuandika kwenye eneo hili la kumbukumbu. Ili kudhibiti ufikiaji wa pamoja na kuzuia uharibifu wa data, mitambo ya usawazishaji kama vile mutexes au semaphores mara nyingi hutumiwa. Hatimaye, michakato huondoa na kufunga kumbukumbu ya pamoja kwa kutumia `munmap()` na `close()`, na kwa hiari kuondoa kitu cha kumbukumbu kwa kutumia `shm_unlink()`. Mfumo huu ni wa ufanisi hasa kwa IPC yenye ufanisi na haraka katika mazingira ambapo michakato mingi inahitaji kufikia data ya pamoja kwa haraka.
+**POSIX shared memory** inaruhusu michakato katika mifumo ya uendeshaji inayokubaliana na POSIX kufikia eneo la kawaida la kumbukumbu, ikirahisisha mawasiliano ya haraka ikilinganishwa na mbinu nyingine za mawasiliano kati ya michakato. Inahusisha kuunda au kufungua kitu cha kumbukumbu ya pamoja kwa kutumia `shm_open()`, kuweka ukubwa wake kwa `ftruncate()`, na kuunganisha katika nafasi ya anwani ya mchakato kwa kutumia `mmap()`. Michakato inaweza kisha kusoma moja kwa moja kutoka na kuandika kwenye eneo hili la kumbukumbu. Ili kudhibiti ufikiaji wa pamoja na kuzuia uharibifu wa data, mitambo ya usawazishaji kama vile mutexes au semaphores mara nyingi hutumiwa. Hatimaye, michakato inafuta na kufunga kumbukumbu ya pamoja kwa kutumia `munmap()` na `close()`, na kwa hiari kuondoa kitu cha kumbukumbu kwa kutumia `shm_unlink()`. Mfumo huu ni wa ufanisi hasa kwa IPC yenye ufanisi na haraka katika mazingira ambapo michakato mingi inahitaji kufikia data ya pamoja kwa haraka.
 
 <details>
 

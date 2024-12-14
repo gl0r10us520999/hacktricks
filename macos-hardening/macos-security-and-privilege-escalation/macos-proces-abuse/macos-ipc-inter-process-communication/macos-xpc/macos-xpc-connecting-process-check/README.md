@@ -27,11 +27,11 @@ Wakati muunganisho unapoanzishwa na huduma ya XPC, seva itakagua ikiwa muunganis
 * Ikiwa hii **haijathibitishwa**, chombo chochote **kilichosainiwa na shirika hilo hilo** kinaweza kutumika kuingiliana na huduma ya XPC.
 4. (4 au 5) Angalia ikiwa mchakato unaounganisha una **nambari sahihi ya toleo la programu**.
 * Ikiwa hii **haijathibitishwa**, wateja wa zamani, wasio salama, walio hatarini kwa sindano ya mchakato wanaweza kutumika kuungana na huduma ya XPC hata na ukaguzi mwingine ukiwa mahali.
-5. (4 au 5) Angalia ikiwa mchakato unaounganisha una mazingira ya runtime yaliyohakikishwa bila ruhusa hatari (kama zile zinazoruhusu kupakia maktaba za kawaida au kutumia DYLD env vars)
+5. (4 au 5) Angalia ikiwa mchakato unaounganisha una mazingira ya runtime yaliyohakikishwa bila haki hatari (kama zile zinazoruhusu kupakia maktaba za kawaida au kutumia DYLD env vars)
 1. Ikiwa hii **haijathibitishwa**, mteja anaweza kuwa **hatari kwa sindano ya msimbo**
-6. Angalia ikiwa mchakato unaounganisha una **ruhusa** inayoruhusu kuungana na huduma. Hii inatumika kwa binaries za Apple.
-7. **Uthibitisho** lazima uwe **kulingana** na **tokeni ya ukaguzi ya mteja** **badala** ya kitambulisho chake cha mchakato (**PID**) kwani ya kwanza inazuia **shambulio la upya la PID**.
-* Wandevu **hawatumii mara kwa mara tokeni ya ukaguzi** API wito kwani ni **binafsi**, hivyo Apple inaweza **kubadilisha** wakati wowote. Zaidi ya hayo, matumizi ya API binafsi hayaruhusiwi katika programu za Duka la Mac.
+6. Angalia ikiwa mchakato unaounganisha una **haki** inayoruhusu kuungana na huduma. Hii inatumika kwa binaries za Apple.
+7. **Uthibitisho** lazima uwe **kulingana** na **tokeni ya ukaguzi ya mteja** unaounganisha **badala ya** kitambulisho chake cha mchakato (**PID**) kwani ya kwanza inazuia **shambulio la upya la PID**.
+* Wandevu **hawatumii mara kwa mara tokeni ya ukaguzi** API wito kwani ni **binafsi**, hivyo Apple inaweza **kubadilisha** wakati wowote. Zaidi ya hayo, matumizi ya API binafsi hayaruhusiwi katika programu za Mac App Store.
 * Ikiwa njia **`processIdentifier`** inatumika, inaweza kuwa hatari
 * **`xpc_dictionary_get_audit_token`** inapaswa kutumika badala ya **`xpc_connection_get_audit_token`**, kwani ya mwisho inaweza pia kuwa [hatari katika hali fulani](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 

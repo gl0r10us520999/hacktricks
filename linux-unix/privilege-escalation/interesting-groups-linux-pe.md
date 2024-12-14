@@ -44,8 +44,7 @@ Pata binaries zote za suid na angalia kama kuna binary **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Ikiwa unapata kwamba binary pkexec ni binary ya SUID na unategemea sudo au admin, huenda unaweza kutekeleza binaries kama sudo ukitumia pkexec. 
-Angalia maudhui ya:
+Ikiwa unapata kwamba binary pkexec ni binary ya SUID na unategemea sudo au admin, huenda unaweza kutekeleza binaries kama sudo ukitumia pkexec. Angalia maudhui ya:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -55,7 +54,7 @@ Ili **kuwa root unaweza kutekeleza**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-Ikiwa unajaribu kutekeleza **pkexec** na unapata **makosa** haya:
+Ikiwa unajaribu kutekeleza **pkexec** na unapata **kosa** hili:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
@@ -80,7 +79,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 
 # Wheel Group
 
-**Wakati mwingine**, **kwa default** ndani ya faili ya **/etc/sudoers** unaweza kupata mstari huu:
+**Wakati mwingine**, **kwa default** ndani ya **/etc/sudoers** faili unaweza kupata mstari huu:
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
@@ -92,7 +91,7 @@ sudo su
 ```
 # Shadow Group
 
-Watumiaji kutoka **kikundi shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
+Watumiaji kutoka kwa **group shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
@@ -110,7 +109,7 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Kumbuka kwamba kutumia debugfs unaweza pia **kuandika faili**. Kwa mfano, ili nakala ya `/tmp/asd1.txt` kwenda `/tmp/asd2.txt` unaweza kufanya:
+Kumbuka kwamba kutumia debugfs unaweza pia **kuandika faili**. Kwa mfano, ili nakala `/tmp/asd1.txt` kwenda `/tmp/asd2.txt` unaweza kufanya:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
@@ -132,17 +131,17 @@ Kikundi cha **video** kina ufikiaji wa kuangalia matokeo ya skrini. Kimsingi una
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Ili **kufungua** **picha ya raw** unaweza kutumia **GIMP**, chagua faili **`screen.raw`** na chagua kama aina ya faili **Data ya picha ya raw**:
+To **fungua** the **raw image** you can use **GIMP**, select the **`screen.raw`** file and select as file type **Raw image data**:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Kisha badilisha Upana na Kimo kuwa zile zinazotumika kwenye skrini na angalia Aina tofauti za Picha \(na uchague ile inayoonyesha vizuri skrini\):
+Then modify the Width and Height to the ones used on the screen and check different Image Types \(and select the one that shows better the screen\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
-# Kundi la Root
+# Root Group
 
-Inaonekana kama kwa kawaida **wanachama wa kundi la root** wanaweza kuwa na ufikiaji wa **kubadilisha** baadhi ya faili za usanidi wa **huduma** au baadhi ya faili za **maktaba** au **mambo mengine ya kuvutia** ambayo yanaweza kutumika kuongeza mamlaka...
+Inavyoonekana kwa default **wanachama wa kundi la root** wanaweza kuwa na ufikiaji wa **kubadilisha** baadhi ya **faili** za usanidi wa **huduma** au baadhi ya **faili** za **maktaba** au **mambo mengine ya kuvutia** ambayo yanaweza kutumika kuongeza mamlaka...
 
 **Angalia ni faili zipi wanachama wa root wanaweza kubadilisha**:
 ```bash
@@ -150,7 +149,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 # Docker Group
 
-Unaweza kuunganisha mfumo wa faili wa mwenyeji kwenye kiasi cha mfano, hivyo wakati mfano unapoanza, mara moja inachaji `chroot` kwenye kiasi hicho. Hii inakupa root kwenye mashine.
+Unaweza kuunganisha mfumo wa faili wa mwenyeji kwenye volumu ya mfano, hivyo wakati mfano unapoanza, mara moja inachaji `chroot` kwenye volumu hiyo. Hii kwa ufanisi inakupa root kwenye mashine.
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
@@ -169,8 +168,8 @@ Pata Ufikiaji Leo:
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

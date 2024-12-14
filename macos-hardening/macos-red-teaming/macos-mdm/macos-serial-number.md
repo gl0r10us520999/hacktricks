@@ -38,7 +38,7 @@ Vifaa vya Apple vilivyotengenezwa baada ya mwaka 2010 vina nambari za serial zin
 Kwa mfano, nambari ya serial **C02L13ECF8J2** inafuata muundo huu.
 
 ### **Mahali pa Utengenezaji (Herufi za Kwanza 3)**
-M codes fulani zinawakilisha viwanda maalum:
+Mifumo fulani inawakilisha viwanda maalum:
 - **FC, F, XA/XB/QP/G8**: Mahali mbalimbali nchini Marekani.
 - **RN**: Mexico.
 - **CK**: Cork, Ireland.

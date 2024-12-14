@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Mount namespace ni kipengele cha kernel ya Linux kinachotoa kutengwa kwa maeneo ya mfumo wa faili yanayoonekana na kundi la michakato. Kila mount namespace ina seti yake ya maeneo ya mfumo wa faili, na **mabadiliko kwenye maeneo ya mount katika namespace moja hayathiri namespaces nyingine**. Hii inamaanisha kwamba michakato inayofanya kazi katika namespaces tofauti inaweza kuwa na maoni tofauti ya hiyerarhya ya mfumo wa faili.
+Mount namespace ni kipengele cha kernel ya Linux kinachotoa kutengwa kwa maeneo ya mfumo wa faili yanayoonekana na kundi la michakato. Kila mount namespace ina seti yake ya maeneo ya mfumo wa faili, na **mabadiliko kwenye maeneo ya mount katika namespace moja hayathiri namespaces nyingine**. Hii inamaanisha kwamba michakato inayofanya kazi katika namespaces tofauti inaweza kuwa na maoni tofauti ya hierarchi ya mfumo wa faili.
 
-Mount namespaces ni muhimu sana katika uundaji wa kontena, ambapo kila kontena linapaswa kuwa na mfumo wake wa faili na usanidi, ulio tengwa kutoka kwa kontena nyingine na mfumo wa mwenyeji.
+Mount namespaces ni muhimu sana katika uundaji wa kontena, ambapo kila kontena linapaswa kuwa na mfumo wake wa faili na usanidi, uliojitenga na kontena nyingine na mfumo wa mwenyeji.
 
 ### How it works:
 
-1. Wakati mount namespace mpya inaundwa, inaanzishwa na **nakala ya maeneo ya mount kutoka namespace yake ya mzazi**. Hii inamaanisha kwamba, wakati wa uundaji, namespace mpya inashiriki maoni sawa ya mfumo wa faili kama mzazi wake. Hata hivyo, mabadiliko yoyote yanayofuata kwenye maeneo ya mount ndani ya namespace hayatamathiri mzazi au namespaces nyingine.
-2. Wakati mchakato unabadilisha eneo la mount ndani ya namespace yake, kama vile kuunganisha au kutenganisha mfumo wa faili, **mabadiliko ni ya ndani kwa namespace hiyo** na hayathiri namespaces nyingine. Hii inaruhusu kila namespace kuwa na hiyerarhya yake ya mfumo wa faili isiyoegemea.
-3. Michakato inaweza kuhamasisha kati ya namespaces kwa kutumia wito wa mfumo wa `setns()`, au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNS`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia maeneo ya mount yanayohusiana na namespace hiyo.
+1. Wakati mount namespace mpya inaundwa, inaanzishwa na **nakala ya maeneo ya mount kutoka namespace yake ya mzazi**. Hii inamaanisha kwamba, wakati wa uundaji, namespace mpya inashiriki maoni sawa ya mfumo wa faili kama mzazi wake. Hata hivyo, mabadiliko yoyote yanayofuata kwenye maeneo ya mount ndani ya namespace hayataathiri mzazi au namespaces nyingine.
+2. Wakati mchakato unabadilisha eneo la mount ndani ya namespace yake, kama vile kuunganisha au kutenganisha mfumo wa faili, **mabadiliko ni ya ndani kwa namespace hiyo** na hayathiri namespaces nyingine. Hii inaruhusu kila namespace kuwa na hierarchi yake ya mfumo wa faili isiyoegemea.
+3. Michakato inaweza kuhamasisha kati ya namespaces kwa kutumia wito wa mfumo wa `setns()`, au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNS`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia maeneo ya mount yanayohusishwa na namespace hiyo.
 4. **Vifunguo vya faili na inodes vinashirikiwa kati ya namespaces**, ikimaanisha kwamba ikiwa mchakato katika namespace moja una funguo la faili lililo wazi linaloelekeza kwenye faili, linaweza **kupitisha funguo hilo la faili** kwa mchakato katika namespace nyingine, na **michakato yote itapata faili hiyo hiyo**. Hata hivyo, njia ya faili inaweza isiwe sawa katika namespaces zote mbili kutokana na tofauti katika maeneo ya mount.
 
 ## Lab:
@@ -40,23 +40,23 @@ Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-pro
 
 <details>
 
-<summary>Hitilafu: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
+<summary>Kosa: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, hitilafu inakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu wanajumuishwa.
+- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu ndio wanaingia.
 - Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika namespace ya awali ya PID.
 - Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kuteua PID katika namespace hiyo.
 
 2. **Matokeo**:
-- Kuondoka kwa PID 1 katika namespace mpya kunasababisha kusafishwa kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa hitilafu ya "Haiwezekani kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika namespace mpya kunasababisha usafishaji wa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kuteua PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
 - Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda namespace mpya ya PID.
 - Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake wanakuwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu kuteua PID kwa kawaida.
 
-Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, namespace mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na hitilafu ya kugawa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inakimbia na bendera ya `-f`, namespace mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la kugawa kumbukumbu.
 
 </details>
 
@@ -89,7 +89,7 @@ findmnt
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
-Pia, unaweza tu **kuingia katika namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** katika namespace nyingine **bila desktopa** inayorejelea hiyo (kama `/proc/self/ns/mnt`).
+Pia, unaweza tu **kuingia katika namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** katika namespace nyingine **bila desktipa** inayorejelea hiyo (kama `/proc/self/ns/mnt`).
 
 Kwa sababu milima mipya inapatikana tu ndani ya namespace, inawezekana kwamba namespace ina taarifa nyeti ambazo zinaweza kupatikana tu kutoka ndani yake.
 
@@ -133,14 +133,14 @@ systemd-private-3d87c249e8a84451994ad692609cd4b6-systemd-timesyncd.service-FAnDq
 vmware-root_662-2689143848
 
 ```
-## Marejeo
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 * [https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux](https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux)
 
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

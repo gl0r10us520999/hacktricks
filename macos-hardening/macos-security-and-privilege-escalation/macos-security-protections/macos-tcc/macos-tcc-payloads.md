@@ -71,7 +71,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Nakili `$HOME/Documents` hadi `/tmp/documents`.
+Nakili `$HOME/Nyaraka` hadi `/tmp/nyaraka`.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -316,7 +316,7 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 {% tabs %}
 {% tab title="ObjetiveC - Rekodi" %}
-Rekodi video ya sekunde 3 na uhifadhi katika **`/tmp/recording.mov`**
+Rekodi video ya sekunde 3 na uihifadhi katika **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -395,7 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - Check" %}
-Kagua ikiwa programu ina ufikiaji wa kamera.
+Angalia ikiwa programu ina ufikiaji wa kamera.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -428,8 +428,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Piga picha na kamera
-{% endtab %}
+Piga picha kwa kutumia kamera
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -443,7 +442,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 {% tabs %}
 {% tab title="ObjetiveC - Record" %}
-Record 5s of audio na uhifadhi katika `/tmp/recording.m4a`
+Record 5s ya sauti na uhifadhi katika `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -587,7 +586,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Mahali
 
 {% hint style="success" %}
-Ili programu iweze kupata mahali, **Huduma za Mahali** (kutoka kwa Faragha na Usalama) **lazima ziwe zimeshawekwa,** vinginevyo haitoweza kuzipata.
+Ili programu ipate mahali, **Huduma za Mahali** (kutoka kwa Faragha na Usalama) **lazima iwe imewezeshwa,** vinginevyo haitoweza kuipata.
 {% endhint %}
 
 * **Ruhusa**: `com.apple.security.personal-information.location`

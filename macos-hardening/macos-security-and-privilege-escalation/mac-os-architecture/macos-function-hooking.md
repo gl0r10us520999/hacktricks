@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Function Interposing
 
-Create a **dylib** with an **`__interpose`** section (or a section flagged with **`S_INTERPOSING`**) containing tuples of **function pointers** that refer to the **original** and the **replacement** functions.
+Unda **dylib** yenye sehemu ya **`__interpose`** (au sehemu iliyo na alama ya **`S_INTERPOSING`**) inayojumuisha tuples za **function pointers** zinazorejelea **asili** na **mbadala** za kazi.
 
-Then, **inject** the dylib with **`DYLD_INSERT_LIBRARIES`** (the interposing needs occur before the main app loads). Obviously the [**restrictions** applied to the use of **`DYLD_INSERT_LIBRARIES`** applies here also](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Kisha, **ingiza** dylib kwa kutumia **`DYLD_INSERT_LIBRARIES`** (kuingilia kunahitaji kutokea kabla ya programu kuu kupakia). Kwa wazi [**vizuizi** vilivyowekwa kwa matumizi ya **`DYLD_INSERT_LIBRARIES`** vinatumika hapa pia](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
 ### Interpose printf
 
@@ -100,7 +100,7 @@ Inahitajika **kitu**, **njia** na **params**. Na wakati njia inaitwa, **msg inat
 
 Kitu ni **`someObject`**, njia ni **`@selector(method1p1:p2:)`** na hoja ni **value1**, **value2**.
 
-Kufuata muundo wa vitu, inawezekana kufikia **array ya njia** ambapo **majina** na **viashiria** vya msimbo wa njia viko **mahali**.
+Kufuata muundo wa vitu, inawezekana kufikia **array ya njia** ambapo **majina** na **viashiria** vya msimbo wa njia viko **pamoja**.
 
 {% hint style="danger" %}
 Kumbuka kwamba kwa sababu njia na madarasa yanaccessiwa kulingana na majina yao, taarifa hii inahifadhiwa katika binary, hivyo inawezekana kuipata kwa `otool -ov </path/bin>` au [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
@@ -179,7 +179,7 @@ return 0;
 Kazi **`method_exchangeImplementations`** inaruhusu **kubadilisha** **anwani** ya **utekelezaji** wa **kazi moja kwa nyingine**.
 
 {% hint style="danger" %}
-Hivyo wakati kazi inaitwa kile kinachokuwa **kimefanywa ni kingine**.
+Hivyo wakati kazi inaitwa kile kinachofanywa ni **kingine**.
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -225,7 +225,7 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-Katika kesi hii, ikiwa **kanuni ya utekelezaji ya njia halali** **inashtaki** **jina la njia**, inaweza **gundua** hii swizzling na kuzuia isifanye kazi.
+Katika kesi hii, ikiwa **kanuni ya utekelezaji ya njia halali** **inashtaki** **jina** la **njia**, inaweza **gundua** hii swizzling na kuzuia isifanye kazi.
 
 Teknolojia ifuatayo haina kizuizi hiki.
 {% endhint %}
@@ -288,13 +288,13 @@ return 0;
 ```
 ## Hooking Attack Methodology
 
-Katika ukurasa huu njia tofauti za kuhooki kazi zilijadiliwa. Hata hivyo, zilihusisha **kukimbia msimbo ndani ya mchakato ili kushambulia**.
+Katika ukurasa huu njia tofauti za kuhooki kazi zilijadiliwa. Hata hivyo, zilihusisha **kufanya kazi ndani ya mchakato ili kushambulia**.
 
 Ili kufanya hivyo, mbinu rahisi zaidi ya kutumia ni kuingiza [Dyld kupitia mabadiliko ya mazingira au hijacking](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Hata hivyo, nadhani hii inaweza pia kufanywa kupitia [Dylib process injection](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
 Hata hivyo, chaguo zote mbili ni **za mipaka** kwa **binaries/mchakato zisizo na ulinzi**. Angalia kila mbinu ili kujifunza zaidi kuhusu mipaka.
 
-Hata hivyo, shambulio la kuhooki kazi ni maalum sana, mshambuliaji atafanya hivi ili **kuchukua taarifa nyeti kutoka ndani ya mchakato** (ikiwa sivyo ungehitaji tu kufanya shambulio la kuingiza mchakato). Na taarifa hii nyeti inaweza kuwa katika programu zilizopakuliwa na mtumiaji kama MacPass.
+Hata hivyo, shambulio la kuhooki kazi ni maalum sana, mshambuliaji atafanya hivi ili **kuchukua taarifa nyeti kutoka ndani ya mchakato** (ikiwa sivyo ungeweza tu kufanya shambulio la kuingiza mchakato). Na taarifa hii nyeti inaweza kuwa katika programu zilizopakuliwa na mtumiaji kama MacPass.
 
 Hivyo, njia ya mshambuliaji itakuwa ama kupata udhaifu au kuondoa saini ya programu, kuingiza **`DYLD_INSERT_LIBRARIES`** mabadiliko ya mazingira kupitia Info.plist ya programu kwa kuongeza kitu kama:
 ```xml
@@ -315,7 +315,7 @@ na kisha **re-register** programu hiyo:
 Ongeza katika maktaba hiyo msimbo wa hooking ili kuhamasisha taarifa: Nywila, ujumbe...
 
 {% hint style="danger" %}
-Kumbuka kwamba katika matoleo mapya ya macOS ikiwa **unafuta saini** ya binary ya programu na ilikuwa imefanywa kazi hapo awali, macOS **haitakuwa ikitekeleza programu** tena.
+Kumbuka kwamba katika matoleo mapya ya macOS ikiwa un **ondoa saini** ya binary ya programu na ilikuwa imefanywa kazi hapo awali, macOS **haitakuwa ikifanya kazi programu** tena.
 {% endhint %}
 
 #### Mfano wa maktaba

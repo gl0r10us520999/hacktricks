@@ -1,64 +1,64 @@
 # macOS GCD - Grand Central Dispatch
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-**Grand Central Dispatch (GCD),** inayojulikana pia kama **libdispatch** (`libdispatch.dyld`), inapatikana kwenye macOS na iOS. Ni teknolojia iliyoendelezwa na Apple kuboresha msaada wa programu kwa utekelezaji wa wakati mmoja (multithreaded) kwenye vifaa vya multicore.
+**Grand Central Dispatch (GCD),** pia inajulikana kama **libdispatch** (`libdispatch.dyld`), inapatikana katika macOS na iOS. Ni teknolojia iliyotengenezwa na Apple kuboresha msaada wa programu kwa ajili ya utekelezaji wa sambamba (multithreaded) kwenye vifaa vya multicore.
 
-**GCD** hutoa na kusimamia **mistari ya FIFO** ambayo programu yako inaweza **kuwasilisha kazi** katika mfumo wa **vitu vya block**. Blocks zilizowasilishwa kwenye mistari ya utekelezaji wa haraka hutekelezwa kwenye dimbwi la nyuzi zinazosimamiwa kabisa na mfumo. GCD inaunda nyuzi kiotomatiki kwa kutekeleza kazi kwenye mistari ya utekelezaji wa haraka na kupanga kazi hizo zitekelezwe kwenye miunganisho inayopatikana.
+**GCD** inatoa na kusimamia **FIFO queues** ambazo programu yako inaweza **kuwasilisha kazi** katika mfumo wa **block objects**. Blocks zilizowasilishwa kwa dispatch queues zina **tekelezwa kwenye mchanganyiko wa nyuzi** zinazodhibitiwa kikamilifu na mfumo. GCD kiotomatiki huunda nyuzi za kutekeleza kazi katika dispatch queues na kupanga kazi hizo kufanyika kwenye cores zinazopatikana.
 
 {% hint style="success" %}
-Kwa muhtasari, ili kutekeleza nambari kwa **njia za pamoja**, michakato inaweza kutuma **vitengo vya nambari kwa GCD**, ambayo itahusika na utekelezaji wao. Kwa hivyo, michakato haziumbi nyuzi mpya; **GCD hutekeleza nambari iliyotolewa na dimbwi lake la nyuzi** (ambalo linaweza kuongezeka au kupungua kama inavyohitajika).
+Kwa muhtasari, ili kutekeleza msimbo kwa **pamoja**, michakato inaweza kutuma **blocks za msimbo kwa GCD**, ambayo itashughulikia utekelezaji wao. Hivyo, michakato haisababisha nyuzi mpya; **GCD inatekeleza msimbo uliotolewa kwa mchanganyiko wake wa nyuzi** (ambayo inaweza kuongezeka au kupungua kadri inavyohitajika).
 {% endhint %}
 
-Hii ni muhimu sana kusimamia utekelezaji wa pamoja kwa ufanisi, ikipunguza sana idadi ya nyuzi ambazo michakato huzalisha na kuboresha utekelezaji wa pamoja. Hii ni bora kwa kazi zinazohitaji **pamoja kubwa** (kuvunja nguvu?) au kwa kazi ambazo hazipaswi kuzuia nyuzi kuu: Kwa mfano, nyuzi kuu kwenye iOS inashughulikia mwingiliano wa UI, kwa hivyo utendaji mwingine wowote ambao unaweza kufanya programu isimame (utafutaji, kupata wavuti, kusoma faili...) unashughulikiwa kwa njia hii.
+Hii ni muhimu sana katika kusimamia utekelezaji wa sambamba kwa mafanikio, ikipunguza kwa kiasi kikubwa idadi ya nyuzi ambazo michakato inaunda na kuboresha utekelezaji wa sambamba. Hii ni bora kwa kazi zinazohitaji **paralelism mkubwa** (brute-forcing?) au kwa kazi ambazo hazipaswi kuzuia nyuzi kuu: Kwa mfano, nyuzi kuu kwenye iOS inashughulikia mwingiliano wa UI, hivyo kazi nyingine yoyote ambayo inaweza kufanya programu ikasimama (kutafuta, kufikia wavuti, kusoma faili...) inasimamiwa kwa njia hii.
 
 ### Blocks
 
-Block ni **sehemu iliyojitegemea ya nambari** (kama kazi na hoja zinazorudisha thamani) na inaweza pia kubainisha pembe zilizofungwa.\
-Walakini, kwenye kiwango cha kisasa cha kompyuta, blocks hazipo, ni `os_object`s. Kila moja ya vitu hivi inaundwa na miundo miwili:
+Block ni **sehemu ya msimbo iliyo na uhuru** (kama kazi yenye hoja inayorejesha thamani) na inaweza pia kubainisha mabadiliko yaliyofungwa.\
+Hata hivyo, katika ngazi ya mkusanyiko blocks hazipo, ni `os_object`s. Kila moja ya vitu hivi inaundwa na muundo miwili:
 
 * **block literal**:&#x20;
-* Inaanza na uga wa **`isa`**, ukionyesha darasa la block:
+* Inaanza na **`isa`** uwanja, ikielekeza kwenye darasa la block:
 * `NSConcreteGlobalBlock` (blocks kutoka `__DATA.__const`)
-* `NSConcreteMallocBlock` (blocks kwenye rundo)
-* `NSConcreateStackBlock` (blocks kwenye rundo)
-* Ina **`flags`** (inayoonyesha mashamba yaliyopo kwenye maelezo ya block) na baadhi ya baiti zilizohifadhiwa
-* Kiashiria cha kazi ya kupiga simu
-* Kiunganishi kwa maelezo ya block
-* Pembe zilizoingizwa za block (ikiwapo zipo)
-* **mchoro wa block**: Ukubwa wake unategemea data iliyopo (kama ilivyoelezwa kwenye alama za awali)
-* Ina baadhi ya baiti zilizohifadhiwa
+* `NSConcreteMallocBlock` (blocks kwenye heap)
+* `NSConcreateStackBlock` (blocks kwenye stack)
+* Ina **`flags`** (zinazoashiria maeneo yaliyopo katika block descriptor) na baadhi ya bytes zilizohifadhiwa
+* Pointer ya kazi ya kuita
+* Pointer kwa block descriptor
+* Mabadiliko yaliyopatikana ya block (ikiwa yapo)
+* **block descriptor**: Ukubwa wake unategemea data iliyopo (kama ilivyoashiriwa katika flags zilizopita)
+* Ina baadhi ya bytes zilizohifadhiwa
 * Ukubwa wake
-* Kawaida itakuwa na kiashiria kwa saini ya mtindo wa Objective-C ili kujua ni nafasi ngapi inahitajika kwa vigezo (alama `BLOCK_HAS_SIGNATURE`)
-* Ikiwa pembe zinarejelewa, block hii pia itakuwa na viunganishi kwa msaidizi wa nakala (kunakili thamani mwanzoni) na msaidizi wa kutolea mbali (kuifuta).
+* Kwa kawaida itakuwa na pointer kwa saini ya mtindo wa Objective-C ili kujua ni nafasi ngapi inahitajika kwa params (bendera `BLOCK_HAS_SIGNATURE`)
+* Ikiwa mabadiliko yanarejelewa, block hii pia itakuwa na pointers kwa msaada wa nakala (kuiga thamani mwanzoni) na msaada wa kutupa (kuachilia).
 
-### Mistari
+### Queues
 
-Mstari wa utekelezaji ni kitu kilichopewa jina kinachotoa upangaji wa FIFO wa vitengo kwa utekelezaji.
+Dispatch queue ni kitu chenye jina kinachotoa mpangilio wa FIFO wa blocks kwa utekelezaji.
 
-Blocks hupangwa kwenye mistari ili kutekelezwa, na hizi zinasaidia njia 2: `DISPATCH_QUEUE_SERIAL` na `DISPATCH_QUEUE_CONCURRENT`. Bila shaka **ile ya mfululizo** **haitakuwa na shida ya hali ya mbio** kwani block haitatekelezwa hadi ile iliyotangulia imemaliza. Lakini **aina nyingine ya mstari inaweza kuwa nayo**.
+Blocks huwekwa katika queues ili kutekelezwa, na hizi zinasaidia njia 2: `DISPATCH_QUEUE_SERIAL` na `DISPATCH_QUEUE_CONCURRENT`. Bila shaka **serial** moja **haitakuwa na matatizo ya hali ya mbio** kwani block haitatekelezwa mpaka ya awali iwe imekamilika. Lakini **aina nyingine ya queue inaweza kuwa nayo**.
 
-Mistari ya msingi:
+Queues za kawaida:
 
 * `.main-thread`: Kutoka `dispatch_get_main_queue()`
-* `.libdispatch-manager`: Meneja wa mistari ya GCD
-* `.root.libdispatch-manager`: Meneja wa mistari ya GCD
-* `.root.maintenance-qos`: Kazi zenye kipaumbele cha chini
+* `.libdispatch-manager`: Meneja wa queue wa GCD
+* `.root.libdispatch-manager`: Meneja wa queue wa GCD
+* `.root.maintenance-qos`: Kazi za kipaumbele cha chini
 * `.root.maintenance-qos.overcommit`
 * `.root.background-qos`: Inapatikana kama `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
 * `.root.background-qos.overcommit`
@@ -68,42 +68,42 @@ Mistari ya msingi:
 * `.root.background-qos.overcommit`
 * `.root.user-initiated-qos`: Inapatikana kama `DISPATCH_QUEUE_PRIORITY_HIGH`
 * `.root.background-qos.overcommit`
-* `.root.user-interactive-qos`: Kipaumbele cha juu
+* `.root.user-interactive-qos`: Kipaumbele cha juu zaidi
 * `.root.background-qos.overcommit`
 
-Tambua kuwa itakuwa mfumo ndiye anayeamua **nyuzi zipi zinashughulikia mistari gani wakati wowote** (nyuzi nyingi zinaweza kufanya kazi kwenye mstari mmoja au nyuzi ile ile inaweza kufanya kazi kwenye mistari tofauti wakati fulani)
+Kumbuka kwamba itakuwa mfumo ambao utaamua **ni nyuzi zipi zinashughulikia queues zipi kila wakati** (nyuzi nyingi zinaweza kufanya kazi katika queue moja au nyuzi moja inaweza kufanya kazi katika queues tofauti kwa wakati fulani)
 
-#### Sifa
+#### Attributtes
 
-Wakati wa kuunda mstari na **`dispatch_queue_create`** hoja ya tatu ni `dispatch_queue_attr_t`, ambayo kawaida ni au `DISPATCH_QUEUE_SERIAL` (ambayo kimsingi ni NULL) au `DISPATCH_QUEUE_CONCURRENT` ambayo ni kiashiria kwa `dispatch_queue_attr_t` muundo ambao huruhusu kudhibiti baadhi ya vigezo vya mstari.
+Wakati wa kuunda queue na **`dispatch_queue_create`** hoja ya tatu ni `dispatch_queue_attr_t`, ambayo kwa kawaida ni `DISPATCH_QUEUE_SERIAL` (ambayo kwa kweli ni NULL) au `DISPATCH_QUEUE_CONCURRENT` ambayo ni pointer kwa muundo wa `dispatch_queue_attr_t` ambao unaruhusu kudhibiti baadhi ya vigezo vya queue.
 
-### Vitu vya Kutuma
+### Dispatch objects
 
-Kuna vitu kadhaa ambavyo libdispatch hutumia na mistari na blocks ni vitu 2 tu kati yao. Inawezekana kuunda vitu hivi na `dispatch_object_create`:
+Kuna vitu kadhaa ambavyo libdispatch inatumia na queues na blocks ni 2 tu kati yao. Inawezekana kuunda vitu hivi kwa `dispatch_object_create`:
 
 * `block`
-* `data`: Vitengo vya data
-* `group`: Kikundi cha vitengo
-* `io`: Maombi ya I/O ya Async
-* `mach`: Bandari za Mach
-* `mach_msg`: Ujumbe wa Mach
-* `pthread_root_queue`: Mstari na dimbwi la nyuzi za pthread na sio mistari ya kazi
+* `data`: Data blocks
+* `group`: Kundi la blocks
+* `io`: Maombi ya Async I/O
+* `mach`: Mach ports
+* `mach_msg`: Mach messages
+* `pthread_root_queue`: Queue yenye mchanganyiko wa nyuzi za pthread na sio workqueues
 * `queue`
 * `semaphore`
 * `source`: Chanzo cha tukio
 
 ## Objective-C
 
-Katika Objetive-C kuna kazi tofauti za kutuma block ili itekelezwe kwa pamoja:
+Katika Objetive-C kuna kazi tofauti za kutuma block kutekelezwa kwa sambamba:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Inawasilisha block kwa utekelezaji wa pamoja kwenye mstari wa utekelezaji na kurudi mara moja.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Inawasilisha kipengee cha block kwa utekelezaji na kurudi baada ya block hiyo kumaliza kutekelezwa.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Inatekeleza kipengee cha block mara moja tu kwa maisha ya programu.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Inawasilisha kipengee cha kazi kwa utekelezaji na kurudi baada ya kumaliza kutekelezwa. Tofauti na [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), kazi hii inaheshimu sifa zote za mstari wakati inatekeleza block.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Inawasilisha block kwa utekelezaji wa asynchronous kwenye dispatch queue na inarudi mara moja.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Inawasilisha block object kwa utekelezaji na inarudi baada ya block hiyo kumaliza kutekeleza.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Inatekeleza block object mara moja tu kwa muda wa programu.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Inawasilisha kipengele cha kazi kwa utekelezaji na inarudi tu baada ya kumaliza kutekeleza. Tofauti na [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), kazi hii inaheshimu vigezo vyote vya queue wakati inatekeleza block.
 
 Kazi hizi zinatarajia vigezo hivi: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Hii ni **muundo wa Block**:
+Hii ni **struct ya Block**:
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -114,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-Na hii ni mfano wa kutumia **ujumuishaji** na **`dispatch_async`**:
+Na hii ni mfano wa kutumia **parallelism** na **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -146,8 +146,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** ni maktaba inayotoa **mikufu ya Swift** kwa mfumo wa Grand Central Dispatch (GCD) ambao awali uliandikwa kwa C.\
-Maktaba ya **`libswiftDispatch`** inafunika APIs za C GCD kwa interface ya kirafiki zaidi ya Swift, ikifanya iwe rahisi na ya kihisia zaidi kwa watengenezaji wa Swift kufanya kazi na GCD.
+**`libswiftDispatch`** ni maktaba inayotoa **Swift bindings** kwa mfumo wa Grand Central Dispatch (GCD) ambao awali umeandikwa kwa C.\
+Maktaba ya **`libswiftDispatch`** inafunika API za C GCD katika kiolesura kinachofaa zaidi kwa Swift, na kufanya iwe rahisi na ya kueleweka zaidi kwa waendelezaji wa Swift kufanya kazi na GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -155,7 +155,7 @@ Maktaba ya **`libswiftDispatch`** inafunika APIs za C GCD kwa interface ya kiraf
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Mfano wa nambari**:
+**Mfano wa msimbo**:
 ```swift
 import Foundation
 
@@ -184,7 +184,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Skripti ya Frida ifuatayo inaweza kutumika kufanya **hook katika `dispatch` kadhaa** na kutoa jina la foleni, nyuma ya mstari na kizuizi: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Script ifuatayo ya Frida inaweza kutumika **kuunganisha kwenye kazi kadhaa za `dispatch`** na kutoa jina la foleni, backtrace na block: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -199,9 +199,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Kwa sasa Ghidra haisomei wala muundo wa **`dispatch_block_t`** wa ObjectiveC, wala ule wa **`swift_dispatch_block`**.
+Kwa sasa Ghidra haielewi ama muundo wa ObjectiveC **`dispatch_block_t`**, wala muundo wa **`swift_dispatch_block`**.
 
-Hivyo, ikiwa unataka iweze kusoma muundo huo, unaweza tu **kudeclare**:
+Hivyo kama unataka iweze kuelewa, unaweza tu **kuutangaza**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -209,22 +209,37 @@ Hivyo, ikiwa unataka iweze kusoma muundo huo, unaweza tu **kudeclare**:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Kisha, tafuta sehemu katika nambari ambapo zinatumiwa:
+Kisha, pata mahali katika msimbo ambapo zinatumika **kuitwa**:
 
 {% hint style="success" %}
-Tambua marejeo yote yaliyofanywa kwa "block" ili kuelewa jinsi unavyoweza kugundua kuwa muundo unatumika.
+Kumbuka rejea zote zilizofanywa kwa "block" ili kuelewa jinsi unavyoweza kugundua kuwa muundo unatumika.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Bonyeza kulia kwenye kipengee -> Badilisha Aina ya Kipengee na chagua katika kesi hii **`swift_dispatch_block`**:
+Bonyeza kulia kwenye variable -> Re-type Variable na uchague katika kesi hii **`swift_dispatch_block`**:
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra itaandika tena kila kitu kiotomatiki:
+Ghidra itaandika upya kila kitu kiotomatiki:
 
 <figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Marejeo
+## References
 
 * [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

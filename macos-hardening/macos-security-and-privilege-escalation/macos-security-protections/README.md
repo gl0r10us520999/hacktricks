@@ -47,7 +47,7 @@ MacOS Sandbox **inapunguza programu** zinazotembea ndani ya sandbox kwa **vitend
 
 ### TCC - **Transparency, Consent, and Control**
 
-**TCC (Transparency, Consent, and Control)** ni mfumo wa usalama. Imeundwa ili **kusimamia ruhusa** za programu, hasa kwa kudhibiti ufikiaji wao kwa vipengele nyeti. Hii inajumuisha vipengele kama **huduma za eneo, mawasiliano, picha, kipaza sauti, kamera, upatikanaji, na ufikiaji wa diski nzima**. TCC inahakikisha kwamba programu zinaweza kufikia vipengele hivi tu baada ya kupata idhini wazi kutoka kwa mtumiaji, hivyo kuimarisha faragha na udhibiti juu ya data binafsi.
+**TCC (Transparency, Consent, and Control)** ni mfumo wa usalama. Imeundwa ili **kusimamia ruhusa** za programu, hasa kwa kudhibiti ufikiaji wao kwa vipengele nyeti. Hii inajumuisha vipengele kama **huduma za eneo, mawasiliano, picha, kipaza sauti, kamera, upatikanaji, na ufikiaji wa diski nzima**. TCC inahakikisha kwamba programu zinaweza kufikia vipengele hivi tu baada ya kupata idhini wazi ya mtumiaji, hivyo kuimarisha faragha na udhibiti juu ya data binafsi.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
@@ -55,7 +55,7 @@ MacOS Sandbox **inapunguza programu** zinazotembea ndani ya sandbox kwa **vitend
 
 ### Launch/Environment Constraints & Trust Cache
 
-Vikwazo vya uzinduzi katika macOS ni kipengele cha usalama ili **kudhibiti uzinduzi wa mchakato** kwa kufafanua **nani anaweza kuzindua** mchakato, **vipi**, na **kutoka wapi**. Imeanzishwa katika macOS Ventura, inagawanya binaries za mfumo katika makundi ya vikwazo ndani ya **trust cache**. Kila binary inayoweza kutekelezwa ina **kanuni** zilizowekwa kwa **uzinduzi** wake, ikiwa ni pamoja na **mwenyewe**, **mzazi**, na **mwenye jukumu**. Imeongezwa kwa programu za wahusika wengine kama **Vikwazo vya Mazingira** katika macOS Sonoma, vipengele hivi husaidia kupunguza uwezekano wa matumizi mabaya ya mfumo kwa kudhibiti masharti ya uzinduzi wa mchakato.
+Mikakati ya uzinduzi katika macOS ni kipengele cha usalama ili **kudhibiti uzinduzi wa mchakato** kwa kufafanua **nani anaweza kuzindua** mchakato, **vipi**, na **kutoka wapi**. Imeanzishwa katika macOS Ventura, inagawanya binaries za mfumo katika makundi ya vizuizi ndani ya **trust cache**. Kila binary inayoweza kutekelezwa ina **kanuni** zilizowekwa kwa **uzinduzi** wake, ikiwa ni pamoja na **mwenyewe**, **mzazi**, na **mipaka ya kuwajibika**. Imeongezwa kwa programu za wahusika wengine kama **Environment** Constraints katika macOS Sonoma, vipengele hivi husaidia kupunguza uwezekano wa matumizi mabaya ya mfumo kwa kudhibiti masharti ya uzinduzi wa mchakato.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -69,7 +69,7 @@ Mara tu malware inapogundulika kwenye Mac (ama na XProtect au kwa njia nyingine)
 
 Ingawa XProtect na MRT ni sehemu ya hatua za usalama za macOS, zinafanya kazi tofauti:
 
-* **XProtect** ni zana ya kuzuia. Inafanya **ukaguzi wa faili wakati zinapopakuliwa** (kupitia programu fulani), na ikiwa inagundua aina zozote za malware zinazojulikana, inazuia **faili kufunguliwa**, hivyo kuzuia malware kuathiri mfumo wako kwa mara ya kwanza.
+* **XProtect** ni zana ya kuzuia. Inafanya **ukaguzi wa faili wakati zinapopakuliwa** (kupitia programu fulani), na ikiwa inagundua aina yoyote ya malware inayojulikana, in **azuia faili kufunguliwa**, hivyo kuzuia malware kuathiri mfumo wako kwa mara ya kwanza.
 * **MRT**, kwa upande mwingine, ni **zana ya kujibu**. Inafanya kazi baada ya malware kugundulika kwenye mfumo, kwa lengo la kuondoa programu inayosababisha tatizo ili kusafisha mfumo.
 
 Programu ya MRT iko katika **`/Library/Apple/System/Library/CoreServices/MRT.app`**
@@ -102,7 +102,7 @@ Zaidi ya hayo, kuna faili ya plist ambayo ina **programu zinazojulikana** ambazo
 ```
 ### Enumeration
 
-Inawezekana **kuorodhesha yote** yaliyowekwa kama vitu vya nyuma vinavyotumia zana ya Apple cli:
+Inawezekana **kuhesabu yote** vitu vya nyuma vilivyowekwa vinavyotumia zana ya Apple cli:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
@@ -118,7 +118,7 @@ Hii habari inahifadhiwa katika **`/private/var/db/com.apple.backgroundtaskmanage
 
 ### Kuingilia BTM
 
-Wakati uvumbuzi mpya wa kudumu unapatikana, tukio la aina **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** linatokea. Hivyo, njia yoyote ya **kuzuia** tukio hili **kutumwa** au **wakala kuonya** mtumiaji itasaidia mshambuliaji _**kuepuka**_ BTM.
+Wakati uvumbuzi mpya wa kudumu unapatikana, tukio la aina **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** linatokea. Hivyo, njia yoyote ya **kuzuia** **tukio** hili kutumwa au **wakala kuonya** mtumiaji itasaidia mshambuliaji _**kuepuka**_ BTM.
 
 * **Kurekebisha hifadhidata**: Kukimbia amri ifuatayo kutarekebisha hifadhidata (inapaswa kujenga upya kutoka mwanzo), hata hivyo, kwa sababu fulani, baada ya kukimbia hii, **hakuna uvumbuzi mpya utakaonyeshwa hadi mfumo upya uzinduliwe**.
 * **root** inahitajika.

@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 
 
-## AppleMobileFileIntegrity.kext and amfid
+## AppleMobileFileIntegrity.kext na amfid
 
-Inalenga katika kutekeleza uadilifu wa msimbo unaotumika kwenye mfumo ikitoa mantiki nyuma ya uthibitishaji wa saini ya msimbo wa XNU. Pia ina uwezo wa kuangalia haki na kushughulikia kazi nyeti nyingine kama vile kuruhusu ufuatiliaji au kupata bandari za kazi.
+Inalenga kuimarisha uadilifu wa msimbo unaotumika kwenye mfumo ikitoa mantiki nyuma ya uthibitishaji wa saini ya msimbo wa XNU. Pia inaweza kuangalia haki na kushughulikia kazi nyingine nyeti kama vile kuruhusu ufuatiliaji au kupata bandari za kazi.
 
-Zaidi ya hayo, kwa baadhi ya operesheni, kext inapendelea kuwasiliana na nafasi ya mtumiaji inayotumia daemon `/usr/libexec/amfid`. Uhusiano huu wa kuaminiana umekataliwa katika jailbreak nyingi.
+Zaidi ya hayo, kwa baadhi ya operesheni, kext inapendelea kuwasiliana na nafasi ya mtumiaji inayotumia daemon `/usr/libexec/amfid`. Uhusiano huu wa kuaminiana umekataliwa katika jailbreak kadhaa.
 
 AMFI inatumia sera za **MACF** na inasajili vidokezo vyake mara tu inapoanzishwa. Pia, kuzuia upakiaji au upakuaji wake kunaweza kusababisha paniki ya kernel. Hata hivyo, kuna baadhi ya hoja za kuanzisha ambazo zinaruhusu kudhoofisha AMFI:
 
@@ -31,23 +31,23 @@ AMFI inatumia sera za **MACF** na inasajili vidokezo vyake mara tu inapoanzishwa
 * `amfi_prevent_old_entitled_platform_binaries`: Batilisha binaries za jukwaa zenye haki
 * `amfi_get_out_of_my_way`: Inazima amfi kabisa
 
-Hizi ni baadhi ya sera za MACF ambazo inasajili:
+Hizi ni baadhi ya sera za MACF inazosajili:
 
-* **`cred_check_label_update_execve:`** Sasisho la lebo litafanywa na kurudisha 1
+* **`cred_check_label_update_execve:`** Sasisho la lebo litafanywa na kurudi 1
 * **`cred_label_associate`**: Sasisha slot ya lebo ya mac ya AMFI
 * **`cred_label_destroy`**: Ondoa slot ya lebo ya mac ya AMFI
-* **`cred_label_init`**: Hamisha 0 katika slot ya lebo ya mac ya AMFI
+* **`cred_label_init`**: Hamisha 0 kwenye slot ya lebo ya mac ya AMFI
 * **`cred_label_update_execve`:** Inakagua haki za mchakato kuona kama inapaswa kuruhusiwa kubadilisha lebo.
 * **`file_check_mmap`:** Inakagua ikiwa mmap inapata kumbukumbu na kuipatia kama inayoweza kutekelezwa. Katika kesi hiyo inakagua ikiwa uthibitishaji wa maktaba unahitajika na ikiwa ndivyo, inaita kazi ya uthibitishaji wa maktaba.
 * **`file_check_library_validation`**: Inaita kazi ya uthibitishaji wa maktaba ambayo inakagua miongoni mwa mambo mengine ikiwa binary ya jukwaa inapakua binary nyingine ya jukwaa au ikiwa mchakato na faili mpya iliyopakuliwa zina TeamID sawa. Haki fulani pia zitaruhusu kupakua maktaba yoyote.
 * **`policy_initbsd`**: Inaanzisha Funguo za NVRAM zinazotambulika
 * **`policy_syscall`**: Inakagua sera za DYLD kama binary ina sehemu zisizo na kikomo, ikiwa inapaswa kuruhusu env vars... hii pia inaitwa wakati mchakato unapoanzishwa kupitia `amfi_check_dyld_policy_self()`.
-* **`proc_check_inherit_ipc_ports`**: Inakagua ikiwa wakati mchakato unatekeleza binary mpya mchakato mingine yenye haki za SEND juu ya bandari ya kazi ya mchakato inapaswa kuendelea kuwa nazo au la. Binaries za jukwaa zinaruhusiwa, haki ya `get-task-allow` inaruhusu, haki za `task_for_pid-allow` zinaruhusiwa na binaries zenye TeamID sawa.
+* **`proc_check_inherit_ipc_ports`**: Inakagua ikiwa wakati mchakato unatekeleza binary mpya mchakato mingine yenye haki za SEND juu ya bandari ya kazi ya mchakato inapaswa kuendelea nazo au la. Binaries za jukwaa zinaruhusiwa, `get-task-allow` inaruhusu, `task_for_pid-allow` inaruhusiwa na binaries zenye TeamID sawa.
 * **`proc_check_expose_task`**: inatekeleza haki
 * **`amfi_exc_action_check_exception_send`**: Ujumbe wa kipekee unatumwa kwa debugger
 * **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: Mzunguko wa lebo wakati wa kushughulikia kipekee (ufuatiliaji)
-* **`proc_check_get_task`**: Inakagua haki kama `get-task-allow` ambayo inaruhusu mchakato mwingine kupata bandari za kazi na `task_for_pid-allow`, ambayo inaruhusu mchakato kupata bandari za kazi za mchakato mingine. Ikiwa hakuna hata moja ya hizo, inaita `amfid permitunrestricteddebugging` kuangalia ikiwa inaruhusiwa.
-* **`proc_check_mprotect`**: Kanusha ikiwa `mprotect` inaitwa na bendera `VM_PROT_TRUSTED` ambayo inaashiria kwamba eneo linapaswa kutendewa kana kwamba lina saini halali ya msimbo.
+* **`proc_check_get_task`**: Inakagua haki kama `get-task-allow` ambayo inaruhusu mchakato mingine kupata bandari za kazi na `task_for_pid-allow`, ambayo inaruhusu mchakato kupata bandari za kazi za mchakato mingine. Ikiwa hakuna hata moja ya hizo, inaita `amfid permitunrestricteddebugging` kuangalia ikiwa inaruhusiwa.
+* **`proc_check_mprotect`**: Kataza ikiwa `mprotect` inaitwa na bendera `VM_PROT_TRUSTED` ambayo inaonyesha kuwa eneo linapaswa kutendewa kana kwamba lina saini halali ya msimbo.
 * **`vnode_check_exec`**: Inaitwa wakati faili zinazoweza kutekelezwa zinapopakuliwa kwenye kumbukumbu na kuweka `cs_hard | cs_kill` ambayo itaua mchakato ikiwa mojawapo ya kurasa inakuwa batili
 * **`vnode_check_getextattr`**: MacOS: Angalia `com.apple.root.installed` na `isVnodeQuarantined()`
 * **`vnode_check_setextattr`**: Kama pata + com.apple.private.allow-bless na haki sawa na mfunguo wa ndani
@@ -80,20 +80,20 @@ No variant specified, falling back to release
 ```
 ## amfid
 
-Hii ni huduma ya mtumiaji inayotumia daemon ambayo `AMFI.kext` itatumia kuangalia saini za msimbo katika hali ya mtumiaji.\
-Ili `AMFI.kext` iweze kuwasiliana na daemon inatumia ujumbe wa mach kupitia bandari `HOST_AMFID_PORT` ambayo ni bandari maalum `18`.
+Hii ni huduma inayotumia mtumiaji ambayo `AMFI.kext` itatumia kuangalia saini za msimbo katika hali ya mtumiaji.\
+Ili `AMFI.kext` kuwasiliana na huduma, inatumia ujumbe wa mach kupitia bandari `HOST_AMFID_PORT` ambayo ni bandari maalum `18`.
 
-Kumbuka kwamba katika macOS si tena inawezekana kwa michakato ya root kuchukua bandari maalum kwani zimekingwa na `SIP` na ni launchd pekee anayeweza kuzipata. Katika iOS inakaguliwa kwamba mchakato unaotuma jibu nyuma una CDHash iliyowekwa kwa `amfid`.
+Kumbuka kwamba katika macOS si tena inawezekana kwa michakato ya root kuchukua bandari maalum kwani zinahifadhiwa na `SIP` na ni launchd pekee anayeweza kuzifikia. Katika iOS inakaguliwa kwamba mchakato unaotuma jibu nyuma una CDHash iliyowekwa kwa `amfid`.
 
-Inawezekana kuona wakati `amfid` inapoombwa kuangalia binary na jibu lake kwa ku-debug na kuweka breakpoint katika `mach_msg`.
+Inawezekana kuona wakati `amfid` inapoombwa kuangalia binary na jibu lake kwa kuifanyia debug na kuweka breakpoint katika `mach_msg`.
 
-Mara ujumbe unapopokelewa kupitia bandari maalum **MIG** inatumika kutuma kila kazi kwa kazi inayoita. Kazi kuu zilirejeshwa na kufafanuliwa ndani ya kitabu.
+Mara ujumbe unapopokelewa kupitia bandari maalum **MIG** inatumika kutuma kila kazi kwa kazi inayoiita. Kazi kuu zilirejeshwa na kufafanuliwa ndani ya kitabu.
 
 ## Provisioning Profiles
 
 Profaili ya usambazaji inaweza kutumika kusaini msimbo. Kuna profaili za **Developer** ambazo zinaweza kutumika kusaini msimbo na kuujaribu, na profaili za **Enterprise** ambazo zinaweza kutumika katika vifaa vyote.
 
-Baada ya App kuwasilishwa kwa Duka la Apple, ikiwa imeidhinishwa, inasainiwa na Apple na profaili ya usambazaji haitahitajika tena.
+Baada ya Programu kuwasilishwa kwa Duka la Apple, ikiwa imeidhinishwa, inasainiwa na Apple na profaili ya usambazaji haitahitajika tena.
 
 Profaili kwa kawaida hutumia kiambishi `.mobileprovision` au `.provisionprofile` na inaweza kutolewa kwa:
 ```bash
@@ -103,15 +103,15 @@ openssl asn1parse -inform der -in /path/to/profile
 
 security cms -D -i /path/to/profile
 ```
-Ingawa wakati mwingine inaitwa kama iliyothibitishwa, hizi profiles za usambazaji zina zaidi ya cheti:
+Ingawa wakati mwingine hujulikana kama vyeti, hizi profile za usambazaji zina zaidi ya cheti:
 
 * **AppIDName:** Kitambulisho cha Programu
 * **AppleInternalProfile**: Inatambulisha hii kama profaili ya Ndani ya Apple
 * **ApplicationIdentifierPrefix**: Imewekwa kabla ya AppIDName (sawa na TeamIdentifier)
 * **CreationDate**: Tarehe katika muundo wa `YYYY-MM-DDTHH:mm:ssZ`
-* **DeveloperCertificates**: Mfululizo wa (kwa kawaida mmoja) cheti, kilichowekwa kama data ya Base64
+* **DeveloperCertificates**: Mfululizo wa (kwa kawaida mmoja) cheti, kilich encoded kama data ya Base64
 * **Entitlements**: Haki zinazoruhusiwa na haki za profaili hii
-* **ExpirationDate**: Tarehe ya kumalizika katika muundo wa `YYYY-MM-DDTHH:mm:ssZ`
+* **ExpirationDate**: Tarehe ya kuisha katika muundo wa `YYYY-MM-DDTHH:mm:ssZ`
 * **Name**: Jina la Programu, sawa na AppIDName
 * **ProvisionedDevices**: Mfululizo (kwa cheti za waendelezaji) wa UDIDs ambazo profaili hii ni halali
 * **ProvisionsAllDevices**: Boolean (kweli kwa cheti za biashara)
@@ -123,7 +123,7 @@ Ingawa wakati mwingine inaitwa kama iliyothibitishwa, hizi profiles za usambazaj
 
 Kumbuka kwamba kipengele cha haki kitakuwa na seti iliyozuiliwa ya haki na profaili ya usambazaji itakuwa na uwezo wa kutoa haki hizo maalum ili kuzuia kutoa haki za kibinafsi za Apple.
 
-Kumbuka kwamba profaili kwa kawaida ziko katika `/var/MobileDeviceProvisioningProfiles` na inawezekana kuziangalia kwa **`security cms -D -i /path/to/profile`**
+Kumbuka kwamba profaili kwa kawaida hupatikana katika `/var/MobileDeviceProvisioningProfiles` na inawezekana kuziangalia kwa **`security cms -D -i /path/to/profile`**
 
 ## **libmis.dyld**
 

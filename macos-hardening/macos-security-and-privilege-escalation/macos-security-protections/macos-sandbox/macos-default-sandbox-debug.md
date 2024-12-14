@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-Katika ukurasa huu unaweza kupata jinsi ya kuunda programu ya kuzindua amri za kawaida kutoka ndani ya sanduku la kawaida la macOS:
+Katika ukurasa huu unaweza kupata jinsi ya kuunda programu ya kuzindua amri zisizo na mpangilio kutoka ndani ya sandbox ya kawaida ya macOS:
 
 1. Jenga programu:
 
@@ -51,7 +51,7 @@ return 0;
 ```
 {% endcode %}
 
-Ili kuijenga, tumia: `clang -framework Foundation -o SandboxedShellApp main.m`
+Ili kuunda, tumia: `clang -framework Foundation -o SandboxedShellApp main.m`
 
 2. Jenga kifurushi cha `.app`
 ```bash

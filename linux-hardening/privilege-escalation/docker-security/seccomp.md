@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Seccomp**, inamaanisha Hali ya Usalama wa Kompyuta, ni kipengele cha usalama cha **kernel ya Linux kilichoundwa kuchuja wito wa mfumo**. Inapunguza michakato kwa seti ndogo ya wito wa mfumo (`exit()`, `sigreturn()`, `read()`, na `write()` kwa waandishi wa faili waliofunguliwa tayari). Ikiwa mchakato unajaribu kuita chochote kingine, unauawa na kernel kwa kutumia SIGKILL au SIGSYS. Mekanism hii haisimami rasilimali lakini inatenga mchakato kutoka kwao.
+**Seccomp**, inamaanisha Hali ya Usalama wa Kompyuta, ni kipengele cha usalama cha **kernel ya Linux kilichoundwa kuchuja wito wa mfumo**. Inapunguza michakato kwa seti ndogo ya wito wa mfumo (`exit()`, `sigreturn()`, `read()`, na `write()` kwa viashiria vya faili vilivyo wazi tayari). Ikiwa mchakato unajaribu kuita chochote kingine, unakatishwa na kernel kwa kutumia SIGKILL au SIGSYS. Mekanism hii haisimamishi rasilimali lakini inatenga mchakato kutoka kwao.
 
 Kuna njia mbili za kuanzisha seccomp: kupitia wito wa mfumo `prctl(2)` na `PR_SET_SECCOMP`, au kwa kernel za Linux 3.17 na zaidi, wito wa mfumo `seccomp(2)`. Njia ya zamani ya kuwezesha seccomp kwa kuandika kwenye `/proc/self/seccomp` imeondolewa kwa ajili ya `prctl()`.
 
-Boresha, **seccomp-bpf**, inaongeza uwezo wa kuchuja wito wa mfumo kwa sera inayoweza kubadilishwa, ikitumia sheria za Berkeley Packet Filter (BPF). Kupanua hii inatumika na programu kama OpenSSH, vsftpd, na vivinjari vya Chrome/Chromium kwenye Chrome OS na Linux kwa kuchuja wito wa mfumo kwa njia rahisi na yenye ufanisi, ikitoa mbadala kwa systrace ambayo sasa haisaidiwi kwa Linux.
+Uboreshaji, **seccomp-bpf**, unaleta uwezo wa kuchuja wito wa mfumo kwa sera inayoweza kubadilishwa, kwa kutumia sheria za Berkeley Packet Filter (BPF). Kupanua hii inatumika na programu kama OpenSSH, vsftpd, na vivinjari vya Chrome/Chromium kwenye Chrome OS na Linux kwa kuchuja wito wa mfumo kwa njia rahisi na yenye ufanisi, ikitoa mbadala kwa systrace ambayo sasa haisaidiwi kwa Linux.
 
 ### **Original/Strict Mode**
 
-Katika hali hii Seccomp **inaruhusu tu wito wa mfumo** `exit()`, `sigreturn()`, `read()` na `write()` kwa waandishi wa faili waliofunguliwa tayari. Ikiwa wito mwingine wowote wa mfumo unafanywa, mchakato unauawa kwa kutumia SIGKILL
+Katika hali hii Seccomp **inaruhusu tu wito wa mfumo** `exit()`, `sigreturn()`, `read()` na `write()` kwa viashiria vya faili vilivyo wazi tayari. Ikiwa wito mwingine wa mfumo unafanywa, mchakato unauawa kwa kutumia SIGKILL
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -117,7 +117,7 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp katika Docker
 
-**Seccomp-bpf** inasaidiwa na **Docker** ili kupunguza **syscalls** kutoka kwa kontena, hivyo kupunguza eneo la hatari. Unaweza kupata **syscalls zilizozuiwa** kwa **kawaida** katika [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) na **profili ya seccomp ya kawaida** inaweza kupatikana hapa [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+**Seccomp-bpf** inasaidiwa na **Docker** ili kupunguza **syscalls** kutoka kwa kontena, hivyo kupunguza eneo la hatari. Unaweza kupata **syscalls zilizozuiwa** kwa **default** katika [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) na **profaili ya seccomp ya default** inaweza kupatikana hapa [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
 Unaweza kuendesha kontena la docker na sera ya **seccomp** tofauti kwa:
 ```bash
 docker run --rm \
@@ -125,8 +125,8 @@ docker run --rm \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-Ikiwa unataka kwa mfano **kuzuia** kontena kutekeleza **syscall** kama `uname` unaweza kupakua profaili ya default kutoka [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) na tu **ondoa mfuatano wa `uname` kutoka kwenye orodha**.\
-Ikiwa unataka kuhakikisha kwamba **binafsi fulani haifanyi kazi ndani ya kontena la docker** unaweza kutumia strace kuorodhesha syscalls ambazo binafsi inatumia na kisha kuzikataa.\
+Ikiwa unataka kwa mfano **kuzuia** kontena kutekeleza **syscall** kama `uname` unaweza kupakua profaili ya default kutoka [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) na tu **ondoa string ya `uname` kutoka kwenye orodha**.\
+Ikiwa unataka kuhakikisha kwamba **binary fulani haifanyi kazi ndani ya kontena la docker** unaweza kutumia strace kuorodhesha syscalls ambazo binary inatumia na kisha kuzikataa.\
 Katika mfano ufuatao **syscalls** za `uname` zinagunduliwa:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname

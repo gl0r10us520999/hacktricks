@@ -37,7 +37,7 @@ Please note that **most of the tricks about privilege escalation affecting Linux
 
 You can find the original [Sudo Hijacking technique inside the Linux Privilege Escalation post](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-However, macOS **inaendelea** na **`PATH`** ya mtumiaji anapotekeleza **`sudo`**. Hii inamaanisha kwamba njia nyingine ya kufanikisha shambulio hili ingekuwa **kudhibiti binaries nyingine** ambazo mwathirika bado atatekeleza anapokuwa **akifanya sudo:**
+However, macOS **inashikilia** **`PATH`** ya mtumiaji anapotekeleza **`sudo`**. Hii ina maana kwamba njia nyingine ya kufanikisha shambulio hili ingekuwa **kuchukua nyaraka nyingine** ambazo mwathirika bado atatekeleza anapokuwa **akifanya sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -140,7 +140,7 @@ Baadhi ya mapendekezo:
 * Huwezi kuondoa Finder kutoka kwenye Dock, hivyo ikiwa unataka kuiongeza kwenye Dock, unaweza kuweka Finder bandia karibu na ile halisi. Kwa hili unahitaji **kuongeza kipengee cha Finder bandia mwanzoni mwa orodha ya Dock**.
 * Chaguo lingine ni kutokuweka kwenye Dock na kuifungua tu, "Finder inahitaji kudhibiti Finder" si ya ajabu sana.
 * Chaguo lingine ili **kuinua hadi root bila kuomba** nenosiri kwa sanduku mbaya, ni kufanya Finder kweli kuomba nenosiri ili kutekeleza kitendo chenye mamlaka:
-* Omba Finder nakala kwa **`/etc/pam.d`** faili mpya ya **`sudo`** (Kichocheo kinachoomba nenosiri kitaonyesha kwamba "Finder inataka nakala sudo")
+* Omba Finder nakala kwenye **`/etc/pam.d`** faili mpya ya **`sudo`** (Kichocheo kinachoomba nenosiri kitaonyesha kwamba "Finder inataka nakala sudo")
 * Omba Finder nakala ya **Plugin ya Uidhinishaji** mpya (Unaweza kudhibiti jina la faili ili kichocheo kinachoomba nenosiri kitaonyesha kwamba "Finder inataka nakala Finder.bundle")
 ```bash
 #!/bin/sh
@@ -214,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Kuinua Privilege ya Root
+## TCC - Kuinua Haki za Msingi
 
-### CVE-2020-9771 - mount\_apfs TCC bypass na kuinua privilege
+### CVE-2020-9771 - mount\_apfs TCC bypass na kuinua haki
 
-**Mtumiaji yeyote** (hata wasio na mamlaka) anaweza kuunda na kuunganisha picha ya mashine ya wakati na **kufikia FAILI ZOTE** za picha hiyo.\
-**Mamlaka pekee** inayohitajika ni kwa programu inayotumika (kama `Terminal`) kuwa na **Upatikanaji wa Disk Kamili** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na admin. 
+**Mtumiaji yeyote** (hata wasio na haki) anaweza kuunda na kuunganisha picha ya mashine ya wakati na **kufikia FAILI ZOTE** za picha hiyo.\
+**Haki pekee** inayohitajika ni kwa programu inayotumika (kama `Terminal`) kuwa na **Upatikanaji wa Diski Kamili** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na admin. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -243,19 +243,19 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Maelezo ya kina yanaweza [**kupatikana katika ripoti ya asili**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Maelezo ya kina yanaweza kupatikana [**katika ripoti ya asili**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
 ## Taarifa Nyeti
 
-Hii inaweza kuwa na manufaa katika kupandisha mamlaka:
+Hii inaweza kuwa na manufaa kuongeza mamlaka:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -263,7 +263,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

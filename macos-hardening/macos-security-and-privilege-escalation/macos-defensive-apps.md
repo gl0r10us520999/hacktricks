@@ -30,14 +30,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Firewalls
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): It monitors every connection made by each process. Depending on the mode (silent allow connections, silent deny connection and alert) it will **kuonyesha tahadhari** kila wakati muunganisho mpya unapoanzishwa. Pia ina GUI nzuri sana kuona taarifa hizi zote.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Firewall ya Objective-See. Hii ni firewall ya msingi ambayo itakutahadharisha kuhusu muunganisho wa mashaka (ina GUI lakini si ya kupendeza kama ile ya Little Snitch).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): It monitors every connection made by each process. Depending on the mode (silent allow connections, silent deny connection and alert) it will **show you an alert** every time a new connection is established. It also has a very nice GUI to see all this information.
+* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See firewall. This is a basic firewall that will alert you for suspicious connections (it has a GUI but it isn't as fancy as the one of Little Snitch).
 
 ## Persistence detection
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Programu ya Objective-See ambayo itatafuta katika maeneo kadhaa ambapo **malware inaweza kuwa inadumu** (ni chombo cha mara moja, si huduma ya ufuatiliaji).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Kama KnockKnock kwa kufuatilia michakato inayozalisha kudumu.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See application that will search in several locations where **malware could be persisting** (it's a one-shot tool, not a monitoring service).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Like KnockKnock by monitoring processes that generate persistence.
 
 ## Keyloggers detection
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Programu ya Objective-See kutafuta **keyloggers** ambazo zinaweka "event taps" za kibodi.
+* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See application to find **keyloggers** that install keyboard "event taps"&#x20;

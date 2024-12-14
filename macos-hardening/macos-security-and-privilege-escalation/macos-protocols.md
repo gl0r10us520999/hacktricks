@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Remote Access Services
 
-Hizi ni huduma za kawaida za macOS za kuziweza kufikia kwa mbali.\
+Hizi ni huduma za kawaida za macOS za kuzipata kwa mbali.\
 Unaweza kuwasha/kuzima huduma hizi katika `System Settings` --> `Sharing`
 
 * **VNC**, inayojulikana kama “Screen Sharing” (tcp:5900)
@@ -45,24 +45,24 @@ Ili kuwezesha ARD kwa kazi mbalimbali za kiutawala kama vile kupandisha hadhi, u
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD inatoa viwango tofauti vya udhibiti, ikiwa ni pamoja na ufuatiliaji, udhibiti wa pamoja, na udhibiti kamili, huku vikao vikidumu hata baada ya mabadiliko ya nenosiri la mtumiaji. Inaruhusu kutuma amri za Unix moja kwa moja, na kuzitekeleza kama root kwa watumiaji wa kiutawala. Upangaji wa kazi na utafutaji wa Remote Spotlight ni vipengele vya kutambulika, vinavyorahisisha utafutaji wa mbali, wenye athari ndogo kwa faili nyeti katika mashine nyingi.
+ARD inatoa viwango mbalimbali vya udhibiti, ikiwa ni pamoja na ufuatiliaji, udhibiti wa pamoja, na udhibiti kamili, huku vikao vikidumu hata baada ya mabadiliko ya nenosiri la mtumiaji. Inaruhusu kutuma amri za Unix moja kwa moja, na kuzitekeleza kama root kwa watumiaji wa kiutawala. Upangaji wa kazi na utafutaji wa Remote Spotlight ni vipengele vya kutambulika, vinavyorahisisha utafutaji wa mbali, wenye athari ndogo kwa faili nyeti katika mashine nyingi.
 
 ## Bonjour Protocol
 
-Bonjour, teknolojia iliyoundwa na Apple, inaruhusu **vifaa kwenye mtandao mmoja kugundua huduma zinazotolewa na kila mmoja**. Inajulikana pia kama Rendezvous, **Zero Configuration**, au Zeroconf, inaruhusu kifaa kujiunga na mtandao wa TCP/IP, **kujichagulia anwani ya IP**, na kutangaza huduma zake kwa vifaa vingine vya mtandao.
+Bonjour, teknolojia iliyoundwa na Apple, inaruhusu **vifaa kwenye mtandao mmoja kugundua huduma zinazotolewa na kila mmoja**. Inajulikana pia kama Rendezvous, **Zero Configuration**, au Zeroconf, inaruhusu kifaa kujiunga na mtandao wa TCP/IP, **kujichagulia anwani ya IP kiotomatiki**, na kutangaza huduma zake kwa vifaa vingine vya mtandao.
 
 Zero Configuration Networking, inayotolewa na Bonjour, inahakikisha kwamba vifaa vinaweza:
-* **Kujipatia anwani ya IP kiotomatiki** hata bila kuwepo kwa seva ya DHCP.
+* **Kupata anwani ya IP kiotomatiki** hata bila kuwepo kwa seva ya DHCP.
 * Kufanya **tafsiri ya jina hadi anwani** bila kuhitaji seva ya DNS.
 * **Gundua huduma** zinazopatikana kwenye mtandao.
 
 Vifaa vinavyotumia Bonjour vitajipatia **anwani ya IP kutoka kwenye anuwai ya 169.254/16** na kuthibitisha upekee wake kwenye mtandao. Macs zinaweka kipengele cha jedwali la routing kwa subnet hii, kinachoweza kuthibitishwa kupitia `netstat -rn | grep 169`.
 
-Kwa DNS, Bonjour inatumia **Multicast DNS (mDNS) protocol**. mDNS inafanya kazi juu ya **port 5353/UDP**, ikitumia **maswali ya kawaida ya DNS** lakini ikilenga **anwani ya multicast 224.0.0.251**. Njia hii inahakikisha kwamba vifaa vyote vinavyosikiliza kwenye mtandao vinaweza kupokea na kujibu maswali, na kurahisisha sasisho la rekodi zao.
+Kwa DNS, Bonjour inatumia **Multicast DNS (mDNS) protocol**. mDNS inafanya kazi juu ya **bandari 5353/UDP**, ikitumia **maswali ya kawaida ya DNS** lakini ikilenga **anwani ya multicast 224.0.0.251**. Njia hii inahakikisha kwamba vifaa vyote vinavyosikiliza kwenye mtandao vinaweza kupokea na kujibu maswali, na hivyo kurahisisha sasisho la rekodi zao.
 
-Punde tu baada ya kujiunga na mtandao, kila kifaa kinajichagulia jina, ambacho kwa kawaida kinaishia na **.local**, ambacho kinaweza kutokana na jina la mwenyeji au kutengenezwa kwa bahati nasibu.
+Pale kifaa kinapojiunga na mtandao, kila kifaa kinajichagulia jina, ambacho kwa kawaida kinaishia na **.local**, ambacho kinaweza kutokana na jina la mwenyeji au kutengenezwa kwa bahati nasibu.
 
-Gundua huduma ndani ya mtandao inarahisishwa na **DNS Service Discovery (DNS-SD)**. Kwa kutumia muundo wa rekodi za DNS SRV, DNS-SD inatumia **rekodi za DNS PTR** kuwezesha orodha ya huduma nyingi. Mteja anayepata huduma maalum ataomba rekodi ya PTR kwa `<Service>.<Domain>`, akipokea orodha ya rekodi za PTR zilizoundwa kama `<Instance>.<Service>.<Domain>` ikiwa huduma inapatikana kutoka kwa mwenyeji wengi.
+Gundua huduma ndani ya mtandao inarahisishwa na **DNS Service Discovery (DNS-SD)**. Kwa kutumia muundo wa rekodi za DNS SRV, DNS-SD inatumia **rekodi za DNS PTR** kuwezesha orodha ya huduma nyingi. Mteja anayepata huduma maalum atahitaji rekodi ya PTR kwa `<Service>.<Domain>`, akipokea orodha ya rekodi za PTR zilizoundwa kama `<Instance>.<Service>.<Domain>` ikiwa huduma inapatikana kutoka kwa mwenyeji wengi.
 
 Zana ya `dns-sd` inaweza kutumika kwa **kugundua na kutangaza huduma za mtandao**. Hapa kuna mifano ya matumizi yake:
 
@@ -86,7 +86,7 @@ Ili kisha kutafuta huduma za HTTP kwenye mtandao:
 ```bash
 dns-sd -B _http._tcp
 ```
-When a service starts, it announces its availability to all devices on the subnet by multicasting its presence. Devices interested in these services don't need to send requests but simply listen for these announcements.
+Wakati huduma inaanza, inatangaza upatikanaji wake kwa vifaa vyote kwenye subnet kwa kutangaza uwepo wake. Vifaa vinavyovutiwa na huduma hizi havihitaji kutuma maombi bali vinapaswa kusikiliza matangazo haya.
 
 Kwa kiolesura kinachofaa zaidi kwa mtumiaji, programu ya **Discovery - DNS-SD Browser** inayopatikana kwenye Duka la Programu la Apple inaweza kuonyesha huduma zinazotolewa kwenye mtandao wako wa ndani.
 
@@ -116,23 +116,23 @@ Ikiwa kuna wasiwasi kuhusu usalama au sababu nyingine za kuzima Bonjour, inaweza
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-## Marejeo
+## References
 
-* [**Kitabu cha Mac Hacker**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

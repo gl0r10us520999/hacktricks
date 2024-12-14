@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Usimamizi wa mawasiliano kati ya debugger na debuggee katika .NET unashughulikiwa na [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Kipengele hiki kinaanzisha bomba mbili zenye majina kwa kila mchakato wa .NET kama inavyoonekana katika [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), ambazo zinaanzishwa kupitia [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Mabomba haya yanaishia na **`-in`** na **`-out`**.
 
-Kwa kutembelea **`$TMPDIR`** ya mtumiaji, mtu anaweza kupata FIFOs za ufuatiliaji zinazopatikana kwa ajili ya ufuatiliaji wa programu za .Net.
+Kwa kutembelea **`$TMPDIR`** ya mtumiaji, mtu anaweza kupata FIFOs za ufuatiliaji zinazopatikana kwa ajili ya programu za .Net.
 
 [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) inawajibika kwa usimamizi wa mawasiliano kutoka kwa debugger. Ili kuanzisha kikao kipya cha ufuatiliaji, debugger lazima itume ujumbe kupitia bomba la `out` linaloanza na muundo wa `MessageHeader`, ulioelezwa katika msimbo wa chanzo wa .NET:
 ```c
@@ -103,11 +103,11 @@ Ili kutekeleza msimbo, mtu anahitaji kubaini eneo la kumbukumbu lenye ruhusa za 
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-Kuweka mahali pa kufuta kiashiria cha kazi ni muhimu, na katika .NET Core, hii inaweza kufanywa kwa kulenga **Dynamic Function Table (DFT)**. Meza hii, iliyoelezewa katika [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), inatumika na mfumo wa uendeshaji kwa kazi za msaada wa JIT.
+Kuweka mahali pa kufuta kiashiria cha kazi ni muhimu, na katika .NET Core, hii inaweza kufanywa kwa kulenga **Dynamic Function Table (DFT)**. Meza hii, iliyoelezwa katika [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), inatumika na mfumo wa uendeshaji kwa kazi za msaada wa JIT.
 
 Kwa mifumo ya x64, uwindaji wa saini unaweza kutumika kupata rejeleo kwa alama `_hlpDynamicFuncTable` katika `libcorclr.dll`.
 
-Kazi ya ku-debug `MT_GetDCB` inatoa taarifa muhimu, ikiwa ni pamoja na anwani ya kazi ya msaada, `m_helperRemoteStartAddr`, ikionyesha mahali ambapo `libcorclr.dll` iko katika kumbukumbu ya mchakato. Anwani hii kisha inatumika kuanza kutafuta DFT na kufuta kiashiria cha kazi kwa anwani ya shellcode.
+Kazi ya ku-debug `MT_GetDCB` inatoa taarifa muhimu, ikiwa ni pamoja na anwani ya kazi ya msaada, `m_helperRemoteStartAddr`, ikionyesha mahali pa `libcorclr.dll` katika kumbukumbu ya mchakato. Anwani hii kisha inatumika kuanza kutafuta DFT na kufuta kiashiria cha kazi kwa anwani ya shellcode.
 
 Msimu kamili wa POC wa sindano katika PowerShell unapatikana [hapa](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 

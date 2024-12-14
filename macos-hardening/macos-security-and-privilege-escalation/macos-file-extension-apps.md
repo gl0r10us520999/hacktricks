@@ -1,25 +1,25 @@
-# Wachakataji wa Programu za macOS za Uzinduzi wa Faili na Mfumo wa URL
+# macOS File Extension & URL scheme app handlers
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Hifadhidata ya Huduma za Uzinduzi
+## LaunchServices Database
 
-Hii ni hifadhidata ya programu zote zilizosakinishwa kwenye macOS ambayo inaweza kuulizwa ili kupata habari kuhusu kila programu iliyosakinishwa kama vile mifumo ya URL inayounga mkono na aina za MIME.
+Hii ni database ya programu zote zilizowekwa kwenye macOS ambazo zinaweza kuulizwa ili kupata taarifa kuhusu kila programu iliyowekwa kama vile mipango ya URL inayounga mkono na aina za MIME.
 
-Inawezekana kudondosha hifadhidata hii na:
+Inawezekana kutoa data hii kwa kutumia: 
 
 {% code overflow="wrap" %}
 ```
@@ -27,15 +27,15 @@ Inawezekana kudondosha hifadhidata hii na:
 ```
 {% endcode %}
 
-Au kutumia zana [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+Au kutumia chombo [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-**`/usr/libexec/lsd`** ndio ubongo wa database. Inatoa **huduma kadhaa za XPC** kama `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, na zingine. Lakini pia **inahitaji baadhi ya entitlements** kwa maombi ili kuweza kutumia XPC functionalities zilizofunuliwa, kama `.launchservices.changedefaulthandler` au `.launchservices.changeurlschemehandler` kubadilisha programu za default kwa mime types au url schemes na zingine.
+**`/usr/libexec/lsd`** ni ubongo wa hifadhidata. Inatoa **huduma kadhaa za XPC** kama vile `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, na zaidi. Lakini pia **inahitaji baadhi ya haki** kwa ajili ya programu ili kuweza kutumia kazi za XPC zilizofichuliwa, kama vile `.launchservices.changedefaulthandler` au `.launchservices.changeurlschemehandler` kubadilisha programu za kawaida kwa aina za mime au mipango ya url na mengineyo.
 
-**`/System/Library/CoreServices/launchservicesd`** inadai huduma `com.apple.coreservices.launchservicesd` na inaweza kuulizwa kupata habari kuhusu maombi yanayoendeshwa. Inaweza kuulizwa kwa zana ya mfumo /**`usr/bin/lsappinfo`** au na [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** inadai huduma `com.apple.coreservices.launchservicesd` na inaweza kuulizwa ili kupata taarifa kuhusu programu zinazotembea. Inaweza kuulizwa kwa chombo cha mfumo /**`usr/bin/lsappinfo`** au kwa [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-## Programu za Kukabiliana na Upanuzi wa Faili & URL scheme
+## Wakala wa Programu za Kiambatisho cha Faili & Mpango wa URL
 
-Mstari ufuatao unaweza kuwa na manufaa kwa kupata programu ambazo zinaweza kufungua faili kulingana na upanuzi:
+Mistari ifuatayo inaweza kuwa na manufaa kutafuta programu ambazo zinaweza kufungua faili kulingana na kiambatisho: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -83,16 +83,16 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>svg</string>
 ```
 {% hint style="success" %}
-Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

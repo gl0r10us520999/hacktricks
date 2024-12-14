@@ -27,16 +27,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
 ## Basic Information
 
-Namespace ya UTS (UNIX Time-Sharing System) ni kipengele cha kernel ya Linux kinachotoa **kujitoa kwa vitambulisho viwili vya mfumo**: **hostname** na **NIS** (Network Information Service) jina la eneo. Kujitoa huku kunaruhusu kila namespace ya UTS kuwa na **hostname yake huru na jina la eneo la NIS**, ambayo ni muhimu hasa katika hali za uundaji wa kontena ambapo kila kontena linapaswa kuonekana kama mfumo tofauti wenye hostname yake.
+Namespace ya UTS (UNIX Time-Sharing System) ni kipengele cha kernel ya Linux kinachotoa **kujitegemea kwa vitambulisho viwili vya mfumo**: **hostname** na **NIS** (Network Information Service) jina la eneo. Kujitegemea hiki kunaruhusu kila namespace ya UTS kuwa na **hostname na jina la eneo la NIS** huru, ambayo ni muhimu hasa katika hali za uundaji wa kontena ambapo kila kontena linapaswa kuonekana kama mfumo tofauti wenye hostname yake mwenyewe.
 
 ### How it works:
 
 1. Wakati namespace mpya ya UTS inaundwa, inaanza na **nakala ya hostname na jina la eneo la NIS kutoka kwa namespace yake ya mzazi**. Hii inamaanisha kwamba, wakati wa uundaji, namespace mpya **inashiriki vitambulisho sawa na mzazi wake**. Hata hivyo, mabadiliko yoyote yanayofuata kwa hostname au jina la eneo la NIS ndani ya namespace hayataathiri namespaces nyingine.
-2. Mchakato ndani ya namespace ya UTS **unaweza kubadilisha hostname na jina la eneo la NIS** kwa kutumia `sethostname()` na `setdomainname()` system calls, mtawalia. Mabadiliko haya ni ya ndani kwa namespace na hayaathiri namespaces nyingine au mfumo wa mwenyeji.
-3. Mchakato unaweza kuhamia kati ya namespaces kwa kutumia `setns()` system call au kuunda namespaces mpya kwa kutumia `unshare()` au `clone()` system calls na bendera ya `CLONE_NEWUTS`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia hostname na jina la eneo la NIS linalohusishwa na namespace hiyo.
+2. Mchakato ndani ya namespace ya UTS **unaweza kubadilisha hostname na jina la eneo la NIS** kwa kutumia wito wa mfumo `sethostname()` na `setdomainname()`, mtawalia. Mabadiliko haya ni ya ndani kwa namespace na hayaathiri namespaces nyingine au mfumo wa mwenyeji.
+3. Mchakato unaweza kuhamia kati ya namespaces kwa kutumia wito wa mfumo `setns()` au kuunda namespaces mpya kwa kutumia wito wa mfumo `unshare()` au `clone()` na bendera ya `CLONE_NEWUTS`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia hostname na jina la eneo la NIS linalohusishwa na namespace hiyo.
 
 ## Lab:
 
@@ -50,23 +51,23 @@ Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-pro
 
 <details>
 
-<summary>Kosa: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
+<summary>Hitilafu: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, hitilafu inakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu wanaingia.
+- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu wanajumuishwa.
 - Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika namespace ya awali ya PID.
-- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kuteua PID katika namespace hiyo.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima ugawaji wa PID katika namespace hiyo.
 
 2. **Matokeo**:
-- Kuondoka kwa PID 1 katika namespace mpya kunasababisha usafishaji wa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika namespace mpya kunasababisha kusafishwa kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa hitilafu ya "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
 - Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda namespace mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake sasa wanawekwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu kuteua PID kwa kawaida.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake wanajumuishwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID wa kawaida.
 
-Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, namespace mpya ya PID inatunzwa kwa usahihi, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la kugawa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, namespace mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na hitilafu ya ugawaji wa kumbukumbu.
 
 </details>
 

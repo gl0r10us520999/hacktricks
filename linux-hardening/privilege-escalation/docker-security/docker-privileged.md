@@ -15,16 +15,16 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Nini Kinachohusisha
+## What Affects
 
-Unapokimbia kontena kama la kibali, hizi ndizo ulinzi unazozima:
+Wakati unapoendesha kontena kama la kibali, hizi ndizo ulinzi unazozima:
 
 ### Mount /dev
 
-Katika kontena la kibali, **vifaa vyote vinaweza kufikiwa katika `/dev/`**. Hivyo unaweza **kutoroka** kwa **kuunganisha** diski ya mwenyeji.
+Katika kontena la kibali, **vifaa vyote vinaweza kufikiwa katika `/dev/`**. Hivyo unaweza **kutoroka** kwa **kuunganisha** diski ya mwenyeji. 
 
 {% tabs %}
-{% tab title="Ndani ya kontena la kawaida" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -33,7 +33,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Ndani ya Kontena la Kipekee" %}
+{% tab title="Ndani ya Kontena la Privileged" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -62,7 +62,7 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 ```
 {% endtab %}
 
-{% tab title="Ndani ya Kontena la Kipekee" %}
+{% tab title="Ndani ya Kontena la Privileged" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -99,7 +99,7 @@ mount  | grep /proc.*tmpfs
 
 ### Uwezo wa Linux
 
-Mifumo ya kontena inazindua kontena na **idadi ndogo ya uwezo** ili kudhibiti kile kinachotokea ndani ya kontena kwa kawaida. Wale **wenye mamlaka** wana **uwezo wote** unaopatikana. Ili kujifunza kuhusu uwezo soma:
+Mifumo ya kontena inazindua kontena na **idadi ndogo ya uwezo** ili kudhibiti kinachotokea ndani ya kontena kwa kawaida. Wale **wa kipaumbele** wana **yote** **uwezo** zinazopatikana. Ili kujifunza kuhusu uwezo soma:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -117,7 +117,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Ndani ya Kontena la Kipekee" %}
+{% tab title="Ndani ya Kontena la Privileged" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -149,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Ndani ya Kontena la Kipekee" %}
+{% tab title="Ndani ya Kontena la Privileged" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -166,7 +166,7 @@ Pia, kumbuka kwamba wakati Docker (au CRIs zingine) zinapotumika katika **Kubern
 
 ### AppArmor
 
-**AppArmor** ni uboreshaji wa kernel ili kufunga **containers** kwenye seti **ndogo** ya **rasilimali** kwa kutumia **profiles za kila programu**. Unapokimbia na bendera `--privileged`, ulinzi huu unazimwa.
+**AppArmor** ni uboreshaji wa kernel ili kufunga **containers** kwenye seti **ndogo** ya **rasilimali** kwa kutumia **profiles za kila programu**. Unapokimbia na bendera `--privileged`, ulinzi huu umezimwa.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -218,7 +218,7 @@ PID   USER     TIME  COMMAND
 
 ### User namespace
 
-**Kwa default, injini za kontena hazitumi user namespaces, isipokuwa kwa kontena zisizo na mizizi**, ambazo zinahitaji user namespaces kwa ajili ya kuunganisha mfumo wa faili na kutumia UIDs nyingi. User namespaces, muhimu kwa kontena zisizo na mizizi, haziwezi kuzuiliwa na zinaongeza usalama kwa kiasi kikubwa kwa kupunguza mamlaka.
+**Kwa kawaida, injini za kontena hazitumiwi majimbo ya mtumiaji, isipokuwa kwa kontena zisizo na mizizi**, ambazo zinahitaji majimbo haya kwa ajili ya usakinishaji wa mfumo wa faili na kutumia UID nyingi. Majimbo ya mtumiaji, muhimu kwa kontena zisizo na mizizi, hayawezi kuzuiliwa na yanaboresha usalama kwa kiasi kikubwa kwa kuzuia mamlaka.
 
 ## References
 

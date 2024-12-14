@@ -31,19 +31,19 @@ Hatimaye, sandbox itazinduliwa kwa wito wa **`__sandbox_ms`** ambayo itaita **`_
 
 ### Bypassing quarantine attribute
 
-**Faili zinazoundwa na michakato ya sandboxed** zinaongezwa **sifa ya karantini** ili kuzuia kutoroka kwa sandbox. Hata hivyo, ikiwa utaweza **kuunda folda ya `.app` bila sifa ya karantini** ndani ya programu ya sandboxed, unaweza kufanya bundle ya programu ikielekeze kwenye **`/bin/bash`** na kuongeza baadhi ya mabadiliko ya mazingira katika **plist** ili kutumia **`open`** kuanzisha programu mpya bila sandbox.
+**Faili zinazoundwa na michakato ya sandboxed** zinaongezwa **sifa ya karantini** ili kuzuia kutoroka kwa sandbox. Hata hivyo, ikiwa utaweza **kuunda folda ya `.app` bila sifa ya karantini** ndani ya programu ya sandboxed, unaweza kufanya binary ya kifurushi cha programu iangalie **`/bin/bash`** na kuongeza baadhi ya mabadiliko ya mazingira katika **plist** ili kutumia **`open`** kuanzisha programu mpya bila sandbox.
 
 Hii ndiyo iliyofanywa katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Hivyo, kwa sasa, ikiwa una uwezo wa kuunda folda yenye jina linalomalizika na **`.app`** bila sifa ya karantini, unaweza kutoroka sandbox kwa sababu macOS inachunguza tu **sifa ya karantini** katika **folda ya `.app`** na katika **executable kuu** (na tutaimarisha executable kuu kwa **`/bin/bash`**).
+Hivyo, kwa sasa, ikiwa unaweza tu kuunda folda yenye jina linalomalizika na **`.app`** bila sifa ya karantini, unaweza kutoroka sandbox kwa sababu macOS inachunguza tu **sifa ya karantini** katika **folda ya `.app`** na katika **kifurushi kikuu** (na tutaanika kifurushi kikuu kwa **`/bin/bash`**).
 
-Kumbuka kwamba ikiwa bundle ya .app tayari imeidhinishwa kuendesha (ina sifa ya karantini na bendera ya kuidhinishwa kuendesha), unaweza pia kuitumia... isipokuwa sasa huwezi kuandika ndani ya **`.app`** bundles isipokuwa una baadhi ya ruhusa za TCC zenye mamlaka (ambazo huna ndani ya sandbox ya juu).
+Kumbuka kwamba ikiwa kifurushi cha .app tayari kimeidhinishwa kuendesha (kimekuwa na xttr ya karantini yenye bendera ya kuidhinishwa kuendesha), unaweza pia kukitumia... isipokuwa sasa huwezi kuandika ndani ya **kifurushi cha `.app`** isipokuwa una baadhi ya ruhusa za TCC zenye mamlaka (ambazo huna ndani ya sandbox ya juu).
 {% endhint %}
 
 ### Abusing Open functionality
 
-Katika [**mfano wa mwisho wa kutoroka sandbox ya Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) inaweza kuonekana jinsi **`open`** cli functionality inaweza kutumiwa vibaya ili kutoroka sandbox.
+Katika [**mfano wa mwisho wa kutoroka sandbox ya Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) inaweza kuonekana jinsi **`open`** cli inaweza kutumika vibaya ili kutoroka sandbox.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -51,8 +51,8 @@ Katika [**mfano wa mwisho wa kutoroka sandbox ya Word**](macos-office-sandbox-by
 
 ### Launch Agents/Daemons
 
-Hata kama programu ime **kusudiwa kuwa sandboxed** (`com.apple.security.app-sandbox`), inawezekana kufanya kutoroka sandbox ikiwa inatekelezwa kutoka kwa LaunchAgent (`~/Library/LaunchAgents`) kwa mfano.\
-Kama ilivyoelezwa katika [**hiki chapisho**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ikiwa unataka kupata kudumu na programu ambayo inasandboxed unaweza kufanya iwetekelezwe kiotomatiki kama LaunchAgent na labda kuingiza msimbo mbaya kupitia mabadiliko ya mazingira ya DyLib.
+Hata kama programu ime **kusudiwa kuwa sandboxed** (`com.apple.security.app-sandbox`), inawezekana kupita sandbox ikiwa inatekelezwa kutoka kwa LaunchAgent (`~/Library/LaunchAgents`) kwa mfano.\
+Kama ilivyoelezwa katika [**hiki chapisho**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ikiwa unataka kupata kudumu na programu ambayo ime sandboxed unaweza kuifanya ianzishwe kiotomatiki kama LaunchAgent na labda kuingiza msimbo mbaya kupitia mabadiliko ya mazingira ya DyLib.
 
 ### Abusing Auto Start Locations
 
@@ -68,7 +68,7 @@ Angalia ukurasa huu kuhusu **Auto Start locations**:
 
 ### Abusing other processes
 
-Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inayofanya kazi katika sandboxes zisizo na vizuizi (au hakuna), utaweza kutoroka kwenye sandboxes zao:
+Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inayofanya kazi katika sandboxes zenye vizuizi vidogo (au hakuna), utaweza kutoroka kwenye sandboxes zao:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -76,10 +76,10 @@ Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inay
 
 ### Static Compiling & Dynamically linking
 
-[**Utafiti huu**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) uligundua njia 2 za kutoroka Sandbox. Kwa sababu sandbox inatumika kutoka userland wakati maktaba ya **libSystem** inapopakiwa. Ikiwa binary inaweza kuepuka kupakia, haitakuwa na sandbox kamwe:
+[**Utafiti huu**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) uligundua njia 2 za kutoroka Sandbox. Kwa sababu sandbox inatumika kutoka userland wakati maktaba ya **libSystem** inapopakuliwa. Ikiwa binary inaweza kuepuka kupakua, haitakuwa na sandbox kamwe:
 
-* Ikiwa binary ilikuwa **imeandikwa kwa njia ya static kabisa**, inaweza kuepuka kupakia maktaba hiyo.
-* Ikiwa **binary haitahitaji kupakia maktaba yoyote** (kwa sababu linker pia yuko katika libSystem), haitahitaji kupakia libSystem.
+* Ikiwa binary ilikuwa **imeandikwa kwa njia ya statically kabisa**, inaweza kuepuka kupakua maktaba hiyo.
+* Ikiwa **binary haitahitaji kupakua maktaba yoyote** (kwa sababu linker pia yuko katika libSystem), haitahitaji kupakua libSystem.
 
 ### Shellcodes
 
@@ -334,7 +334,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

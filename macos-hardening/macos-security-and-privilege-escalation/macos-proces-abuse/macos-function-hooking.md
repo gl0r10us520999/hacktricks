@@ -1,27 +1,27 @@
-# Kufunga Kazi ya macOS
+# macOS Function Hooking
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Aunga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Kuingilia Kazi
+## Function Interposing
 
-Tengeneza **dylib** na sehemu ya **`__interpose` (`__DATA___interpose`)** (au sehemu iliyofungwa na **`S_INTERPOSING`**) inayojumuisha jozi za **pointa za kazi** zinazorejelea **kazi za awali** na **kazi mbadala**.
+Unda **dylib** yenye sehemu ya **`__interpose` (`__DATA___interpose`)** (au sehemu iliyo na alama ya **`S_INTERPOSING`**) inayojumuisha tuples za **function pointers** zinazorejelea **asili** na **mbadala** za kazi.
 
-Kisha, **ingiza** dylib na **`DYLD_INSERT_LIBRARIES`** (kuingilia kazi kunahitaji kutokea kabla ya programu kuu kuanza). Kwa dhahiri [**vizuizi** vilivyowekwa kwa matumizi ya **`DYLD_INSERT_LIBRARIES`** vinatumika hapa pia](macos-library-injection/#check-restrictions).
+Kisha, **ingiza** dylib kwa kutumia **`DYLD_INSERT_LIBRARIES`** (kuingilia kunahitaji kutokea kabla ya programu kuu kupakia). Kwa wazi [**vizuizi** vilivyowekwa kwa matumizi ya **`DYLD_INSERT_LIBRARIES`** vinatumika hapa pia](macos-library-injection/#check-restrictions).
 
-### Kuingilia printf
+### Interpose printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -95,16 +95,16 @@ DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
 {% hint style="warning" %}
-Chaguo la mazingira la **`DYLD_PRINT_INTERPOSTING`** linaweza kutumika kwa kusudi la kudekta interposing na litachapisha mchakato wa interpose.
+The **`DYLD_PRINT_INTERPOSTING`** env variable can be used to debug interposing and will print the interpose process.
 {% endhint %}
 
-Pia elewa kwamba **interposing hutokea kati ya mchakato na maktaba zilizopakiwa**, haitafanyi kazi na hifadhi ya maktaba iliyoshirikiwa.
+Pia kumbuka kwamba **interposing inatokea kati ya mchakato na maktaba zilizoloadi**, haifanyi kazi na cache ya maktaba ya pamoja.
 
-### Interposing ya Kisasa
+### Dynamic Interposing
 
-Sasa pia ni iwezekanavyo kuingiza kazi kwa njia ya kisasa kwa kutumia kazi ya **`dyld_dynamic_interpose`**. Hii inaruhusu kuingiza kazi kwa njia ya programu wakati wa muda wa uendeshaji badala ya kufanya hivyo tu kutoka mwanzoni.
+Sasa pia inawezekana kuingilia kazi kwa njia ya dynamic kwa kutumia kazi **`dyld_dynamic_interpose`**. Hii inaruhusu kuingilia kazi kwa programu wakati wa utekelezaji badala ya kufanya hivyo tu kutoka mwanzoni.
 
-Inahitajika tu kuonyesha **tuples** ya **kazi ya kuchukua nafasi na kazi mbadala**.
+Inahitajika tu kuashiria **tuples** za **kazi ya kubadilisha na kazi ya kubadilisha**.
 ```c
 struct dyld_interpose_tuple {
 const void* replacement;
@@ -113,23 +113,23 @@ const void* replacee;
 extern void dyld_dynamic_interpose(const struct mach_header* mh,
 const struct dyld_interpose_tuple array[], size_t count);
 ```
-## Kufunga Njia
+## Method Swizzling
 
-Katika ObjectiveC hivi ndivyo njia inavyoitwa: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+Katika ObjectiveC, hii ndiyo jinsi njia inavyoitwa: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-Inahitajika **kitu**, **njia** na **vipimo**. Na wakati njia inaitwa **msg inatumwa** kutumia kazi **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+Inahitajika **kitu**, **njia** na **params**. Na wakati njia inaitwa, **msg inatumwa** kwa kutumia kazi **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
 Kitu ni **`someObject`**, njia ni **`@selector(method1p1:p2:)`** na hoja ni **value1**, **value2**.
 
-Kufuatia miundo ya vitu, ni rahisi kufikia **orodha ya njia** ambapo **majina** na **pointi** kwa msimbo wa njia zinapatikana.
+Kufuata muundo wa vitu, inawezekana kufikia **array ya njia** ambapo **majina** na **pointer** za msimbo wa njia ziko **iliyoko**.
 
 {% hint style="danger" %}
-Tafadhali kumbuka kwamba kwa sababu njia na madarasa vinapata kulingana na majina yao, habari hii imehifadhiwa kwenye binary, hivyo ni rahisi kuipata kwa kutumia `otool -ov </path/bin>` au [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Kumbuka kwamba kwa sababu njia na madarasa yanaccessiwa kulingana na majina yao, taarifa hii inahifadhiwa katika binary, hivyo inawezekana kuipata kwa `otool -ov </path/bin>` au [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
-### Kufikia njia za asili
+### Accessing the raw methods
 
-Inawezekana kupata habari za njia kama jina, idadi ya vipimo au anwani kama ilivyo katika mfano ufuatao:
+Inawezekana kufikia taarifa za njia kama jina, idadi ya params au anwani kama katika mfano ufuatao:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -197,12 +197,14 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### Kuchanganya Njia na method\_exchangeImplementations
+{% endcode %}
 
-Kazi ya **`method_exchangeImplementations`** inaruhusu **kubadilisha** **anwani** ya **utekelezaji** wa **kazi moja kwa nyingine**.
+### Method Swizzling with method\_exchangeImplementations
+
+Kazi **`method_exchangeImplementations`** inaruhusu **kubadilisha** **anwani** ya **utekelezaji** wa **kazi moja kwa nyingine**.
 
 {% hint style="danger" %}
-Hivyo wakati kazi inaitwa ni **kazi nyingine inayotekelezwa**.
+Hivyo wakati kazi inaitwa kile kinachokuwa **kinatekelezwa ni nyingine**.
 {% endhint %}
 
 {% code overflow="wrap" %}
@@ -252,16 +254,16 @@ return 0;
 {% endcode %}
 
 {% hint style="warning" %}
-Katika kesi hii ikiwa **mimiliki wa utekelezaji wa njia halali** inathibitisha **jina la njia** inaweza **kugundua** uingizaji huu na kuzuia usifanye kazi.
+Katika kesi hii, ikiwa **kanuni ya utekelezaji ya njia halali** **inashtaki** **jina la njia**, inaweza **gundua** swizzling hii na kuzuia isifanye kazi.
 
-Mbinu ifuatayo haina kizuizi hiki.
+Teknolojia ifuatayo haina kizuizi hiki.
 {% endhint %}
 
-### Kuchanganya Njia na method\_setImplementation
+### Method Swizzling with method\_setImplementation
 
-Muundo uliopita ni wa ajabu kwa sababu unabadilisha utekelezaji wa njia 2 moja kutoka kwa nyingine. Kwa kutumia kazi **`method_setImplementation`** unaweza **kubadilisha** utekelezaji wa **njia moja kwa nyingine**.
+Muundo wa awali ni wa ajabu kwa sababu unabadilisha utekelezaji wa njia 2 kutoka kwa nyingine. Kwa kutumia kazi **`method_setImplementation`** unaweza **kubadilisha** **utekelezaji** wa **njia kwa nyingine**.
 
-Kumbuka **kuhifadhi anwani ya utekelezaji wa ile ya awali** ikiwa utaita kutoka kwa utekelezaji mpya kabla ya kuibadilisha kwa sababu baadaye itakuwa ngumu sana kutambua anwani hiyo. 
+Kumbuka tu **kuhifadhi anwani ya utekelezaji wa ile ya asili** ikiwa unakusudia kuitwa kutoka kwa utekelezaji mpya kabla ya kuandika tena kwa sababu baadaye itakuwa ngumu zaidi kupata anwani hiyo.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -317,17 +319,17 @@ return 0;
 ```
 {% endcode %}
 
-## Methodolojia ya Mashambulizi ya Hooking
+## Hooking Attack Methodology
 
-Katika ukurasa huu njia tofauti za kufunga kazi zilijadiliwa. Hata hivyo, zilihusisha **kuendesha nambari ndani ya mchakato ili kushambulia**.
+Katika ukurasa huu njia tofauti za kuhooki kazi zilijadiliwa. Hata hivyo, zilihusisha **kukimbia msimbo ndani ya mchakato ili kushambulia**.
 
-Ili kufanya hivyo, njia rahisi zaidi ya kutumia ni kuingiza [Dyld kupitia mazingira ya mazingira au utekaji nyara](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Hata hivyo, nadhani hii inaweza pia kufanywa kupitia [Uingizaji wa mchakato wa Dylib](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Ili kufanya hivyo, mbinu rahisi zaidi ya kutumia ni kuingiza [Dyld kupitia mabadiliko ya mazingira au hijacking](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Hata hivyo, nadhani hii inaweza pia kufanywa kupitia [Dylib process injection](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-Hata hivyo, chaguo zote mbili zinakabiliwa na **vitu vya kikomo** kwa **binari/mchakato usiolindwa**. Angalia kila mbinu kujifunza zaidi kuhusu vikwazo.
+Hata hivyo, chaguo zote mbili ni **kikomo** kwa **binaries/mchakato zisizo na ulinzi**. Angalia kila mbinu ili kujifunza zaidi kuhusu vikwazo.
 
-Hata hivyo, shambulizi la kufunga kazi ni maalum sana, muhusika atafanya hivi ili **kuiba habari nyeti kutoka ndani ya mchakato** (ikiwa sivyo ungefanya shambulizi la kuingiza mchakato). Na habari nyeti hii inaweza kuwa katika Programu zilizopakuliwa na mtumiaji kama vile MacPass.
+Hata hivyo, shambulio la kuhooki kazi ni maalum sana, mshambuliaji atafanya hivi ili **kuchukua taarifa nyeti kutoka ndani ya mchakato** (ikiwa sivyo ungehitaji tu kufanya shambulio la kuingiza mchakato). Na taarifa hii nyeti inaweza kuwa katika programu zilizopakuliwa na mtumiaji kama MacPass.
 
-Kwa hivyo, mwelekeo wa muhusika ungekuwa au kupata mwanya au kuondoa saini ya programu, kuingiza **`DYLD_INSERT_LIBRARIES`** kwa njia ya mazingira kupitia Info.plist ya programu kwa kuongeza kitu kama:
+Hivyo, njia ya mshambuliaji itakuwa ama kupata udhaifu au kuondoa saini ya programu, kuingiza **`DYLD_INSERT_LIBRARIES`** mabadiliko ya mazingira kupitia Info.plist ya programu kwa kuongeza kitu kama:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -335,7 +337,7 @@ Kwa hivyo, mwelekeo wa muhusika ungekuwa au kupata mwanya au kuondoa saini ya pr
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-na kisha **sajili tena** programu:
+na kisha **re-register** programu hiyo:
 
 {% code overflow="wrap" %}
 ```bash
@@ -343,13 +345,15 @@ na kisha **sajili tena** programu:
 ```
 {% endcode %}
 
-Ongeza katika maktaba hiyo nambari ya kufunga ili kuchukua habari: Nywila, ujumbe...
+Ongeza katika maktaba hiyo msimbo wa hooking ili kuhamasisha taarifa: Nywila, ujumbe...
 
 {% hint style="danger" %}
-Tafadhali elewa kwamba katika toleo jipya la macOS ikiwa utaondoa **sahihi** ya faili ya maombi na ilikuwa imeendeshwa hapo awali, macOS **haitaendesha tena maombi**.
+Kumbuka kwamba katika matoleo mapya ya macOS ikiwa **unakata saini** ya binary ya programu na ilitekelezwa hapo awali, macOS **haitatekeleza programu** tena.
 {% endhint %}
 
-#### Mfano wa Maktaba
+#### Mfano wa maktaba
+
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -392,16 +396,16 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

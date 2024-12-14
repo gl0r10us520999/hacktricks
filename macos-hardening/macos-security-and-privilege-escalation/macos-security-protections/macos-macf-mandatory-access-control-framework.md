@@ -36,7 +36,7 @@ Apple ndiye pekee anayeweza kutumia MAC Framework KPI.
 
 ### Labels
 
-MACF inatumia **labels** ambazo kisha sera zinakagua kama zinapaswa kutoa ufikiaji fulani au la. Kanuni ya kutangaza muundo wa labels inaweza kupatikana [hapa](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), ambayo kisha inatumika ndani ya **`struct ucred`** [**hapa**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) katika sehemu ya **`cr_label`**. Label ina bendera na nambari ya **slots** ambazo zinaweza kutumika na **sera za MACF kutoa viashiria**. Kwa mfano, Sanbox itakuwa na kiashiria cha wasifu wa kontena.
+MACF inatumia **labels** ambazo kisha sera zinakagua ikiwa zinapaswa kutoa ufikiaji fulani au la. Kanuni ya kutangaza muundo wa labels inaweza kupatikana [hapa](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/_label.h), ambayo kisha inatumika ndani ya **`struct ucred`** [**hapa**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/ucred.h#L86) katika sehemu ya **`cr_label`**. Label ina bendera na nambari ya **slots** ambazo zinaweza kutumika na **sera za MACF kutoa viashiria**. Kwa mfano, Sanbox itakuwa na kiashiria kwa wasifu wa kontena.
 
 ## MACF Policies
 
@@ -83,7 +83,7 @@ Ni rahisi kubaini nyongeza za kernel zinazokamilisha sera hizi kwa kuangalia sim
 
 Kumbuka kwamba sera za MACF zinaweza kuandikishwa na kufutwa pia **kitaalamu**.
 
-Moja ya maeneo makuu ya `mac_policy_conf` ni **`mpc_ops`**. Huu ni uwanja unaoeleza ni shughuli zipi sera inavutiwa nazo. Kumbuka kwamba kuna mamia yao, hivyo inawezekana kuweka sifuri zote kisha kuchagua zile tu ambazo sera inavutiwa nazo. Kutoka [hapa](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
+Moja ya maeneo makuu ya `mac_policy_conf` ni **`mpc_ops`**. Sehemu hii inaelezea ni shughuli zipi sera inazovutiwa nazo. Kumbuka kwamba kuna mamia yao, hivyo inawezekana kuweka sifuri kwa zote kisha kuchagua zile tu ambazo sera inavutiwa nazo. Kutoka [hapa](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
 ```c
 struct mac_policy_ops {
 mpo_audit_check_postselect_t		*mpo_audit_check_postselect;
@@ -107,7 +107,7 @@ Moreover, it's also possible to get the list of kexts that have configured a pol
 
 ## MACF Initialization
 
-MACF inaanzishwa mapema sana. Inapangwa katika `bootstrap_thread` ya XNU: baada ya `ipc_bootstrap` wito wa `mac_policy_init()` ambayo inaanzisha `mac_policy_list` na muda mfupi baadaye `mac_policy_initmach()` inaitwa. Miongoni mwa mambo mengine, kazi hii itapata kexts zote za Apple zenye ufunguo wa `AppleSecurityExtension` katika Info.plist yao kama vile `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` na `TMSafetyNet.kext` na kuzipakia.
+MACF inaanzishwa mapema sana. Inapangwa katika `bootstrap_thread` ya XNU: baada ya `ipc_bootstrap` kuna wito wa `mac_policy_init()` ambayo inaanzisha `mac_policy_list` na muda mfupi baadaye `mac_policy_initmach()` inaitwa. Miongoni mwa mambo mengine, kazi hii itapata kexts zote za Apple zenye ufunguo `AppleSecurityExtension` katika Info.plist yao kama vile `ALF.kext`, `AppleMobileFileIntegrity.kext`, `Quarantine.kext`, `Sandbox.kext` na `TMSafetyNet.kext` na kuzipakia.
 
 ## MACF Callouts
 
@@ -171,7 +171,7 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Ambayo itapitia sera zote za mac zilizorekodiwa ikitumia kazi zao na kuhifadhi matokeo ndani ya mabadiliko ya makosa, ambayo yanaweza kubadilishwa tu na `mac_error_select` kwa nambari za mafanikio hivyo ikiwa ukaguzi wowote unashindwa ukaguzi kamili utashindwa na hatua haitaruhusiwa.
+Ambayo itapitia sera zote za mac zilizorekodiwa ikitaja kazi zao na kuhifadhi matokeo ndani ya mabadiliko ya makosa, ambayo yanaweza kubadilishwa tu na `mac_error_select` kwa nambari za mafanikio hivyo ikiwa ukaguzi wowote unashindwa ukaguzi mzima utashindwa na hatua haitaruhusiwa.
 
 {% hint style="success" %}
 Hata hivyo, kumbuka kwamba si kila kito cha MACF kinatumika tu kukataa hatua. Kwa mfano, `mac_priv_grant` inaita macro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac_internal.h#L274), ambayo itatoa kibali kilichohitajika ikiwa sera yoyote itajibu kwa 0:
@@ -219,7 +219,7 @@ goto skip_syscall;
 ```
 Ambayo itakagua katika mchakato unaoitwa **bitmask** ikiwa syscall ya sasa inapaswa kuita `mac_proc_check_syscall_unix`. Hii ni kwa sababu syscalls zinaitwa mara nyingi sana kwamba ni muhimu kuepuka kuita `mac_proc_check_syscall_unix` kila wakati.
 
-Kumbuka kwamba kazi `proc_set_syscall_filter_mask()`, ambayo huweka bitmask syscalls katika mchakato inaitwa na Sandbox kuweka masks kwenye mchakato zilizowekwa kwenye sandbox.
+Kumbuka kwamba kazi `proc_set_syscall_filter_mask()`, ambayo inaweka bitmask syscalls katika mchakato inaitwa na Sandbox kuweka masks kwenye mchakato zilizowekwa kwenye sandbox.
 
 ## Syscalls za MACF zilizofichuliwa
 
@@ -261,7 +261,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../../../.gitbook/assets/grte
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

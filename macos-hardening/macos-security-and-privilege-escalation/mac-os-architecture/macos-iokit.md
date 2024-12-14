@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-I/O Kit ni mfumo wa **madereva wa vifaa** wa chanzo wazi, unaoelekezwa kwenye vitu katika kernel ya XNU, unashughulikia **madereva wa vifaa wanaopakiwa kwa nguvu**. Inaruhusu msimbo wa moduli kuongezwa kwenye kernel mara moja, ikisaidia vifaa mbalimbali.
+I/O Kit ni mfumo wa **madereva wa vifaa** wa chanzo wazi, unaotumia mwelekeo wa vitu katika kernel ya XNU, unashughulikia **madereva wa vifaa yanayopakiwa kwa nguvu**. Inaruhusu msimbo wa moduli kuongezwa kwenye kernel mara moja, ikisaidia vifaa mbalimbali.
 
-Madereva ya IOKit kwa msingi **yanatoa kazi kutoka kwenye kernel**. Aina za **vigezo** vya kazi hizi ni **zilizowekwa awali** na zinathibitishwa. Zaidi ya hayo, kama ilivyo kwa XPC, IOKit ni safu nyingine juu ya **ujumbe wa Mach**.
+Madereva ya IOKit kwa msingi **yanatoa kazi kutoka kwa kernel**. Aina za **vigezo** vya kazi hizi ni **zilizopangwa awali** na zinathibitishwa. Zaidi ya hayo, kama XPC, IOKit ni safu nyingine juu ya **ujumbe wa Mach**.
 
-**Msimbo wa IOKit XNU kernel** umefunguliwa na Apple katika [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Zaidi ya hayo, vipengele vya IOKit katika nafasi ya mtumiaji pia ni chanzo wazi [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+**Msimbo wa kernel ya IOKit XNU** umefunguliwa na Apple katika [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Aidha, vipengele vya IOKit katika nafasi ya mtumiaji pia ni chanzo wazi [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Hata hivyo, **hakuna madereva ya IOKit** yanayofunguliwa. Hata hivyo, mara kwa mara kutolewa kwa dereva kunaweza kuja na alama zinazofanya iwe rahisi kuirekebisha. Angalia jinsi ya [**kupata nyongeza za dereva kutoka kwenye firmware hapa**](./#ipsw)**.**
+Hata hivyo, **hakuna madereva ya IOKit** yanayofunguliwa. Hata hivyo, mara kwa mara, toleo la dereva linaweza kuja na alama zinazofanya iwe rahisi kuirekebisha. Angalia jinsi ya [**kupata nyongeza za dereva kutoka kwa firmware hapa**](./#ipsw)**.**
 
 Imeandikwa kwa **C++**. Unaweza kupata alama za C++ zisizokuwa na mchanganyiko kwa:
 ```bash
@@ -36,7 +36,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **imefunzwa kazi** inaweza kufanya **ukaguzi wa ziada wa usalama** wakati mteja anajaribu kuita kazi lakini kumbuka kwamba programu kawaida **zina mipaka** na **sandbox** ambayo IOKit kazi wanaweza kuingiliana nayo.
+IOKit **imefunzwa kazi** inaweza kufanya **ukaguzi wa ziada wa usalama** wakati mteja anajaribu kuita kazi lakini kumbuka kwamba programu kwa kawaida **zina mipaka** na **sandbox** ambayo IOKit kazi zinaweza kuingiliana nayo.
 {% endhint %}
 
 ## Madereva
@@ -97,7 +97,7 @@ You could download **`IORegistryExplorer`** from **Xcode Additional Tools** from
 In IORegistryExplorer, "planes" are used to organize and display the relationships between different objects in the IORegistry. Each plane represents a specific type of relationship or a particular view of the system's hardware and driver configuration. Here are some of the common planes you might encounter in IORegistryExplorer:
 
 1. **IOService Plane**: Hii ni ndege ya jumla zaidi, inayoonyesha vitu vya huduma vinavyowakilisha madereva na nubs (michannel ya mawasiliano kati ya madereva). Inaonyesha uhusiano wa mtoa huduma-mteja kati ya vitu hivi.
-2. **IODeviceTree Plane**: Ndege hii inawakilisha muunganisho wa kimwili kati ya vifaa kadri vinavyounganishwa kwenye mfumo. Mara nyingi hutumika kuonyesha hierarchi ya vifaa vilivyounganishwa kupitia mabasi kama USB au PCI.
+2. **IODeviceTree Plane**: Ndege hii inawakilisha muunganisho wa kimwili kati ya vifaa kadri vinavyounganishwa kwenye mfumo. Mara nyingi hutumiwa kuonyesha hierarchi ya vifaa vilivyounganishwa kupitia mabasi kama USB au PCI.
 3. **IOPower Plane**: Inaonyesha vitu na uhusiano wao kwa upande wa usimamizi wa nguvu. Inaweza kuonyesha ni vitu gani vinavyoathiri hali ya nguvu ya vingine, muhimu kwa kutatua matatizo yanayohusiana na nguvu.
 4. **IOUSB Plane**: Imejikita hasa kwenye vifaa vya USB na uhusiano wao, ikionyesha hierarchi ya vituo vya USB na vifaa vilivyounganishwa.
 5. **IOAudio Plane**: Ndege hii inawakilisha vifaa vya sauti na uhusiano wao ndani ya mfumo.
@@ -182,7 +182,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-Kumbuka jinsi katika ufafanuzi wa awali param **`self`** ilikosekana, ufafanuzi mzuri ungekuwa:
+Kumbuka jinsi katika ufafanuzi uliopita paramu **`self`** ilikosekana, ufafanuzi mzuri ungekuwa:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -200,11 +200,11 @@ Kwa habari hii unaweza kuandika upya Ctrl+Right -> `Edit function signature` na 
 
 <figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-Msimbo mpya uliofanywa upya utaonekana kama:
+Msimbo mpya uliofichuliwa utaonekana kama:
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Kwa hatua inayofuata tunahitaji kuwa na muundo wa **`IOExternalMethodDispatch2022`** umefafanuliwa. Ni wa chanzo wazi katika [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), unaweza kuufafanua:
+Kwa hatua inayofuata tunahitaji kuwa na muundo wa **`IOExternalMethodDispatch2022`** umefafanuliwa. Ni wazi kwenye [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), unaweza kuifafanua:
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
@@ -220,7 +220,7 @@ baada ya mabadiliko:
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Na kama tunavyojua huko tuna **array ya vipengele 7** (angalia msimbo wa mwisho uliofanywa upya), bonyeza kuunda array ya vipengele 7:
+Na kama tunavyojua huko tuna **array ya vipengele 7** (angalia msimbo wa mwisho uliofichuliwa), bonyeza kuunda array ya vipengele 7:
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -233,8 +233,8 @@ Kama unavyokumbuka, ili **kuita** kazi **iliyotolewa** kutoka kwa nafasi ya mtum
 {% endhint %}
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

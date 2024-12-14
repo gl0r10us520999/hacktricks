@@ -21,7 +21,7 @@ x64, pia inajulikana kama x86-64, ni usanifu wa processor wa 64-bit unaotumika h
 
 ### **Registers**
 
-x64 inapanua usanifu wa x86, ikiwa na **registers 16 za kusudi la jumla** zilizo na lebo `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, na `r8` hadi `r15`. Kila moja ya hizi inaweza kuhifadhi **thamani ya 64-bit** (byte 8). Registers hizi pia zina sub-registers za 32-bit, 16-bit, na 8-bit kwa ajili ya ufanisi na kazi maalum.
+x64 inapanua usanifu wa x86, ikiwa na **registers 16 za jumla** zilizotengwa `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, na `r8` hadi `r15`. Kila moja ya hizi inaweza kuhifadhi **64-bit** (byte 8) thamani. Registers hizi pia zina sub-registers za 32-bit, 16-bit, na 8-bit kwa ajili ya ufanisi na kazi maalum.
 
 1. **`rax`** - Kawaida hutumika kwa **thamani za kurudi** kutoka kwa kazi.
 2. **`rbx`** - Mara nyingi hutumika kama **register ya msingi** kwa operesheni za kumbukumbu.
@@ -29,15 +29,15 @@ x64 inapanua usanifu wa x86, ikiwa na **registers 16 za kusudi la jumla** zilizo
 4. **`rdx`** - Hutumika katika majukumu mbalimbali ikiwa ni pamoja na operesheni za hesabu za ziada.
 5. **`rbp`** - **Pointer ya msingi** kwa fremu ya stack.
 6. **`rsp`** - **Pointer ya stack**, ikifuatilia kilele cha stack.
-7. **`rsi`** na **`rdi`** - Hutumika kwa **vigezo** vya **chanzo** na **kikundi** katika operesheni za nyuzi/kumbukumbu.
-8. **`r8`** hadi **`r15`** - Registers za ziada za kusudi la jumla zilizoanzishwa katika x64.
+7. **`rsi`** na **`rdi`** - Hutumika kwa **vigezo vya chanzo** na **kikundi** katika operesheni za nyuzi/kumbukumbu.
+8. **`r8`** hadi **`r15`** - Registers za jumla za ziada zilizoongezwa katika x64.
 
 ### **Calling Convention**
 
 Mkataba wa wito wa x64 unatofautiana kati ya mifumo ya uendeshaji. Kwa mfano:
 
-* **Windows**: Vigezo **vinne vya kwanza** vinapitishwa katika registers **`rcx`**, **`rdx`**, **`r8`**, na **`r9`**. Vigezo zaidi vinasukumwa kwenye stack. Thamani ya kurudi iko katika **`rax`**.
-* **System V (inayotumika sana katika mifumo kama UNIX)**: Vigezo **sita vya kwanza vya nambari au pointer** vinapitishwa katika registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, na **`r9`**. Thamani ya kurudi pia iko katika **`rax`**.
+* **Windows**: Vigezo vya **mara ya kwanza vinne** vinapitishwa katika registers **`rcx`**, **`rdx`**, **`r8`**, na **`r9`**. Vigezo zaidi vinasukumwa kwenye stack. Thamani ya kurudi iko katika **`rax`**.
+* **System V (inayotumika sana katika mifumo kama UNIX)**: Vigezo vya **mara ya kwanza sita** vya nambari au pointer vinapitishwa katika registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, na **`r9`**. Thamani ya kurudi pia iko katika **`rax`**.
 
 Ikiwa kazi ina zaidi ya ingizo sita, **zingine zitapitishwa kwenye stack**. **RSP**, pointer ya stack, inapaswa kuwa **imepangwa kwa byte 16**, ambayo inamaanisha kwamba anwani inayoelekeza inapaswa kugawanywa kwa 16 kabla ya wito wowote kutokea. Hii inamaanisha kwamba kawaida tunahitaji kuhakikisha kuwa RSP imepangwa ipasavyo katika shellcode yetu kabla ya kufanya wito wa kazi. Hata hivyo, katika mazoezi, wito wa mfumo unafanya kazi mara nyingi hata kama hitaji hili halijakidhi.
 
@@ -47,24 +47,24 @@ Swift ina **mkataba wa wito** wake ambao unaweza kupatikana katika [**https://gi
 
 ### **Common Instructions**
 
-Maagizo ya x64 yana seti tajiri, yakihifadhi ufanisi na maagizo ya awali ya x86 na kuanzisha mapya.
+x64 instructions zina seti kubwa, zikihifadhi ufanisi na maagizo ya awali ya x86 na kuanzisha mapya.
 
 * **`mov`**: **Hamisha** thamani kutoka **register** moja au **mahali pa kumbukumbu** hadi nyingine.
-* Mfano: `mov rax, rbx` — Hamisha thamani kutoka `rbx` hadi `rax`.
-* **`push`** na **`pop`**: Sukuma au panda thamani kutoka/kwenda kwenye **stack**.
+* Mfano: `mov rax, rbx` — Inahamisha thamani kutoka `rbx` hadi `rax`.
+* **`push`** na **`pop`**: Sukuma au pop thamani kutoka/kwenda kwenye **stack**.
 * Mfano: `push rax` — Inasukuma thamani katika `rax` kwenye stack.
-* Mfano: `pop rax` — Inapanda thamani ya juu kutoka kwenye stack hadi `rax`.
+* Mfano: `pop rax` — Inachukua thamani ya juu kutoka kwenye stack hadi `rax`.
 * **`add`** na **`sub`**: Operesheni za **kuongeza** na **kupunguza**.
 * Mfano: `add rax, rcx` — Inaongeza thamani katika `rax` na `rcx` ikihifadhi matokeo katika `rax`.
 * **`mul`** na **`div`**: Operesheni za **kuongeza** na **ugawaji**. Kumbuka: hizi zina tabia maalum kuhusu matumizi ya operandi.
-* **`call`** na **`ret`**: Inatumika kufanya **wito** na **kurudi kutoka kwa kazi**.
+* **`call`** na **`ret`**: Inatumika ku **ita** na **kurudi kutoka kwa kazi**.
 * **`int`**: Inatumika kuanzisha **interrupt** ya programu. Mfano: `int 0x80` ilitumika kwa wito wa mfumo katika 32-bit x86 Linux.
-* **`cmp`**: **Linganisha** thamani mbili na kuweka bendera za CPU kulingana na matokeo.
+* **`cmp`**: **Linganishi** thamani mbili na kuweka bendera za CPU kulingana na matokeo.
 * Mfano: `cmp rax, rdx` — Linganisha `rax` na `rdx`.
 * **`je`, `jne`, `jl`, `jge`, ...**: Maagizo ya **kuruka kwa masharti** yanayobadilisha mtiririko wa udhibiti kulingana na matokeo ya `cmp` au jaribio la awali.
-* Mfano: Baada ya maagizo ya `cmp rax, rdx`, `je label` — Inaruka hadi `label` ikiwa `rax` ni sawa na `rdx`.
+* Mfano: Baada ya agizo la `cmp rax, rdx`, `je label` — Inaruka hadi `label` ikiwa `rax` ni sawa na `rdx`.
 * **`syscall`**: Inatumika kwa **wito wa mfumo** katika mifumo mingine ya x64 (kama Unix za kisasa).
-* **`sysenter`**: Amri ya **wito wa mfumo** iliyoboreshwa kwenye baadhi ya majukwaa.
+* **`sysenter`**: Agizo la **wito wa mfumo** lililoimarishwa katika baadhi ya majukwaa.
 
 ### **Function Prologue**
 
@@ -75,7 +75,7 @@ Maagizo ya x64 yana seti tajiri, yakihifadhi ufanisi na maagizo ya awali ya x86 
 ### **Function Epilogue**
 
 1. **Hamisha pointer ya sasa ya msingi hadi pointer ya stack**: `mov rsp, rbp` (ondoa vigezo vya ndani)
-2. **Panda pointer ya zamani ya msingi kutoka kwenye stack**: `pop rbp` (rejesha pointer ya msingi ya mwitishaji)
+2. **Pop pointer ya zamani ya msingi kutoka kwenye stack**: `pop rbp` (rejesha pointer ya msingi ya mwitishaji)
 3. **Rudi**: `ret` (rejesha udhibiti kwa mwitishaji)
 
 ## macOS
@@ -139,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>Code ya C ya kujaribu shellcode</summary>
+<summary>Code ya C kujaribu shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -230,7 +230,7 @@ syscall
 
 #### Soma kwa cat
 
-Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, hivyo hoja ya pili (x1) ni safu ya paramu (ambazo katika kumbukumbu zinamaanisha stack ya anwani).
+Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, hivyo hoja ya pili (x1) ni safu ya param (ambazo katika kumbukumbu zinamaanisha stack ya anwani).
 ```armasm
 bits 64
 section .text

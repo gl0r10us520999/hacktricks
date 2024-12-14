@@ -24,11 +24,11 @@ Faili za kubadilishana, kama `/private/var/vm/swapfile0`, hutumikia kama **cache
 
 ### Hibernate Image
 
-Faili iliyoko kwenye `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya kulala**. **Data kutoka kwenye kumbukumbu huhifadhiwa katika faili hii wakati OS X inalala**. Wakati kompyuta inapoamka, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, ikiruhusu mtumiaji kuendelea mahali alipoacha.
+Faili iliyoko kwenye `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya usingizi**. **Data kutoka kwenye kumbukumbu huhifadhiwa katika faili hii wakati OS X inapoingia kwenye usingizi**. Wakati kompyuta inapoamka, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, ikiruhusu mtumiaji kuendelea mahali alipoacha.
 
 Inafaa kutajwa kwamba kwenye mifumo ya kisasa ya MacOS, faili hii kwa kawaida imefungwa kwa sababu za usalama, na kufanya urejeleaji kuwa mgumu.
 
-* Ili kuangalia kama usimbaji umewezeshwa kwa sleepimage, amri `sysctl vm.swapusage` inaweza kutumika. Hii itaonyesha kama faili imefungwa.
+* Ili kuangalia ikiwa usimbaji umewezeshwa kwa sleepimage, amri `sysctl vm.swapusage` inaweza kutumika. Hii itaonyesha ikiwa faili imefungwa.
 
 ### Memory Pressure Logs
 

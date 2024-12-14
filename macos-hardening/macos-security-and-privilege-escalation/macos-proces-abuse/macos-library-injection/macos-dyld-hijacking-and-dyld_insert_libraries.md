@@ -92,7 +92,7 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Kwa taarifa za awali tunajua kwamba **haichunguzi saini ya maktaba zilizopakiwa** na **inajaribu kupakia maktaba kutoka**:
+Kwa taarifa zilizopita, tunajua kwamba **haichunguzi saini ya maktaba zilizopakiwa** na **inajaribu kupakia maktaba kutoka**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
@@ -164,7 +164,7 @@ Na **tekeleza** binary na uangalie **maktaba ilipakiwa**:
 </code></pre>
 
 {% hint style="info" %}
-Andiko zuri kuhusu jinsi ya kutumia udhaifu huu kuharibu ruhusa za kamera za telegram linaweza kupatikana katika [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Andiko zuri kuhusu jinsi ya kutumia udhaifu huu kuathiri ruhusa za kamera za telegram linaweza kupatikana katika [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Kiwango Kikubwa

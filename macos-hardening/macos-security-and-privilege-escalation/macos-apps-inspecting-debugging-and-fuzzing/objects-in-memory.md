@@ -1,25 +1,25 @@
-# Vitu kwenye kumbukumbu
+# Objects in memory
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-Vitu vya CF\* vinatoka kwa CoreFOundation, ambayo hutoa zaidi ya darasa 50 za vitu kama vile `CFString`, `CFNumber` au `CFAllocatior`.
+CF\* vitu vinatoka CoreFoundation, ambayo inatoa zaidi ya madarasa 50 ya vitu kama `CFString`, `CFNumber` au `CFAllocator`.
 
-Darasa zote hizi ni mifano ya darasa `CFRuntimeClass`, ambayo ikichukuliwa inarudisha kiashiria kwa `__CFRuntimeClassTable`. CFRuntimeClass imedefiniwa katika [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Madarasa haya yote ni mifano ya darasa `CFRuntimeClass`, ambalo linapoitwa linarejesha kiashiria kwa `__CFRuntimeClassTable`. CFRuntimeClass imefafanuliwa katika [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Sehemu za kumbukumbu zinazotumiwa
+### Sehemu za Kumbukumbu zinazotumika
 
-Kiwango kikubwa cha data inayotumiwa na runtime ya ObjectiveC itabadilika wakati wa utekelezaji, hivyo hutumia baadhi ya sehemu kutoka kwenye sehemu ya **\_\_DATA** kwenye kumbukumbu:
+Mengi ya data yanayotumiwa na ObjectiveC runtime yatabadilika wakati wa utekelezaji, kwa hivyo inatumia sehemu kadhaa kutoka kwa **\_\_DATA** segment katika kumbukumbu:
 
-- **`__objc_msgrefs`** (`message_ref_t`): Marejeleo ya ujumbe
-- **`__objc_ivar`** (`ivar`): Vipengele vya kielelezo
-- **`__objc_data`** (`...`): Data inayoweza kubadilishwa
-- **`__objc_classrefs`** (`Class`): Marejeleo ya darasa
-- **`__objc_superrefs`** (`Class`): Marejeleo ya darasa la juu
-- **`__objc_protorefs`** (`protocol_t *`): Marejeleo ya itifaki
-- **`__objc_selrefs`** (`SEL`): Marejeleo ya chaguo
-- **`__objc_const`** (`...`): Data ya darasa `r/o` na nyingine (kwa matumaini) data ya kudumu
-- **`__objc_imageinfo`** (`version, flags`): Hutumiwa wakati wa kupakia picha: Toleo kwa sasa ni `0`; Bendera hufafanua msaada wa GC ulioandaliwa mapema, n.k.
-- **`__objc_protolist`** (`protocol_t *`): Orodha ya itifaki
-- **`__objc_nlcatlist`** (`category_t`): Kiashiria kwa Jamii Zisizo za uvivu zilizoelezwa katika faili hii
-- **`__objc_catlist`** (`category_t`): Kiashiria kwa Jamii zilizoelezwa katika faili hii
-- **`__objc_nlclslist`** (`classref_t`): Kiashiria kwa Darasa za Objective-C Zisizo za uvivu zilizoelezwa katika faili hii
-- **`__objc_classlist`** (`classref_t`): Viashiria kwa darasa zote za Objective-C zilizoelezwa katika faili hii
+* **`__objc_msgrefs`** (`message_ref_t`): Marejeleo ya ujumbe
+* **`__objc_ivar`** (`ivar`): Vigezo vya mfano
+* **`__objc_data`** (`...`): Data inayoweza kubadilishwa
+* **`__objc_classrefs`** (`Class`): Marejeleo ya darasa
+* **`__objc_superrefs`** (`Class`): Marejeleo ya darasa la juu
+* **`__objc_protorefs`** (`protocol_t *`): Marejeleo ya itifaki
+* **`__objc_selrefs`** (`SEL`): Marejeleo ya mteule
+* **`__objc_const`** (`...`): Data ya darasa `r/o` na nyingine (tutatumai) data thabiti
+* **`__objc_imageinfo`** (`version, flags`): Inatumika wakati wa kupakia picha: Toleo kwa sasa `0`; Bendera zinaelezea msaada wa GC uliopangwa mapema, nk.
+* **`__objc_protolist`** (`protocol_t *`): Orodha ya itifaki
+* **`__objc_nlcatlist`** (`category_t`): Kielekezi kwa Jamii zisizo za Laazimisha zilizofafanuliwa katika hii binary
+* **`__objc_catlist`** (`category_t`): Kielekezi kwa Jamii zilizofafanuliwa katika hii binary
+* **`__objc_nlclslist`** (`classref_t`): Kielekezi kwa Madarasa yasiyo ya Laazimisha ya Objective-C yaliyofafanuliwa katika hii binary
+* **`__objc_classlist`** (`classref_t`): Viashiria kwa madarasa yote ya Objective-C yaliyofafanuliwa katika hii binary
 
-Pia hutumia sehemu chache katika sehemu ya **`__TEXT`** kuhifadhi thamani za kudumu ambazo haiwezekani kuandika kwenye sehemu hii:
+Inatumia pia sehemu chache katika **`__TEXT`** segment kuhifadhi thamani thabiti ikiwa haiwezekani kuandika katika sehemu hii:
 
-- **`__objc_methname`** (C-String): Majina ya mbinu
-- **`__objc_classname`** (C-String): Majina ya darasa
-- **`__objc_methtype`** (C-String): Aina za mbinu
+* **`__objc_methname`** (C-String): Majina ya mbinu
+* **`__objc_classname`** (C-String): Majina ya darasa
+* **`__objc_methtype`** (C-String): Aina za mbinu
 
-### Ufichamishaji wa Aina
+### Uandishi wa Aina
 
-Objective-C hutumia ufichamishaji fulani kuweka alama aina za chaguo na za pembejeo za aina rahisi na ngumu:
+Objective-c inatumia mchanganyiko fulani kuandika aina za mteule na vigezo vya aina rahisi na ngumu:
 
-- Aina za msingi hutumia herufi yao ya kwanza ya aina `i` kwa `int`, `c` kwa `char`, `l` kwa `long`... na hutumia herufi kubwa ikiwa ni ishara ya kutokuwa na saini (`L` kwa `unsigned Long`).
-- Aina nyingine za data ambazo herufi zake hutumiwa au ni maalum, hutumia herufi au alama nyingine kama `q` kwa `long long`, `b` kwa `bitfields`, `B` kwa `booleans`, `#` kwa `classes`, `@` kwa `id`, `*` kwa `char pointers`, `^` kwa `pointers` za jumla na `?` kwa `isiyojulikana`.
-- Vipindi, muundo na muungano hutumia `[`, `{` na `(`
+* Aina za msingi zinatumia herufi yao ya kwanza ya aina `i` kwa `int`, `c` kwa `char`, `l` kwa `long`... na inatumia herufi kubwa ikiwa ni isiyo na alama (`L` kwa `unsigned Long`).
+* Aina nyingine za data ambazo herufi zao zinatumika au ni maalum, zinatumia herufi au alama nyingine kama `q` kwa `long long`, `b` kwa `bitfields`, `B` kwa `booleans`, `#` kwa `classes`, `@` kwa `id`, `*` kwa `char pointers`, `^` kwa `pointers` za jumla na `?` kwa `undefined`.
+* Mifumo, muundo na umoja hutumia `[`, `{` na `(`
 
-#### Mfano wa Tangazo la Mbinu
+#### Mfano wa Matangazo ya Mbinu
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -109,31 +109,31 @@ Objective-C hutumia ufichamishaji fulani kuweka alama aina za chaguo na za pembe
 ```
 {% endcode %}
 
-Mchaguzi ungekuwa `processString:withOptions:andError:`
+Mchaguzi utakuwa `processString:withOptions:andError:`
 
-#### Aina ya Ufichamishi
+#### Uandishi wa Aina
 
-* `id` imefichamishwa kama `@`
-* `char *` imefichamishwa kama `*`
+* `id` imeandikwa kama `@`
+* `char *` imeandikwa kama `*`
 
-Ufichamishi kamili wa aina kwa njia ni:
+Uandishi kamili wa aina kwa njia ni:
 ```less
 @24@0:8@16*20^@24
 ```
-#### Uchambuzi wa Kina
+#### Maelezo ya Kina
 
-1. **Aina ya Kurudi (`NSString *`)**: Imeandikwa kama `@` na urefu wa 24
-2. **`self` (kifaa cha kielezo)**: Imeandikwa kama `@`, kwenye nafasi ya 0
-3. **`_cmd` (chaguo)**: Imeandikwa kama `:`, kwenye nafasi ya 8
-4. **Hoja ya Kwanza (`char * input`)**: Imeandikwa kama `*`, kwenye nafasi ya 16
-5. **Hoja ya Pili (`NSDictionary * options`)**: Imeandikwa kama `@`, kwenye nafasi ya 20
-6. **Hoja ya Tatu (`NSError ** error`)**: Imeandikwa kama `^@`, kwenye nafasi ya 24
+1. **Aina ya Kurudi (`NSString *`)**: Imeandikwa kama `@` yenye urefu wa 24
+2. **`self` (kigezo cha kitu)**: Imeandikwa kama `@`, kwenye ofset 0
+3. **`_cmd` (mchaguzi)**: Imeandikwa kama `:`, kwenye ofset 8
+4. **Kigezo cha kwanza (`char * input`)**: Imeandikwa kama `*`, kwenye ofset 16
+5. **Kigezo cha pili (`NSDictionary * options`)**: Imeandikwa kama `@`, kwenye ofset 20
+6. **Kigezo cha tatu (`NSError ** error`)**: Imeandikwa kama `^@`, kwenye ofset 24
 
-**Kwa chaguo + uandishi unaweza kujenga upya njia.**
+**Pamoja na mchaguzi + uandishi unaweza kujenga upya njia hiyo.**
 
-### **Madarasa**
+### **Darasa**
 
-Madarasa katika Objective-C ni muundo wenye mali, pointa za njia... Inawezekana kupata muundo `objc_class` katika [**michocheo**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
+Darasa katika Objective-C ni muundo wenye mali, viashiria vya njia... Inawezekana kupata muundo `objc_class` katika [**kanuni ya chanzo**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,7 @@ data()->setFlags(set);
 }
 [...]
 ```
-Darasa hili hutumia baadhi ya bits za uga wa isa kuonyesha taarifa fulani kuhusu darasa hilo.
+Hii darasa hutumia baadhi ya bits za uwanja wa isa kuonyesha taarifa fulani kuhusu darasa.
 
-Kisha, muundo una pointer kwenda kwa muundo `class_ro_t` uliowekwa kwenye diski ambao una sifa za darasa kama jina lake, mbinu za msingi, mali na variables za kesi.\
-Wakati wa uendeshaji na muundo wa ziada `class_rw_t` hutumiwa ukiwa na pointers ambazo zinaweza kubadilishwa kama vile mbinu, itifaki, mali...
+Kisha, struct ina kiashiria kwa struct `class_ro_t` iliyohifadhiwa kwenye diski ambayo ina sifa za darasa kama jina lake, mbinu za msingi, mali na mabadiliko ya mfano.\
+Wakati wa wakati wa kukimbia, muundo wa ziada `class_rw_t` unatumika ukiwa na viashiria ambavyo vinaweza kubadilishwa kama mbinu, itifaki, mali...

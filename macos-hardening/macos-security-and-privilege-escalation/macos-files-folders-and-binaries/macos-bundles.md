@@ -1,70 +1,70 @@
-# Vifurushi vya macOS
+# macOS Bundles
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Vifurushi katika macOS hutumika kama makontena ya aina mbalimbali za rasilimali ikiwa ni pamoja na programu, maktaba, na faili zingine muhimu, ikifanya ionekane kama vitu vya pekee katika Finder, kama vile faili za `*.app` zinazojulikana. Vifurushi vinavyokutwa mara kwa mara ni pamoja na vifurushi vya `.app`, ingawa aina zingine kama vile `.framework`, `.systemextension`, na `.kext` pia ni maarufu.
+Bundles katika macOS hutumikia kama vyombo vya rasilimali mbalimbali ikiwa ni pamoja na programu, maktaba, na faili nyingine muhimu, na kuonekana kama vitu vya pekee katika Finder, kama vile faili maarufu za `*.app`. Bundle inayokutana mara nyingi ni bundle ya `.app`, ingawa aina nyingine kama `.framework`, `.systemextension`, na `.kext` pia ni za kawaida.
 
-### Vipengele Msingi vya Fungu
+### Essential Components of a Bundle
 
-Ndani ya kifurushi, hasa ndani ya saraka ya `<application>.app/Contents/`, kuna rasilimali muhimu mbalimbali zilizohifadhiwa:
+Ndani ya bundle, hasa ndani ya saraka ya `<application>.app/Contents/`, rasilimali muhimu mbalimbali zimehifadhiwa:
 
-* **\_CodeSignature**: Saraka hii inahifadhi maelezo ya kusaini kanuni muhimu kwa ajili ya kuthibitisha uadilifu wa programu. Unaweza kukagua maelezo ya kusaini kanuni kwa kutumia amri kama: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
-* **MacOS**: Ina kielekezwa cha utekelezaji wa programu ambayo hufanya kazi wakati wa mwingiliano wa mtumiaji.
-* **Resources**: Ghala la vipengele vya interface ya mtumiaji wa programu ikiwa ni pamoja na picha, nyaraka, na maelezo ya interface (faili za nib/xib).
-* **Info.plist**: Inafanya kazi kama faili kuu ya usanidi wa programu, muhimu kwa mfumo kutambua na kuingiliana na programu kwa usahihi.
+* **\_CodeSignature**: Saraka hii inahifadhi maelezo ya saini ya msimbo muhimu kwa kuthibitisha uhalali wa programu. Unaweza kuchunguza taarifa za saini ya msimbo kwa kutumia amri kama: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
+* **MacOS**: Inashikilia binary inayoweza kutekelezwa ya programu inayotumika wakati wa mwingiliano wa mtumiaji.
+* **Resources**: Hifadhi ya vipengele vya interface ya mtumiaji wa programu ikiwa ni pamoja na picha, hati, na maelezo ya interface (faili za nib/xib).
+* **Info.plist**: Inafanya kazi kama faili kuu ya usanidi wa programu, muhimu kwa mfumo kutambua na kuingiliana na programu ipasavyo.
 
-#### Vipengele Muhimu katika Info.plist
+#### Important Keys in Info.plist
 
-Faili ya `Info.plist` ni msingi wa usanidi wa programu, ikijumuisha funguo kama vile:
+Faili ya `Info.plist` ni msingi wa usanidi wa programu, ikiwa na funguo kama:
 
-* **CFBundleExecutable**: Inabainisha jina la faili kuu ya utekelezaji iliyoko katika saraka ya `Contents/MacOS`.
-* **CFBundleIdentifier**: Hutoa kitambulisho cha ulimwengu kwa programu, kinachotumiwa sana na macOS kwa usimamizi wa programu.
-* **LSMinimumSystemVersion**: Inaonyesha toleo la chini la macOS linalohitajika ili programu iweze kufanya kazi.
+* **CFBundleExecutable**: Inaelezea jina la faili kuu inayoweza kutekelezwa iliyoko katika saraka ya `Contents/MacOS`.
+* **CFBundleIdentifier**: Inatoa kitambulisho cha kimataifa kwa programu, kinachotumika sana na macOS kwa usimamizi wa programu.
+* **LSMinimumSystemVersion**: Inaonyesha toleo la chini la macOS linalohitajika kwa programu kutekelezwa.
 
-### Kuchunguza Vifurushi
+### Exploring Bundles
 
-Kutafiti maudhui ya kifurushi, kama vile `Safari.app`, unaweza kutumia amri ifuatayo: `bash ls -lR /Applications/Safari.app/Contents`
+Ili kuchunguza yaliyomo kwenye bundle, kama `Safari.app`, amri ifuatayo inaweza kutumika: `bash ls -lR /Applications/Safari.app/Contents`
 
-Utafiti huu unaonyesha saraka kama vile `_CodeSignature`, `MacOS`, `Resources`, na faili kama vile `Info.plist`, kila moja ikihudumia lengo la pekee kutoka kwa kuhakikisha programu hadi kufafanua interface yake ya mtumiaji na vigezo vyake vya uendeshaji.
+Uchunguzi huu unaonyesha saraka kama `_CodeSignature`, `MacOS`, `Resources`, na faili kama `Info.plist`, kila moja ikihudumu kusudi la kipekee kutoka kwa kulinda programu hadi kufafanua interface yake ya mtumiaji na vigezo vya uendeshaji.
 
-#### Saraka za Ziada za Vifurushi
+#### Additional Bundle Directories
 
-Zaidi ya saraka za kawaida, vifurushi vinaweza pia kuwa na:
+Zaidi ya saraka za kawaida, bundles zinaweza pia kujumuisha:
 
-* **Frameworks**: Ina mifumo iliyofungwa inayotumiwa na programu. Mifumo ni kama dylibs na rasilimali ziada.
-* **PlugIns**: Saraka kwa ajili ya programu za ziada na nyongeza zinazoboresha uwezo wa programu.
-* **XPCServices**: Inashikilia huduma za XPC zinazotumiwa na programu kwa mawasiliano nje ya mchakato.
+* **Frameworks**: Inashikilia frameworks zilizojumuishwa zinazotumiwa na programu. Frameworks ni kama dylibs zenye rasilimali za ziada.
+* **PlugIns**: Saraka ya plug-ins na nyongeza zinazoongeza uwezo wa programu.
+* **XPCServices**: Inashikilia huduma za XPC zinazotumiwa na programu kwa mawasiliano yasiyo ya mchakato.
 
-Muundo huu unahakikisha kuwa vipengele vyote muhimu vimefungwa ndani ya kifurushi, kufanikisha mazingira ya programu yenye moduli na salama.
+Muundo huu unahakikisha kuwa vipengele vyote muhimu vimefungwa ndani ya bundle, kurahisisha mazingira ya programu ya moduli na salama.
 
-Kwa maelezo zaidi kuhusu funguo za `Info.plist` na maana yao, nyaraka za maendeleo ya Apple zinatoa rasilimali nyingi: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+Kwa maelezo zaidi kuhusu funguo za `Info.plist` na maana zao, hati za waendelezaji wa Apple zinatoa rasilimali nyingi: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
