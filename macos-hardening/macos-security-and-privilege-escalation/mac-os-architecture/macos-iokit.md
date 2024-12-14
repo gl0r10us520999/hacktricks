@@ -23,7 +23,7 @@ IOKitドライバーは基本的に**カーネルから関数をエクスポー�
 
 **IOKit XNUカーネルコード**は、Appleによって[https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit)でオープンソース化されています。さらに、ユーザースペースのIOKitコンポーネントもオープンソースです[https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser)。
 
-しかし、**IOKitドライバーは**オープンソースではありません。とはいえ、時折、デバッグを容易にするシンボルを持つドライバーのリリースがあるかもしれません。ここで[**ファームウェアからドライバー拡張を取得する方法**](./#ipsw)**を確認してください。**
+しかし、**IOKitドライバーは**オープンソースではありません。とはいえ、時折、ドライバーのリリースにはデバッグを容易にするシンボルが付属することがあります。ここで[**ファームウェアからドライバー拡張を取得する方法を確認してください**](./#ipsw)**。**
 
 これは**C++**で書かれています。デマングルされたC++シンボルを取得するには：
 ```bash
@@ -36,7 +36,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **公開された関数**は、クライアントが関数を呼び出そうとする際に**追加のセキュリティチェック**を実行する可能性がありますが、アプリは通常、IOKit関数と相互作用できる**サンドボックス**によって**制限**されています。
+IOKit **公開された関数**は、クライアントが関数を呼び出そうとする際に**追加のセキュリティチェック**を実行する可能性がありますが、アプリは通常、IOKit関数と対話できる**サンドボックス**によって**制限**されています。
 {% endhint %}
 
 ## ドライバー
@@ -84,7 +84,7 @@ kextunload com.apple.iokit.IOReportFamily
 
 **IORegistry**は、macOSおよびiOSのIOKitフレームワークの重要な部分であり、システムのハードウェア構成と状態を表すデータベースとして機能します。これは、**システムにロードされたすべてのハードウェアとドライバを表すオブジェクトの階層的コレクション**であり、それらの相互関係を示しています。
 
-IORegistryは、cli **`ioreg`**を使用してコンソールから検査することができ（特にiOSに便利です）。
+CLI **`ioreg`**を使用してIORegistryを取得し、コンソールから検査できます（特にiOSに便利です）。
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
@@ -103,9 +103,9 @@ IORegistryExplorerでは、「プレーン」はIORegistry内の異なるオブ�
 5. **IOAudio Plane**: このプレーンは、システム内のオーディオデバイスとその関係を表すためのものです。
 6. ...
 
-## ドライバ通信コード例
+## ドライバコミュニケーションコード例
 
-以下のコードは、IOKitサービス`"YourServiceNameHere"`に接続し、セレクタ0内の関数を呼び出します。そのために：
+以下のコードは、IOKitサービス `"YourServiceNameHere"` に接続し、セレクタ0内の関数を呼び出します。そのために：
 
 * まず**`IOServiceMatching`**と**`IOServiceGetMatchingServices`**を呼び出してサービスを取得します。
 * 次に、**`IOServiceOpen`**を呼び出して接続を確立します。
@@ -164,13 +164,13 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-他にも **`IOConnectCallScalarMethod`** の他に **`IOConnectCallMethod`**、**`IOConnectCallStructMethod`** などの IOKit 関数を呼び出すために使用できる関数があります。
+他にも**`IOConnectCallScalarMethod`**の他にIOKit関数を呼び出すために使用できる関数がいくつかあります。例えば、**`IOConnectCallMethod`**、**`IOConnectCallStructMethod`**などです。
 
 ## ドライバエントリポイントのリバースエンジニアリング
 
-これらは例えば [**ファームウェアイメージ (ipsw)**](./#ipsw) から取得できます。その後、お気に入りのデコンパイラにロードします。
+これらは例えば[**ファームウェアイメージ (ipsw)**](./#ipsw)から取得できます。その後、お気に入りのデコンパイラにロードします。
 
-**`externalMethod`** 関数のデコンパイルを開始できます。これは呼び出しを受け取り、正しい関数を呼び出すドライバ関数です：
+**`externalMethod`**関数のデコンパイルを開始することができます。これは呼び出しを受け取り、正しい関数を呼び出すドライバ関数です：
 
 <figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
@@ -192,7 +192,7 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-実際、真の定義は[https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388)で見つけることができます:
+実際、真の定義は[https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388)で見つけることができます：
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
@@ -206,7 +206,7 @@ OSObject * target, void * reference)
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-次のステップでは、**`IOExternalMethodDispatch2022`** 構造体を定義する必要があります。これは [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) でオープンソースです。これを定義できます：
+次のステップでは、**`IOExternalMethodDispatch2022`** 構造体を定義する必要があります。これはオープンソースで [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) にあります。これを定義できます：
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
@@ -222,7 +222,7 @@ OSObject * target, void * reference)
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-そして、今そこにあるのは **7つの要素の配列** です（最終的な逆コンパイルコードを確認してください）。7つの要素の配列を作成するためにクリックします：
+そして、ここにあるのは **7つの要素の配列** です（最終的な逆コンパイルされたコードを確認してください）。7つの要素の配列を作成するためにクリックします：
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 

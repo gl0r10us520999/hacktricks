@@ -83,11 +83,6 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 {% endhint %}
 </details>
 {% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}ハッキングトリックを共有してください。** [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
-
 {% endhint %}
 </details>
 {% endhint %}

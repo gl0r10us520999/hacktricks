@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png"
 
 Appleは、接続プロセスが**公開されたXPCメソッドを呼び出す権限を持っているかどうかを認証する別の方法**を提案しています。
 
-アプリケーションが**特権ユーザーとしてアクションを実行する必要がある**場合、通常は特権ユーザーとしてアプリを実行するのではなく、アプリから呼び出してアクションを実行するために、XPCサービスとしてHelperToolをルートとしてインストールします。ただし、サービスを呼び出すアプリは十分な認可を持っている必要があります。
+アプリケーションが**特権ユーザーとしてアクションを実行する必要がある**場合、通常は特権ユーザーとしてアプリを実行するのではなく、アプリから呼び出してそのアクションを実行できるXPCサービスとしてHelperToolをルートとしてインストールします。ただし、サービスを呼び出すアプリは十分な認可を持っている必要があります。
 
 ### ShouldAcceptNewConnectionは常にYES
 
@@ -46,12 +46,12 @@ For more information about how to properly configure this check:
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### アプリケーションの権限
+### アプリケーションの権利
 
-ただし、**HelperToolのメソッドが呼び出されるときにいくつかの認可が行われます**。
+ただし、**HelperToolからメソッドが呼び出されるときにいくつかの認可が行われます**。
 
 `App/AppDelegate.m`の**`applicationDidFinishLaunching`**関数は、アプリが起動した後に空の認可参照を作成します。これは常に機能するはずです。\
-次に、`setupAuthorizationRights`を呼び出して、その認可参照に**いくつかの権限を追加しようとします**。
+その後、`setupAuthorizationRights`を呼び出して、その認可参照に**いくつかの権利を追加しようとします**。
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m`の`setupAuthorizationRights`関数は、アプリケーションの権限を`/var/db/auth.db`の認証データベースに保存します。まだデータベースに存在しない権限のみを追加することに注意してください：
+`Common/Common.m`の`setupAuthorizationRights`関数は、アプリケーションの権限を`/var/db/auth.db`の認証データベースに保存します。データベースにまだ存在しない権限のみを追加することに注意してください：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -107,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-`enumerateRightsUsingBlock` 関数は、`commandInfo` に定義されたアプリケーションの権限を取得するために使用されます。
+`enumerateRightsUsingBlock`関数は、`commandInfo`で定義されたアプリケーションの権限を取得するために使用されます。
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -185,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-これは、このプロセスの最後に、`commandInfo`内で宣言された権限が`/var/db/auth.db`に保存されることを意味します。ここでは、**認証が必要な各メソッド**、**権限名**、および**`kCommandKeyAuthRightDefault`**を見つけることができます。後者は**誰がこの権利を取得できるか**を示します。
+これは、このプロセスの最後に、`commandInfo`内で宣言された権限が`/var/db/auth.db`に保存されることを意味します。ここでは、**認証が必要な各メソッド**、**権限名**、および**`kCommandKeyAuthRightDefault`**を見つけることができます。後者は**誰がこの権利を取得できるかを示します**。
 
 権利にアクセスできる人を示すための異なるスコープがあります。それらのいくつかは[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)で定義されています（[ここにすべてがあります](https://www.dssw.co.uk/reference/authorization-rights/)が、要約として：
 
@@ -193,7 +193,7 @@ block(authRightName, authRightDefault, authRightDesc);
 
 ### 権利の検証
 
-`HelperTool/HelperTool.m`では、関数**`readLicenseKeyAuthorization`**が呼び出し元が**そのメソッドを実行する権限があるか**を確認するために、関数**`checkAuthorization`**を呼び出します。この関数は、呼び出しプロセスによって送信された**authData**が**正しい形式**であるかを確認し、その後、特定のメソッドを呼び出すために**必要なもの**を確認します。すべてがうまくいけば、**返された`error`は`nil`になります**：
+`HelperTool/HelperTool.m`の関数**`readLicenseKeyAuthorization`**は、呼び出し元が**そのメソッドを実行する権限があるかどうか**を確認するために、関数**`checkAuthorization`**を呼び出します。この関数は、呼び出しプロセスによって送信された**authData**が**正しい形式**であるかどうかを確認し、その後、特定のメソッドを呼び出すために**必要なもの**を確認します。すべてがうまくいけば、**返された`error`は`nil`になります**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -253,23 +253,23 @@ sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-次に、誰がその権利にアクセスできるかを読むことができます:
+その後、次のコマンドで誰がその権利にアクセスできるかを確認できます。
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
 ### Permissive rights
 
-**すべての権限設定** [**ここにあります**](https://www.dssw.co.uk/reference/authorization-rights/)、ただし、ユーザーの操作を必要としない組み合わせは次のとおりです。
+**すべての権限設定** [**こちら**](https://www.dssw.co.uk/reference/authorization-rights/) で見つけることができますが、ユーザーの操作を必要としない組み合わせは次のとおりです。
 
 1. **'authenticate-user': 'false'**
-* これは最も直接的なキーです。`false`に設定されている場合、ユーザーがこの権利を得るために認証を提供する必要がないことを指定します。
-* これは、以下の2つのいずれかと組み合わせて使用するか、ユーザーが属する必要のあるグループを示すために使用されます。
+* これは最も直接的なキーです。`false`に設定すると、ユーザーがこの権利を得るために認証を提供する必要がないことを指定します。
+* これは、以下の2つのいずれかと組み合わせて使用するか、ユーザーが属する必要があるグループを示すために使用されます。
 2. **'allow-root': 'true'**
 * ユーザーがルートユーザー（昇格された権限を持つ）として操作している場合、このキーが`true`に設定されていると、ルートユーザーは追加の認証なしにこの権利を得る可能性があります。ただし、通常、ルートユーザーの状態に到達するにはすでに認証が必要であるため、これはほとんどのユーザーにとって「認証なし」のシナリオではありません。
 3. **'session-owner': 'true'**
 * `true`に設定されている場合、セッションの所有者（現在ログインしているユーザー）は自動的にこの権利を得ます。ユーザーがすでにログインしている場合、追加の認証をバイパスする可能性があります。
 4. **'shared': 'true'**
-* このキーは、認証なしに権利を付与しません。代わりに、`true`に設定されている場合、権利が認証された後は、各プロセスが再認証を必要とせずに複数のプロセス間で共有できることを意味します。ただし、権利の最初の付与は、`'authenticate-user': 'false'`のような他のキーと組み合わせない限り、認証を必要とします。
+* このキーは、認証なしに権利を付与しません。代わりに、`true`に設定されている場合、権利が認証された後は、各プロセスが再認証を必要とせずに複数のプロセス間で共有できることを意味します。しかし、権利の最初の付与は、`'authenticate-user': 'false'`のような他のキーと組み合わせない限り、認証を必要とします。
 
 **このスクリプト** [**を使用して**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) 興味深い権利を取得できます。
 ```bash

@@ -17,18 +17,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本情報
 
-AppArmorは、**プログラムごとのプロファイルを通じてプログラムに利用可能なリソースを制限するために設計されたカーネル拡張機能**です。これにより、アクセス制御属性がユーザーではなくプログラムに直接結び付けられることで、Mandatory Access Control (MAC)が効果的に実装されます。このシステムは、**プロファイルをカーネルにロードすることによって機能し**、通常はブート時に行われ、これらのプロファイルはプログラムがアクセスできるリソース（ネットワーク接続、生ソケットアクセス、ファイル権限など）を決定します。
+AppArmorは、**プログラムごとのプロファイルを通じてプログラムに利用可能なリソースを制限するために設計されたカーネル拡張機能**であり、ユーザーではなくプログラムに直接アクセス制御属性を結びつけることによって、必須アクセス制御（MAC）を効果的に実装します。このシステムは、**プロファイルをカーネルにロードすることによって動作し**、通常はブート時に行われ、これらのプロファイルはプログラムがアクセスできるリソース（ネットワーク接続、生ソケットアクセス、ファイル権限など）を決定します。
 
 AppArmorプロファイルには2つの運用モードがあります：
 
-* **強制モード**：このモードは、プロファイル内で定義されたポリシーを積極的に強制し、これらのポリシーに違反するアクションをブロックし、syslogやauditdなどのシステムを通じて違反の試みをログに記録します。
-* **コンプライアンスモード**：強制モードとは異なり、コンプライアンスモードはプロファイルのポリシーに反するアクションをブロックしません。代わりに、これらの試みをポリシー違反としてログに記録しますが、制限は強制しません。
+* **強制モード**：このモードは、プロファイル内で定義されたポリシーを積極的に強制し、これらのポリシーに違反する行動をブロックし、syslogやauditdなどのシステムを通じて違反の試みをログに記録します。
+* **コンプライアンスモード**：強制モードとは異なり、コンプライアンスモードはプロファイルのポリシーに反する行動をブロックしません。代わりに、制限を強制せずにこれらの試みをポリシー違反としてログに記録します。
 
 ### AppArmorのコンポーネント
 
 * **カーネルモジュール**：ポリシーの強制を担当します。
-* **ポリシー**：プログラムの動作とリソースアクセスに関するルールと制限を指定します。
-* **パーサー**：ポリシーをカーネルにロードして強制または報告します。
+* **ポリシー**：プログラムの動作とリソースアクセスのルールと制限を指定します。
+* **パーサー**：強制または報告のためにポリシーをカーネルにロードします。
 * **ユーティリティ**：AppArmorとのインターフェースを提供し、管理するためのユーザーモードプログラムです。
 
 ### プロファイルのパス
@@ -36,7 +36,7 @@ AppArmorプロファイルには2つの運用モードがあります：
 AppArmorプロファイルは通常、_**/etc/apparmor.d/**_に保存されます。\
 `sudo aa-status`を使用すると、いくつかのプロファイルによって制限されているバイナリをリストできます。リストされた各バイナリのパスの「/」をドットに変更すると、指定されたフォルダー内のAppArmorプロファイルの名前が得られます。
 
-例えば、_**/usr/bin/man**_のための**AppArmor**プロファイルは、_**/etc/apparmor.d/usr.bin.man**_にあります。
+例えば、_/usr/bin/man_のための**apparmor**プロファイルは、_/etc/apparmor.d/usr.bin.man_にあります。
 
 ### コマンド
 ```bash
@@ -61,24 +61,24 @@ aa-mergeprof  #used to merge the policies
 * **Px** (環境をクリーンアップした後、別のプロファイルの下で実行)
 * **Cx** (環境をクリーンアップした後、子プロファイルの下で実行)
 * **Ux** (環境をクリーンアップした後、制限なしで実行)
-* **変数**はプロファイル内で定義でき、プロファイルの外部から操作できます。例えば： @{PROC} と @{HOME} (プロファイルファイルに #include \<tunables/global> を追加)
+* **変数**はプロファイル内で定義でき、プロファイルの外から操作できます。例えば： @{PROC} と @{HOME} (プロファイルファイルに #include \<tunables/global> を追加)
 * **許可ルールを上書きするための拒否ルールがサポートされています**。
 
 ### aa-genprof
 
 プロファイルの作成を簡単に始めるために、apparmorが役立ちます。**apparmorがバイナリによって実行されるアクションを検査し、許可または拒否したいアクションを決定できるようにすることが可能です**。\
-実行するだけで済みます：
+実行する必要があるのは次のコマンドです：
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-その後、別のコンソールでバイナリが通常実行するすべてのアクションを実行します：
+次に、別のコンソールでバイナリが通常実行するすべてのアクションを実行します：
 ```bash
 /path/to/binary -a dosomething
 ```
-次に、最初のコンソールで "**s**" を押し、記録されたアクションで無視、許可、またはその他を選択します。終了したら "**f**" を押すと、新しいプロファイルが _/etc/apparmor.d/path.to.binary_ に作成されます。
+次に、最初のコンソールで "**s**" を押し、記録されたアクションで無視、許可、またはその他の選択を示します。終了したら "**f**" を押すと、新しいプロファイルが _/etc/apparmor.d/path.to.binary_ に作成されます。
 
 {% hint style="info" %}
-矢印キーを使用して、許可/拒否/その他を選択できます
+矢印キーを使用して、許可/拒否/その他の選択を行うことができます
 {% endhint %}
 
 ### aa-easyprof
@@ -112,7 +112,7 @@ sudo aa-easyprof /path/to/binary
 デフォルトでは、作成されたプロファイルでは何も許可されていないため、すべてが拒否されます。例えば、バイナリが`/etc/passwd`を読み取ることを許可するには、`/etc/passwd r,`のような行を追加する必要があります。
 {% endhint %}
 
-その後、**enforce**コマンドを使用して新しいプロファイルを適用できます。
+その後、**新しいプロファイルを強制**することができます。
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
@@ -182,7 +182,7 @@ docker-default
 **docker-default プロファイルの概要**:
 
 * **ネットワーク**へのすべての**アクセス**
-* **能力**は定義されていません（ただし、基本的なベースルールを含めることでいくつかの能力が得られます。つまり、#include \<abstractions/base>）
+* **能力**は定義されていません（ただし、基本的なベースルールを含むことでいくつかの能力が追加されます。つまり、#include \<abstractions/base>）
 * **/proc**ファイルへの**書き込み**は**許可されていません**
 * **/proc**および**/sys**の他の**サブディレクトリ**/**ファイル**への読み取り/書き込み/ロック/リンク/実行アクセスは**拒否**されます
 * **マウント**は**許可されていません**
@@ -193,7 +193,7 @@ docker-default
 1 processes are in enforce mode.
 docker-default (825)
 ```
-注意してほしいのは、**apparmorはデフォルトでコンテナに付与されたcapabilities権限さえもブロックする**ということです。例えば、**SYS\_ADMIN権限が付与されていても/proc内への書き込み権限をブロックすることができる**のは、デフォルトのdocker apparmorプロファイルがこのアクセスを拒否するためです。
+注意してほしいのは、**apparmorはデフォルトでコンテナに付与されたcapabilities privilegesさえもブロックする**ということです。例えば、**SYS\_ADMIN capabilityが付与されていても、/proc内に書き込む権限をブロックすることができます**。なぜなら、デフォルトのdocker apparmorプロファイルがこのアクセスを拒否するからです：
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -203,23 +203,23 @@ sh: 1: cannot create /proc/stat: Permission denied
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
-デフォルトでは、**AppArmor**は**コンテナが内部から**フォルダをマウントすることを**禁止します**。SYS\_ADMIN権限があってもです。
+注意していただきたいのは、デフォルトでは **AppArmor** は **コンテナが内部から** フォルダをマウントすることを **禁止する** ということです。SYS\_ADMIN 権限があってもです。
 
-**capabilities**をdockerコンテナに**追加/削除**することができます（これは**AppArmor**や**Seccomp**のような保護方法によって制限されます）：
+また、docker コンテナに **capabilities** を **追加/削除** することができます（これは **AppArmor** や **Seccomp** のような保護方法によって制限されます）：
 
 * `--cap-add=SYS_ADMIN` で `SYS_ADMIN` 権限を付与
 * `--cap-add=ALL` ですべての権限を付与
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` ですべての権限を削除し、`SYS_PTRACE`のみを付与
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` ですべての権限を削除し、`SYS_PTRACE` のみを付与
 
 {% hint style="info" %}
-通常、**docker**コンテナ内で**特権のある権限**が利用可能であることを**発見**したが、**エクスプロイトの一部が機能していない**場合、これはdockerの**apparmorがそれを防いでいる**ためです。
+通常、**docker** コンテナ内で **特権のある権限** が利用可能であることを **発見** したが、**エクスプロイトの一部が機能していない** 場合、これは docker **apparmor がそれを防いでいる** からです。
 {% endhint %}
 
 ### 例
 
-（[**こちら**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)からの例）
+(例は [**こちら**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/) から)
 
-AppArmorの機能を示すために、次の行を追加した新しいDockerプロファイル「mydocker」を作成しました：
+AppArmor の機能を示すために、次の行を追加した新しい Docker プロファイル “mydocker” を作成しました：
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
@@ -232,7 +232,7 @@ sudo apparmor_parser -r -W mydocker
 $ sudo apparmor_status  | grep mydocker
 mydocker
 ```
-以下に示すように、AppArmorプロファイルが「/etc」への書き込みアクセスを防止しているため、「/etc/」を変更しようとするとエラーが発生します。
+以下に示すように、AppArmorプロファイルが「/etc」への書き込みアクセスを防止しているため、「/etc」を変更しようとするとエラーが発生します。
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
@@ -277,7 +277,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

@@ -19,19 +19,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 macOSの**XPCサービス**が**PID**に基づいて呼び出されたプロセスを確認し、**監査トークン**ではない場合、PID再利用攻撃に対して脆弱です。この攻撃は**レースコンディション**に基づいており、**エクスプロイト**が**XPC**サービスにメッセージを**送信し**、その後に**`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**を**許可された**バイナリで実行します。
 
-この関数は**許可されたバイナリがPIDを所有する**ようにしますが、**悪意のあるXPCメッセージはその直前に送信されている**ことになります。したがって、**XPC**サービスが**PID**を使用して送信者を**認証**し、**`posix_spawn`**の実行**後**にそれを確認すると、それが**認可された**プロセスからのものであると考えます。
+この関数は**許可されたバイナリがPIDを所有する**ようにしますが、**悪意のあるXPCメッセージはその直前に送信されます**。したがって、**XPC**サービスが**PID**を使用して送信者を**認証**し、**`posix_spawn`**の実行**後**にそれを確認すると、それが**認可された**プロセスからのものであると考えます。
 
 ### Exploit example
 
-もし**`shouldAcceptNewConnection`**という関数や、それを呼び出す関数が**`auditToken`**を呼び出さずに**`processIdentifier`**を呼び出しているのを見つけた場合、それは**プロセスPIDを確認している**可能性が高いです。\
-例えば、以下の画像のように（参照から取得）：
+**`shouldAcceptNewConnection`**関数やそれを呼び出す関数が**`processIdentifier`**を呼び出し、**`auditToken`**を呼び出さない場合、それは**プロセスPIDを確認している**可能性が高いです。\
+例えば、この画像のように（参照から取得）：
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-このエクスプロイトの例を確認してください（再度、参照から取得）して、エクスプロイトの2つの部分を見てください：
+この例のエクスプロイトを確認してください（再び、参照から取得）して、エクスプロイトの2つの部分を見てください：
 
-* 複数のフォークを**生成する**もの
-* **各フォーク**は**メッセージを送信した後に**XPCサービスに**ペイロードを送信**しながら**`posix_spawn`**を実行します。
+* **いくつかのフォークを生成する**もの
+* **各フォーク**は**メッセージを送信した直後に**XPCサービスに**ペイロードを送信**します。
 
 {% hint style="danger" %}
 エクスプロイトが機能するためには、` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`**を設定するか、エクスプロイト内に入れることが重要です：
@@ -153,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-この例では、生の **`fork`** を使用して **PID レースコンディションを悪用する子プロセスを起動** し、次に **ハードリンクを介して別のレースコンディションを悪用** します：
+この例では、生の **`fork`** を使用して **PID レースコンディションを悪用する子プロセスを起動し、次にハードリンクを介して別のレースコンディションを悪用します:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl

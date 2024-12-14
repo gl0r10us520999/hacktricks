@@ -16,63 +16,63 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 {% hint style="warning" %}
-**`com.apple`** で始まる権限は第三者には利用できず、Appleのみが付与できますので注意してください。
+**`com.apple`** で始まる権限はサードパーティには利用できず、Appleのみが付与できますので注意してください。
 {% endhint %}
 
 ## High
 
 ### `com.apple.rootless.install.heritable`
 
-権限 **`com.apple.rootless.install.heritable`** は **SIPをバイパスする** ことを許可します。詳細は [こちらを確認してください](macos-sip.md#com.apple.rootless.install.heritable)。
+権限 **`com.apple.rootless.install.heritable`** は **SIPをバイパス** することを許可します。詳細は [こちらを確認してください](macos-sip.md#com.apple.rootless.install.heritable)。
 
 ### **`com.apple.rootless.install`**
 
-権限 **`com.apple.rootless.install`** は **SIPをバイパスする** ことを許可します。詳細は [こちらを確認してください](macos-sip.md#com.apple.rootless.install)。
+権限 **`com.apple.rootless.install`** は **SIPをバイパス** することを許可します。詳細は [こちらを確認してください](macos-sip.md#com.apple.rootless.install)。
 
 ### **`com.apple.system-task-ports` (以前は `task_for_pid-allow` と呼ばれていました)**
 
-この権限は、カーネルを除く **任意の** プロセスの **タスクポートを取得する** ことを許可します。詳細は [こちらを確認してください](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
+この権限は、カーネルを除く **任意の** プロセスの **タスクポートを取得** することを許可します。詳細は [こちらを確認してください](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
 
 ### `com.apple.security.get-task-allow`
 
-この権限は、**`com.apple.security.cs.debugger`** 権限を持つ他のプロセスが、この権限を持つバイナリによって実行されるプロセスのタスクポートを取得し、**コードを注入する** ことを許可します。詳細は [こちらを確認してください](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
+この権限は、**`com.apple.security.cs.debugger`** 権限を持つ他のプロセスが、この権限を持つバイナリによって実行されるプロセスのタスクポートを取得し、**コードを注入** することを許可します。詳細は [こちらを確認してください](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
 
 ### `com.apple.security.cs.debugger`
 
-デバッグツール権限を持つアプリは、`task_for_pid()` を呼び出して、`Get Task Allow` 権限が `true` に設定された署名されていないおよびサードパーティのアプリの有効なタスクポートを取得できます。しかし、デバッグツール権限があっても、デバッガは **`Get Task Allow` 権限を持たない** プロセスのタスクポートを取得できず、それらはシステム整合性保護によって保護されています。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)。
+デバッグツール権限を持つアプリは、`task_for_pid()` を呼び出して、`Get Task Allow` 権限が `true` に設定された署名されていないアプリやサードパーティアプリの有効なタスクポートを取得できます。しかし、デバッグツール権限があっても、デバッガは **`Get Task Allow` 権限を持たない** プロセスのタスクポートを取得できず、それらはシステム整合性保護によって保護されています。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)。
 
 ### `com.apple.security.cs.disable-library-validation`
 
-この権限は、**Appleによって署名されていないか、メイン実行可能ファイルと同じチームIDで署名されていないフレームワーク、プラグイン、またはライブラリを読み込む** ことを許可します。これにより、攻撃者は任意のライブラリの読み込みを悪用してコードを注入することができます。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)。
+この権限は、**Appleによって署名されていないか、メイン実行可能ファイルと同じチームIDで署名されていないフレームワーク、プラグイン、またはライブラリをロード** することを許可します。これにより、攻撃者は任意のライブラリのロードを悪用してコードを注入することができます。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)。
 
 ### `com.apple.private.security.clear-library-validation`
 
-この権限は **`com.apple.security.cs.disable-library-validation`** と非常に似ていますが、**ライブラリ検証を直接無効にするのではなく、プロセスが **`csops`** システムコールを呼び出して無効にすることを許可します。**\
+この権限は **`com.apple.security.cs.disable-library-validation`** と非常に似ていますが、**ライブラリ検証を直接無効にするのではなく、プロセスが **`csops` システムコールを呼び出して無効にすることを許可します**。\
 詳細は [こちらを確認してください](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/)。
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-この権限は、**ライブラリやコードを注入するために使用される可能性のあるDYLD環境変数を使用する** ことを許可します。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)。
+この権限は、**ライブラリやコードを注入するために使用される可能性のあるDYLD環境変数を使用** することを許可します。詳細は [こちらを確認してください](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)。
 
 ### `com.apple.private.tcc.manager` または `com.apple.rootless.storage`.`TCC`
 
-[**このブログによると**](https://objective-see.org/blog/blog\_0x4C.html) **および** [**このブログによると**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/)、これらの権限は **TCC** データベースを **変更する** ことを許可します。
+[**このブログによると**](https://objective-see.org/blog/blog\_0x4C.html) **および** [**このブログ**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/) **によれば、これらの権限は** TCC **データベースを** **変更** することを許可します。**
 
 ### **`system.install.apple-software`** および **`system.install.apple-software.standar-user`**
 
-これらの権限は、ユーザーに許可を求めることなく **ソフトウェアをインストールする** ことを許可します。これは **特権昇格** に役立つ可能性があります。
+これらの権限は、ユーザーに許可を求めることなく **ソフトウェアをインストール** することを許可します。これは **特権昇格** に役立つ可能性があります。
 
 ### `com.apple.private.security.kext-management`
 
-カーネルにカーネル拡張を読み込むように要求するために必要な権限です。
+カーネルにカーネル拡張をロードするように要求するために必要な権限です。
 
 ### **`com.apple.private.icloud-account-access`**
 
-権限 **`com.apple.private.icloud-account-access`** により、**`com.apple.iCloudHelper`** XPCサービスと通信することが可能になり、**iCloudトークンを提供します**。
+権限 **`com.apple.private.icloud-account-access`** により、**`com.apple.iCloudHelper`** XPCサービスと通信することが可能になり、**iCloudトークンを提供** します。
 
 **iMovie** と **Garageband** はこの権限を持っていました。
 
-この権限から **iCloudトークンを取得する** ためのエクスプロイトに関する詳細は、トークを確認してください: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+この権限から **iCloudトークンを取得するためのエクスプロイト** に関する詳細は、トーク: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0) を確認してください。
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -80,15 +80,15 @@ TODO: これが何を許可するのかはわかりません。
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: [**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) では、再起動後にSSV保護されたコンテンツを更新するために使用できる可能性があると述べられています。方法がわかる方はPRを送ってください！
+TODO: [**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **では、再起動後にSSV保護されたコンテンツを更新するために使用できる可能性があると述べられています。** もし知っている方はPRを送ってください！
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: [**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) では、再起動後にSSV保護されたコンテンツを更新するために使用できる可能性があると述べられています。方法がわかる方はPRを送ってください！
+TODO: [**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **では、再起動後にSSV保護されたコンテンツを更新するために使用できる可能性があると述べられています。** もし知っている方はPRを送ってください！
 
 ### `keychain-access-groups`
 
-この権限は、アプリケーションがアクセスできる **キーチェーン** グループのリストです:
+この権限は、アプリケーションがアクセスできる **キーチェーン** グループのリストです：
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -119,7 +119,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-ユーザーのTCCデータベースを**書き込む**ことを許可します。
+ユーザーのTCCデータベースを**書き込む**ことを含む、他の権限を許可します。
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
@@ -135,17 +135,17 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `kTCCServiceAccessibility`
 
-プロセスは**macOSのアクセシビリティ機能を悪用**できるようになります。つまり、例えばキー入力を押すことができるようになります。したがって、Finderのようなアプリを制御するためのアクセスを要求し、この権限でダイアログを承認することができます。
+プロセスは**macOSのアクセシビリティ機能を悪用**できるようになり、例えばキー入力を押すことができるようになります。したがって、Finderのようなアプリを制御するためのアクセスを要求し、この権限でダイアログを承認することができます。
 
 ## 中程度
 
 ### `com.apple.security.cs.allow-jit`
 
-この権限は、`mmap()`システム関数に`MAP_JIT`フラグを渡すことで、**書き込み可能かつ実行可能なメモリを作成**することを許可します。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit)。
+この権限は、`mmap()`システム関数に`MAP_JIT`フラグを渡すことで、**書き込み可能かつ実行可能なメモリを作成する**ことを許可します。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit)。
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-この権限は、**Cコードをオーバーライドまたはパッチ**することを許可し、長い間非推奨の**`NSCreateObjectFileImageFromMemory`**（根本的に安全ではありません）を使用するか、**DVDPlayback**フレームワークを使用することを許可します。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)。
+この権限は、**Cコードをオーバーライドまたはパッチする**ことを許可し、長い間非推奨の**`NSCreateObjectFileImageFromMemory`**（根本的に安全でない）を使用するか、**DVDPlayback**フレームワークを使用することを許可します。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)。
 
 {% hint style="danger" %}
 この権限を含めると、アプリがメモリ安全でないコード言語の一般的な脆弱性にさらされます。アプリがこの例外を必要とするかどうかを慎重に検討してください。
@@ -153,7 +153,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-この権限は、ディスク上の**自分の実行可能ファイルのセクションを変更**して強制終了することを許可します。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
+この権限は、ディスク上の**自分の実行可能ファイルのセクションを変更する**ことを許可し、強制的に終了させることができます。詳細については[**こちらを確認してください**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
 
 {% hint style="danger" %}
 実行可能メモリ保護を無効にする権限は、アプリから基本的なセキュリティ保護を取り除く極端な権限であり、攻撃者が検出されることなくアプリの実行可能コードを書き換えることを可能にします。可能であれば、より狭い権限を優先してください。

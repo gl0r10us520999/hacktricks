@@ -20,12 +20,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-前の画像では、**`com.apple.security.app-sandbox`** の権限を持つアプリケーションが実行されるときに**サンドボックスがどのように読み込まれるか**を観察できます。
+前の画像では、**アプリケーションが `com.apple.security.app-sandbox` の権限を持って実行されるときに、サンドボックスがどのようにロードされるか**を観察することができます。
 
 コンパイラはバイナリに `/usr/lib/libSystem.B.dylib` をリンクします。
 
-その後、**`libSystem.B`** は他のいくつかの関数を呼び出し、**`xpc_pipe_routine`** がアプリの権限を **`securityd`** に送信します。Securitydはプロセスがサンドボックス内で隔離されるべきかどうかを確認し、そうであれば隔離します。\
-最後に、サンドボックスは **`__sandbox_ms`** への呼び出しでアクティブ化され、これが **`__mac_syscall`** を呼び出します。
+次に、**`libSystem.B`** は他のいくつかの関数を呼び出し、**`xpc_pipe_routine`** がアプリの権限を **`securityd`** に送信します。Securitydはプロセスがサンドボックス内で隔離されるべきかどうかを確認し、そうであれば隔離されます。\
+最後に、サンドボックスは **`__sandbox_ms`** への呼び出しによってアクティブ化され、これが **`__mac_syscall`** を呼び出します。
 
 ## Possible Bypasses
 
@@ -36,14 +36,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 これは [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)** で行われたことです。**
 
 {% hint style="danger" %}
-したがって、現時点では、**隔離属性なしで `.app`** で終わる名前のフォルダを作成できる場合、サンドボックスから脱出できます。なぜなら、macOSは**`.app` フォルダ**と**メイン実行可能ファイル**の**隔離**属性のみを**チェック**するからです（そして、私たちはメイン実行可能ファイルを **`/bin/bash`** にポイントさせます）。
+したがって、現時点では、**隔離属性なしで `.app` で終わる名前のフォルダを作成することができる**場合、サンドボックスから脱出することができます。なぜなら、macOSは**`.app` フォルダ**と**メイン実行可能ファイル**の**隔離**属性のみを**チェック**するからです（そして、私たちはメイン実行可能ファイルを **`/bin/bash`** にポイントさせます）。
 
-すでに実行を許可された .app バンドル（実行を許可されたフラグが付いた隔離 xttrを持つ）であれば、それを悪用することもできます... ただし、今はサンドボックス内では特権TCC権限がない限り、**`.app`** バンドル内に書き込むことはできません。
+すでに実行を許可された .app バンドル（実行を許可されたフラグが付いた隔離 xttrを持つ）であれば、それを悪用することもできます... ただし、今はサンドボックス内ではいくつかの特権 TCC 権限がない限り、**`.app`** バンドル内に書き込むことはできません（サンドボックスが高い場合は特に）。
 {% endhint %}
 
 ### Abusing Open functionality
 
-[**Wordサンドボックスバイパスの最後の例**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv)では、**`open`** CLI機能がサンドボックスをバイパスするために悪用される様子が見られます。
+[**Wordサンドボックスバイパスの最後の例**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv)では、**`open`** CLI機能がサンドボックスをバイパスするために悪用される様子が確認できます。
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -51,14 +51,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Launch Agents/Daemons
 
-アプリケーションが**サンドボックス化されることを意図している**場合（`com.apple.security.app-sandbox`）、例えば**LaunchAgent**（`~/Library/LaunchAgents`）から実行されると、サンドボックスをバイパスすることが可能です。\
+アプリケーションが**サンドボックス化されることを意図している**場合（`com.apple.security.app-sandbox`）、例えば**LaunchAgent**（`~/Library/LaunchAgents`）から実行される場合、サンドボックスをバイパスすることが可能です。\
 [**この投稿**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818)で説明されているように、サンドボックス化されたアプリケーションで永続性を得たい場合、LaunchAgentとして自動的に実行されるようにし、DyLib環境変数を介して悪意のあるコードを注入することができます。
 
 ### Abusing Auto Start Locations
 
-サンドボックス化されたプロセスが**後でサンドボックスなしのアプリケーションがバイナリを実行する場所に**書き込むことができる場合、**そこにバイナリを置くだけで**脱出できます。この種の場所の良い例は `~/Library/LaunchAgents` や `/System/Library/LaunchDaemons` です。
+サンドボックス化されたプロセスが**書き込むことができる場所**に**後でサンドボックスなしのアプリケーションがバイナリを実行する**場合、そこにバイナリを配置することで**脱出することができます**。この種の場所の良い例は `~/Library/LaunchAgents` や `/System/Library/LaunchDaemons` です。
 
-これには**2ステップ**が必要な場合があります：**より許可されたサンドボックス**（`file-read*`, `file-write*`）を持つプロセスを実行し、実際に**サンドボックスなしで実行される場所に**書き込むコードを実行します。
+これには**2ステップ**が必要な場合があります：**より許可されたサンドボックス**（`file-read*`, `file-write*`）を持つプロセスがあなたのコードを実行し、それが実際に**サンドボックスなしで実行される場所に書き込む**ことです。
 
 **自動起動場所**についてのこのページを確認してください：
 
@@ -68,7 +68,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Abusing other processes
 
-サンドボックスプロセスから**他のプロセスを妥協する**ことができれば、より制限の少ないサンドボックス（またはサンドボックスなし）で実行されているプロセスに脱出できます：
+もしサンドボックスプロセスから**他のプロセスを妨害することができれば**、より制限の少ないサンドボックス（またはサンドボックスなし）で実行されている場合、あなたはそれらのサンドボックスに脱出することができます：
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -76,10 +76,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Static Compiling & Dynamically linking
 
-[**この研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)では、サンドボックスをバイパスする2つの方法が発見されました。サンドボックスはユーザーランドから適用され、**libSystem**ライブラリが読み込まれるときに適用されます。バイナリがそれを読み込むのを回避できれば、サンドボックス化されることはありません：
+[**この研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)では、サンドボックスをバイパスする2つの方法が発見されました。サンドボックスはユーザーランドから適用され、**libSystem**ライブラリがロードされるときに適用されます。バイナリがそれをロードするのを回避できれば、決してサンドボックス化されることはありません：
 
-* バイナリが**完全に静的にコンパイルされている**場合、そのライブラリを読み込むのを回避できます。
-* **バイナリがライブラリを読み込む必要がない**場合（リンカーもlibSystemにあるため）、libSystemを読み込む必要はありません。
+* バイナリが**完全に静的にコンパイルされている**場合、そのライブラリをロードするのを回避できます。
+* **バイナリがライブラリをロードする必要がない**場合（リンカーもlibSystemにあるため）、libSystemをロードする必要はありません。
 
 ### Shellcodes
 
@@ -100,15 +100,15 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
-### Interposting Bypass
+### インターポスティングバイパス
 
-**Interposting**に関する詳細は以下を参照してください：
+**インターポスティング**に関する詳細は以下を参照してください：
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### サンドボックスを防ぐために `_libsecinit_initializer` をインターポストする
+#### サンドボックスを防ぐために`_libsecinit_initializer`をインターポストする
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -233,7 +233,7 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 
 {% hint style="danger" %}
 アプリは **`~/Desktop/del.txt`** ファイルを **読み取ろう** としますが、**Sandboxはそれを許可しません**。\
-Sandboxがバイパスされると、そこにファイルを作成すると読み取れるようになります:
+Sandboxがバイパスされると、そこにファイルを作成すると読み取ることができるようになります:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
@@ -326,8 +326,8 @@ Process 2517 exited with status = 0 (0x00000000)
 * [https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)
 * [https://www.youtube.com/watch?v=mG715HcDgO8](https://www.youtube.com/watch?v=mG715HcDgO8)
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

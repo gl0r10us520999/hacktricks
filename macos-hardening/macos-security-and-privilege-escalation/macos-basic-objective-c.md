@@ -27,22 +27,23 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Objective-Cで書かれたプログラムは、[Mach-Oバイナリ](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)にコンパイルされるときに、クラス宣言を**保持**します。このようなクラス宣言には、以下の名前とタイプが**含まれます**:
+Objective-Cで書かれたプログラムは、[Mach-Oバイナリ](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)にコンパイルされるときに、クラス宣言を**保持**することに注意してください。このようなクラス宣言には、以下の名前とタイプが**含まれます**：
 {% endhint %}
 
 * クラス
 * クラスメソッド
 * クラスインスタンス変数
 
-この情報は、[**class-dump**](https://github.com/nygard/class-dump)を使用して取得できます:
+この情報は、[**class-dump**](https://github.com/nygard/class-dump)を使用して取得できます：
 ```bash
 class-dump Kindle.app
 ```
-この名前は、バイナリのリバースエンジニアリングをより困難にするために難読化される可能性があることに注意してください。
+注意してください。これらの名前は、バイナリのリバースをより困難にするために難読化される可能性があります。
 
 ## クラス、メソッド & オブジェクト
 
@@ -79,7 +80,7 @@ self.numberOfWheels += value;
 ```
 ### **オブジェクトとメソッドの呼び出し**
 
-クラスのインスタンスを作成するために、**`alloc`** メソッドが呼び出され、各 **プロパティ** のために **メモリが割り当てられ**、その割り当てが **ゼロ** にされます。次に **`init`** が呼び出され、**プロパティ** が **必要な値** に **初期化** されます。
+クラスのインスタンスを作成するために、**`alloc`** メソッドが呼び出され、各 **プロパティ** のために **メモリを割り当て** て、その割り当てを **ゼロ** にします。次に **`init`** が呼び出され、**プロパティ** を **必要な値** に **初期化** します。
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -203,7 +204,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-また、**mutable** 文字列クラスを使用することもできます:
+また、**mutable** 文字列クラスを使用することもできます：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -355,7 +356,7 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-ファイルを**`NSString`オブジェクトの代わりに`NSURL`オブジェクトを使用して管理する**ことも可能です。メソッド名は似ていますが、**`Path`の代わりに`URL`**が使われています。
+ファイルを**`NSString`**オブジェクトの代わりに**`NSURL`**オブジェクトを使用して管理することも可能です。メソッド名は似ていますが、**`Path`**の代わりに**`URL`**が使われます。
 ```objectivec
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

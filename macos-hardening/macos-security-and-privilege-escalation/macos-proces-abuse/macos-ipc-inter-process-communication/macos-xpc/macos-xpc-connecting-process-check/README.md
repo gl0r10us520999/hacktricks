@@ -28,22 +28,22 @@ XPCサービスへの接続が確立されると、サーバーは接続が許�
 4. (4または5) 接続しているプロセスが**適切なソフトウェアバージョン番号**を持っているか確認します。
 * これが**確認されない場合**、古い、脆弱なクライアントがプロセスインジェクションに対して脆弱であり、他のチェックが行われていてもXPCサービスに接続される可能性があります。
 5. (4または5) 接続しているプロセスが危険な権限のない**ハードンされたランタイム**を持っているか確認します（任意のライブラリを読み込むことを許可するものやDYLD環境変数を使用するものなど）。
-* これが**確認されない場合**、クライアントは**コードインジェクションに対して脆弱**である可能性があります。
+1. これが**確認されない場合**、クライアントは**コードインジェクションに対して脆弱**である可能性があります。
 6. 接続しているプロセスがサービスに接続することを許可する**権限**を持っているか確認します。これはAppleのバイナリに適用されます。
-7. **検証**は接続している**クライアントの監査トークン**に**基づく**べきであり、そのプロセスID（**PID**）ではなく、前者は**PID再利用攻撃**を防ぎます。
+7. **検証**は接続している**クライアントの監査トークン**に**基づくべき**であり、そのプロセスID（**PID**）ではなく、前者は**PID再利用攻撃**を防ぎます。
 * 開発者は**監査トークン**API呼び出しを**ほとんど使用しない**ため、これは**プライベート**であり、Appleはいつでも**変更**できる可能性があります。さらに、プライベートAPIの使用はMac App Storeアプリでは許可されていません。
 * **`processIdentifier`**メソッドが使用される場合、脆弱である可能性があります。
 * **`xpc_dictionary_get_audit_token`**は**`xpc_connection_get_audit_token`**の代わりに使用されるべきであり、後者は特定の状況で[脆弱である可能性があります](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。
 
 ### コミュニケーション攻撃
 
-PID再利用攻撃についての詳細は以下を確認してください：
+PID再利用攻撃に関する詳細は以下を確認してください：
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-**`xpc_connection_get_audit_token`**攻撃についての詳細は以下を確認してください：
+**`xpc_connection_get_audit_token`**攻撃に関する詳細は以下を確認してください：
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
@@ -120,7 +120,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

@@ -1,4 +1,4 @@
-# 名前空間
+# ネームスペース
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -22,43 +22,43 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 {% endhint %}
 {% endhint %}
 
-### **PID名前空間**
+### **PIDネームスペース**
 
 {% content-ref url="pid-namespace.md" %}
 [pid-namespace.md](pid-namespace.md)
 {% endcontent-ref %}
 
-### **マウント名前空間**
+### **マウントネームスペース**
 
 {% content-ref url="mount-namespace.md" %}
 [mount-namespace.md](mount-namespace.md)
 {% endcontent-ref %}
 
-### **ネットワーク名前空間**
+### **ネットワークネームスペース**
 
 {% content-ref url="network-namespace.md" %}
 [network-namespace.md](network-namespace.md)
 {% endcontent-ref %}
 
-### **IPC名前空間**
+### **IPCネームスペース**
 
 {% content-ref url="ipc-namespace.md" %}
 [ipc-namespace.md](ipc-namespace.md)
 {% endcontent-ref %}
 
-### **UTS名前空間**
+### **UTSネームスペース**
 
 {% content-ref url="uts-namespace.md" %}
 [uts-namespace.md](uts-namespace.md)
 {% endcontent-ref %}
 
-### 時間名前空間
+### 時間ネームスペース
 
 {% content-ref url="time-namespace.md" %}
 [time-namespace.md](time-namespace.md)
 {% endcontent-ref %}
 
-### ユーザー名前空間
+### ユーザーネームスペース
 
 {% content-ref url="user-namespace.md" %}
 [user-namespace.md](user-namespace.md)

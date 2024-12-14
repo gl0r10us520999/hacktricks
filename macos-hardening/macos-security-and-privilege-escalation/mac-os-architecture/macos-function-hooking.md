@@ -100,10 +100,10 @@ ObjectiveCでは、メソッドは次のように呼び出されます: **`[myCl
 
 オブジェクトは**`someObject`**、メソッドは**`@selector(method1p1:p2:)`**、引数は**value1**、**value2**です。
 
-オブジェクトの構造に従って、**メソッドの配列**にアクセスすることが可能で、そこには**名前**と**メソッドコードへのポインタ**が**格納されています**。
+オブジェクト構造に従って、**メソッドの配列**にアクセスすることが可能で、そこには**名前**と**メソッドコードへのポインタ**が**格納されています**。
 
 {% hint style="danger" %}
-メソッドとクラスはその名前に基づいてアクセスされるため、この情報はバイナリに保存されます。したがって、`otool -ov </path/bin>`または[`class-dump </path/bin>`](https://github.com/nygard/class-dump)を使用して取得することが可能です。
+メソッドとクラスは名前に基づいてアクセスされるため、この情報はバイナリに保存されます。したがって、`otool -ov </path/bin>`または[`class-dump </path/bin>`](https://github.com/nygard/class-dump)を使用して取得することが可能です。
 {% endhint %}
 
 ### 生のメソッドへのアクセス
@@ -179,7 +179,7 @@ return 0;
 関数 **`method_exchangeImplementations`** は **一つの関数の実装のアドレスを他の関数に変更する**ことを可能にします。
 
 {% hint style="danger" %}
-したがって、関数が呼び出されると、**実行されるのは他の関数です**。
+したがって、関数が呼び出されると、**実行されるのは別の関数です**。
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -227,12 +227,12 @@ return 0;
 {% hint style="warning" %}
 この場合、**正当な**メソッドの**実装コード**が**メソッド**の**名前**を**検証**する場合、このスウィズリングを**検出**し、実行を防ぐことができます。
 
-次の技術にはこの制限はありません。
+以下の技術にはこの制限はありません。
 {% endhint %}
 
 ### method\_setImplementationによるメソッドスウィズリング
 
-前の形式は奇妙です。なぜなら、あなたは2つのメソッドの実装を互いに変更しているからです。関数**`method_setImplementation`**を使用すると、**他のメソッドのためにメソッドの**実装を**変更**できます。
+前の形式は奇妙です。なぜなら、2つのメソッドの実装を互いに変更しているからです。関数**`method_setImplementation`**を使用すると、**他のメソッドのためにメソッドの**実装を**変更**できます。
 
 新しい実装から元の実装を呼び出す予定がある場合は、上書きする前に**元の実装のアドレスを保存する**ことを忘れないでください。後でそのアドレスを見つけるのははるかに複雑になります。
 ```objectivec
@@ -288,7 +288,7 @@ return 0;
 ```
 ## フッキング攻撃の方法論
 
-このページでは、関数をフックするさまざまな方法について説明しました。しかし、これらは**攻撃のためにプロセス内でコードを実行する**ことを含んでいました。
+このページでは、関数をフックするさまざまな方法について説明しました。しかし、これらは**攻撃のためにプロセス内でコードを実行する**ことを含んでいます。
 
 そのために、最も簡単な技術は、[環境変数を介してDyldを注入するか、ハイジャックすること](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)です。しかし、これも[タスクポートを介したDylibプロセス注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)を通じて行うことができると思います。
 
@@ -367,7 +367,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

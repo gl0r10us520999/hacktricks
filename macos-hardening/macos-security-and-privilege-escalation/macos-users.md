@@ -1,8 +1,8 @@
 # macOS ユーザーと外部アカウント
 
 {% hint style="success" %}
-AWS ハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP ハッキングを学び、実践する：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ GCP ハッキングを学び、実践する：<img src="../../.gitbook/assets/gr
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}
@@ -35,8 +35,8 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ## ユーザー権限
 
 * **標準ユーザー:** 最も基本的なユーザー。このユーザーは、ソフトウェアをインストールしたり、他の高度なタスクを実行しようとする際に、管理者ユーザーからの権限が必要です。彼らは自分自身でそれを行うことはできません。
-* **管理者ユーザー**: ほとんどの時間を標準ユーザーとして操作しますが、ソフトウェアのインストールやその他の管理タスクなどのルートアクションを実行することも許可されています。管理者グループに属するすべてのユーザーは、**sudoersファイルを介してルートにアクセスが与えられます**。
-* **ルート**: ルートはほぼすべてのアクションを実行することが許可されているユーザーです（System Integrity Protectionのような保護によって制限があります）。
+* **管理者ユーザー**: 大部分の時間を標準ユーザーとして操作しますが、ソフトウェアのインストールやその他の管理タスクなどのルートアクションを実行することも許可されています。管理者グループに属するすべてのユーザーは、**sudoersファイルを介してルートにアクセスが与えられます**。
+* **ルート**: ルートはほぼすべてのアクションを実行することが許可されたユーザーです（System Integrity Protectionのような保護によって制限があります）。
 * 例えば、ルートは`/System`内にファイルを置くことはできません。
 
 ## 外部アカウント

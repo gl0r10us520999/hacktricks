@@ -68,26 +68,7 @@ acl_free(acl_text);
 return 0;
 }
 ```
-```markdown
-<details>
-<summary>macOSのファイルシステムトリック</summary>
-
-macOSは、ファイルシステムに関していくつかのセキュリティ機能を提供しています。これには、拡張属性（xattr）やアクセス制御リスト（ACL）が含まれます。これらの機能を利用することで、特定のファイルやディレクトリに対するアクセス権を細かく制御できます。
-
-### 拡張属性（xattr）
-
-拡張属性は、ファイルに追加のメタデータを保存するための機能です。これにより、ファイルの特性や状態に関する情報を保持できます。例えば、特定のアプリケーションがファイルをどのように扱うかを指定するために使用されることがあります。
-
-### アクセス制御リスト（ACL）
-
-ACLは、ファイルやディレクトリに対するアクセス権を詳細に設定するための仕組みです。これにより、ユーザーやグループごとに異なる権限を設定できます。ACLを使用することで、より柔軟なアクセス管理が可能になります。
-
-### 追加の情報
-
-macOSのセキュリティ機能を理解し、適切に利用することで、システムの安全性を高めることができます。特に、xattrやACLを活用することで、ファイルシステムのセキュリティを強化することができます。
-
 </details>
-```
 ```bash
 # Lets add the xattr com.apple.xxx.xxxx with the acls
 mkdir start
@@ -204,8 +185,8 @@ ditto -x -k --rsrc protected.zip .
 xattr -l protected
 ```
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -213,7 +194,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

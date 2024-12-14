@@ -169,7 +169,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 
 ## 大規模なスケール
 
-予期しないバイナリにライブラリを注入しようと計画している場合は、イベントメッセージを確認して、プロセス内でライブラリが読み込まれるタイミングを特定できます（この場合、printfと`/bin/bash`の実行を削除します）。
+予期しないバイナリにライブラリを注入しようと計画している場合は、プロセス内でライブラリが読み込まれるタイミングを確認するためにイベントメッセージをチェックできます（この場合、printfと`/bin/bash`の実行を削除します）。
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
@@ -183,7 +183,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

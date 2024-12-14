@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 **あなたのウェブアプリ、ネットワーク、クラウドに対するハッカーの視点を得る**
 
-**実際のビジネスに影響を与える重大で悪用可能な脆弱性を見つけて報告します。** 私たちの20以上のカスタムツールを使用して攻撃面をマッピングし、特権を昇格させるセキュリティ問題を見つけ、自動化されたエクスプロイトを使用して重要な証拠を収集し、あなたの努力を説得力のある報告に変えます。
+**実際のビジネスに影響を与える重大で悪用可能な脆弱性を見つけて報告します。** 攻撃面をマッピングし、特権を昇格させるセキュリティ問題を見つけ、重要な証拠を収集するために自動化されたエクスプロイトを使用するために、20以上のカスタムツールを使用します。あなたの努力を説得力のある報告書に変えます。
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -36,7 +36,7 @@ MacOS環境でのレッドチーミングには、MDMの動作についての理
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### C2としてのMDMの使用
+### MDMをC2として使用する
 
 MDMは、プロファイルのインストール、クエリ、削除、アプリケーションのインストール、ローカル管理者アカウントの作成、ファームウェアパスワードの設定、FileVaultキーの変更を行う権限を持っています...
 
@@ -46,7 +46,7 @@ MDMは、プロファイルのインストール、クエリ、削除、アプ�
 
 デバイスをMDMに登録するには、**`mobileconfig`**ファイルをルートとしてインストールする必要があり、これは**pkg**ファイルを介して配布できます（zipで圧縮し、Safariからダウンロードすると解凍されます）。
 
-**Mythic agent Orthrus**はこの技術を使用しています。
+**Mythic agent Orthrus**はこの技術を使用します。
 
 ### JAMF PROの悪用
 
@@ -69,7 +69,7 @@ JAMFは**カスタムスクリプト**（システム管理者によって開発
 **`jamf`**バイナリには、発見時に**共有**されていたキーチェーンを開くための秘密が含まれており、それは**`jk23ucnq91jfu9aj`**でした。\
 さらに、jamfは**`/Library/LaunchAgents/com.jamf.management.agent.plist`**に**LaunchDaemon**として**持続**します。
 
-#### JAMFデバイスタケオーバー
+#### JAMFデバイスタ takeover
 
 **JSS**（Jamf Software Server）**URL**は、**`jamf`**が使用するもので、**`/Library/Preferences/com.jamfsoftware.jamf.plist`**にあります。\
 このファイルには基本的にURLが含まれています：
@@ -115,13 +115,13 @@ sudo jamf policy -id 0
 
 管理者がJamfを介して実行したい**カスタムスクリプト**を監視するために、`/Library/Application Support/Jamf/tmp/`の場所を監視することもできます。これらのスクリプトは**ここに配置され、実行され、削除されます**。これらのスクリプトには**資格情報が含まれている可能性があります**。
 
-ただし、**資格情報**はこれらのスクリプトに**パラメータ**として渡される可能性があるため、`ps aux | grep -i jamf`を監視する必要があります（ルートでなくても可能です）。
+ただし、**資格情報**はこれらのスクリプトに**パラメータ**として渡される可能性があるため、`ps aux | grep -i jamf`を監視する必要があります（ルートでなくても）。
 
 スクリプト[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py)は、新しいファイルが追加されるのをリッスンし、新しいプロセス引数を監視できます。
 
 ### macOSリモートアクセス
 
-また、**MacOS**の「特別な」**ネットワーク****プロトコル**についても：
+また、**MacOS**の「特別な」**ネットワーク****プロトコル**について：
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -129,7 +129,7 @@ sudo jamf policy -id 0
 
 ## Active Directory
 
-場合によっては、**MacOSコンピュータがADに接続されている**ことがあります。このシナリオでは、慣れているように**アクティブディレクトリを列挙**しようとするべきです。以下のページで**ヘルプ**を見つけてください：
+場合によっては、**MacOSコンピュータがADに接続されている**ことがあります。このシナリオでは、慣れているようにアクティブディレクトリを**列挙**しようとするべきです。以下のページで**ヘルプ**を見つけてください：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -143,36 +143,36 @@ sudo jamf policy -id 0
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-役立つ**ローカルMacOSツール**の一つは`dscl`です：
+あなたを助けるかもしれない**ローカルMacOSツール**は`dscl`です：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
 また、ADを自動的に列挙し、kerberosで遊ぶためのMacOS用のツールがいくつか用意されています：
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHoundは、MacOSホスト上のActive Directory関係を収集および取り込むことを可能にするBloodhound監査ツールの拡張です。
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrostは、macOS上のHeimdal krb5 APIと対話するために設計されたObjective-Cプロジェクトです。このプロジェクトの目標は、ターゲットに他のフレームワークやパッケージを必要とせずに、ネイティブAPIを使用してmacOSデバイス上のKerberosに関するより良いセキュリティテストを可能にすることです。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrostは、macOS上のHeimdal krb5 APIと対話するために設計されたObjective-Cプロジェクトです。このプロジェクトの目標は、ターゲットに他のフレームワークやパッケージを必要とせず、ネイティブAPIを使用してmacOSデバイス上のKerberosに関するセキュリティテストを向上させることです。
 * [**Orchard**](https://github.com/its-a-feature/Orchard): Active Directory列挙を行うためのJavaScript for Automation (JXA)ツールです。
 
 ### ドメイン情報
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
-### ユーザー
+### Users
 
-MacOSのユーザーには3種類があります：
+MacOSのユーザーの3つのタイプは次のとおりです：
 
-* **ローカルユーザー** — ローカルOpenDirectoryサービスによって管理されており、Active Directoryとは何の接続もありません。
-* **ネットワークユーザー** — 認証のためにDCサーバーへの接続を必要とする揮発性のActive Directoryユーザーです。
-* **モバイルユーザー** — 認証情報とファイルのローカルバックアップを持つActive Directoryユーザーです。
+* **Local Users** — ローカルOpenDirectoryサービスによって管理されており、Active Directoryとは何の接続もありません。
+* **Network Users** — DCサーバーに接続して認証を受ける必要がある揮発性のActive Directoryユーザーです。
+* **Mobile Users** — 認証情報とファイルのローカルバックアップを持つActive Directoryユーザーです。
 
 ユーザーとグループに関するローカル情報は、フォルダー _/var/db/dslocal/nodes/Default._ に保存されています。\
-例えば、_mark_ というユーザーに関する情報は _/var/db/dslocal/nodes/Default/users/mark.plist_ に保存されており、_admin_ グループに関する情報は _/var/db/dslocal/nodes/Default/groups/admin.plist_ にあります。
+たとえば、_mark_ というユーザーに関する情報は _/var/db/dslocal/nodes/Default/users/mark.plist_ に保存されており、_admin_ グループに関する情報は _/var/db/dslocal/nodes/Default/groups/admin.plist_ にあります。
 
 HasSessionおよびAdminToエッジを使用することに加えて、**MacHoundはBloodhoundデータベースに3つの新しいエッジを追加します**：
 
 * **CanSSH** - ホストにSSH接続を許可されたエンティティ
 * **CanVNC** - ホストにVNC接続を許可されたエンティティ
-* **CanAE** - ホスト上でAppleEventスクリプトを実行することを許可されたエンティティ
+* **CanAE** - ホストでAppleEventスクリプトを実行することを許可されたエンティティ
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -198,7 +198,7 @@ More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Dis
 
 ### Computer$ パスワード
 
-Get passwords using:
+次の方法でパスワードを取得します:
 ```bash
 bifrost --action askhash --username [name] --password [password] --domain [domain]
 ```
@@ -222,7 +222,7 @@ bifrost --action asktgt --username test_lab_admin \
 bifrost --action asktgs --spn [service] --domain [domain.com] \
 --username [user] --hash [hash] --enctype [enctype]
 ```
-取得したサービスチケットを使用して、他のコンピュータの共有にアクセスを試みることができます：
+取得したサービスチケットを使用して、他のコンピュータの共有にアクセスしようとすることができます：
 ```bash
 smbutil view //computer.fqdn
 mount -t smbfs //server/folder /local/mount/point
@@ -243,7 +243,7 @@ MacOSのレッドチーミングは、通常**MacOSがいくつかの外部プ�
 
 ### Safari
 
-Safariでファイルがダウンロードされると、それが「安全な」ファイルであれば、**自動的に開かれます**。例えば、**zipをダウンロード**すると、自動的に解凍されます：
+Safariでファイルがダウンロードされると、それが「安全な」ファイルであれば、**自動的に開かれます**。例えば、**zipファイルをダウンロードすると**、自動的に解凍されます：
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -259,7 +259,7 @@ Safariでファイルがダウンロードされると、それが「安全な�
 
 **あなたのウェブアプリ、ネットワーク、クラウドに対するハッカーの視点を得る**
 
-**実際のビジネスに影響を与える重大で悪用可能な脆弱性を見つけて報告します。** 20以上のカスタムツールを使用して攻撃面をマッピングし、特権を昇格させるセキュリティ問題を見つけ、自動化されたエクスプロイトを使用して重要な証拠を収集し、あなたの努力を説得力のある報告書に変えます。
+**実際のビジネスに影響を与える重大で悪用可能な脆弱性を見つけて報告します。** 20以上のカスタムツールを使用して攻撃面をマッピングし、特権を昇格させるセキュリティ問題を見つけ、自動化されたエクスプロイトを使用して重要な証拠を収集し、あなたの努力を説得力のある報告に変えます。
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -273,7 +273,7 @@ GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grt
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

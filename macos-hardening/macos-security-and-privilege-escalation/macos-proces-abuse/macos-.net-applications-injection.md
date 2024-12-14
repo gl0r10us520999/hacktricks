@@ -21,9 +21,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **デバッグセッションの確立** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-.NETにおけるデバッガとデバッグ対象間の通信の処理は、[**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp)によって管理されています。このコンポーネントは、[dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127)に見られるように、各.NETプロセスごとに2つの名前付きパイプを設定します。これらは[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)を介して開始されます。これらのパイプは**`-in`**と**`-out`**でサフィックスされています。
+.NETにおけるデバッガとデバッグ対象間の通信の処理は、[**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp)によって管理されています。このコンポーネントは、[dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127)に見られるように、各.NETプロセスごとに2つの名前付きパイプを設定します。これらは[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)を介して開始されます。これらのパイプは**`-in`**と**`-out`**で接尾辞が付けられています。
 
-ユーザーの**`$TMPDIR`**を訪れることで、.Netアプリケーションのデバッグ用のFIFOが見つかります。
+ユーザーの**`$TMPDIR`**を訪れることで、.Netアプリケーションのデバッグ用のFIFOが利用可能であることがわかります。
 
 [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)は、デバッガからの通信を管理する責任があります。新しいデバッグセッションを開始するには、デバッガは`out`パイプを介して`MessageHeader`構造体で始まるメッセージを送信する必要があります。この構造体の詳細は.NETのソースコードに記載されています：
 ```c

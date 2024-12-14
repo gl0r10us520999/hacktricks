@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 影響するもの
 
-特権コンテナを実行すると、無効にする保護は次のとおりです。
+特権コンテナを実行すると、無効にされる保護は次のとおりです。
 
 ### /devのマウント
 
@@ -46,7 +46,7 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### 読み取り専用のカーネルファイルシステム
+### 読み取り専用カーネルファイルシステム
 
 カーネルファイルシステムは、プロセスがカーネルの動作を変更するためのメカニズムを提供します。しかし、コンテナプロセスに関しては、カーネルに対する変更を防ぎたいと考えています。したがって、カーネルファイルシステムをコンテナ内で**読み取り専用**としてマウントし、コンテナプロセスがカーネルを変更できないようにします。
 
@@ -72,10 +72,10 @@ mount  | grep '(ro'
 
 ### カーネルファイルシステムのマスキング
 
-**/proc** ファイルシステムは選択的に書き込み可能ですが、セキュリティのために、特定の部分は **tmpfs** でオーバーレイされ、コンテナプロセスが機密領域にアクセスできないように保護されています。
+**/proc**ファイルシステムは選択的に書き込み可能ですが、セキュリティのために、特定の部分は**tmpfs**でオーバーレイされ、コンテナプロセスが機密領域にアクセスできないように保護されています。
 
 {% hint style="info" %}
-**tmpfs** はすべてのファイルを仮想メモリに保存するファイルシステムです。tmpfs はハードドライブ上にファイルを作成しません。したがって、tmpfs ファイルシステムをアンマウントすると、その中に存在するすべてのファイルは永遠に失われます。
+**tmpfs**は、すべてのファイルを仮想メモリに保存するファイルシステムです。tmpfsはハードドライブ上にファイルを作成しません。したがって、tmpfsファイルシステムをアンマウントすると、その中に存在するすべてのファイルは永遠に失われます。
 {% endhint %}
 
 {% tabs %}
@@ -177,7 +177,7 @@ Seccomp_filters:	0
 ```
 ### SELinux
 
-`--privileged` フラグを使用してコンテナを実行すると、**SELinux ラベル**が無効になり、通常は `unconfined` のコンテナエンジンのラベルを継承し、コンテナエンジンと同様のフルアクセスが付与されます。ルートレスモードでは `container_runtime_t` が使用され、ルートモードでは `spc_t` が適用されます。
+`--privileged` フラグを使用してコンテナを実行すると、**SELinux ラベル**が無効になり、通常は `unconfined` のコンテナエンジンのラベルを継承し、コンテナエンジンと同様の完全なアクセスを付与します。ルートレスモードでは `container_runtime_t` を使用し、ルートモードでは `spc_t` が適用されます。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -225,16 +225,16 @@ PID   USER     TIME  COMMAND
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricksをサポートする</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

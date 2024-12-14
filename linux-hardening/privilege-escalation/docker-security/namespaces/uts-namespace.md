@@ -31,7 +31,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本情報
 
-UTS（UNIX Time-Sharing System）名前空間は、**ホスト名**と**NIS**（Network Information Service）ドメイン名の**2つのシステム識別子の隔離**を提供するLinuxカーネルの機能です。この隔離により、各UTS名前空間は**独自のホスト名とNISドメイン名**を持つことができ、特に各コンテナが独自のホスト名を持つ別々のシステムとして表示されるべきコンテナ化シナリオで便利です。
+UTS（UNIX Time-Sharing System）名前空間は、**2つのシステム識別子の隔離**を提供するLinuxカーネルの機能です：**ホスト名**と**NIS**（Network Information Service）ドメイン名。この隔離により、各UTS名前空間は**独自のホスト名とNISドメイン名**を持つことができ、特に各コンテナが独自のホスト名を持つ別々のシステムとして表示されるべきコンテナ化シナリオで便利です。
 
 ### 仕組み：
 
@@ -55,16 +55,16 @@ sudo unshare -u [--mount-proc] /bin/bash
 
 `unshare` が `-f` オプションなしで実行されると、Linux が新しい PID (プロセス ID) ネームスペースを処理する方法のためにエラーが発生します。重要な詳細と解決策は以下の通りです：
 
-1. **問題の説明**:
+1. **問題の説明**：
 - Linux カーネルは、プロセスが `unshare` システムコールを使用して新しいネームスペースを作成することを許可します。しかし、新しい PID ネームスペースの作成を開始するプロセス（「unshare」プロセスと呼ばれる）は新しいネームスペースに入らず、その子プロセスのみが入ります。
 - `%unshare -p /bin/bash%` を実行すると、`unshare` と同じプロセスで `/bin/bash` が開始されます。その結果、`/bin/bash` とその子プロセスは元の PID ネームスペースに存在します。
 - 新しいネームスペース内の `/bin/bash` の最初の子プロセスは PID 1 になります。このプロセスが終了すると、他にプロセスがない場合、孤児プロセスを引き取る特別な役割を持つ PID 1 によりネームスペースのクリーンアップがトリガーされます。Linux カーネルはそのネームスペース内での PID 割り当てを無効にします。
 
-2. **結果**:
+2. **結果**：
 - 新しいネームスペース内の PID 1 の終了は `PIDNS_HASH_ADDING` フラグのクリーンアップを引き起こします。これにより、新しいプロセスを作成する際に `alloc_pid` 関数が新しい PID を割り当てることに失敗し、「メモリを割り当てることができません」というエラーが発生します。
 
-3. **解決策**:
-- この問題は、`unshare` に `-f` オプションを使用することで解決できます。このオプションは、`unshare` が新しい PID ネームスペースを作成した後に新しいプロセスをフォークします。
+3. **解決策**：
+- この問題は、`unshare` に `-f` オプションを使用することで解決できます。このオプションにより、`unshare` は新しい PID ネームスペースを作成した後に新しいプロセスをフォークします。
 - `%unshare -fp /bin/bash%` を実行すると、`unshare` コマンド自体が新しいネームスペース内で PID 1 になります。これにより、`/bin/bash` とその子プロセスはこの新しいネームスペース内に安全に収容され、PID 1 の早期終了を防ぎ、通常の PID 割り当てを可能にします。
 
 `unshare` が `-f` フラグで実行されることを保証することで、新しい PID ネームスペースが正しく維持され、`/bin/bash` とそのサブプロセスがメモリ割り当てエラーに遭遇することなく動作できるようになります。
@@ -80,7 +80,7 @@ docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ls -l /proc/self/ns/uts
 lrwxrwxrwx 1 root root 0 Apr  4 20:49 /proc/self/ns/uts -> 'uts:[4026531838]'
 ```
-### UTS 名前空間をすべて見つける
+### すべてのUTS名前空間を見つける
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,7 +104,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

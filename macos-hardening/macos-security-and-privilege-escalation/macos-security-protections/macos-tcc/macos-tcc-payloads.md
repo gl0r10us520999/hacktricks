@@ -56,8 +56,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
-`$HOME/Desktop` を `/tmp/desktop` にコピーします。
+{% tab title="Shell" %}
+`$HOME/Desktop`を`/tmp/desktop`にコピーします。
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -105,7 +105,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
+{% tab title="シェル" %}
 `$HOME/`Documentsを`/tmp/documents`にコピーします。
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
@@ -252,8 +252,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
-`$HOME/Library/Application Support/AddressBook` を `/tmp/contacts` にコピーします。
+{% tab title="Shell" %}
+`$HOME/Library/Application Support/AddressBook`を`/tmp/contacts`にコピーします。
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -301,7 +301,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
+{% tab title="シェル" %}
 `$HOME/Library/Calendars` を `/tmp/calendars` にコピーします。
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
@@ -442,7 +442,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 {% tabs %}
 {% tab title="ObjetiveC - 録音" %}
-5秒間の音声を録音し、`/tmp/recording.m4a`に保存します。
+5秒の音声を録音し、`/tmp/recording.m4a`に保存します。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -583,7 +583,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### 位置
+### 場所
 
 {% hint style="success" %}
 アプリが位置情報を取得するには、**位置情報サービス**（プライバシーとセキュリティから）**を有効にする必要があります。** そうでないと、アクセスできません。
@@ -594,7 +594,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`/tmp/logs.txt` に位置情報を書き込む
+位置情報を `/tmp/logs.txt` に書き込む
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -645,7 +645,6 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="シェル" %}
 位置情報にアクセスする
-{% endtab %}
 ```
 ???
 ```
@@ -715,8 +714,9 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="Shell" %}
+{% tab title="シェル" %}
 メインスクリーンを5秒間録画する
+{% endtab %}
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -785,7 +785,7 @@ return 0;
 {% endtab %}
 
 {% tab title="キーロガー" %}
-押されたキーを **`/tmp/keystrokes.txt`** に保存します
+押されたキーを**`/tmp/keystrokes.txt`**に保存します。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -893,7 +893,7 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**アクセシビリティは非常に強力な権限です**。これを他の方法で悪用することができ、例えば**キーストローク攻撃**を行うことができます。System Eventsを呼び出す必要はありません。
+**アクセシビリティは非常に強力な権限です**。これを悪用する方法はいくつかあり、例えば**キーストローク攻撃**を行うことができ、System Eventsを呼び出す必要はありません。
 {% endhint %}
 
 {% hint style="success" %}

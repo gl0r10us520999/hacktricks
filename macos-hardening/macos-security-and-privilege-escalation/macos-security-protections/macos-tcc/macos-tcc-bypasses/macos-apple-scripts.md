@@ -17,19 +17,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-リモートプロセスと対話するためのタスク自動化に使用されるスクリプト言語です。これは、他のプロセスにいくつかのアクションを実行するように要求することを非常に簡単にします。**マルウェア**は、これらの機能を悪用して他のプロセスによってエクスポートされた機能を悪用する可能性があります。\
-例えば、マルウェアは**ブラウザで開かれたページに任意のJSコードを注入する**ことができます。または、ユーザーに要求された許可を**自動的にクリック**することができます；
+リモートプロセスと対話するためのタスク自動化に使用されるスクリプト言語です。 他のプロセスにいくつかのアクションを実行するように依頼するのが非常に簡単です。 **マルウェア**は、他のプロセスによってエクスポートされた機能を悪用するためにこれらの機能を悪用する可能性があります。\
+たとえば、マルウェアは**ブラウザで開かれたページに任意のJSコードを注入**することができます。 または、ユーザーに要求された許可を**自動的にクリック**することができます；
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
 end tell
 ```
 ここにいくつかの例があります: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-マルウェアに関する詳細情報は[**こちら**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/)で確認できます。
+AppleScriptを使用したマルウェアに関する詳細情報は[**こちら**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/)で確認できます。
 
 Appleスクリプトは簡単に「**コンパイル**」できます。これらのバージョンは`osadecompile`を使用して簡単に「**デコンパイル**」できます。
 
-しかし、これらのスクリプトは「読み取り専用」としても**エクスポート**できます（「エクスポート...」オプションを介して）:
+ただし、これらのスクリプトは「読み取り専用」として**エクスポート**することもできます（「エクスポート...」オプションを介して）:
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```

@@ -156,7 +156,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-そして**バイナリを実行**し、**ライブラリが読み込まれたか確認**します：
+そして**バイナリを実行**し、**ライブラリが読み込まれたか**を確認します：
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
@@ -169,7 +169,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 
 ## 大規模なスケール
 
-予期しないバイナリにライブラリを注入しようと計画している場合は、イベントメッセージを確認して、プロセス内でライブラリが読み込まれるタイミングを見つけることができます（この場合、printfと`/bin/bash`の実行を削除します）。
+予期しないバイナリにライブラリを注入しようと計画している場合は、イベントメッセージを確認して、プロセス内でライブラリが読み込まれるタイミングを特定できます（この場合、printfと`/bin/bash`の実行を削除します）。
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```

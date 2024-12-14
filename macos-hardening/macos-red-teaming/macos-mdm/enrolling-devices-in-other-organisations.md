@@ -40,11 +40,11 @@ DEPチェックインは、プライベート構成プロファイルフレー�
 
 ## テスラプロトコルとアブサンシスケームのリバースエンジニアリング
 
-DEPチェックインは、`cloudconfigurationd`が暗号化された署名付きJSONペイロードを_iprofiles.apple.com/macProfile_に送信することを含みます。ペイロードにはデバイスのシリアル番号と「RequestProfileConfiguration」というアクションが含まれています。使用される暗号化スキームは内部的に「Absinthe」と呼ばれています。このスキームを解明することは複雑であり、多くのステップを含むため、アクティベーションレコードリクエストに任意のシリアル番号を挿入するための代替手法を探ることになりました。
+DEPチェックインは、`cloudconfigurationd`が暗号化された署名付きJSONペイロードを _iprofiles.apple.com/macProfile_ に送信することを含みます。ペイロードにはデバイスのシリアル番号と「RequestProfileConfiguration」というアクションが含まれています。使用される暗号化スキームは内部的に「Absinthe」と呼ばれています。このスキームを解明することは複雑で、多くのステップを含み、アクティベーションレコードリクエストに任意のシリアル番号を挿入するための代替手法を探ることにつながりました。
 
 ## DEPリクエストのプロキシ
 
-Charles Proxyのようなツールを使用して_iprofiles.apple.com_へのDEPリクエストを傍受し、変更しようとする試みは、ペイロードの暗号化とSSL/TLSセキュリティ対策によって妨げられました。しかし、`MCCloudConfigAcceptAnyHTTPSCertificate`構成を有効にすることで、サーバー証明書の検証をバイパスすることができますが、ペイロードの暗号化された性質により、復号化キーなしでシリアル番号を変更することは依然として不可能です。
+Charles Proxyのようなツールを使用して _iprofiles.apple.com_ へのDEPリクエストを傍受し、変更しようとする試みは、ペイロードの暗号化とSSL/TLSセキュリティ対策によって妨げられました。しかし、`MCCloudConfigAcceptAnyHTTPSCertificate`構成を有効にすることで、サーバー証明書の検証をバイパスすることができますが、ペイロードの暗号化された性質により、復号化キーなしでシリアル番号を変更することは依然として不可能です。
 
 ## DEPと相互作用するシステムバイナリの計測
 
@@ -57,7 +57,7 @@ Charles Proxyのようなツールを使用して_iprofiles.apple.com_へのDEP�
 2. システムシリアル番号が取得されるポイントを特定します。
 3. ペイロードが暗号化されて送信される前に、メモリに任意のシリアル番号を注入します。
 
-この方法により、任意のシリアル番号に対して完全なDEPプロファイルを取得できることが示され、潜在的な脆弱性が明らかになりました。
+この方法により、任意のシリアル番号の完全なDEPプロファイルを取得できるようになり、潜在的な脆弱性を示しました。
 
 ### Pythonによる計測の自動化
 
@@ -80,6 +80,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
+</details>
+{% endhint %}
 </details>
 {% endhint %}
 </details>

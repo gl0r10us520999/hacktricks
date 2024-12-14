@@ -19,16 +19,16 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 **MACF**は**Mandatory Access Control Framework**の略で、コンピュータを保護するためにオペレーティングシステムに組み込まれたセキュリティシステムです。これは、**特定のシステムの部分（ファイル、アプリケーション、システムリソースなど）に誰が、または何がアクセスできるかについて厳格なルールを設定することによって機能します**。これらのルールを自動的に強制することにより、MACFは認可されたユーザーとプロセスのみが特定のアクションを実行できるようにし、不正アクセスや悪意のある活動のリスクを減少させます。
 
-MACFは実際には決定を下さず、**アクションを傍受する**だけであり、決定は`AppleMobileFileIntegrity.kext`、`Quarantine.kext`、`Sandbox.kext`、`TMSafetyNet.kext`、`mcxalr.kext`などの**ポリシーモジュール**（カーネル拡張）に委ねられています。
+MACFは実際には決定を下さず、**アクションを傍受する**だけであり、決定は呼び出す**ポリシーモジュール**（カーネル拡張）に委ねられます。これには`AppleMobileFileIntegrity.kext`、`Quarantine.kext`、`Sandbox.kext`、`TMSafetyNet.kext`、および`mcxalr.kext`が含まれます。
 
 ### フロー
 
-1. プロセスがsyscall/machトラップを実行する
-2. 関連する関数がカーネル内で呼び出される
-3. 関数がMACFを呼び出す
-4. MACFはその関数をフックするように要求したポリシーモジュールをチェックする
-5. MACFは関連するポリシーを呼び出す
-6. ポリシーはアクションを許可するか拒否するかを示す
+1. プロセスがsyscall/machトラップを実行します
+2. 関連する関数がカーネル内で呼び出されます
+3. 関数がMACFを呼び出します
+4. MACFはその関数をフックするように要求したポリシーモジュールをチェックします
+5. MACFは関連するポリシーを呼び出します
+6. ポリシーはアクションを許可するか拒否するかを示します
 
 {% hint style="danger" %}
 AppleだけがMACフレームワークKPIを使用できます。
@@ -42,7 +42,7 @@ MACFは**ラベル**を使用し、その後ポリシーがアクセスを許可
 
 MACFポリシーは**特定のカーネル操作に適用されるルールと条件を定義します**。
 
-カーネル拡張は`mac_policy_conf`構造体を構成し、`mac_policy_register`を呼び出して登録することができます。ここから[こちら](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html):
+カーネル拡張は`mac_policy_conf`構造体を構成し、次に`mac_policy_register`を呼び出して登録できます。[こちら](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html)から。
 ```c
 #define mpc_t	struct mac_policy_conf *
 
@@ -83,7 +83,7 @@ void			*mpc_data;		/** module data */
 
 MACFポリシーは**動的に**登録および登録解除できることに注意してください。
 
-`mac_policy_conf`の主なフィールドの1つは**`mpc_ops`**です。このフィールドは、ポリシーが関心を持つ操作を指定します。数百の操作があるため、すべてをゼロに設定し、ポリシーが関心を持つものだけを選択することが可能です。[こちら](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html)から：
+`mac_policy_conf`の主なフィールドの1つは**`mpc_ops`**です。このフィールドは、ポリシーが関心を持つ操作を指定します。数百の操作があるため、すべてをゼロに設定し、ポリシーが関心を持つものだけを選択することが可能です。[こちら](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac_policy.h.auto.html)から:
 ```c
 struct mac_policy_ops {
 mpo_audit_check_postselect_t		*mpo_audit_check_postselect;
@@ -96,18 +96,18 @@ mpo_cred_check_label_update_execve_t	*mpo_cred_check_label_update_execve;
 mpo_cred_check_label_update_t		*mpo_cred_check_label_update;
 [...]
 ```
-ほとんどすべてのフックは、これらの操作がインターセプトされるときにMACFによってコールバックされます。しかし、**`mpo_policy_*`** フックは例外であり、`mpo_hook_policy_init()`は登録時に呼び出されるコールバックであり（つまり、`mac_policy_register()`の後）、`mpo_hook_policy_initbsd()`はBSDサブシステムが適切に初期化された後の遅延登録中に呼び出されます。
+ほとんどすべてのフックは、これらの操作がインターセプトされるときにMACFによってコールバックされます。ただし、**`mpo_policy_*`** フックは例外であり、`mpo_hook_policy_init()` は登録時に呼び出されるコールバックです（つまり、`mac_policy_register()` の後）であり、`mpo_hook_policy_initbsd()` はBSDサブシステムが適切に初期化された後の遅延登録中に呼び出されます。
 
-さらに、**`mpo_policy_syscall`** フックは、任意のkextによってプライベートな**ioctl**スタイルの呼び出し**インターフェース**を公開するために登録できます。これにより、ユーザクライアントは、**ポリシー名**と整数の**コード**およびオプションの**引数**をパラメータとして指定して`mac_syscall` (#381) を呼び出すことができます。\
+さらに、**`mpo_policy_syscall`** フックは、任意のkextによってプライベートな**ioctl**スタイルの呼び出し**インターフェース**を公開するために登録できます。これにより、ユーザクライアントは、**ポリシー名**と整数の**コード**、およびオプションの**引数**をパラメータとして指定して `mac_syscall` (#381) を呼び出すことができます。\
 例えば、**`Sandbox.kext`** はこれを多く使用します。
 
 kextの**`__DATA.__const*`**をチェックすることで、ポリシーを登録する際に使用される`mac_policy_ops`構造体を特定することが可能です。そのポインタは`mpo_policy_conf`内のオフセットにあり、その領域に存在するNULLポインタの数からも見つけることができます。
 
-さらに、登録されたポリシーごとに更新される構造体**`_mac_policy_list`**をメモリからダンプすることで、ポリシーを構成したkextのリストを取得することも可能です。
+さらに、登録された各ポリシーで更新される構造体**`_mac_policy_list`**をメモリからダンプすることで、ポリシーを構成したkextのリストを取得することも可能です。
 
 ## MACFの初期化
 
-MACFは非常に早い段階で初期化されます。XNUの`bootstrap_thread`で設定され、`ipc_bootstrap`の後に`mac_policy_init()`が呼び出され、`mac_policy_list`が初期化され、その数瞬後に`mac_policy_initmach()`が呼び出されます。この関数は、`ALF.kext`、`AppleMobileFileIntegrity.kext`、`Quarantine.kext`、`Sandbox.kext`、`TMSafetyNet.kext`のように、Info.plistに`AppleSecurityExtension`キーを持つすべてのApple kextを取得してロードします。
+MACFは非常に早い段階で初期化されます。XNUの`bootstrap_thread`で設定され、`ipc_bootstrap`の後に`mac_policy_init()`が呼び出され、`mac_policy_list`が初期化され、その数瞬後に`mac_policy_initmach()`が呼び出されます。この関数は、`Info.plist`に`AppleSecurityExtension`キーを持つすべてのApple kext（`ALF.kext`、`AppleMobileFileIntegrity.kext`、`Quarantine.kext`、`Sandbox.kext`、`TMSafetyNet.kext`など）を取得してロードします。
 
 ## MACFコールアウト
 
@@ -206,7 +206,7 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 
 ### proc\_check\_syscall\_unix
 
-このフックは、すべてのシステムコールをインターセプトすることを可能にします。`bsd/dev/[i386|arm]/systemcalls.c`では、次のコードを含む宣言された関数[`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25)を見ることができます。
+このフックは、すべてのシステムコールをインターセプトすることを可能にします。`bsd/dev/[i386|arm]/systemcalls.c`では、次のコードを含む宣言された関数[`unix_syscall`](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/dev/arm/systemcalls.c#L160C1-L167C25)を見ることができます：
 ```c
 #if CONFIG_MACF
 if (__improbable(proc_syscall_filter_mask(proc) != NULL && !bitstr_test(proc_syscall_filter_mask(proc), syscode))) {
@@ -217,13 +217,13 @@ goto skip_syscall;
 }
 #endif /* CONFIG_MACF */
 ```
-どの呼び出しプロセスの**ビットマスク**をチェックして、現在のシステムコールが`mac_proc_check_syscall_unix`を呼び出すべきかどうかを判断します。これは、システムコールが非常に頻繁に呼び出されるため、毎回`mac_proc_check_syscall_unix`を呼び出すのを避けることが興味深いからです。
+どの呼び出しプロセスの**ビットマスク**をチェックして、現在のシステムコールが`mac_proc_check_syscall_unix`を呼び出すべきかを判断します。これは、システムコールが非常に頻繁に呼び出されるため、毎回`mac_proc_check_syscall_unix`を呼び出すのを避けることが興味深いからです。
 
 関数`proc_set_syscall_filter_mask()`は、プロセス内のビットマスクシステムコールを設定するためにSandboxによって呼び出され、サンドボックス化されたプロセスにマスクを設定します。
 
 ## 公開されたMACFシステムコール
 
-[security/mac.h](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac.h#L151)で定義された一部のシステムコールを通じてMACFと対話することが可能です：
+[security/mac.h](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac.h#L151)で定義された一部のシステムコールを通じてMACFと対話することが可能です。
 ```c
 /*
 * Extended non-POSIX.1e interfaces that offer additional services

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Introduction to x64**
 
-x64、またはx86-64としても知られる、は主にデスクトップおよびサーバーコンピューティングで使用される64ビットプロセッサアーキテクチャです。Intelによって製造されたx86アーキテクチャに由来し、後にAMDによってAMD64という名前で採用され、現在のパーソナルコンピュータやサーバーで広く使用されています。
+x64、またはx86-64としても知られる、はデスクトップおよびサーバーコンピューティングで主に使用される64ビットプロセッサアーキテクチャです。Intelによって製造されたx86アーキテクチャに由来し、後にAMDによってAMD64という名前で採用され、現在のパーソナルコンピュータやサーバーで広く使用されています。
 
 ### **Registers**
 
@@ -28,7 +28,7 @@ x64はx86アーキテクチャを拡張し、**16の汎用レジスタ**を持�
 3. **`rcx`** - **ループカウンタ**として一般的に使用されます。
 4. **`rdx`** - 拡張算術演算を含むさまざまな役割で使用されます。
 5. **`rbp`** - スタックフレームの**ベースポインタ**。
-6. **`rsp`** - **スタックポインタ**、スタックのトップを追跡します。
+6. **`rsp`** - スタックの**スタックポインタ**、スタックのトップを追跡します。
 7. **`rsi`**と**`rdi`** - 文字列/メモリ操作における**ソース**および**デスティネーション**インデックスに使用されます。
 8. **`r8`**から**`r15`** - x64で導入された追加の汎用レジスタ。
 
@@ -43,7 +43,7 @@ x64の呼び出し規約はオペレーティングシステムによって異�
 
 ### Calling Convention in Swift
 
-Swiftには独自の**呼び出し規約**があり、[**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)で確認できます。
+Swiftには独自の**呼び出し規約**があり、[**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)で見つけることができます。
 
 ### **Common Instructions**
 
@@ -51,14 +51,14 @@ x64命令は豊富なセットを持ち、以前のx86命令との互換性を�
 
 * **`mov`**: ある**レジスタ**または**メモリ位置**から別の場所に値を**移動**します。
 * 例: `mov rax, rbx` — `rbx`から`rax`に値を移動します。
-* **`push`**と**`pop`**: **スタック**に値をプッシュまたはポップします。
+* **`push`**と**`pop`**: スタックに値をプッシュまたはポップします。
 * 例: `push rax` — `rax`の値をスタックにプッシュします。
 * 例: `pop rax` — スタックのトップの値を`rax`にポップします。
 * **`add`**と**`sub`**: **加算**および**減算**操作。
 * 例: `add rax, rcx` — `rax`と`rcx`の値を加算し、結果を`rax`に格納します。
 * **`mul`**と**`div`**: **乗算**および**除算**操作。注意: これらはオペランドの使用に関して特定の動作を持ちます。
 * **`call`**と**`ret`**: 関数を**呼び出す**および**戻る**ために使用されます。
-* **`int`**: ソフトウェアの**割り込み**をトリガーするために使用されます。例: `int 0x80`は32ビットx86 Linuxでシステムコールに使用されました。
+* **`int`**: ソフトウェアの**割り込み**をトリガーするために使用されます。例: `int 0x80`は32ビットx86 Linuxでのシステムコールに使用されました。
 * **`cmp`**: 2つの値を**比較**し、結果に基づいてCPUのフラグを設定します。
 * 例: `cmp rax, rdx` — `rax`を`rdx`と比較します。
 * **`je`, `jne`, `jl`, `jge`, ...**: 前の`cmp`またはテストの結果に基づいて制御フローを変更する**条件付きジャンプ**命令。
@@ -110,7 +110,7 @@ x64命令は豊富なセットを持ち、以前のx86命令との互換性を�
 ```
 そのため、**Unix/BSDクラス**から`open`システムコール（**5**）を呼び出すには、次のように追加する必要があります：`0x2000000`
 
-したがって、`open`を呼び出すためのシステムコール番号は`0x2000005`になります。
+したがって、openを呼び出すためのシステムコール番号は`0x2000005`になります。
 
 ### シェルコード
 
@@ -261,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### shを使ってコマンドを呼び出す
+#### shを使ってコマンドを実行する
 ```armasm
 bits 64
 section .text
@@ -441,16 +441,16 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricksをサポートする</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

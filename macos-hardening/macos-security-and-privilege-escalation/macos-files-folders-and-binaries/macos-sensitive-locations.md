@@ -30,7 +30,7 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 
 [**このようなスクリプト**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) または [**こちらのスクリプト**](https://github.com/octomagon/davegrohl.git) は、ハッシュを **hashcat** **フォーマット** に変換するために使用できます。
 
-非サービスアカウントのすべてのクレデンシャルをハッシュキャットフォーマット `-m 7100` (macOS PBKDF2-SHA512) でダンプする代替のワンライナー： 
+非サービスアカウントのすべてのクレデンシャルをハッシュキャットフォーマット `-m 7100` (macOS PBKDF2-SHA512) でダンプする代替のワンライナー: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -63,19 +63,19 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 
 ### Keychaindumpの概要
 
-**keychaindump**というツールは、macOSのキーチェーンからパスワードを抽出するために開発されましたが、Big Surのような新しいmacOSバージョンでは制限があります。**keychaindump**の使用には、攻撃者がアクセスを得て**root**権限を昇格させる必要があります。このツールは、ユーザーのログイン時にキーチェーンがデフォルトでロック解除されるという事実を利用しており、アプリケーションがユーザーのパスワードを繰り返し要求することなくアクセスできるようにしています。しかし、ユーザーが使用後にキーチェーンをロックすることを選択した場合、**keychaindump**は無効になります。
+**keychaindump**というツールは、macOSのキーチェーンからパスワードを抽出するために開発されましたが、Big Surのような新しいmacOSバージョンでは制限があります。**keychaindump**の使用には、攻撃者がアクセスを得て**root**権限を昇格させる必要があります。このツールは、ユーザーのログイン時にキーチェーンがデフォルトでロック解除されるという事実を利用しており、アプリケーションがユーザーのパスワードを繰り返し要求することなくアクセスできるようにしています。ただし、ユーザーが使用後にキーチェーンをロックすることを選択した場合、**keychaindump**は無効になります。
 
 **Keychaindump**は、Appleによって認証および暗号操作のためのデーモンとして説明されている特定のプロセス**securityd**をターゲットにして動作します。抽出プロセスは、ユーザーのログインパスワードから派生した**マスターキー**を特定することを含みます。このキーは、キーチェーンファイルを読み取るために不可欠です。**マスターキー**を見つけるために、**keychaindump**は`vmmap`コマンドを使用して**securityd**のメモリヒープをスキャンし、`MALLOC_TINY`としてフラグ付けされた領域内の潜在的なキーを探します。これらのメモリ位置を検査するために使用されるコマンドは次のとおりです：
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-潜在的なマスターキーを特定した後、**keychaindump**は特定のパターン（`0x0000000000000018`）を示すヒープを検索し、マスターキーの候補を特定します。このキーを利用するためには、**keychaindump**のソースコードに記載されているように、さらなる手順としてデオブフスケーションが必要です。この分野に焦点を当てるアナリストは、キーを復号化するための重要なデータが**securityd**プロセスのメモリ内に保存されていることに注意する必要があります。**keychaindump**を実行するためのコマンドの例は次のとおりです：
+潜在的なマスターキーを特定した後、**keychaindump**は特定のパターン（`0x0000000000000018`）を示すヒープを検索し、マスターキーの候補を特定します。このキーを利用するには、**keychaindump**のソースコードに記載されているように、さらなる手順としてデオブフスケーションが必要です。この分野に焦点を当てるアナリストは、キーを復号化するための重要なデータが**securityd**プロセスのメモリ内に保存されていることに注意する必要があります。**keychaindump**を実行するためのコマンドの例は次のとおりです：
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) は、法的に正当な方法でOSXキーチェーンから以下の情報を抽出するために使用できます：
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) は、法的に正当な方法でOSXキーチェーンから以下の種類の情報を抽出するために使用できます：
 
 * ハッシュ化されたキーチェーンパスワード、[hashcat](https://hashcat.net/hashcat/) または [John the Ripper](https://www.openwall.com/john/) でのクラックに適しています
 * インターネットパスワード
@@ -88,7 +88,7 @@ sudo ./keychaindump
 
 キーチェーンのアンロックパスワード、[volafox](https://github.com/n0fate/volafox) または [volatility](https://github.com/volatilityfoundation/volatility) を使用して取得したマスターキー、またはSystemKeyのようなアンロックファイルがある場合、Chainbreakerはプレーンテキストパスワードも提供します。
 
-これらのキーチェーンをアンロックする方法のいずれかがない場合、Chainbreakerは他のすべての利用可能な情報を表示します。
+これらのいずれかの方法でキーチェーンをアンロックできない場合、Chainbreakerは他のすべての利用可能な情報を表示します。
 
 #### **Dump keychain keys**
 ```bash
@@ -103,7 +103,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **キーチェーンキーのダンプ（パスワード付き）ハッシュをクラッキングする**
+#### **キーチェーンキーのダンプ（パスワード付き）ハッシュのクラッキング**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -125,7 +125,7 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **ユーザーのパスワードを使用してキーチェーンキー（パスワード付き）をダンプする**
 
-ユーザーのパスワードを知っていれば、それを使用して**ユーザーに属するキーチェーンをダンプおよび復号化する**ことができます。
+ユーザーのパスワードを知っている場合、それを使用して**ユーザーに属するキーチェーンをダンプおよび復号化する**ことができます。
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
@@ -179,7 +179,7 @@ macOSアプリの設定は**`$HOME/Library/Preferences`**にあり、iOSでは`/
 
 macOSでは、cliツール**`defaults`**を使用して**Preferencesファイルを変更**できます。
 
-**`/usr/sbin/cfprefsd`**はXPCサービス`com.apple.cfprefsd.daemon`と`com.apple.cfprefsd.agent`を主張し、設定を変更するなどのアクションを実行するために呼び出すことができます。
+**`/usr/sbin/cfprefsd`**はXPCサービス`com.apple.cfprefsd.daemon`と`com.apple.cfprefsd.agent`を要求し、設定を変更するなどのアクションを実行するために呼び出すことができます。
 
 ## OpenDirectory permissions.plist
 
@@ -221,11 +221,11 @@ macOSでは、cliツール**`defaults`**を使用して**Preferencesファイル
 
 ### Darwin通知
 
-通知の主要なデーモンは**`/usr/sbin/notifyd`**です。通知を受け取るためには、クライアントは`com.apple.system.notification_center` Machポートを通じて登録する必要があります（`sudo lsmp -p <pid notifyd>`で確認できます）。デーモンは`/etc/notify.conf`ファイルで設定可能です。
+通知の主要なデーモンは **`/usr/sbin/notifyd`** です。通知を受け取るためには、クライアントは `com.apple.system.notification_center` Machポートを通じて登録する必要があります（`sudo lsmp -p <pid notifyd>` で確認できます）。デーモンはファイル `/etc/notify.conf` で設定可能です。
 
-通知に使用される名前はユニークな逆DNS表記であり、通知がその一つに送信されると、それを処理できると示したクライアントが受け取ります。
+通知に使用される名前はユニークな逆DNS表記であり、通知がそれらの一つに送信されると、それを処理できると示したクライアントが受け取ります。
 
-現在の状態をダンプし（すべての名前を確認する）、notifydプロセスにSIGUSR2信号を送信し、生成されたファイル`/var/run/notifyd_<pid>.status`を読み取ることが可能です。
+現在の状態をダンプし（すべての名前を確認する）、notifydプロセスにSIGUSR2信号を送信し、生成されたファイル `/var/run/notifyd_<pid>.status` を読み取ることが可能です。
 ```bash
 ps -ef | grep -i notifyd
 0   376     1   0 15Mar24 ??        27:40.97 /usr/sbin/notifyd
@@ -243,16 +243,16 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Distributed Notification Center
 
-**Distributed Notification Center** の主要なバイナリは **`/usr/sbin/distnoted`** であり、通知を送信する別の方法です。いくつかの XPC サービスを公開し、クライアントを検証するためのチェックを実行します。
+**Distributed Notification Center**の主なバイナリは**`/usr/sbin/distnoted`**であり、通知を送信する別の方法です。いくつかのXPCサービスを公開し、クライアントを検証するためのチェックを実行します。
 
 ### Apple Push Notifications (APN)
 
-この場合、アプリケーションは **トピック** に登録できます。クライアントは **`apsd`** を介して Apple のサーバーに連絡し、トークンを生成します。\
-その後、プロバイダーもトークンを生成し、Apple のサーバーに接続してクライアントにメッセージを送信できるようになります。これらのメッセージは **`apsd`** によってローカルで受信され、通知はそれを待っているアプリケーションに中継されます。
+この場合、アプリケーションは**トピック**に登録できます。クライアントは**`apsd`**を介してAppleのサーバーに連絡し、トークンを生成します。\
+その後、プロバイダーもトークンを生成し、Appleのサーバーに接続してクライアントにメッセージを送信できるようになります。これらのメッセージは、**`apsd`**によってローカルで受信され、通知が待機しているアプリケーションに中継されます。
 
-設定は `/Library/Preferences/com.apple.apsd.plist` にあります。
+設定は`/Library/Preferences/com.apple.apsd.plist`にあります。
 
-macOS には `/Library/Application\ Support/ApplePushService/aps.db` に、iOS には `/var/mobile/Library/ApplePushService` にメッセージのローカルデータベースがあります。これには 3 つのテーブルがあります: `incoming_messages`、`outgoing_messages`、および `channel`。
+macOSには`/Library/Application\ Support/ApplePushService/aps.db`に、iOSには`/var/mobile/Library/ApplePushService`にメッセージのローカルデータベースがあります。これには3つのテーブルがあります：`incoming_messages`、`outgoing_messages`、および`channel`。
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```

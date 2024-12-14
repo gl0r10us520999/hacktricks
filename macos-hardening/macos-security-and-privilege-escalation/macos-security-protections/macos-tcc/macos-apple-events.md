@@ -15,18 +15,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## 基本情報
+## Basic Information
 
-**Apple Events** は、アプリケーションが互いに通信できるようにする、AppleのmacOSの機能です。これは、プロセス間通信を処理するmacOSオペレーティングシステムのコンポーネントである**Apple Event Manager**の一部です。このシステムにより、あるアプリケーションが別のアプリケーションにメッセージを送信し、ファイルを開く、データを取得する、またはコマンドを実行するなどの特定の操作を実行するように要求できます。
+**Apple Events** は、アプリケーションが互いに通信できるようにする、Apple の macOS の機能です。これは、プロセス間通信を処理する macOS オペレーティングシステムのコンポーネントである **Apple Event Manager** の一部です。このシステムにより、あるアプリケーションが別のアプリケーションにメッセージを送信し、ファイルを開く、データを取得する、またはコマンドを実行するなどの特定の操作を実行するように要求できます。
 
-minaデーモンは`/System/Library/CoreServices/appleeventsd`で、サービス`com.apple.coreservices.appleevents`を登録します。
+mina デーモンは `/System/Library/CoreServices/appleeventsd` で、サービス `com.apple.coreservices.appleevents` を登録します。
 
-イベントを受信できるすべてのアプリケーションは、このデーモンに自分のApple Event Mach Portを提供して確認します。そして、アプリがイベントを送信したい場合、アプリはデーモンからこのポートを要求します。
+イベントを受信できるすべてのアプリケーションは、このデーモンに自分の Apple Event Mach Port を提供して確認します。そして、アプリがイベントを送信したい場合、アプリはデーモンからこのポートを要求します。
 
-サンドボックス化されたアプリケーションは、イベントを送信できるようにするために、`allow appleevent-send`や`(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`のような権限が必要です。`com.apple.security.temporary-exception.apple-events`のような権限は、イベントを送信するアクセスを制限する可能性があり、`com.apple.private.appleevents`のような権限が必要になります。
+サンドボックス化されたアプリケーションは、イベントを送信できるようにするために `allow appleevent-send` や `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` などの特権が必要です。`com.apple.security.temporary-exception.apple-events` のような権限は、イベントを送信するアクセスを制限する可能性があり、`com.apple.private.appleevents` のような権限が必要になります。
 
 {% hint style="success" %}
-環境変数**`AEDebugSends`**を使用して、送信されたメッセージに関する情報をログに記録することが可能です:
+**`AEDebugSends`** 環境変数を使用して、送信されたメッセージに関する情報をログに記録することが可能です:
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
