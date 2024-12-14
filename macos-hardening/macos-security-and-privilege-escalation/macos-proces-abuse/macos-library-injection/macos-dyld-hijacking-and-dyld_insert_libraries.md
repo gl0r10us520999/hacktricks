@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-¡Así que es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima reexportándola. Y recuerda compilarla con las versiones esperadas:
+Así que, ¡es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima reexportándola. Y recuerda compilarla con las versiones esperadas:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -169,7 +169,7 @@ Un buen artículo sobre cómo abusar de esta vulnerabilidad para abusar de los p
 
 ## Mayor Escala
 
-Si planeas intentar inyectar bibliotecas en binarios inesperados, podrías revisar los mensajes de evento para averiguar cuándo se carga la biblioteca dentro de un proceso (en este caso, elimina el printf y la ejecución de `/bin/bash`).
+Si planeas intentar inyectar bibliotecas en binarios inesperados, podrías revisar los mensajes de eventos para averiguar cuándo se carga la biblioteca dentro de un proceso (en este caso, elimina el printf y la ejecución de `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```

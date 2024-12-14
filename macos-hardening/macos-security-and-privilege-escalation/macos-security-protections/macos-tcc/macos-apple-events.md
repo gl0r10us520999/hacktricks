@@ -23,7 +23,7 @@ El daemon mina es `/System/Library/CoreServices/appleeventsd` que registra el se
 
 Cada aplicación que puede recibir eventos verificará con este daemon proporcionando su Apple Event Mach Port. Y cuando una aplicación quiere enviar un evento a él, la aplicación solicitará este puerto al daemon.
 
-Las aplicaciones en sandbox requieren privilegios como `allow appleevent-send` y `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` para poder enviar eventos. Noten que los derechos como `com.apple.security.temporary-exception.apple-events` podrían restringir quién tiene acceso para enviar eventos, lo que necesitará derechos como `com.apple.private.appleevents`.
+Las aplicaciones en sandbox requieren privilegios como `allow appleevent-send` y `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` para poder enviar eventos. Tenga en cuenta que los derechos como `com.apple.security.temporary-exception.apple-events` podrían restringir quién tiene acceso para enviar eventos, lo que necesitará derechos como `com.apple.private.appleevents`.
 
 {% hint style="success" %}
 Es posible usar la variable de entorno **`AEDebugSends`** para registrar información sobre el mensaje enviado:

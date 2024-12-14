@@ -1,7 +1,7 @@
 # Objetos en memoria
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
@@ -10,16 +10,16 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-Los objetos CF\* provienen de CoreFoundation, que proporciona más de 50 clases de objetos como `CFString`, `CFNumber` o `CFAllocatior`.
+Los objetos CF\* provienen de CoreFoundation, que proporciona más de 50 clases de objetos como `CFString`, `CFNumber` o `CFAllocator`.
 
-Todas estas clases son instancias de la clase `CFRuntimeClass`, la cual al ser llamada devuelve un índice a la `__CFRuntimeClassTable`. CFRuntimeClass está definida en [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
+Todas estas clases son instancias de la clase `CFRuntimeClass`, que al ser llamada devuelve un índice a la `__CFRuntimeClassTable`. La CFRuntimeClass está definida en [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html):
 ```objectivec
 // Some comments were added to the original code
 
@@ -70,38 +70,38 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 
 ### Secciones de memoria utilizadas
 
-La mayoría de los datos utilizados por el tiempo de ejecución de ObjectiveC cambiarán durante la ejecución, por lo tanto utiliza algunas secciones del segmento **\_\_DATA** en la memoria:
+La mayor parte de los datos utilizados por el tiempo de ejecución de ObjectiveC cambiarán durante la ejecución, por lo tanto, utiliza algunas secciones del segmento **\_\_DATA** en memoria:
 
-- **`__objc_msgrefs`** (`message_ref_t`): Referencias de mensajes
-- **`__objc_ivar`** (`ivar`): Variables de instancia
-- **`__objc_data`** (`...`): Datos mutables
-- **`__objc_classrefs`** (`Class`): Referencias de clases
-- **`__objc_superrefs`** (`Class`): Referencias de superclases
-- **`__objc_protorefs`** (`protocol_t *`): Referencias de protocolos
-- **`__objc_selrefs`** (`SEL`): Referencias de selectores
-- **`__objc_const`** (`...`): Datos de clase `r/o` y otros datos (con suerte) constantes
-- **`__objc_imageinfo`** (`versión, flags`): Utilizado durante la carga de imagen: Versión actualmente `0`; Las banderas especifican soporte preoptimizado de GC, etc.
-- **`__objc_protolist`** (`protocol_t *`): Lista de protocolos
-- **`__objc_nlcatlist`** (`category_t`): Puntero a Categorías No Perezosas definidas en este binario
-- **`__objc_catlist`** (`category_t`): Puntero a Categorías definidas en este binario
-- **`__objc_nlclslist`** (`classref_t`): Puntero a clases Objective-C No Perezosas definidas en este binario
-- **`__objc_classlist`** (`classref_t`): Punteros a todas las clases Objective-C definidas en este binario
+* **`__objc_msgrefs`** (`message_ref_t`): Referencias de mensajes
+* **`__objc_ivar`** (`ivar`): Variables de instancia
+* **`__objc_data`** (`...`): Datos mutables
+* **`__objc_classrefs`** (`Class`): Referencias de clase
+* **`__objc_superrefs`** (`Class`): Referencias de superclase
+* **`__objc_protorefs`** (`protocol_t *`): Referencias de protocolo
+* **`__objc_selrefs`** (`SEL`): Referencias de selector
+* **`__objc_const`** (`...`): Datos de clase `r/o` y otros datos (esperemos) constantes
+* **`__objc_imageinfo`** (`version, flags`): Utilizado durante la carga de la imagen: Versión actualmente `0`; Las banderas especifican soporte de GC preoptimizado, etc.
+* **`__objc_protolist`** (`protocol_t *`): Lista de protocolos
+* **`__objc_nlcatlist`** (`category_t`): Puntero a categorías no perezosas definidas en este binario
+* **`__objc_catlist`** (`category_t`): Puntero a categorías definidas en este binario
+* **`__objc_nlclslist`** (`classref_t`): Puntero a clases de Objective-C no perezosas definidas en este binario
+* **`__objc_classlist`** (`classref_t`): Punteros a todas las clases de Objective-C definidas en este binario
 
 También utiliza algunas secciones en el segmento **`__TEXT`** para almacenar valores constantes si no es posible escribir en esta sección:
 
-- **`__objc_methname`** (Cadena-C): Nombres de métodos
-- **`__objc_classname`** (Cadena-C): Nombres de clases
-- **`__objc_methtype`** (Cadena-C): Tipos de métodos
+* **`__objc_methname`** (C-String): Nombres de métodos
+* **`__objc_classname`** (C-String): Nombres de clase
+* **`__objc_methtype`** (C-String): Tipos de métodos
 
 ### Codificación de tipos
 
-Objective-C utiliza un cierto enmascaramiento para codificar los tipos de selector y variables de tipos simples y complejos:
+Objective-C utiliza cierta mangling para codificar selectores y tipos de variables de tipos simples y complejos:
 
-- Los tipos primitivos usan la primera letra del tipo `i` para `int`, `c` para `char`, `l` para `long`... y usa la letra mayúscula en caso de que sea sin signo (`L` para `unsigned Long`).
-- Otros tipos de datos cuyas letras se utilizan o son especiales, usan otras letras o símbolos como `q` para `long long`, `b` para `bitfields`, `B` para `booleans`, `#` para `classes`, `@` para `id`, `*` para `char pointers`, `^` para `punteros` genéricos y `?` para `indefinido`.
-- Los arreglos, estructuras y uniones usan `[`, `{` y `(`
+* Los tipos primitivos utilizan la primera letra del tipo `i` para `int`, `c` para `char`, `l` para `long`... y utilizan la letra mayúscula en caso de que sea sin signo (`L` para `unsigned Long`).
+* Otros tipos de datos cuyas letras se utilizan o son especiales, utilizan otras letras o símbolos como `q` para `long long`, `b` para `bitfields`, `B` para `booleans`, `#` para `classes`, `@` para `id`, `*` para `char pointers`, `^` para `pointers` genéricos y `?` para `undefined`.
+* Los arreglos, estructuras y uniones utilizan `[`, `{` y `(`
 
-#### Ejemplo de Declaración de Método
+#### Ejemplo de declaración de método
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -111,19 +111,19 @@ Objective-C utiliza un cierto enmascaramiento para codificar los tipos de select
 
 El selector sería `processString:withOptions:andError:`
 
-#### Codificación de Tipos
+#### Codificación de Tipo
 
 * `id` se codifica como `@`
 * `char *` se codifica como `*`
 
-La codificación completa de tipos para el método es:
+La codificación de tipo completa para el método es:
 ```less
 @24@0:8@16*20^@24
 ```
 #### Desglose Detallado
 
 1. **Tipo de Retorno (`NSString *`)**: Codificado como `@` con longitud 24
-2. **`self` (instancia del objeto)**: Codificado como `@`, en el desplazamiento 0
+2. **`self` (instancia de objeto)**: Codificado como `@`, en el desplazamiento 0
 3. **`_cmd` (selector)**: Codificado como `:`, en el desplazamiento 8
 4. **Primer argumento (`char * input`)**: Codificado como `*`, en el desplazamiento 16
 5. **Segundo argumento (`NSDictionary * options`)**: Codificado como `@`, en el desplazamiento 20
@@ -133,7 +133,7 @@ La codificación completa de tipos para el método es:
 
 ### **Clases**
 
-Las clases en Objective-C son una estructura con propiedades, punteros a métodos... Es posible encontrar la estructura `objc_class` en el [**código fuente**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
+Clases en Objective-C es una estructura con propiedades, punteros a métodos... Es posible encontrar la estructura `objc_class` en el [**código fuente**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html):
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -157,4 +157,19 @@ data()->setFlags(set);
 Esta clase utiliza algunos bits del campo isa para indicar información sobre la clase.
 
 Luego, la estructura tiene un puntero a la estructura `class_ro_t` almacenada en disco que contiene atributos de la clase como su nombre, métodos base, propiedades y variables de instancia.\
-Durante el tiempo de ejecución, se utiliza una estructura adicional `class_rw_t` que contiene punteros que pueden ser modificados, como métodos, protocolos, propiedades...
+Durante el tiempo de ejecución, se utiliza una estructura adicional `class_rw_t` que contiene punteros que pueden ser alterados, como métodos, protocolos, propiedades...
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

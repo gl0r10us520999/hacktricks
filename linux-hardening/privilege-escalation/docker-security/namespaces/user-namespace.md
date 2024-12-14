@@ -1,16 +1,16 @@
-# Espacio de Nombres de Usuario
+# User Namespace
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**repositorios de HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -23,20 +23,20 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## Información Básica
 
-Un espacio de nombres de usuario es una característica del núcleo de Linux que **proporciona aislamiento de las asignaciones de ID de usuario y grupo**, permitiendo que cada espacio de nombres de usuario tenga su **propio conjunto de IDs de usuario y grupo**. Este aislamiento permite que los procesos que se ejecutan en diferentes espacios de nombres de usuario **tengan diferentes privilegios y propiedad**, incluso si comparten los mismos IDs de usuario y grupo numéricamente.
+Un espacio de usuario es una característica del núcleo de Linux que **proporciona aislamiento de las asignaciones de ID de usuario y grupo**, permitiendo que cada espacio de usuario tenga su **propio conjunto de IDs de usuario y grupo**. Este aislamiento permite que los procesos que se ejecutan en diferentes espacios de usuario **tengan diferentes privilegios y propiedad**, incluso si comparten los mismos IDs de usuario y grupo numéricamente.
 
-Los espacios de nombres de usuario son particularmente útiles en la contenedorización, donde cada contenedor debe tener su propio conjunto independiente de IDs de usuario y grupo, lo que permite una mejor seguridad y aislamiento entre los contenedores y el sistema host.
+Los espacios de usuario son particularmente útiles en la contenedorización, donde cada contenedor debe tener su propio conjunto independiente de IDs de usuario y grupo, lo que permite una mejor seguridad y aislamiento entre los contenedores y el sistema host.
 
 ### Cómo funciona:
 
-1. Cuando se crea un nuevo espacio de nombres de usuario, **comienza con un conjunto vacío de asignaciones de ID de usuario y grupo**. Esto significa que cualquier proceso que se ejecute en el nuevo espacio de nombres de usuario **no tendrá inicialmente privilegios fuera del espacio de nombres**.
-2. Se pueden establecer asignaciones de ID entre los IDs de usuario y grupo en el nuevo espacio de nombres y aquellos en el espacio de nombres padre (o host). Esto **permite que los procesos en el nuevo espacio de nombres tengan privilegios y propiedad correspondientes a los IDs de usuario y grupo en el espacio de nombres padre**. Sin embargo, las asignaciones de ID pueden restringirse a rangos y subconjuntos específicos de IDs, lo que permite un control detallado sobre los privilegios otorgados a los procesos en el nuevo espacio de nombres.
-3. Dentro de un espacio de nombres de usuario, **los procesos pueden tener privilegios de root completos (UID 0) para operaciones dentro del espacio de nombres**, mientras que aún tienen privilegios limitados fuera del espacio de nombres. Esto permite que **los contenedores se ejecuten con capacidades similares a root dentro de su propio espacio de nombres sin tener privilegios de root completos en el sistema host**.
-4. Los procesos pueden moverse entre espacios de nombres utilizando la llamada al sistema `setns()` o crear nuevos espacios de nombres utilizando las llamadas al sistema `unshare()` o `clone()` con la bandera `CLONE_NEWUSER`. Cuando un proceso se mueve a un nuevo espacio de nombres o crea uno, comenzará a usar las asignaciones de ID de usuario y grupo asociadas con ese espacio de nombres.
+1. Cuando se crea un nuevo espacio de usuario, **comienza con un conjunto vacío de asignaciones de ID de usuario y grupo**. Esto significa que cualquier proceso que se ejecute en el nuevo espacio de usuario **no tendrá inicialmente privilegios fuera del espacio**.
+2. Se pueden establecer asignaciones de ID entre los IDs de usuario y grupo en el nuevo espacio y aquellos en el espacio padre (o host). Esto **permite que los procesos en el nuevo espacio tengan privilegios y propiedad correspondientes a los IDs de usuario y grupo en el espacio padre**. Sin embargo, las asignaciones de ID pueden restringirse a rangos y subconjuntos específicos de IDs, lo que permite un control detallado sobre los privilegios otorgados a los procesos en el nuevo espacio.
+3. Dentro de un espacio de usuario, **los procesos pueden tener privilegios de root completos (UID 0) para operaciones dentro del espacio**, mientras que aún tienen privilegios limitados fuera del espacio. Esto permite que **los contenedores se ejecuten con capacidades similares a root dentro de su propio espacio sin tener privilegios de root completos en el sistema host**.
+4. Los procesos pueden moverse entre espacios utilizando la llamada al sistema `setns()` o crear nuevos espacios utilizando las llamadas al sistema `unshare()` o `clone()` con la bandera `CLONE_NEWUSER`. Cuando un proceso se mueve a un nuevo espacio o crea uno, comenzará a usar las asignaciones de ID de usuario y grupo asociadas con ese espacio.
 
 ## Laboratorio:
 
-### Crear diferentes Espacios de Nombres
+### Crear diferentes Espacios
 
 #### CLI
 ```bash
@@ -56,7 +56,7 @@ Cuando se ejecuta `unshare` sin la opción `-f`, se encuentra un error debido a 
 - El primer proceso hijo de `/bin/bash` en el nuevo espacio de nombres se convierte en PID 1. Cuando este proceso sale, desencadena la limpieza del espacio de nombres si no hay otros procesos, ya que PID 1 tiene el papel especial de adoptar procesos huérfanos. El núcleo de Linux deshabilitará entonces la asignación de PID en ese espacio de nombres.
 
 2. **Consecuencia**:
-- La salida de PID 1 en un nuevo espacio de nombres conduce a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` falla al intentar asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
+- La salida de PID 1 en un nuevo espacio de nombres lleva a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` falle al intentar asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
 
 3. **Solución**:
 - El problema se puede resolver utilizando la opción `-f` con `unshare`. Esta opción hace que `unshare` cree un nuevo proceso después de crear el nuevo espacio de nombres de PID.

@@ -17,16 +17,16 @@ Aprende y practica Hacking en GCP: <img src="../../.gitbook/assets/grte.png" alt
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de recompensas por errores.
+Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs.
 
 **Perspectivas de Hacking**\
-Participa en contenido que profundiza en la emoción y los desafíos del hacking
+Involúcrate con contenido que profundiza en la emoción y los desafíos del hacking
 
 **Noticias de Hacking en Tiempo Real**\
 Mantente al día con el mundo del hacking a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre las nuevas recompensas por errores que se lanzan y actualizaciones cruciales de la plataforma
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
 
@@ -64,7 +64,7 @@ Si no estás familiarizado con macOS, deberías comenzar a aprender los concepto
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **Open source** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
+* **Código abierto** de macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
 * Para descargar un `tar.gz`, cambia una URL como [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) a [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MDM de MacOS
@@ -147,16 +147,16 @@ Por supuesto, desde la perspectiva de un equipo rojo, también deberías estar i
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de recompensas por errores.
+Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs.
 
 **Perspectivas de Hacking**\
-Participa en contenido que profundiza en la emoción y los desafíos del hacking
+Involúcrate con contenido que profundiza en la emoción y los desafíos del hacking
 
 **Noticias de Hacking en Tiempo Real**\
 Mantente al día con el mundo del hacking a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre las nuevas recompensas por errores que se lanzan y actualizaciones cruciales de la plataforma
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
 

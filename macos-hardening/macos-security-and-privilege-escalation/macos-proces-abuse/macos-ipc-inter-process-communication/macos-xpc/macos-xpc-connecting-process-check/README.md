@@ -26,9 +26,9 @@ Cuando se establece una conexión a un servicio XPC, el servidor verificará si 
 3. Verificar si el proceso que se conecta **contiene un ID de paquete adecuado**.
 * Si esto **no se verifica**, cualquier herramienta **firmada por la misma organización** podría ser utilizada para interactuar con el servicio XPC.
 4. (4 o 5) Verificar si el proceso que se conecta tiene un **número de versión de software adecuado**.
-* Si esto **no se verifica**, se podría utilizar un cliente antiguo e inseguro, vulnerable a la inyección de procesos, para conectarse al servicio XPC incluso con las otras verificaciones en su lugar.
+* Si esto **no se verifica**, un cliente antiguo e inseguro, vulnerable a la inyección de procesos, podría ser utilizado para conectarse al servicio XPC incluso con las otras verificaciones en su lugar.
 5. (4 o 5) Verificar si el proceso que se conecta tiene un runtime endurecido sin derechos peligrosos (como los que permiten cargar bibliotecas arbitrarias o usar variables de entorno DYLD).
-* Si esto **no se verifica**, el cliente podría ser **vulnerable a la inyección de código**.
+1. Si esto **no se verifica**, el cliente podría ser **vulnerable a la inyección de código**.
 6. Verificar si el proceso que se conecta tiene un **derecho** que le permite conectarse al servicio. Esto es aplicable para binarios de Apple.
 7. La **verificación** debe basarse en el **token de auditoría del cliente que se conecta** **en lugar** de su ID de proceso (**PID**) ya que el primero previene **ataques de reutilización de PID**.
 * Los desarrolladores **raramente utilizan la llamada a la API del token de auditoría** ya que es **privada**, por lo que Apple podría **cambiarla** en cualquier momento. Además, el uso de API privadas no está permitido en las aplicaciones de la Mac App Store.
@@ -49,9 +49,9 @@ Para más información sobre el ataque **`xpc_connection_get_audit_token`**, con
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Downgrade Attacks Prevention
+### Trustcache - Prevención de Ataques de Downgrade
 
-Trustcache es un método defensivo introducido en máquinas Apple Silicon que almacena una base de datos de CDHSAH de binarios de Apple para que solo se puedan ejecutar binarios no modificados permitidos. Lo que previene la ejecución de versiones degradadas.
+Trustcache es un método defensivo introducido en máquinas Apple Silicon que almacena una base de datos de CDHSAH de binarios de Apple para que solo se puedan ejecutar binarios no modificados permitidos. Lo que previene la ejecución de versiones de downgrade.
 
 ### Code Examples
 

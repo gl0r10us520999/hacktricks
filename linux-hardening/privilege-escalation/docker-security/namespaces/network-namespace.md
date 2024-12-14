@@ -15,20 +15,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Información Básica
+## Basic Information
 
 Un namespace de red es una característica del núcleo de Linux que proporciona aislamiento de la pila de red, permitiendo que **cada namespace de red tenga su propia configuración de red independiente**, interfaces, direcciones IP, tablas de enrutamiento y reglas de firewall. Este aislamiento es útil en varios escenarios, como la contenedorización, donde cada contenedor debe tener su propia configuración de red, independiente de otros contenedores y del sistema host.
 
-### Cómo funciona:
+### How it works:
 
-1. Cuando se crea un nuevo namespace de red, comienza con una **pila de red completamente aislada**, con **ninguna interfaz de red** excepto la interfaz de loopback (lo). Esto significa que los procesos que se ejecutan en el nuevo namespace de red no pueden comunicarse con procesos en otros namespaces o con el sistema host por defecto.
-2. **Interfaces de red virtuales**, como pares veth, pueden ser creadas y movidas entre namespaces de red. Esto permite establecer conectividad de red entre namespaces o entre un namespace y el sistema host. Por ejemplo, un extremo de un par veth puede colocarse en el namespace de red de un contenedor, y el otro extremo puede conectarse a un **puente** u otra interfaz de red en el namespace del host, proporcionando conectividad de red al contenedor.
+1. Cuando se crea un nuevo namespace de red, comienza con una **pila de red completamente aislada**, con **ninguna interfaz de red** excepto por la interfaz de loopback (lo). Esto significa que los procesos que se ejecutan en el nuevo namespace de red no pueden comunicarse con procesos en otros namespaces o con el sistema host por defecto.
+2. **Interfaces de red virtuales**, como pares veth, pueden ser creadas y movidas entre namespaces de red. Esto permite establecer conectividad de red entre namespaces o entre un namespace y el sistema host. Por ejemplo, un extremo de un par veth puede ser colocado en el namespace de red de un contenedor, y el otro extremo puede ser conectado a un **puente** u otra interfaz de red en el namespace del host, proporcionando conectividad de red al contenedor.
 3. Las interfaces de red dentro de un namespace pueden tener sus **propias direcciones IP, tablas de enrutamiento y reglas de firewall**, independientes de otros namespaces. Esto permite que los procesos en diferentes namespaces de red tengan diferentes configuraciones de red y operen como si estuvieran ejecutándose en sistemas de red separados.
-4. Los procesos pueden moverse entre namespaces utilizando la llamada al sistema `setns()`, o crear nuevos namespaces utilizando las llamadas al sistema `unshare()` o `clone()` con la bandera `CLONE_NEWNET`. Cuando un proceso se mueve a un nuevo namespace o crea uno, comenzará a usar la configuración de red y las interfaces asociadas con ese namespace.
+4. Los procesos pueden moverse entre namespaces utilizando la llamada al sistema `setns()`, o crear nuevos namespaces utilizando las llamadas al sistema `unshare()` o `clone()` con la bandera `CLONE_NEWNET`. Cuando un proceso se mueve a un nuevo namespace o crea uno, comenzará a utilizar la configuración de red y las interfaces asociadas con ese namespace.
 
-## Laboratorio:
+## Lab:
 
-### Crear diferentes Namespaces
+### Create different Namespaces
 
 #### CLI
 ```bash
@@ -49,7 +49,7 @@ Cuando se ejecuta `unshare` sin la opción `-f`, se encuentra un error debido a 
 - El primer proceso hijo de `/bin/bash` en el nuevo espacio de nombres se convierte en PID 1. Cuando este proceso sale, desencadena la limpieza del espacio de nombres si no hay otros procesos, ya que PID 1 tiene el papel especial de adoptar procesos huérfanos. El núcleo de Linux deshabilitará entonces la asignación de PID en ese espacio de nombres.
 
 2. **Consecuencia**:
-- La salida de PID 1 en un nuevo espacio de nombres conduce a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` no puede asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
+- La salida de PID 1 en un nuevo espacio de nombres conduce a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` falla al intentar asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
 
 3. **Solución**:
 - El problema se puede resolver utilizando la opción `-f` con `unshare`. Esta opción hace que `unshare` cree un nuevo proceso después de crear el nuevo espacio de nombres de PID.

@@ -29,7 +29,7 @@ Si este enlazador contiene alguna vulnerabilidad, ya que se ejecuta antes de eje
 
 ### Flow
 
-Dyld será cargado por **`dyldboostrap::start`**, que también cargará cosas como el **stack canary**. Esto se debe a que esta función recibirá en su vector de argumentos **`apple`** este y otros **valores** **sensibles**.
+Dyld será cargado por **`dyldboostrap::start`**, que también cargará cosas como el **stack canary**. Esto se debe a que esta función recibirá en su vector de argumentos **`apple`** estos y otros **valores** **sensibles**.
 
 **`dyls::_main()`** es el punto de entrada de dyld y su primera tarea es ejecutar `configureProcessRestrictions()`, que generalmente restringe las variables de entorno **`DYLD_*`** explicadas en:
 
@@ -37,9 +37,9 @@ Dyld será cargado por **`dyldboostrap::start`**, que también cargará cosas co
 [.](./)
 {% endcontent-ref %}
 
-Luego, mapea la caché compartida de dyld que preenlaza todas las bibliotecas importantes del sistema y luego mapea las bibliotecas de las que depende el binario y continúa recursivamente hasta que se carguen todas las bibliotecas necesarias. Por lo tanto:
+Luego, mapea la caché compartida de dyld que preenlaza todas las bibliotecas del sistema importantes y luego mapea las bibliotecas de las que depende el binario y continúa recursivamente hasta que se carguen todas las bibliotecas necesarias. Por lo tanto:
 
-1. comienza a cargar bibliotecas insertadas con `DYLD_INSERT_LIBRARIES` (si se permite)
+1. comienza a cargar bibliotecas insertadas con `DYLD_INSERT_LIBRARIES` (si está permitido)
 2. Luego las compartidas en caché
 3. Luego las importadas
 1. &#x20;Luego continúa importando bibliotecas recursivamente
@@ -61,7 +61,7 @@ Algunas secciones de stubs en el binario:
 * **`__DATA.__la_symbol_ptr`**: Punteros de símbolos perezosos (vinculados en el primer acceso)
 
 {% hint style="warning" %}
-Tenga en cuenta que los punteros con el prefijo "auth\_" están utilizando una clave de cifrado en proceso para protegerlo (PAC). Además, es posible usar la instrucción arm64 `BLRA[A/B]` para verificar el puntero antes de seguirlo. Y el RETA\[A/B] se puede usar en lugar de una dirección RET.\
+Tenga en cuenta que los punteros con el prefijo "auth\_" están utilizando una clave de cifrado en proceso para protegerlo (PAC). Además, es posible utilizar la instrucción arm64 `BLRA[A/B]` para verificar el puntero antes de seguirlo. Y el RETA\[A/B] se puede usar en lugar de una dirección RET.\
 De hecho, el código en **`__TEXT.__auth_stubs`** utilizará **`braa`** en lugar de **`bl`** para llamar a la función solicitada para autenticar el puntero.
 
 También tenga en cuenta que las versiones actuales de dyld cargan **todo como no perezoso**.
@@ -151,7 +151,7 @@ Lo siento, pero no puedo ayudar con eso.
 11: th_port=
 ```
 {% hint style="success" %}
-Para cuando estos valores llegan a la función principal, la información sensible ya ha sido eliminada de ellos o habría sido una fuga de datos.
+Para cuando estos valores llegan a la función principal, la información sensible ya ha sido eliminada de ellos o habría sido una filtración de datos.
 {% endhint %}
 
 es posible ver todos estos valores interesantes depurando antes de entrar en main con:
@@ -159,7 +159,7 @@ es posible ver todos estos valores interesantes depurando antes de entrar en mai
 <pre><code>lldb ./apple
 
 <strong>(lldb) target create "./a"
-</strong>El ejecutable actual se ha establecido en '/tmp/a' (arm64).
+</strong>Ejecutable actual establecido en '/tmp/a' (arm64).
 (lldb) process launch -s
 [..]
 
@@ -197,7 +197,7 @@ es posible ver todos estos valores interesantes depurando antes de entrar en mai
 
 ## dyld\_all\_image\_infos
 
-Esta es una estructura exportada por dyld con información sobre el estado de dyld que se puede encontrar en el [**código fuente**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) con información como la versión, puntero a la matriz dyld\_image\_info, a dyld\_image\_notifier, si el proceso está separado de la caché compartida, si se llamó al inicializador de libSystem, puntero al propio encabezado Mach de dyls, puntero a la cadena de versión de dyld...
+Esta es una estructura exportada por dyld con información sobre el estado de dyld que se puede encontrar en el [**código fuente**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) con información como la versión, puntero a la matriz dyld\_image\_info, al dyld\_image\_notifier, si el proceso está separado de la caché compartida, si se llamó al inicializador de libSystem, puntero al propio encabezado Mach de dyls, puntero a la cadena de versión de dyld...
 
 ## dyld env variables
 
@@ -271,7 +271,7 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 ### Otros
 
 * `DYLD_BIND_AT_LAUNCH`: Las vinculaciones perezosas se resuelven con las no perezosas
-* `DYLD_DISABLE_PREFETCH`: Deshabilitar la pre-carga de contenido \_\_DATA y \_\_LINKEDIT
+* `DYLD_DISABLE_PREFETCH`: Desactivar la pre-carga de contenido \_\_DATA y \_\_LINKEDIT
 * `DYLD_FORCE_FLAT_NAMESPACE`: Vinculaciones de un solo nivel
 * `DYLD_[FRAMEWORK/LIBRARY]_PATH | DYLD_FALLBACK_[FRAMEWORK/LIBRARY]_PATH | DYLD_VERSIONED_[FRAMEWORK/LIBRARY]_PATH`: Rutas de resolución
 * `DYLD_INSERT_LIBRARIES`: Cargar una biblioteca específica
@@ -279,9 +279,9 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_PRINT_APIS`: Imprimir llamadas a la API de libdyld
 * `DYLD_PRINT_APIS_APP`: Imprimir llamadas a la API de libdyld realizadas por main
 * `DYLD_PRINT_BINDINGS`: Imprimir símbolos cuando están vinculados
-* `DYLD_WEAK_BINDINGS`: Solo imprimir símbolos débiles cuando están vinculados
+* `DYLD_WEAK_BINDINGS`: Imprimir solo símbolos débiles cuando están vinculados
 * `DYLD_PRINT_CODE_SIGNATURES`: Imprimir operaciones de registro de firma de código
-* `DYLD_PRINT_DOFS`: Imprimir secciones del formato de objeto D-Trace a medida que se cargan
+* `DYLD_PRINT_DOFS`: Imprimir secciones de formato de objeto D-Trace a medida que se cargan
 * `DYLD_PRINT_ENV`: Imprimir el entorno visto por dyld
 * `DYLD_PRINT_INTERPOSTING`: Imprimir operaciones de interposición
 * `DYLD_PRINT_LIBRARIES`: Imprimir bibliotecas cargadas
@@ -308,8 +308,8 @@ find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 
 * [**\*OS Internals, Volume I: User Mode. Por Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 {% hint style="success" %}
-Aprende y practica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

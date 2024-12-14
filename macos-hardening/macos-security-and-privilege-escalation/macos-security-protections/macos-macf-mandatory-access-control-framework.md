@@ -23,7 +23,7 @@ Tenga en cuenta que MACF realmente no toma decisiones, ya que solo **intercepta*
 
 ### Flujo
 
-1. El proceso realiza una llamada al syscall/trampa mach
+1. El proceso realiza una llamada al sistema/trampa mach
 2. Se llama a la función relevante dentro del kernel
 3. La función llama a MACF
 4. MACF verifica los módulos de política que solicitaron enganchar esa función en su política
@@ -81,7 +81,7 @@ void			*mpc_data;		/** module data */
 ```
 Es fácil identificar las extensiones del kernel que configuran estas políticas al verificar las llamadas a `mac_policy_register`. Además, al revisar el desensamblado de la extensión, también es posible encontrar la estructura `mac_policy_conf` utilizada.
 
-Tenga en cuenta que las políticas de MACF también se pueden registrar y anular **dinámicamente**.
+Tenga en cuenta que las políticas MACF también se pueden registrar y anular **dinámicamente**.
 
 Uno de los principales campos de `mac_policy_conf` es **`mpc_ops`**. Este campo especifica qué operaciones le interesan a la política. Tenga en cuenta que hay cientos de ellas, por lo que es posible establecer todas en cero y luego seleccionar solo las que le interesan a la política. Desde [aquí](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
 ```c
@@ -96,12 +96,12 @@ mpo_cred_check_label_update_execve_t	*mpo_cred_check_label_update_execve;
 mpo_cred_check_label_update_t		*mpo_cred_check_label_update;
 [...]
 ```
-Casi todos los hooks serán llamados por MACF cuando una de esas operaciones sea interceptada. Sin embargo, los hooks **`mpo_policy_*`** son una excepción porque `mpo_hook_policy_init()` es un callback llamado al registrarse (después de `mac_policy_register()`) y `mpo_hook_policy_initbsd()` se llama durante el registro tardío una vez que el subsistema BSD se ha inicializado correctamente.
+Casi todos los hooks serán llamados por MACF cuando una de esas operaciones sea interceptada. Sin embargo, los hooks **`mpo_policy_*`** son una excepción porque `mpo_hook_policy_init()` es un callback llamado al momento de la registración (después de `mac_policy_register()`) y `mpo_hook_policy_initbsd()` se llama durante la registración tardía una vez que el subsistema BSD se ha inicializado correctamente.
 
 Además, el hook **`mpo_policy_syscall`** puede ser registrado por cualquier kext para exponer una llamada de estilo **ioctl** **interface** privada. Luego, un cliente de usuario podrá llamar a `mac_syscall` (#381) especificando como parámetros el **nombre de la política** con un **código** entero y **argumentos** opcionales.\
-Por ejemplo, el **`Sandbox.kext`** utiliza esto mucho.
+Por ejemplo, **`Sandbox.kext`** utiliza esto mucho.
 
-Revisando el **`__DATA.__const*`** del kext es posible identificar la estructura `mac_policy_ops` utilizada al registrar la política. Es posible encontrarla porque su puntero está en un desplazamiento dentro de `mpo_policy_conf` y también debido a la cantidad de punteros NULL que habrá en esa área.
+Revisando el **`__DATA.__const*`** del kext es posible identificar la estructura `mac_policy_ops` utilizada al registrar la política. Es posible encontrarla porque su puntero está en un desplazamiento dentro de `mpo_policy_conf` y también por la cantidad de punteros NULL que habrá en esa área.
 
 Además, también es posible obtener la lista de kexts que han configurado una política volcando de la memoria la estructura **`_mac_policy_list`** que se actualiza con cada política que se registra.
 
@@ -171,7 +171,7 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Which will go over all the registered mac policies calling their functions and storing the output inside the error variable, which will only be overridable by `mac_error_select` by success codes so if any check fails the complete check will fail and the action won't be allowed.
+Lo que revisará todas las políticas de mac registradas llamando a sus funciones y almacenando la salida dentro de la variable de error, que solo será sobreescribible por `mac_error_select` mediante códigos de éxito, por lo que si alguna verificación falla, la verificación completa fallará y la acción no será permitida.
 
 {% hint style="success" %}
 Sin embargo, recuerda que no todos los llamados de MACF se utilizan solo para denegar acciones. Por ejemplo, `mac_priv_grant` llama al macro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274), que otorgará el privilegio solicitado si alguna política responde con un 0:
@@ -217,9 +217,9 @@ goto skip_syscall;
 }
 #endif /* CONFIG_MACF */
 ```
-Que verificará en el **bitmask** del proceso que llama si la syscall actual debería llamar a `mac_proc_check_syscall_unix`. Esto se debe a que las syscalls se llaman con tanta frecuencia que es interesante evitar llamar a `mac_proc_check_syscall_unix` cada vez.
+Que verificará en el proceso que llama **bitmask** si la syscall actual debería llamar a `mac_proc_check_syscall_unix`. Esto se debe a que las syscalls se llaman con tanta frecuencia que es interesante evitar llamar a `mac_proc_check_syscall_unix` cada vez.
 
-Tenga en cuenta que la función `proc_set_syscall_filter_mask()`, que establece el bitmask de las syscalls en un proceso, es llamada por Sandbox para establecer máscaras en procesos en sandbox.
+Tenga en cuenta que la función `proc_set_syscall_filter_mask()`, que establece la máscara de bitmask en una syscall en un proceso, es llamada por Sandbox para establecer máscaras en procesos en sandbox.
 
 ## Syscalls MACF expuestas
 

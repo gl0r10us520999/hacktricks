@@ -21,7 +21,7 @@ Cuando ejecutas un contenedor como privilegiado, estas son las protecciones que 
 
 ### Montar /dev
 
-En un contenedor privilegiado, **todos los dispositivos pueden ser accedidos en `/dev/`**. Por lo tanto, puedes **escapar** **montando** el disco del host.
+En un contenedor privilegiado, todos los **dispositivos pueden ser accedidos en `/dev/`**. Por lo tanto, puedes **escapar** al **montar** el disco del host.
 
 {% tabs %}
 {% tab title="Dentro del contenedor por defecto" %}
@@ -162,11 +162,11 @@ Seccomp_filters:	0
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-También, ten en cuenta que cuando Docker (u otros CRIs) se utilizan en un **Kubernetes** cluster, el **filtro seccomp está deshabilitado por defecto**.
+También, ten en cuenta que cuando se utilizan Docker (u otros CRIs) en un clúster de **Kubernetes**, el **filtro seccomp está deshabilitado por defecto**.
 
 ### AppArmor
 
-**AppArmor** es una mejora del kernel para confinar **contenedores** a un conjunto **limitado** de **recursos** con **perfiles por programa**. Cuando ejecutas con la bandera `--privileged`, esta protección está deshabilitada.
+**AppArmor** es una mejora del núcleo para confinar **contenedores** a un conjunto **limitado** de **recursos** con **perfiles por programa**. Cuando ejecutas con la bandera `--privileged`, esta protección está deshabilitada.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -203,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Contenedor Inside --pid=host" %}
+{% tab title="Contenedor --pid=host" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef

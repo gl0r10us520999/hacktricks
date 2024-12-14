@@ -33,13 +33,13 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-Permissions are **heredados de la aplicación padre** y los **permisos** son **seguros** en función del **Bundle ID** y el **Developer ID**.
+Los permisos son **heredados de la aplicación padre** y los **permisos** son **seguros** en función del **Bundle ID** y el **Developer ID**.
 
 ### Bases de datos TCC
 
 Las concesiones/denegaciones se almacenan en algunas bases de datos TCC:
 
-* La base de datos a nivel del sistema en **`/Library/Application Support/com.apple.TCC/TCC.db`**.
+* La base de datos a nivel de sistema en **`/Library/Application Support/com.apple.TCC/TCC.db`**.
 * Esta base de datos está **protegida por SIP**, por lo que solo un bypass de SIP puede escribir en ella.
 * La base de datos TCC del usuario **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** para preferencias por usuario.
 * Esta base de datos está protegida, por lo que solo los procesos con altos privilegios TCC, como Acceso Completo al Disco, pueden escribir en ella (pero no está protegida por SIP).
@@ -60,7 +60,7 @@ La base de datos TCC en **iOS** está en **`/private/var/mobile/Library/TCC/TCC.
 {% endhint %}
 
 {% hint style="info" %}
-La **interfaz de usuario del centro de notificaciones** puede hacer **cambios en la base de datos TCC del sistema**:
+La **interfaz del centro de notificaciones** puede hacer **cambios en la base de datos TCC del sistema**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -124,10 +124,10 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Al verificar ambas bases de datos, puedes comprobar los permisos que una aplicación ha permitido, ha prohibido o no tiene (se lo pedirá).
+Al verificar ambas bases de datos, puedes comprobar los permisos que una aplicación ha permitido, ha prohibido o no tiene (lo pedirá).
 {% endhint %}
 
-* El **`service`** es la representación en cadena de **permiso** de TCC
+* El **`service`** es la representación en cadena de la **permisión** TCC
 * El **`client`** es el **ID de paquete** o **ruta al binario** con los permisos
 * El **`client_type`** indica si es un Identificador de Paquete(0) o una ruta absoluta(1)
 
@@ -197,7 +197,7 @@ echo "X'$REQ_HEX'"
 También puedes verificar los **permisos ya otorgados** a las aplicaciones en `Preferencias del Sistema --> Seguridad y Privacidad --> Privacidad --> Archivos y carpetas`.
 
 {% hint style="success" %}
-Los usuarios _pueden_ **eliminar o consultar reglas** usando **`tccutil`** .
+Los usuarios _pueden_ **eliminar o consultar reglas** usando **`tccutil`**.
 {% endhint %}
 
 #### Restablecer permisos de TCC
@@ -233,7 +233,7 @@ Por lo tanto, otras aplicaciones que usen el mismo nombre y ID de paquete no pod
 ### Derechos y Permisos de TCC
 
 Las aplicaciones **no solo necesitan** **solicitar** y haber **recibido acceso** a algunos recursos, también necesitan **tener los derechos relevantes**.\
-Por ejemplo, **Telegram** tiene el derecho `com.apple.security.device.camera` para solicitar **acceso a la cámara**. Una **aplicación** que **no** tenga este **derecho no podrá** acceder a la cámara (y al usuario ni siquiera se le pedirá los permisos).
+Por ejemplo, **Telegram** tiene el derecho `com.apple.security.device.camera` para solicitar **acceso a la cámara**. Una **aplicación** que **no tenga** este **derecho no podrá** acceder a la cámara (y el usuario ni siquiera será preguntado por los permisos).
 
 Sin embargo, para que las aplicaciones **accedan** a **ciertas carpetas de usuario**, como `~/Desktop`, `~/Downloads` y `~/Documents`, **no necesitan** tener ningún **derecho específico.** El sistema manejará el acceso de manera transparente y **pedirá al usuario** según sea necesario.
 
@@ -248,7 +248,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
-Esto evitará que Calendar pida al usuario acceso a recordatorios, calendario y la libreta de direcciones.
+Esto evitará que Calendar pida al usuario acceder a recordatorios, calendario y la libreta de direcciones.
 
 {% hint style="success" %}
 Aparte de alguna documentación oficial sobre derechos, también es posible encontrar **información interesante no oficial sobre derechos en** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
@@ -337,9 +337,9 @@ strftime('%s', 'now') -- last_reminded with default current timestamp
 ```
 </details>
 
-### Cargas TCC
+### Cargas útiles de TCC
 
-Si lograste entrar en una aplicación con algunos permisos de TCC, consulta la siguiente página con cargas TCC para abusar de ellas:
+Si lograste entrar en una aplicación con algunos permisos de TCC, consulta la siguiente página con cargas útiles de TCC para abusar de ellas:
 
 {% content-ref url="macos-tcc-payloads.md" %}
 [macos-tcc-payloads.md](macos-tcc-payloads.md)
@@ -355,8 +355,8 @@ Infórmate sobre los Eventos de Apple en:
 
 ### Automatización (Finder) a FDA\*
 
-El nombre TCC del permiso de Automatización es: **`kTCCServiceAppleEvents`**\
-Este permiso TCC específico también indica la **aplicación que puede ser gestionada** dentro de la base de datos TCC (por lo que los permisos no permiten simplemente gestionar todo).
+El nombre de TCC del permiso de Automatización es: **`kTCCServiceAppleEvents`**\
+Este permiso específico de TCC también indica la **aplicación que puede ser gestionada** dentro de la base de datos de TCC (por lo que los permisos no permiten solo gestionar todo).
 
 **Finder** es una aplicación que **siempre tiene FDA** (incluso si no aparece en la interfaz de usuario), así que si tienes privilegios de **Automatización** sobre ella, puedes abusar de sus privilegios para **hacer que realice algunas acciones**.\
 En este caso, tu aplicación necesitaría el permiso **`kTCCServiceAppleEvents`** sobre **`com.apple.Finder`**.
@@ -475,9 +475,9 @@ EOD
 touch "$HOME/Desktop/file"
 rm "$HOME/Desktop/file"
 ```
-### Automatización (SE) + Accesibilidad (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** a FDA\*
+### Automatización (SE) + Accesibilidad (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** para FDA\*
 
-La automatización en **`System Events`** + Accesibilidad (**`kTCCServicePostEvent`**) permite enviar **teclas a procesos**. De esta manera, podrías abusar de Finder para cambiar el TCC.db de los usuarios o para otorgar FDA a una aplicación arbitraria (aunque se podría solicitar una contraseña para esto).
+La automatización en **`System Events`** + Accesibilidad (**`kTCCServicePostEvent`**) permite enviar **pulsaciones de teclas a procesos**. De esta manera, podrías abusar de Finder para cambiar el TCC.db de los usuarios o para otorgar FDA a una aplicación arbitraria (aunque se podría solicitar una contraseña para esto).
 
 Ejemplo de Finder sobrescribiendo el TCC.db de los usuarios:
 ```applescript
@@ -529,11 +529,11 @@ EOF
 
 Consulta esta página para algunos [**payloads para abusar de los permisos de Accesibilidad**](macos-tcc-payloads.md#accessibility) para privesc a FDA\* o ejecutar un keylogger, por ejemplo.
 
-### **Cliente de Seguridad de Endpoint a FDA**
+### **Cliente de Seguridad del Sistema a FDA**
 
 Si tienes **`kTCCServiceEndpointSecurityClient`**, tienes FDA. Fin.
 
-### Archivo de Política del Sistema SysAdmin a FDA
+### Archivo SysAdmin de Política del Sistema a FDA
 
 **`kTCCServiceSystemPolicySysAdminFiles`** permite **cambiar** el atributo **`NFSHomeDirectory`** de un usuario que cambia su carpeta de inicio y, por lo tanto, permite **eludir TCC**.
 
@@ -541,7 +541,7 @@ Si tienes **`kTCCServiceEndpointSecurityClient`**, tienes FDA. Fin.
 
 Obteniendo **permisos de escritura** sobre la base de datos **TCC** del **usuario** no \*\*puedes\*\* otorgarte permisos de **`FDA`**, solo el que vive en la base de datos del sistema puede otorgar eso.
 
-Pero puedes **dar** a ti mismo **`derechos de automatización al Finder`**, y abusar de la técnica anterior para escalar a FDA\*.
+Pero puedes **dar** a ti mismo **`derechos de Automatización al Finder`**, y abusar de la técnica anterior para escalar a FDA\*.
 
 ### **Permisos de FDA a TCC**
 
@@ -587,7 +587,7 @@ AllowApplicationsList.plist:
 </dict>
 </plist>
 ```
-### TCC Bypasses
+### Bypass de TCC
 
 {% content-ref url="macos-tcc-bypasses/" %}
 [macos-tcc-bypasses](macos-tcc-bypasses/)

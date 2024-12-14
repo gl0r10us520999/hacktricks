@@ -1,16 +1,16 @@
-# macOS Network Services & Protocols
+# Servicios y Protocolos de Red de macOS
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Servicios de Acceso Remoto
 
 Estos son los servicios comunes de macOS para acceder a ellos de forma remota.\
-Puedes habilitar/deshabilitar estos servicios en `System Settings` --> `Sharing`
+Puedes habilitar/deshabilitar estos servicios en `Configuración del Sistema` --> `Compartir`
 
 * **VNC**, conocido como “Compartir Pantalla” (tcp:5900)
 * **SSH**, llamado “Inicio de Sesión Remoto” (tcp:22)
@@ -37,7 +37,7 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) es una versión mejorada de [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) adaptada para macOS, que ofrece características adicionales. Una vulnerabilidad notable en ARD es su método de autenticación para la contraseña de la pantalla de control, que solo utiliza los primeros 8 caracteres de la contraseña, lo que la hace propensa a [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) con herramientas como Hydra o [GoRedShell](https://github.com/ahhh/GoRedShell/), ya que no hay límites de tasa predeterminados.
+Apple Remote Desktop (ARD) es una versión mejorada de [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) adaptada para macOS, que ofrece características adicionales. Una vulnerabilidad notable en ARD es su método de autenticación para la contraseña de control de pantalla, que solo utiliza los primeros 8 caracteres de la contraseña, lo que la hace propensa a [ataques de fuerza bruta](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) con herramientas como Hydra o [GoRedShell](https://github.com/ahhh/GoRedShell/), ya que no hay límites de tasa predeterminados.
 
 Las instancias vulnerables se pueden identificar utilizando el script `vnc-info` de **nmap**. Los servicios que admiten `VNC Authentication (2)` son especialmente susceptibles a ataques de fuerza bruta debido a la truncación de la contraseña de 8 caracteres.
 
@@ -53,7 +53,7 @@ Bonjour, una tecnología diseñada por Apple, permite que **los dispositivos en 
 
 La Red de Configuración Cero, proporcionada por Bonjour, asegura que los dispositivos puedan:
 * **Obtener automáticamente una dirección IP** incluso en ausencia de un servidor DHCP.
-* Realizar **traducción de nombre a dirección** sin requerir un servidor DNS.
+* Realizar **la traducción de nombre a dirección** sin requerir un servidor DNS.
 * **Descubrir servicios** disponibles en la red.
 
 Los dispositivos que utilizan Bonjour se asignarán a sí mismos una **dirección IP del rango 169.254/16** y verificarán su unicidad en la red. Los Macs mantienen una entrada en la tabla de enrutamiento para esta subred, verificable a través de `netstat -rn | grep 169`.
@@ -90,7 +90,7 @@ Cuando un servicio se inicia, anuncia su disponibilidad a todos los dispositivos
 
 Para una interfaz más amigable, la aplicación **Discovery - DNS-SD Browser** disponible en la App Store de Apple puede visualizar los servicios ofrecidos en su red local.
 
-Alternativamente, se pueden escribir scripts personalizados para navegar y descubrir servicios utilizando la biblioteca `python-zeroconf`. El script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) demuestra cómo crear un navegador de servicios para los servicios `_http._tcp.local.`, imprimiendo los servicios añadidos o eliminados:
+Alternativamente, se pueden escribir scripts personalizados para navegar y descubrir servicios utilizando la biblioteca `python-zeroconf`. El script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) demuestra cómo crear un navegador de servicios para servicios de `_http._tcp.local.`, imprimiendo servicios añadidos o eliminados:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 

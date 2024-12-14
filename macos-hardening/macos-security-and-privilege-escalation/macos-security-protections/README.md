@@ -39,13 +39,13 @@ Más información en:
 
 ### Sandbox
 
-El Sandbox de macOS **limita las aplicaciones** que se ejecutan dentro del sandbox a las **acciones permitidas especificadas en el perfil de Sandbox** con el que se está ejecutando la aplicación. Esto ayuda a garantizar que **la aplicación solo accederá a los recursos esperados**.
+MacOS Sandbox **limita las aplicaciones** que se ejecutan dentro del sandbox a las **acciones permitidas especificadas en el perfil de Sandbox** con el que se está ejecutando la aplicación. Esto ayuda a garantizar que **la aplicación solo accederá a los recursos esperados**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparencia, Consentimiento y Control**
+### TCC - **Transparency, Consent, and Control**
 
 **TCC (Transparencia, Consentimiento y Control)** es un marco de seguridad. Está diseñado para **gestionar los permisos** de las aplicaciones, regulando específicamente su acceso a características sensibles. Esto incluye elementos como **servicios de ubicación, contactos, fotos, micrófono, cámara, accesibilidad y acceso completo al disco**. TCC asegura que las aplicaciones solo puedan acceder a estas características después de obtener el consentimiento explícito del usuario, fortaleciendo así la privacidad y el control sobre los datos personales.
 
@@ -55,7 +55,7 @@ El Sandbox de macOS **limita las aplicaciones** que se ejecutan dentro del sandb
 
 ### Launch/Environment Constraints & Trust Cache
 
-Las restricciones de lanzamiento en macOS son una característica de seguridad para **regular la iniciación de procesos** definiendo **quién puede lanzar** un proceso, **cómo** y **desde dónde**. Introducidas en macOS Ventura, categorizan los binarios del sistema en categorías de restricción dentro de un **trust cache**. Cada binario ejecutable tiene **reglas** establecidas para su **lanzamiento**, incluyendo restricciones de **auto**, **padre** y **responsable**. Ampliadas a aplicaciones de terceros como **Environment** Constraints en macOS Sonoma, estas características ayudan a mitigar posibles explotaciones del sistema al gobernar las condiciones de lanzamiento de procesos.
+Las restricciones de lanzamiento en macOS son una característica de seguridad para **regular la iniciación de procesos** definiendo **quién puede lanzar** un proceso, **cómo** y **desde dónde**. Introducidas en macOS Ventura, categorizan los binarios del sistema en categorías de restricción dentro de un **trust cache**. Cada binario ejecutable tiene **reglas** establecidas para su **lanzamiento**, incluyendo **auto**, **padre** y **responsable** restricciones. Ampliadas a aplicaciones de terceros como **Environment** Constraints en macOS Sonoma, estas características ayudan a mitigar posibles explotaciones del sistema al gobernar las condiciones de lanzamiento de procesos.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -114,7 +114,7 @@ chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Esta información se almacena en **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** y el Terminal necesita FDA.
+Esta información se está almacenando en **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** y el Terminal necesita FDA.
 
 ### Manipulando BTM
 

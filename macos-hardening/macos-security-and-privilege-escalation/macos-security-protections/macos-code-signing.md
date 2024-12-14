@@ -119,7 +119,7 @@ Note que hay diferentes versiones de esta estructura donde las antiguas pueden c
 ## Páginas de Firma de Código
 
 Hacer un hash del binario completo sería ineficiente e incluso inútil si solo se carga en memoria parcialmente. Por lo tanto, la firma de código es en realidad un hash de hashes donde cada página binaria se hash individualmente.\
-De hecho, en el anterior código de **Directorio de Código** puedes ver que el **tamaño de página está especificado** en uno de sus campos. Además, si el tamaño del binario no es un múltiplo del tamaño de una página, el campo **CodeLimit** especifica dónde está el final de la firma.
+De hecho, en el código del **Directorio de Código** anterior, puedes ver que **el tamaño de la página está especificado** en uno de sus campos. Además, si el tamaño del binario no es un múltiplo del tamaño de una página, el campo **CodeLimit** especifica dónde está el final de la firma.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -175,7 +175,7 @@ De hecho, es posible ver en las estructuras del Directorio de Código un paráme
 
 ## Code Signing Flags
 
-Cada proceso tiene relacionado un bitmask conocido como el `status` que es iniciado por el kernel y algunos de ellos pueden ser anulados por la **firma de código**. Estas banderas que pueden incluirse en la firma de código están [definidas en el código](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Cada proceso tiene relacionado un bitmask conocido como el `status` que es iniciado por el kernel y algunos de ellos pueden ser anulados por la **firma de código**. Estas banderas que se pueden incluir en la firma de código están [definidas en el código](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */

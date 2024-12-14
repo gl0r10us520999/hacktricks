@@ -286,7 +286,7 @@ return 0;
 }
 }
 ```
-## Metodología de Ataque de Hooking
+## Metodología de Ataque por Hooking
 
 En esta página se discutieron diferentes formas de enganchar funciones. Sin embargo, involucraron **ejecutar código dentro del proceso para atacar**.
 
@@ -294,7 +294,7 @@ Para hacer eso, la técnica más fácil de usar es inyectar un [Dyld a través d
 
 Sin embargo, ambas opciones están **limitadas** a binarios/procesos **no protegidos**. Consulta cada técnica para aprender más sobre las limitaciones.
 
-Sin embargo, un ataque de hooking de función es muy específico, un atacante hará esto para **robar información sensible desde dentro de un proceso** (si no, simplemente harías un ataque de inyección de proceso). Y esta información sensible podría estar ubicada en aplicaciones descargadas por el usuario, como MacPass.
+Sin embargo, un ataque de hooking de funciones es muy específico, un atacante hará esto para **robar información sensible desde dentro de un proceso** (si no, simplemente harías un ataque de inyección de proceso). Y esta información sensible podría estar ubicada en aplicaciones descargadas por el usuario, como MacPass.
 
 Así que el vector del atacante sería encontrar una vulnerabilidad o eliminar la firma de la aplicación, inyectar la variable de entorno **`DYLD_INSERT_LIBRARIES`** a través del Info.plist de la aplicación añadiendo algo como:
 ```xml

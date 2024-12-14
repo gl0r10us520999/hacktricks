@@ -75,12 +75,12 @@ Encuentra un ejemplo sobre cómo (ab)usar esto y verifica las restricciones en:
 Recuerda que **las restricciones de Validación de Bibliotecas anteriores también se aplican** para realizar ataques de secuestro de Dylib.
 {% endhint %}
 
-Al igual que en Windows, en MacOS también puedes **secuestro de dylibs** para hacer que **las aplicaciones** **ejecuten** **código** **arbitrario** (bueno, en realidad desde un usuario regular esto podría no ser posible ya que podrías necesitar un permiso de TCC para escribir dentro de un paquete `.app` y secuestrar una biblioteca).\
-Sin embargo, la forma en que las **aplicaciones de MacOS** **cargan** bibliotecas es **más restringida** que en Windows. Esto implica que los desarrolladores de **malware** aún pueden usar esta técnica para **ocultarse**, pero la probabilidad de poder **abusar de esto para escalar privilegios es mucho menor**.
+Al igual que en Windows, en MacOS también puedes **secuestro de dylibs** para hacer que **aplicaciones** **ejecuten** **código** **arbitrario** (bueno, en realidad desde un usuario regular esto podría no ser posible ya que podrías necesitar un permiso de TCC para escribir dentro de un paquete `.app` y secuestrar una biblioteca).\
+Sin embargo, la forma en que las **aplicaciones de MacOS** **cargan** bibliotecas es **más restringida** que en Windows. Esto implica que los desarrolladores de **malware** aún pueden usar esta técnica para **sigilo**, pero la probabilidad de poder **abusar de esto para escalar privilegios es mucho menor**.
 
 Primero que nada, es **más común** encontrar que los **binarios de MacOS indican la ruta completa** a las bibliotecas a cargar. Y segundo, **MacOS nunca busca** en las carpetas de **$PATH** para bibliotecas.
 
-La parte **principal** del **código** relacionado con esta funcionalidad está en **`ImageLoader::recursiveLoadLibraries`** en `ImageLoader.cpp`.
+La **parte principal** del **código** relacionado con esta funcionalidad está en **`ImageLoader::recursiveLoadLibraries`** en `ImageLoader.cpp`.
 
 Hay **4 comandos de encabezado diferentes** que un binario macho puede usar para cargar bibliotecas:
 
@@ -167,7 +167,7 @@ Si es una ruta de marco, la forma de secuestrarlo sería:
 * Si el proceso es **sin restricciones**, abusando de la **ruta relativa desde CWD** las variables de entorno mencionadas (incluso si no se dice en la documentación si el proceso está restringido, las variables de entorno DYLD\_\* son eliminadas)
 {% endhint %}
 
-* Cuando la ruta **contiene una barra pero no es una ruta de marco** (es decir, una ruta completa o una ruta parcial a un dylib), dlopen() primero busca en (si está establecido) en **`$DYLD_LIBRARY_PATH`** (con la parte de hoja de la ruta). Luego, dyld **intenta la ruta proporcionada** (usando el directorio de trabajo actual para rutas relativas (pero solo para procesos sin restricciones)). Por último, para binarios más antiguos, dyld intentará alternativas. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** se estableció al inicio, dyld buscará en esos directorios, de lo contrario, dyld buscará en **`/usr/local/lib/`** (si el proceso es sin restricciones), y luego en **`/usr/lib/`**.
+* Cuando la ruta **contiene una barra pero no es una ruta de marco** (es decir, una ruta completa o una ruta parcial a un dylib), dlopen() primero busca en (si está configurado) en **`$DYLD_LIBRARY_PATH`** (con la parte de hoja de la ruta). Luego, dyld **intenta la ruta proporcionada** (usando el directorio de trabajo actual para rutas relativas (pero solo para procesos sin restricciones)). Por último, para binarios más antiguos, dyld intentará alternativas. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** se estableció al inicio, dyld buscará en esos directorios, de lo contrario, dyld buscará en **`/usr/local/lib/`** (si el proceso es sin restricciones), y luego en **`/usr/lib/`**.
 1. `$DYLD_LIBRARY_PATH`
 2. ruta proporcionada (usando el directorio de trabajo actual para rutas relativas si no está restringido)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -187,12 +187,12 @@ Nota: Si el ejecutable principal es un **binario set\[ug]id o está firmado con 
 
 Nota: Las plataformas de Apple utilizan archivos "universales" para combinar bibliotecas de 32 bits y 64 bits. Esto significa que no hay **rutas de búsqueda separadas de 32 bits y 64 bits**.
 
-Nota: En las plataformas de Apple, la mayoría de los dylibs del sistema están **combinados en la caché de dyld** y no existen en el disco. Por lo tanto, llamar a **`stat()`** para preflight si un dylib del sistema existe **no funcionará**. Sin embargo, **`dlopen_preflight()`** utiliza los mismos pasos que **`dlopen()`** para encontrar un archivo mach-o compatible.
+Nota: En las plataformas de Apple, la mayoría de los dylibs del sistema operativo están **combinados en la caché de dyld** y no existen en el disco. Por lo tanto, llamar a **`stat()`** para preflight si un dylib del sistema operativo existe **no funcionará**. Sin embargo, **`dlopen_preflight()`** utiliza los mismos pasos que **`dlopen()`** para encontrar un archivo mach-o compatible.
 {% endhint %}
 
 **Verificar rutas**
 
-Vamos a verificar todas las opciones con el siguiente código:
+Verifiquemos todas las opciones con el siguiente código:
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -288,7 +288,7 @@ gLinkContext.allowInterposing         	 = true;
 ```
 Lo que básicamente significa que si el binario es **suid** o **sgid**, o tiene un segmento **RESTRICT** en los encabezados o fue firmado con la bandera **CS\_RESTRICT**, entonces **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** es verdadero y las variables de entorno son eliminadas.
 
-Tenga en cuenta que si CS\_REQUIRE\_LV es verdadero, entonces las variables no serán eliminadas, pero la validación de la biblioteca verificará que estén utilizando el mismo certificado que el binario original.
+Tenga en cuenta que si CS\_REQUIRE\_LV es verdadero, entonces las variables no serán eliminadas, pero la validación de la biblioteca verificará que estén usando el mismo certificado que el binario original.
 
 ## Verificar Restricciones
 

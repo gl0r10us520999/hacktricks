@@ -28,7 +28,7 @@ x64 se expande sobre la arquitectura x86, presentando **16 registros de propósi
 3. **`rcx`** - Comúnmente utilizado para **contadores de bucle**.
 4. **`rdx`** - Utilizado en varios roles, incluyendo operaciones aritméticas extendidas.
 5. **`rbp`** - **Puntero base** para el marco de pila.
-6. **`rsp`** - **Puntero de pila**, manteniendo el seguimiento de la parte superior de la pila.
+6. **`rsp`** - **Puntero de pila**, que mantiene un seguimiento de la parte superior de la pila.
 7. **`rsi`** y **`rdi`** - Utilizados para índices de **origen** y **destino** en operaciones de cadena/memoria.
 8. **`r8`** a **`r15`** - Registros adicionales de propósito general introducidos en x64.
 
@@ -39,7 +39,7 @@ La convención de llamadas x64 varía entre sistemas operativos. Por ejemplo:
 * **Windows**: Los primeros **cuatro parámetros** se pasan en los registros **`rcx`**, **`rdx`**, **`r8`**, y **`r9`**. Los parámetros adicionales se empujan en la pila. El valor de retorno está en **`rax`**.
 * **System V (comúnmente utilizado en sistemas similares a UNIX)**: Los primeros **seis parámetros enteros o punteros** se pasan en los registros **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, y **`r9`**. El valor de retorno también está en **`rax`**.
 
-Si la función tiene más de seis entradas, el **resto se pasará en la pila**. **RSP**, el puntero de pila, debe estar **alineado a 16 bytes**, lo que significa que la dirección a la que apunta debe ser divisible por 16 antes de que ocurra cualquier llamada. Esto significa que normalmente tendríamos que asegurarnos de que RSP esté correctamente alineado en nuestro shellcode antes de hacer una llamada a función. Sin embargo, en la práctica, las llamadas al sistema funcionan muchas veces incluso si este requisito no se cumple.
+Si la función tiene más de seis entradas, el **resto se pasará en la pila**. **RSP**, el puntero de pila, debe estar **alineado a 16 bytes**, lo que significa que la dirección a la que apunta debe ser divisible por 16 antes de que ocurra cualquier llamada. Esto significa que normalmente tendríamos que asegurarnos de que RSP esté correctamente alineado en nuestro shellcode antes de hacer una llamada a una función. Sin embargo, en la práctica, las llamadas al sistema funcionan muchas veces incluso si este requisito no se cumple.
 
 ### Convención de Llamadas en Swift
 
@@ -47,18 +47,18 @@ Swift tiene su propia **convención de llamadas** que se puede encontrar en [**h
 
 ### **Instrucciones Comunes**
 
-Las instrucciones x64 tienen un conjunto rico, manteniendo la compatibilidad con instrucciones x86 anteriores e introduciendo nuevas.
+Las instrucciones x64 tienen un conjunto rico, manteniendo la compatibilidad con las instrucciones x86 anteriores e introduciendo nuevas.
 
 * **`mov`**: **Mover** un valor de un **registro** o **ubicación de memoria** a otro.
 * Ejemplo: `mov rax, rbx` — Mueve el valor de `rbx` a `rax`.
-* **`push`** y **`pop`**: Empujar o sacar valores de/a la **pila**.
+* **`push`** y **`pop`**: Empujar o sacar valores de la **pila**.
 * Ejemplo: `push rax` — Empuja el valor en `rax` a la pila.
 * Ejemplo: `pop rax` — Saca el valor superior de la pila en `rax`.
 * **`add`** y **`sub`**: Operaciones de **suma** y **resta**.
 * Ejemplo: `add rax, rcx` — Suma los valores en `rax` y `rcx` almacenando el resultado en `rax`.
 * **`mul`** y **`div`**: Operaciones de **multiplicación** y **división**. Nota: estas tienen comportamientos específicos respecto al uso de operandos.
 * **`call`** y **`ret`**: Utilizados para **llamar** y **retornar de funciones**.
-* **`int`**: Utilizado para activar una **interrupción** de software. Ej.: `int 0x80` se utilizaba para llamadas al sistema en Linux x86 de 32 bits.
+* **`int`**: Utilizado para activar una **interrupción** de software. Ej.: `int 0x80` se utilizó para llamadas al sistema en Linux x86 de 32 bits.
 * **`cmp`**: **Comparar** dos valores y establecer las banderas de la CPU basándose en el resultado.
 * Ejemplo: `cmp rax, rdx` — Compara `rax` con `rdx`.
 * **`je`, `jne`, `jl`, `jge`, ...**: Instrucciones de **salto condicional** que cambian el flujo de control basado en los resultados de un `cmp` o prueba anterior.
@@ -91,7 +91,7 @@ Hay diferentes clases de syscalls, puedes [**encontrarlas aquí**](https://opens
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Entonces, puedes encontrar cada número de syscall [**en esta URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Entonces, puedes encontrar cada número de syscall [**en esta url**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }

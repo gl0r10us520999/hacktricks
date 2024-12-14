@@ -142,7 +142,7 @@ Luego modifica el Ancho y Alto a los que se usaron en la pantalla y verifica dif
 
 # Grupo Root
 
-Parece que por defecto **los miembros del grupo root** podrían tener acceso para **modificar** algunos archivos de configuración de **servicios** o algunos archivos de **bibliotecas** o **otras cosas interesantes** que podrían ser utilizadas para escalar privilegios...
+Parece que por defecto **los miembros del grupo root** podrían tener acceso a **modificar** algunos archivos de configuración de **servicios** o algunos archivos de **bibliotecas** o **otras cosas interesantes** que podrían ser utilizadas para escalar privilegios...
 
 **Verifica qué archivos pueden modificar los miembros de root**:
 ```bash

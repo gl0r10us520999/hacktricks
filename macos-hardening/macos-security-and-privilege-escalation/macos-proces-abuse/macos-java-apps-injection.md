@@ -33,7 +33,7 @@ La variable de entorno **`_JAVA_OPTIONS`** se puede utilizar para inyectar pará
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Para ejecutarlo como un nuevo proceso y no como un hijo del terminal actual, puedes usar:
+Para ejecutarlo como un nuevo proceso y no como un hijo de la terminal actual, puedes usar:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -96,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Crear el agente con una **versión de Java diferente** de la aplicación puede hacer que tanto el agente como la aplicación se bloqueen.
+Crear el agente con una **versión de Java diferente** de la aplicación puede hacer que se bloquee la ejecución tanto del agente como de la aplicación
 {% endhint %}
 
 Donde el agente puede ser:

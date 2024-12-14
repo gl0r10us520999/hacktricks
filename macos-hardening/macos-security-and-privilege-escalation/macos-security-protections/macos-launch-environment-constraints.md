@@ -17,22 +17,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Información Básica
 
-Las restricciones de lanzamiento en macOS se introdujeron para mejorar la seguridad al **regular cómo, quién y desde dónde se puede iniciar un proceso**. Iniciadas en macOS Ventura, proporcionan un marco que categoriza **cada binario del sistema en distintas categorías de restricción**, que se definen dentro de la **caché de confianza**, una lista que contiene binarios del sistema y sus respectivos hashes. Estas restricciones se extienden a cada binario ejecutable dentro del sistema, implicando un conjunto de **reglas** que delinean los requisitos para **lanzar un binario particular**. Las reglas abarcan restricciones propias que un binario debe satisfacer, restricciones parentales que deben ser cumplidas por su proceso padre, y restricciones responsables que deben ser respetadas por otras entidades relevantes.
+Las restricciones de lanzamiento en macOS se introdujeron para mejorar la seguridad al **regular cómo, quién y desde dónde se puede iniciar un proceso**. Iniciadas en macOS Ventura, proporcionan un marco que categoriza **cada binario del sistema en distintas categorías de restricción**, que se definen dentro de la **caché de confianza**, una lista que contiene binarios del sistema y sus respectivos hashes. Estas restricciones se extienden a cada binario ejecutable dentro del sistema, implicando un conjunto de **reglas** que delinean los requisitos para **lanzar un binario particular**. Las reglas abarcan restricciones propias que un binario debe satisfacer, restricciones de padre que deben ser cumplidas por su proceso padre, y restricciones responsables que deben ser respetadas por otras entidades relevantes.
 
 El mecanismo se extiende a aplicaciones de terceros a través de **Restricciones de Entorno**, comenzando desde macOS Sonoma, permitiendo a los desarrolladores proteger sus aplicaciones especificando un **conjunto de claves y valores para las restricciones de entorno.**
 
-Definís **restricciones de entorno de lanzamiento y de biblioteca** en diccionarios de restricciones que guardás en **archivos de lista de propiedades de `launchd`**, o en **archivos de lista de propiedades** separados que usás en la firma de código.
+Definís **restricciones de entorno y de biblioteca de lanzamiento** en diccionarios de restricciones que guardás en **archivos de lista de propiedades de `launchd`**, o en **archivos de lista de propiedades** separados que usás en la firma de código.
 
 Hay 4 tipos de restricciones:
 
 * **Restricciones Propias**: Restricciones aplicadas al **binario en ejecución**.
-* **Proceso Padre**: Restricciones aplicadas al **padre del proceso** (por ejemplo, **`launchd`** ejecutando un servicio XPC).
+* **Proceso Padre**: Restricciones aplicadas al **padre del proceso** (por ejemplo, **`launchd`** ejecutando un servicio XP).
 * **Restricciones Responsables**: Restricciones aplicadas al **proceso que llama al servicio** en una comunicación XPC.
 * **Restricciones de carga de biblioteca**: Usá restricciones de carga de biblioteca para describir selectivamente el código que puede ser cargado.
 
 Así que cuando un proceso intenta lanzar otro proceso — llamando a `execve(_:_:_:)` o `posix_spawn(_:_:_:_:_:_:)` — el sistema operativo verifica que el archivo **ejecutable** **satisface** su **propia restricción propia**. También verifica que el **ejecutable** del **proceso padre** **satisface** la **restricción de padre** del ejecutable, y que el **ejecutable** del **proceso responsable** **satisface la restricción del proceso responsable** del ejecutable. Si alguna de estas restricciones de lanzamiento no se satisface, el sistema operativo no ejecuta el programa.
 
-Si al cargar una biblioteca, alguna parte de la **restricción de biblioteca no es verdadera**, tu proceso **no carga** la biblioteca.
+Si al cargar una biblioteca, cualquier parte de la **restricción de la biblioteca no es verdadera**, tu proceso **no carga** la biblioteca.
 
 ## Categorías de LC
 
@@ -67,19 +67,19 @@ Parent Constraint: is-init-proc
 
 ### Reversing LC Categories
 
-Tienes más información [**sobre esto aquí**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), pero básicamente, están definidos en **AMFI (AppleMobileFileIntegrity)**, así que necesitas descargar el Kernel Development Kit para obtener el **KEXT**. Los símbolos que comienzan con **`kConstraintCategory`** son los **interesantes**. Al extraerlos obtendrás un flujo codificado DER (ASN.1) que necesitarás decodificar con [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) o la biblioteca python-asn1 y su script `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) que te dará una cadena más comprensible.
+Tienes más información [**sobre esto aquí**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), pero básicamente, están definidos en **AMFI (AppleMobileFileIntegrity)**, así que necesitas descargar el Kernel Development Kit para obtener el **KEXT**. Los símbolos que comienzan con **`kConstraintCategory`** son los **interesantes**. Al extraerlos, obtendrás un flujo codificado DER (ASN.1) que necesitarás decodificar con [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) o la biblioteca python-asn1 y su script `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) que te dará una cadena más comprensible.
 
 ## Environment Constraints
 
-Estas son las Launch Constraints configuradas en **aplicaciones de terceros**. El desarrollador puede seleccionar los **hechos** y **operandos lógicos a utilizar** en su aplicación para restringir el acceso a sí mismo.
+Estas son las restricciones de lanzamiento configuradas en **aplicaciones de terceros**. El desarrollador puede seleccionar los **hechos** y **operandos lógicos a utilizar** en su aplicación para restringir el acceso a sí mismo.
 
-Es posible enumerar las Environment Constraints de una aplicación con:
+Es posible enumerar las restricciones de entorno de una aplicación con:
 ```bash
 codesign -d -vvvv app.app
 ```
-## Trust Caches
+## Cachés de Confianza
 
-En **macOS** hay algunos cachés de confianza:
+En **macOS** hay algunas cachés de confianza:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
@@ -88,10 +88,10 @@ En **macOS** hay algunos cachés de confianza:
 Y en iOS parece que está en **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-En macOS que se ejecuta en dispositivos Apple Silicon, si un binario firmado por Apple no está en el caché de confianza, AMFI se negará a cargarlo.
+En macOS que se ejecuta en dispositivos Apple Silicon, si un binario firmado por Apple no está en la caché de confianza, AMFI se negará a cargarlo.
 {% endhint %}
 
-### Enumerating Trust Caches
+### Enumerando Cachés de Confianza
 
 Los archivos de caché de confianza anteriores están en formato **IMG4** y **IM4P**, siendo IM4P la sección de carga útil de un formato IMG4.
 
@@ -151,9 +151,9 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+Luego, podrías usar un script como [**este**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) para extraer datos.
 
-From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+Con esos datos puedes verificar las aplicaciones con un **valor de restricciones de lanzamiento de `0`**, que son las que no están restringidas ([**ver aquí**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para qué significa cada valor).
 
 ## Mitigaciones de Ataques
 
@@ -167,8 +167,8 @@ Sin embargo, **no mitigan abusos comunes de XPC**, **inyecciones de código de E
 
 En la versión Sonoma, un punto notable es la **configuración de responsabilidad** del servicio daemon XPC. El servicio XPC es responsable de sí mismo, a diferencia del cliente que se conecta que es responsable. Esto está documentado en el informe de retroalimentación FB13206884. Esta configuración puede parecer defectuosa, ya que permite ciertas interacciones con el servicio XPC:
 
-- **Lanzamiento del Servicio XPC**: Si se asume que es un error, esta configuración no permite iniciar el servicio XPC a través del código del atacante.
-- **Conexión a un Servicio Activo**: Si el servicio XPC ya está en funcionamiento (posiblemente activado por su aplicación original), no hay barreras para conectarse a él.
+- **Lanzar el Servicio XPC**: Si se asume que es un error, esta configuración no permite iniciar el servicio XPC a través del código del atacante.
+- **Conectarse a un Servicio Activo**: Si el servicio XPC ya está en funcionamiento (posiblemente activado por su aplicación original), no hay barreras para conectarse a él.
 
 Si bien implementar restricciones en el servicio XPC podría ser beneficioso al **reducir la ventana para ataques potenciales**, no aborda la preocupación principal. Asegurar la seguridad del servicio XPC requiere fundamentalmente **validar efectivamente al cliente que se conecta**. Este sigue siendo el único método para fortalecer la seguridad del servicio. También vale la pena señalar que la configuración de responsabilidad mencionada está actualmente operativa, lo que podría no alinearse con el diseño previsto.
 

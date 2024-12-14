@@ -27,7 +27,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
-{% endhint %}
 
 ## Objective-C
 
@@ -43,7 +42,7 @@ Puede obtener esta información utilizando [**class-dump**](https://github.com/n
 ```bash
 class-dump Kindle.app
 ```
-Note que estos nombres podrían estar ofuscados para dificultar la reversión del binario.
+Nota que estos nombres podrían estar ofuscados para dificultar la reversión del binario.
 
 ## Clases, Métodos y Objetos
 
@@ -215,8 +214,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Número
 
 {% code overflow="wrap" %}
@@ -290,7 +287,7 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 
 ### Bloques
 
-Los bloques son **funciones que se comportan como objetos** por lo que pueden ser pasados a funciones o **almacenados** en **arreglos** o **diccionarios**. Además, pueden **representar un valor si se les dan valores** por lo que es similar a los lambdas.
+Los bloques son **funciones que se comportan como objetos** por lo que pueden ser pasados a funciones o **almacenados** en **arreglos** o **diccionarios**. Además, pueden **representar un valor si se les dan valores**, por lo que es similar a los lambdas.
 
 {% code overflow="wrap" %}
 ```objectivec

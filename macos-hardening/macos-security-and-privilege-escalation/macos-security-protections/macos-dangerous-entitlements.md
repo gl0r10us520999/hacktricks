@@ -47,7 +47,7 @@ Este derecho permite **cargar frameworks, plug-ins o bibliotecas sin estar firma
 
 ### `com.apple.private.security.clear-library-validation`
 
-Este derecho es muy similar a **`com.apple.security.cs.disable-library-validation`** pero **en lugar de** **deshabilitar directamente** la validación de bibliotecas, permite que el proceso **llame a una llamada al sistema `csops` para deshabilitarla**.\
+Este derecho es muy similar a **`com.apple.security.cs.disable-library-validation`** pero **en lugar de** **deshabilitar directamente** la validación de bibliotecas, permite al proceso **llamar a una llamada al sistema `csops` para deshabilitarla**.\
 Consulte [**esto para más información**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -72,7 +72,7 @@ El derecho **`com.apple.private.icloud-account-access`** permite comunicarse con
 
 **iMovie** y **Garageband** tenían este derecho.
 
-Para más **información** sobre el exploit para **obtener tokens de iCloud** de ese derecho, consulte la charla: [**#OBTS v5.0: "¿Qué sucede en tu Mac, se queda en iCloud de Apple?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Para más **información** sobre el exploit para **obtener tokens de iCloud** de ese derecho, consulte la charla: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -127,7 +127,7 @@ Permite **cambiar** el atributo **`NFSHomeDirectory`** de un usuario que cambia 
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Permite modificar archivos dentro de los paquetes de aplicaciones (dentro de app.app), lo cual está **prohibido por defecto**.
+Permite modificar archivos dentro del paquete de aplicaciones (dentro de app.app), lo cual está **prohibido por defecto**.
 
 <figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
@@ -148,7 +148,7 @@ Este derecho permite **crear memoria que es escribible y ejecutable** al pasar l
 Este derecho permite **sobrescribir o parchear código C**, usar el obsoleto **`NSCreateObjectFileImageFromMemory`** (que es fundamentalmente inseguro), o usar el marco **DVDPlayback**. Consulta [**esto para más información**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir este derecho expone tu aplicación a vulnerabilidades comunes en lenguajes de código inseguros en memoria. Considera cuidadosamente si tu aplicación necesita esta excepción.
+Incluir este derecho expone tu aplicación a vulnerabilidades comunes en lenguajes de código no seguro en memoria. Considera cuidadosamente si tu aplicación necesita esta excepción.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -156,7 +156,7 @@ Incluir este derecho expone tu aplicación a vulnerabilidades comunes en lenguaj
 Este derecho permite **modificar secciones de sus propios archivos ejecutables** en disco para salir forzosamente. Consulta [**esto para más información**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-El Derecho de Desactivar la Protección de Memoria Ejecutable es un derecho extremo que elimina una protección de seguridad fundamental de tu aplicación, lo que permite a un atacante reescribir el código ejecutable de tu aplicación sin detección. Prefiere derechos más restringidos si es posible.
+El Derecho de Desactivar la Protección de Memoria Ejecutable es un derecho extremo que elimina una protección de seguridad fundamental de tu aplicación, lo que permite a un atacante reescribir el código ejecutable de tu aplicación sin ser detectado. Prefiere derechos más restringidos si es posible.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`

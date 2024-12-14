@@ -33,7 +33,7 @@ Las firmas de aplicaciones, también conocidas como firmas de código, son un co
 
 Así es como funciona:
 
-1. **Firmar la Aplicación:** Cuando un desarrollador está listo para distribuir su aplicación, **firma la aplicación utilizando una clave privada**. Esta clave privada está asociada con un **certificado que Apple emite al desarrollador** cuando se inscribe en el Programa de Desarrolladores de Apple. El proceso de firma implica crear un hash criptográfico de todas las partes de la aplicación y cifrar este hash con la clave privada del desarrollador.
+1. **Firmar la Aplicación:** Cuando un desarrollador está listo para distribuir su aplicación, **firma la aplicación usando una clave privada**. Esta clave privada está asociada con un **certificado que Apple emite al desarrollador** cuando se inscribe en el Programa de Desarrolladores de Apple. El proceso de firma implica crear un hash criptográfico de todas las partes de la aplicación y cifrar este hash con la clave privada del desarrollador.
 2. **Distribuir la Aplicación:** La aplicación firmada se distribuye a los usuarios junto con el certificado del desarrollador, que contiene la clave pública correspondiente.
 3. **Verificar la Aplicación:** Cuando un usuario descarga e intenta ejecutar la aplicación, su sistema operativo Mac utiliza la clave pública del certificado del desarrollador para descifrar el hash. Luego recalcula el hash basado en el estado actual de la aplicación y lo compara con el hash descifrado. Si coinciden, significa que **la aplicación no ha sido modificada** desde que el desarrollador la firmó, y el sistema permite que la aplicación se ejecute.
 
@@ -43,7 +43,7 @@ A partir de macOS Catalina, **Gatekeeper también verifica si la aplicación ha 
 
 #### Check Signatures
 
-Al verificar alguna **muestra de malware**, siempre debes **comprobar la firma** del binario, ya que el **desarrollador** que lo firmó puede estar ya **relacionado** con **malware.**
+Al verificar alguna **muestra de malware**, siempre debes **comprobar la firma** del binario, ya que el **desarrollador** que la firmó puede estar ya **relacionado** con **malware.**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -62,9 +62,9 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarización
 
-El proceso de notarización de Apple sirve como una salvaguarda adicional para proteger a los usuarios de software potencialmente dañino. Implica que el **desarrollador envíe su aplicación para examen** por parte del **Servicio de Notaría de Apple**, que no debe confundirse con la Revisión de Aplicaciones. Este servicio es un **sistema automatizado** que examina el software enviado en busca de **contenido malicioso** y cualquier problema potencial con la firma de código.
+El proceso de notarización de Apple sirve como una salvaguarda adicional para proteger a los usuarios de software potencialmente dañino. Implica que el **desarrollador envíe su aplicación para examen** por el **Servicio de Notaría de Apple**, que no debe confundirse con la Revisión de Aplicaciones. Este servicio es un **sistema automatizado** que examina el software enviado en busca de **contenido malicioso** y cualquier problema potencial con la firma de código.
 
-Si el software **pasa** esta inspección sin generar preocupaciones, el Servicio de Notaría genera un ticket de notarización. El desarrollador debe **adjuntar este ticket a su software**, un proceso conocido como 'stapling'. Además, el ticket de notarización también se publica en línea donde Gatekeeper, la tecnología de seguridad de Apple, puede acceder a él.
+Si el software **aprueba** esta inspección sin generar preocupaciones, el Servicio de Notaría genera un ticket de notarización. El desarrollador debe **adjuntar este ticket a su software**, un proceso conocido como 'stapling'. Además, el ticket de notarización también se publica en línea donde Gatekeeper, la tecnología de seguridad de Apple, puede acceder a él.
 
 Al momento de la primera instalación o ejecución del software por parte del usuario, la existencia del ticket de notarización - ya sea adjunto al ejecutable o encontrado en línea - **informa a Gatekeeper que el software ha sido notariado por Apple**. Como resultado, Gatekeeper muestra un mensaje descriptivo en el diálogo de lanzamiento inicial, indicando que el software ha sido sometido a verificaciones de contenido malicioso por parte de Apple. Este proceso, por lo tanto, aumenta la confianza del usuario en la seguridad del software que instala o ejecuta en sus sistemas.
 
@@ -106,7 +106,7 @@ anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists an
 **`syspolicyd`** también expone un servidor XPC con diferentes operaciones como `assess`, `update`, `record` y `cancel`, que también son accesibles utilizando las APIs **`SecAssessment*`** de **`Security.framework`** y **`xpctl`** en realidad se comunica con **`syspolicyd`** a través de XPC.
 
 Nota cómo la primera regla terminó en "**App Store**" y la segunda en "**Developer ID**" y que en la imagen anterior estaba **habilitado para ejecutar aplicaciones de la App Store y desarrolladores identificados**.\
-Si **modificas** esa configuración a App Store, las "**reglas de Developer ID Notarizado" desaparecerán**.
+Si **modificas** esa configuración a App Store, las reglas de "**Notarized Developer ID" desaparecerán**.
 
 También hay miles de reglas de **tipo GKE** :
 ```bash
@@ -164,7 +164,7 @@ Respecto a las **extensiones del kernel**, la carpeta `/var/db/SystemPolicyConfi
 
 ### Archivos en Cuarentena
 
-Al **descargar** una aplicación o archivo, aplicaciones específicas de macOS como navegadores web o clientes de correo electrónico **adjuntan un atributo de archivo extendido**, comúnmente conocido como la "**bandera de cuarentena**," al archivo descargado. Este atributo actúa como una medida de seguridad para **marcar el archivo** como proveniente de una fuente no confiable (internet), y potencialmente portadora de riesgos. Sin embargo, no todas las aplicaciones adjuntan este atributo; por ejemplo, el software común de clientes de BitTorrent generalmente omite este proceso.
+Al **descargar** una aplicación o archivo, aplicaciones específicas de macOS como navegadores web o clientes de correo electrónico **adjuntan un atributo de archivo extendido**, comúnmente conocido como la "**bandera de cuarentena**," al archivo descargado. Este atributo actúa como una medida de seguridad para **marcar el archivo** como proveniente de una fuente no confiable (internet) y potencialmente portadora de riesgos. Sin embargo, no todas las aplicaciones adjuntan este atributo; por ejemplo, el software común de clientes de BitTorrent generalmente omite este proceso.
 
 **La presencia de una bandera de cuarentena señala la función de seguridad Gatekeeper de macOS cuando un usuario intenta ejecutar el archivo**.
 
@@ -193,7 +193,7 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-Puedes también **encontrar si un archivo tiene el atributo extendido de cuarentena** con:
+También puedes **encontrar si un archivo tiene el atributo extendido de cuarentena** con:
 ```bash
 xattr file.png
 com.apple.macl
@@ -301,11 +301,11 @@ La información de cuarentena también se almacena en una base de datos central 
 
 Esta biblioteca exporta varias funciones que permiten manipular los campos de atributos extendidos.
 
-Las API `qtn_file_*` se ocupan de las políticas de cuarentena de archivos, las API `qtn_proc_*` se aplican a procesos (archivos creados por el proceso). Las funciones no exportadas `__qtn_syscall_quarantine*` son las que aplican las políticas que llaman a `mac_syscall` con "Quarantine" como primer argumento, lo que envía las solicitudes a `Quarantine.kext`.
+Las API `qtn_file_*` se ocupan de las políticas de cuarentena de archivos, las API `qtn_proc_*` se aplican a procesos (archivos creados por el proceso). Las funciones no exportadas `__qtn_syscall_quarantine*` son las que aplican las políticas que llaman a `mac_syscall` con "Quarantine" como primer argumento, que envía las solicitudes a `Quarantine.kext`.
 
 #### **Quarantine.kext**
 
-La extensión del kernel solo está disponible a través de la **caché del kernel en el sistema**; sin embargo, _puedes_ descargar el **Kernel Debug Kit de** [**https://developer.apple.com/**](https://developer.apple.com/), que contendrá una versión simbolizada de la extensión.
+La extensión del kernel solo está disponible a través de la **caché del kernel en el sistema**; sin embargo, _puedes_ descargar el **Kernel Debug Kit desde** [**https://developer.apple.com/**](https://developer.apple.com/), que contendrá una versión simbolizada de la extensión.
 
 Este Kext enganchará a través de MACF varias llamadas para atrapar todos los eventos del ciclo de vida del archivo: Creación, apertura, renombrado, enlace duro... incluso `setxattr` para evitar que se establezca el atributo extendido `com.apple.quarantine`.
 
@@ -347,7 +347,7 @@ Ten en cuenta que Gatekeeper **no se ejecuta cada vez** que ejecutas una aplicac
 
 Por lo tanto, anteriormente era posible ejecutar una aplicación para almacenarla en caché con Gatekeeper, luego **modificar archivos no ejecutables de la aplicación** (como archivos asar de Electron o NIB) y si no había otras protecciones en su lugar, la aplicación era **ejecutada** con las adiciones **maliciosas**.
 
-Sin embargo, ahora esto no es posible porque macOS **previene la modificación de archivos** dentro de los paquetes de aplicaciones. Así que, si intentas el ataque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), descubrirás que ya no es posible abusar de él porque después de ejecutar la aplicación para almacenarla en caché con Gatekeeper, no podrás modificar el paquete. Y si cambias, por ejemplo, el nombre del directorio Contents a NotCon (como se indica en el exploit), y luego ejecutas el binario principal de la aplicación para almacenarla en caché con Gatekeeper, se generará un error y no se ejecutará.
+Sin embargo, ahora esto no es posible porque macOS **previene la modificación de archivos** dentro de los paquetes de aplicaciones. Así que, si intentas el ataque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), descubrirás que ya no es posible abusar de él porque después de ejecutar la aplicación para almacenarla en caché con Gatekeeper, no podrás modificar el paquete. Y si cambias, por ejemplo, el nombre del directorio Contents a NotCon (como se indica en el exploit), y luego ejecutas el binario principal de la aplicación para almacenarla en caché con Gatekeeper, se activará un error y no se ejecutará.
 
 ## Bypasses de Gatekeeper
 
@@ -375,7 +375,7 @@ En este bypass se creó un archivo zip con una aplicación comenzando a comprimi
 ```bash
 zip -r test.app/Contents test.zip
 ```
-Consulta el [**informe original**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) para más información.
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
@@ -396,7 +396,7 @@ xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
 Además, el formato de archivo **AppleDouble** copia un archivo incluyendo sus ACEs.
 
-En el [**código fuente**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) es posible ver que la representación de texto de la ACL almacenada dentro del xattr llamado **`com.apple.acl.text`** se va a establecer como ACL en el archivo descomprimido. Así que, si comprimiste una aplicación en un archivo zip con el formato de archivo **AppleDouble** con una ACL que impide que otros xattrs sean escritos en él... el xattr de cuarentena no se estableció en la aplicación:
+En el [**código fuente**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) es posible ver que la representación de texto de la ACL almacenada dentro del xattr llamado **`com.apple.acl.text`** se establecerá como ACL en el archivo descomprimido. Así que, si comprimiste una aplicación en un archivo zip con el formato de archivo **AppleDouble** con una ACL que impide que otros xattrs sean escritos en él... el xattr de cuarentena no se estableció en la aplicación:
 
 {% code overflow="wrap" %}
 ```bash
@@ -436,7 +436,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Al poder crear un archivo que no tendrá el atributo de cuarentena, fue **posible eludir Gatekeeper.** El truco era **crear una aplicación de archivo DMG** utilizando la convención de nombres AppleDouble (comenzar con `._`) y crear un **archivo visible como un enlace simbólico a este archivo oculto** sin el atributo de cuarentena.\
+Ser capaz de crear un archivo que no tendrá el atributo de cuarentena, fue **posible eludir Gatekeeper.** El truco fue **crear una aplicación de archivo DMG** utilizando la convención de nombres AppleDouble (comenzar con `._`) y crear un **archivo visible como un enlace simbólico a este archivo oculto** sin el atributo de cuarentena.\
 Cuando se **ejecuta el archivo dmg**, como no tiene un atributo de cuarentena, **eludirá Gatekeeper.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
@@ -455,16 +455,16 @@ aa archive -d s/ -o app.aar
 ```
 ### uchg (de esta [charla](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
 
-* Crea un directorio que contenga una aplicación.
-* Agrega uchg a la aplicación.
-* Comprime la aplicación en un archivo tar.gz.
-* Envía el archivo tar.gz a una víctima.
+* Crear un directorio que contenga una aplicación.
+* Agregar uchg a la aplicación.
+* Comprimir la aplicación en un archivo tar.gz.
+* Enviar el archivo tar.gz a una víctima.
 * La víctima abre el archivo tar.gz y ejecuta la aplicación.
 * Gatekeeper no verifica la aplicación.
 
 ### Prevenir xattr de Cuarentena
 
-En un paquete ".app", si el xattr de cuarentena no se agrega, al ejecutarlo **Gatekeeper no se activará**.
+En un paquete ".app" si el xattr de cuarentena no se agrega, al ejecutarlo **Gatekeeper no se activará**.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Ejemplo de enlace de socket con Python
 
-En el siguiente ejemplo se **crea un socket unix** (`/tmp/socket_test.s`) y todo lo que **se recibe** va a ser **ejecutado** por `os.system`. Sé que no vas a encontrar esto en la vida real, pero el objetivo de este ejemplo es ver cómo se ve un código que utiliza sockets unix y cómo manejar la entrada en el peor de los casos.
+En el siguiente ejemplo se **crea un socket unix** (`/tmp/socket_test.s`) y todo lo **recibido** va a ser **ejecutado** por `os.system`. Sé que no vas a encontrar esto en la vida real, pero el objetivo de este ejemplo es ver cómo se ve un código que utiliza sockets unix y cómo manejar la entrada en el peor de los casos.
 
 {% code title="s.py" %}
 ```python

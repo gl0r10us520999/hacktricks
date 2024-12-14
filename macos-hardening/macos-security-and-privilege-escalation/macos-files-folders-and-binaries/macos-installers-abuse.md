@@ -49,7 +49,7 @@ Para visualizar el contenido del instalador sin descomprimirlo manualmente, tamb
 
 ## Información Básica de DMG
 
-Los archivos DMG, o Imágenes de Disco de Apple, son un formato de archivo utilizado por macOS de Apple para imágenes de disco. Un archivo DMG es esencialmente una **imagen de disco montable** (contiene su propio sistema de archivos) que contiene datos de bloques en bruto, típicamente comprimidos y a veces cifrados. Cuando abres un archivo DMG, macOS **lo monta como si fuera un disco físico**, permitiéndote acceder a su contenido.
+Los archivos DMG, o Imágenes de Disco de Apple, son un formato de archivo utilizado por macOS de Apple para imágenes de disco. Un archivo DMG es esencialmente una **imagen de disco montable** (contiene su propio sistema de archivos) que contiene datos de bloque en bruto, típicamente comprimidos y a veces cifrados. Cuando abres un archivo DMG, macOS **lo monta como si fuera un disco físico**, permitiéndote acceder a su contenido.
 
 {% hint style="danger" %}
 Ten en cuenta que los instaladores **`.dmg`** soportan **tantos formatos** que en el pasado algunos de ellos que contenían vulnerabilidades fueron abusados para obtener **ejecución de código en el kernel**.
@@ -75,13 +75,13 @@ Si un script de pre o post instalación está, por ejemplo, ejecutándose desde 
 
 ### AuthorizationExecuteWithPrivileges
 
-Esta es una [función pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que varios instaladores y actualizadores llamarán para **ejecutar algo como root**. Esta función acepta la **ruta** del **archivo** a **ejecutar** como parámetro; sin embargo, si un atacante pudiera **modificar** este archivo, podrá **abusar** de su ejecución con root para **escalar privilegios**.
+Esta es una [función pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que varios instaladores y actualizadores llamarán para **ejecutar algo como root**. Esta función acepta la **ruta** del **archivo** a **ejecutar** como parámetro, sin embargo, si un atacante pudiera **modificar** este archivo, podrá **abusar** de su ejecución con root para **escalar privilegios**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Para más información, consulta esta charla: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
 ### Ejecución mediante montaje
 
@@ -166,9 +166,9 @@ productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pk
 ```
 ## Referencias
 
-* [**DEF CON 27 - Desempaquetando Pkgs Una Mirada Dentro de los Paquetes de Instalación de Macos y Fallas de Seguridad Comunes**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
+* [**DEF CON 27 - Desempaquetando Pkgs Una Mirada Dentro de los Paquetes de Instalador de Macos y Fallas de Seguridad Comunes**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "El Mundo Salvaje de los Instaladores de macOS" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-* [**DEF CON 27 - Desempaquetando Pkgs Una Mirada Dentro de los Paquetes de Instalación de MacOS**](https://www.youtube.com/watch?v=kCXhIYtODBg)
+* [**DEF CON 27 - Desempaquetando Pkgs Una Mirada Dentro de los Paquetes de Instalador de MacOS**](https://www.youtube.com/watch?v=kCXhIYtODBg)
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
@@ -181,7 +181,7 @@ Aprende y practica Hacking en GCP: <img src="../../../.gitbook/assets/grte.png" 
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

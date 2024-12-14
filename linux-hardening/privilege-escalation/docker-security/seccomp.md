@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Seccomp**, que significa modo de Computación Segura, es una característica de seguridad del **núcleo de Linux diseñada para filtrar llamadas al sistema**. Restringe los procesos a un conjunto limitado de llamadas al sistema (`exit()`, `sigreturn()`, `read()` y `write()` para descriptores de archivo ya abiertos). Si un proceso intenta llamar a cualquier otra cosa, es terminado por el núcleo usando SIGKILL o SIGSYS. Este mecanismo no virtualiza recursos, sino que aísla el proceso de ellos.
+**Seccomp**, que significa modo de Computación Segura, es una característica de seguridad del **núcleo de Linux diseñada para filtrar llamadas al sistema**. Restringe los procesos a un conjunto limitado de llamadas al sistema (`exit()`, `sigreturn()`, `read()`, y `write()` para descriptores de archivo ya abiertos). Si un proceso intenta llamar a cualquier otra cosa, es terminado por el núcleo usando SIGKILL o SIGSYS. Este mecanismo no virtualiza recursos, sino que aísla el proceso de ellos.
 
 Hay dos formas de activar seccomp: a través de la llamada al sistema `prctl(2)` con `PR_SET_SECCOMP`, o para núcleos de Linux 3.17 y superiores, la llamada al sistema `seccomp(2)`. El método más antiguo de habilitar seccomp escribiendo en `/proc/self/seccomp` ha sido desaprobado en favor de `prctl()`.
 
-Una mejora, **seccomp-bpf**, añade la capacidad de filtrar llamadas al sistema con una política personalizable, utilizando reglas de Berkeley Packet Filter (BPF). Esta extensión es aprovechada por software como OpenSSH, vsftpd y los navegadores Chrome/Chromium en Chrome OS y Linux para un filtrado de llamadas al sistema flexible y eficiente, ofreciendo una alternativa a la ahora no soportada systrace para Linux.
+Una mejora, **seccomp-bpf**, añade la capacidad de filtrar llamadas al sistema con una política personalizable, utilizando reglas de Berkeley Packet Filter (BPF). Esta extensión es aprovechada por software como OpenSSH, vsftpd, y los navegadores Chrome/Chromium en Chrome OS y Linux para un filtrado de llamadas al sistema flexible y eficiente, ofreciendo una alternativa a la ahora no soportada systrace para Linux.
 
 ### **Original/Strict Mode**
 
@@ -132,14 +132,14 @@ En el siguiente ejemplo se descubren las **syscalls** de `uname`:
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Si estás usando **Docker solo para lanzar una aplicación**, puedes **perfiles** con **`strace`** y **solo permitir las syscalls** que necesita
+Si estás usando **Docker solo para lanzar una aplicación**, puedes **perfilarla** con **`strace`** y **solo permitir las syscalls** que necesita.
 {% endhint %}
 
 ### Ejemplo de política Seccomp
 
 [Ejemplo de aquí](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Para ilustrar la función Seccomp, crearemos un perfil Seccomp deshabilitando la llamada al sistema “chmod” como se muestra a continuación.
+Para ilustrar la función de Seccomp, vamos a crear un perfil de Seccomp deshabilitando la llamada al sistema “chmod” como se muestra a continuación.
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -151,7 +151,7 @@ Para ilustrar la función Seccomp, crearemos un perfil Seccomp deshabilitando la
 ]
 }
 ```
-En el perfil anterior, hemos establecido la acción predeterminada en "permitir" y creado una lista negra para deshabilitar "chmod". Para ser más seguros, podemos establecer la acción predeterminada en "descartar" y crear una lista blanca para habilitar selectivamente las llamadas al sistema.\
+En el perfil anterior, hemos establecido la acción predeterminada en "permitir" y creado una lista negra para deshabilitar "chmod". Para ser más seguros, podemos establecer la acción predeterminada en "rechazar" y crear una lista blanca para habilitar selectivamente las llamadas al sistema.\
 La siguiente salida muestra la llamada "chmod" devolviendo un error porque está deshabilitada en el perfil seccomp.
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts

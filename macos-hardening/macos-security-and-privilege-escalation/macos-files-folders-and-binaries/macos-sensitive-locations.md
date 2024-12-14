@@ -42,11 +42,11 @@ Otra forma de obtener el `ShadowHashData` de un usuario es usando `dscl`: ``sudo
 
 ### /etc/master.passwd
 
-Este archivo es **solo utilizado** cuando el sistema está funcionando en **modo de un solo usuario** (por lo que no es muy frecuente).
+Este archivo se **utiliza solo** cuando el sistema está funcionando en **modo de un solo usuario** (por lo que no es muy frecuente).
 
 ### Keychain Dump
 
-Tenga en cuenta que al usar el binario de seguridad para **volcar las contraseñas desencriptadas**, varios mensajes solicitarán al usuario que permita esta operación.
+Tenga en cuenta que al usar el binario de seguridad para **volcar las contraseñas desencriptadas**, se solicitará al usuario que permita esta operación.
 ```bash
 #security
 security dump-trust-settings [-s] [-d] #List certificates
@@ -58,7 +58,7 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Basado en este comentario [juuso/keychaindump#10 (comentario)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760), parece que estas herramientas ya no funcionan en Big Sur.
+Según este comentario [juuso/keychaindump#10 (comentario)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760), parece que estas herramientas ya no funcionan en Big Sur.
 {% endhint %}
 
 ### Descripción general de Keychaindump
@@ -86,7 +86,7 @@ sudo ./keychaindump
 * Notas seguras
 * Contraseñas de Appleshare
 
-Dada la contraseña de desbloqueo del llavero, una clave maestra obtenida usando [volafox](https://github.com/n0fate/volafox) o [volatility](https://github.com/volatilityfoundation/volatility), o un archivo de desbloqueo como SystemKey, Chainbreaker también proporcionará contraseñas en texto plano.
+Dada la contraseña de desbloqueo del llavero, una clave maestra obtenida usando [volafox](https://github.com/n0fate/volafox) o [volatility](https://github.com/volatilityfoundation/volatility), o un archivo de desbloqueo como SystemKey, Chainbreaker también proporcionará contraseñas en texto claro.
 
 Sin uno de estos métodos para desbloquear el llavero, Chainbreaker mostrará toda la otra información disponible.
 
@@ -125,17 +125,17 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **Volcar claves del llavero (con contraseñas) usando la contraseña del usuario**
 
-Si conoces la contraseña del usuario, puedes usarla para **volcar y descifrar los llaveros que pertenecen al usuario**.
+Si conoces la contraseña del usuario, puedes usarla para **volcar y descifrar llaveros que pertenecen al usuario**.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
 ```
 ### kcpassword
 
-El archivo **kcpassword** es un archivo que contiene la **contraseña de inicio de sesión del usuario**, pero solo si el propietario del sistema ha **habilitado el inicio de sesión automático**. Por lo tanto, el usuario iniciará sesión automáticamente sin que se le pida una contraseña (lo cual no es muy seguro).
+El archivo **kcpassword** es un archivo que contiene la **contraseña de inicio de sesión del usuario**, pero solo si el propietario del sistema ha **activado el inicio de sesión automático**. Por lo tanto, el usuario iniciará sesión automáticamente sin que se le pida una contraseña (lo cual no es muy seguro).
 
 La contraseña se almacena en el archivo **`/etc/kcpassword`** xored con la clave **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Si la contraseña del usuario es más larga que la clave, la clave se reutilizará.\
-Esto hace que la contraseña sea bastante fácil de recuperar, por ejemplo, usando scripts como [**este**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Esto hace que la contraseña sea bastante fácil de recuperar, por ejemplo, utilizando scripts como [**este**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Información Interesante en Bases de Datos
 
@@ -181,10 +181,10 @@ En macOS, la herramienta de línea de comandos **`defaults`** se puede usar para
 
 **`/usr/sbin/cfprefsd`** reclama los servicios XPC `com.apple.cfprefsd.daemon` y `com.apple.cfprefsd.agent` y se puede llamar para realizar acciones como modificar preferencias.
 
-## OpenDirectory permissions.plist
+## permisos.plist de OpenDirectory
 
 El archivo `/System/Library/OpenDirectory/permissions.plist` contiene permisos aplicados a los atributos de nodo y está protegido por SIP.\
-Este archivo otorga permisos a usuarios específicos por UUID (y no uid) para que puedan acceder a información sensible específica como `ShadowHashData`, `HeimdalSRPKey` y `KerberosKeys`, entre otros:
+Este archivo otorga permisos a usuarios específicos por UUID (y no por uid) para que puedan acceder a información sensible específica como `ShadowHashData`, `HeimdalSRPKey` y `KerberosKeys`, entre otros:
 ```xml
 [...]
 <key>dsRecTypeStandard:Computers</key>
@@ -221,7 +221,7 @@ Este archivo otorga permisos a usuarios específicos por UUID (y no uid) para qu
 
 ### Notificaciones de Darwin
 
-El daemon principal para notificaciones es **`/usr/sbin/notifyd`**. Para recibir notificaciones, los clientes deben registrarse a través del puerto Mach `com.apple.system.notification_center` (verifícalos con `sudo lsmp -p <pid notifyd>`). El daemon es configurable con el archivo `/etc/notify.conf`.
+El daemon principal para las notificaciones es **`/usr/sbin/notifyd`**. Para recibir notificaciones, los clientes deben registrarse a través del puerto Mach `com.apple.system.notification_center` (verifícalos con `sudo lsmp -p <pid notifyd>`). El daemon es configurable con el archivo `/etc/notify.conf`.
 
 Los nombres utilizados para las notificaciones son notaciones DNS inversas únicas y cuando se envía una notificación a uno de ellos, el(los) cliente(s) que han indicado que pueden manejarla la recibirán.
 

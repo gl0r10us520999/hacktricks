@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 El I/O Kit es un **framework de controladores de dispositivos** de código abierto y orientado a objetos en el núcleo XNU, que maneja **controladores de dispositivos cargados dinámicamente**. Permite que se agregue código modular al núcleo sobre la marcha, soportando hardware diverso.
 
-Los controladores de IOKit básicamente **exportan funciones del núcleo**. Los **tipos** de parámetros de estas funciones son **predefinidos** y son verificados. Además, similar a XPC, IOKit es solo otra capa **sobre los mensajes Mach**.
+Los controladores de IOKit básicamente **exportan funciones del núcleo**. Estos parámetros de función son **tipos** **predefinidos** y son verificados. Además, similar a XPC, IOKit es solo otra capa sobre **los mensajes de Mach**.
 
 El **código del núcleo IOKit XNU** es de código abierto por Apple en [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Además, los componentes de IOKit en el espacio de usuario también son de código abierto [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
@@ -75,7 +75,7 @@ Para encontrar extensiones específicas, puedes usar:
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Para cargar y descargar extensiones del kernel, haz lo siguiente:
+Para cargar y descargar extensiones del kernel, haz:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
@@ -97,7 +97,7 @@ Podrías descargar **`IORegistryExplorer`** de **Xcode Additional Tools** desde 
 En IORegistryExplorer, se utilizan "planos" para organizar y mostrar las relaciones entre diferentes objetos en el IORegistry. Cada plano representa un tipo específico de relación o una vista particular de la configuración de hardware y controladores del sistema. Aquí hay algunos de los planos comunes que podrías encontrar en IORegistryExplorer:
 
 1. **IOService Plane**: Este es el plano más general, que muestra los objetos de servicio que representan controladores y nubs (canales de comunicación entre controladores). Muestra las relaciones proveedor-cliente entre estos objetos.
-2. **IODeviceTree Plane**: Este plano representa las conexiones físicas entre dispositivos a medida que están conectados al sistema. A menudo se utiliza para visualizar la jerarquía de dispositivos conectados a través de buses como USB o PCI.
+2. **IODeviceTree Plane**: Este plano representa las conexiones físicas entre dispositivos a medida que se conectan al sistema. A menudo se utiliza para visualizar la jerarquía de dispositivos conectados a través de buses como USB o PCI.
 3. **IOPower Plane**: Muestra objetos y sus relaciones en términos de gestión de energía. Puede mostrar qué objetos están afectando el estado de energía de otros, útil para depurar problemas relacionados con la energía.
 4. **IOUSB Plane**: Enfocado específicamente en dispositivos USB y sus relaciones, mostrando la jerarquía de hubs USB y dispositivos conectados.
 5. **IOAudio Plane**: Este plano es para representar dispositivos de audio y sus relaciones dentro del sistema.
@@ -105,7 +105,7 @@ En IORegistryExplorer, se utilizan "planos" para organizar y mostrar las relacio
 
 ## Ejemplo de Código de Comunicación de Controladores
 
-El siguiente código se conecta al servicio IOKit `"YourServiceNameHere"` y llama a la función dentro del selector 0. Para ello:
+El siguiente código se conecta al servicio de IOKit `"YourServiceNameHere"` y llama a la función dentro del selector 0. Para ello:
 
 * primero llama a **`IOServiceMatching`** y **`IOServiceGetMatchingServices`** para obtener el servicio.
 * Luego establece una conexión llamando a **`IOServiceOpen`**.
@@ -198,7 +198,7 @@ IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgu
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Con esta información puedes reescribir Ctrl+Right -> `Edit function signature` y establecer los tipos conocidos:
+Con esta información, puedes reescribir Ctrl+Right -> `Edit function signature` y establecer los tipos conocidos:
 
 <figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
@@ -206,11 +206,11 @@ El nuevo código decompilado se verá así:
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Para el siguiente paso necesitamos tener definida la estructura **`IOExternalMethodDispatch2022`**. Es de código abierto en [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), podrías definirla:
+Para el siguiente paso, necesitamos tener definida la estructura **`IOExternalMethodDispatch2022`**. Es de código abierto en [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), podrías definirla:
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
-Ahora, siguiendo el `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` puedes ver muchos datos:
+Ahora, siguiendo el `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray`, puedes ver muchos datos:
 
 <figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -231,7 +231,7 @@ Después de que se crea el array, puedes ver todas las funciones exportadas:
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Si recuerdas, para **llamar** a una función **exportada** desde el espacio de usuario no necesitamos llamar al nombre de la función, sino al **número de selector**. Aquí puedes ver que el selector **0** es la función **`initializeDecoder`**, el selector **1** es **`startDecoder`**, el selector **2** **`initializeEncoder`**...
+Si recuerdas, para **llamar** a una función **exportada** desde el espacio de usuario, no necesitamos llamar al nombre de la función, sino al **número de selector**. Aquí puedes ver que el selector **0** es la función **`initializeDecoder`**, el selector **1** es **`startDecoder`**, el selector **2** **`initializeEncoder`**...
 {% endhint %}
 
 {% hint style="success" %}
@@ -240,7 +240,7 @@ Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

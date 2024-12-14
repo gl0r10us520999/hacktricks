@@ -16,7 +16,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 
-## Proceso de carga del Sandbox
+## Proceso de carga de Sandbox
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Imagen de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
@@ -43,7 +43,7 @@ Ten en cuenta que si un paquete .app ya ha sido autorizado para ejecutarse (tien
 
 ### Abusando de la funcionalidad Open
 
-En los [**últimos ejemplos de elusión del sandbox de Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) se puede apreciar cómo la funcionalidad cli **`open`** podría ser abusada para eludir el sandbox.
+En los [**últimos ejemplos de elusión de sandbox de Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) se puede apreciar cómo la funcionalidad cli **`open`** podría ser abusada para eludir el sandbox.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -54,13 +54,13 @@ En los [**últimos ejemplos de elusión del sandbox de Word**](macos-office-sand
 Incluso si una aplicación está **destinada a estar en sandbox** (`com.apple.security.app-sandbox`), es posible eludir el sandbox si se **ejecuta desde un LaunchAgent** (`~/Library/LaunchAgents`) por ejemplo.\
 Como se explica en [**esta publicación**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), si deseas obtener persistencia con una aplicación que está en sandbox, podrías hacer que se ejecute automáticamente como un LaunchAgent y tal vez inyectar código malicioso a través de variables de entorno DyLib.
 
-### Abusando de las Ubicaciones de Inicio Automático
+### Abusando de las ubicaciones de inicio automático
 
 Si un proceso en sandbox puede **escribir** en un lugar donde **más tarde una aplicación sin sandbox va a ejecutar el binario**, podrá **escapar simplemente colocando** allí el binario. Un buen ejemplo de este tipo de ubicaciones son `~/Library/LaunchAgents` o `/System/Library/LaunchDaemons`.
 
 Para esto podrías necesitar incluso **2 pasos**: Hacer que un proceso con un **sandbox más permisivo** (`file-read*`, `file-write*`) ejecute tu código que realmente escribirá en un lugar donde será **ejecutado sin sandbox**.
 
-Consulta esta página sobre **Ubicaciones de Inicio Automático**:
+Consulta esta página sobre **Ubicaciones de inicio automático**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -74,16 +74,16 @@ Si desde el proceso en sandbox puedes **comprometer otros procesos** que se ejec
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Compilación Estática y Enlace Dinámico
+### Compilación estática y enlace dinámico
 
 [**Esta investigación**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descubrió 2 formas de eludir el Sandbox. Debido a que el sandbox se aplica desde el espacio de usuario cuando se carga la **biblioteca libSystem**. Si un binario pudiera evitar cargarla, nunca sería sandboxed:
 
-* Si el binario fue **completamente compilado de forma estática**, podría evitar cargar esa biblioteca.
-* Si el **binario no necesitaría cargar ninguna biblioteca** (porque el enlazador también está en libSystem), no necesitará cargar libSystem.
+* Si el binario estaba **completamente compilado de forma estática**, podría evitar cargar esa biblioteca.
+* Si el **binario no necesitara cargar ninguna biblioteca** (porque el enlazador también está en libSystem), no necesitaría cargar libSystem.
 
 ### Shellcodes
 
-Ten en cuenta que **incluso los shellcodes** en ARM64 necesitan estar vinculados en `libSystem.dylib`:
+Ten en cuenta que **incluso los shellcodes** en ARM64 necesitan ser enlazados en `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64

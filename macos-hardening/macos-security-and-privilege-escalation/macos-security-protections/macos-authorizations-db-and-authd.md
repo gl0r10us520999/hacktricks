@@ -39,7 +39,7 @@ Las reglas se almacenan en la tabla `rules` dentro de la base de datos y contien
 * **created**: Registra la marca de tiempo cuando se creó la regla para fines de auditoría.
 * **modified**: Almacena la marca de tiempo de la última modificación realizada a la regla.
 * **hash**: Contiene un valor hash de la regla para asegurar su integridad y detectar manipulaciones.
-* **identifier**: Proporciona un identificador único en forma de cadena, como un UUID, para referencias externas a la regla.
+* **identifier**: Proporciona un identificador de cadena único, como un UUID, para referencias externas a la regla.
 * **requirement**: Contiene datos serializados que definen los requisitos y mecanismos de autorización específicos de la regla.
 * **comment**: Ofrece una descripción o comentario legible por humanos sobre la regla para documentación y claridad.
 

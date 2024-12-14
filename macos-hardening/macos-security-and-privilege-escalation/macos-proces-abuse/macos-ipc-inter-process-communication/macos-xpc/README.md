@@ -15,9 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Información Básica
 
-XPC, que significa Comunicación Inter-Procesos de XNU (el núcleo utilizado por macOS), es un marco para **la comunicación entre procesos** en macOS e iOS. XPC proporciona un mecanismo para realizar **llamadas a métodos seguras y asíncronas entre diferentes procesos** en el sistema. Es parte del paradigma de seguridad de Apple, permitiendo la **creación de aplicaciones con privilegios separados** donde cada **componente** se ejecuta con **solo los permisos que necesita** para hacer su trabajo, limitando así el daño potencial de un proceso comprometido.
+XPC, que significa Comunicación Inter-Procesos de XNU (el núcleo utilizado por macOS), es un marco para **la comunicación entre procesos** en macOS e iOS. XPC proporciona un mecanismo para realizar **llamadas a métodos seguras y asíncronas entre diferentes procesos** en el sistema. Es parte del paradigma de seguridad de Apple, permitiendo la **creación de aplicaciones con separación de privilegios** donde cada **componente** se ejecuta con **solo los permisos que necesita** para hacer su trabajo, limitando así el daño potencial de un proceso comprometido.
 
 XPC utiliza una forma de Comunicación Inter-Procesos (IPC), que es un conjunto de métodos para que diferentes programas que se ejecutan en el mismo sistema envíen datos de ida y vuelta.
 
@@ -29,15 +29,15 @@ Los principales beneficios de XPC incluyen:
 
 El único **inconveniente** es que **separar una aplicación en varios procesos** que se comunican a través de XPC es **menos eficiente**. Pero en los sistemas actuales esto no es casi notable y los beneficios son mejores.
 
-## Application Specific XPC services
+## Servicios XPC Específicos de la Aplicación
 
 Los componentes XPC de una aplicación están **dentro de la propia aplicación.** Por ejemplo, en Safari puedes encontrarlos en **`/Applications/Safari.app/Contents/XPCServices`**. Tienen la extensión **`.xpc`** (como **`com.apple.Safari.SandboxBroker.xpc`**) y **también son paquetes** con el binario principal dentro de él: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` y un `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Como podrías estar pensando, un **componente XPC tendrá diferentes derechos y privilegios** que los otros componentes XPC o el binario principal de la aplicación. EXCEPTO si un servicio XPC está configurado con [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) establecido en “True” en su **archivo Info.plist**. En este caso, el servicio XPC se ejecutará en la **misma sesión de seguridad que la aplicación** que lo llamó.
+Como podrías estar pensando, un **componente XPC tendrá diferentes derechos y privilegios** que los otros componentes XPC o el binario principal de la aplicación. EXCEPTO si un servicio XPC está configurado con [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) establecido en “True” en su **archivo Info.plist**. En este caso, el servicio XPC se ejecutará en la **misma sesión de seguridad que la aplicación** que lo llamó.
 
 Los servicios XPC son **iniciados** por **launchd** cuando se requieren y **se apagan** una vez que todas las tareas están **completas** para liberar recursos del sistema. **Los componentes XPC específicos de la aplicación solo pueden ser utilizados por la aplicación**, reduciendo así el riesgo asociado con posibles vulnerabilidades.
 
-## System Wide XPC services
+## Servicios XPC de Todo el Sistema
 
 Los servicios XPC de todo el sistema son accesibles para todos los usuarios. Estos servicios, ya sean launchd o de tipo Mach, deben estar **definidos en archivos plist** ubicados en directorios específicos como **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, o **`/Library/LaunchAgents`**.
 
@@ -295,7 +295,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## Ejemplo de Código de Comunicación XPC en Objective-C
+## Ejemplo de Código Objective-C para Comunicación XPC
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -454,11 +454,11 @@ return;
 ## Remote XPC
 
 Esta funcionalidad proporcionada por `RemoteXPC.framework` (de `libxpc`) permite comunicarse a través de XPC entre diferentes hosts.\
-Los servicios que admiten XPC remoto tendrán en su plist la clave UsesRemoteXPC como es el caso de `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Sin embargo, aunque el servicio estará registrado con `launchd`, es `UserEventAgent` con los plugins `com.apple.remoted.plugin` y `com.apple.remoteservicediscovery.events.plugin` los que proporcionan la funcionalidad.
+Los servicios que admiten XPC remoto tendrán en su plist la clave UsesRemoteXPC, como es el caso de `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Sin embargo, aunque el servicio estará registrado con `launchd`, es `UserEventAgent` con los plugins `com.apple.remoted.plugin` y `com.apple.remoteservicediscovery.events.plugin` los que proporcionan la funcionalidad.
 
 Además, el `RemoteServiceDiscovery.framework` permite obtener información del `com.apple.remoted.plugin` exponiendo funciones como `get_device`, `get_unique_device`, `connect`...
 
-Una vez que se utiliza connect y se recopila el socket `fd` del servicio, es posible usar la clase `remote_xpc_connection_*`.
+Una vez que se utiliza connect y se obtiene el socket `fd` del servicio, es posible usar la clase `remote_xpc_connection_*`.
 
 Es posible obtener información sobre servicios remotos utilizando la herramienta cli `/usr/libexec/remotectl` con parámetros como:
 ```bash

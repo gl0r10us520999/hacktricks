@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Introducción
 
 Como [**se comentó anteriormente**](./#what-is-mdm-mobile-device-management)**,** para intentar inscribir un dispositivo en una organización **solo se necesita un número de serie que pertenezca a esa organización**. Una vez que el dispositivo está inscrito, varias organizaciones instalarán datos sensibles en el nuevo dispositivo: certificados, aplicaciones, contraseñas de WiFi, configuraciones de VPN [y así sucesivamente](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Por lo tanto, este podría ser un punto de entrada peligroso para los atacantes si el proceso de inscripción no está correctamente protegido.
+Por lo tanto, esto podría ser un punto de entrada peligroso para los atacantes si el proceso de inscripción no está correctamente protegido.
 
 **A continuación se presenta un resumen de la investigación [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). ¡Consúltalo para más detalles técnicos!**
 
@@ -42,15 +42,15 @@ Los registros de DEP utilizan las funciones `CPFetchActivationRecord` y `CPGetAc
 
 El registro de DEP implica que `cloudconfigurationd` envíe una carga útil JSON cifrada y firmada a _iprofiles.apple.com/macProfile_. La carga útil incluye el número de serie del dispositivo y la acción "RequestProfileConfiguration". El esquema de cifrado utilizado se conoce internamente como "Absinthe". Desentrañar este esquema es complejo e implica numerosos pasos, lo que llevó a explorar métodos alternativos para insertar números de serie arbitrarios en la solicitud del Registro de Activación.
 
-## Interceptando Solicitudes de DEP
+## Interceptación de Solicitudes de DEP
 
 Los intentos de interceptar y modificar solicitudes de DEP a _iprofiles.apple.com_ utilizando herramientas como Charles Proxy se vieron obstaculizados por el cifrado de la carga útil y las medidas de seguridad SSL/TLS. Sin embargo, habilitar la configuración `MCCloudConfigAcceptAnyHTTPSCertificate` permite eludir la validación del certificado del servidor, aunque la naturaleza cifrada de la carga útil aún impide la modificación del número de serie sin la clave de descifrado.
 
-## Instrumentando Binarios del Sistema que Interactúan con DEP
+## Instrumentación de Binarios del Sistema que Interactúan con DEP
 
-Instrumentar binarios del sistema como `cloudconfigurationd` requiere deshabilitar la Protección de Integridad del Sistema (SIP) en macOS. Con SIP deshabilitado, se pueden utilizar herramientas como LLDB para adjuntarse a procesos del sistema y potencialmente modificar el número de serie utilizado en las interacciones de la API de DEP. Este método es preferible ya que evita las complejidades de los derechos y la firma de código.
+La instrumentación de binarios del sistema como `cloudconfigurationd` requiere deshabilitar la Protección de Integridad del Sistema (SIP) en macOS. Con SIP deshabilitado, se pueden utilizar herramientas como LLDB para adjuntarse a procesos del sistema y potencialmente modificar el número de serie utilizado en las interacciones de la API de DEP. Este método es preferible ya que evita las complejidades de los derechos y la firma de código.
 
-**Explotando la Instrumentación Binaria:**
+**Explotación de la Instrumentación Binaria:**
 Modificar la carga útil de la solicitud de DEP antes de la serialización JSON en `cloudconfigurationd` resultó efectivo. El proceso implicó:
 
 1. Adjuntar LLDB a `cloudconfigurationd`.
@@ -59,7 +59,7 @@ Modificar la carga útil de la solicitud de DEP antes de la serialización JSON 
 
 Este método permitió recuperar perfiles completos de DEP para números de serie arbitrarios, demostrando una posible vulnerabilidad.
 
-### Automatizando la Instrumentación con Python
+### Automatización de la Instrumentación con Python
 
 El proceso de explotación se automatizó utilizando Python con la API de LLDB, lo que hizo factible inyectar programáticamente números de serie arbitrarios y recuperar los perfiles de DEP correspondientes.
 

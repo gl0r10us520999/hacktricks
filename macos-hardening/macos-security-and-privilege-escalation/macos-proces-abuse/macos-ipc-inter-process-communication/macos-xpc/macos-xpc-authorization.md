@@ -189,11 +189,11 @@ Esto significa que al final de este proceso, los permisos declarados dentro de `
 
 Hay diferentes ámbitos para indicar quién puede acceder a un derecho. Algunos de ellos están definidos en [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (puedes encontrar [todos ellos aquí](https://www.dssw.co.uk/reference/authorization-rights/)), pero como resumen:
 
-<table><thead><tr><th width="284.3333333333333">Nombre</th><th width="165">Valor</th><th>Descripción</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Cualquiera</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nadie</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>El usuario actual necesita ser un admin (dentro del grupo de admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Pedir al usuario que se autentique.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Pedir al usuario que se autentique. Necesita ser un admin (dentro del grupo de admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Especificar reglas</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Especificar algunos comentarios adicionales sobre el derecho</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Nombre</th><th width="165">Valor</th><th>Descripción</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Cualquiera</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nadie</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>El usuario actual necesita ser un administrador (dentro del grupo de administradores)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Pedir al usuario que se autentique.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Pedir al usuario que se autentique. Necesita ser un administrador (dentro del grupo de administradores)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Especificar reglas</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Especificar algunos comentarios adicionales sobre el derecho</td></tr></tbody></table>
 
 ### Verificación de Derechos
 
-En `HelperTool/HelperTool.m` la función **`readLicenseKeyAuthorization`** verifica si el llamador está autorizado para **ejecutar tal método** llamando a la función **`checkAuthorization`**. Esta función comprobará que los **authData** enviados por el proceso llamador tienen un **formato correcto** y luego verificará **qué se necesita para obtener el derecho** para llamar al método específico. Si todo va bien, el **`error` devuelto será `nil`**:
+En `HelperTool/HelperTool.m`, la función **`readLicenseKeyAuthorization`** verifica si el llamador está autorizado para **ejecutar tal método** llamando a la función **`checkAuthorization`**. Esta función comprobará que los **authData** enviados por el proceso llamador tienen un **formato correcto** y luego verificará **qué se necesita para obtener el derecho** para llamar al método específico. Si todo va bien, el **`error` devuelto será `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,11 +241,11 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Note que para **verificar los requisitos para obtener el derecho** a llamar a ese método, la función `authorizationRightForCommand` solo verificará el objeto comentado previamente **`commandInfo`**. Luego, llamará a **`AuthorizationCopyRights`** para verificar **si tiene los derechos** para llamar a la función (note que las banderas permiten la interacción con el usuario).
+Note que para **verificar los requisitos para obtener el derecho** a llamar a ese método, la función `authorizationRightForCommand` solo verificará el objeto comentado previamente **`commandInfo`**. Luego, llamará a **`AuthorizationCopyRights`** para verificar **si tiene los derechos** para llamar a la función (note que las flags permiten la interacción con el usuario).
 
 En este caso, para llamar a la función `readLicenseKeyAuthorization`, el `kCommandKeyAuthRightDefault` se define como `@kAuthorizationRuleClassAllow`. Así que **cualquiera puede llamarlo**.
 
-### Información de la base de datos
+### Información de la DB
 
 Se mencionó que esta información se almacena en `/var/db/auth.db`. Puede listar todas las reglas almacenadas con:
 ```sql
@@ -263,7 +263,7 @@ Puedes encontrar **todas las configuraciones de permisos** [**aquí**](https://w
 
 1. **'authenticate-user': 'false'**
 * Esta es la clave más directa. Si se establece en `false`, especifica que un usuario no necesita proporcionar autenticación para obtener este derecho.
-* Esto se utiliza en **combinación con una de las 2 a continuación o indicando un grupo** al que el usuario debe pertenecer.
+* Esto se utiliza en **combinación con uno de los 2 a continuación o indicando un grupo** al que el usuario debe pertenecer.
 2. **'allow-root': 'true'**
 * Si un usuario está operando como el usuario root (que tiene permisos elevados), y esta clave está establecida en `true`, el usuario root podría potencialmente obtener este derecho sin más autenticación. Sin embargo, típicamente, llegar a un estado de usuario root ya requiere autenticación, por lo que este no es un escenario de "sin autenticación" para la mayoría de los usuarios.
 3. **'session-owner': 'true'**
@@ -290,7 +290,7 @@ Si encuentras la función: **`[HelperTool checkAuthorization:command:]`** probab
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Esto, si esta función está llamando funciones como `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, está utilizando [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Esto, si esta función está llamando a funciones como `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, está utilizando [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
 Revisa el **`/var/db/auth.db`** para ver si es posible obtener permisos para llamar a alguna acción privilegiada sin interacción del usuario.
 
@@ -337,7 +337,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Ejemplo de Explotación
+### Ejemplo de Exploit
 
 En este ejemplo se crea:
 
@@ -440,7 +440,7 @@ Aprende y practica Hacking en GCP: <img src="../../../../../.gitbook/assets/grte
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**repositorios de HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

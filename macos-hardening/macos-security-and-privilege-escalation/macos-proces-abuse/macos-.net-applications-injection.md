@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **Estableciendo una Sesión de Depuración** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-El manejo de la comunicación entre el depurador y el depurado en .NET es gestionado por [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Este componente establece dos tuberías nombradas por proceso .NET como se ve en [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), que son iniciadas a través de [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Estas tuberías tienen el sufijo **`-in`** y **`-out`**.
+El manejo de la comunicación entre el depurador y el depurado en .NET es gestionado por [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Este componente establece dos tuberías nombradas por cada proceso .NET como se ve en [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), que son iniciadas a través de [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Estas tuberías tienen el sufijo **`-in`** y **`-out`**.
 
 Al visitar el **`$TMPDIR`** del usuario, se pueden encontrar FIFOs de depuración disponibles para depurar aplicaciones .Net.
 
@@ -98,7 +98,7 @@ El POC asociado está disponible [aquí](https://gist.github.com/xpn/7c3040a7398
 
 ## Ejecución de Código .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-Para ejecutar código, es necesario identificar una región de memoria con permisos rwx, lo que se puede hacer utilizando vmmap -pages:
+Para ejecutar código, es necesario identificar una región de memoria con permisos rwx, lo que se puede hacer usando vmmap -pages:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"

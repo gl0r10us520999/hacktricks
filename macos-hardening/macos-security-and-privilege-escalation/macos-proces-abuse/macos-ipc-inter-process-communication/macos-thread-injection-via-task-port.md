@@ -21,23 +21,23 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
 
-## 1. Secuestro de Hilos
+## 1. Secuestro de Hilo
 
 Inicialmente, se invoca la función **`task_threads()`** en el puerto de tarea para obtener una lista de hilos de la tarea remota. Se selecciona un hilo para el secuestro. Este enfoque se desvía de los métodos convencionales de inyección de código, ya que crear un nuevo hilo remoto está prohibido debido a la nueva mitigación que bloquea `thread_create_running()`.
 
 Para controlar el hilo, se llama a **`thread_suspend()`**, deteniendo su ejecución.
 
-Las únicas operaciones permitidas en el hilo remoto implican **detener** y **comenzar** su ejecución, **recuperar** y **modificar** sus valores de registro. Las llamadas a funciones remotas se inician configurando los registros `x0` a `x7` con los **argumentos**, configurando **`pc`** para apuntar a la función deseada y activando el hilo. Asegurarse de que el hilo no se bloquee después de la devolución requiere detectar la devolución.
+Las únicas operaciones permitidas en el hilo remoto implican **detener** y **comenzar** su ejecución, **recuperar** y **modificar** los valores de sus registros. Las llamadas a funciones remotas se inician configurando los registros `x0` a `x7` con los **argumentos**, configurando **`pc`** para apuntar a la función deseada y activando el hilo. Asegurarse de que el hilo no se bloquee después de la devolución requiere detectar la devolución.
 
-Una estrategia implica **registrar un manejador de excepciones** para el hilo remoto utilizando `thread_set_exception_ports()`, configurando el registro `lr` a una dirección inválida antes de la llamada a la función. Esto desencadena una excepción después de la ejecución de la función, enviando un mensaje al puerto de excepciones, permitiendo la inspección del estado del hilo para recuperar el valor de retorno. Alternativamente, como se adoptó del exploit triple\_fetch de Ian Beer, `lr` se establece para que se ejecute en un bucle infinito. Los registros del hilo se monitorean continuamente hasta que **`pc` apunta a esa instrucción**.
+Una estrategia implica **registrar un manejador de excepciones** para el hilo remoto utilizando `thread_set_exception_ports()`, configurando el registro `lr` a una dirección inválida antes de la llamada a la función. Esto desencadena una excepción después de la ejecución de la función, enviando un mensaje al puerto de excepción, permitiendo la inspección del estado del hilo para recuperar el valor de retorno. Alternativamente, como se adoptó del exploit triple\_fetch de Ian Beer, `lr` se establece para que se ejecute en un bucle infinito. Los registros del hilo se monitorean continuamente hasta que **`pc` apunta a esa instrucción**.
 
 ## 2. Puertos Mach para comunicación
 
 La fase siguiente implica establecer puertos Mach para facilitar la comunicación con el hilo remoto. Estos puertos son fundamentales para transferir derechos de envío y recepción arbitrarios entre tareas.
 
-Para la comunicación bidireccional, se crean dos derechos de recepción Mach: uno en la tarea local y el otro en la tarea remota. Posteriormente, se transfiere un derecho de envío para cada puerto a la tarea contraparte, permitiendo el intercambio de mensajes.
+Para la comunicación bidireccional, se crean dos derechos de recepción Mach: uno en la tarea local y el otro en la tarea remota. Posteriormente, se transfiere un derecho de envío para cada puerto a la tarea contraria, permitiendo el intercambio de mensajes.
 
-Enfocándose en el puerto local, el derecho de recepción es mantenido por la tarea local. El puerto se crea con `mach_port_allocate()`. El desafío radica en transferir un derecho de envío a este puerto en la tarea remota.
+Centrando en el puerto local, el derecho de recepción es mantenido por la tarea local. El puerto se crea con `mach_port_allocate()`. El desafío radica en transferir un derecho de envío a este puerto en la tarea remota.
 
 Una estrategia implica aprovechar `thread_set_special_port()` para colocar un derecho de envío al puerto local en el `THREAD_KERNEL_PORT` del hilo remoto. Luego, se instruye al hilo remoto para que llame a `mach_thread_self()` para recuperar el derecho de envío.
 
@@ -110,14 +110,14 @@ El objetivo es establecer memoria compartida entre tareas locales y remotas, sim
 
 2. **Creando Memoria Compartida en el Proceso Remoto**:
 - Asigne memoria para el objeto `OS_xpc_shmem` en el proceso remoto con una llamada remota a `malloc()`.
-- Copie el contenido del objeto local `OS_xpc_shmem` al proceso remoto. Sin embargo, esta copia inicial tendrá nombres de entrada de memoria Mach incorrectos en el desplazamiento `0x18`.
+- Copie el contenido del objeto `OS_xpc_shmem` local al proceso remoto. Sin embargo, esta copia inicial tendrá nombres de entrada de memoria Mach incorrectos en el desplazamiento `0x18`.
 
 3. **Corrigiendo la Entrada de Memoria Mach**:
 - Utilice el método `thread_set_special_port()` para insertar un derecho de envío para la entrada de memoria Mach en la tarea remota.
 - Corrija el campo de entrada de memoria Mach en el desplazamiento `0x18` sobrescribiéndolo con el nombre de la entrada de memoria remota.
 
 4. **Finalizando la Configuración de Memoria Compartida**:
-- Valide el objeto remoto `OS_xpc_shmem`.
+- Valide el objeto `OS_xpc_shmem` remoto.
 - Establezca el mapeo de memoria compartida con una llamada remota a `xpc_shmem_remote()`.
 
 Siguiendo estos pasos, la memoria compartida entre las tareas locales y remotas se configurará de manera eficiente, permitiendo transferencias de datos sencillas y la ejecución de funciones que requieren múltiples argumentos.
@@ -138,7 +138,7 @@ Recuerde manejar correctamente los detalles de los puertos Mach y los nombres de
 
 ## 5. Logrando Control Total
 
-Al establecer con éxito la memoria compartida y obtener capacidades de ejecución arbitraria, hemos ganado esencialmente control total sobre el proceso objetivo. Las funcionalidades clave que permiten este control son:
+Al establecer con éxito la memoria compartida y obtener capacidades de ejecución arbitraria, esencialmente hemos ganado control total sobre el proceso objetivo. Las funcionalidades clave que permiten este control son:
 
 1. **Operaciones de Memoria Arbitrarias**:
 - Realizar lecturas de memoria arbitrarias invocando `memcpy()` para copiar datos de la región compartida.
@@ -153,11 +153,11 @@ Al establecer con éxito la memoria compartida y obtener capacidades de ejecuci�
 4. **Transferencia de Descriptores de Archivo**:
 - Transferir descriptores de archivo entre procesos utilizando fileports, una técnica destacada por Ian Beer en `triple_fetch`.
 
-Este control integral está encapsulado dentro de la biblioteca [threadexec](https://github.com/bazad/threadexec), que proporciona una implementación detallada y una API fácil de usar para interactuar con el proceso víctima.
+Este control integral está encapsulado dentro de la biblioteca [threadexec](https://github.com/bazad/threadexec), proporcionando una implementación detallada y una API fácil de usar para interactuar con el proceso víctima.
 
 ## Consideraciones Importantes:
 
-- Asegúrese de utilizar correctamente `memcpy()` para operaciones de lectura/escritura de memoria para mantener la estabilidad del sistema y la integridad de los datos.
+- Asegúrese de usar correctamente `memcpy()` para operaciones de lectura/escritura de memoria para mantener la estabilidad del sistema y la integridad de los datos.
 - Al transferir puertos Mach o descriptores de archivo, siga los protocolos adecuados y maneje los recursos de manera responsable para prevenir leaks o accesos no intencionados.
 
 Al adherirse a estas pautas y utilizar la biblioteca `threadexec`, uno puede gestionar e interactuar eficientemente con los procesos a un nivel granular, logrando control total sobre el proceso objetivo.

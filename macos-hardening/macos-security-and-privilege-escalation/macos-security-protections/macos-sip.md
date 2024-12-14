@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 * **/sbin**
 * **/usr**
 
-Las reglas que rigen el comportamiento de SIP se definen en el archivo de configuración ubicado en **`/System/Library/Sandbox/rootless.conf`**. Dentro de este archivo, las rutas que están precedidas por un asterisco (\*) se denotan como excepciones a las estrictas restricciones de SIP. 
+Las reglas que rigen el comportamiento de SIP se definen en el archivo de configuración ubicado en **`/System/Library/Sandbox/rootless.conf`**. Dentro de este archivo, las rutas que están precedidas por un asterisco (\*) se denotan como excepciones a las estrictas restricciones de SIP.
 
 Considera el siguiente ejemplo:
 ```javascript
@@ -40,7 +40,7 @@ Para verificar si un directorio o archivo está protegido por SIP, puedes usar e
 ls -lOd /usr/libexec/cups
 drwxr-xr-x  11 root  wheel  sunlnk 352 May 13 00:29 /usr/libexec/cups
 ```
-En este caso, el **`sunlnk`** flag significa que el directorio `/usr/libexec/cups` **no puede ser eliminado**, aunque los archivos dentro de él pueden ser creados, modificados o eliminados.
+En este caso, la bandera **`sunlnk`** significa que el directorio `/usr/libexec/cups` **no puede ser eliminado**, aunque los archivos dentro de él pueden ser creados, modificados o eliminados.
 
 Por otro lado:
 ```bash
@@ -49,7 +49,7 @@ drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
 Aquí, la **`restricted`** bandera indica que el directorio `/usr/libexec` está protegido por SIP. En un directorio protegido por SIP, no se pueden crear, modificar o eliminar archivos.
 
-Además, si un archivo contiene el atributo **`com.apple.rootless`** atributo **extendido**, ese archivo también estará **protegido por SIP**.
+Además, si un archivo contiene el atributo **`com.apple.rootless`** como **atributo** extendido, ese archivo también estará **protegido por SIP**.
 
 {% hint style="success" %}
 Tenga en cuenta que el gancho **Sandbox** **`hook_vnode_check_setextattr`** previene cualquier intento de modificar el atributo extendido **`com.apple.rootless`.**
@@ -62,13 +62,13 @@ Tenga en cuenta que el gancho **Sandbox** **`hook_vnode_check_setextattr`** prev
 * Modificar variables de NVRAM
 * Permitir depuración del kernel
 
-Las opciones se mantienen en la variable nvram como un bitflag (`csr-active-config` en Intel y `lp-sip0` se lee del Device Tree arrancado para ARM). Puedes encontrar las banderas en el código fuente de XNU en `csr.sh`:
+Las opciones se mantienen en la variable nvram como un bitflag (`csr-active-config` en Intel y `lp-sip0` se lee del Device Tree arrancado para ARM). Puede encontrar las banderas en el código fuente de XNU en `csr.sh`:
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
 ### Estado de SIP
 
-Puedes verificar si SIP está habilitado en tu sistema con el siguiente comando:
+Puede verificar si SIP está habilitado en su sistema con el siguiente comando:
 ```bash
 csrutil status
 ```
@@ -82,8 +82,8 @@ csrutil enable --without debug
 ```
 ### Otras Restricciones
 
-* **Prohíbe la carga de extensiones de kernel no firmadas** (kexts), asegurando que solo las extensiones verificadas interactúen con el kernel del sistema.
-* **Previene la depuración** de procesos del sistema macOS, protegiendo los componentes centrales del sistema de accesos y modificaciones no autorizadas.
+* **Prohíbe la carga de extensiones de kernel no firmadas** (kexts), asegurando que solo extensiones verificadas interactúen con el kernel del sistema.
+* **Previene la depuración** de procesos del sistema macOS, protegiendo componentes centrales del sistema contra accesos y modificaciones no autorizadas.
 * **Inhibe herramientas** como dtrace de inspeccionar procesos del sistema, protegiendo aún más la integridad de la operación del sistema.
 
 [**Aprende más sobre la información de SIP en esta charla**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
@@ -127,7 +127,7 @@ El derecho **`com.apple.rootless.install.heritable`** permite eludir SIP
 
 #### [CVE-2019-8561](https://objective-see.org/blog/blog\_0x42.html) <a href="#cve" id="cve"></a>
 
-Se descubrió que era posible **intercambiar el paquete de instalador después de que el sistema verificara su firma** de código y luego, el sistema instalaría el paquete malicioso en lugar del original. Como estas acciones eran realizadas por **`system_installd`**, permitiría eludir SIP.
+Se descubrió que era posible **intercambiar el paquete de instalación después de que el sistema verificara su firma** de código y luego, el sistema instalaría el paquete malicioso en lugar del original. Como estas acciones eran realizadas por **`system_installd`**, permitiría eludir SIP.
 
 #### [CVE-2020–9854](https://objective-see.org/blog/blog\_0x4D.html) <a href="#cve-unauthd-chain" id="cve-unauthd-chain"></a>
 
@@ -141,7 +141,7 @@ El demonio **`system_installd`** instalará paquetes que han sido firmados por *
 
 Los investigadores encontraron que durante la instalación de un paquete firmado por Apple (archivo .pkg), **`system_installd`** **ejecuta** cualquier **script post-instalación** incluido en el paquete. Estos scripts son ejecutados por el shell predeterminado, **`zsh`**, que automáticamente **ejecuta** comandos del archivo **`/etc/zshenv`**, si existe, incluso en modo no interactivo. Este comportamiento podría ser explotado por atacantes: creando un archivo malicioso `/etc/zshenv` y esperando a que **`system_installd` invoque `zsh`**, podrían realizar operaciones arbitrarias en el dispositivo.
 
-Además, se descubrió que **`/etc/zshenv` podría ser utilizado como una técnica de ataque general**, no solo para eludir SIP. Cada perfil de usuario tiene un archivo `~/.zshenv`, que se comporta de la misma manera que `/etc/zshenv` pero no requiere permisos de root. Este archivo podría ser utilizado como un mecanismo de persistencia, activándose cada vez que se inicia `zsh`, o como un mecanismo de elevación de privilegios. Si un usuario administrador se eleva a root usando `sudo -s` o `sudo <comando>`, el archivo `~/.zshenv` se activaría, elevándose efectivamente a root.
+Además, se descubrió que **`/etc/zshenv` podría ser utilizado como una técnica de ataque general**, no solo para un bypass de SIP. Cada perfil de usuario tiene un archivo `~/.zshenv`, que se comporta de la misma manera que `/etc/zshenv` pero no requiere permisos de root. Este archivo podría ser utilizado como un mecanismo de persistencia, activándose cada vez que se inicia `zsh`, o como un mecanismo de elevación de privilegios. Si un usuario administrador se eleva a root usando `sudo -s` o `sudo <comando>`, el archivo `~/.zshenv` se activaría, elevando efectivamente a root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
@@ -149,7 +149,7 @@ En [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Se identificó una vulnerabilidad donde **`fsck_cs`** fue engañado para corromper un archivo crucial, debido a su capacidad para seguir **enlaces simbólicos**. Específicamente, los atacantes crearon un enlace de _`/dev/diskX`_ al archivo `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Ejecutar **`fsck_cs`** en _`/dev/diskX`_ llevó a la corrupción de `Info.plist`. La integridad de este archivo es vital para el SIP (Protección de Integridad del Sistema) del sistema operativo, que controla la carga de extensiones de kernel. Una vez corrompido, la capacidad de SIP para gestionar exclusiones de kernel se ve comprometida.
+Se identificó una vulnerabilidad donde **`fsck_cs`** fue engañado para corromper un archivo crucial, debido a su capacidad para seguir **enlaces simbólicos**. Específicamente, los atacantes crearon un enlace de _`/dev/diskX`_ al archivo `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Ejecutar **`fsck_cs`** en _`/dev/diskX`_ llevó a la corrupción de `Info.plist`. La integridad de este archivo es vital para la SIP (Protección de Integridad del Sistema) del sistema operativo, que controla la carga de extensiones de kernel. Una vez corrompido, la capacidad de SIP para gestionar exclusiones de kernel se ve comprometida.
 
 Los comandos para explotar esta vulnerabilidad son:
 ```bash
@@ -191,7 +191,7 @@ Como [**se detalla en esta publicación del blog**](https://blog.kandji.io/apple
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-y fue posible crear un symlink en `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` que permitiría a un usuario **eliminar restricciones de cualquier archivo, eludiendo la protección SIP**.
+y fue posible crear un symlink en `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` que permitiría a un usuario **desbloquear cualquier archivo, eludiendo la protección SIP**.
 
 ### **com.apple.rootless.install**
 
@@ -211,7 +211,7 @@ Aquí hay una mirada más detallada:
 
 1. **Sistema Inmutable**: Las Instantáneas del Sistema Selladas hacen que el volumen del sistema macOS sea "inmutable", lo que significa que no puede ser modificado. Esto previene cualquier cambio no autorizado o accidental en el sistema que podría comprometer la seguridad o la estabilidad del sistema.
 2. **Actualizaciones de Software del Sistema**: Cuando instalas actualizaciones o mejoras de macOS, macOS crea una nueva instantánea del sistema. El volumen de inicio de macOS luego utiliza **APFS (Apple File System)** para cambiar a esta nueva instantánea. Todo el proceso de aplicación de actualizaciones se vuelve más seguro y confiable, ya que el sistema siempre puede revertir a la instantánea anterior si algo sale mal durante la actualización.
-3. **Separación de Datos**: En conjunto con el concepto de separación de Datos y Volumen del Sistema introducido en macOS Catalina, la característica de Instantánea del Sistema Sellada asegura que todos tus datos y configuraciones se almacenen en un volumen separado "**Data**". Esta separación hace que tus datos sean independientes del sistema, lo que simplifica el proceso de actualizaciones del sistema y mejora la seguridad del sistema.
+3. **Separación de Datos**: En conjunto con el concepto de separación de volúmenes de Datos y Sistema introducido en macOS Catalina, la característica de Instantánea del Sistema Sellada asegura que todos tus datos y configuraciones se almacenen en un volumen separado de "**Datos**". Esta separación hace que tus datos sean independientes del sistema, lo que simplifica el proceso de actualizaciones del sistema y mejora la seguridad del sistema.
 
 Recuerda que estas instantáneas son gestionadas automáticamente por macOS y no ocupan espacio adicional en tu disco, gracias a las capacidades de compartición de espacio de APFS. También es importante notar que estas instantáneas son diferentes de las **instantáneas de Time Machine**, que son copias de seguridad accesibles por el usuario de todo el sistema.
 
@@ -249,16 +249,16 @@ El comando **`diskutil apfs list`** lista los **detalles de los volúmenes APFS*
 +-> Volumen disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
 |   Disco de Volumen APFS (Rol):   disk3s5 (Datos)
-|   Nombre:                      Macintosh HD - Data (Sin distinción de mayúsculas)
+|   Nombre:                      Macintosh HD - Datos (Sin distinción de mayúsculas)
 <strong>    |   Punto de Montaje:               /System/Volumes/Data
 </strong><strong>    |   Capacidad Consumida:         412071784448 B (412.1 GB)
 </strong>    |   Sellado:                    No
 |   FileVault:                 Sí (Desbloqueado)
 </code></pre>
 
-En la salida anterior es posible ver que **los lugares accesibles por el usuario** están montados bajo `/System/Volumes/Data`.
+En la salida anterior es posible ver que **las ubicaciones accesibles por el usuario** están montadas bajo `/System/Volumes/Data`.
 
-Además, la **instantánea del volumen del sistema de macOS** está montada en `/` y está **sellada** (firmada criptográficamente por el OS). Así que, si se elude SIP y se modifica, el **OS ya no arrancará**.
+Además, la **instantánea del volumen del sistema de macOS** está montada en `/` y está **sellada** (firmada criptográficamente por el OS). Así que, si se elude SIP y se modifica, el **OS no arrancará más**.
 
 También es posible **verificar que el sellado está habilitado** ejecutando:
 ```bash

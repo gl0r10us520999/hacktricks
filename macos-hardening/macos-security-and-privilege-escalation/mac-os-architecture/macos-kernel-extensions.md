@@ -41,7 +41,7 @@ En Catalina fue así: Es interesante notar que el proceso de **verificación** o
 * Hablará con **`kextd`** enviando usando un **servicio Mach**.
 2. **`kextd`** verificará varias cosas, como la **firma**
 * Hablará con **`syspolicyd`** para **comprobar** si la extensión puede ser **cargada**.
-3. **`syspolicyd`** **preguntará** al **usuario** si la extensión no ha sido cargada previamente.
+3. **`syspolicyd`** **pedirá** al **usuario** si la extensión no ha sido cargada previamente.
 * **`syspolicyd`** informará el resultado a **`kextd`**
 4. **`kextd`** finalmente podrá **decirle al kernel que cargue** la extensión
 
@@ -72,7 +72,7 @@ En mi caso en macOS lo encontré en:
 
 #### IMG4
 
-El formato de archivo IMG4 es un formato contenedor utilizado por Apple en sus dispositivos iOS y macOS para **almacenar y verificar de manera segura** componentes de firmware (como **kernelcache**). El formato IMG4 incluye un encabezado y varias etiquetas que encapsulan diferentes piezas de datos, incluyendo la carga útil real (como un kernel o cargador de arranque), una firma y un conjunto de propiedades de manifiesto. El formato admite verificación criptográfica, lo que permite al dispositivo confirmar la autenticidad e integridad del componente de firmware antes de ejecutarlo.
+El formato de archivo IMG4 es un formato contenedor utilizado por Apple en sus dispositivos iOS y macOS para **almacenar y verificar de manera segura** componentes de firmware (como **kernelcache**). El formato IMG4 incluye un encabezado y varias etiquetas que encapsulan diferentes piezas de datos, incluyendo la carga útil real (como un kernel o cargador de arranque), una firma y un conjunto de propiedades de manifiesto. El formato admite verificación criptográfica, permitiendo que el dispositivo confirme la autenticidad e integridad del componente de firmware antes de ejecutarlo.
 
 Generalmente está compuesto por los siguientes componentes:
 
@@ -154,16 +154,16 @@ nm -a binaries/com.apple.security.sandbox | wc -l
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

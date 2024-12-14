@@ -31,7 +31,7 @@ En XNU, Mach es **responsable de muchas de las operaciones críticas de bajo niv
 
 ### BSD
 
-El **núcleo** XNU también **incorpora** una cantidad significativa de código derivado del proyecto **FreeBSD**. Este código **se ejecuta como parte del núcleo junto con Mach**, en el mismo espacio de direcciones. Sin embargo, el código de FreeBSD dentro de XNU puede diferir sustancialmente del código original de FreeBSD porque se requerían modificaciones para garantizar su compatibilidad con Mach. FreeBSD contribuye a muchas operaciones del núcleo, incluyendo:
+El **núcleo** XNU también **incorpora** una cantidad significativa de código derivado del proyecto **FreeBSD**. Este código **se ejecuta como parte del núcleo junto con Mach**, en el mismo espacio de direcciones. Sin embargo, el código de FreeBSD dentro de XNU puede diferir sustancialmente del código original de FreeBSD porque se requirieron modificaciones para garantizar su compatibilidad con Mach. FreeBSD contribuye a muchas operaciones del núcleo, incluyendo:
 
 * Gestión de procesos
 * Manejo de señales
@@ -46,7 +46,7 @@ Además, **Mach y BSD mantienen cada uno diferentes modelos de seguridad**: el m
 
 ### I/O Kit - Controladores
 
-El I/O Kit es un marco de **controladores de dispositivos** de código abierto y orientado a objetos en el núcleo XNU, que maneja **controladores de dispositivos cargados dinámicamente**. Permite que se agregue código modular al núcleo sobre la marcha, soportando hardware diverso.
+El I/O Kit es un marco de **controladores de dispositivos** orientado a objetos y de código abierto en el núcleo XNU, que maneja **controladores de dispositivos cargados dinámicamente**. Permite que se agregue código modular al núcleo sobre la marcha, soportando hardware diverso.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -70,7 +70,7 @@ En la siguiente página también puedes ver cómo recuperar el `.kext` que macOS
 
 ### macOS System Extensions
 
-En lugar de usar extensiones del núcleo, macOS creó las extensiones del sistema, que ofrecen APIs a nivel de usuario para interactuar con el núcleo. De esta manera, los desarrolladores pueden evitar usar extensiones del núcleo.
+En lugar de usar extensiones del núcleo, macOS creó las extensiones del sistema, que ofrecen APIs a nivel de usuario para interactuar con el núcleo. De esta manera, los desarrolladores pueden evitar el uso de extensiones del núcleo.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)

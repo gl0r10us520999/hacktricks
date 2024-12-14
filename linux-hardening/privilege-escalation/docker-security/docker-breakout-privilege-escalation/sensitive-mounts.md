@@ -1,16 +1,16 @@
-# Montajes Sensibles
+# Sensitive Mounts
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 {% embed url="https://websec.nl/" %}
 
-La exposición de `/proc` y `/sys` sin un aislamiento de espacio de nombres adecuado introduce riesgos de seguridad significativos, incluida la ampliación de la superficie de ataque y la divulgación de información. Estos directorios contienen archivos sensibles que, si están mal configurados o son accedidos por un usuario no autorizado, pueden llevar a la fuga del contenedor, modificación del host o proporcionar información que facilite ataques adicionales. Por ejemplo, montar incorrectamente `-v /proc:/host/proc` puede eludir la protección de AppArmor debido a su naturaleza basada en rutas, dejando `/host/proc` desprotegido.
+La exposición de `/proc` y `/sys` sin un aislamiento adecuado de nombres introduce riesgos de seguridad significativos, incluyendo la ampliación de la superficie de ataque y la divulgación de información. Estos directorios contienen archivos sensibles que, si están mal configurados o son accedidos por un usuario no autorizado, pueden llevar a la fuga de contenedores, modificación del host, o proporcionar información que ayude a ataques adicionales. Por ejemplo, montar incorrectamente `-v /proc:/host/proc` puede eludir la protección de AppArmor debido a su naturaleza basada en rutas, dejando `/host/proc` desprotegido.
 
 **Puedes encontrar más detalles de cada posible vulnerabilidad en** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -27,35 +27,35 @@ La exposición de `/proc` y `/sys` sin un aislamiento de espacio de nombres adec
 
 ### `/proc/sys`
 
-Este directorio permite el acceso para modificar variables del kernel, generalmente a través de `sysctl(2)`, y contiene varios subdirectorios de interés:
+Este directorio permite el acceso para modificar variables del kernel, generalmente a través de `sysctl(2)`, y contiene varios subdirectorios de preocupación:
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Descrito en [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Permite definir un programa para ejecutar en la generación de archivos core con los primeros 128 bytes como argumentos. Esto puede llevar a la ejecución de código si el archivo comienza con un pipe `|`.
-*   **Ejemplo de Prueba y Explotación**:
+* Permite definir un programa para ejecutar en la generación de archivos de núcleo con los primeros 128 bytes como argumentos. Esto puede llevar a la ejecución de código si el archivo comienza con un pipe `|`.
+*   **Ejemplo de prueba y explotación**:
 
 ```bash
-[ -w /proc/sys/kernel/core_pattern ] && echo Sí # Prueba de acceso de escritura
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Probar acceso de escritura
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Establecer manejador personalizado
-sleep 5 && ./crash & # Activar manejador
+echo "|$overlay/shell.sh" > core_pattern # Establecer controlador personalizado
+sleep 5 && ./crash & # Activar controlador
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
 
 * Detallado en [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Contiene la ruta al cargador de módulos del kernel, invocado para cargar módulos del kernel.
-*   **Ejemplo de Verificación de Acceso**:
+*   **Ejemplo de verificación de acceso**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acceso a modprobe
+ls -l $(cat /proc/sys/kernel/modprobe) # Comprobar acceso a modprobe
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
 * Referenciado en [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Una bandera global que controla si el kernel entra en pánico o invoca al OOM killer cuando ocurre una condición de OOM.
+* Una bandera global que controla si el kernel se bloquea o invoca al OOM killer cuando ocurre una condición OOM.
 
 #### **`/proc/sys/fs`**
 
@@ -65,22 +65,22 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acceso a modprobe
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Permite registrar intérpretes para formatos binarios no nativos basados en su número mágico.
-* Puede llevar a la escalada de privilegios o acceso a shell de root si `/proc/sys/fs/binfmt_misc/register` es escribible.
-* Explicación y explotación relevante:
-* [Rootkit casero a través de binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-* Tutorial detallado: [Enlace al video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* Puede llevar a la escalada de privilegios o acceso a shell root si `/proc/sys/fs/binfmt_misc/register` es escribible.
+* Exploit relevante y explicación:
+* [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Tutorial en profundidad: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Otros en `/proc`
 
 #### **`/proc/config.gz`**
 
 * Puede revelar la configuración del kernel si `CONFIG_IKCONFIG_PROC` está habilitado.
-* Útil para que los atacantes identifiquen vulnerabilidades en el kernel en ejecución.
+* Útil para los atacantes para identificar vulnerabilidades en el kernel en ejecución.
 
 #### **`/proc/sysrq-trigger`**
 
 * Permite invocar comandos Sysrq, potencialmente causando reinicios inmediatos del sistema u otras acciones críticas.
-*   **Ejemplo de Reinicio del Host**:
+*   **Ejemplo de reinicio del host**:
 
 ```bash
 echo b > /proc/sysrq-trigger # Reinicia el host
@@ -93,9 +93,9 @@ echo b > /proc/sysrq-trigger # Reinicia el host
 
 #### **`/proc/kallsyms`**
 
-* Enumera símbolos exportados del kernel y sus direcciones.
+* Lista símbolos exportados del kernel y sus direcciones.
 * Esencial para el desarrollo de exploits del kernel, especialmente para superar KASLR.
-* La información de direcciones está restringida con `kptr_restrict` establecido en `1` o `2`.
+* La información de dirección está restringida con `kptr_restrict` configurado en `1` o `2`.
 * Detalles en [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/[pid]/mem`**
@@ -106,24 +106,24 @@ echo b > /proc/sysrq-trigger # Reinicia el host
 
 #### **`/proc/kcore`**
 
-* Representa la memoria física del sistema en formato core ELF.
-* La lectura puede filtrar contenidos de memoria del host y de otros contenedores.
-* Un tamaño de archivo grande puede causar problemas de lectura o bloqueos de software.
-* Uso detallado en [Volcado de /proc/kcore en 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+* Representa la memoria física del sistema en formato ELF core.
+* La lectura puede filtrar el contenido de la memoria del sistema host y otros contenedores.
+* El gran tamaño del archivo puede llevar a problemas de lectura o fallos de software.
+* Uso detallado en [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
 
-* Interfaz alternativa para `/dev/kmem`, que representa la memoria virtual del kernel.
-* Permite lectura y escritura, por lo tanto, modificación directa de la memoria del kernel.
+* Interfaz alternativa para `/dev/kmem`, representando la memoria virtual del kernel.
+* Permite la lectura y escritura, por lo tanto, la modificación directa de la memoria del kernel.
 
 #### **`/proc/mem`**
 
-* Interfaz alternativa para `/dev/mem`, que representa la memoria física.
-* Permite lectura y escritura, la modificación de toda la memoria requiere resolver direcciones virtuales a físicas.
+* Interfaz alternativa para `/dev/mem`, representando la memoria física.
+* Permite la lectura y escritura, la modificación de toda la memoria requiere resolver direcciones virtuales a físicas.
 
 #### **`/proc/sched_debug`**
 
-* Devuelve información de programación de procesos, eludiendo las protecciones del espacio de nombres PID.
+* Devuelve información sobre la programación de procesos, eludiendo las protecciones del espacio de nombres PID.
 * Expone nombres de procesos, IDs e identificadores de cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
@@ -135,11 +135,11 @@ echo b > /proc/sysrq-trigger # Reinicia el host
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Utilizado para manejar `uevents` de dispositivos del kernel.
-* Escribir en `/sys/kernel/uevent_helper` puede ejecutar scripts arbitrarios al activar `uevents`.
-*   **Ejemplo de Explotación**: %%%bash
+* Usado para manejar `uevents` de dispositivos del kernel.
+* Escribir en `/sys/kernel/uevent_helper` puede ejecutar scripts arbitrarios al activarse `uevent`.
+*   **Ejemplo de explotación**: %%%bash
 
-#### Crea un payload
+#### Crea una carga útil
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
@@ -147,7 +147,7 @@ echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /ev
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-#### Establece uevent\_helper al helper malicioso
+#### Establece uevent\_helper en el ayudante malicioso
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
@@ -158,9 +158,10 @@ echo change > /sys/class/mem/null/uevent
 #### Lee la salida
 
 cat /output %%%
+
 #### **`/sys/class/thermal`**
 
-* Controla la configuración de temperatura, potencialmente causando ataques de denegación de servicio o daños físicos.
+* Controla configuraciones de temperatura, potencialmente causando ataques DoS o daños físicos.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
@@ -169,17 +170,17 @@ cat /output %%%
 #### **`/sys/kernel/security`**
 
 * Alberga la interfaz `securityfs`, permitiendo la configuración de Módulos de Seguridad de Linux como AppArmor.
-* El acceso podría permitir que un contenedor deshabilite su sistema MAC.
+* El acceso podría permitir a un contenedor deshabilitar su sistema MAC.
 
 #### **`/sys/firmware/efi/vars` y `/sys/firmware/efi/efivars`**
 
-* Expone interfaces para interactuar con variables EFI en la NVRAM.
-* La mala configuración o explotación puede llevar a laptops inutilizables o máquinas host no arrancables.
+* Expone interfaces para interactuar con variables EFI en NVRAM.
+* La mala configuración o explotación puede llevar a laptops bloqueadas o máquinas host que no se pueden iniciar.
 
 #### **`/sys/kernel/debug`**
 
 * `debugfs` ofrece una interfaz de depuración "sin reglas" al kernel.
-* Historial de problemas de seguridad debido a su naturaleza no restringida.
+* Historial de problemas de seguridad debido a su naturaleza sin restricciones.
 
 ### Referencias
 
@@ -192,16 +193,16 @@ cat /output %%%
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

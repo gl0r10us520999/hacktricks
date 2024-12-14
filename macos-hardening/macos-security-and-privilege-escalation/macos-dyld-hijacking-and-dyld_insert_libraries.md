@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Así que, ¡es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima reexportándola. Y recuerda compilarla con las versiones esperadas:
+¡Así que es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima reexportándola. Y recuerda compilarla con las versiones esperadas:
 
 {% code title="lib.m" %}
 ```objectivec

@@ -25,13 +25,13 @@ Permisos en un **directorio**:
 * **No puedes modificar el nombre de una carpeta** a menos que seas el propietario.
 * **ejecutar** - se te **permite atravesar** el directorio - si no tienes este derecho, no puedes acceder a ningún archivo dentro de él, ni en ningún subdirectorio.
 
-### Combinaciones peligrosas
+### Combinaciones Peligrosas
 
 **Cómo sobrescribir un archivo/carpeta propiedad de root**, pero:
 
 * Un **propietario de directorio** padre en la ruta es el usuario
 * Un **propietario de directorio** padre en la ruta es un **grupo de usuarios** con **acceso de escritura**
-* Un **grupo** de usuarios tiene **acceso de escritura** al **archivo**
+* Un **grupo de usuarios** tiene acceso **de escritura** al **archivo**
 
 Con cualquiera de las combinaciones anteriores, un atacante podría **inyectar** un **enlace simbólico/duro** en la ruta esperada para obtener una escritura arbitraria privilegiada.
 
@@ -43,7 +43,7 @@ Ejemplo en: [https://theevilbit.github.io/posts/exploiting\_directory\_permissio
 
 ## Enlace simbólico / Enlace duro
 
-Si un proceso privilegiado está escribiendo datos en un **archivo** que podría ser **controlado** por un **usuario de menor privilegio**, o que podría haber sido **creado previamente** por un usuario de menor privilegio. El usuario podría simplemente **apuntarlo a otro archivo** a través de un enlace simbólico o duro, y el proceso privilegiado escribirá en ese archivo.
+Si un proceso privilegiado está escribiendo datos en un **archivo** que podría ser **controlado** por un **usuario de menor privilegio**, o que podría haber sido **creado previamente** por un usuario de menor privilegio. El usuario podría simplemente **redirigirlo a otro archivo** a través de un enlace simbólico o duro, y el proceso privilegiado escribirá en ese archivo.
 
 Consulta en las otras secciones donde un atacante podría **abusar de una escritura arbitraria para escalar privilegios**.
 
@@ -149,13 +149,13 @@ ls -le test
 ```
 (Note que incluso si esto funciona, el sandbox escribe el xattr de cuarentena antes)
 
-No es realmente necesario, pero lo dejo ahí por si acaso:
+No es realmente necesario, pero lo dejo aquí por si acaso:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Bypass Code Signatures
+## Bypass de Firmas de Código
 
 Los bundles contienen el archivo **`_CodeSignature/CodeResources`** que contiene el **hash** de cada **archivo** en el **bundle**. Tenga en cuenta que el hash de CodeResources también está **incrustado en el ejecutable**, por lo que no podemos jugar con eso, tampoco.
 
@@ -394,7 +394,7 @@ return 0;
 
 **macOS descriptores protegidos** son una característica de seguridad introducida en macOS para mejorar la seguridad y fiabilidad de las **operaciones de descriptores de archivo** en aplicaciones de usuario. Estos descriptores protegidos proporcionan una forma de asociar restricciones específicas o "guardias" con descriptores de archivo, que son aplicadas por el kernel.
 
-Esta característica es particularmente útil para prevenir ciertas clases de vulnerabilidades de seguridad, como **acceso no autorizado a archivos** o **condiciones de carrera**. Estas vulnerabilidades ocurren cuando, por ejemplo, un hilo está accediendo a una descripción de archivo dando **acceso a otro hilo vulnerable** sobre ella o cuando un descriptor de archivo es **heredado** por un proceso hijo vulnerable. Algunas funciones relacionadas con esta funcionalidad son:
+Esta característica es particularmente útil para prevenir ciertas clases de vulnerabilidades de seguridad, como **acceso no autorizado a archivos** o **condiciones de carrera**. Estas vulnerabilidades ocurren cuando, por ejemplo, un hilo está accediendo a una descripción de archivo dando **acceso a otro hilo vulnerable** o cuando un descriptor de archivo es **heredado** por un proceso hijo vulnerable. Algunas funciones relacionadas con esta funcionalidad son:
 
 * `guarded_open_np`: Abre un FD con una guardia
 * `guarded_close_np`: Ciérralo
