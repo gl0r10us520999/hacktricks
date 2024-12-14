@@ -43,7 +43,7 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**Una volta** che hai **iniettato il Golden Ticket**, puoi accedere ai file condivisi **(C$)** ed eseguire servizi e WMI, quindi potresti usare **psexec** o **wmiexec** per ottenere una shell (sembra che non puoi ottenere una shell tramite winrm).
+**Una volta** che hai **iniettato il Golden Ticket**, puoi accedere ai file condivisi **(C$)** ed eseguire servizi e WMI, quindi puoi utilizzare **psexec** o **wmiexec** per ottenere una shell (sembra che non puoi ottenere una shell tramite winrm).
 
 ### Bypassare le rilevazioni comuni
 
@@ -51,7 +51,7 @@ I modi più frequenti per rilevare un golden ticket sono **ispezionando il traff
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-Usa i parametri `/startoffset`, `/endin` e `/renewmax` per controllare l'offset di inizio, la durata e il numero massimo di rinnovi (tutti in minuti).
+Utilizza i parametri `/startoffset`, `/endin` e `/renewmax` per controllare l'offset di inizio, la durata e il numero massimo di rinnovi (tutti in minuti).
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```

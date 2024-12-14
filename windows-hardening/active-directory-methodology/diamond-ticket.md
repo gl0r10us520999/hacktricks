@@ -27,7 +27,7 @@ Ci sono due tecniche comuni per rilevare l'uso di biglietti d'oro:
 Un **biglietto di diamante** è creato **modificando i campi di un TGT legittimo emesso da un DC**. Questo si ottiene **richiedendo** un **TGT**, **decrittografandolo** con l'hash krbtgt del dominio, **modificando** i campi desiderati del biglietto, e poi **ri-cifrando**. Questo **supera i due difetti sopra menzionati** di un biglietto d'oro perché:
 
 * I TGS-REQ avranno un AS-REQ precedente.
-* Il TGT è stato emesso da un DC, il che significa che avrà tutti i dettagli corretti dalla politica Kerberos del dominio. Anche se questi possono essere forgiati accuratamente in un biglietto d'oro, è più complesso e soggetto a errori.
+* Il TGT è stato emesso da un DC, il che significa che avrà tutti i dettagli corretti dalla politica Kerberos del dominio. Anche se questi possono essere accuratamente forgiati in un biglietto d'oro, è più complesso e soggetto a errori.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -41,8 +41,8 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /krbkey is the krbtgt AES256 hash.
 ```
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -50,7 +50,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

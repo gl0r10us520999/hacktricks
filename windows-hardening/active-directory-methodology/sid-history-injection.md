@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Attacco di Iniezione della Storia SID
 
-Il focus dell'**Attacco di Iniezione della Storia SID** è quello di assistere **nella migrazione degli utenti tra domini** garantendo al contempo l'accesso continuato alle risorse del dominio precedente. Questo viene realizzato **incorporando il precedente Identificatore di Sicurezza (SID) dell'utente nella Storia SID** del loro nuovo account. È importante notare che questo processo può essere manipolato per concedere accesso non autorizzato aggiungendo il SID di un gruppo ad alta privilegio (come gli Amministratori di Impresa o gli Amministratori di Dominio) dal dominio principale alla Storia SID. Questa sfruttamento conferisce accesso a tutte le risorse all'interno del dominio principale.
+Il focus dell'**Attacco di Iniezione della Storia SID** è quello di assistere **nella migrazione degli utenti tra domini** garantendo al contempo l'accesso continuo alle risorse del precedente dominio. Questo viene realizzato **incorporando il precedente Identificatore di Sicurezza (SID) dell'utente nella Storia SID** del loro nuovo account. È importante notare che questo processo può essere manipolato per concedere accesso non autorizzato aggiungendo il SID di un gruppo ad alta privilegio (come gli Amministratori di Impresa o gli Amministratori di Dominio) dal dominio principale alla Storia SID. Questa sfruttamento conferisce accesso a tutte le risorse all'interno del dominio principale.
 
 Esistono due metodi per eseguire questo attacco: attraverso la creazione di un **Golden Ticket** o di un **Diamond Ticket**.
 
 Per individuare il SID per il gruppo **"Amministratori di Impresa"**, è necessario prima localizzare il SID del dominio radice. Dopo l'identificazione, il SID del gruppo Amministratori di Impresa può essere costruito aggiungendo `-519` al SID del dominio radice. Ad esempio, se il SID del dominio radice è `S-1-5-21-280534878-1496970234-700767426`, il SID risultante per il gruppo "Amministratori di Impresa" sarebbe `S-1-5-21-280534878-1496970234-700767426-519`.
 
-Si potrebbe anche utilizzare i gruppi **Amministratori di Dominio**, che terminano in **512**.
+Puoi anche utilizzare i gruppi **Amministratori di Dominio**, che terminano in **512**.
 
 Un altro modo per trovare il SID di un gruppo dell'altro dominio (ad esempio "Amministratori di Dominio") è con:
 ```powershell
@@ -134,7 +134,7 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 
 #### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Questo è uno script Impacket che **automatizza l'innalzamento da un dominio child a un dominio parent**. Lo script richiede:
+Questo è uno script Impacket che **automatizza l'innalzamento dal dominio child al dominio parent**. Lo script richiede:
 
 * Controller di dominio target
 * Credenziali per un utente admin nel dominio child
@@ -155,8 +155,8 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -164,7 +164,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

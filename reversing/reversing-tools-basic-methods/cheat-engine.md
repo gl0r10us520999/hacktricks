@@ -16,13 +16,13 @@ Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="
 {% endhint %}
 
 [**Cheat Engine**](https://www.cheatengine.org/downloads.php) è un programma utile per trovare dove vengono salvati valori importanti all'interno della memoria di un gioco in esecuzione e modificarli.\
-Quando lo scarichi e lo esegui, ti viene **presentato** un **tutorial** su come utilizzare lo strumento. Se vuoi imparare a usare lo strumento, è altamente consigliato completarlo.
+Quando lo scarichi e lo esegui, ti viene **presentato** un **tutorial** su come utilizzare lo strumento. Se vuoi imparare a usare lo strumento, è altamente raccomandato completarlo.
 
 ## Cosa stai cercando?
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Questo strumento è molto utile per trovare **dove alcuni valori** (di solito un numero) **sono memorizzati nella memoria** di un programma.\
+Questo strumento è molto utile per trovare **dove è memorizzato un valore** (di solito un numero) **nella memoria** di un programma.\
 **Di solito i numeri** sono memorizzati in forma di **4byte**, ma potresti anche trovarli in formati **double** o **float**, o potresti voler cercare qualcosa **di diverso da un numero**. Per questo motivo devi essere sicuro di **selezionare** ciò che vuoi **cercare**:
 
 ![](<../../.gitbook/assets/image (324).png>)
@@ -78,7 +78,7 @@ Quindi, inizia eseguendo una scansione di tipo "**Valore iniziale sconosciuto**"
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Poi, fai cambiare il valore, indica **come** il **valore** **è cambiato** (nel mio caso è diminuito di 1) e esegui una **scansione successiva**:
+Poi, fai cambiare il valore, indica **come** il **valore** **è cambiato** (nel mio caso è diminuito di 1) ed esegui una **scansione successiva**:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
@@ -88,7 +88,7 @@ Ti verranno presentati **tutti i valori che sono stati modificati nel modo selez
 
 Una volta trovato il tuo valore, puoi modificarlo.
 
-Nota che ci sono **molti possibili cambiamenti** e puoi fare questi **passaggi quante più volte vuoi** per filtrare i risultati:
+Nota che ci sono un **sacco di possibili cambiamenti** e puoi fare questi **passaggi quante più volte vuoi** per filtrare i risultati:
 
 ![](<../../.gitbook/assets/image (574).png>)
 
@@ -101,7 +101,7 @@ Utilizzando alcuni dei trucchi menzionati, trova l'indirizzo dove il tuo gioco a
 ![](<../../.gitbook/assets/image (1067).png>)
 
 La **prima opzione** è utile per sapere quali **parti** del **codice** stanno **utilizzando** questo **indirizzo** (che è utile per altre cose come **sapere dove puoi modificare il codice** del gioco).\
-La **seconda opzione** è più **specifica**, e sarà più utile in questo caso poiché siamo interessati a sapere **da dove questo valore viene scritto**.
+La **seconda opzione** è più **specifica**, e sarà più utile in questo caso poiché siamo interessati a sapere **da dove viene scritto questo valore**.
 
 Una volta selezionata una di queste opzioni, il **debugger** sarà **collegato** al programma e apparirà una nuova **finestra vuota**. Ora, **gioca** al **gioco** e **modifica** quel **valore** (senza riavviare il gioco). La **finestra** dovrebbe essere **riempita** con gli **indirizzi** che stanno **modificando** il **valore**:
 
@@ -144,7 +144,7 @@ Ora, ogni volta che modifichi quel valore stai **modificando il valore important
 
 ### Iniezione di codice
 
-L'iniezione di codice è una tecnica in cui inietti un pezzo di codice nel processo target e poi reindirizzi l'esecuzione del codice per passare attraverso il tuo codice scritto (come darti punti invece di sottrarli).
+L'iniezione di codice è una tecnica in cui inietti un pezzo di codice nel processo target, e poi reindirizzi l'esecuzione del codice per passare attraverso il tuo codice scritto (come darti punti invece di sottrarli).
 
 Quindi, immagina di aver trovato l'indirizzo che sta sottraendo 1 dalla vita del tuo giocatore:
 
@@ -171,7 +171,7 @@ Quindi, inserisci il tuo nuovo codice assembly nella sezione "**newmem**" e rimu
 
 ## **Riferimenti**
 
-* **Tutorial di Cheat Engine, completalo per imparare come iniziare con Cheat Engine** 
+* **Tutorial di Cheat Engine, completalo per imparare come iniziare con Cheat Engine**
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

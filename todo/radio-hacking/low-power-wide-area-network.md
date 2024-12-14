@@ -17,7 +17,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ## Introduzione
 
-**Rete a Larga Area a Basso Consumo Energetico** (LPWAN) è un gruppo di tecnologie wireless, a basso consumo, progettate per **comunicazioni a lungo raggio** a bassa velocità di trasmissione.\
+**Rete a Larga Area a Basso Consumo Energetico** (LPWAN) è un gruppo di tecnologie di rete wireless, a basso consumo, progettate per **comunicazioni a lungo raggio** a bassa velocità di trasmissione.\
 Possono raggiungere più di **sei miglia** e le loro **batterie** possono durare fino a **20 anni**.
 
 Long Range (**LoRa**) è popolare in diversi paesi e ha una specifica open source chiamata **LoRaWAN**.

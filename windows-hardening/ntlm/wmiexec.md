@@ -98,13 +98,13 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-Interrogare WMI da remoto per informazioni specifiche, come amministratori locali o utenti connessi, è fattibile con una costruzione attenta dei comandi.
+La query remota di WMI per informazioni specifiche, come gli amministratori locali o gli utenti connessi, è fattibile con una costruzione attenta dei comandi.
 
-### **Interrogazione WMI Remota Manuale**
+### **Query WMI Remota Manuale**
 
-L'identificazione furtiva degli amministratori locali su una macchina remota e degli utenti connessi può essere ottenuta attraverso specifiche query WMI. `wmic` supporta anche la lettura da un file di testo per eseguire comandi su più nodi contemporaneamente.
+L'identificazione furtiva degli amministratori locali su una macchina remota e degli utenti connessi può essere ottenuta attraverso query WMI specifiche. `wmic` supporta anche la lettura da un file di testo per eseguire comandi su più nodi contemporaneamente.
 
-Per eseguire un processo da remoto tramite WMI, come il dispiegamento di un agente Empire, viene impiegata la seguente struttura di comando, con l'esecuzione riuscita indicata da un valore di ritorno di "0":
+Per eseguire un processo in remoto tramite WMI, come il deployment di un agente Empire, viene impiegata la seguente struttura di comando, con l'esecuzione riuscita indicata da un valore di ritorno di "0":
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
@@ -133,7 +133,7 @@ Impara e pratica il hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" 
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}

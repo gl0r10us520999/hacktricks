@@ -43,16 +43,16 @@ sudo nc -k -v -l -p 386
 Tuttavia, il successo di questo metodo varia.
 
 ### Metodo 2: Server LDAP Completo con Slapd
-Un approccio più affidabile prevede l'impostazione di un server LDAP completo perché la stampante esegue un null bind seguito da una query prima di tentare il binding delle credenziali.
+Un approccio più affidabile prevede la configurazione di un server LDAP completo perché la stampante esegue un null bind seguito da una query prima di tentare il binding delle credenziali.
 
-1. **Impostazione del Server LDAP**: La guida segue i passaggi da [questa fonte](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+1. **Configurazione del Server LDAP**: La guida segue i passaggi da [questa fonte](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
 2. **Passaggi Chiave**:
 - Installare OpenLDAP.
 - Configurare la password di amministrazione.
 - Importare schemi di base.
 - Impostare il nome di dominio nel DB LDAP.
 - Configurare LDAP TLS.
-3. **Esecuzione del Servizio LDAP**: Una volta impostato, il servizio LDAP può essere eseguito utilizzando:
+3. **Esecuzione del Servizio LDAP**: Una volta configurato, il servizio LDAP può essere eseguito utilizzando:
 ```bash
 slapd -d 2
 ```

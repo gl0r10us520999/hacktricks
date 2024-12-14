@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Controlla il post originale per [tutte le informazioni su questa tecnica](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
 
-In **sintesi**: se puoi scrivere nella proprietà **msDS-KeyCredentialLink** di un utente/computer, puoi recuperare il **NT hash di quell'oggetto**.
+In **sintesi**: se puoi scrivere nella proprietà **msDS-KeyCredentialLink** di un utente/computer, puoi recuperare l'**hash NT di quell'oggetto**.
 
 Nel post, viene delineato un metodo per impostare **credenziali di autenticazione a chiave pubblica-privata** per acquisire un **Service Ticket** unico che include l'hash NTLM del target. Questo processo coinvolge l'NTLM_SUPPLEMENTAL_CREDENTIAL crittografato all'interno del Privilege Attribute Certificate (PAC), che può essere decrittografato.
 

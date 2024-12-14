@@ -38,7 +38,7 @@ La maggior parte degli scanner di porte non scansiona tutte le porte disponibili
 # CTF - Trucchi
 
 In **Windows** usa **Winzip** per cercare file.\
-**Stream di dati alternativi**: _dir /r | find ":$DATA"_\
+**Flussi di dati alternativi**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)

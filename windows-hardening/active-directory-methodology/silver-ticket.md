@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 L'attacco **Silver Ticket** comporta lo sfruttamento dei ticket di servizio negli ambienti Active Directory (AD). Questo metodo si basa su **acquisire l'hash NTLM di un account di servizio**, come un account computer, per forgiare un ticket del Ticket Granting Service (TGS). Con questo ticket falsificato, un attaccante può accedere a servizi specifici sulla rete, **impersonando qualsiasi utente**, tipicamente puntando a privilegi amministrativi. Si sottolinea che l'uso di chiavi AES per forgiare ticket è più sicuro e meno rilevabile.
 
-Per la creazione di ticket, vengono impiegati diversi strumenti in base al sistema operativo:
+Per la creazione di ticket, vengono impiegati diversi strumenti a seconda del sistema operativo:
 
 ### On Linux
 ```bash
@@ -49,7 +49,7 @@ Il servizio CIFS è evidenziato come un obiettivo comune per accedere al file sy
 
 ## Servizi Disponibili
 
-| Tipo di Servizio                           | Biglietti Silver del Servizio                                            |
+| Tipo di Servizio                           | Servizio Silver Tickets                                                   |
 | ------------------------------------------ | ------------------------------------------------------------------------ |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>A seconda del sistema operativo anche:</p><p>WSMAN</p><p>RPCSS</p> |
@@ -58,19 +58,19 @@ Il servizio CIFS è evidenziato come un obiettivo comune per accedere al file sy
 | Condivisione File di Windows, anche psexec | CIFS                                                                   |
 | Operazioni LDAP, incluso DCSync           | LDAP                                                                   |
 | Strumenti di Amministrazione Remota di Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                   |
-| Biglietti d'Oro                           | krbtgt                                                                 |
+| Golden Tickets                             | krbtgt                                                                 |
 
 Utilizzando **Rubeus** puoi **richiedere tutti** questi biglietti utilizzando il parametro:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### ID Evento Biglietti Silver
+### ID Evento dei Silver Tickets
 
 * 4624: Accesso all'Account
 * 4634: Disconnessione dall'Account
 * 4672: Accesso Amministrativo
 
-## Abuso dei Biglietti di Servizio
+## Abusare dei Biglietti di Servizio
 
 Negli esempi seguenti immaginiamo che il biglietto venga recuperato impersonando l'account amministratore.
 
@@ -82,7 +82,7 @@ dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-Puoi anche ottenere una shell all'interno dell'host o eseguire comandi arbitrari utilizzando **psexec**:
+Potrai anche ottenere una shell all'interno dell'host o eseguire comandi arbitrari utilizzando **psexec**:
 
 {% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)

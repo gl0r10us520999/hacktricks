@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
@@ -53,7 +53,7 @@ L'Autorità di Sicurezza Locale (LSASS) elabora le richieste di accesso agli ogg
 
 ### ACEs
 
-Ci sono **tre principali tipi di Access Control Entries (ACEs)**:
+Ci sono **tre tipi principali di Access Control Entries (ACEs)**:
 
 * **Access Denied ACE**: Questa ACE nega esplicitamente l'accesso a un oggetto per utenti o gruppi specificati (in una DACL).
 * **Access Allowed ACE**: Questa ACE concede esplicitamente l'accesso a un oggetto per utenti o gruppi specificati (in una DACL).
@@ -66,7 +66,7 @@ Ogni ACE ha **quattro componenti critiche**:
 3. **Flags di ereditarietà** che determinano se gli oggetti figli possono ereditare l'ACE dal loro genitore.
 4. Un [**access mask**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), un valore a 32 bit che specifica i diritti concessi all'oggetto.
 
-La determinazione dell'accesso viene condotta esaminando sequenzialmente ogni ACE fino a:
+La determinazione dell'accesso viene condotta esaminando sequenzialmente ogni ACE fino a quando:
 
 * Un **Access-Denied ACE** nega esplicitamente i diritti richiesti a un fiduciario identificato nel token di accesso.
 * **Access-Allowed ACE(s)** concedono esplicitamente tutti i diritti richiesti a un fiduciario nel token di accesso.
@@ -80,7 +80,7 @@ C'è un modo migliore per organizzare queste ACEs, e si chiama **"ordine canonic
 
 * Prima, metti tutte le regole fatte **specificamente per questo elemento** prima di quelle che provengono da altrove, come una cartella genitore.
 * In quelle regole specifiche, metti quelle che dicono **"no" (nega)** prima di quelle che dicono **"sì" (consenti)**.
-* Per le regole che provengono da altrove, inizia con quelle della **fonte più vicina**, come il genitore, e poi torna indietro. Ancora, metti **"no"** prima di **"sì."**
+* Per le regole che provengono da altrove, inizia con quelle della **fonte più vicina**, come il genitore, e poi torna indietro da lì. Ancora una volta, metti **"no"** prima di **"sì."**
 
 Questa configurazione aiuta in due modi principali:
 
@@ -96,7 +96,7 @@ Quindi, questo **"ordine canonico"** riguarda tutto il garantire che le regole d
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -127,15 +127,15 @@ Quando gestiamo l'accesso alle risorse, come una cartella, utilizziamo liste e r
 
 #### Negare l'Accesso a un Gruppo Specifico
 
-Immagina di avere una cartella chiamata Cost, e vuoi che tutti possano accedervi tranne il team di marketing. Impostando correttamente le regole, possiamo assicurarci che al team di marketing venga esplicitamente negato l'accesso prima di consentire a tutti gli altri. Questo viene fatto posizionando la regola per negare l'accesso al team di marketing prima della regola che consente l'accesso a tutti.
+Immagina di avere una cartella chiamata Cost, e vuoi che tutti possano accedervi tranne il team marketing. Impostando correttamente le regole, possiamo garantire che al team marketing venga esplicitamente negato l'accesso prima di consentire a tutti gli altri. Questo viene fatto posizionando la regola per negare l'accesso al team marketing prima della regola che consente l'accesso a tutti.
 
 #### Consentire l'Accesso a un Membro Specifico di un Gruppo Negato
 
-Supponiamo che Bob, il direttore marketing, abbia bisogno di accesso alla cartella Cost, anche se il team di marketing in generale non dovrebbe avere accesso. Possiamo aggiungere una regola specifica (ACE) per Bob che gli concede l'accesso, e posizionarla prima della regola che nega l'accesso al team di marketing. In questo modo, Bob ottiene accesso nonostante la restrizione generale sul suo team.
+Supponiamo che Bob, il direttore marketing, abbia bisogno di accesso alla cartella Cost, anche se il team marketing in generale non dovrebbe avere accesso. Possiamo aggiungere una regola specifica (ACE) per Bob che gli concede accesso, e posizionarla prima della regola che nega l'accesso al team marketing. In questo modo, Bob ottiene accesso nonostante la restrizione generale sul suo team.
 
 #### Comprendere le Access Control Entries
 
-Le ACEs sono le singole regole in un'ACL. Identificano utenti o gruppi, specificano quali accessi sono consentiti o negati e determinano come queste regole si applicano agli elementi secondari (ereditarietà). Ci sono due principali tipi di ACEs:
+Le ACEs sono le singole regole in un'ACL. Identificano utenti o gruppi, specificano quali accessi sono consentiti o negati e determinano come queste regole si applicano agli elementi secondari (ereditarietà). Ci sono due tipi principali di ACEs:
 
 * **Generic ACEs**: Queste si applicano in modo ampio, influenzando tutti i tipi di oggetti o distinguendo solo tra contenitori (come cartelle) e non contenitori (come file). Ad esempio, una regola che consente agli utenti di vedere il contenuto di una cartella ma non di accedere ai file al suo interno.
 * **Object-Specific ACEs**: Queste forniscono un controllo più preciso, consentendo di impostare regole per tipi specifici di oggetti o persino per singole proprietà all'interno di un oggetto. Ad esempio, in una directory di utenti, una regola potrebbe consentire a un utente di aggiornare il proprio numero di telefono ma non le proprie ore di accesso.
@@ -147,7 +147,7 @@ Ogni ACE contiene informazioni importanti come a chi si applica la regola (utili
 * **Generic ACEs** sono adatte per scenari di controllo accessi semplici, dove la stessa regola si applica a tutti gli aspetti di un oggetto o a tutti gli oggetti all'interno di un contenitore.
 * **Object-Specific ACEs** sono utilizzate per scenari più complessi, specialmente in ambienti come Active Directory, dove potrebbe essere necessario controllare l'accesso a proprietà specifiche di un oggetto in modo diverso.
 
-In sintesi, le ACLs e le ACEs aiutano a definire controlli di accesso precisi, assicurando che solo le giuste persone o gruppi abbiano accesso a informazioni o risorse sensibili, con la possibilità di personalizzare i diritti di accesso fino al livello delle singole proprietà o tipi di oggetti.
+In sintesi, le ACLs e le ACEs aiutano a definire controlli di accesso precisi, assicurando che solo gli individui o i gruppi giusti abbiano accesso a informazioni o risorse sensibili, con la possibilità di personalizzare i diritti di accesso fino al livello delle singole proprietà o tipi di oggetti.
 
 ### Layout delle Access Control Entry
 
@@ -156,21 +156,21 @@ In sintesi, le ACLs e le ACEs aiutano a definire controlli di accesso precisi, a
 | Tipo        | Flag che indica il tipo di ACE. Windows 2000 e Windows Server 2003 supportano sei tipi di ACE: Tre tipi di ACE generici che sono attaccati a tutti gli oggetti sicuri. Tre tipi di ACE specifici per oggetti che possono verificarsi per oggetti di Active Directory.                                                                                                                                                                                                                                                            |
 | Flags       | Set di flag bit che controllano l'ereditarietà e l'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Dimensione  | Numero di byte di memoria allocati per l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Access mask | Valore a 32 bit i cui bit corrispondono ai diritti di accesso per l'oggetto. I bit possono essere impostati accesi o spenti, ma il significato dell'impostazione dipende dal tipo di ACE. Ad esempio, se il bit che corrisponde al diritto di leggere i permessi è attivato, e il tipo di ACE è Nega, l'ACE nega il diritto di leggere i permessi dell'oggetto. Se lo stesso bit è attivato ma il tipo di ACE è Consenti, l'ACE concede il diritto di leggere i permessi dell'oggetto. Maggiori dettagli sull'Access mask appaiono nella tabella successiva. |
+| Access mask | Valore a 32 bit i cui bit corrispondono ai diritti di accesso per l'oggetto. I bit possono essere impostati sia su che giù, ma il significato dell'impostazione dipende dal tipo di ACE. Ad esempio, se il bit che corrisponde al diritto di leggere i permessi è attivato, e il tipo di ACE è Deny, l'ACE nega il diritto di leggere i permessi dell'oggetto. Se lo stesso bit è impostato su ma il tipo di ACE è Allow, l'ACE concede il diritto di leggere i permessi dell'oggetto. Maggiori dettagli sull'Access mask appaiono nella tabella successiva. |
 | SID         | Identifica un utente o un gruppo il cui accesso è controllato o monitorato da questo ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Layout dell'Access Mask
 
 | Bit (Intervallo) | Significato                            | Descrizione/Esempio                       |
 | ---------------- | -------------------------------------- | ----------------------------------------- |
-| 0 - 15           | Diritti di Accesso Specifici per Oggetto      | Leggi dati, Esegui, Aggiungi dati           |
-| 16 - 22          | Diritti di Accesso Standard             | Elimina, Scrivi ACL, Scrivi Proprietario            |
-| 23               | Può accedere alla security ACL            |                                           |
-| 24 - 27          | Riservato                           |                                           |
-| 28               | Generico TUTTI (Leggi, Scrivi, Esegui) | Tutto ciò che segue                          |
-| 29               | Generico Esegui                    | Tutte le cose necessarie per eseguire un programma |
-| 30               | Generico Scrivi                      | Tutte le cose necessarie per scrivere in un file   |
-| 31               | Generico Leggi                       | Tutte le cose necessarie per leggere un file       |
+| 0 - 15           | Diritti di Accesso Specifici per Oggetto | Leggi dati, Esegui, Aggiungi dati           |
+| 16 - 22          | Diritti di Accesso Standard            | Elimina, Scrivi ACL, Scrivi Proprietario   |
+| 23               | Può accedere alla security ACL         |                                           |
+| 24 - 27          | Riservato                              |                                           |
+| 28               | Generico TUTTI (Leggi, Scrivi, Esegui) | Tutto ciò che segue                        |
+| 29               | Generico Esegui                        | Tutte le cose necessarie per eseguire un programma |
+| 30               | Generico Scrivi                        | Tutte le cose necessarie per scrivere in un file   |
+| 31               | Generico Leggi                         | Tutte le cose necessarie per leggere un file       |
 
 ## Riferimenti
 
@@ -196,7 +196,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}

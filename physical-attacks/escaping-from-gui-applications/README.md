@@ -1,19 +1,3 @@
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
-
-</details>
-{% endhint %}
-
-
 # Controlla le possibili azioni all'interno dell'applicazione GUI
 
 **Dialoghi comuni** sono quelle opzioni di **salvare un file**, **aprire un file**, selezionare un font, un colore... La maggior parte di essi **offrirà una funzionalità completa di Explorer**. Questo significa che sarai in grado di accedere alle funzionalità di Explorer se puoi accedere a queste opzioni:
@@ -89,13 +73,13 @@ Editor del registro: [https://sourceforge.net/projects/uberregedit/](https://sou
 
 ## Scorciatoie
 
-* Tasti permanenti – Premi SHIFT 5 volte
-* Tasti del mouse – SHIFT+ALT+NUMLOCK
-* Alto contrasto – SHIFT+ALT+PRINTSCN
-* Tasti di attivazione – Tieni premuto NUMLOCK per 5 secondi
-* Tasti filtro – Tieni premuto SHIFT destro per 12 secondi
+* Tasti Sticky – Premi SHIFT 5 volte
+* Tasti Mouse – SHIFT+ALT+NUMLOCK
+* Alto Contrasto – SHIFT+ALT+PRINTSCN
+* Tasti Toggle – Tieni premuto NUMLOCK per 5 secondi
+* Tasti Filtro – Tieni premuto SHIFT destro per 12 secondi
 * WINDOWS+F1 – Ricerca di Windows
-* WINDOWS+D – Mostra desktop
+* WINDOWS+D – Mostra Desktop
 * WINDOWS+E – Avvia Windows Explorer
 * WINDOWS+R – Esegui
 * WINDOWS+U – Centro accessibilità
@@ -115,8 +99,8 @@ Editor del registro: [https://sourceforge.net/projects/uberregedit/](https://sou
 ## Swipe
 
 * Scorri dal lato sinistro verso destra per vedere tutte le finestre aperte, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
-* Scorri dal lato destro verso sinistra per aprire il Centro azioni, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
-* Scorri dal bordo superiore per rendere visibile la barra del titolo per un'app aperta in modalità schermo intero;
+* Scorri dal lato destro verso sinistra per aprire il Centro operativo, minimizzando l'app KIOSK e accedendo direttamente all'intero sistema operativo;
+* Scorri verso il basso dal bordo superiore per rendere visibile la barra del titolo per un'app aperta in modalità schermo intero;
 * Scorri verso l'alto dal basso per mostrare la barra delle applicazioni in un'app a schermo intero.
 
 ## Trucchi di Internet Explorer
@@ -167,7 +151,7 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 # iPad
 
-## Gesture e pulsanti
+## Gesture e tasti
 
 * Scorri verso l'alto con quattro (o cinque) dita / Tocca due volte il pulsante Home: Per visualizzare la vista multitasking e cambiare app
 
@@ -175,9 +159,9 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 * Pizzica lo schermo con cinque dita / Tocca il pulsante Home / Scorri verso l'alto con 1 dito dal fondo dello schermo in un movimento rapido verso l'alto: Per accedere alla Home
 
-* Scorri un dito dal fondo dello schermo per solo 1-2 pollici (lento): Apparirà il dock
+* Scorri un dito dal fondo dello schermo per soli 1-2 pollici (lento): Apparirà il dock
 
-* Scorri verso il basso dall'alto del display con 1 dito: Per visualizzare le tue notifiche
+* Scorri verso il basso dall'angolo superiore dello schermo con 1 dito: Per visualizzare le tue notifiche
 
 * Scorri verso il basso con 1 dito nell'angolo in alto a destra dello schermo: Per vedere il centro di controllo dell'iPad Pro
 
@@ -189,7 +173,7 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 * Premi il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home per alcuni secondi**: Per forzare uno spegnimento completo
 
-* Premi rapidamente il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home**: Per fare uno screenshot che apparirà in basso a sinistra del display. Premi entrambi i pulsanti contemporaneamente molto brevemente, poiché se li tieni premuti per alcuni secondi verrà eseguito uno spegnimento completo.
+* Premi rapidamente il pulsante On/**Off**/Sleep nell'angolo in alto a destra dell'**iPad e il pulsante Home**: Per fare uno screenshot che apparirà in basso a sinistra dello schermo. Premi entrambi i pulsanti contemporaneamente molto brevemente, poiché se li tieni premuti per alcuni secondi verrà eseguito uno spegnimento completo.
 
 ## Scorciatoie
 
@@ -210,19 +194,19 @@ Dovresti avere una tastiera per iPad o un adattatore per tastiera USB. Solo le s
 
 ### Scorciatoie di sistema
 
-Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso dell'iPad.
+Queste scorciatoie sono per le impostazioni visive e le impostazioni audio, a seconda dell'uso dell'iPad.
 
 | Scorciatoia | Azione                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Abbassa luminosità dello schermo                                                                    |
 | F2       | Aumenta luminosità dello schermo                                                                |
-| F7       | Torna indietro di una canzone                                                                  |
-| F8       | Riproduci/metti in pausa                                                                     |
+| F7       | Torna a una canzone                                                                  |
+| F8       | Riproduci/pausa                                                                     |
 | F9       | Salta canzone                                                                      |
 | F10      | Mute                                                                           |
 | F11      | Diminuisci volume                                                                |
 | F12      | Aumenta volume                                                                |
-| ⌘ Space  | Visualizza un elenco delle lingue disponibili; per sceglierne una, tocca di nuovo la barra spaziatrice. |
+| ⌘ Spazio  | Visualizza un elenco di lingue disponibili; per sceglierne una, tocca di nuovo la barra spaziatrice. |
 
 ### Navigazione iPad
 
@@ -240,7 +224,7 @@ Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso 
 | ^⌥H (Controllo-Opzione-H)                             | Pulsante Home                                             |
 | ^⌥H H (Controllo-Opzione-H-H)                         | Mostra la barra multitasking                                      |
 | ^⌥I (Controllo-Opzione-i)                             | Selettore di elementi                                            |
-| Escape                                             | Pulsante indietro                                             |
+| Escape                                             | Pulsante Indietro                                             |
 | → (Freccia destra)                                    | Prossimo elemento                                               |
 | ← (Freccia sinistra)                                     | Elemento precedente                                           |
 | ↑↓ (Freccia su, Freccia giù)                          | Tocca simultaneamente l'elemento selezionato                        |
@@ -260,7 +244,7 @@ Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso 
 | ⌘T                      | Apri una nuova scheda                                   |
 | ⌘W                      | Chiudi la scheda corrente                            |
 | ⌘R                      | Aggiorna la scheda corrente                          |
-| ⌘.                      | Interrompi il caricamento della scheda corrente                     |
+| ⌘.                      | Ferma il caricamento della scheda corrente                     |
 | ^⇥                      | Passa alla scheda successiva                           |
 | ^⇧⇥ (Controllo-Maiuscolo-Tab) | Passa alla scheda precedente                         |
 | ⌘L                      | Seleziona il campo di input/testo URL per modificarlo     |
@@ -277,7 +261,7 @@ Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso 
 | ⌘T                         | Apri una nuova scheda               |
 | ⌘W                         | Chiudi la scheda corrente        |
 | ⌘R                         | Aggiorna la scheda corrente      |
-| ⌘.                         | Interrompi il caricamento della scheda corrente |
+| ⌘.                         | Ferma il caricamento della scheda |
 | ⌘⌥F (Comando-Opzione/Alt-F) | Cerca nella tua casella di posta       |
 
 # Riferimenti
@@ -286,19 +270,3 @@ Queste scorciatoie sono per le impostazioni visive e sonore, a seconda dell'uso 
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
-
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
-
-</details>
-{% endhint %}

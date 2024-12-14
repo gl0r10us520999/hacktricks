@@ -52,12 +52,12 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ### [Rete](windows-local-privilege-escalation/#network)
 
-* [ ] Controlla le [**informazioni di rete**](windows-local-privilege-escalation/#network) **correnti**
+* [ ] Controlla le [**informazioni di rete**] **correnti**](windows-local-privilege-escalation/#network)
 * [ ] Controlla i **servizi locali nascosti** riservati all'esterno
 
 ### [Processi in esecuzione](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Permessi [**file e cartelle dei binari dei processi**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] Permessi sui [**file e cartelle dei processi**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Estrazione password dalla memoria**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**App GUI insicure**](windows-local-privilege-escalation/#insecure-gui-apps)
 * [ ] Ruba credenziali con **processi interessanti** tramite `ProcDump.exe` ? (firefox, chrome, ecc ...)
@@ -67,13 +67,13 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 * [ ] [Puoi **modificare qualche servizio**?](windows-local-privilege-escalation/#permissions)
 * [ ] [Puoi **modificare** il **binario** che viene **eseguito** da qualche **servizio**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Puoi **modificare** il **registro** di qualche **servizio**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Puoi approfittare di qualche **percorso binario di servizio non quotato**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Puoi approfittare di qualche **percorso di binario di servizio non quotato**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Applicazioni**](windows-local-privilege-escalation/#applications)
 
 * [ ] **Scrivi** [**permessi sulle applicazioni installate**](windows-local-privilege-escalation/#write-permissions)
 * [ ] [**Applicazioni di avvio**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Driver vulnerabili** [**Driver**](windows-local-privilege-escalation/#drivers)
+* [ ] **Driver vulnerabili** [**Drivers**](windows-local-privilege-escalation/#drivers)
 
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
@@ -88,13 +88,13 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ### [Credenziali di Windows](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Credenziali Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)
-* [ ] [**Credenziali Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) che potresti usare?
+* [ ] Credenziali di [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)
+* [ ] Credenziali di [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) che potresti usare?
 * [ ] Credenziali [**DPAPI**] interessanti](windows-local-privilege-escalation/#dpapi)?
 * [ ] Password delle [**reti Wifi salvate**](windows-local-privilege-escalation/#wifi)?
 * [ ] Informazioni interessanti nelle [**connessioni RDP salvate**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Password nei [**comandi eseguiti di recente**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] Password nel [**gestore delle credenziali di Desktop Remoto**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
+* [ ] Password nel [**Gestore credenziali di Desktop Remoto**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
 * [ ] Esiste [**AppCmd.exe**](windows-local-privilege-escalation/#appcmd-exe)? Credenziali?
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
 
@@ -110,15 +110,15 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 * [ ] Password nel [**file di configurazione IIS Web**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Informazioni interessanti nei [**log web**](windows-local-privilege-escalation/#logs)?
 * [ ] Vuoi [**chiedere credenziali**](windows-local-privilege-escalation/#ask-for-credentials) all'utente?
-* [ ] File [**interessanti dentro il Cestino**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Altri [**registri contenenti credenziali**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] File interessanti [**dentro il Cestino**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Altro [**registro contenente credenziali**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] Dentro i [**dati del browser**](windows-local-privilege-escalation/#browsers-history) (db, cronologia, segnalibri, ...)?
 * [ ] [**Ricerca generica di password**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in file e registro
 * [ ] [**Strumenti**](windows-local-privilege-escalation/#tools-that-search-for-passwords) per cercare automaticamente le password
 
 ### [Gestori di leak](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Hai accesso a qualche gestore di un processo eseguito da amministratore?
+* [ ] Hai accesso a qualche gestore di un processo eseguito da un amministratore?
 
 ### [Impersonificazione del client Pipe](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 

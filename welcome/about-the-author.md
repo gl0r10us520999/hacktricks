@@ -19,9 +19,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Prima di tutto, è necessario indicare che tutti i **crediti delle tecniche provenienti da ricerche di altri siti appartengono agli autori originali** (ci sono riferimenti nelle pagine). Complimenti a ogni ricerca che condivide conoscenze per migliorare la sicurezza di Internet.
 
-HackTricks è un Wiki educativo che compila conoscenze sulla **cyber-sicurezza** guidato da Carlos con centinaia di collaboratori! È una **grande raccolta di trucchi di hacking** che viene aggiornata dalla comunità il più possibile per mantenerla aggiornata. Se trovi che qualcosa manca o è obsoleto, per favore, invia una **Pull Request** al [**Hacktricks Github**](https://github.com/carlospolop/hacktricks)!
+HackTricks è una Wiki educativa che compila conoscenze sulla **cyber-sicurezza** guidata da Carlos con centinaia di collaboratori! È una **grande raccolta di trucchi di hacking** che viene aggiornata dalla comunità il più possibile per mantenerla aggiornata. Se trovi qualcosa che manca o è obsoleto, per favore, invia una **Pull Request** al [**Hacktricks Github**](https://github.com/carlospolop/hacktricks)!
 
-HackTricks è anche un wiki dove **molte ricerche condividono anche le loro ultime scoperte**, quindi è un ottimo posto per rimanere aggiornati sulle ultime tecniche di hacking.
+HackTricks è anche una wiki dove **molte ricerche condividono anche le loro ultime scoperte**, quindi è un ottimo posto per rimanere aggiornati sulle ultime tecniche di hacking.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

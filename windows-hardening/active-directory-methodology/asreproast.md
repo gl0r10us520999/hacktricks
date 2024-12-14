@@ -37,8 +37,8 @@ ASREPRoast è un attacco di sicurezza che sfrutta gli utenti che mancano dell'**
 I principali requisiti per questo attacco sono:
 
 * **Mancanza di pre-autenticazione Kerberos**: Gli utenti target non devono avere questa funzionalità di sicurezza abilitata.
-* **Connessione al Domain Controller (DC)**: Gli attaccanti devono avere accesso al DC per inviare richieste e ricevere messaggi crittografati.
-* **Account di dominio opzionale**: Avere un account di dominio consente agli attaccanti di identificare più efficientemente gli utenti vulnerabili tramite query LDAP. Senza tale account, gli attaccanti devono indovinare i nomi utente.
+* **Connessione al Domain Controller (DC)**: Gli attaccanti hanno bisogno di accesso al DC per inviare richieste e ricevere messaggi crittografati.
+* **Account di dominio opzionale**: Avere un account di dominio consente agli attaccanti di identificare più efficientemente gli utenti vulnerabili attraverso query LDAP. Senza tale account, gli attaccanti devono indovinare i nomi utente.
 
 #### Enumerare gli utenti vulnerabili (necessita credenziali di dominio)
 
@@ -123,10 +123,10 @@ Unisciti al [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) ser
 Interagisci con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 
 **Notizie di hacking in tempo reale**\
-Rimani aggiornato con il mondo frenetico dell'hacking attraverso notizie e approfondimenti in tempo reale
+Rimani aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
 
 **Ultimi annunci**\
-Rimani informato sui nuovi bug bounty in arrivo e aggiornamenti cruciali delle piattaforme
+Rimani informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali delle piattaforme
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi stesso!
 

@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 [AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) è parte della Sysinternal Suite:
 
-> Un visualizzatore e editor avanzato di Active Directory (AD). Puoi utilizzare AD Explorer per navigare facilmente in un database AD, definire posizioni preferite, visualizzare proprietà e attributi degli oggetti senza aprire finestre di dialogo, modificare permessi, visualizzare uno schema di oggetto ed eseguire ricerche sofisticate che puoi salvare e rieseguire.
+> Un visualizzatore e editor avanzato di Active Directory (AD). Puoi utilizzare AD Explorer per navigare facilmente in un database AD, definire posizioni preferite, visualizzare proprietà e attributi degli oggetti senza aprire finestre di dialogo, modificare permessi, visualizzare uno schema dell'oggetto ed eseguire ricerche sofisticate che puoi salvare e rieseguire.
 
 ### Snapshots
 
@@ -47,7 +47,7 @@ BloodHound utilizza la teoria dei grafi per rivelare le relazioni nascoste e spe
 
 Quindi, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) è uno strumento straordinario che può enumerare un dominio automaticamente, salvare tutte le informazioni, trovare possibili percorsi di escalation dei privilegi e mostrare tutte le informazioni utilizzando grafici.
 
-Bloodhound è composto da 2 parti principali: **ingestors** e **l'applicazione di visualizzazione**.
+BloodHound è composto da 2 parti principali: **ingestors** e l'**applicazione di visualizzazione**.
 
 Gli **ingestors** vengono utilizzati per **enumerare il dominio ed estrarre tutte le informazioni** in un formato che l'applicazione di visualizzazione comprenderà.
 
@@ -85,7 +85,7 @@ runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ## Group3r
 
 [**Group3r**](https://github.com/Group3r/Group3r) è uno strumento per trovare **vulnerabilità** in Active Directory associate a **Group Policy**. \
-Devi **eseguire group3r** da un host all'interno del dominio utilizzando **qualsiasi utente di dominio**.
+Devi **eseguire group3r** da un host all'interno del dominio utilizzando **qualsiasi utente del dominio**.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin

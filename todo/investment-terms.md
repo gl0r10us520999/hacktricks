@@ -12,7 +12,7 @@ Di solito puoi anche utilizzare il **prezzo di mercato attuale** per eseguire la
 
 Un future è un contratto in cui 2 parti giungono a un accordo per **acquisire qualcosa in futuro a un prezzo fisso**. Ad esempio, vendere 1 bitcoin tra 6 mesi a 70.000$.
 
-Ovviamente, se tra 6 mesi il valore del bitcoin è 80.000$, la parte venditrice perde denaro e la parte acquirente guadagna. Se tra 6 mesi il valore del bitcoin è 60.000$, accade il contrario.
+Ovviamente, se tra 6 mesi il valore del bitcoin è 80.000$, la parte venditrice perde denaro e la parte acquirente guadagna. Se tra 6 mesi il valore del bitcoin è 60.000$, succede il contrario.
 
 Tuttavia, questo è interessante, ad esempio, per le aziende che stanno generando un prodotto e hanno bisogno di avere la sicurezza di poterlo vendere a un prezzo che copra i costi. O per le aziende che vogliono garantire prezzi fissi in futuro per qualcosa anche se più alti.
 
@@ -23,7 +23,7 @@ Sebbene negli scambi questo venga solitamente utilizzato per cercare di realizza
 
 ### Hedging With Futures <a href="#mntl-sc-block_7-0" id="mntl-sc-block_7-0"></a>
 
-Se un gestore di fondi teme che alcune azioni scenderanno, potrebbe prendere una posizione short su alcuni asset come bitcoin o contratti futures S\&P 500. Questo sarebbe simile a comprare o possedere alcuni asset e creare un contratto per vendere quelli a un prezzo maggiore in un momento futuro.&#x20;
+Se un gestore di fondi teme che alcune azioni scenderanno, potrebbe prendere una posizione short su alcuni asset come bitcoin o contratti future S\&P 500. Questo sarebbe simile a comprare o possedere alcuni asset e creare un contratto per vendere quelli a un prezzo maggiore in un momento futuro.
 
 Nel caso in cui il prezzo scenda, il gestore del fondo guadagnerà benefici perché venderà gli asset a un prezzo maggiore. Se il prezzo degli asset aumenta, il gestore non guadagnerà quel beneficio ma manterrà comunque i suoi asset.
 
@@ -49,13 +49,13 @@ Tuttavia, l'acquirente pagherà una commissione al venditore per aprire l'opzion
 
 ### 1. **Obbligo vs. Diritto:**
 
-* **Futures:** Quando acquisti o vendi un contratto futures, stai entrando in un **accordo vincolante** per acquistare o vendere un asset a un prezzo specifico in una data futura. Sia l'acquirente che il venditore sono **obbligati** a rispettare il contratto alla scadenza (a meno che il contratto non venga chiuso prima).
+* **Futures:** Quando acquisti o vendi un contratto future, stai entrando in un **accordo vincolante** per acquistare o vendere un asset a un prezzo specifico in una data futura. Sia l'acquirente che il venditore sono **obbligati** a rispettare il contratto alla scadenza (a meno che il contratto non venga chiuso prima).
 * **Opzioni:** Con le opzioni, hai il **diritto, ma non l'obbligo**, di acquistare (nel caso di un **call option**) o vendere (nel caso di un **put option**) un asset a un prezzo specifico prima o alla scadenza. L'**acquirente** ha l'opzione di eseguire, mentre il **venditore** è obbligato a completare l'operazione se l'acquirente decide di esercitare l'opzione.
 
 ### 2. **Rischio:**
 
 * **Futures:** Sia l'acquirente che il venditore assumono un **rischio illimitato** perché sono obbligati a completare il contratto. Il rischio è la differenza tra il prezzo concordato e il prezzo di mercato alla data di scadenza.
-* **Opzioni:** Il rischio dell'acquirente è limitato al **premio** pagato per acquistare l'opzione. Se il mercato non si muove a favore del detentore dell'opzione, può semplicemente lasciare scadere l'opzione. Tuttavia, il **venditore** (scrittore) dell'opzione ha un rischio illimitato se il mercato si muove significativamente contro di lui.
+* **Opzioni:** Il rischio dell'acquirente è limitato al **premio** pagato per acquistare l'opzione. Se il mercato non si muove a favore del titolare dell'opzione, può semplicemente lasciare scadere l'opzione. Tuttavia, il **venditore** (scrittore) dell'opzione ha un rischio illimitato se il mercato si muove significativamente contro di lui.
 
 ### 3. **Costo:**
 

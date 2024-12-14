@@ -15,10 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Questa è una piccola sintesi dei capitoli sulla persistenza della macchina della fantastica ricerca di [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
+**Questo è un piccolo riassunto dei capitoli sulla persistenza della macchina della fantastica ricerca di [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
-
-## **Comprendere il furto delle credenziali utente attive con i certificati – PERSIST1**
+## **Comprendere il Furto di Credenziali Utente Attive con Certificati – PERSIST1**
 
 In uno scenario in cui un certificato che consente l'autenticazione del dominio può essere richiesto da un utente, un attaccante ha l'opportunità di **richiedere** e **rubare** questo certificato per **mantenere la persistenza** su una rete. Per impostazione predefinita, il modello `User` in Active Directory consente tali richieste, anche se a volte può essere disabilitato.
 
@@ -32,7 +31,7 @@ I certificati possono essere richiesti tramite un'interfaccia grafica utilizzand
 ```bash
 Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
-Al termine della richiesta, viene generato un certificato insieme alla sua chiave privata in formato `.pem`. Per convertire questo in un file `.pfx`, utilizzabile sui sistemi Windows, viene utilizzato il seguente comando:
+Al termine della richiesta con successo, viene generato un certificato insieme alla sua chiave privata in formato `.pem`. Per convertire questo in un file `.pfx`, utilizzabile sui sistemi Windows, viene utilizzato il seguente comando:
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
@@ -52,6 +51,6 @@ Questo accesso consente all'attaccante di autenticarsi a **Kerberos** come accou
 
 ## **Estensione della Persistenza Tramite Rinnovo del Certificato - PERSIST3**
 
-Il metodo finale discusso implica l'utilizzo dei **periodi di validità** e **rinnovo** dei modelli di certificato. Rinnovando un certificato prima della sua scadenza, un attaccante può mantenere l'autenticazione ad Active Directory senza la necessità di ulteriori registrazioni di ticket, che potrebbero lasciare tracce sul server dell'Autorità di Certificazione (CA).
+Il metodo finale discusso implica l'utilizzo dei **periodi di validità** e **rinnovo** dei modelli di certificato. Rinnovando un certificato prima della sua scadenza, un attaccante può mantenere l'autenticazione ad Active Directory senza la necessità di ulteriori iscrizioni ai ticket, che potrebbero lasciare tracce sul server dell'Autorità di Certificazione (CA).
 
 Questo approccio consente un metodo di **persistenza estesa**, riducendo il rischio di rilevamento attraverso interazioni minori con il server CA e evitando la generazione di artefatti che potrebbero allertare gli amministratori sull'intrusione.

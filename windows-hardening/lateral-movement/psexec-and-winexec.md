@@ -28,10 +28,10 @@ Il processo è delineato nei passaggi seguenti, illustrando come i binari di ser
 
 ### **Processo di Esecuzione Manuale di PsExec**
 
-Assumendo che ci sia un payload eseguibile (creato con msfvenom e offuscato usando Veil per eludere la rilevazione antivirus), chiamato 'met8888.exe', che rappresenta un payload meterpreter reverse\_http, vengono eseguiti i seguenti passaggi:
+Assumendo che ci sia un payload eseguibile (creato con msfvenom e offuscato usando Veil per eludere la rilevazione antivirus), chiamato 'met8888.exe', che rappresenta un payload meterpreter reverse_http, vengono eseguiti i seguenti passaggi:
 
 * **Copia del binario**: L'eseguibile viene copiato nella condivisione ADMIN$ da un prompt dei comandi, anche se può essere posizionato ovunque nel filesystem per rimanere nascosto.
-* **Creazione di un servizio**: Utilizzando il comando Windows `sc`, che consente di interrogare, creare ed eliminare servizi Windows da remoto, viene creato un servizio chiamato "meterpreter" per puntare al binario caricato.
+* **Creazione di un servizio**: Utilizzando il comando Windows `sc`, che consente di interrogare, creare ed eliminare servizi Windows da remoto, viene creato un servizio chiamato "meterpreter" che punta al binario caricato.
 * **Avvio del servizio**: L'ultimo passaggio comporta l'avvio del servizio, che probabilmente risulterà in un errore di "timeout" a causa del binario che non è un vero binario di servizio e non riesce a restituire il codice di risposta atteso. Questo errore è irrilevante poiché l'obiettivo principale è l'esecuzione del binario.
 
 L'osservazione del listener di Metasploit rivelerà che la sessione è stata avviata con successo.

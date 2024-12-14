@@ -70,7 +70,7 @@ or usando _Process Explorer_ di Sysinternals (seleziona il processo e accedi all
 
 ### Amministratore locale
 
-Quando un amministratore locale accede, **vengono creati due token di accesso**: uno con diritti di amministratore e l'altro con diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo, viene utilizzato quello con diritti **regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualsiasi cosa **come amministratore** ("Esegui come amministratore", ad esempio), verrà utilizzato il **UAC** per chiedere il permesso.\
+Quando un amministratore locale accede, **vengono creati due token di accesso**: uno con diritti di amministratore e l'altro con diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo, viene utilizzato quello con diritti **regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualsiasi cosa **come amministratore** ("Esegui come amministratore" ad esempio), verrà utilizzato il **UAC** per chiedere il permesso.\
 Se vuoi [**saperne di più sul UAC leggi questa pagina**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonificazione delle credenziali utente
@@ -94,7 +94,7 @@ Ci sono due tipi di token disponibili:
 * **Token di Impersonificazione**: Consente a un'applicazione server di adottare temporaneamente l'identità del cliente per accedere a oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di operazione:
 * **Anonimo**: Concede accesso al server simile a quello di un utente non identificato.
 * **Identificazione**: Consente al server di verificare l'identità del cliente senza utilizzarla per l'accesso agli oggetti.
-* **Impersonificazione**: Abilita il server a operare sotto l'identità del cliente.
+* **Impersonificazione**: Consente al server di operare sotto l'identità del cliente.
 * **Delegazione**: Simile all'Impersonificazione, ma include la possibilità di estendere questa assunzione di identità a sistemi remoti con cui il server interagisce, garantendo la preservazione delle credenziali.
 
 #### Token di Impersonificazione

@@ -22,9 +22,9 @@ Ad esempio, nell'immagine seguente puoi vedere che un If che non sarà mai vero 
 
 ![](<../.gitbook/assets/image (369).png>)
 
-### Moduli Macro
+### Forme Macro
 
-Utilizzando la funzione **GetObject** è possibile ottenere dati dai moduli della macro. Questo può essere usato per rendere difficile l'analisi. La seguente è una foto di un modulo macro utilizzato per **nascondere dati all'interno di caselle di testo** (una casella di testo può nascondere altre caselle di testo):
+Utilizzando la funzione **GetObject** è possibile ottenere dati dalle forme della macro. Questo può essere usato per rendere difficile l'analisi. La seguente è una foto di una forma macro utilizzata per **nascondere dati all'interno di caselle di testo** (una casella di testo può nascondere altre caselle di testo):
 
 ![](<../.gitbook/assets/image (344).png>)
 

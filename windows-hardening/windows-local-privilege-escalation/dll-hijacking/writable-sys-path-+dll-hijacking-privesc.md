@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Introduzione
 
-Se hai scoperto che puoi **scrivere in una cartella del System Path** (nota che questo non funzionerà se puoi scrivere in una cartella del User Path) è possibile che tu possa **escalare i privilegi** nel sistema.
+Se hai scoperto che puoi **scrivere in una cartella di System Path** (nota che questo non funzionerà se puoi scrivere in una cartella di User Path) è possibile che tu possa **escalare i privilegi** nel sistema.
 
 Per fare ciò puoi abusare di un **Dll Hijacking** dove andrai a **dirottare una libreria che viene caricata** da un servizio o processo con **più privilegi** dei tuoi, e poiché quel servizio sta caricando una Dll che probabilmente non esiste nemmeno nell'intero sistema, cercherà di caricarla dal System Path dove puoi scrivere.
 
@@ -56,7 +56,7 @@ $newPath = "$envPath;$folderPath"
 * Poi, **riavvia**. Quando il computer si riavvia, **`procmon`** inizierà a **registrare** eventi il prima possibile.
 * Una volta che **Windows** è **avviato, esegui di nuovo `procmon`**, ti dirà che è stato in esecuzione e ti **chiederà se vuoi memorizzare** gli eventi in un file. Rispondi **sì** e **memorizza gli eventi in un file**.
 * **Dopo** che il **file** è stato **generato**, **chiudi** la finestra **`procmon`** aperta e **apri il file degli eventi**.
-* Aggiungi questi **filtri** e troverai tutti i Dll che alcuni **processi hanno cercato di caricare** dalla cartella del System Path scrivibile:
+* Aggiungi questi **filtri** e troverai tutti i Dll che alcuni **processi hanno cercato di caricare** dalla cartella del percorso di sistema scrivibile:
 
 <figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
 
@@ -66,7 +66,7 @@ Eseguendo questo su una **macchina virtuale (vmware) Windows 11** gratuita ho ot
 
 <figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
 
-In questo caso gli .exe sono inutili, quindi ignorali, i Dll mancanti erano da:
+In questo caso gli .exe sono inutili, quindi ignorali, le DLL mancanti erano da:
 
 | Servizio                         | Dll                | Riga CMD                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
@@ -78,7 +78,7 @@ Dopo aver trovato questo, ho trovato questo interessante post sul blog che spieg
 
 ### Sfruttamento
 
-Quindi, per **escalare i privilegi** stiamo per hijackare la libreria **WptsExtensions.dll**. Avendo il **percorso** e il **nome** dobbiamo solo **generare il dll malevolo**.
+Quindi, per **escalare i privilegi** stiamo per dirottare la libreria **WptsExtensions.dll**. Avendo il **percorso** e il **nome** dobbiamo solo **generare la dll malevola**.
 
 Puoi [**provare a usare uno di questi esempi**](./#creating-and-compiling-dlls). Potresti eseguire payload come: ottenere una rev shell, aggiungere un utente, eseguire un beacon...
 
@@ -89,9 +89,9 @@ Tuttavia, quell'utente ha il privilegio **`seImpersonate`**, quindi puoi usare i
 
 Al momento della scrittura, il servizio **Task Scheduler** è eseguito con **Nt AUTHORITY\SYSTEM**.
 
-Avendo **generato il Dll malevolo** (_nel mio caso ho usato una rev shell x64 e ho ottenuto una shell di ritorno ma Defender l'ha uccisa perché proveniva da msfvenom_), salvalo nel System Path scrivibile con il nome **WptsExtensions.dll** e **riavvia** il computer (o riavvia il servizio o fai tutto il necessario per rieseguire il servizio/programma interessato).
+Avendo **generato la dll malevola** (_nel mio caso ho usato una rev shell x64 e ho ottenuto una shell di ritorno ma Defender l'ha uccisa perché proveniva da msfvenom_), salvala nel percorso di sistema scrivibile con il nome **WptsExtensions.dll** e **riavvia** il computer (o riavvia il servizio o fai tutto il necessario per rieseguire il servizio/programma interessato).
 
-Quando il servizio viene riavviato, il **dll dovrebbe essere caricato ed eseguito** (puoi **riutilizzare** il trucco **procmon** per controllare se la **libreria è stata caricata come previsto**).
+Quando il servizio viene riavviato, la **dll dovrebbe essere caricata ed eseguita** (puoi **riutilizzare** il trucco **procmon** per controllare se la **libreria è stata caricata come previsto**).
 
 {% hint style="success" %}
 Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -103,7 +103,7 @@ Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

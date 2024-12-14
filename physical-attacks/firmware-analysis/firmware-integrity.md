@@ -34,7 +34,7 @@ Se una shell root è già stata ottenuta tramite analisi dinamica, manipolazione
 1. L'architettura del firmware target e l'endianness devono essere identificati.
 2. Msfvenom può essere utilizzato per specificare il payload target, l'IP dell'attaccante, il numero di porta in ascolto, il tipo di file, l'architettura, la piattaforma e il file di output.
 3. Il payload può essere trasferito al dispositivo compromesso e assicurarsi che abbia i permessi di esecuzione.
-4. Metasploit può essere preparato per gestire le richieste in arrivo avviando msfconsole e configurando le impostazioni in base al payload.
+4. Metasploit può essere preparato per gestire le richieste in arrivo avviando msfconsole e configurando le impostazioni secondo il payload.
 5. La reverse shell di meterpreter può essere eseguita sul dispositivo compromesso.
 6. Le sessioni di meterpreter possono essere monitorate mentre si aprono.
 7. Possono essere eseguite attività post-exploitation.

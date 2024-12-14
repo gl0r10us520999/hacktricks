@@ -36,7 +36,7 @@ Se ti rendi conto che il tuo PC non cattura nulla, prova a disabilitare OpenGL e
 
 ### Usi
 
-* Per **catturare un po' di un segnale e analizzarlo** basta mantenere premuto il pulsante "Push to capture" finché ne hai bisogno.
+* Per **catturare un segnale e analizzarlo** basta mantenere premuto il pulsante "Push to capture" finché ne hai bisogno.
 
 ![](<../../.gitbook/assets/image (960).png>)
 
@@ -52,7 +52,7 @@ Con [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sincronizza con il 
 
 ## Trucchi interessanti
 
-* Quando un dispositivo sta inviando burst di informazioni, di solito la **prima parte sarà un preambolo** quindi **non** devi **preoccuparti** se **non trovi informazioni** lì **o se ci sono alcuni errori**.
+* Quando un dispositivo sta inviando burst di informazioni, di solito la **prima parte sarà un preambolo** quindi **non** devi **preoccuparti** se **non trovi informazioni** lì **o se ci sono degli errori**.
 * Nei frame di informazioni di solito dovresti **trovare diversi frame ben allineati tra loro**:
 
 ![](<../../.gitbook/assets/image (1076).png>)
@@ -69,8 +69,8 @@ Se stai controllando un segnale ci sono diversi modi per cercare di capire cosa 
 
 ![](<../../.gitbook/assets/image (788).png>)
 
-* **Rilevamento AM**: Se nel grafico IQ appare ad esempio **2 cerchi** (probabilmente uno in 0 e l'altro in un'ampiezza diversa), potrebbe significare che questo è un segnale AM. Questo perché nel grafico IQ la distanza tra il 0 e il cerchio è l'ampiezza del segnale, quindi è facile visualizzare diverse ampiezze utilizzate.
-* **Rilevamento PM**: Come nell'immagine precedente, se trovi piccoli cerchi non correlati tra loro probabilmente significa che viene utilizzata una modulazione di fase. Questo perché nel grafico IQ, l'angolo tra il punto e il 0,0 è la fase del segnale, quindi significa che vengono utilizzate 4 fasi diverse.
+* **Rilevamento AM**: Se nel grafico IQ appare ad esempio **2 cerchi** (probabilmente uno in 0 e l'altro in un'ampiezza diversa), potrebbe significare che questo è un segnale AM. Questo perché nel grafico IQ la distanza tra lo 0 e il cerchio è l'ampiezza del segnale, quindi è facile visualizzare diverse ampiezze utilizzate.
+* **Rilevamento PM**: Come nell'immagine precedente, se trovi piccoli cerchi non correlati tra loro probabilmente significa che viene utilizzata una modulazione di fase. Questo perché nel grafico IQ, l'angolo tra il punto e lo 0,0 è la fase del segnale, quindi significa che vengono utilizzate 4 fasi diverse.
 * Nota che se le informazioni sono nascoste nel fatto che una fase è cambiata e non nella fase stessa, non vedrai fasi diverse chiaramente differenziate.
 * **Rilevamento FM**: IQ non ha un campo per identificare le frequenze (la distanza dal centro è l'ampiezza e l'angolo è la fase).\
 Pertanto, per identificare FM, dovresti **vedere solo fondamentalmente un cerchio** in questo grafico.\
@@ -98,7 +98,7 @@ Puoi **selezionare l'intero segnale** dove si trovano le informazioni, seleziona
 
 ![](<../../.gitbook/assets/image (264).png>)
 
-Ad esempio, se selezioni Frequenza invece di Ampiezza in questo segnale AM trovi solo 1 frequenza (non c'è modo che le informazioni modulate in frequenza utilizzino solo 1 frequenza).
+Ad esempio, se selezioni Frequenza invece di Ampiezza in questo segnale AM trovi solo 1 frequenza (non c'è modo che le informazioni modulate in frequenza stiano usando solo 1 frequenza).
 
 ![](<../../.gitbook/assets/image (732).png>)
 
@@ -126,7 +126,7 @@ Puoi anche indicare il numero di simboli che stai per selezionare e SigDigger ca
 
 ### Ottenere i bit
 
-Avendo trovato che questo è un segnale **modulato AM** e il **tasso di simboli** (e sapendo che in questo caso qualcosa di up significa 1 e qualcosa di down significa 0), è molto facile **ottenere i bit** codificati nel segnale. Quindi, seleziona il segnale con informazioni e configura il campionamento e la decisione e premi campione (controlla che sia selezionata l'**Ampiezza**, il **Tasso di simboli** scoperto è configurato e il **recupero dell'orologio di Gadner** è selezionato):
+Avendo trovato che questo è un segnale **modulato AM** e il **tasso di simboli** (e sapendo che in questo caso qualcosa up significa 1 e qualcosa down significa 0), è molto facile **ottenere i bit** codificati nel segnale. Quindi, seleziona il segnale con informazioni e configura il campionamento e la decisione e premi campione (controlla che **Ampiezza** sia selezionato, il **tasso di simboli** scoperto è configurato e il **recupero dell'orologio di Gadner** è selezionato):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
@@ -151,7 +151,7 @@ Infine **aumentando** lo **Zoom** e **cambiando la dimensione della riga** puoi 
 
 Se il segnale ha più di 1 bit per simbolo (ad esempio 2), SigDigger **non ha modo di sapere quale simbolo è** 00, 01, 10, 11, quindi utilizzerà diverse **scale di grigio** per rappresentare ciascuno (e se copi i bit utilizzerà **numeri da 0 a 3**, dovrai trattarli).
 
-Inoltre, usa **codificazioni** come **Manchester**, e **up+down** può essere **1 o 0** e un down+up può essere un 1 o 0. In quei casi devi **trattare gli up ottenuti (1) e i down (0)** per sostituire le coppie di 01 o 10 come 0 o 1.
+Inoltre, usa **codificazioni** come **Manchester**, e **up+down** può essere **1 o 0** e un down+up può essere un 1 o 0. In quei casi devi **trattare gli up (1) e down (0) ottenuti** per sostituire le coppie di 01 o 10 come 0 o 1.
 
 ## Esempio FM
 

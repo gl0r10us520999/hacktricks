@@ -1,8 +1,8 @@
 # Controlli di Sicurezza di Windows
 
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,7 +10,7 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
 {% endhint %}
@@ -54,10 +54,10 @@ C:\Windows\Tasks
 C:\windows\tracing
 ```
 * I comuni **binaries** [**"LOLBAS's"**](https://lolbas-project.github.io/) possono essere utili per bypassare AppLocker.
-* **Regole scritte male potrebbero anche essere bypassate**
+* **Regole scritte male possono anche essere bypassate**
 * Ad esempio, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, puoi creare una **cartella chiamata `allowed`** ovunque e sarà consentita.
-* Le organizzazioni spesso si concentrano sul **blocco dell'eseguibile `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ma dimenticano le **altre** [**posizioni eseguibili di PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) come `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` o `PowerShell_ISE.exe`.
-* **L'applicazione delle DLL è molto raramente abilitata** a causa del carico aggiuntivo che può mettere su un sistema e della quantità di test necessari per garantire che nulla si rompa. Quindi utilizzare **DLL come backdoor aiuterà a bypassare AppLocker**.
+* Le organizzazioni spesso si concentrano sul **bloccare l'eseguibile `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ma dimenticano le **altre** [**posizioni eseguibili di PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) come `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` o `PowerShell_ISE.exe`.
+* **L'applicazione di DLL è molto raramente abilitata** a causa del carico aggiuntivo che può mettere su un sistema e della quantità di test necessari per garantire che nulla si rompa. Quindi utilizzare **DLL come backdoor aiuterà a bypassare AppLocker**.
 * Puoi usare [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) o [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) per **eseguire codice Powershell** in qualsiasi processo e bypassare AppLocker. Per ulteriori informazioni controlla: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Archiviazione delle Credenziali
@@ -69,7 +69,7 @@ Le credenziali locali sono presenti in questo file, le password sono hashate.
 ### Local Security Authority (LSA) - LSASS
 
 Le **credenziali** (hashate) sono **salvate** nella **memoria** di questo sottosistema per motivi di Single Sign-On.\
-**LSA** gestisce la **politica di sicurezza** locale (politica delle password, permessi degli utenti...), **autenticazione**, **token di accesso**...\
+**LSA** amministra la **politica di sicurezza** locale (politica delle password, permessi degli utenti...), **autenticazione**, **token di accesso**...\
 LSA sarà colui che **verificherà** le credenziali fornite all'interno del file **SAM** (per un accesso locale) e **parlerà** con il **controller di dominio** per autenticare un utente di dominio.
 
 Le **credenziali** sono **salvate** all'interno del **processo LSASS**: ticket Kerberos, hash NT e LM, password facilmente decrittabili.
@@ -85,7 +85,7 @@ LSA potrebbe salvare su disco alcune credenziali:
 
 ### NTDS.dit
 
-È il database dell'Active Directory. È presente solo nei Domain Controllers.
+È il database dell'Active Directory. È presente solo nei Controller di Dominio.
 
 ## Defender
 
@@ -127,10 +127,10 @@ EFS protegge i file attraverso la crittografia, utilizzando una **chiave simmetr
 
 **Scenari di decrittazione senza iniziativa dell'utente** includono:
 
-* Quando file o cartelle vengono spostati su un file system non EFS, come [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), vengono automaticamente decrittografati.
+* Quando file o cartelle vengono spostati in un file system non EFS, come [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), vengono automaticamente decrittografati.
 * I file crittografati inviati attraverso la rete tramite il protocollo SMB/CIFS vengono decrittografati prima della trasmissione.
 
-Questo metodo di crittografia consente un **accesso trasparente** ai file crittografati per il proprietario. Tuttavia, cambiare semplicemente la password del proprietario e accedere non permetterà la decrittazione.
+Questo metodo di crittografia consente un **accesso trasparente** ai file crittografati per il proprietario. Tuttavia, semplicemente cambiando la password del proprietario e accedendo non permetterà la decrittazione.
 
 **Punti chiave**:
 
@@ -141,7 +141,7 @@ Questo metodo di crittografia consente un **accesso trasparente** ai file critto
 
 ### Controlla le informazioni EFS
 
-Controlla se un **utente** ha **utilizzato** questo **servizio** verificando se esiste questo percorso: `C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Controlla se un **utente** ha **utilizzato** questo **servizio** verificando se esiste questo percorso:`C:\users\<username>\appdata\roaming\Microsoft\Protect`
 
 Controlla **chi** ha **accesso** al file usando cipher /c \<file>\
 Puoi anche usare `cipher /e` e `cipher /d` all'interno di una cartella per **crittografare** e **decrittografare** tutti i file
@@ -158,10 +158,10 @@ Questo metodo richiede che l'**utente vittima** stia **eseguendo** un **processo
 
 ## Group Managed Service Accounts (gMSA)
 
-Microsoft ha sviluppato **Group Managed Service Accounts (gMSA)** per semplificare la gestione degli account di servizio nelle infrastrutture IT. A differenza degli account di servizio tradizionali che spesso hanno l'impostazione "**Password mai scaduta**" abilitata, i gMSA offrono una soluzione più sicura e gestibile:
+Microsoft ha sviluppato **Group Managed Service Accounts (gMSA)** per semplificare la gestione degli account di servizio nelle infrastrutture IT. A differenza degli account di servizio tradizionali che spesso hanno l'impostazione "**Password never expire**" abilitata, i gMSA offrono una soluzione più sicura e gestibile:
 
 * **Gestione automatica delle password**: i gMSA utilizzano una password complessa di 240 caratteri che cambia automaticamente in base alla politica del dominio o del computer. Questo processo è gestito dal Key Distribution Service (KDC) di Microsoft, eliminando la necessità di aggiornamenti manuali delle password.
-* **Sicurezza migliorata**: questi account sono immuni a blocchi e non possono essere utilizzati per accessi interattivi, migliorando la loro sicurezza.
+* **Sicurezza migliorata**: questi account sono immuni ai blocchi e non possono essere utilizzati per accessi interattivi, migliorando la loro sicurezza.
 * **Supporto per più host**: i gMSA possono essere condivisi tra più host, rendendoli ideali per servizi in esecuzione su più server.
 * **Capacità di attività pianificate**: a differenza degli account di servizio gestiti, i gMSA supportano l'esecuzione di attività pianificate.
 * **Gestione semplificata degli SPN**: il sistema aggiorna automaticamente il Service Principal Name (SPN) quando ci sono modifiche ai dettagli sAMaccount del computer o al nome DNS, semplificando la gestione degli SPN.
@@ -180,7 +180,7 @@ Inoltre, controlla questa [pagina web](https://cube0x0.github.io/Relaying-for-gM
 
 ## LAPS
 
-La **Local Administrator Password Solution (LAPS)**, disponibile per il download da [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), consente la gestione delle password degli amministratori locali. Queste password, che sono **randomizzate**, uniche e **cambiate regolarmente**, sono memorizzate centralmente in Active Directory. L'accesso a queste password è limitato tramite ACL a utenti autorizzati. Con permessi sufficienti concessi, è fornita la possibilità di leggere le password degli amministratori locali.
+La **Local Administrator Password Solution (LAPS)**, disponibile per il download da [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), consente la gestione delle password degli amministratori locali. Queste password, che sono **randomizzate**, uniche e **cambiate regolarmente**, sono memorizzate centralmente in Active Directory. L'accesso a queste password è limitato tramite ACL a utenti autorizzati. Con permessi sufficienti concessi, è possibile leggere le password degli amministratori locali.
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -270,7 +270,7 @@ L'SSPI sarà responsabile della ricerca del protocollo adeguato per due macchine
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare facilmente i flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
-Ottieni accesso oggi:
+Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 

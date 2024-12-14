@@ -35,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Ints/Simplify/Reals
+## Ints/Semplifica/Reali
 ```python
 from z3 import *
 

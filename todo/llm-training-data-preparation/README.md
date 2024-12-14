@@ -36,7 +36,7 @@ L'obiettivo di questa seconda fase è molto semplice: **Campionare i dati di inp
 L'obiettivo di questa terza fase è molto semplice: **Assegnare a ciascuno dei token precedenti nel vocabolario un vettore delle dimensioni desiderate per addestrare il modello.** Ogni parola nel vocabolario sarà un punto in uno spazio di X dimensioni.\
 Nota che inizialmente la posizione di ciascuna parola nello spazio è semplicemente inizializzata "randomicamente" e queste posizioni sono parametri addestrabili (saranno migliorati durante l'addestramento).
 
-Inoltre, durante l'embedding dei token **viene creata un'altra layer di embeddings** che rappresenta (in questo caso) la **posizione assoluta della parola nella frase di addestramento**. In questo modo, una parola in posizioni diverse nella frase avrà una rappresentazione (significato) diversa.
+Inoltre, durante l'embedding dei token **viene creata un'altra layer di embeddings** che rappresenta (in questo caso) la **posizione assoluta della parola nella frase di addestramento**. In questo modo, una parola in diverse posizioni nella frase avrà una rappresentazione (significato) diversa.
 {% endhint %}
 
 {% content-ref url="3.-token-embeddings.md" %}
@@ -69,7 +69,7 @@ Questa architettura sarà utilizzata sia per l'addestramento che per la previsio
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-L'obiettivo di questa sesta fase è molto semplice: **Addestrare il modello da zero**. Per questo verrà utilizzata l'architettura LLM precedente con alcuni loop che attraversano i dataset utilizzando le funzioni di perdita e l'ottimizzatore definiti per addestrare tutti i parametri del modello.
+L'obiettivo di questa sesta fase è molto semplice: **Addestrare il modello da zero**. Per questo verrà utilizzata l'architettura LLM precedente con alcuni cicli sui dataset utilizzando le funzioni di perdita e l'ottimizzatore definiti per addestrare tutti i parametri del modello.
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}
@@ -89,7 +89,7 @@ L'uso di **LoRA riduce notevolmente il calcolo** necessario per **fine-tune** mo
 ## 7.1. Fine-Tuning for Classification
 
 {% hint style="success" %}
-L'obiettivo di questa sezione è mostrare come fare fine-tuning a un modello già pre-addestrato in modo che, invece di generare nuovo testo, il LLM selezioni e fornisca le **probabilità che il testo fornito venga categorizzato in ciascuna delle categorie date** (come se un testo è spam o meno).
+L'obiettivo di questa sezione è mostrare come fare fine-tuning a un modello già pre-addestrato in modo che, invece di generare nuovo testo, il LLM selezionerà e fornirà le **probabilità che il testo fornito venga categorizzato in ciascuna delle categorie date** (come se un testo è spam o meno).
 {% endhint %}
 
 {% content-ref url="7.1.-fine-tuning-for-classification.md" %}

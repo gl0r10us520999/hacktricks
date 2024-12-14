@@ -21,18 +21,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basics of Resource-based Constrained Delegation
 
-Questo è simile alla base [Constrained Delegation](constrained-delegation.md) ma **invece** di dare permessi a un **oggetto** per **impersonare qualsiasi utente contro un servizio**. La Resource-based Constrained Delegation **imposta** nell'**oggetto chi è in grado di impersonare qualsiasi utente contro di esso**.
+Questo è simile alla base [Constrained Delegation](constrained-delegation.md) ma **invece** di dare permessi a un **oggetto** per **impersonare qualsiasi utente contro un servizio**. La Resource-based Constrained Delegation **imposta** nell'**oggetto chi può impersonare qualsiasi utente contro di esso**.
 
 In questo caso, l'oggetto vincolato avrà un attributo chiamato _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ con il nome dell'utente che può impersonare qualsiasi altro utente contro di esso.
 
-Un'altra importante differenza tra questa Constrained Delegation e le altre deleghe è che qualsiasi utente con **permessi di scrittura su un account macchina** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) può impostare il _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Nelle altre forme di Delegation avevi bisogno dei privilegi di amministratore di dominio).
+Un'altra importante differenza tra questa Constrained Delegation e le altre deleghe è che qualsiasi utente con **permessi di scrittura su un account macchina** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) può impostare il _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (nelle altre forme di Delegation era necessario avere privilegi di amministratore di dominio).
 
 ### New Concepts
 
-Tornando alla Constrained Delegation, era stato detto che il **`TrustedToAuthForDelegation`** flag all'interno del valore _userAccountControl_ dell'utente è necessario per eseguire un **S4U2Self.** Ma non è completamente vero.\
-La realtà è che anche senza quel valore, puoi eseguire un **S4U2Self** contro qualsiasi utente se sei un **servizio** (hai un SPN) ma, se hai **`TrustedToAuthForDelegation`** il TGS restituito sarà **Forwardable** e se **non hai** quel flag il TGS restituito **non sarà** **Forwardable**.
+Nella Constrained Delegation è stato detto che il **`TrustedToAuthForDelegation`** flag all'interno del valore _userAccountControl_ dell'utente è necessario per eseguire un **S4U2Self.** Ma non è completamente vero.\
+La realtà è che anche senza quel valore, puoi eseguire un **S4U2Self** contro qualsiasi utente se sei un **servizio** (hai uno SPN) ma, se hai **`TrustedToAuthForDelegation`** il TGS restituito sarà **Forwardable** e se **non hai** quel flag il TGS restituito **non sarà** **Forwardable**.
 
-Tuttavia, se il **TGS** utilizzato in **S4U2Proxy** **NON è Forwardable**, cercare di abusare di una **basic Constrain Delegation** **non funzionerà**. Ma se stai cercando di sfruttare una **Resource-Based constrain delegation, funzionerà** (questo non è una vulnerabilità, è una funzionalità, apparentemente).
+Tuttavia, se il **TGS** utilizzato in **S4U2Proxy** **NON è Forwardable** cercando di abusare di una **basic Constrain Delegation** non **funzionerà**. Ma se stai cercando di sfruttare una **Resource-Based constrain delegation, funzionerà** (questo non è una vulnerabilità, è una caratteristica, apparentemente).
 
 ### Attack structure
 
@@ -40,12 +40,12 @@ Tuttavia, se il **TGS** utilizzato in **S4U2Proxy** **NON è Forwardable**, cerc
 
 Supponiamo che l'attaccante abbia già **privilegi di scrittura equivalenti sull'computer vittima**.
 
-1. L'attaccante **compromette** un account che ha un **SPN** o **ne crea uno** (“Servizio A”). Nota che **qualsiasi** _Admin User_ senza alcun altro privilegio speciale può **creare** fino a 10 **oggetti Computer (**_**MachineAccountQuota**_**)** e impostarli con un **SPN**. Quindi l'attaccante può semplicemente creare un oggetto Computer e impostare un SPN.
-2. L'attaccante **abusa del suo privilegio di SCRITTURA** sull'computer vittima (ServizioB) per configurare **la delega vincolata basata sulle risorse per consentire a ServiceA di impersonare qualsiasi utente** contro quell'computer vittima (ServizioB).
+1. L'attaccante **compromette** un account che ha uno **SPN** o **ne crea uno** (“Servizio A”). Nota che **qualsiasi** _Admin User_ senza alcun altro privilegio speciale può **creare** fino a 10 **oggetti Computer (**_**MachineAccountQuota**_**)** e impostarli con uno **SPN**. Quindi l'attaccante può semplicemente creare un oggetto Computer e impostare uno SPN.
+2. L'attaccante **abusa del suo privilegio di SCRITTURA** sull'computer vittima (ServizioB) per configurare **la delega vincolata basata su risorse per consentire a ServiceA di impersonare qualsiasi utente** contro quell'computer vittima (ServizioB).
 3. L'attaccante utilizza Rubeus per eseguire un **attacco S4U completo** (S4U2Self e S4U2Proxy) da Servizio A a Servizio B per un utente **con accesso privilegiato a Servizio B**.
 1. S4U2Self (dall'account SPN compromesso/creato): Chiedi un **TGS di Administrator per me** (Non Forwardable).
-2. S4U2Proxy: Usa il **TGS non Forwardable** del passo precedente per chiedere un **TGS** da **Administrator** al **host vittima**.
-3. Anche se stai usando un TGS non Forwardable, poiché stai sfruttando la delega vincolata basata sulle risorse, funzionerà.
+2. S4U2Proxy: Usa il **TGS non Forwardable** del passo precedente per chiedere un **TGS** da **Administrator** all'**host vittima**.
+3. Anche se stai usando un TGS non Forwardable, poiché stai sfruttando la delega vincolata basata su risorse, funzionerà.
 4. L'attaccante può **pass-the-ticket** e **impersonare** l'utente per ottenere **accesso al ServizioB vittima**.
 
 Per controllare il _**MachineAccountQuota**_ del dominio puoi usare:
@@ -64,7 +64,7 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### Configurazione della R**isorsa basata sulla Delegazione Constrainata**
+### Configurazione della R**esource-based Constrained Delegation**
 
 **Utilizzando il modulo PowerShell di activedirectory**
 ```powershell

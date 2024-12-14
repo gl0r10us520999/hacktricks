@@ -1,8 +1,8 @@
 # Piattaforme Online con API
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -59,7 +59,7 @@ Indica se l'host è correlato ad attività di spam. Ha un accesso API gratuito.
 
 ## [mywot](https://www.mywot.com/)
 
-Basato su opinioni e altre metriche, ottieni se un dominio è correlato a informazioni sospette/maligne.
+Basato su opinioni e altre metriche, verifica se un dominio è correlato a informazioni sospette/maligne.
 
 ## [ipinfo](https://ipinfo.io/)
 
@@ -76,7 +76,7 @@ Permette di cercare per email, dominio o nome dell'azienda e recuperare informaz
 
 ## [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-Molte informazioni da domini e IP anche nella versione gratuita/comunitaria.
+Molte informazioni su domini e IP anche nella versione gratuita/comunitaria.
 
 ## [\_IntelligenceX](https://intelx.io/)
 
@@ -88,7 +88,7 @@ Cerca per IP e raccogli informazioni relative ad attività sospette. C'è un acc
 
 ## [Greynoise](https://viz.greynoise.io/)
 
-Cerca per IP o intervallo IP e ottieni informazioni sugli IP che scansionano Internet. 15 giorni di accesso gratuito.
+Cerca per IP o intervallo di IP e ottieni informazioni sugli IP che scansionano Internet. 15 giorni di accesso gratuito.
 
 ## [Shodan](https://www.shodan.io/)
 
@@ -125,7 +125,7 @@ Ottieni informazioni interessanti da IP
 
 ## [haveibeenpwned](https://haveibeenpwned.com/)
 
-Cerca per dominio e email e scopri se è stato compromesso e le password. Commerciale?
+Cerca per dominio e email e verifica se è stato compromesso e le password. Commerciale?
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
@@ -140,8 +140,8 @@ Rileva la geolocalizzazione IP, data center, ASN e persino informazioni VPN. Off
 [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) (in uno strumento commerciale?)
 
 {% hint style="success" %}
-Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

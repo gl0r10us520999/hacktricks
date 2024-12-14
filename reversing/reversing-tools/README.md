@@ -69,7 +69,7 @@ Per decompilare bytecode Java, questi strumenti possono essere molto utili:
 
 ### Utilizzando x64dbg/x32dbg
 - Simile a IDA, **rundll32** viene caricato con modifiche alla riga di comando per specificare la DLL e la funzione.
-- Le impostazioni vengono modificate per interrompere l'ingresso nella DLL, consentendo di impostare un breakpoint nel punto di ingresso desiderato della DLL.
+- Le impostazioni vengono regolate per interrompere l'ingresso nella DLL, consentendo di impostare un breakpoint nel punto di ingresso desiderato della DLL.
 
 ### Immagini
 - I punti di arresto dell'esecuzione e le configurazioni sono illustrati tramite screenshot.
@@ -82,12 +82,12 @@ Per decompilare bytecode Java, questi strumenti possono essere molto utili:
 - **Blobrunner** e **jmp2it** sono strumenti per allocare shellcode in memoria e debugarli con Ida o x64dbg.
 - Blobrunner [rilasci](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
 - jmp2it [versione compilata](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** offre emulazione e ispezione di shellcode basata su GUI, evidenziando le differenze nella gestione del shellcode come file rispetto al shellcode diretto.
+- **Cutter** offre emulazione e ispezione di shellcode basate su GUI, evidenziando le differenze nella gestione del shellcode come file rispetto al shellcode diretto.
 
 ### Deobfuscazione e Analisi
 - **scdbg** fornisce informazioni sulle funzioni del shellcode e capacità di deobfuscazione.
 %%%bash
-scdbg.exe -f shellcode # Info di base
+scdbg.exe -f shellcode # Informazioni di base
 scdbg.exe -f shellcode -r # Rapporto di analisi
 scdbg.exe -f shellcode -i -r # Hook interattivi
 scdbg.exe -f shellcode -d # Dump del shellcode decodificato
@@ -95,7 +95,7 @@ scdbg.exe -f shellcode /findsc # Trova offset di inizio
 scdbg.exe -f shellcode /foff 0x0000004D # Esegui dall'offset
 %%%
 
-- **CyberChef** per disassemblare shellcode: [Ricetta CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** per disassemblare shellcode: [ricetta CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
 - Un offuscante che sostituisce tutte le istruzioni con `mov`.
@@ -109,7 +109,7 @@ scdbg.exe -f shellcode /foff 0x0000004D # Esegui dall'offset
 # Corsi
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Deobfuscazione binaria\)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Deoffuscazione binaria\)
 
 
 

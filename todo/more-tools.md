@@ -60,17 +60,17 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Scoperta di sottodomini
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Scoperta di sottodomini in github
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Scansione rapida delle porte
-* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Sottodomini e URL da file JS in un web
+* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Sottodomini e URL dai file JS in un web
 * [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Dizionario di file web
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension per evitare dozzine di schede ripetute
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension per evitare dozzine di schede ripetitore
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Ottieni risorse
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
-* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Checklist per BugBounty web
+* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Checklist Web BugBounty
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Controlla un elenco di domini contro Open Redirection
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Plugin Burp, analisi offline per scoprire domini, sottodomini e IP
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Elenco di diversi strumenti
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Plugin BurpSuite per trovare vulnerabilità (SQLi, XSS, SSTI)
-* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Estensione Chrome per tracciare le funzioni di post-messaggi
+* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Estensione Chrome per tracciare le funzioni post-messages
 * [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Test automatici di autenticazione (rimuovi i cookie e prova a inviare la richiesta)
 * [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross è uno strumento di ricostruzione, scanner e per test di penetrazione / BugBounty. Questo strumento è stato costruito per testare vulnerabilità (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
 
@@ -81,7 +81,7 @@ Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistenza
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Tecniche di iniezione di processo Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Script Red Team
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trova configurazioni errate relative alla sicurezza nelle politiche di gruppo di Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trova configurazioni errate relative alla sicurezza in Active Directory Group Policy.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Offuscamento Securestring
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Spoofing PID genitore
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Cripta i payload di Powershell
@@ -107,7 +107,7 @@ Come estrarre firmware se non lo troviamo online: [https://www.youtube.com/watch
 
 Ecco un firmware con vulnerabilità da analizzare: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
-E qui la metodologia OWASP per analizzare firmware: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
+E qui la metodologia owasp per analizzare firmware: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
 Emulazione firmware: FIRMADYNE (https://github.com/firmadyne/firmadyne/) è una piattaforma per automatizzare l'emulazione e l'analisi dinamica di firmware basati su Linux.
 
@@ -126,7 +126,7 @@ Emulazione firmware: FIRMADYNE (https://github.com/firmadyne/firmadyne/) è una 
 * Rootkit Linux: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : IDE online
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Risorse per iniziare con BugBounties
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Strumenti di pentesting per IOS
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Strumenti di pentesting IOS
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Parole chiave
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Hacking IoT (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : automazione della scansione

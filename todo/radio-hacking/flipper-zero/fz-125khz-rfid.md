@@ -41,7 +41,7 @@ Nota che alcuni citofoni cercano di proteggersi dalla duplicazione delle chiavi 
 
 ### Aggiungi Manualmente
 
-Puoi creare **carte false in Flipper Zero indicando i dati** manualmente e poi emularli.
+Puoi creare **carte false in Flipper Zero indicando i dati** manualmente e poi emularle.
 
 #### ID sulle carte
 
@@ -56,13 +56,13 @@ Gli altri 2 possono essere forzati se non riesci a leggerli dalla carta.
 
 * **HID**
 
-Lo stesso accade in questa carta HID dove solo 2 su 3 byte possono essere trovati stampati sulla carta.
+Lo stesso accade in questa carta HID dove solo 2 dei 3 byte possono essere trovati stampati sulla carta
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Emula/Scrivi
 
-Dopo aver **copia** una carta o **inserito** l'ID **manualmente**, è possibile **emularla** con Flipper Zero o **scriverla** su una carta reale.
+Dopo aver **copia** una carta o **inserito** l'ID **manualmente** è possibile **emularla** con Flipper Zero o **scriverla** su una carta reale.
 
 ## Riferimenti
 

@@ -10,7 +10,7 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -24,7 +24,7 @@ Accedi Oggi:
 
 ## Politica di AppLocker
 
-Una whitelist di applicazioni è un elenco di applicazioni software o eseguibili approvati che sono autorizzati a essere presenti e a funzionare su un sistema. L'obiettivo è proteggere l'ambiente da malware dannoso e software non approvato che non si allinea con le specifiche esigenze aziendali di un'organizzazione.
+Una whitelist di applicazioni è un elenco di applicazioni software o eseguibili approvati che sono autorizzati a essere presenti e a funzionare su un sistema. L'obiettivo è proteggere l'ambiente da malware dannosi e software non approvati che non si allineano con le specifiche esigenze aziendali di un'organizzazione.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) è la **soluzione di whitelisting delle applicazioni** di Microsoft e offre agli amministratori di sistema il controllo su **quali applicazioni e file gli utenti possono eseguire**. Fornisce un **controllo granulare** su eseguibili, script, file di installazione di Windows, DLL, app confezionate e installatori di app confezionate.\
 È comune per le organizzazioni **bloccare cmd.exe e PowerShell.exe** e l'accesso in scrittura a determinate directory, **ma tutto questo può essere aggirato**.
@@ -54,13 +54,13 @@ C:\Windows\Tasks
 C:\windows\tracing
 ```
 * I comuni **binaries** [**"LOLBAS's"**](https://lolbas-project.github.io/) possono essere utili per bypassare AppLocker.
-* **Regole scritte male possono essere bypassate**
+* **Regole scritte male possono anche essere bypassate**
 * Ad esempio, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, puoi creare una **cartella chiamata `allowed`** ovunque e sarà consentita.
 * Le organizzazioni spesso si concentrano su **bloccare l'eseguibile `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ma dimenticano le **altre** [**posizioni eseguibili di PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) come `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` o `PowerShell_ISE.exe`.
-* **L'applicazione delle DLL è molto raramente abilitata** a causa del carico aggiuntivo che può mettere su un sistema e della quantità di test necessari per garantire che nulla si rompa. Quindi utilizzare **DLL come backdoor aiuterà a bypassare AppLocker**.
+* **L'applicazione di DLL è molto raramente abilitata** a causa del carico aggiuntivo che può mettere su un sistema e della quantità di test necessari per garantire che nulla si rompa. Quindi utilizzare **DLL come backdoor aiuterà a bypassare AppLocker**.
 * Puoi usare [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) o [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) per **eseguire codice Powershell** in qualsiasi processo e bypassare AppLocker. Per ulteriori informazioni controlla: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-## Archiviazione delle Credenziali
+## Archiviazione delle credenziali
 
 ### Security Accounts Manager (SAM)
 
@@ -85,7 +85,7 @@ LSA potrebbe salvare su disco alcune credenziali:
 
 ### NTDS.dit
 
-È il database dell'Active Directory. È presente solo nei Domain Controllers.
+È il database dell'Active Directory. È presente solo nei Controller di Dominio.
 
 ## Defender
 
@@ -148,17 +148,17 @@ Puoi anche usare `cipher /e` e `cipher /d` all'interno di una cartella per **cri
 
 ### Decrittazione dei file EFS
 
-#### Essere Autorità di Sistema
+#### Essere Authority System
 
 Questo metodo richiede che l'**utente vittima** stia **eseguendo** un **processo** all'interno dell'host. Se è così, utilizzando una sessione `meterpreter` puoi impersonare il token del processo dell'utente (`impersonate_token` da `incognito`). Oppure potresti semplicemente `migrate` al processo dell'utente.
 
-#### Conoscere la password dell'utente
+#### Conoscere la password degli utenti
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
 ## Group Managed Service Accounts (gMSA)
 
-Microsoft ha sviluppato **Group Managed Service Accounts (gMSA)** per semplificare la gestione degli account di servizio nelle infrastrutture IT. A differenza degli account di servizio tradizionali che spesso hanno l'impostazione "**Password mai scaduta**" abilitata, i gMSA offrono una soluzione più sicura e gestibile:
+Microsoft ha sviluppato **Group Managed Service Accounts (gMSA)** per semplificare la gestione degli account di servizio nelle infrastrutture IT. A differenza degli account di servizio tradizionali che spesso hanno l'impostazione "**Password never expire**" abilitata, i gMSA offrono una soluzione più sicura e gestibile:
 
 * **Gestione automatica delle password**: i gMSA utilizzano una password complessa di 240 caratteri che cambia automaticamente in base alla politica del dominio o del computer. Questo processo è gestito dal Key Distribution Service (KDC) di Microsoft, eliminando la necessità di aggiornamenti manuali delle password.
 * **Sicurezza migliorata**: questi account sono immuni a blocchi e non possono essere utilizzati per accessi interattivi, migliorando la loro sicurezza.
@@ -176,7 +176,7 @@ Puoi leggere questa password con [**GMSAPasswordReader**](https://github.com/rva
 ```
 [**Trova ulteriori informazioni in questo post**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Controlla anche questa [pagina web](https://cube0x0.github.io/Relaying-for-gMSA/) su come eseguire un **attacco di relay NTLM** per **leggere** la **password** di **gMSA**.
+Inoltre, controlla questa [pagina web](https://cube0x0.github.io/Relaying-for-gMSA/) su come eseguire un **attacco di relay NTLM** per **leggere** la **password** di **gMSA**.
 
 ## LAPS
 
@@ -188,7 +188,7 @@ La **Local Administrator Password Solution (LAPS)**, disponibile per il download
 
 ## PS Constrained Language Mode
 
-PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **blocca molte delle funzionalità** necessarie per utilizzare PowerShell in modo efficace, come il blocco degli oggetti COM, consentendo solo tipi .NET approvati, flussi di lavoro basati su XAML, classi PowerShell e altro ancora.
+PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **limita molte delle funzionalità** necessarie per utilizzare PowerShell in modo efficace, come il blocco degli oggetti COM, consentendo solo tipi .NET approvati, flussi di lavoro basati su XAML, classi PowerShell e altro ancora.
 
 ### **Controlla**
 ```powershell
@@ -201,7 +201,7 @@ $ExecutionContext.SessionState.LanguageMode
 Powershell -version 2
 ```
 In Windows attuali, quel bypass non funzionerà, ma puoi usare [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**Per compilarlo potresti aver bisogno** **di** _**Aggiungere un Riferimento**_ -> _Sfoglia_ -> _Sfoglia_ -> aggiungi `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` e **cambiare il progetto in .Net4.5**.
+**Per compilarlo potresti aver bisogno** **di** _**Aggiungere un Riferimento**_ -> _Sfoglia_ -> _Sfoglia_ -> aggiungi `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` e **cambiare il progetto a .Net4.5**.
 
 #### Bypass diretto:
 ```bash
@@ -241,7 +241,7 @@ More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershel
 
 È l'API che può essere utilizzata per autenticare gli utenti.
 
-L'SSPI sarà responsabile della ricerca del protocollo adeguato per due macchine che vogliono comunicare. Il metodo preferito per questo è Kerberos. Poi l'SSPI negozierà quale protocollo di autenticazione verrà utilizzato, questi protocolli di autenticazione sono chiamati Security Support Provider (SSP), si trovano all'interno di ogni macchina Windows sotto forma di DLL e entrambe le macchine devono supportare lo stesso per poter comunicare.
+L'SSPI sarà responsabile della ricerca del protocollo adeguato per due macchine che vogliono comunicare. Il metodo preferito per questo è Kerberos. Poi l'SSPI negozierà quale protocollo di autenticazione sarà utilizzato, questi protocolli di autenticazione sono chiamati Security Support Provider (SSP), si trovano all'interno di ogni macchina Windows sotto forma di DLL e entrambe le macchine devono supportare lo stesso per poter comunicare.
 
 ### Main SSPs
 
@@ -269,8 +269,8 @@ L'SSPI sarà responsabile della ricerca del protocollo adeguato per due macchine
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti più avanzati** della comunità.\
-Ottieni accesso oggi:
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare facilmente i flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
+Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 

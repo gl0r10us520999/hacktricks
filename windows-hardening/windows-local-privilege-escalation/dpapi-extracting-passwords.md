@@ -23,7 +23,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ## Cos'è DPAPI
 
-L'API di Protezione Dati (DPAPI) è utilizzata principalmente all'interno del sistema operativo Windows per la **cifratura simmetrica delle chiavi private asimmetriche**, sfruttando segreti utente o di sistema come una fonte significativa di entropia. Questo approccio semplifica la cifratura per gli sviluppatori consentendo loro di cifrare i dati utilizzando una chiave derivata dai segreti di accesso dell'utente o, per la cifratura di sistema, dai segreti di autenticazione del dominio del sistema, evitando così la necessità per gli sviluppatori di gestire la protezione della chiave di cifratura da soli.
+L'API di Protezione Dati (DPAPI) è utilizzata principalmente all'interno del sistema operativo Windows per la **cifratura simmetrica di chiavi private asimmetriche**, sfruttando segreti utente o di sistema come una fonte significativa di entropia. Questo approccio semplifica la cifratura per gli sviluppatori consentendo loro di cifrare i dati utilizzando una chiave derivata dai segreti di accesso dell'utente o, per la cifratura di sistema, dai segreti di autenticazione del dominio del sistema, eliminando così la necessità per gli sviluppatori di gestire la protezione della chiave di cifratura.
 
 ### Dati Protetti da DPAPI
 
@@ -77,7 +77,7 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\
 Get-ChildItem -Hidden C:\Users\USER\AppData\Roaming\Microsoft\Protect\{SID}
 Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 ```
-Questo è l'aspetto di un gruppo di Master Key di un utente:
+Questo è come appariranno un insieme di Master Key di un utente:
 
 ![](<../../.gitbook/assets/image (1121).png>)
 

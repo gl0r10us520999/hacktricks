@@ -40,7 +40,7 @@ Inoltre, utilizzando la Sequenza di De Bruijn (un modo per ridurre il numero di 
 
 Un esempio di questo attacco è stato implementato in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
 
-Richiedere **un preambolo eviterà l'ottimizzazione della Sequenza di De Bruijn** e **i codici rotolanti impediranno questo attacco** (supponendo che il codice sia abbastanza lungo da non essere bruteforceabile).
+Richiedere **un preambolo eviterà l'ottimizzazione della Sequenza di De Bruijn** e **i codici rotolanti impediranno questo attacco** (supponendo che il codice sia abbastanza lungo da non essere bruteforcabile).
 
 ## Sub-GHz Attack
 
@@ -62,13 +62,13 @@ In un sistema di codice rotolante, il telecomando e il telecomando della porta d
 
 ### **Missing Link Attack**
 
-Fondamentalmente, ascolti il pulsante e **catturi il segnale mentre il telecomando è fuori portata** del dispositivo (diciamo l'auto o il garage). Poi ti sposti verso il dispositivo e **usi il codice catturato per aprirlo**.
+Fondamentalmente, ascolti il pulsante e **catturi il segnale mentre il telecomando è fuori portata** del dispositivo (ad esempio l'auto o il garage). Poi ti sposti verso il dispositivo e **usi il codice catturato per aprirlo**.
 
 ### Full Link Jamming Attack
 
 Un attaccante potrebbe **disturbare il segnale vicino al veicolo o al ricevitore** in modo che il **ricevitore non possa effettivamente ‘sentire’ il codice**, e una volta che ciò accade puoi semplicemente **catturare e riprodurre** il codice quando hai smesso di disturbare.
 
-La vittima a un certo punto utilizzerà le **chiavi per chiudere l'auto**, ma poi l'attacco avrà **registrato abbastanza "codici di chiusura della porta"** che sperabilmente potrebbero essere inviati per aprire la porta (un **cambiamento di frequenza potrebbe essere necessario** poiché ci sono auto che utilizzano gli stessi codici per aprire e chiudere ma ascoltano entrambi i comandi a frequenze diverse).
+La vittima a un certo punto utilizzerà le **chiavi per chiudere l'auto**, ma poi l'attacco avrà **registrato abbastanza "codici di chiusura porta"** che sperabilmente potrebbero essere inviati per aprire la porta (un **cambiamento di frequenza potrebbe essere necessario** poiché ci sono auto che utilizzano gli stessi codici per aprire e chiudere ma ascoltano entrambi i comandi a frequenze diverse).
 
 {% hint style="warning" %}
 **Il disturbo funziona**, ma è evidente poiché se la **persona che chiude l'auto semplicemente testa le porte** per assicurarsi che siano chiuse, noterebbe che l'auto è sbloccata. Inoltre, se fossero a conoscenza di tali attacchi, potrebbero anche ascoltare il fatto che le porte non hanno mai emesso il **suono** di chiusura o che le **luci** dell'auto non hanno mai lampeggiato quando hanno premuto il pulsante ‘chiudi’.
@@ -76,13 +76,13 @@ La vittima a un certo punto utilizzerà le **chiavi per chiudere l'auto**, ma po
 
 ### **Code Grabbing Attack ( aka ‘RollJam’ )**
 
-Questa è una **tecnica di disturbo più furtiva**. L'attaccante disturberà il segnale, quindi quando la vittima prova a chiudere la porta non funzionerà, ma l'attaccante **registrerà questo codice**. Poi, la vittima **proverà a chiudere di nuovo l'auto** premendo il pulsante e l'auto **registrerà questo secondo codice**.\
+Questa è una **tecnica di disturbo più furtiva**. L'attaccante disturberà il segnale, quindi quando la vittima cerca di chiudere la porta non funzionerà, ma l'attaccante **registrerà questo codice**. Poi, la vittima **cercerà di chiudere di nuovo l'auto** premendo il pulsante e l'auto **registrerà questo secondo codice**.\
 Immediatamente dopo, l'**attaccante può inviare il primo codice** e l'**auto si chiuderà** (la vittima penserà che la seconda pressione l'abbia chiusa). Poi, l'attaccante sarà in grado di **inviare il secondo codice rubato per aprire** l'auto (supponendo che un **codice "chiudi auto" possa essere utilizzato anche per aprirla**). Potrebbe essere necessario un cambiamento di frequenza (poiché ci sono auto che utilizzano gli stessi codici per aprire e chiudere ma ascoltano entrambi i comandi a frequenze diverse).
 
 L'attaccante può **disturbare il ricevitore dell'auto e non il suo ricevitore** perché se il ricevitore dell'auto sta ascoltando, ad esempio, una banda larga di 1MHz, l'attaccante non **disturberà** la frequenza esatta utilizzata dal telecomando ma **una vicina in quello spettro** mentre il **ricevitore dell'attaccante ascolterà in un intervallo più ristretto** dove può ascoltare il segnale del telecomando **senza il segnale di disturbo**.
 
 {% hint style="warning" %}
-Altre implementazioni viste nelle specifiche mostrano che il **codice rotolante è una porzione** del codice totale inviato. Cioè, il codice inviato è una **chiave a 24 bit** dove i primi **12 sono il codice rotolante**, i **secondi 8 sono il comando** (come chiudere o aprire) e gli ultimi 4 sono il **checksum**. I veicoli che implementano questo tipo sono anche naturalmente suscettibili poiché l'attaccante deve semplicemente sostituire il segmento del codice rotolante per poter **utilizzare qualsiasi codice rotolante su entrambe le frequenze**.
+Altre implementazioni viste nelle specifiche mostrano che il **codice rotolante è una porzione** del codice totale inviato. Ad esempio, il codice inviato è una **chiave a 24 bit** dove i primi **12 sono il codice rotolante**, gli **ultimi 8 sono il comando** (come chiudere o aprire) e gli ultimi 4 sono il **checksum**. I veicoli che implementano questo tipo sono anche naturalmente suscettibili poiché l'attaccante deve semplicemente sostituire il segmento del codice rotolante per poter **utilizzare qualsiasi codice rotolante su entrambe le frequenze**.
 {% endhint %}
 
 {% hint style="danger" %}
@@ -91,7 +91,7 @@ Nota che se la vittima invia un terzo codice mentre l'attaccante sta inviando il
 
 ### Alarm Sounding Jamming Attack
 
-Testando contro un sistema di codice rotolante aftermarket installato su un'auto, **inviare lo stesso codice due volte** immediatamente **ha attivato l'allarme** e l'immobilizzatore fornendo un'unica opportunità di **negazione del servizio**. Ironia della sorte, il modo per **disattivare l'allarme** e l'immobilizzatore era **premere** il **telecomando**, fornendo a un attaccante la possibilità di **eseguire continuamente un attacco DoS**. O mescolare questo attacco con il **precedente per ottenere più codici** poiché la vittima vorrebbe fermare l'attacco il prima possibile.
+Testando contro un sistema di codice rotolante aftermarket installato su un'auto, **inviare lo stesso codice due volte** ha immediatamente **attivato l'allarme** e l'immobilizzatore fornendo un'unica opportunità di **negazione del servizio**. Ironia della sorte, il modo per **disattivare l'allarme** e l'immobilizzatore era **premere** il **telecomando**, fornendo all'attaccante la possibilità di **eseguire continuamente un attacco DoS**. Oppure mescolare questo attacco con il **precedente per ottenere più codici** poiché la vittima vorrebbe fermare l'attacco il prima possibile.
 
 ## References
 

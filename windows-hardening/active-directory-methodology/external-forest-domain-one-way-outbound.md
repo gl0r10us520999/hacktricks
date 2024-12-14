@@ -1,25 +1,25 @@
-# Dominio Forestale Esterno - Unidirezionale (In Uscita)
+# External Forest Domain - One-Way (Outbound)
 
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporta HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-In questo scenario **il tuo dominio** sta **fidando** alcuni **privilegi** a un principale di **domini diversi**.
+In questo scenario **il tuo dominio** sta **fidandosi** di alcuni **privilegi** a un principale di **domini diversi**.
 
 ## Enumerazione
 
-### Fiducia in Uscita
+### Fiducia in uscita
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -53,7 +53,7 @@ Questa estrazione è possibile perché l'account, identificato con un **$** dopo
 
 **Attenzione:** È possibile sfruttare questa situazione per ottenere un accesso nel dominio **A** come utente, sebbene con permessi limitati. Tuttavia, questo accesso è sufficiente per eseguire l'enumerazione nel dominio **A**.
 
-In uno scenario in cui `ext.local` è il dominio fiducioso e `root.local` è il dominio di fiducia, un account utente chiamato `EXT$` verrebbe creato all'interno di `root.local`. Attraverso strumenti specifici, è possibile estrarre le chiavi di fiducia di Kerberos, rivelando le credenziali di `EXT$` in `root.local`. Il comando per ottenere questo è:
+In uno scenario in cui `ext.local` è il dominio fiduciante e `root.local` è il dominio fidato, un account utente chiamato `EXT$` verrebbe creato all'interno di `root.local`. Attraverso strumenti specifici, è possibile estrarre le chiavi di fiducia di Kerberos, rivelando le credenziali di `EXT$` in `root.local`. Il comando per ottenere questo è:
 ```bash
 lsadump::trust /patch
 ```
@@ -73,7 +73,7 @@ La password in chiaro può essere ottenuta convertendo l'output \[ CLEAR ] di mi
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-A volte, quando si crea una relazione di fiducia, l'utente deve digitare una password per la fiducia. In questa dimostrazione, la chiave è la password di fiducia originale e quindi leggibile dall'uomo. Man mano che la chiave cicla (30 giorni), la password in chiaro non sarà leggibile dall'uomo ma tecnicamente ancora utilizzabile.
+A volte, quando si crea una relazione di fiducia, l'utente deve digitare una password per la fiducia. In questa dimostrazione, la chiave è la password di fiducia originale e quindi leggibile dall'uomo. Poiché la chiave cicla (30 giorni), la password in chiaro non sarà leggibile dall'uomo ma tecnicamente ancora utilizzabile.
 
 La password in chiaro può essere utilizzata per eseguire l'autenticazione regolare come account di fiducia, un'alternativa alla richiesta di un TGT utilizzando la chiave segreta Kerberos dell'account di fiducia. Qui, interrogando root.local da ext.local per i membri di Domain Admins:
 

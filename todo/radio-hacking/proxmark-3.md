@@ -21,11 +21,11 @@ La prima cosa che devi fare è avere un [**Proxmark3**](https://proxmark.com) e 
 
 ### Attaccare MIFARE Classic 1KB
 
-Ha **16 settori**, ognuno dei quali ha **4 blocchi** e ogni blocco contiene **16B**. L'UID si trova nel settore 0 blocco 0 (e non può essere modificato).\
+Ha **16 settori**, ognuno dei quali ha **4 blocchi** e ogni blocco contiene **16B**. L'UID si trova nel settore 0 blocco 0 (e non può essere alterato).\
 Per accedere a ciascun settore hai bisogno di **2 chiavi** (**A** e **B**) che sono memorizzate in **blocco 3 di ciascun settore** (settore trailer). Il settore trailer memorizza anche i **bit di accesso** che forniscono i permessi di **lettura e scrittura** su **ciascun blocco** utilizzando le 2 chiavi.\
-2 chiavi sono utili per dare permessi di lettura se conosci la prima e di scrittura se conosci la seconda (ad esempio).
+2 chiavi sono utili per dare permessi di lettura se conosci la prima e di scrittura se conosci la seconda (per esempio).
 
-Possono essere eseguiti diversi attacchi.
+Possono essere eseguiti diversi attacchi
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -58,7 +58,7 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Con queste informazioni potresti cercare informazioni sulla scheda e sul modo di comunicare con essa. Proxmark3 consente di inviare comandi raw come: `hf 14a raw -p -b 7 26`
+Con queste informazioni potresti provare a cercare informazioni sulla scheda e sul modo di comunicare con essa. Proxmark3 consente di inviare comandi raw come: `hf 14a raw -p -b 7 26`
 
 ### Scripts
 
@@ -66,7 +66,7 @@ Il software Proxmark3 viene fornito con un elenco precaricato di **script di aut
 ```
 proxmark3> script run mfkeys
 ```
-Puoi creare uno script per **fuzz tag readers**, quindi copiando i dati di una **valid card** basta scrivere un **Lua script** che **randomizza** uno o più **bytes** casuali e controlla se il **reader crashes** con qualsiasi iterazione.
+Puoi creare uno script per **fuzz tag readers**, quindi copiando i dati di una **valid card** basta scrivere uno **script Lua** che **randomizza** uno o più **bytes** casuali e controlla se il **reader crashes** con qualsiasi iterazione.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

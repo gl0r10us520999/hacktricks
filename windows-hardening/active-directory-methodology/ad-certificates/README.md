@@ -32,7 +32,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Considerazioni Speciali
 
-- I **Subject Alternative Names (SANs)** espandono l'applicabilità di un certificato a più identità, cruciale per server con più domini. Processi di emissione sicuri sono vitali per evitare rischi di impersonificazione da parte di attaccanti che manipolano la specifica SAN.
+- I **Subject Alternative Names (SANs)** espandono l'applicabilità di un certificato a più identità, cruciale per i server con più domini. Processi di emissione sicuri sono vitali per evitare rischi di impersonificazione da parte di attaccanti che manipolano la specifica SAN.
 
 ### Autorità di Certificazione (CA) in Active Directory (AD)
 
@@ -52,7 +52,7 @@ AD CS riconosce i certificati CA in un bosco AD attraverso contenitori designati
 
 ### Modelli di Certificato
 
-Definiti all'interno di AD, questi modelli delineano le impostazioni e i permessi per l'emissione dei certificati, inclusi EKUs consentiti e diritti di iscrizione o modifica, critici per gestire l'accesso ai servizi di certificato.
+Definiti all'interno di AD, questi modelli delineano le impostazioni e i permessi per l'emissione dei certificati, inclusi EKU consentiti e diritti di iscrizione o modifica, critici per gestire l'accesso ai servizi di certificato.
 
 ## Iscrizione al Certificato
 
@@ -91,9 +91,9 @@ Gli utenti Windows possono anche richiedere certificati tramite l'interfaccia GU
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Autenticazione tramite Certificato
+## Autenticazione con Certificato
 
-Active Directory (AD) supporta l'autenticazione tramite certificato, utilizzando principalmente i protocolli **Kerberos** e **Secure Channel (Schannel)**.
+Active Directory (AD) supporta l'autenticazione con certificato, utilizzando principalmente i protocolli **Kerberos** e **Secure Channel (Schannel)**.
 
 ### Processo di Autenticazione Kerberos
 
@@ -101,17 +101,17 @@ Nel processo di autenticazione Kerberos, la richiesta di un utente per un Ticket
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-is central to establishing trust for certificate authentication.
+è centrale per stabilire fiducia per l'autenticazione dei certificati.
 
-### Secure Channel (Schannel) Authentication
+### Autenticazione Secure Channel (Schannel)
 
-Schannel facilita connessioni sicure TLS/SSL, dove durante un handshake, il client presenta un certificato che, se validato con successo, autorizza l'accesso. La mappatura di un certificato a un account AD può coinvolgere la funzione **S4U2Self** di Kerberos o il **Subject Alternative Name (SAN)** del certificato, tra i vari metodi.
+Schannel facilita connessioni TLS/SSL sicure, dove durante un handshake, il client presenta un certificato che, se validato con successo, autorizza l'accesso. La mappatura di un certificato a un account AD può coinvolgere la funzione **S4U2Self** di Kerberos o il **Subject Alternative Name (SAN)** del certificato, tra i vari metodi.
 
-### AD Certificate Services Enumeration
+### Enumerazione dei Servizi di Certificato AD
 
-I servizi di certificazione AD possono essere enumerati tramite query LDAP, rivelando informazioni su **Enterprise Certificate Authorities (CAs)** e le loro configurazioni. Questo è accessibile da qualsiasi utente autenticato nel dominio senza privilegi speciali. Strumenti come **[Certify](https://github.com/GhostPack/Certify)** e **[Certipy](https://github.com/ly4k/Certipy)** sono utilizzati per l'enumerazione e la valutazione delle vulnerabilità negli ambienti AD CS.
+I servizi di certificato di AD possono essere enumerati tramite query LDAP, rivelando informazioni sulle **Enterprise Certificate Authorities (CAs)** e le loro configurazioni. Questo è accessibile da qualsiasi utente autenticato nel dominio senza privilegi speciali. Strumenti come **[Certify](https://github.com/GhostPack/Certify)** e **[Certipy](https://github.com/ly4k/Certipy)** sono utilizzati per l'enumerazione e la valutazione delle vulnerabilità negli ambienti AD CS.
 
-Commands for using these tools include:
+I comandi per utilizzare questi strumenti includono:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas

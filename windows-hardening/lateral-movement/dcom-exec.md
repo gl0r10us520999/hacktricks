@@ -49,7 +49,7 @@ ls \\10.10.10.10\c$\Users
 
 **Per ulteriori informazioni su questa tecnica, controlla il post originale [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-L'oggetto **MMC20.Application** è stato identificato come privo di "LaunchPermissions" espliciti, impostando di default permessi che consentono l'accesso agli Amministratori. Per ulteriori dettagli, è possibile esplorare un thread [qui](https://twitter.com/tiraniddo/status/817532039771525120), e si raccomanda l'uso di [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET per filtrare oggetti senza esplicito Permesso di Avvio.
+L'oggetto **MMC20.Application** è stato identificato come privo di "LaunchPermissions" espliciti, impostando i permessi che consentono l'accesso agli Amministratori. Per ulteriori dettagli, è possibile esplorare un thread [qui](https://twitter.com/tiraniddo/status/817532039771525120), e si raccomanda l'uso di [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET per filtrare oggetti senza esplicito Permesso di Avvio.
 
 Due oggetti specifici, `ShellBrowserWindow` e `ShellWindows`, sono stati evidenziati a causa della loro mancanza di Permessi di Avvio espliciti. L'assenza di una voce di registro `LaunchPermission` sotto `HKCR:\AppID\{guid}` indica che non ci sono permessi espliciti.
 
@@ -63,7 +63,7 @@ $obj = [System.Activator]::CreateInstance($com)
 $item = $obj.Item()
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
 ```
-### Movimento Laterale con Oggetti DCOM di Excel
+### Lateral Movement with Excel DCOM Objects
 
 Il movimento laterale può essere ottenuto sfruttando gli oggetti DCOM di Excel. Per informazioni dettagliate, è consigliabile leggere la discussione su come sfruttare Excel DDE per il movimento laterale tramite DCOM sul [blog di Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 

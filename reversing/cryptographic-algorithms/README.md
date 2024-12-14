@@ -12,7 +12,7 @@ Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -61,7 +61,7 @@ Se cerchi la prima costante su Google, questo è ciò che ottieni:
 Pertanto, puoi assumere che la funzione decompilata sia un **calcolatore sha256.**\
 Puoi cercare qualsiasi altra costante e otterrai (probabilmente) lo stesso risultato.
 
-### info dati
+### informazioni sui dati
 
 Se il codice non ha alcuna costante significativa, potrebbe essere **in caricamento informazioni dalla sezione .data**.\
 Puoi accedere a quei dati, **raggruppare il primo dword** e cercarlo su Google come abbiamo fatto nella sezione precedente:
@@ -77,7 +77,7 @@ In questo caso, se cerchi **0xA56363C6** puoi scoprire che è correlato alle **t
 È composto da 3 parti principali:
 
 * **Fase di inizializzazione/**: Crea una **tabella di valori da 0x00 a 0xFF** (256 byte in totale, 0x100). Questa tabella è comunemente chiamata **Substitution Box** (o SBox).
-* **Fase di mescolamento**: Eseguirà un **loop attraverso la tabella** creata prima (loop di 0x100 iterazioni, di nuovo) modificando ciascun valore con **byte semi-casuali**. Per creare questi byte semi-casuali, viene utilizzata la **chiave RC4**. Le **chiavi RC4** possono essere **tra 1 e 256 byte di lunghezza**, tuttavia di solito si raccomanda che siano superiori a 5 byte. Comunemente, le chiavi RC4 sono lunghe 16 byte.
+* **Fase di mescolamento**: Eseguirà un **loop attraverso la tabella** creata prima (loop di 0x100 iterazioni, di nuovo) modificando ciascun valore con byte **semi-casuali**. Per creare questi byte semi-casuali, viene utilizzata la **chiave RC4**. Le **chiavi RC4** possono essere **tra 1 e 256 byte di lunghezza**, tuttavia di solito si raccomanda che siano superiori a 5 byte. Comunemente, le chiavi RC4 sono lunghe 16 byte.
 * **Fase XOR**: Infine, il testo in chiaro o il testo cifrato è **XORato con i valori creati prima**. La funzione per crittografare e decrittografare è la stessa. Per questo, verrà eseguito un **loop attraverso i 256 byte creati** tante volte quanto necessario. Questo è solitamente riconosciuto in un codice decompilato con un **%256 (mod 256)**.
 
 {% hint style="info" %}
@@ -112,7 +112,7 @@ In questo caso, se cerchi **0xA56363C6** puoi scoprire che è correlato alle **t
 
 ### Caratteristiche
 
-* È raro trovare malware che lo utilizza, ma ci sono esempi (Ursnif)
+* È raro trovare malware che lo utilizzi, ma ci sono esempi (Ursnif)
 * Facile determinare se un algoritmo è Serpent o meno in base alla sua lunghezza (funzione estremamente lunga)
 
 ### Identificazione
@@ -122,7 +122,7 @@ Nota anche la **dimensione del loop** (**132**) e il **numero di operazioni XOR*
 
 ![](<../../.gitbook/assets/image (381).png>)
 
-Come menzionato prima, questo codice può essere visualizzato all'interno di qualsiasi decompilatore come una **funzione molto lunga** poiché **non ci sono salti** al suo interno. Il codice decompilato può apparire come segue:
+Come è stato menzionato prima, questo codice può essere visualizzato all'interno di qualsiasi decompilatore come una **funzione molto lunga** poiché **non ci sono salti** al suo interno. Il codice decompilato può apparire come segue:
 
 ![](<../../.gitbook/assets/image (382).png>)
 
@@ -171,7 +171,7 @@ Nota l'uso di più costanti
 
 ### Identificazione
 
-Controlla le **costanti della tabella di ricerca**:
+Controlla **costanti della tabella di ricerca**:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
@@ -206,7 +206,7 @@ Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

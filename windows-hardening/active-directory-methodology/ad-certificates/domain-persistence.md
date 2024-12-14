@@ -28,7 +28,7 @@ Si può determinare che un certificato è un certificato CA se sono soddisfatte 
 - È presente un'estensione "CA Version" esclusivamente nei certificati CA.
 - Il certificato non ha campi Extended Key Usage (EKU).
 
-Per estrarre la chiave privata di questo certificato, il tool `certsrv.msc` sul server CA è il metodo supportato tramite l'interfaccia grafica integrata. Tuttavia, questo certificato non differisce da altri memorizzati all'interno del sistema; pertanto, possono essere applicati metodi come la [tecnica THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) per l'estrazione.
+Per estrarre la chiave privata di questo certificato, il tool `certsrv.msc` sul server CA è il metodo supportato tramite l'interfaccia grafica integrata. Tuttavia, questo certificato non differisce da altri memorizzati all'interno del sistema; pertanto, possono essere applicati metodi come la [THEFT2 technique](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) per l'estrazione.
 
 Il certificato e la chiave privata possono anche essere ottenuti utilizzando Certipy con il seguente comando:
 ```bash
@@ -61,16 +61,16 @@ L'oggetto `NTAuthCertificates` è definito per contenere uno o più **certificat
 
 Un certificato CA autofirmato può essere aggiunto all'oggetto `NTAuthCertificates` da un attaccante, a condizione che abbia il controllo su questo oggetto AD. Normalmente, solo i membri del gruppo **Enterprise Admin**, insieme a **Domain Admins** o **Administrators** nel **dominio radice della foresta**, hanno il permesso di modificare questo oggetto. Possono modificare l'oggetto `NTAuthCertificates` utilizzando `certutil.exe` con il comando `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, oppure impiegando il [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-Questa capacità è particolarmente rilevante quando utilizzata in combinazione con un metodo precedentemente descritto che coinvolge ForgeCert per generare certificati dinamicamente.
+Questa capacità è particolarmente rilevante quando utilizzata in combinazione con un metodo precedentemente delineato che coinvolge ForgeCert per generare certificati dinamicamente.
 
 ## Configurazione malevola - DPERSIST3
 
-Le opportunità di **persistenza** attraverso **modifiche ai descrittori di sicurezza dei componenti AD CS** sono abbondanti. Le modifiche descritte nella sezione "[Domain Escalation](domain-escalation.md)" possono essere implementate in modo malevolo da un attaccante con accesso elevato. Questo include l'aggiunta di "diritti di controllo" (ad es., WriteOwner/WriteDACL/etc.) a componenti sensibili come:
+Le opportunità per la **persistenza** attraverso **modifiche ai descrittori di sicurezza dei componenti AD CS** sono abbondanti. Le modifiche descritte nella sezione "[Domain Escalation](domain-escalation.md)" possono essere implementate in modo malevolo da un attaccante con accesso elevato. Questo include l'aggiunta di "diritti di controllo" (ad es., WriteOwner/WriteDACL/etc.) a componenti sensibili come:
 
 - L'oggetto computer AD del **server CA**
 - Il **server RPC/DCOM del server CA**
 - Qualsiasi **oggetto o contenitore AD discendente** in **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (ad esempio, il contenitore dei modelli di certificato, il contenitore delle autorità di certificazione, l'oggetto NTAuthCertificates, ecc.)
-- **Gruppi AD a cui sono delegati diritti per controllare AD CS** per impostazione predefinita o dall'organizzazione (come il gruppo Cert Publishers integrato e qualsiasi dei suoi membri)
+- **Gruppi AD a cui sono delegati diritti per controllare AD CS** per impostazione predefinita o dall'organizzazione (come il gruppo integrato Cert Publishers e qualsiasi dei suoi membri)
 
 Un esempio di implementazione malevola coinvolgerebbe un attaccante, che ha **permessi elevati** nel dominio, nell'aggiungere il permesso **`WriteOwner`** al modello di certificato **`User`** predefinito, con l'attaccante che è il principale per il diritto. Per sfruttare questo, l'attaccante cambierebbe prima la proprietà del modello **`User`** a se stesso. Successivamente, il **`mspki-certificate-name-flag`** verrebbe impostato su **1** sul modello per abilitare **`ENROLLEE_SUPPLIES_SUBJECT`**, consentendo a un utente di fornire un Subject Alternative Name nella richiesta. Successivamente, l'attaccante potrebbe **iscriversi** utilizzando il **modello**, scegliendo un nome di **amministratore di dominio** come nome alternativo, e utilizzare il certificato acquisito per l'autenticazione come DA.
 

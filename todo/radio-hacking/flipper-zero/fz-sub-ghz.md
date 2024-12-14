@@ -18,7 +18,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero può **ricevere e trasmettere frequenze radio nella gamma di 300-928 MHz** con il suo modulo integrato, che può leggere, salvare ed emulare telecomandi. Questi controlli sono utilizzati per interagire con cancelli, barriere, serrature radio, interruttori a distanza, campanelli wireless, luci intelligenti e altro. Flipper Zero può aiutarti a scoprire se la tua sicurezza è compromessa.
+Flipper Zero può **ricevere e trasmettere frequenze radio nella gamma di 300-928 MHz** con il suo modulo integrato, che può leggere, salvare ed emulare telecomandi. Questi controlli sono utilizzati per interagire con cancelli, barriere, serrature radio, interruttori a distanza, campanelli wireless, luci intelligenti e altro ancora. Flipper Zero può aiutarti a scoprire se la tua sicurezza è compromessa.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -76,7 +76,7 @@ Per impostazione predefinita, **Leggi Raw è anche a 433.92 in AM650**, ma se co
 
 ### Brute-Force
 
-Se conosci il protocollo utilizzato ad esempio dal cancello del garage, è possibile **generare tutti i codici e inviarli con il Flipper Zero.** Questo è un esempio che supporta i tipi comuni di garage: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Se conosci il protocollo utilizzato ad esempio dal portone del garage, è possibile **generare tutti i codici e inviarli con il Flipper Zero.** Questo è un esempio che supporta i tipi comuni di garage: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Aggiungi Manualmente
 

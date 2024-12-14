@@ -25,7 +25,7 @@ Get Access Today:
 
 ## Pass The Ticket (PTT)
 
-Nel metodo di attacco **Pass The Ticket (PTT)**, gli attaccanti **rubano il biglietto di autenticazione di un utente** invece della sua password o dei valori hash. Questo biglietto rubato viene poi utilizzato per **fingere di essere l'utente**, ottenendo accesso non autorizzato a risorse e servizi all'interno di una rete.
+Nel metodo di attacco **Pass The Ticket (PTT)**, gli attaccanti **rubano il biglietto di autenticazione di un utente** invece della sua password o dei valori hash. Questo biglietto rubato viene quindi utilizzato per **fingere di essere l'utente**, ottenendo accesso non autorizzato a risorse e servizi all'interno di una rete.
 
 **Leggi**:
 
@@ -71,7 +71,7 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti** della comunità **più avanzati** al mondo.\
-Accedi oggi:
+Ottieni accesso oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pass-the-ticket" %}
 

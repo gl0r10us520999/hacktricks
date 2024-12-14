@@ -12,7 +12,7 @@ LangChain è un framework progettato per costruire applicazioni con LLM. Permett
 
 ### [**LitGPT**](https://github.com/Lightning-AI/litgpt)
 
-LitGPT è un progetto sviluppato da Lightning AI che sfrutta il framework Lightning per facilitare l'addestramento, il fine-tuning e la distribuzione di modelli basati su GPT. Si integra senza soluzione di continuità con altri strumenti di Lightning AI, fornendo flussi di lavoro ottimizzati per gestire modelli linguistici su larga scala con prestazioni e scalabilità migliorate.
+LitGPT è un progetto sviluppato da Lightning AI che sfrutta il framework Lightning per facilitare l'addestramento, il fine-tuning e la distribuzione di modelli basati su GPT. Si integra senza problemi con altri strumenti di Lightning AI, fornendo flussi di lavoro ottimizzati per gestire modelli linguistici su larga scala con prestazioni e scalabilità migliorate.
 
 ### [**LitServe**](https://github.com/Lightning-AI/LitServe)
 
@@ -39,7 +39,7 @@ Offre diverse sezioni come:
 **TensorFlow Hub** è un repository completo di moduli di apprendimento automatico riutilizzabili sviluppati da Google. Si concentra sul facilitare la condivisione e la distribuzione di modelli di apprendimento automatico, specialmente quelli costruiti con TensorFlow.
 
 * **Moduli:** Una vasta collezione di modelli pre-addestrati e componenti di modelli dove gli utenti possono navigare, scaricare e integrare moduli per compiti come classificazione delle immagini, embedding di testo e altro.
-* **Tutorial:** Guide passo-passo ed esempi che aiutano gli utenti a comprendere come implementare e ottimizzare modelli utilizzando TensorFlow Hub.
+* **Tutorial:** Guide passo-passo ed esempi che aiutano gli utenti a capire come implementare e ottimizzare modelli utilizzando TensorFlow Hub.
 * **Documentazione:** Guide complete e riferimenti API che assistono gli sviluppatori nell'utilizzare efficacemente le risorse del repository.
 
 ## [**Replicate**](https://replicate.com/home)

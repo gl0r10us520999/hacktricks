@@ -49,21 +49,21 @@ Per verificare lo stato di attivazione di **Credential Guard**, è possibile con
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
-Per una comprensione completa e istruzioni su come abilitare **Credential Guard** in Windows 10 e la sua attivazione automatica nei sistemi compatibili di **Windows 11 Enterprise e Education (versione 22H2)**, visita la [documentazione di Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
+Per una comprensione completa e istruzioni su come abilitare **Credential Guard** in Windows 10 e la sua attivazione automatica nei sistemi compatibili di **Windows 11 Enterprise e Education (versione 22H2)**, visita [la documentazione di Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
-Ulteriori dettagli sull'implementazione di SSP personalizzati per la cattura delle credenziali sono forniti in [questa guida](../active-directory-methodology/custom-ssp.md).
+Ulteriori dettagli sull'implementazione di SSP personalizzati per la cattura delle credenziali sono forniti [in questa guida](../active-directory-methodology/custom-ssp.md).
 
 ## Modalità RDP RestrictedAdmin
 
 **Windows 8.1 e Windows Server 2012 R2** hanno introdotto diverse nuove funzionalità di sicurezza, inclusa la _**modalità Restricted Admin per RDP**_. Questa modalità è stata progettata per migliorare la sicurezza mitigando i rischi associati agli attacchi [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/).
 
-Tradizionalmente, quando ci si connette a un computer remoto tramite RDP, le proprie credenziali vengono memorizzate sulla macchina di destinazione. Ciò rappresenta un rischio significativo per la sicurezza, specialmente quando si utilizzano account con privilegi elevati. Tuttavia, con l'introduzione della _**modalità Restricted Admin**_, questo rischio è sostanzialmente ridotto.
+Tradizionalmente, quando ci si connette a un computer remoto tramite RDP, le proprie credenziali vengono memorizzate sulla macchina di destinazione. Questo rappresenta un rischio significativo per la sicurezza, specialmente quando si utilizzano account con privilegi elevati. Tuttavia, con l'introduzione della _**modalità Restricted Admin**_, questo rischio è sostanzialmente ridotto.
 
 Quando si avvia una connessione RDP utilizzando il comando **mstsc.exe /RestrictedAdmin**, l'autenticazione al computer remoto viene eseguita senza memorizzare le proprie credenziali su di esso. Questo approccio garantisce che, in caso di infezione da malware o se un utente malintenzionato ottiene accesso al server remoto, le proprie credenziali non vengano compromesse, poiché non sono memorizzate sul server.
 
 È importante notare che in **modalità Restricted Admin**, i tentativi di accesso alle risorse di rete dalla sessione RDP non utilizzeranno le proprie credenziali personali; invece, verrà utilizzata l'**identità della macchina**.
 
-Questa funzionalità segna un passo significativo avanti nella sicurezza delle connessioni desktop remote e nella protezione delle informazioni sensibili da esposizioni in caso di violazione della sicurezza.
+Questa funzionalità segna un passo significativo avanti nella sicurezza delle connessioni desktop remote e nella protezione delle informazioni sensibili da essere esposte in caso di violazione della sicurezza.
 
 ![](../../.gitbook/assets/RAM.png)
 
@@ -71,7 +71,7 @@ Per ulteriori informazioni dettagliate visita [questa risorsa](https://blog.ahas
 
 ## Credenziali memorizzate
 
-Windows protegge le **credenziali di dominio** attraverso la **Local Security Authority (LSA)**, supportando i processi di accesso con protocolli di sicurezza come **Kerberos** e **NTLM**. Una caratteristica chiave di Windows è la sua capacità di memorizzare nella cache i **ultimi dieci accessi al dominio** per garantire che gli utenti possano ancora accedere ai propri computer anche se il **controller di dominio è offline**—un vantaggio per gli utenti di laptop spesso lontani dalla rete della propria azienda.
+Windows protegge le **credenziali di dominio** attraverso la **Local Security Authority (LSA)**, supportando i processi di accesso con protocolli di sicurezza come **Kerberos** e **NTLM**. Una caratteristica chiave di Windows è la sua capacità di memorizzare nella cache i **dieci ultimi accessi al dominio** per garantire che gli utenti possano comunque accedere ai propri computer anche se il **controller di dominio è offline**—un vantaggio per gli utenti di laptop spesso lontani dalla rete della propria azienda.
 
 Il numero di accessi memorizzati nella cache è regolabile tramite una specifica **chiave di registro o policy di gruppo**. Per visualizzare o modificare questa impostazione, viene utilizzato il seguente comando:
 ```bash
@@ -87,17 +87,17 @@ Per ulteriori dettagli, la [fonte](http://juggernaut.wikidot.com/cached-credenti
 
 L'appartenenza al **gruppo Utenti Protetti** introduce diversi miglioramenti della sicurezza per gli utenti, garantendo livelli più elevati di protezione contro il furto e l'uso improprio delle credenziali:
 
-* **Delegazione delle Credenziali (CredSSP)**: Anche se l'impostazione della Group Policy per **Consenti la delega delle credenziali predefinite** è abilitata, le credenziali in testo chiaro degli Utenti Protetti non verranno memorizzate nella cache.
-* **Windows Digest**: A partire da **Windows 8.1 e Windows Server 2012 R2**, il sistema non memorizzerà nella cache le credenziali in testo chiaro degli Utenti Protetti, indipendentemente dallo stato di Windows Digest.
-* **NTLM**: Il sistema non memorizzerà nella cache le credenziali in testo chiaro degli Utenti Protetti o le funzioni unidirezionali NT (NTOWF).
-* **Kerberos**: Per gli Utenti Protetti, l'autenticazione Kerberos non genererà chiavi **DES** o **RC4**, né memorizzerà nella cache credenziali in testo chiaro o chiavi a lungo termine oltre l'acquisizione iniziale del Ticket-Granting Ticket (TGT).
+* **Delegazione delle Credenziali (CredSSP)**: Anche se l'impostazione della Group Policy per **Consenti la delega delle credenziali predefinite** è abilitata, le credenziali in chiaro degli Utenti Protetti non verranno memorizzate nella cache.
+* **Windows Digest**: A partire da **Windows 8.1 e Windows Server 2012 R2**, il sistema non memorizzerà nella cache le credenziali in chiaro degli Utenti Protetti, indipendentemente dallo stato di Windows Digest.
+* **NTLM**: Il sistema non memorizzerà nella cache le credenziali in chiaro degli Utenti Protetti o le funzioni unidirezionali NT (NTOWF).
+* **Kerberos**: Per gli Utenti Protetti, l'autenticazione Kerberos non genererà chiavi **DES** o **RC4**, né memorizzerà nella cache credenziali in chiaro o chiavi a lungo termine oltre l'acquisizione iniziale del Ticket-Granting Ticket (TGT).
 * **Accesso Offline**: Gli Utenti Protetti non avranno un verificatore memorizzato nella cache creato al momento dell'accesso o dello sblocco, il che significa che l'accesso offline non è supportato per questi account.
 
 Queste protezioni vengono attivate nel momento in cui un utente, che è membro del **gruppo Utenti Protetti**, accede al dispositivo. Questo garantisce che misure di sicurezza critiche siano in atto per proteggere contro vari metodi di compromissione delle credenziali.
 
 Per informazioni più dettagliate, consultare la [documentazione ufficiale](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
-**Tabella da** [**la documentazione**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Tabella da** [**documenti**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |

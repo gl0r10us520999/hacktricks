@@ -17,14 +17,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Constrained Delegation
 
-Utilizzando questo, un amministratore di dominio può **consentire** a un computer di **fingere di essere un utente o un computer** contro un **servizio** di una macchina.
+Utilizzando questo, un amministratore di dominio può **consentire** a un computer di **impersonare un utente o un computer** contro un **servizio** di una macchina.
 
 * **Servizio per Utente a se stesso (**_**S4U2self**_**):** Se un **account di servizio** ha un valore _userAccountControl_ che contiene [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), allora può ottenere un TGS per se stesso (il servizio) per conto di qualsiasi altro utente.
 * **Servizio per Utente a Proxy(**_**S4U2proxy**_**):** Un **account di servizio** potrebbe ottenere un TGS per conto di qualsiasi utente al servizio impostato in **msDS-AllowedToDelegateTo.** Per farlo, ha prima bisogno di un TGS da quell'utente a se stesso, ma può usare S4U2self per ottenere quel TGS prima di richiedere l'altro.
 
-**Nota**: Se un utente è contrassegnato come ‘_L'account è sensibile e non può essere delegato_’ in AD, non sarai **in grado di impersonarlo**.
+**Nota**: Se un utente è contrassegnato come ‘_L'account è sensibile e non può essere delegato_’ in AD, non potrai **impersonarlo**.
 
-Questo significa che se **comprometti l'hash del servizio** puoi **impersonare utenti** e ottenere **accesso** a loro nome al **servizio configurato** (possibile **privesc**).
+Questo significa che se **comprometti l'hash del servizio** puoi **impersonare gli utenti** e ottenere **accesso** a loro nome al **servizio configurato** (possibile **privesc**).
 
 Inoltre, **non avrai solo accesso al servizio che l'utente è in grado di impersonare, ma anche a qualsiasi servizio** perché lo SPN (il nome del servizio richiesto) non viene controllato, solo i privilegi. Pertanto, se hai accesso al **servizio CIFS** puoi anche avere accesso al **servizio HOST** utilizzando il flag `/altservice` in Rubeus.
 
@@ -112,7 +112,7 @@ Impara e pratica il hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" 
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

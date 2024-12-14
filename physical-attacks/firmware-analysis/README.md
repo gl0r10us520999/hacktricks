@@ -104,7 +104,7 @@ Alternativamente, il seguente comando potrebbe essere eseguito.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* Per squashfs (usato nell'esempio sopra)
+* Per squashfs (utilizzato nell'esempio sopra)
 
 `$ unsquashfs dir.squashfs`
 
@@ -140,13 +140,13 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-Per valutare lo stato della crittografia dell'immagine, si controlla l'**entropia** con `binwalk -E <bin>`. Un'entropia bassa suggerisce una mancanza di crittografia, mentre un'entropia alta indica una possibile crittografia o compressione.
+Per valutare lo stato della crittografia dell'immagine, si controlla l'**entropia** con `binwalk -E <bin>`. Bassa entropia suggerisce una mancanza di crittografia, mentre alta entropia indica una possibile crittografia o compressione.
 
 Per estrarre i **file incorporati**, si raccomandano strumenti e risorse come la documentazione di **file-data-carving-recovery-tools** e **binvis.io** per l'ispezione dei file.
 
 ### Estrazione del Filesystem
 
-Utilizzando `binwalk -ev <bin>`, è possibile solitamente estrarre il filesystem, spesso in una directory chiamata in base al tipo di filesystem (ad es., squashfs, ubifs). Tuttavia, quando **binwalk** non riesce a riconoscere il tipo di filesystem a causa di byte magici mancanti, è necessaria un'estrazione manuale. Questo comporta l'uso di `binwalk` per localizzare l'offset del filesystem, seguito dal comando `dd` per estrarre il filesystem:
+Utilizzando `binwalk -ev <bin>`, è possibile solitamente estrarre il filesystem, spesso in una directory chiamata in base al tipo di filesystem (ad esempio, squashfs, ubifs). Tuttavia, quando **binwalk** non riesce a riconoscere il tipo di filesystem a causa di byte magici mancanti, è necessaria un'estrazione manuale. Questo comporta l'uso di `binwalk` per localizzare l'offset del filesystem, seguito dal comando `dd` per estrarre il filesystem:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
@@ -178,9 +178,9 @@ Sia il codice sorgente che i binari compilati trovati nel filesystem devono esse
 
 ## Emulazione del Firmware per Analisi Dinamica
 
-Il processo di emulazione del firmware consente un'**analisi dinamica** sia del funzionamento di un dispositivo che di un singolo programma. Questo approccio può incontrare sfide con dipendenze hardware o architetturali, ma trasferire il filesystem root o binari specifici su un dispositivo con architettura e endianness corrispondenti, come un Raspberry Pi, o su una macchina virtuale pre-costruita, può facilitare ulteriori test.
+Il processo di emulazione del firmware consente un'**analisi dinamica** sia del funzionamento di un dispositivo che di un programma individuale. Questo approccio può incontrare sfide con dipendenze hardware o architetturali, ma trasferire il filesystem root o binari specifici su un dispositivo con architettura e endianness corrispondenti, come un Raspberry Pi, o su una macchina virtuale pre-costruita, può facilitare ulteriori test.
 
-### Emulazione di Singoli Binari
+### Emulazione di Binari Individuali
 
 Per esaminare singoli programmi, è cruciale identificare l'endianness e l'architettura CPU del programma.
 
@@ -212,7 +212,7 @@ In questa fase, viene utilizzato un ambiente di dispositivo reale o emulato per 
 
 L'analisi in esecuzione comporta l'interazione con un processo o un binario nel suo ambiente operativo, utilizzando strumenti come gdb-multiarch, Frida e Ghidra per impostare punti di interruzione e identificare vulnerabilità attraverso fuzzing e altre tecniche.
 
-## Sfruttamento Binario e Proof-of-Concept
+## Sfruttamento Binario e Prova di Concetto
 
 Sviluppare un PoC per le vulnerabilità identificate richiede una profonda comprensione dell'architettura target e programmazione in linguaggi di basso livello. Le protezioni binarie in esecuzione nei sistemi embedded sono rare, ma quando presenti, tecniche come il Return Oriented Programming (ROP) possono essere necessarie.
 
@@ -225,7 +225,7 @@ Sistemi operativi come [AttifyOS](https://github.com/adi0x90/attifyos) e [EmbedO
 * [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS è una distribuzione destinata ad aiutarti a eseguire valutazioni di sicurezza e penetration testing di dispositivi Internet of Things (IoT). Ti fa risparmiare molto tempo fornendo un ambiente preconfigurato con tutti gli strumenti necessari caricati.
 * [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Sistema operativo per il testing della sicurezza embedded basato su Ubuntu 18.04 precaricato con strumenti per il testing della sicurezza del firmware.
 
-## Firmware Vulnerabili per Praticare
+## Firmware Vulnerabile per Praticare
 
 Per praticare la scoperta di vulnerabilità nel firmware, utilizza i seguenti progetti di firmware vulnerabili come punto di partenza.
 

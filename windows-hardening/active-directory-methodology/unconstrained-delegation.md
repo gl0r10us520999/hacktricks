@@ -43,13 +43,13 @@ Maggiore info: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https:
 ### **Force Authentication**
 
 Se un attaccante è in grado di **compromettere un computer autorizzato per "Unconstrained Delegation"**, potrebbe **ingannare** un **Print server** per **accedere automaticamente** ad esso **salvando un TGT** nella memoria del server.\
-Quindi, l'attaccante potrebbe eseguire un **attacco Pass the Ticket per impersonare** l'account computer dell'utente del Print server.
+Quindi, l'attaccante potrebbe eseguire un **attacco Pass the Ticket per impersonare** l'account computer del server di stampa.
 
-Per far accedere un print server a qualsiasi macchina puoi usare [**SpoolSample**](https://github.com/leechristensen/SpoolSample):
+Per far accedere un server di stampa a qualsiasi macchina puoi usare [**SpoolSample**](https://github.com/leechristensen/SpoolSample):
 ```bash
 .\SpoolSample.exe <printmachine> <unconstrinedmachine>
 ```
-Se il TGT proviene da un controller di dominio, puoi eseguire un[ **attacco DCSync**](acl-persistence-abuse/#dcsync) e ottenere tutti gli hash dal DC.\
+Se il TGT proviene da un controller di dominio, puoi eseguire un[ **DCSync attack**](acl-persistence-abuse/#dcsync) e ottenere tutti gli hash dal DC.\
 [**Ulteriori informazioni su questo attacco in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
 
 **Ecco altri modi per cercare di forzare un'autenticazione:**
@@ -73,7 +73,7 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

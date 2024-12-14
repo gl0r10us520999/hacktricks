@@ -54,7 +54,7 @@ I bit sono codificati mediante modulazione della larghezza dell'impulso. La larg
 {% hint style="info" %}
 Ci sono protocolli IR che **cercano di diventare universali** per diversi tipi di dispositivi. I più famosi sono RC5 e NEC. Sfortunatamente, il più famoso **non significa il più comune**. Nel mio ambiente, ho incontrato solo due telecomandi NEC e nessun RC5.
 
-I produttori amano utilizzare i propri protocolli IR unici, anche all'interno della stessa gamma di dispositivi (ad esempio, TV-box). Pertanto, i telecomandi di diverse aziende e a volte di diversi modelli della stessa azienda, non sono in grado di funzionare con altri dispositivi dello stesso tipo.
+I produttori amano utilizzare i propri protocolli IR unici, anche all'interno della stessa gamma di dispositivi (ad esempio, TV-box). Pertanto, i telecomandi di diverse aziende e talvolta di diversi modelli della stessa azienda, non sono in grado di funzionare con altri dispositivi dello stesso tipo.
 {% endhint %}
 
 ### Esplorare un segnale IR
@@ -67,7 +67,7 @@ Di solito, c'è un preambolo all'inizio di un pacchetto codificato. Questo conse
 
 Poi vengono trasmessi i dati. La struttura, il preambolo e il metodo di codifica dei bit sono determinati dal protocollo specifico.
 
-Il **protocollo IR NEC** contiene un breve comando e un codice di ripetizione, che viene inviato mentre il pulsante è premuto. Sia il comando che il codice di ripetizione hanno lo stesso preambolo all'inizio.
+Il **protocollo IR NEC** contiene un comando breve e un codice di ripetizione, che viene inviato mentre il pulsante è premuto. Sia il comando che il codice di ripetizione hanno lo stesso preambolo all'inizio.
 
 Il **comando NEC**, oltre al preambolo, è composto da un byte di indirizzo e un byte di numero di comando, con cui il dispositivo comprende cosa deve essere eseguito. I byte di indirizzo e numero di comando sono duplicati con valori inversi, per controllare l'integrità della trasmissione. C'è un bit di stop aggiuntivo alla fine del comando.
 
@@ -78,7 +78,7 @@ Per **logica "0" e "1"** NEC utilizza la Codifica della Distanza degli Impulsi: 
 ### Condizionatori d'aria
 
 A differenza di altri telecomandi, **i condizionatori d'aria non trasmettono solo il codice del pulsante premuto**. Trasmettono anche **tutte le informazioni** quando un pulsante viene premuto per garantire che la **macchina del condizionatore e il telecomando siano sincronizzati**.\
-Questo eviterà che una macchina impostata a 20ºC venga aumentata a 21ºC con un telecomando, e poi quando un altro telecomando, che ha ancora la temperatura a 20ºC, viene utilizzato per aumentare ulteriormente la temperatura, essa verrà "aumentata" a 21ºC (e non a 22ºC pensando che sia a 21ºC).
+Questo eviterà che una macchina impostata a 20ºC venga aumentata a 21ºC con un telecomando, e poi quando un altro telecomando, che ha ancora la temperatura a 20ºC, viene utilizzato per aumentare ulteriormente la temperatura, essa "aumenterà" a 21ºC (e non a 22ºC pensando che sia a 21ºC).
 
 ### Attacchi
 
