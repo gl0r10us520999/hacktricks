@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Profundiza tu experiencia en **Mobile Security** con 8kSec Academy. Domina la seguridad de iOS y Android a través de nuestros cursos autoguiados y obtén certificación:
+Profundiza tu experiencia en **Mobile Security** con 8kSec Academy. Domina la seguridad de iOS y Android a través de nuestros cursos a tu propio ritmo y obtén certificación:
 
 {% embed url="https://academy.8ksec.io/" %}
 
@@ -43,7 +43,7 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-En el comando anterior, **C** significa **Cambiado** y **A,** **Agregado**.\
+En el comando anterior, **C** significa **Cambiado** y **A** significa **Añadido**.\
 Si encuentras que algún archivo interesante como `/etc/shadow` fue modificado, puedes descargarlo del contenedor para verificar actividad maliciosa con:
 ```bash
 docker cp wordpress:/etc/shadow.
@@ -113,7 +113,7 @@ Por lo tanto (como root) puedes **volcar la memoria de los procesos** desde el h
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Profundiza tu experiencia en **Seguridad Móvil** con 8kSec Academy. Domina la seguridad de iOS y Android a través de nuestros cursos a tu propio ritmo y obtén certificación:
+Profundiza tu experiencia en **Seguridad Móvil** con 8kSec Academy. Domina la seguridad de iOS y Android a través de nuestros cursos autoguiados y obtén certificación:
 
 {% embed url="https://academy.8ksec.io/" %}
 

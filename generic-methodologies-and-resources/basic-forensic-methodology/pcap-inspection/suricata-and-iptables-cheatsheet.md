@@ -158,7 +158,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 * ip (ip significa ‘todos’ o ‘cualquiera’)
 * _protocolos de capa 7_: http, ftp, tls, smb, dns, ssh... (más en la [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Direcciones de origen y destino
+#### Direcciones de Origen y Destino
 
 Soporta rangos de IP, negaciones y una lista de direcciones:
 
@@ -170,7 +170,7 @@ Soporta rangos de IP, negaciones y una lista de direcciones:
 | \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET y no HOME\_NET                |
 | \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 excepto por 10.0.0.5            |
 
-#### Puertos de origen y destino
+#### Puertos de Origen y Destino
 
 Soporta rangos de puertos, negaciones y listas de puertos
 

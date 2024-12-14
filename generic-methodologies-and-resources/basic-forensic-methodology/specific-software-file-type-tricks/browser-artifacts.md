@@ -144,7 +144,7 @@ Para revisar el historial de navegación, se puede usar [BrowsingHistoryView](ht
 
 ### URLs Escritas
 
-Las URLs escritas y sus tiempos de uso se almacenan en el registro bajo `NTUSER.DAT` en `Software\Microsoft\InternetExplorer\TypedURLs` y `Software\Microsoft\InternetExplorer\TypedURLsTime`, rastreando las últimas 50 URLs ingresadas por el usuario y sus últimos tiempos de entrada.
+Las URLs escritas y sus tiempos de uso se almacenan dentro del registro bajo `NTUSER.DAT` en `Software\Microsoft\InternetExplorer\TypedURLs` y `Software\Microsoft\InternetExplorer\TypedURLsTime`, rastreando las últimas 50 URLs ingresadas por el usuario y sus últimos tiempos de entrada.
 
 ## Microsoft Edge
 
@@ -173,7 +173,7 @@ Los datos de Safari se almacenan en `/Users/$User/Library/Safari`. Los archivos 
 
 Los datos de Opera residen en `/Users/$USER/Library/Application Support/com.operasoftware.Opera` y comparte el formato de Chrome para historial y descargas.
 
-* **Browser’s built-in anti-phishing**: Verifique comprobando si `fraud_protection_enabled` en el archivo de preferencias está configurado como `true` usando `grep`.
+* **Browser’s built-in anti-phishing**: Verifique comprobando si `fraud_protection_enabled` en el archivo Preferences está configurado como `true` usando `grep`.
 
 Estas rutas y comandos son cruciales para acceder y comprender los datos de navegación almacenados por diferentes navegadores web.
 
@@ -193,8 +193,8 @@ Obtén acceso hoy:
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 {% hint style="success" %}
-Aprende y practica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

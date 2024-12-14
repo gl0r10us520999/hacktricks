@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -28,7 +28,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * **Comienza** a analizar el binario empaquetado **desde abajo en IDA y sube**. Los desempaquetadores salen una vez que el código desempaquetado sale, por lo que es poco probable que el desempaquetador pase la ejecución al código desempaquetado al principio.
 * Busca **JMP's** o **CALLs** a **registros** o **regiones** de **memoria**. También busca **funciones que empujan argumentos y una dirección de dirección y luego llaman a `retn`**, porque el retorno de la función en ese caso puede llamar a la dirección que se acaba de empujar a la pila antes de llamarla.
-* Coloca un **punto de interrupción** en `VirtualAlloc`, ya que esto asigna espacio en memoria donde el programa puede escribir código desempaquetado. "Ejecutar hasta el código de usuario" o usa F8 para **obtener el valor dentro de EAX** después de ejecutar la función y "**seguir esa dirección en el volcado**". Nunca sabes si esa es la región donde se va a guardar el código desempaquetado.
+* Coloca un **punto de interrupción** en `VirtualAlloc`, ya que esto asigna espacio en memoria donde el programa puede escribir código desempaquetado. Usa "run to user code" o F8 para **obtener el valor dentro de EAX** después de ejecutar la función y "**seguir esa dirección en el volcado**". Nunca sabes si esa es la región donde se va a guardar el código desempaquetado.
 * **`VirtualAlloc`** con el valor "**40**" como argumento significa Leer+Escribir+Ejecutar (algún código que necesita ejecución se va a copiar aquí).
 * **Mientras desempaquetas** código, es normal encontrar **varias llamadas** a **operaciones aritméticas** y funciones como **`memcopy`** o **`Virtual`**`Alloc`. Si te encuentras en una función que aparentemente solo realiza operaciones aritméticas y tal vez algún `memcopy`, la recomendación es intentar **encontrar el final de la función** (tal vez un JMP o llamada a algún registro) **o** al menos la **llamada a la última función** y ejecutarla, ya que el código no es interesante.
 * Mientras desempaquetas código, **nota** cada vez que **cambias de región de memoria**, ya que un cambio de región de memoria puede indicar el **inicio del código desempaquetado**. Puedes volcar fácilmente una región de memoria usando Process Hacker (proceso --> propiedades --> memoria).
@@ -37,16 +37,16 @@ Sin embargo, si el empaquetador ya contiene muchas cadenas, puedes ver cuántas 
 * Cuando vuelques un ejecutable desde una región de memoria, puedes corregir algunos encabezados usando [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

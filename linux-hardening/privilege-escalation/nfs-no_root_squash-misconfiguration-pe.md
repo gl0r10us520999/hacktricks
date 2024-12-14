@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Lee el _ **/etc/exports** _ archivo, si encuentras algún directorio que esté configurado como **no\_root\_squash**, entonces puedes **acceder** a él **como cliente** y **escribir dentro** de ese directorio **como** si fueras el **root** local de la máquina.
+Lee el _ **/etc/exports** _ archivo, si encuentras algún directorio que está configurado como **no\_root\_squash**, entonces puedes **acceder** a él **como cliente** y **escribir dentro** de ese directorio **como** si fueras el **root** local de la máquina.
 
 **no\_root\_squash**: Esta opción básicamente le da autoridad al usuario root en el cliente para acceder a archivos en el servidor NFS como root. Y esto puede llevar a serias implicaciones de seguridad.
 
@@ -61,7 +61,7 @@ cd <SHAREDD_FOLDER>
 ## Local Exploit
 
 {% hint style="info" %}
-Ten en cuenta que si puedes crear un **túnel desde tu máquina a la máquina víctima, aún puedes usar la versión remota para explotar esta escalada de privilegios tunelizando los puertos requeridos**.\
+Nota que si puedes crear un **túnel desde tu máquina a la máquina víctima, aún puedes usar la versión Remota para explotar esta escalada de privilegios tunelizando los puertos requeridos**.\
 El siguiente truco es en caso de que el archivo `/etc/exports` **indique una IP**. En este caso **no podrás usar** en ningún caso el **exploit remoto** y necesitarás **abusar de este truco**.\
 Otro requisito necesario para que el exploit funcione es que **la exportación dentro de `/etc/export`** **debe estar usando la bandera `insecure`**.\
 \--_No estoy seguro de que si `/etc/export` está indicando una dirección IP, este truco funcionará_--

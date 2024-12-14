@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Partitions
+## Particiones
 
 Un disco duro o un **SSD puede contener diferentes particiones** con el objetivo de separar datos físicamente.\
 La **unidad mínima** de un disco es el **sector** (normalmente compuesto de 512B). Por lo tanto, el tamaño de cada partición debe ser un múltiplo de ese tamaño.
@@ -36,26 +36,26 @@ Desde los **bytes 440 a 443** del MBR puedes encontrar la **Firma de Disco de Wi
 
 **Formato**
 
-| Offset      | Length     | Item                |
+| Offset      | Longitud   | Elemento            |
 | ----------- | ---------- | ------------------- |
-| 0 (0x00)    | 446(0x1BE) | Código de arranque  |
-| 446 (0x1BE) | 16 (0x10)  | Primera partición   |
-| 462 (0x1CE) | 16 (0x10)  | Segunda partición    |
-| 478 (0x1DE) | 16 (0x10)  | Tercera partición   |
-| 494 (0x1EE) | 16 (0x10)  | Cuarta partición    |
-| 510 (0x1FE) | 2 (0x2)    | Firma 0x55 0xAA    |
+| 0 (0x00)    | 446(0x1BE) | Código de arranque   |
+| 446 (0x1BE) | 16 (0x10)  | Primera partición    |
+| 462 (0x1CE) | 16 (0x10)  | Segunda partición     |
+| 478 (0x1DE) | 16 (0x10)  | Tercera partición     |
+| 494 (0x1EE) | 16 (0x10)  | Cuarta partición      |
+| 510 (0x1FE) | 2 (0x2)    | Firma 0x55 0xAA      |
 
 **Formato del Registro de Partición**
 
-| Offset    | Length   | Item                                                   |
+| Offset    | Longitud | Elemento                                               |
 | --------- | -------- | ------------------------------------------------------ |
 | 0 (0x00)  | 1 (0x01) | Bandera activa (0x80 = arrancable)                    |
 | 1 (0x01)  | 1 (0x01) | Cabeza de inicio                                       |
-| 2 (0x02)  | 1 (0x01) | Sector de inicio (bits 0-5); bits superiores del cilindro (6- 7) |
+| 2 (0x02)  | 1 (0x01) | Sector de inicio (bits 0-5); bits superiores del cilindro (6-7) |
 | 3 (0x03)  | 1 (0x01) | Cilindro de inicio, 8 bits más bajos                  |
 | 4 (0x04)  | 1 (0x01) | Código de tipo de partición (0x83 = Linux)            |
 | 5 (0x05)  | 1 (0x01) | Cabeza final                                           |
-| 6 (0x06)  | 1 (0x01) | Sector final (bits 0-5); bits superiores del cilindro (6- 7)   |
+| 6 (0x06)  | 1 (0x01) | Sector final (bits 0-5); bits superiores del cilindro (6-7) |
 | 7 (0x07)  | 1 (0x01) | Cilindro final, 8 bits más bajos                      |
 | 8 (0x08)  | 4 (0x04) | Sectores precedentes a la partición (little endian)   |
 | 12 (0x0C) | 4 (0x04) | Sectores en la partición                               |
@@ -86,23 +86,23 @@ La Tabla de Particiones GUID, conocida como GPT, es preferida por sus capacidade
 **Resiliencia y recuperación de datos**:
 
 * **Redundancia**: A diferencia de MBR, GPT no confina la partición y los datos de arranque a un solo lugar. Replica estos datos a lo largo del disco, mejorando la integridad y resiliencia de los datos.
-* **Verificación de redundancia cíclica (CRC)**: GPT emplea CRC para asegurar la integridad de los datos. Monitorea activamente la corrupción de datos y, cuando se detecta, GPT intenta recuperar los datos corruptos desde otra ubicación del disco.
+* **Verificación de redundancia cíclica (CRC)**: GPT emplea CRC para asegurar la integridad de los datos. Monitorea activamente la corrupción de datos y, cuando se detecta, GPT intenta recuperar los datos corruptos de otra ubicación del disco.
 
 **MBR protector (LBA0)**:
 
-* GPT mantiene la compatibilidad hacia atrás a través de un MBR protector. Esta característica reside en el espacio MBR legado pero está diseñada para evitar que utilidades basadas en MBR más antiguas sobrescriban erróneamente discos GPT, protegiendo así la integridad de los datos en discos formateados con GPT.
+* GPT mantiene la compatibilidad hacia atrás a través de un MBR protector. Esta característica reside en el espacio MBR legado pero está diseñada para evitar que utilidades más antiguas basadas en MBR sobrescriban erróneamente discos GPT, protegiendo así la integridad de los datos en discos formateados con GPT.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
 **MBR híbrido (LBA 0 + GPT)**
 
-[Desde Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+[De Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 En sistemas operativos que soportan **arranque basado en GPT a través de servicios BIOS** en lugar de EFI, el primer sector también puede seguir utilizándose para almacenar la primera etapa del código del **bootloader**, pero **modificado** para reconocer **particiones GPT**. El bootloader en el MBR no debe asumir un tamaño de sector de 512 bytes.
 
 **Encabezado de la tabla de particiones (LBA 1)**
 
-[Desde Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+[De Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 El encabezado de la tabla de particiones define los bloques utilizables en el disco. También define el número y tamaño de las entradas de partición que componen la tabla de particiones (desplazamientos 80 y 84 en la tabla).
 
@@ -182,11 +182,11 @@ Los componentes clave del directorio raíz, particularmente para FAT12 y FAT16, 
 
 ### EXT
 
-**Ext2** es el sistema de archivos más común para **particiones que no registran** (**particiones que no cambian mucho**) como la partición de arranque. **Ext3/4** son **con registro** y se utilizan generalmente para el **resto de las particiones**.
+**Ext2** es el sistema de archivos más común para **particiones que no registran** (**particiones que no cambian mucho**) como la partición de arranque. **Ext3/4** son **de registro** y se utilizan generalmente para el **resto de las particiones**.
 
 ## **Metadatos**
 
-Algunos archivos contienen metadatos. Esta información se refiere al contenido del archivo que a veces puede ser interesante para un analista, ya que dependiendo del tipo de archivo, puede tener información como:
+Algunos archivos contienen metadatos. Esta información es sobre el contenido del archivo que a veces puede ser interesante para un analista, ya que dependiendo del tipo de archivo, puede tener información como:
 
 * Título
 * Versión de MS Office utilizada
@@ -212,17 +212,17 @@ Además, el sistema operativo generalmente guarda mucha información sobre los c
 
 ### **Carving de archivos**
 
-**El carving de archivos** es una técnica que intenta **encontrar archivos en la gran cantidad de datos**. Hay 3 formas principales en que herramientas como esta funcionan: **Basado en los encabezados y pies de los tipos de archivos**, basado en las **estructuras** de los tipos de archivos y basado en el **contenido** mismo.
+**El carving de archivos** es una técnica que intenta **encontrar archivos en la gran cantidad de datos**. Hay 3 formas principales en que herramientas como esta funcionan: **Basado en encabezados y pies de archivo**, basado en **estructuras** de tipos de archivo y basado en el **contenido** mismo.
 
 Ten en cuenta que esta técnica **no funciona para recuperar archivos fragmentados**. Si un archivo **no está almacenado en sectores contiguos**, entonces esta técnica no podrá encontrarlo o al menos parte de él.
 
-Hay varias herramientas que puedes usar para el carving de archivos indicando los tipos de archivos que deseas buscar.
+Hay varias herramientas que puedes usar para el carving de archivos indicando los tipos de archivo que deseas buscar.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Carving de flujo de datos
+### Carving de flujo de datos **C**
 
 El carving de flujo de datos es similar al carving de archivos, pero **en lugar de buscar archivos completos, busca fragmentos interesantes** de información.\
 Por ejemplo, en lugar de buscar un archivo completo que contenga URLs registradas, esta técnica buscará URLs.
@@ -245,16 +245,16 @@ Puedes notar que incluso al realizar esa acción puede haber **otras partes dond
 * **iHackLabs Certificado en Forense Digital Windows**
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

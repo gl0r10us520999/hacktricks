@@ -39,7 +39,7 @@ En los certificados x509, varios **campos** juegan roles críticos en asegurar l
 * **Número de Serie** identifica de manera única el certificado dentro del sistema de una Autoridad de Certificación (CA), principalmente para el seguimiento de revocaciones.
 * El campo **Sujeto** representa al propietario del certificado, que podría ser una máquina, un individuo o una organización. Incluye identificación detallada como:
 * **Nombre Común (CN)**: Dominios cubiertos por el certificado.
-* **País (C)**, **Localidad (L)**, **Estado o Provincia (ST, S o P)**, **Organización (O)** y **Unidad Organizativa (OU)** proporcionan detalles geográficos y organizativos.
+* **País (C)**, **Localidad (L)**, **Estado o Provincia (ST, S, o P)**, **Organización (O)** y **Unidad Organizativa (OU)** proporcionan detalles geográficos y organizativos.
 * **Nombre Distinguido (DN)** encapsula la identificación completa del sujeto.
 * **Emisor** detalla quién verificó y firmó el certificado, incluyendo subcampos similares al Sujeto para la CA.
 * El **Período de Validez** está marcado por las marcas de tiempo **No Antes** y **No Después**, asegurando que el certificado no se use antes o después de una cierta fecha.
@@ -77,7 +77,7 @@ print(f"Public Key: {public_key}")
 ```
 ### **Diferencia entre OCSP y Puntos de Distribución CRL**
 
-**OCSP** (**RFC 2560**) implica que un cliente y un respondedor trabajen juntos para verificar si un certificado digital de clave pública ha sido revocado, sin necesidad de descargar el **CRL** completo. Este método es más eficiente que el **CRL** tradicional, que proporciona una lista de números de serie de certificados revocados pero requiere descargar un archivo potencialmente grande. Los CRLs pueden incluir hasta 512 entradas. Más detalles están disponibles [aquí](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) implica que un cliente y un respondedor trabajen juntos para verificar si un certificado digital de clave pública ha sido revocado, sin necesidad de descargar el **CRL** completo. Este método es más eficiente que el **CRL** tradicional, que proporciona una lista de números de serie de certificados revocados pero requiere descargar un archivo potencialmente grande. Los CRL pueden incluir hasta 512 entradas. Más detalles están disponibles [aquí](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Qué es la Transparencia de Certificados**
 

@@ -33,16 +33,16 @@ Ten en cuenta que es posible que ni siquiera necesites esperar a que el usuario 
 
 ### Booleanos de sesión
 
-A veces, cuando completas correctamente alguna verificación, el back-end **simplemente agregará un booleano con el valor "True" a un atributo de seguridad de tu sesión**. Luego, un endpoint diferente sabrá si pasaste esa verificación con éxito.\
+A veces, cuando completas alguna verificación correctamente, el back-end **simplemente agrega un booleano con el valor "True" a un atributo de seguridad de tu sesión**. Luego, un endpoint diferente sabrá si pasaste esa verificación con éxito.\
 Sin embargo, si **pasas la verificación** y tu sesión recibe ese valor "True" en el atributo de seguridad, puedes intentar **acceder a otros recursos** que **dependen del mismo atributo** pero a los que **no deberías tener permisos** para acceder. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
 ### Funcionalidad de registro
 
-Intenta registrarte como un usuario ya existente. También prueba usando caracteres equivalentes (puntos, muchos espacios y Unicode).
+Intenta registrarte como un usuario ya existente. También intenta usar caracteres equivalentes (puntos, muchos espacios y Unicode).
 
-### Toma de control de correos electrónicos
+### Toma de correos electrónicos
 
-Registra un correo electrónico, antes de confirmarlo cambia el correo, luego, si el nuevo correo de confirmación se envía al primer correo registrado, puedes tomar el control de cualquier correo. O si puedes habilitar el segundo correo confirmando el primero, también puedes tomar el control de cualquier cuenta.
+Registra un correo electrónico, antes de confirmarlo cambia el correo, luego, si el nuevo correo de confirmación se envía al primer correo registrado, puedes tomar cualquier correo. O si puedes habilitar el segundo correo confirmando el primero, también puedes tomar cualquier cuenta.
 
 ### Acceso al servicio interno de atención al cliente de empresas que usan Atlassian
 

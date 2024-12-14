@@ -18,7 +18,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente con las **herramientas comunitarias más avanzadas** del mundo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -29,7 +29,7 @@ Microsoft ha creado muchos formatos de documentos de oficina, siendo los dos tip
 
 Para explorar las estructuras de archivos OOXML, se proporciona el comando para descomprimir un documento y la estructura de salida. Se han documentado técnicas para ocultar datos en estos archivos, lo que indica una innovación continua en la ocultación de datos dentro de los desafíos CTF.
 
-Para el análisis, **oletools** y **OfficeDissector** ofrecen conjuntos de herramientas completos para examinar tanto documentos OLE como OOXML. Estas herramientas ayudan a identificar y analizar macros incrustadas, que a menudo sirven como vectores para la entrega de malware, normalmente descargando y ejecutando cargas útiles maliciosas adicionales. El análisis de macros VBA se puede realizar sin Microsoft Office utilizando Libre Office, que permite la depuración con puntos de interrupción y variables de observación.
+Para el análisis, **oletools** y **OfficeDissector** ofrecen conjuntos de herramientas completos para examinar tanto documentos OLE como OOXML. Estas herramientas ayudan a identificar y analizar macros incrustadas, que a menudo sirven como vectores para la entrega de malware, típicamente descargando y ejecutando cargas útiles maliciosas adicionales. El análisis de macros VBA se puede realizar sin Microsoft Office utilizando Libre Office, que permite la depuración con puntos de interrupción y variables de observación.
 
 La instalación y el uso de **oletools** son sencillos, con comandos proporcionados para instalar a través de pip y extraer macros de documentos. La ejecución automática de macros se activa mediante funciones como `AutoOpen`, `AutoExec` o `Document_Open`.
 ```bash

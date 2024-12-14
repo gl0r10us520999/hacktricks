@@ -85,13 +85,13 @@ Otros filtros interesantes:
 
 ### Búsqueda
 
-Si deseas **buscar** **contenido** dentro de los **paquetes** de las sesiones presiona _CTRL+f_. Puedes agregar nuevas capas a la barra de información principal (No., Hora, Origen, etc.) presionando el botón derecho y luego editando la columna.
+Si deseas **buscar** **contenido** dentro de los **paquetes** de las sesiones presiona _CTRL+f_. Puedes agregar nuevas capas a la barra de información principal (No., Tiempo, Origen, etc.) presionando el botón derecho y luego editando la columna.
 
 ### Laboratorios pcap gratuitos
 
 **Practica con los desafíos gratuitos de:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Identificación de Dominios
+## Identificando Dominios
 
 Puedes agregar una columna que muestre el encabezado Host HTTP:
 
@@ -101,7 +101,7 @@ Y una columna que agregue el nombre del servidor de una conexión HTTPS iniciado
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identificación de nombres de host locales
+## Identificando nombres de host locales
 
 ### Desde DHCP
 
@@ -113,9 +113,9 @@ En la versión actual de Wireshark en lugar de `bootp` necesitas buscar `DHCP`
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## Desencriptar TLS
+## Desencriptando TLS
 
-### Desencriptar tráfico https con la clave privada del servidor
+### Desencriptando tráfico https con la clave privada del servidor
 
 _edit>preferencia>protocolo>ssl>_
 
@@ -123,7 +123,7 @@ _edit>preferencia>protocolo>ssl>_
 
 Presiona _Editar_ y agrega todos los datos del servidor y la clave privada (_IP, Puerto, Protocolo, Archivo de clave y contraseña_)
 
-### Desencriptar tráfico https con claves de sesión simétricas
+### Desencriptando tráfico https con claves de sesión simétricas
 
 Tanto Firefox como Chrome tienen la capacidad de registrar claves de sesión TLS, que se pueden usar con Wireshark para desencriptar tráfico TLS. Esto permite un análisis profundo de las comunicaciones seguras. Más detalles sobre cómo realizar esta desencriptación se pueden encontrar en una guía en [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
@@ -133,7 +133,7 @@ Un archivo de claves compartidas se verá así:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Para importar esto en Wireshark ve a \_editar > preferencia > protocolo > ssl > e impórtalo en (Pre)-Master-Secret log filename:
+Para importar esto en Wireshark ve a \_editar > preferencia > protocolo > ssl > y impórtalo en (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -176,7 +176,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

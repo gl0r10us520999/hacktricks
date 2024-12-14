@@ -1,4 +1,4 @@
-# Abuso del depurador de Node inspector/CEF
+# Abuso del depurador Node inspector/CEF
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -17,7 +17,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## Información Básica
 
-[De la documentación](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Cuando se inicia con el interruptor `--inspect`, un proceso de Node.js escucha a un cliente de depuración. Por **defecto**, escuchará en el host y puerto **`127.0.0.1:9229`**. A cada proceso también se le asigna un **UUID** **único**.
+[De la documentación](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Cuando se inicia con el interruptor `--inspect`, un proceso de Node.js escucha a un cliente de depuración. Por **defecto**, escuchará en el host y puerto **`127.0.0.1:9229`**. Cada proceso también se asigna un **UUID** **único**.
 
 Los clientes del inspector deben conocer y especificar la dirección del host, el puerto y el UUID para conectarse. Una URL completa se verá algo así como `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
@@ -43,16 +43,16 @@ For help, see: https://nodejs.org/en/docs/inspector
 ```
 Los procesos basados en **CEF** (**Chromium Embedded Framework**) necesitan usar el parámetro: `--remote-debugging-port=9222` para abrir el **debugger** (las protecciones SSRF permanecen muy similares). Sin embargo, **en lugar de** otorgar una sesión de **debug** de **NodeJS**, se comunicarán con el navegador utilizando el [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), esta es una interfaz para controlar el navegador, pero no hay un RCE directo.
 
-Cuando inicias un navegador en modo depuración, aparecerá algo como esto:
+Cuando inicias un navegador depurado, aparecerá algo como esto:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
-### Browsers, WebSockets y política de mismo origen <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
+### Navegadores, WebSockets y política de mismo origen <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
 Los sitios web abiertos en un navegador web pueden hacer solicitudes WebSocket y HTTP bajo el modelo de seguridad del navegador. Una **conexión HTTP inicial** es necesaria para **obtener un id de sesión de depurador único**. La **política de mismo origen** **previene** que los sitios web puedan hacer **esta conexión HTTP**. Para mayor seguridad contra [**ataques de reencaminamiento DNS**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js verifica que los **encabezados 'Host'** para la conexión especifiquen ya sea una **dirección IP** o **`localhost`** o **`localhost6`** precisamente.
 
 {% hint style="info" %}
-Estas **medidas de seguridad previenen la explotación del inspector** para ejecutar código **simplemente enviando una solicitud HTTP** (lo que podría hacerse explotando una vulnerabilidad SSRF).
+Estas **medidas de seguridad previenen la explotación del inspector** para ejecutar código **simplemente enviando una solicitud HTTP** (lo cual podría hacerse explotando una vulnerabilidad SSRF).
 {% endhint %}
 
 ### Iniciando el inspector en procesos en ejecución
@@ -63,7 +63,7 @@ kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Esto es útil en contenedores porque **detener el proceso y comenzar uno nuevo** con `--inspect` **no es una opción** porque el **contenedor** será **eliminado** junto con el proceso.
+Esto es útil en contenedores porque **cerrar el proceso y comenzar uno nuevo** con `--inspect` **no es una opción** porque el **contenedor** será **eliminado** junto con el proceso.
 {% endhint %}
 
 ### Conectar al inspector/debugger
@@ -110,7 +110,7 @@ Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 Puedes consultar la API aquí: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
 En esta sección solo listaré cosas interesantes que he encontrado que la gente ha utilizado para explotar este protocolo.
 
-### Inyección de Parámetros a través de Deep Links
+### Inyección de Parámetros a través de Enlaces Profundos
 
 En el [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino security descubrió que una aplicación basada en CEF **registró un URI personalizado** en el sistema (workspaces://) que recibía el URI completo y luego **lanzaba la aplicación basada en CEF** con una configuración que se construía parcialmente a partir de ese URI.
 
@@ -144,7 +144,7 @@ Según esta publicación: [https://medium.com/@knownsec404team/counter-webdriver
 
 En un entorno real y **después de comprometer** una PC de usuario que utiliza un navegador basado en Chrome/Chromium, podrías lanzar un proceso de Chrome con **la depuración activada y redirigir el puerto de depuración** para que puedas acceder a él. De esta manera, podrás **inspeccionar todo lo que la víctima hace con Chrome y robar información sensible**.
 
-La forma sigilosa es **terminar cada proceso de Chrome** y luego llamar a algo como
+La forma sigilosa es **terminar todos los procesos de Chrome** y luego llamar a algo como
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```

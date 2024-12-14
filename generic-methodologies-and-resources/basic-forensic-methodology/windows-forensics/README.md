@@ -133,7 +133,7 @@ Puedes inspeccionar los jumplists usando [**JumplistExplorer**](https://ericzimm
 
 [**Sigue este enlace para aprender qué son los shellbags.**](interesting-windows-registry-keys.md#shellbags)
 
-## Uso de USBs de Windows
+## Uso de USBs en Windows
 
 Es posible identificar que se utilizó un dispositivo USB gracias a la creación de:
 
@@ -155,7 +155,7 @@ Los archivos en la carpeta WPDNSE son una copia de los originales, por lo que no
 
 Consulta el archivo `C:\Windows\inf\setupapi.dev.log` para obtener las marcas de tiempo sobre cuándo se produjo la conexión USB (busca `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (14) (2).png>)
 
 ### USB Detective
 
@@ -174,7 +174,7 @@ Se proporciona una captura de pantalla que muestra el contenido de la tarea: ![]
 **Componentes Clave y Configuraciones de la Tarea:**
 
 * **pnpclean.dll**: Este DLL es responsable del proceso de limpieza real.
-* **UseUnifiedSchedulingEngine**: Establecido en `TRUE`, indicando el uso del motor de programación de tareas genérico.
+* **UseUnifiedSchedulingEngine**: Configurado en `TRUE`, indicando el uso del motor de programación de tareas genérico.
 * **MaintenanceSettings**:
 * **Period ('P1M')**: Indica al Programador de Tareas que inicie la tarea de limpieza mensualmente durante el mantenimiento automático regular.
 * **Deadline ('P2M')**: Instruye al Programador de Tareas, si la tarea falla durante dos meses consecutivos, a ejecutar la tarea durante el mantenimiento automático de emergencia.
@@ -241,7 +241,7 @@ Los adjuntos perdidos podrían ser recuperables de:
 
 * **Windows XP y 8-8.1**: Acceder a una carpeta con miniaturas genera un archivo `thumbs.db` que almacena vistas previas de imágenes, incluso después de la eliminación.
 * **Windows 7/10**: `thumbs.db` se crea cuando se accede a través de una red mediante una ruta UNC.
-* **Windows Vista y versiones más nuevas**: Las vistas previas de miniaturas se centralizan en `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` con archivos llamados **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) y [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) son herramientas para ver estos archivos.
+* **Windows Vista y versiones más recientes**: Las vistas previas de miniaturas se centralizan en `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` con archivos llamados **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) y [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) son herramientas para ver estos archivos.
 
 ### Información del Registro de Windows
 
@@ -297,7 +297,7 @@ Puedes abrir el archivo `SYSTEM` con un editor de registro y dentro de la ruta `
 
 ### Prefetch de Windows
 
-El prefetching es una técnica que permite a una computadora **obtener silenciosamente los recursos necesarios para mostrar contenido** que un usuario **podría acceder en un futuro cercano** para que los recursos puedan ser accedidos más rápido.
+El prefetching es una técnica que permite a una computadora **obtener silenciosamente los recursos necesarios para mostrar contenido** al que un usuario **podría acceder en un futuro cercano** para que los recursos puedan ser accedidos más rápido.
 
 El prefetch de Windows consiste en crear **cachés de los programas ejecutados** para poder cargarlos más rápido. Estas cachés se crean como archivos `.pf` dentro de la ruta: `C:\Windows\Prefetch`. Hay un límite de 128 archivos en XP/VISTA/WIN7 y 1024 archivos en Win8/Win10.
 
@@ -331,8 +331,8 @@ Proporciona la siguiente información:
 * Bytes Enviados
 * Bytes Recibidos
 * Interfaz de Red
-* Duración de la conexión
-* Duración del proceso
+* Duración de la Conexión
+* Duración del Proceso
 
 Esta información se actualiza cada 60 minutos.
 
@@ -348,7 +348,7 @@ El **AppCompatCache**, también conocido como **ShimCache**, forma parte de la *
 * Tamaño del archivo
 * Hora de última modificación bajo **$Standard\_Information** (SI)
 * Hora de última actualización del ShimCache
-* Bandera de ejecución del proceso
+* Indicador de ejecución del proceso
 
 Dicha información se almacena en el registro en ubicaciones específicas según la versión del sistema operativo:
 
@@ -409,7 +409,7 @@ La información que aparece dentro de los eventos de Windows es:
 
 Los registros se encuentran en `C:\Windows\System32\config` antes de Windows Vista y en `C:\Windows\System32\winevt\Logs` después de Windows Vista. Antes de Windows Vista, los registros de eventos estaban en formato binario y después de eso, están en **formato XML** y utilizan la extensión **.evtx**.
 
-La ubicación de los archivos de eventos se puede encontrar en el registro del SISTEMA en **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
+La ubicación de los archivos de eventos se puede encontrar en el registro de SYSTEM en **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
 Se pueden visualizar desde el Visor de Eventos de Windows (**`eventvwr.msc`**) o con otras herramientas como [**Event Log Explorer**](https://eventlogxp.com) **o** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
 
@@ -435,15 +435,15 @@ Los eventos de acceso se registran en el archivo de configuración de seguridad 
 * **Texto claro de red (8)**: Transmisión de contraseña en texto claro, a menudo desde IIS.
 * **Nuevas credenciales (9)**: Uso de diferentes credenciales para el acceso.
 * **Interactivo remoto (10)**: Inicio de sesión en escritorio remoto o servicios de terminal.
-* **Interactivo en caché (11)**: Inicio de sesión con credenciales en caché sin contacto con el controlador de dominio.
-* **Interactivo remoto en caché (12)**: Inicio de sesión remoto con credenciales en caché.
+* **Cache Interactivo (11)**: Inicio de sesión con credenciales en caché sin contacto con el controlador de dominio.
+* **Cache Interactivo Remoto (12)**: Inicio de sesión remoto con credenciales en caché.
 * **Desbloqueo en caché (13)**: Desbloqueo con credenciales en caché.
 
 #### Códigos de estado y subestado para EventID 4625:
 
 * **0xC0000064**: El nombre de usuario no existe - Podría indicar un ataque de enumeración de nombres de usuario.
 * **0xC000006A**: Nombre de usuario correcto pero contraseña incorrecta - Posible intento de adivinanza de contraseña o fuerza bruta.
-* **0xC0000234**: Cuenta de usuario bloqueada - Puede seguir a un ataque de fuerza bruta que resulta en múltiples inicios de sesión fallidos.
+* **0xC0000234**: Cuenta de usuario bloqueada - Puede seguir a un ataque de fuerza bruta que resulte en múltiples inicios de sesión fallidos.
 * **0xC0000072**: Cuenta deshabilitada - Intentos no autorizados de acceder a cuentas deshabilitadas.
 * **0xC000006F**: Inicio de sesión fuera del tiempo permitido - Indica intentos de acceso fuera de las horas de inicio de sesión establecidas, un posible signo de acceso no autorizado.
 * **0xC0000070**: Violación de restricciones de estación de trabajo - Podría ser un intento de inicio de sesión desde una ubicación no autorizada.

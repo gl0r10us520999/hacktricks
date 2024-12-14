@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -186,7 +186,7 @@ Fuente: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 * Desliza hacia arriba con cuatro (o cinco) dedos / Doble toque en el botón de inicio: Para ver la vista de multitarea y cambiar de aplicación
 * Desliza de un lado a otro con cuatro o cinco dedos: Para cambiar a la siguiente/última aplicación
-* Pellizca la pantalla con cinco dedos / Toca el botón de inicio / Desliza hacia arriba con 1 dedo desde la parte inferior de la pantalla en un movimiento rápido hacia arriba: Para acceder a la pantalla de inicio
+* Pellizca la pantalla con cinco dedos / Toca el botón de inicio / Desliza hacia arriba con 1 dedo desde la parte inferior de la pantalla en un movimiento rápido hacia arriba: Para acceder a Inicio
 * Desliza un dedo desde la parte inferior de la pantalla solo 1-2 pulgadas (lento): La base aparecerá
 * Desliza hacia abajo desde la parte superior de la pantalla con 1 dedo: Para ver tus notificaciones
 * Desliza hacia abajo con 1 dedo en la esquina superior derecha de la pantalla: Para ver el centro de control del iPad Pro
@@ -194,11 +194,11 @@ Fuente: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de1981
 * Desliza rápido 1 dedo desde el centro de la pantalla hacia la derecha o hacia la izquierda: Para cambiar a la siguiente/última aplicación
 * Presiona y mantén el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad +** Mueve el control deslizante de **apagar** todo el camino hacia la derecha: Para apagar
 * Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio durante unos segundos**: Para forzar un apagado duro
-* Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio rápidamente**: Para tomar una captura de pantalla que aparecerá en la parte inferior izquierda de la pantalla. Presiona ambos botones al mismo tiempo muy brevemente, ya que si los mantienes durante unos segundos se realizará un apagado duro.
+* Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio rápidamente**: Para tomar una captura de pantalla que aparecerá en la esquina inferior izquierda de la pantalla. Presiona ambos botones al mismo tiempo muy brevemente, ya que si los mantienes durante unos segundos se realizará un apagado duro.
 
 ### Atajos
 
-Deberías tener un teclado para iPad o un adaptador de teclado USB. Solo se mostrarán los atajos que podrían ayudar a escapar de la aplicación.
+Deberías tener un teclado de iPad o un adaptador de teclado USB. Solo se mostrarán los atajos que podrían ayudar a escapar de la aplicación.
 
 | Tecla | Nombre         |
 | ----- | -------------- |
@@ -238,20 +238,20 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | ⌘ (Espacio)                                        | Abrir Spotlight                                        |
 | ⌘⇥ (Comando-Tab)                                   | Listar las últimas diez aplicaciones usadas             |
 | ⌘\~                                                | Ir a la última aplicación                               |
-| ⌘⇧3 (Comando-Shift-3)                              | Captura de pantalla (flota en la parte inferior izquierda para guardar o actuar sobre ella) |
+| ⌘⇧3 (Comando-Shift-3)                              | Captura de pantalla (flota en la esquina inferior izquierda para guardar o actuar sobre ella) |
 | ⌘⇧4                                                | Captura de pantalla y ábrela en el editor              |
-| Presiona y mantén ⌘                                   | Lista de atajos disponibles para la aplicación         |
+| Presiona y mantén ⌘                                   | Lista de atajos disponibles para la aplicación          |
 | ⌘⌥D (Comando-Opción/Alt-D)                         | Muestra el dock                                        |
 | ^⌥H (Control-Opción-H)                             | Botón de inicio                                        |
 | ^⌥H H (Control-Opción-H-H)                         | Mostrar barra de multitarea                             |
 | ^⌥I (Control-Opción-i)                             | Selector de ítems                                      |
 | Escape                                             | Botón de retroceso                                     |
 | → (Flecha derecha)                                 | Siguiente ítem                                         |
-| ← (Flecha izquierda)                                | Ítem anterior                                          |
+| ← (Flecha izquierda)                               | Ítem anterior                                          |
 | ↑↓ (Flecha arriba, Flecha abajo)                  | Toca simultáneamente el ítem seleccionado              |
 | ⌥ ↓ (Opción-Flecha abajo)                          | Desplazarse hacia abajo                                |
 | ⌥↑ (Opción-Flecha arriba)                         | Desplazarse hacia arriba                               |
-| ⌥← o ⌥→ (Opción-Flecha izquierda o Opción-Flecha derecha) | Desplazarse a la izquierda o derecha                  |
+| ⌥← o ⌥→ (Opción-Flecha izquierda o Opción-Flecha derecha) | Desplazarse a la izquierda o derecha                   |
 | ^⌥S (Control-Opción-S)                             | Activar o desactivar el habla de VoiceOver            |
 | ⌘⇧⇥ (Comando-Shift-Tab)                            | Cambiar a la aplicación anterior                       |
 | ⌘⇥ (Comando-Tab)                                   | Volver a la aplicación original                        |
@@ -270,9 +270,9 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | ^⇧⇥ (Control-Shift-Tab) | Moverse a la pestaña anterior                   |
 | ⌘L                  | Seleccionar el campo de entrada de texto/URL para modificarlo |
 | ⌘⇧T (Comando-Shift-T) | Abrir la última pestaña cerrada (se puede usar varias veces) |
-| ⌘\[                 | Retroceder una página en tu historial de navegación |
-| ⌘]                  | Avanzar una página en tu historial de navegación |
-| ⌘⇧R                 | Activar Modo Lector                              |
+| ⌘\[                 | Regresar una página en tu historial de navegación |
+| ⌘]                  | Avanzar una página en tu historial de navegación  |
+| ⌘⇧R                 | Activar Modo Lector                             |
 
 #### Atajos de Mail
 
@@ -304,7 +304,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

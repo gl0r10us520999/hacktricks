@@ -87,7 +87,7 @@ Para intentar reparar una imagen dañada, agregar un comentario de metadatos pod
 ```
 ### **Steghide para la Ocultación de Datos**
 
-Steghide facilita ocultar datos dentro de archivos `JPEG, BMP, WAV y AU`, capaz de incrustar y extraer datos cifrados. La instalación es sencilla usando `apt`, y su [código fuente está disponible en GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide facilita ocultar datos dentro de archivos `JPEG, BMP, WAV y AU`, capaz de incrustar y extraer datos encriptados. La instalación es sencilla usando `apt`, y su [código fuente está disponible en GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Comandos:**
 
@@ -113,11 +113,11 @@ zsteg se especializa en descubrir datos ocultos en archivos PNG y BMP. La instal
 
 ### **StegoVeritas y Stegsolve**
 
-**stegoVeritas** verifica metadatos, realiza transformaciones de imágenes y aplica fuerza bruta LSB, entre otras características. Usa `stegoveritas.py -h` para una lista completa de opciones y `stegoveritas.py stego.jpg` para ejecutar todas las verificaciones.
+**stegoVeritas** verifica los metadatos, realiza transformaciones de imágenes y aplica fuerza bruta LSB, entre otras características. Usa `stegoveritas.py -h` para una lista completa de opciones y `stegoveritas.py stego.jpg` para ejecutar todas las verificaciones.
 
 **Stegsolve** aplica varios filtros de color para revelar textos o mensajes ocultos dentro de las imágenes. Está disponible en [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
-### **FFT para detección de contenido oculto**
+### **FFT para la detección de contenido oculto**
 
 Las técnicas de Transformada Rápida de Fourier (FFT) pueden revelar contenido oculto en imágenes. Los recursos útiles incluyen:
 

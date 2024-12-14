@@ -1,16 +1,16 @@
-# Detección de Phishing
+# Detecting Phishing
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,14 +19,14 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 Para detectar un intento de phishing es importante **entender las técnicas de phishing que se están utilizando hoy en día**. En la página principal de esta publicación, puedes encontrar esta información, así que si no estás al tanto de qué técnicas se están utilizando hoy, te recomiendo que vayas a la página principal y leas al menos esa sección.
 
-Esta publicación se basa en la idea de que los **atacantes intentarán de alguna manera imitar o usar el nombre de dominio de la víctima**. Si tu dominio se llama `example.com` y eres víctima de phishing usando un nombre de dominio completamente diferente por alguna razón como `youwonthelottery.com`, estas técnicas no lo descubrirán.
+Esta publicación se basa en la idea de que los **atacantes intentarán de alguna manera imitar o usar el nombre de dominio de la víctima**. Si tu dominio se llama `example.com` y eres phished usando un nombre de dominio completamente diferente por alguna razón como `youwonthelottery.com`, estas técnicas no lo descubrirán.
 
 ## Variaciones de nombres de dominio
 
 Es un poco **fácil** **descubrir** esos intentos de **phishing** que usarán un **nombre de dominio similar** dentro del correo electrónico.\
 Es suficiente con **generar una lista de los nombres de phishing más probables** que un atacante puede usar y **verificar** si está **registrado** o simplemente comprobar si hay alguna **IP** usándolo.
 
-### Encontrar dominios sospechosos
+### Encontrando dominios sospechosos
 
 Para este propósito, puedes usar cualquiera de las siguientes herramientas. Ten en cuenta que estas herramientas también realizarán solicitudes DNS automáticamente para verificar si el dominio tiene alguna IP asignada:
 
@@ -44,7 +44,7 @@ Por ejemplo, una modificación de 1 bit en el dominio microsoft.com puede transf
 
 ### Comprobaciones básicas
 
-Una vez que tengas una lista de posibles nombres de dominio sospechosos, debes **verificarlos** (principalmente los puertos HTTP y HTTPS) para **ver si están usando algún formulario de inicio de sesión similar** al de alguno de los dominios de la víctima.\
+Una vez que tengas una lista de nombres de dominio potencialmente sospechosos, debes **verificarlos** (principalmente los puertos HTTP y HTTPS) para **ver si están usando algún formulario de inicio de sesión similar** al de alguno de los dominios de la víctima.\
 También podrías verificar el puerto 3333 para ver si está abierto y ejecutando una instancia de `gophish`.\
 También es interesante saber **cuán antiguo es cada dominio sospechoso descubierto**, cuanto más joven es, más riesgoso es.\
 También puedes obtener **capturas de pantalla** de la página web sospechosa en HTTP y/o HTTPS para ver si es sospechosa y en ese caso **acceder a ella para echar un vistazo más profundo**.
@@ -55,7 +55,7 @@ Si deseas ir un paso más allá, te recomendaría **monitorear esos dominios sos
 Para **automatizar esto**, te recomendaría tener una lista de formularios de inicio de sesión de los dominios de la víctima, rastrear las páginas web sospechosas y comparar cada formulario de inicio de sesión encontrado dentro de los dominios sospechosos con cada formulario de inicio de sesión del dominio de la víctima usando algo como `ssdeep`.\
 Si has localizado los formularios de inicio de sesión de los dominios sospechosos, puedes intentar **enviar credenciales basura** y **verificar si te redirige al dominio de la víctima**.
 
-## Nombres de dominio que utilizan palabras clave
+## Nombres de dominio usando palabras clave
 
 La página principal también menciona una técnica de variación de nombres de dominio que consiste en poner el **nombre de dominio de la víctima dentro de un dominio más grande** (por ejemplo, paypal-financial.com para paypal.com).
 
@@ -63,7 +63,7 @@ La página principal también menciona una técnica de variación de nombres de 
 
 No es posible tomar el enfoque anterior de "Fuerza Bruta", pero en realidad es **posible descubrir tales intentos de phishing** también gracias a la transparencia de certificados. Cada vez que un certificado es emitido por una CA, los detalles se hacen públicos. Esto significa que al leer la transparencia de certificados o incluso monitorearla, es **posible encontrar dominios que están usando una palabra clave dentro de su nombre**. Por ejemplo, si un atacante genera un certificado de [https://paypal-financial.com](https://paypal-financial.com), al ver el certificado es posible encontrar la palabra clave "paypal" y saber que se está utilizando un correo electrónico sospechoso.
 
-La publicación [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) sugiere que puedes usar Censys para buscar certificados que afecten a una palabra clave específica y filtrar por fecha (solo "nuevos" certificados) y por el emisor de la CA "Let's Encrypt":
+La publicación [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) sugiere que puedes usar Censys para buscar certificados que afecten a una palabra clave específica y filtrar por fecha (solo certificados "nuevos") y por el emisor de la CA "Let's Encrypt":
 
 ![https://0xpatrik.com/content/images/2018/07/cert\_listing.png](<../../.gitbook/assets/image (1115).png>)
 
@@ -80,16 +80,16 @@ Usando esta última opción, incluso puedes usar el campo Identidades Coincident
 **Una última alternativa** es reunir una lista de **dominios recién registrados** para algunos TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) proporciona tal servicio) y **verificar las palabras clave en estos dominios**. Sin embargo, los dominios largos suelen usar uno o más subdominios, por lo tanto, la palabra clave no aparecerá dentro del FLD y no podrás encontrar el subdominio de phishing.
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

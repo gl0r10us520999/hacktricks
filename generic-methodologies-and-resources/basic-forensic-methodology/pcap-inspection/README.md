@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -80,7 +80,7 @@ Esta herramienta también es útil para obtener **otra información analizada** 
 ### NetWitness Investigator
 
 Puedes descargar [**NetWitness Investigator desde aquí**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Funciona en Windows)**.\
-Esta es otra herramienta útil que **analiza los paquetes** y organiza la información de una manera útil para **saber qué está sucediendo dentro**.
+Esta es otra herramienta útil que **analiza los paquetes** y ordena la información de una manera útil para **saber qué está sucediendo dentro**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
@@ -139,10 +139,10 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 [**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) es una herramienta que
 
 * Lee un archivo PCAP y extrae flujos Http.
-* gzip descomprime cualquier flujo comprimido
-* Escanea cada archivo con yara
-* Escribe un report.txt
-* Opcionalmente guarda archivos coincidentes en un directorio
+* gzip descomprime cualquier flujo comprimido.
+* Escanea cada archivo con yara.
+* Escribe un report.txt.
+* Opcionalmente guarda archivos coincidentes en un directorio.
 
 ### Análisis de Malware
 
@@ -208,7 +208,7 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
-### Información DNS
+### Información de DNS
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers

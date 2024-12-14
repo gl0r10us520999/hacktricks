@@ -19,13 +19,13 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 \
 Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=pdf-file-analysis) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
-Accede hoy:
+Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pdf-file-analysis" %}
 
 **Para más detalles consulta:** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
-El formato PDF es conocido por su complejidad y su potencial para ocultar datos, lo que lo convierte en un punto focal para los desafíos de forense en CTF. Combina elementos de texto plano con objetos binarios, que pueden estar comprimidos o cifrados, y puede incluir scripts en lenguajes como JavaScript o Flash. Para entender la estructura del PDF, se puede consultar el [material introductorio](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) de Didier Stevens, o usar herramientas como un editor de texto o un editor específico de PDF como Origami.
+El formato PDF es conocido por su complejidad y su potencial para ocultar datos, lo que lo convierte en un punto focal para los desafíos de forense en CTF. Combina elementos de texto plano con objetos binarios, que pueden estar comprimidos o cifrados, y puede incluir scripts en lenguajes como JavaScript o Flash. Para entender la estructura del PDF, se puede consultar el [material introductorio de Didier Stevens](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), o usar herramientas como un editor de texto o un editor específico de PDF como Origami.
 
 Para una exploración o manipulación más profunda de PDFs, están disponibles herramientas como [qpdf](https://github.com/qpdf/qpdf) y [Origami](https://github.com/mobmewireless/origami-pdf). Los datos ocultos dentro de los PDFs pueden estar ocultos en:
 

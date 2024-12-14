@@ -23,7 +23,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 3. Usar **OSINT** para **encontrar correos electrónicos**.
 2. Preparar el entorno
 1. **Comprar el dominio** que vas a usar para la evaluación de phishing.
-2. **Configurar el servicio de correo** relacionado (SPF, DMARC, DKIM, rDNS).
+2. **Configurar el servicio de correo** registros relacionados (SPF, DMARC, DKIM, rDNS).
 3. Configurar el VPS con **gophish**.
 3. Preparar la campaña
 1. Preparar la **plantilla de correo electrónico**.
@@ -87,15 +87,15 @@ Para asegurarte de que el dominio expirado que vas a comprar **ya tiene un buen 
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
 Para **descubrir más** direcciones de correo electrónico válidas o **verificar las que ya has descubierto**, puedes comprobar si puedes forzar por fuerza bruta los servidores smtp de la víctima. [Aprende cómo verificar/descubrir direcciones de correo electrónico aquí](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Además, no olvides que si los usuarios utilizan **cualquier portal web para acceder a sus correos**, puedes comprobar si es vulnerable a **fuerza bruta de nombre de usuario**, y explotar la vulnerabilidad si es posible.
+Además, no olvides que si los usuarios utilizan **cualquier portal web para acceder a sus correos**, puedes comprobar si es vulnerable a **fuerza bruta de nombres de usuario**, y explotar la vulnerabilidad si es posible.
 
 ## Configurando GoPhish
 
 ### Instalación
 
-Puedes descargarlo de [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+Puedes descargarlo desde [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
-Descarga y descomprime dentro de `/opt/gophish` y ejecuta `/opt/gophish/gophish`\
+Descarga y descomprime en `/opt/gophish` y ejecuta `/opt/gophish/gophish`\
 Se te dará una contraseña para el usuario administrador en el puerto 3333 en la salida. Por lo tanto, accede a ese puerto y usa esas credenciales para cambiar la contraseña del administrador. Puede que necesites tunelizar ese puerto a local:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
@@ -174,7 +174,7 @@ Modifica `/opt/gophish/config.json` a lo siguiente (nota el uso de https):
 ```
 **Configurar el servicio gophish**
 
-Para crear el servicio gophish de modo que se inicie automáticamente y se gestione como un servicio, puedes crear el archivo `/etc/init.d/gophish` con el siguiente contenido:
+Para crear el servicio gophish de modo que se pueda iniciar automáticamente y gestionar como un servicio, puedes crear el archivo `/etc/init.d/gophish` con el siguiente contenido:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -236,7 +236,7 @@ service gophish stop
 
 ### Espera y sé legítimo
 
-Cuanto más antiguo sea un dominio, menos probable es que sea atrapado como spam. Por lo tanto, debes esperar el mayor tiempo posible (al menos 1 semana) antes de la evaluación de phishing. Además, si pones una página sobre un sector reputacional, la reputación obtenida será mejor.
+Cuanto más antiguo sea un dominio, menos probable es que sea detectado como spam. Por lo tanto, debes esperar el mayor tiempo posible (al menos 1 semana) antes de la evaluación de phishing. Además, si pones una página sobre un sector reputacional, la reputación obtenida será mejor.
 
 Ten en cuenta que, incluso si tienes que esperar una semana, puedes terminar de configurar todo ahora.
 
@@ -284,7 +284,7 @@ Simplemente accede a la página y envía un correo electrónico a la dirección 
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Puedes también **verificar tu configuración de correo** enviando un correo a `check-auth@verifier.port25.com` y **leyendo la respuesta** (para esto necesitarás **abrir** el puerto **25** y ver la respuesta en el archivo _/var/mail/root_ si envías el correo como root).\
+Puedes también **verificar tu configuración de correo electrónico** enviando un correo a `check-auth@verifier.port25.com` y **leyendo la respuesta** (para esto necesitarás **abrir** el puerto **25** y ver la respuesta en el archivo _/var/mail/root_ si envías el correo como root).\
 Verifica que pases todas las pruebas:
 ```bash
 ==========================================================
@@ -316,13 +316,13 @@ La página [www.mail-tester.com](https://www.mail-tester.com) puede indicarte si
 
 * Establece un **nombre para identificar** el perfil del remitente
 * Decide desde qué cuenta vas a enviar los correos electrónicos de phishing. Sugerencias: _noreply, support, servicedesk, salesforce..._
-* Puedes dejar en blanco el nombre de usuario y la contraseña, pero asegúrate de marcar la opción Ignorar Errores de Certificado
+* Puedes dejar en blanco el nombre de usuario y la contraseña, pero asegúrate de marcar la opción Ignorar errores de certificado
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
-Se recomienda utilizar la funcionalidad "**Enviar correo de prueba**" para comprobar que todo está funcionando.\
-Recomendaría **enviar los correos de prueba a direcciones de 10min** para evitar ser incluido en la lista negra al realizar pruebas.
+Se recomienda utilizar la funcionalidad "**Enviar correo electrónico de prueba**" para verificar que todo esté funcionando.\
+Recomendaría **enviar los correos electrónicos de prueba a direcciones de 10 minutos** para evitar ser incluido en la lista negra al realizar pruebas.
 {% endhint %}
 
 ### Plantilla de correo electrónico
@@ -351,9 +351,9 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 ```
 Note that **para aumentar la credibilidad del correo electrónico**, se recomienda usar alguna firma de un correo del cliente. Sugerencias:
 
-* Enviar un correo a una **dirección no existente** y verificar si la respuesta tiene alguna firma.
-* Buscar **correos públicos** como info@ex.com o press@ex.com o public@ex.com y enviarles un correo y esperar la respuesta.
-* Intentar contactar **algún correo válido descubierto** y esperar la respuesta.
+* Envía un correo a una **dirección no existente** y verifica si la respuesta tiene alguna firma.
+* Busca **correos públicos** como info@ex.com o press@ex.com o public@ex.com y envíales un correo y espera la respuesta.
+* Intenta contactar **algún correo válido descubierto** y espera la respuesta.
 
 ![](<../../.gitbook/assets/image (80).png>)
 
@@ -381,8 +381,8 @@ Para la redirección podrías **redirigir a los usuarios a la página web princi
 
 ### Usuarios y Grupos
 
-* Establecer un nombre
-* **Importar los datos** (ten en cuenta que para usar la plantilla del ejemplo necesitas el nombre, apellido y dirección de correo electrónico de cada usuario)
+* Establece un nombre
+* **Importa los datos** (ten en cuenta que para usar la plantilla del ejemplo necesitas el nombre, apellido y dirección de correo electrónico de cada usuario)
 
 ![](<../../.gitbook/assets/image (163).png>)
 
@@ -440,7 +440,7 @@ Puedes hacer esto con [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 Obviamente, una de las mejores maneras de saber si te han descubierto es **buscar tu dominio en listas negras**. Si aparece listado, de alguna manera tu dominio fue detectado como sospechoso.\
 Una forma fácil de verificar si tu dominio aparece en alguna lista negra es usar [https://malwareworld.com/](https://malwareworld.com)
 
-Sin embargo, hay otras formas de saber si la víctima está **buscando activamente actividades de phishing sospechosas en la red** como se explica en:
+Sin embargo, hay otras formas de saber si la víctima está **buscando activamente actividad sospechosa de phishing en la red** como se explica en:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)

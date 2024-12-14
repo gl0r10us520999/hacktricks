@@ -1,9 +1,9 @@
-# Fuerza Bruta - Hoja de Trucos
+# Brute Force - CheatSheet
 
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -18,14 +18,14 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
 
-## Credenciales Predeterminadas
+## Credenciales por Defecto
 
-**Busca en google** las credenciales predeterminadas de la tecnología que se está utilizando, o **prueba estos enlaces**:
+**Busca en google** las credenciales por defecto de la tecnología que se está utilizando, o **prueba estos enlaces**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -428,7 +428,7 @@ Algunos sistemas tienen fallas conocidas en la semilla aleatoria utilizada para 
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ y OpenMQ)
 
-El protocolo de texto STOMP es un protocolo de mensajería ampliamente utilizado que **permite una comunicación e interacción sin problemas con servicios populares de colas de mensajes** como RabbitMQ, ActiveMQ, HornetQ y OpenMQ. Proporciona un enfoque estandarizado y eficiente para intercambiar mensajes y realizar diversas operaciones de mensajería.
+El protocolo de texto STOMP es un protocolo de mensajería ampliamente utilizado que **permite una comunicación e interacción sin problemas con servicios de cola de mensajes populares** como RabbitMQ, ActiveMQ, HornetQ y OpenMQ. Proporciona un enfoque estandarizado y eficiente para intercambiar mensajes y realizar diversas operaciones de mensajería.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -622,9 +622,9 @@ Usa [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](h
 
 ### Columna Protegida por Contraseña de Open Office
 
-Si tienes un archivo xlsx con una columna protegida por una contraseña, puedes desprotegerlo:
+Si tienes un archivo xlsx con una columna protegida por una contraseña, puedes desprotegerla:
 
-* **Cárgalo en google drive** y la contraseña será eliminada automáticamente
+* **Cárgalo en google drive** y la contraseña se eliminará automáticamente
 * Para **eliminarla** **manualmente**:
 ```bash
 unzip file.xlsx
@@ -644,7 +644,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
@@ -653,7 +653,7 @@ Obtén acceso hoy:
 
 **Ejemplos de hash:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### Hash-identifier
+### Identificador de hash
 ```bash
 hash-identifier
 > <HASH>
@@ -758,7 +758,7 @@ Rompiendo Hashes de Windows
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-Cracking Common Application Hashes
+Rompiendo Hashes de Aplicaciones Comunes
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash

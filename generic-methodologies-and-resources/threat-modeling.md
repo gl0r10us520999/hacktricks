@@ -2,7 +2,7 @@
 
 ## Modelado de Amenazas
 
-¡Bienvenido a la guía completa de HackTricks sobre el Modelado de Amenazas! Emprende una exploración de este aspecto crítico de la ciberseguridad, donde identificamos, entendemos y diseñamos estrategias contra posibles vulnerabilidades en un sistema. Este hilo sirve como una guía paso a paso repleta de ejemplos del mundo real, software útil y explicaciones fáciles de entender. Ideal tanto para novatos como para profesionales experimentados que buscan fortalecer sus defensas de ciberseguridad.
+¡Bienvenido a la guía completa de HackTricks sobre Modelado de Amenazas! Emprende una exploración de este aspecto crítico de la ciberseguridad, donde identificamos, entendemos y diseñamos estrategias contra posibles vulnerabilidades en un sistema. Este hilo sirve como una guía paso a paso repleta de ejemplos del mundo real, software útil y explicaciones fáciles de entender. Ideal tanto para novatos como para profesionales experimentados que buscan fortalecer sus defensas de ciberseguridad.
 
 ### Escenarios Comúnmente Usados
 
@@ -11,7 +11,7 @@
 
 ### Modelo de Amenazas en Resumen
 
-Un Modelo de Amenazas se representa típicamente como un diagrama, imagen u otra forma de ilustración visual que muestra la arquitectura planificada o la construcción existente de una aplicación. Se asemeja a un **diagrama de flujo de datos**, pero la distinción clave radica en su diseño orientado a la seguridad.
+Un Modelo de Amenazas se representa típicamente como un diagrama, imagen u otra forma de ilustración visual que representa la arquitectura planificada o la construcción existente de una aplicación. Se asemeja a un **diagrama de flujo de datos**, pero la distinción clave radica en su diseño orientado a la seguridad.
 
 Los modelos de amenazas a menudo presentan elementos marcados en rojo, simbolizando posibles vulnerabilidades, riesgos o barreras. Para agilizar el proceso de identificación de riesgos, se emplea el triángulo CIA (Confidencialidad, Integridad, Disponibilidad), que forma la base de muchas metodologías de modelado de amenazas, siendo STRIDE una de las más comunes. Sin embargo, la metodología elegida puede variar según el contexto y los requisitos específicos.
 
@@ -80,11 +80,11 @@ Puedes usar herramientas como SpiderSuite Crawler para inspirarte, un modelo bá
 
 Solo un poco de explicación sobre las entidades:
 
-* Proceso (La entidad misma como un servidor web o funcionalidad web)
+* Proceso (La entidad misma como Servidor web o funcionalidad web)
 * Actor (Una persona como un visitante del sitio web, usuario o administrador)
 * Línea de flujo de datos (Indicador de interacción)
-* Frontera de confianza (Diferentes segmentos o ámbitos de red.)
-* Almacenar (Cosas donde se almacenan los datos, como bases de datos)
+* Límite de confianza (Diferentes segmentos o ámbitos de red.)
+* Almacenar (Cosas donde se almacenan los datos como Bases de datos)
 
 5. Crear una amenaza (Paso 1)
 
@@ -96,7 +96,7 @@ Ahora puedes crear la amenaza
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Ten en cuenta que hay una diferencia entre amenazas de Actor y amenazas de Proceso. Si agregaras una amenaza a un Actor, solo podrás elegir "Spoofing" y "Repudiation". Sin embargo, en nuestro ejemplo, agregamos una amenaza a una entidad de Proceso, por lo que veremos esto en el cuadro de creación de amenazas:
+Ten en cuenta que hay una diferencia entre las amenazas de Actor y las amenazas de Proceso. Si agregaras una amenaza a un Actor, solo podrás elegir "Spoofing" y "Repudiation". Sin embargo, en nuestro ejemplo, agregamos una amenaza a una entidad de Proceso, por lo que veremos esto en el cuadro de creación de amenazas:
 
 <figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
 

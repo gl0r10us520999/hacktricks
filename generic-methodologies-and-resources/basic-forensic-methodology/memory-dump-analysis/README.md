@@ -9,7 +9,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <summary>Apoya a HackTricks</summary>
 
 * Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos en** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
@@ -27,7 +27,7 @@ Comienza **buscando** **malware** dentro del pcap. Usa las **herramientas** menc
 
 ## [Volatility](volatility-cheatsheet.md)
 
-**Volatility es el principal marco de código abierto para el análisis de volcado de memoria**. Esta herramienta de Python analiza volcados de fuentes externas o VMs de VMware, identificando datos como procesos y contraseñas basados en el perfil del SO del volcado. Es extensible con plugins, lo que la hace altamente versátil para investigaciones forenses.
+**Volatility es el principal marco de código abierto para el análisis de volcado de memoria**. Esta herramienta de Python analiza volcados de fuentes externas o máquinas virtuales de VMware, identificando datos como procesos y contraseñas basados en el perfil del SO del volcado. Es extensible con plugins, lo que la hace altamente versátil para investigaciones forenses.
 
 [**Encuentra aquí una hoja de trucos**](volatility-cheatsheet.md)
 
@@ -68,7 +68,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <summary>Apoya a HackTricks</summary>
 
 * Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos en** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>

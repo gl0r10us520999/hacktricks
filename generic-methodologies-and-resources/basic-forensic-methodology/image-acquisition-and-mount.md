@@ -40,7 +40,7 @@ ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --descript
 ```
 ### EWF
 
-Puedes generar una imagen de disco usando las [**herramientas ewf**](https://github.com/libyal/libewf).
+Puedes generar una imagen de disco utilizando las [**herramientas ewf**](https://github.com/libyal/libewf).
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence

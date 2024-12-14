@@ -54,7 +54,7 @@ docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-Si encuentras que **se añadió algún archivo sospechoso**, puedes acceder al contenedor y revisarlo:
+Si encuentras que **se añadió algún archivo sospechoso** puedes acceder al contenedor y revisarlo:
 ```bash
 docker exec -it wordpress bash
 ```
@@ -107,7 +107,7 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 ```
 ## Credenciales de la memoria
 
-Ten en cuenta que cuando ejecutas un contenedor de docker dentro de un host **puedes ver los procesos que se ejecutan en el contenedor desde el host** simplemente ejecutando `ps -ef`
+Nota que cuando ejecutas un contenedor de docker dentro de un host **puedes ver los procesos que se están ejecutando en el contenedor desde el host** simplemente ejecutando `ps -ef`
 
 Por lo tanto (como root) puedes **volcar la memoria de los procesos** desde el host y buscar **credenciales** justo [**como en el siguiente ejemplo**](../../linux-hardening/privilege-escalation/#process-memory).
 

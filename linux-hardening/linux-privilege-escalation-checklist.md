@@ -17,7 +17,7 @@ Aprende y practica Hacking en GCP: <img src="../.gitbook/assets/grte.png" alt=""
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Únete al [**Discord de HackenProof**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de recompensas por errores.
+¡Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs!
 
 **Perspectivas de Hacking**\
 Involúcrate con contenido que profundiza en la emoción y los desafíos del hacking
@@ -26,7 +26,7 @@ Involúcrate con contenido que profundiza en la emoción y los desafíos del hac
 Mantente al día con el mundo del hacking de ritmo rápido a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre las nuevas recompensas por errores que se lanzan y actualizaciones cruciales de la plataforma
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
 
@@ -51,13 +51,13 @@ Mantente informado sobre las nuevas recompensas por errores que se lanzan y actu
 
 ### [**Software Instalado**](privilege-escalation/#installed-software)
 
-* [ ] **Verificar** [**software útil**](privilege-escalation/#useful-software) **instalado**
+* [ ] **Verificar**[ **software útil**](privilege-escalation/#useful-software) **instalado**
 * [ ] **Verificar** [**software vulnerable**](privilege-escalation/#vulnerable-software-installed) **instalado**
 
 ### [Procesos](privilege-escalation/#processes)
 
 * [ ] ¿Hay algún **software desconocido en ejecución**?
-* [ ] ¿Hay algún software ejecutándose con **más privilegios de los que debería tener**?
+* [ ] ¿Hay algún software en ejecución con **más privilegios de los que debería tener**?
 * [ ] Buscar **exploits de procesos en ejecución** (especialmente la versión en ejecución).
 * [ ] ¿Puedes **modificar el binario** de algún proceso en ejecución?
 * [ ] **Monitorear procesos** y verificar si algún proceso interesante se está ejecutando con frecuencia.
@@ -65,9 +65,9 @@ Mantente informado sobre las nuevas recompensas por errores que se lanzan y actu
 
 ### [¿Tareas programadas/Cron?](privilege-escalation/#scheduled-jobs)
 
-* [ ] ¿El [**PATH**](privilege-escalation/#cron-path) está siendo modificado por algún cron y puedes **escribir** en él?
-* [ ] ¿Algún [**comodín**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) en un trabajo cron?
-* [ ] ¿Algún [**script modificable**](privilege-escalation/#cron-script-overwriting-and-symlink) está siendo **ejecutado** o está dentro de una **carpeta modificable**?
+* [ ] ¿El [**PATH** ](privilege-escalation/#cron-path) está siendo modificado por algún cron y puedes **escribir** en él?
+* [ ] ¿Algún [**comodín** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) en un trabajo cron?
+* [ ] ¿Algún [**script modificable** ](privilege-escalation/#cron-script-overwriting-and-symlink) está siendo **ejecutado** o está dentro de una **carpeta modificable**?
 * [ ] ¿Has detectado que algún **script** podría estar o está siendo [**ejecutado** muy **frecuentemente**](privilege-escalation/#frequent-cron-jobs)? (cada 1, 2 o 5 minutos)
 
 ### [Servicios](privilege-escalation/#services)
@@ -146,7 +146,7 @@ Mantente informado sobre las nuevas recompensas por errores que se lanzan y actu
 * [ ] **Archivos de perfil** - ¿Leer datos sensibles? ¿Escribir para privesc?
 * [ ] **Archivos passwd/shadow** - ¿Leer datos sensibles? ¿Escribir para privesc?
 * [ ] **Verificar carpetas comúnmente interesantes** en busca de datos sensibles
-* [ ] **Ubicación extraña/Archivos propiedad,** a los que podrías tener acceso o alterar archivos ejecutables
+* [ ] **Ubicación/Archivos extraños,** a los que podrías tener acceso o alterar archivos ejecutables
 * [ ] **Modificados** en los últimos minutos
 * [ ] **Archivos de base de datos Sqlite**
 * [ ] **Archivos ocultos**
@@ -170,7 +170,7 @@ Mantente informado sobre las nuevas recompensas por errores que se lanzan y actu
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Únete al [**Discord de HackenProof**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de recompensas por errores.
+¡Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs!
 
 **Perspectivas de Hacking**\
 Involúcrate con contenido que profundiza en la emoción y los desafíos del hacking
@@ -179,7 +179,7 @@ Involúcrate con contenido que profundiza en la emoción y los desafíos del hac
 Mantente al día con el mundo del hacking de ritmo rápido a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre las nuevas recompensas por errores que se lanzan y actualizaciones cruciales de la plataforma
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
 

@@ -1,16 +1,16 @@
-# Trucos de Crypto CTFs
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -32,7 +32,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 ## Autosolvers Mágicos
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Módulo Mágico)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Módulo mágico)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
@@ -48,7 +48,7 @@ La mayoría de los datos codificados se pueden decodificar con estos 2 recursos:
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - ¡Muy bueno!
 
-#### Autosolvers de Cifrado César - ROTx
+#### Autosolvers de César - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
@@ -58,7 +58,7 @@ La mayoría de los datos codificados se pueden decodificar con estos 2 recursos:
 
 ### Autosolver de Codificaciones Base
 
-Ver todas estas bases con: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Verifica todas estas bases con: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -72,7 +72,7 @@ Ver todas estas bases con: [https://github.com/dhondta/python-codext](https://gi
 * `e1rqssc3d5t62svgejhh====`
 * **Base32 Crockford** \[_0-9A-HJKMNP-TV-Z_]
 * `D1QPRRB3C5S62RVFDHGG====`
-* **Base32 Hexadecimal Extendido** \[_0-9A-V_]
+* **Base32 Hexadecimal Extendida** \[_0-9A-V_]
 * `D1NMOOB3C5P62ORFDHGG====`
 * **Base45** \[_0-9A-Z $%\*+-./:_]
 * `59DPVDGPCVKEUPCPVD`
@@ -104,7 +104,7 @@ Ver todas estas bases con: [https://github.com/dhondta/python-codext](https://gi
 * `👟👦👣👘👚👘👩👘👚👦👣👘`
 * **Base122** \[]
 * `4F ˂r0Xmvc`
-* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_] 
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
 * `MIc3KiXa+Ihz+lrXMIc3KbCC`
 * **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
@@ -127,19 +127,19 @@ Ver todas estas bases con: [https://github.com/dhondta/python-codext](https://gi
 * **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
-[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Muerto: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 No encontrado: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Muerto: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 No encontrado: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Muerto: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -187,7 +187,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=es\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=es\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -197,26 +197,26 @@ Letras a su valor numérico
 ```
 ### Cifrado Afín Codificar
 
-Convertir letra a número `(ax+b)%26` (_a_ y _b_ son las claves y _x_ es la letra) y luego convertir el resultado de vuelta a letra
+Letra a número `(ax+b)%26` (_a_ y _b_ son las claves y _x_ es la letra) y el resultado de vuelta a letra
 ```
 krodfdudfrod
 ```
-### Código SMS
+### SMS Code
 
-**Multitap** [reemplaza una letra](https://www.dcode.fr/word-letter-change) por dígitos repetidos definidos por el código de tecla correspondiente en un teclado de [teléfono móvil](https://www.dcode.fr/phone-keypad-cipher) (Este modo se utiliza al escribir SMS).\
+**Multitap** [reemplaza una letra](https://www.dcode.fr/word-letter-change) por dígitos repetidos definidos por el código de la tecla correspondiente en un [teclado de teléfono móvil](https://www.dcode.fr/phone-keypad-cipher) (Este modo se utiliza al escribir SMS).\
 Por ejemplo: 2=A, 22=B, 222=C, 3=D...\
 Puedes identificar este código porque verás\*\* varios números repetidos\*\*.
 
 Puedes decodificar este código en: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
-### Código Bacon
+### Bacon Code
 
 Sustituye cada letra por 4 As o Bs (o 1s y 0s)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Runas
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
@@ -224,7 +224,7 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 **Raw Deflate** y **Raw Inflate** (puedes encontrar ambos en Cyberchef) pueden comprimir y descomprimir datos sin encabezados.
 
-## Crypto Fácil
+## Cripto Fácil
 
 ### XOR - Autosolver
 
@@ -246,7 +246,7 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Criptografía Fuerte
+## Cripto Fuerte
 
 ### Fernet
 
@@ -260,7 +260,7 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Compartir secreto de Samir
+### Compartición Secreta de Samir
 
 Un secreto se divide en X partes y para recuperarlo necesitas Y partes (_Y <=X_).
 ```
@@ -270,7 +270,7 @@ Un secreto se divide en X partes y para recuperarlo necesitas Y partes (_Y <=X_)
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Fuerza bruta con OpenSSL
+### Fuerza bruta de OpenSSL
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -291,7 +291,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

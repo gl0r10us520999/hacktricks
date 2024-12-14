@@ -27,7 +27,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ### Información Básica
 
-Primero que nada, se recomienda tener un **USB** con **binaries y bibliotecas bien conocidas** (puedes simplemente obtener ubuntu y copiar las carpetas _/bin_, _/sbin_, _/lib,_ y _/lib64_), luego monta el USB y modifica las variables de entorno para usar esos binaries:
+Primero que nada, se recomienda tener un **USB** con **binarios y bibliotecas bien conocidos** en él (puedes simplemente obtener ubuntu y copiar las carpetas _/bin_, _/sbin_, _/lib,_ y _/lib64_), luego monta el USB y modifica las variables de entorno para usar esos binarios:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -68,7 +68,7 @@ Recuerda que **no puedes instalar LiME ni nada más** en la máquina víctima, y
 {% endhint %}
 
 Así que, si tienes una versión idéntica de Ubuntu, puedes usar `apt-get install lime-forensics-dkms`\
-En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) de github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, puedes simplemente **copiar el directorio** `/lib/modules/<kernel version>` a tu máquina, y luego **compilar** LiME usándolos:
+En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) de github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, puedes simplemente **copiar el directorio** `/lib/modules/<versión del kernel>` a tu máquina, y luego **compilar** LiME usándolos:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -86,7 +86,7 @@ LiME también se puede usar para **enviar el volcado a través de la red** en lu
 #### Apagado
 
 Primero que nada, necesitarás **apagar el sistema**. Esto no siempre es una opción, ya que a veces el sistema será un servidor de producción que la empresa no puede permitirse apagar.\
-Hay **2 formas** de apagar el sistema, un **apagado normal** y un **apagado de "desconectar el enchufe"**. El primero permitirá que los **procesos se terminen como de costumbre** y que el **sistema de archivos** esté **sincronizado**, pero también permitirá que el posible **malware** **destruya evidencia**. El enfoque de "desconectar el enchufe" puede conllevar **alguna pérdida de información** (no se perderá mucha información ya que ya tomamos una imagen de la memoria) y el **malware no tendrá ninguna oportunidad** de hacer algo al respecto. Por lo tanto, si **sospechas** que puede haber un **malware**, simplemente ejecuta el **comando** **`sync`** en el sistema y desconecta el enchufe.
+Hay **2 formas** de apagar el sistema, un **apagado normal** y un **apagado de "desenchufar"**. El primero permitirá que los **procesos se terminen como de costumbre** y que el **sistema de archivos** esté **sincronizado**, pero también permitirá que el posible **malware** **destruya evidencia**. El enfoque de "desenchufar" puede conllevar **alguna pérdida de información** (no se perderá mucha información ya que ya tomamos una imagen de la memoria) y el **malware no tendrá ninguna oportunidad** de hacer algo al respecto. Por lo tanto, si **sospechas** que puede haber un **malware**, simplemente ejecuta el **comando** **`sync`** en el sistema y desenchufa.
 
 #### Tomando una imagen del disco
 
@@ -101,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Análisis previo de la imagen del disco
 
-Imaging una imagen de disco sin más datos.
+Imágenes de una imagen de disco sin más datos.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -186,7 +186,7 @@ Para buscar de manera efectiva programas instalados en sistemas Debian y RedHat,
 * Para Debian, inspecciona _**`/var/lib/dpkg/status`**_ y _**`/var/log/dpkg.log`**_ para obtener detalles sobre las instalaciones de paquetes, utilizando `grep` para filtrar información específica.
 * Los usuarios de RedHat pueden consultar la base de datos RPM con `rpm -qa --root=/mntpath/var/lib/rpm` para listar los paquetes instalados.
 
-Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explora directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ y _**`/sbin`**_. Combina listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando tu búsqueda de todos los programas instalados.
+Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explora directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, y _**`/sbin`**_. Combina listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando tu búsqueda de todos los programas instalados.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -212,7 +212,7 @@ Obtén acceso hoy:
 
 ## Recuperar binarios en ejecución eliminados
 
-Imagina un proceso que se ejecutó desde /tmp/exec y luego fue eliminado. Es posible extraerlo.
+Imagina un proceso que se ejecutó desde /tmp/exec y luego fue eliminado. Es posible extraerlo
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -279,13 +279,13 @@ Los sistemas Linux rastrean las actividades de los usuarios y los eventos del si
 * **/var/log/cron**: Registra ejecuciones de trabajos cron.
 * **/var/log/daemon.log**: Rastrear actividades de servicios en segundo plano.
 * **/var/log/btmp**: Documenta intentos de inicio de sesión fallidos.
-* **/var/log/httpd/**: Contiene registros de errores y acceso de Apache HTTPD.
+* **/var/log/httpd/**: Contiene registros de errores y accesos de Apache HTTPD.
 * **/var/log/mysqld.log** o **/var/log/mysql.log**: Registra actividades de la base de datos MySQL.
 * **/var/log/xferlog**: Registra transferencias de archivos FTP.
 * **/var/log/**: Siempre verifica si hay registros inesperados aquí.
 
 {% hint style="info" %}
-Los registros del sistema Linux y los subsistemas de auditoría pueden estar deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos los eliminan rutinariamente. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar brechas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
+Los registros del sistema Linux y los subsistemas de auditoría pueden ser deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos los eliminan rutinariamente. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar brechas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
 {% endhint %}
 
 **Linux mantiene un historial de comandos para cada usuario**, almacenado en:
@@ -296,12 +296,12 @@ Los registros del sistema Linux y los subsistemas de auditoría pueden estar des
 * \~/.python\_history
 * \~/.\*\_history
 
-Además, el comando `last -Faiwx` proporciona una lista de inicios de sesión de usuarios. Verifícalo para inicios de sesión desconocidos o inesperados.
+Además, el comando `last -Faiwx` proporciona una lista de inicios de sesión de usuarios. Verifícalo en busca de inicios de sesión desconocidos o inesperados.
 
 Verifica archivos que pueden otorgar privilegios adicionales:
 
-* Revisa `/etc/sudoers` en busca de privilegios de usuario no anticipados que puedan haberse otorgado.
-* Revisa `/etc/sudoers.d/` en busca de privilegios de usuario no anticipados que puedan haberse otorgado.
+* Revisa `/etc/sudoers` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
+* Revisa `/etc/sudoers.d/` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
 * Examina `/etc/groups` para identificar cualquier membresía o permisos de grupo inusuales.
 * Examina `/etc/passwd` para identificar cualquier membresía o permisos de grupo inusuales.
 
@@ -309,9 +309,9 @@ Algunas aplicaciones también generan sus propios registros:
 
 * **SSH**: Examina _\~/.ssh/authorized\_keys_ y _\~/.ssh/known\_hosts_ para conexiones remotas no autorizadas.
 * **Gnome Desktop**: Revisa _\~/.recently-used.xbel_ para archivos accedidos recientemente a través de aplicaciones de Gnome.
-* **Firefox/Chrome**: Verifica el historial del navegador y las descargas en _\~/.mozilla/firefox_ o _\~/.config/google-chrome_ para actividades sospechosas.
+* **Firefox/Chrome**: Verifica el historial del navegador y las descargas en _\~/.mozilla/firefox_ o _\~/.config/google-chrome_ en busca de actividades sospechosas.
 * **VIM**: Revisa _\~/.viminfo_ para detalles de uso, como rutas de archivos accedidos e historial de búsqueda.
-* **Open Office**: Verifica el acceso reciente a documentos que pueda indicar archivos comprometidos.
+* **Open Office**: Verifica el acceso reciente a documentos que puedan indicar archivos comprometidos.
 * **FTP/SFTP**: Revisa los registros en _\~/.ftp\_history_ o _\~/.sftp\_history_ para transferencias de archivos que puedan no estar autorizadas.
 * **MySQL**: Investiga _\~/.mysql\_history_ para consultas de MySQL ejecutadas, que pueden revelar actividades no autorizadas en la base de datos.
 * **Less**: Analiza _\~/.lesshst_ para el historial de uso, incluidos archivos vistos y comandos ejecutados.
@@ -341,7 +341,7 @@ Más ejemplos e información dentro de GitHub: [https://github.com/snovvcrash/us
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
 Accede hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Las opciones de filtro** (`--diff-filter`) ayudan a reducir a cambios específicos como archivos añadidos (`A`), eliminados (`D`) o modificados (`M`).
+* **Opciones de filtro** (`--diff-filter`) ayudan a reducir a cambios específicos como archivos añadidos (`A`), eliminados (`D`) o modificados (`M`).
 * `A`: Archivos añadidos
 * `C`: Archivos copiados
 * `D`: Archivos eliminados
@@ -425,7 +425,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

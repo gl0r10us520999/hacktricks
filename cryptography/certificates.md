@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -77,7 +77,7 @@ print(f"Public Key: {public_key}")
 ```
 ### **Diferencia entre OCSP y Puntos de Distribución CRL**
 
-**OCSP** (**RFC 2560**) implica que un cliente y un respondedor trabajen juntos para verificar si un certificado digital de clave pública ha sido revocado, sin necesidad de descargar el **CRL** completo. Este método es más eficiente que el **CRL** tradicional, que proporciona una lista de números de serie de certificados revocados pero requiere descargar un archivo potencialmente grande. Los CRL pueden incluir hasta 512 entradas. Más detalles están disponibles [aquí](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) implica que un cliente y un respondedor trabajen juntos para verificar si un certificado digital de clave pública ha sido revocado, sin necesidad de descargar el **CRL** completo. Este método es más eficiente que el **CRL** tradicional, que proporciona una lista de números de serie de certificados revocados pero requiere descargar un archivo potencialmente grande. Los CRLs pueden incluir hasta 512 entradas. Más detalles están disponibles [aquí](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Qué es la Transparencia de Certificados**
 
@@ -89,7 +89,7 @@ La Transparencia de Certificados ayuda a combatir amenazas relacionadas con cert
 
 #### **Registros de Certificados**
 
-Los registros de certificados son registros auditables públicamente, de solo anexar, de certificados, mantenidos por servicios de red. Estos registros proporcionan pruebas criptográficas para fines de auditoría. Tanto las autoridades de emisión como el público pueden enviar certificados a estos registros o consultarlos para verificación. Aunque el número exacto de servidores de registro no es fijo, se espera que sea menos de mil a nivel mundial. Estos servidores pueden ser gestionados de manera independiente por CAs, ISPs o cualquier entidad interesada.
+Los registros de certificados son registros auditables públicamente, de solo anexado, de certificados, mantenidos por servicios de red. Estos registros proporcionan pruebas criptográficas para fines de auditoría. Tanto las autoridades de emisión como el público pueden enviar certificados a estos registros o consultarlos para verificación. Si bien el número exacto de servidores de registro no es fijo, se espera que sea menos de mil a nivel mundial. Estos servidores pueden ser gestionados de manera independiente por CAs, ISPs o cualquier entidad interesada.
 
 #### **Consulta**
 

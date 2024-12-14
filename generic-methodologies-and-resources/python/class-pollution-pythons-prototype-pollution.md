@@ -1,4 +1,4 @@
-# Contaminación de Clases (Prototype Pollution de Python)
+# Contaminación de Clases (Contaminación de Prototipos de Python)
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -78,7 +78,7 @@ print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 
 <details>
 
-<summary>Creando un valor predeterminado de propiedad de clase para RCE (subproceso)</summary>
+<summary>Creando valor predeterminado de propiedad de clase para RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Ejecución arbitraria de subprocesos</summary>
+<summary>Ejecutar subprocesos arbitrarios</summary>
 ```python
 import subprocess, json
 
@@ -195,7 +195,7 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <summary>Sobrescribiendo <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** es un atributo especial de todas las funciones, según la [documentación de Python](https://docs.python.org/3/library/inspect.html), es un "mapeo de cualquier valor predeterminado para parámetros **solo de palabras clave**". Contaminar este atributo nos permite controlar los valores predeterminados de los parámetros solo de palabras clave de una función, que son los parámetros de la función que vienen después de \* o \*args.
+**`__kwdefaults__`** es un atributo especial de todas las funciones, basado en la [documentación](https://docs.python.org/3/library/inspect.html) de Python, es un “mapeo de cualquier valor predeterminado para parámetros **solo de palabra clave**”. Contaminar este atributo nos permite controlar los valores predeterminados de los parámetros solo de palabra clave de una función, estos son los parámetros de la función que vienen después de \* o \*args.
 ```python
 from os import system
 import json
@@ -238,15 +238,15 @@ execute() #> Executing echo Polluted
 
 <summary>Sobrescribiendo el secreto de Flask a través de archivos</summary>
 
-Entonces, si puedes hacer una contaminación de clase sobre un objeto definido en el archivo principal de Python de la web pero **cuya clase está definida en un archivo diferente** al principal. Debido a que para acceder a \_\_globals\_\_ en las cargas útiles anteriores necesitas acceder a la clase del objeto o a los métodos de la clase, podrás **acceder a los globales en ese archivo, pero no en el principal**. \
+Entonces, si puedes hacer una contaminación de clase sobre un objeto definido en el archivo principal de python de la web pero **cuyo clase está definida en un archivo diferente** al principal. Porque para acceder a \_\_globals\_\_ en las cargas útiles anteriores necesitas acceder a la clase del objeto o métodos de la clase, podrás **acceder a los globals en ese archivo, pero no en el principal**. \
 Por lo tanto, **no podrás acceder al objeto global de la aplicación Flask** que definió la **clave secreta** en la página principal:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-En este escenario necesitas un gadget para recorrer archivos y llegar al principal para **acceder al objeto global `app.secret_key`** y poder [**escalar privilegios** conociendo esta clave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+En este escenario, necesitas un gadget para recorrer archivos y llegar al principal para **acceder al objeto global `app.secret_key`** para cambiar la clave secreta de Flask y poder [**escalar privilegios** conociendo esta clave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Un payload como este [de este writeup](https://ctftime.org/writeup/36082):
+Una carga útil como esta [de este informe](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -254,11 +254,11 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Utiliza este payload para **cambiar `app.secret_key`** (el nombre en tu aplicación podría ser diferente) para poder firmar nuevas y más privilegiadas cookies de Flask.
+Utiliza esta carga útil para **cambiar `app.secret_key`** (el nombre en tu aplicación podría ser diferente) para poder firmar nuevas y más privilegiadas cookies de flask.
 
 </details>
 
-Consulta también la siguiente página para obtener más gadgets de solo lectura:
+Consulta también la siguiente página para más gadgets de solo lectura:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
@@ -276,9 +276,9 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

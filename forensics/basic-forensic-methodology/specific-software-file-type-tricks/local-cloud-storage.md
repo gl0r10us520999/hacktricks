@@ -109,7 +109,7 @@ La **`filecache.db`** base de datos contiene información sobre todos los archiv
 Otras tablas dentro de esta base de datos contienen información más interesante:
 
 * **block\_cache**: hash de todos los archivos y carpetas de Dropbox
-* **block\_ref**: Relaciona el ID de hash de la tabla `block_cache` con el ID del archivo en la tabla `file_journal`
+* **block\_ref**: Relaciona el ID de hash de la tabla `block_cache` con el ID de archivo en la tabla `file_journal`
 * **mount\_table**: Compartir carpetas de dropbox
 * **deleted\_fields**: Archivos eliminados de Dropbox
 * **date\_added**
@@ -132,7 +132,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

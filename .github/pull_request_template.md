@@ -1,4 +1,6 @@
-## Atribución
-Valoramos tu conocimiento y te animamos a compartir contenido. Por favor, asegúrate de subir solo contenido que poseas o del que tengas permiso explícito del autor original. Tu respeto por los derechos de propiedad intelectual fomenta un entorno de intercambio confiable y legal para todos.
+Puedes eliminar este contenido antes de enviar la PR:
 
-¡Gracias por contribuir a HackTricks!
+## Attribution
+Valoramos tu conocimiento y te animamos a compartir contenido. Asegúrate de que solo subes contenido que posees o del cual tienes permiso para compartirlo del autor original (agregando una referencia al autor en el texto añadido o al final de la página que estás modificando o ambos). Tu respeto por los derechos de propiedad intelectual fomenta un entorno de compartición confiable y legal para todos.
+
+Gracias por contribuir a HackTricks!

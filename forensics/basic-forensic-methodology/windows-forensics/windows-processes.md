@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Entrenamiento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Entrenamiento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ayuda a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* ¡Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,26 +16,26 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## smss.exe
 
-**Administrador de Sesiones**.\
-La Sesión 0 inicia **csrss.exe** y **wininit.exe** (**servicios del SO**) mientras que la Sesión 1 inicia **csrss.exe** y **winlogon.exe** (**sesión de usuario**). Sin embargo, solo deberías ver **un proceso** de ese **binario** sin hijos en el árbol de procesos.
+**Session Manager**.\
+La sesión 0 inicia **csrss.exe** y **wininit.exe** (**servicios** **del** **SO**) mientras que la sesión 1 inicia **csrss.exe** y **winlogon.exe** (**sesión** **de** **usuario**). Sin embargo, deberías ver **solo un proceso** de ese **binario** sin hijos en el árbol de procesos.
 
-Además, sesiones aparte de 0 y 1 pueden indicar que están ocurriendo sesiones de RDP.
+Además, sesiones distintas de 0 y 1 pueden significar que están ocurriendo sesiones RDP.
 
 
 ## csrss.exe
 
-**Proceso de Subsistema de Ejecución Cliente/Servidor**.\
-Administra **procesos** y **hilos**, pone a disposición la **API de Windows** para otros procesos y también **asigna letras de unidad**, crea **archivos temporales** y maneja el **proceso de apagado**.
+**Proceso del Subsistema de Ejecución Cliente/Servidor**.\
+Gestiona **procesos** y **hilos**, hace que la **API** **de** **Windows** esté disponible para otros procesos y también **asigna letras de unidad**, crea **archivos temporales** y maneja el **proceso** de **apagado**.
 
-Hay uno **ejecutándose en la Sesión 0 y otro en la Sesión 1** (por lo tanto, **2 procesos** en el árbol de procesos). Se crea otro por cada nueva Sesión.
+Hay uno **ejecutándose en la Sesión 0 y otro en la Sesión 1** (así que **2 procesos** en el árbol de procesos). Se crea otro **por cada nueva Sesión**.
 
 
 ## winlogon.exe
 
 **Proceso de Inicio de Sesión de Windows**.\
-Es responsable de los **inicios**/**cierres de sesión** de usuario. Inicia **logonui.exe** para solicitar nombre de usuario y contraseña y luego llama a **lsass.exe** para verificarlos.
+Es responsable de los **inicios**/**cierres** de **sesión** de usuario. Lanza **logonui.exe** para pedir el nombre de usuario y la contraseña y luego llama a **lsass.exe** para verificarlos.
 
-Luego inicia **userinit.exe** que está especificado en **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** con la clave **Userinit**.
+Luego lanza **userinit.exe** que está especificado en **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** con la clave **Userinit**.
 
 Además, el registro anterior debería tener **explorer.exe** en la clave **Shell** o podría ser abusado como un **método de persistencia de malware**.
 
@@ -43,103 +43,87 @@ Además, el registro anterior debería tener **explorer.exe** en la clave **Shel
 ## wininit.exe
 
 **Proceso de Inicialización de Windows**. \
-Inicia **services.exe**, **lsass.exe** y **lsm.exe** en la Sesión 0. Debería haber solo 1 proceso.
+Lanza **services.exe**, **lsass.exe** y **lsm.exe** en la Sesión 0. Solo debería haber 1 proceso.
 
 
 ## userinit.exe
 
-**Aplicación de Inicio de Sesión de Usuario**.\
-Carga el **ntduser.dat en HKCU** e inicializa el **entorno de usuario** y ejecuta **scripts de inicio de sesión** y **GPO**.
+**Aplicación de Inicio de Sesión de Userinit**.\
+Carga el **ntduser.dat en HKCU** e inicializa el **entorno** **del** **usuario** y ejecuta **scripts** de **inicio de sesión** y **GPO**.
 
-Inicia **explorer.exe**.
+Lanza **explorer.exe**.
 
 
 ## lsm.exe
 
-**Administrador de Sesión Local**.\
-Trabaja con smss.exe para manipular sesiones de usuario: inicio/cierre de sesión, inicio de shell, bloqueo/desbloqueo de escritorio, etc.
+**Administrador de Sesiones Locales**.\
+Trabaja con smss.exe para manipular sesiones de usuario: Inicio/cierre de sesión, inicio de shell, bloqueo/desbloqueo del escritorio, etc.
 
 Después de W7, lsm.exe se transformó en un servicio (lsm.dll).
 
-Debería haber solo 1 proceso en W7 y de ellos un servicio ejecutando el DLL.
+Solo debería haber 1 proceso en W7 y de ellos un servicio ejecutando la DLL.
 
 
 ## services.exe
 
 **Administrador de Control de Servicios**.\
-**Carga** **servicios** configurados como **inicio automático** y **controladores**.
+**Carga** **servicios** configurados como **auto-inicio** y **controladores**.
 
 Es el proceso padre de **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** y muchos más.
 
 Los servicios están definidos en `HKLM\SYSTEM\CurrentControlSet\Services` y este proceso mantiene una base de datos en memoria de información de servicios que puede ser consultada por sc.exe.
 
-Observa cómo **algunos** **servicios** se ejecutarán en un **proceso propio** y otros se **compartirán en un proceso svchost.exe**.
+Nota cómo **algunos** **servicios** van a estar ejecutándose en un **proceso propio** y otros van a estar **compartiendo un proceso svchost.exe**.
 
-Debería haber solo 1 proceso.
+Solo debería haber 1 proceso.
 
 
 ## lsass.exe
 
 **Subsistema de Autoridad de Seguridad Local**.\
-Es responsable de la **autenticación de usuario** y crea los **tokens de seguridad**. Utiliza paquetes de autenticación ubicados en `HKLM\System\CurrentControlSet\Control\Lsa`.
+Es responsable de la **autenticación** del usuario y de crear los **tokens** de **seguridad**. Utiliza paquetes de autenticación ubicados en `HKLM\System\CurrentControlSet\Control\Lsa`.
 
-Escribe en el **registro de eventos de seguridad** y debería haber solo 1 proceso.
+Escribe en el **registro** **de** **eventos** **de** **seguridad** y solo debería haber 1 proceso.
 
-Ten en cuenta que este proceso es altamente atacado para extraer contraseñas.
+Ten en cuenta que este proceso es altamente atacado para volcar contraseñas.
 
 
 ## svchost.exe
 
-**Proceso de Host de Servicio Genérico**.\
-Hospeda múltiples servicios DLL en un proceso compartido.
+**Proceso Genérico de Host de Servicios**.\
+Aloja múltiples servicios DLL en un solo proceso compartido.
 
-Por lo general, encontrarás que **svchost.exe** se inicia con la bandera `-k`. Esto lanzará una consulta al registro **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** donde habrá una clave con el argumento mencionado en -k que contendrá los servicios a iniciar en el mismo proceso.
+Por lo general, encontrarás que **svchost.exe** se lanza con la bandera `-k`. Esto lanzará una consulta al registro **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** donde habrá una clave con el argumento mencionado en -k que contendrá los servicios a lanzar en el mismo proceso.
 
 Por ejemplo: `-k UnistackSvcGroup` lanzará: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-Si también se usa la **bandera `-s`** con un argumento, entonces se le pide a svchost que **solo inicie el servicio especificado** en este argumento.
+Si la **bandera `-s`** también se usa con un argumento, entonces se le pide a svchost que **solo lance el servicio especificado** en este argumento.
 
-Habrá varios procesos de `svchost.exe`. Si alguno de ellos **no está utilizando la bandera `-k`**, eso es muy sospechoso. Si encuentras que **services.exe no es el proceso padre**, eso también es muy sospechoso.
+Habrá varios procesos de `svchost.exe`. Si alguno de ellos **no está usando la bandera `-k`**, entonces eso es muy sospechoso. Si encuentras que **services.exe no es el padre**, eso también es muy sospechoso.
 
 
 ## taskhost.exe
 
-Este proceso actúa como anfitrión para procesos que se ejecutan desde DLL. También carga los servicios que se ejecutan desde DLL.
+Este proceso actúa como un host para procesos que se ejecutan desde DLLs. También carga los servicios que se están ejecutando desde DLLs.
 
-En W8 se llama taskhostex.exe y en W10 taskhostw.exe.
+En W8 esto se llama taskhostex.exe y en W10 taskhostw.exe.
 
 
 ## explorer.exe
 
 Este es el proceso responsable del **escritorio del usuario** y de lanzar archivos a través de extensiones de archivo.
 
-Debería generarse solo **1** proceso por usuario conectado.
+**Solo 1** proceso debería ser generado **por cada usuario conectado.**
 
-Este se ejecuta desde **userinit.exe** que debería ser terminado, por lo que **no debería aparecer ningún proceso padre** para este proceso.
+Esto se ejecuta desde **userinit.exe** que debería ser terminado, así que **no debería aparecer un padre** para este proceso.
 
 
-# Detectando Procesos Maliciosos
+# Capturando Procesos Maliciosos
 
 * ¿Se está ejecutando desde la ruta esperada? (Ningún binario de Windows se ejecuta desde una ubicación temporal)
-* ¿Se está comunicando con IPs extrañas?
+* ¿Está comunicándose con IPs extrañas?
 * Verifica las firmas digitales (los artefactos de Microsoft deberían estar firmados)
 * ¿Está escrito correctamente?
 * ¿Se está ejecutando bajo el SID esperado?
-* ¿El proceso padre es el esperado (si lo hay)?
-* ¿Los procesos hijos son los esperados? (¿no hay cmd.exe, wscript.exe, powershell.exe..?)
-
-
-{% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Entrenamiento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Entrenamiento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ayuda a HackTricks</summary>
-
-* ¡Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
-{% endhint %}
+* ¿Es el proceso padre el esperado (si lo hay)?
+* ¿Son los procesos hijos los esperados? (¿sin cmd.exe, wscript.exe, powershell.exe..?)

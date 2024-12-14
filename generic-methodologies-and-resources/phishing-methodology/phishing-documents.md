@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="../../.gitbook/assets/grte.png" alt
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**repositorios de HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Puedes usar el siguiente comando para verificar qué extensiones se van a ejecut
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX files referencing a remote template (Archivo – Opciones – Complementos – Administrar: Plantillas – Ir) that includes macros can “execute” macros as well.
+DOCX files referencing a remote template (File –Options –Add-ins –Manage: Templates –Go) that includes macros can “execute” macros as well.
 
 ### Carga de Imagen Externa
 
@@ -84,7 +84,7 @@ Ve a **Archivo > Información > Inspeccionar documento > Inspeccionar documento*
 #### Extensión de Doc
 
 Cuando termines, selecciona el menú desplegable **Guardar como tipo**, cambia el formato de **`.docx`** a **Word 97-2003 `.doc`**.\
-Haz esto porque **no puedes guardar macros dentro de un `.docx`** y hay un **estigma** **alrededor** de la extensión habilitada para macros **`.docm`** (por ejemplo, el ícono de miniatura tiene un gran `!` y algunos gateways web/correo los bloquean por completo). Por lo tanto, esta **extensión `.doc` heredada es el mejor compromiso**.
+Haz esto porque **no puedes guardar macros dentro de un `.docx`** y hay un **estigma** **alrededor** de la extensión habilitada para macros **`.docm`** (por ejemplo, el ícono de miniatura tiene un enorme `!` y algunos gateways web/correo los bloquean por completo). Por lo tanto, esta **extensión heredada `.doc` es el mejor compromiso**.
 
 #### Generadores de macros maliciosas
 

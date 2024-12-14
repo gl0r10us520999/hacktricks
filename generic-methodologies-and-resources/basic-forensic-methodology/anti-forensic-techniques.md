@@ -1,16 +1,16 @@
 # Técnicas Anti-forenses
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
@@ -38,7 +38,7 @@ La imagen anterior es la **salida** mostrada por la **herramienta** donde se pue
 
 ### $LogFile
 
-**Todos los cambios de metadatos en un sistema de archivos se registran** en un proceso conocido como [escritura anticipada](https://en.wikipedia.org/wiki/Write-ahead_logging). Los metadatos registrados se mantienen en un archivo llamado `**$LogFile**`, ubicado en el directorio raíz de un sistema de archivos NTFS. Herramientas como [LogFileParser](https://github.com/jschicht/LogFileParser) se pueden usar para analizar este archivo e identificar cambios.
+**Todos los cambios de metadatos en un sistema de archivos se registran** en un proceso conocido como [escritura anticipada](https://en.wikipedia.org/wiki/Write-ahead\_logging). Los metadatos registrados se mantienen en un archivo llamado `**$LogFile**`, ubicado en el directorio raíz de un sistema de archivos NTFS. Herramientas como [LogFileParser](https://github.com/jschicht/LogFileParser) se pueden usar para analizar este archivo e identificar cambios.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
@@ -65,15 +65,15 @@ Las marcas de tiempo de **NTFS** tienen una **precisión** de **100 nanosegundos
 
 Esta herramienta puede modificar ambos atributos `$STARNDAR_INFORMATION` y `$FILE_NAME`. Sin embargo, desde Windows Vista, es necesario que un sistema operativo en vivo modifique esta información.
 
-## Ocultación de Datos
+## Ocultamiento de Datos
 
-NFTS utiliza un clúster y el tamaño mínimo de información. Eso significa que si un archivo ocupa y utiliza un clúster y medio, la **mitad restante nunca se utilizará** hasta que se elimine el archivo. Entonces, es posible **ocultar datos en este espacio de holgura**.
+NFTS utiliza un clúster y el tamaño mínimo de información. Eso significa que si un archivo ocupa un clúster y medio, la **mitad restante nunca se utilizará** hasta que se elimine el archivo. Entonces, es posible **ocultar datos en este espacio de relleno**.
 
-Hay herramientas como slacker que permiten ocultar datos en este espacio "oculto". Sin embargo, un análisis del `$logfile` y `$usnjrnl` puede mostrar que se agregaron algunos datos:
+Existen herramientas como slacker que permiten ocultar datos en este espacio "oculto". Sin embargo, un análisis del `$logfile` y `$usnjrnl` puede mostrar que se agregaron algunos datos:
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-Entonces, es posible recuperar el espacio de holgura usando herramientas como FTK Imager. Tenga en cuenta que este tipo de herramienta puede guardar el contenido ofuscado o incluso cifrado.
+Entonces, es posible recuperar el espacio de relleno usando herramientas como FTK Imager. Ten en cuenta que este tipo de herramienta puede guardar el contenido ofuscado o incluso cifrado.
 
 ## UsbKill
 
@@ -90,7 +90,7 @@ Estas distribuciones se **ejecutan dentro de la memoria RAM**. La única forma d
 
 ## Configuración de Windows
 
-Es posible deshabilitar varios métodos de registro de Windows para dificultar mucho la investigación forense.
+Es posible deshabilitar varios métodos de registro de Windows para hacer que la investigación forense sea mucho más difícil.
 
 ### Deshabilitar Marcas de Tiempo - UserAssist
 
@@ -99,7 +99,7 @@ Esta es una clave de registro que mantiene las fechas y horas en que cada ejecut
 Deshabilitar UserAssist requiere dos pasos:
 
 1. Establecer dos claves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` y `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambas a cero para señalar que queremos deshabilitar UserAssist.
-2. Limpiar sus subárboles de registro que se parecen a `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+2. Limpiar tus subárboles de registro que se parecen a `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ### Deshabilitar Marcas de Tiempo - Prefetch
 
@@ -115,41 +115,41 @@ Esto guardará información sobre las aplicaciones ejecutadas con el objetivo de
 
 Cada vez que se abre una carpeta desde un volumen NTFS en un servidor Windows NT, el sistema toma el tiempo para **actualizar un campo de marca de tiempo en cada carpeta listada**, llamado la última hora de acceso. En un volumen NTFS muy utilizado, esto puede afectar el rendimiento.
 
-1. Abra el Editor del Registro (Regedit.exe).
-2. Navegue a `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Busque `NtfsDisableLastAccessUpdate`. Si no existe, agregue este DWORD y establezca su valor en 1, lo que deshabilitará el proceso.
-4. Cierre el Editor del Registro y reinicie el servidor.
+1. Abre el Editor del Registro (Regedit.exe).
+2. Navega a `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
+3. Busca `NtfsDisableLastAccessUpdate`. Si no existe, agrega este DWORD y establece su valor en 1, lo que deshabilitará el proceso.
+4. Cierra el Editor del Registro y reinicia el servidor.
 
 ### Eliminar Historial de USB
 
-Todas las **Entradas de Dispositivos USB** se almacenan en el Registro de Windows bajo la clave de registro **USBSTOR** que contiene subclaves que se crean cada vez que conecta un dispositivo USB a su PC o Laptop. Puede encontrar esta clave aquí `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminar esto** eliminará el historial de USB.\
-También puede usar la herramienta [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) para asegurarse de que los ha eliminado (y para eliminarlos).
+Todas las **Entradas de Dispositivos USB** se almacenan en el Registro de Windows bajo la clave de registro **USBSTOR** que contiene subclaves que se crean cada vez que conectas un dispositivo USB a tu PC o Laptop. Puedes encontrar esta clave aquí `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminando esto** eliminarás el historial de USB.\
+También puedes usar la herramienta [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) para asegurarte de que los has eliminado (y para eliminarlos).
 
 Otro archivo que guarda información sobre los USB es el archivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Este también debe ser eliminado.
 
 ### Deshabilitar Copias de Sombra
 
-**Listar** copias de sombra con `vssadmin list shadowstorage`\
-**Eliminar** ejecutando `vssadmin delete shadow`
+**Lista** las copias de sombra con `vssadmin list shadowstorage`\
+**Elimínalas** ejecutando `vssadmin delete shadow`
 
-También puede eliminarlas a través de la GUI siguiendo los pasos propuestos en [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+También puedes eliminarlas a través de la GUI siguiendo los pasos propuestos en [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Para deshabilitar las copias de sombra [pasos desde aquí](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Para deshabilitar las copias de sombra [pasos desde aquí](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
 
-1. Abra el programa de Servicios escribiendo "services" en el cuadro de búsqueda de texto después de hacer clic en el botón de inicio de Windows.
-2. En la lista, busque "Copia de Sombra de Volumen", selecciónelo y luego acceda a Propiedades haciendo clic derecho.
-3. Elija Deshabilitado en el menú desplegable "Tipo de inicio" y luego confirme el cambio haciendo clic en Aplicar y Aceptar.
+1. Abre el programa de Servicios escribiendo "services" en el cuadro de búsqueda de texto después de hacer clic en el botón de inicio de Windows.
+2. En la lista, encuentra "Copia de Sombra de Volumen", selecciónalo y luego accede a Propiedades haciendo clic derecho.
+3. Elige Deshabilitado en el menú desplegable "Tipo de inicio" y luego confirma el cambio haciendo clic en Aplicar y Aceptar.
 
 También es posible modificar la configuración de qué archivos se van a copiar en la copia de sombra en el registro `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ### Sobrescribir archivos eliminados
 
-* Puede usar una **herramienta de Windows**: `cipher /w:C` Esto indicará a cipher que elimine cualquier dato del espacio de disco no utilizado disponible dentro de la unidad C.
-* También puede usar herramientas como [**Eraser**](https://eraser.heidi.ie)
+* Puedes usar una **herramienta de Windows**: `cipher /w:C` Esto indicará a cipher que elimine cualquier dato del espacio de disco no utilizado disponible dentro de la unidad C.
+* También puedes usar herramientas como [**Eraser**](https://eraser.heidi.ie)
 
 ### Eliminar registros de eventos de Windows
 
-* Windows + R --> eventvwr.msc --> Expandir "Registros de Windows" --> Hacer clic derecho en cada categoría y seleccionar "Borrar registro"
+* Windows + R --> eventvwr.msc --> Expandir "Registros de Windows" --> Hacer clic derecho en cada categoría y seleccionar "Borrar Registro"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
@@ -164,16 +164,16 @@ También es posible modificar la configuración de qué archivos se van a copiar
 * `fsutil usn deletejournal /d c:`
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Apoya a HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}

@@ -10,7 +10,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -77,7 +77,7 @@ Sin embargo, la información principal es:
 Aparte de esa información, para desencriptar las bases de datos aún necesitas:
 
 * La **clave DPAPI encriptada**: Puedes encontrarla en el registro dentro de `NTUSER.DAT\Software\Dropbox\ks\client` (exporta estos datos como binarios)
-* Los **hives** de **`SYSTEM`** y **`SECURITY`**
+* Las colmenas **`SYSTEM`** y **`SECURITY`**
 * Las **claves maestras DPAPI**: Que se pueden encontrar en `\Users\<username>\AppData\Roaming\Microsoft\Protect`
 * El **nombre de usuario** y **contraseña** del usuario de Windows
 
@@ -85,7 +85,7 @@ Luego puedes usar la herramienta [**DataProtectionDecryptor**](https://nirsoft.n
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-Si todo sale como se espera, la herramienta indicará la **clave primaria** que necesitas **usar para recuperar la original**. Para recuperar la original, simplemente usa esta [receta de cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) poniendo la clave primaria como la "frase de paso" dentro de la receta.
+Si todo sale como se espera, la herramienta indicará la **clave principal** que necesitas **usar para recuperar la original**. Para recuperar la original, simplemente usa esta [receta de cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) poniendo la clave principal como la "frase de paso" dentro de la receta.
 
 El hex resultante es la clave final utilizada para encriptar las bases de datos que se puede desencriptar con:
 ```bash
@@ -95,7 +95,7 @@ El **`config.dbx`** base de datos contiene:
 
 * **Email**: El correo electrónico del usuario
 * **usernamedisplayname**: El nombre del usuario
-* **dropbox\_path**: Ruta donde se encuentra la carpeta de Dropbox
+* **dropbox\_path**: Ruta donde se encuentra la carpeta de dropbox
 * **Host\_id: Hash** utilizado para autenticar en la nube. Esto solo se puede revocar desde la web.
 * **Root\_ns**: Identificador del usuario
 
@@ -110,14 +110,14 @@ Otras tablas dentro de esta base de datos contienen información más interesant
 
 * **block\_cache**: hash de todos los archivos y carpetas de Dropbox
 * **block\_ref**: Relaciona el ID de hash de la tabla `block_cache` con el ID del archivo en la tabla `file_journal`
-* **mount\_table**: Carpetas compartidas de Dropbox
+* **mount\_table**: Compartir carpetas de dropbox
 * **deleted\_fields**: Archivos eliminados de Dropbox
 * **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas más avanzadas** de la comunidad.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}

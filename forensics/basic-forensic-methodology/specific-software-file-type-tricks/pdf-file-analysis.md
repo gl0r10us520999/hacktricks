@@ -27,7 +27,7 @@ Obtén acceso hoy:
 
 El formato PDF es conocido por su complejidad y su potencial para ocultar datos, lo que lo convierte en un punto focal para los desafíos de forense en CTF. Combina elementos de texto plano con objetos binarios, que pueden estar comprimidos o cifrados, y puede incluir scripts en lenguajes como JavaScript o Flash. Para entender la estructura del PDF, se puede consultar el [material introductorio](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) de Didier Stevens, o usar herramientas como un editor de texto o un editor específico de PDF como Origami.
 
-Para una exploración o manipulación más profunda de PDFs, están disponibles herramientas como [qpdf](https://github.com/qpdf/qpdf) y [Origami](https://github.com/mobmewireless/origami-pdf). Los datos ocultos dentro de los PDFs pueden estar ocultos en:
+Para una exploración o manipulación más profunda de los PDFs, están disponibles herramientas como [qpdf](https://github.com/qpdf/qpdf) y [Origami](https://github.com/mobmewireless/origami-pdf). Los datos ocultos dentro de los PDFs pueden estar ocultos en:
 
 * Capas invisibles
 * Formato de metadatos XMP de Adobe

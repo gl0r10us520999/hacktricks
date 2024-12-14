@@ -36,13 +36,13 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Este archivo revela dónde se encuentran los archivos **.conf**, que contienen configuraciones de pipeline. Al emplear un **módulo de salida de Elasticsearch**, es común que los **pipelines** incluyan **credenciales de Elasticsearch**, que a menudo poseen amplios privilegios debido a la necesidad de Logstash de escribir datos en Elasticsearch. Los comodines en las rutas de configuración permiten a Logstash ejecutar todos los pipelines que coincidan en el directorio designado.
+Este archivo revela dónde se encuentran los archivos **.conf**, que contienen configuraciones de pipeline. Al emplear un **módulo de salida de Elasticsearch**, es común que los **pipelines** incluyan **credenciales de Elasticsearch**, que a menudo poseen privilegios extensos debido a la necesidad de Logstash de escribir datos en Elasticsearch. Los comodines en las rutas de configuración permiten a Logstash ejecutar todos los pipelines que coincidan en el directorio designado.
 
-### Escalación de Privilegios a través de Pipelines Escribibles
+### Escalamiento de Privilegios a través de Pipelines Escribibles
 
-Para intentar la escalación de privilegios, primero identifica el usuario bajo el cual se está ejecutando el servicio de Logstash, típicamente el usuario **logstash**. Asegúrate de cumplir **uno** de estos criterios:
+Para intentar el escalamiento de privilegios, primero identifica el usuario bajo el cual se está ejecutando el servicio de Logstash, típicamente el usuario **logstash**. Asegúrate de cumplir **uno** de estos criterios:
 
-- Poseer **acceso de escritura** a un archivo **.conf** de pipeline **o**
+- Poseer **acceso de escritura** a un archivo de pipeline **.conf** **o**
 - El archivo **/etc/logstash/pipelines.yml** utiliza un comodín, y puedes escribir en la carpeta de destino
 
 Además, **una** de estas condiciones debe cumplirse:

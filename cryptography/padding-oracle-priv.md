@@ -54,7 +54,7 @@ Si detectas este comportamiento, puedes **descifrar los datos cifrados** e inclu
 
 ## Cómo explotar
 
-Podrías usar [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) para explotar este tipo de vulnerabilidad o simplemente hacer
+Podrías usar [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) para explotar este tipo de vulnerabilidad o simplemente hacerlo.
 ```
 sudo apt-get install padbuster
 ```
@@ -74,13 +74,13 @@ perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon
 ```
 ## La teoría
 
-En **resumen**, puedes comenzar a descifrar los datos cifrados adivinando los valores correctos que se pueden usar para crear todos los **diferentes rellenos**. Luego, el ataque de oracle de relleno comenzará a descifrar bytes desde el final hasta el inicio adivinando cuál será el valor correcto que **crea un relleno de 1, 2, 3, etc**.
+En **resumen**, puedes comenzar a descifrar los datos cifrados adivinando los valores correctos que se pueden usar para crear todos los **diferentes rellenos**. Luego, el ataque de padding oracle comenzará a descifrar bytes desde el final hasta el inicio adivinando cuál será el valor correcto que **crea un relleno de 1, 2, 3, etc**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
 Imagina que tienes un texto cifrado que ocupa **2 bloques** formados por los bytes de **E0 a E15**.\
-Para **descifrar** el **último** **bloque** (**E8** a **E15**), todo el bloque pasa por la "cifrado de bloque de descifrado" generando los **bytes intermedios I0 a I15**.\
-Finalmente, cada byte intermedio se **XORea** con los bytes cifrados anteriores (E0 a E7). Así que:
+Para **descifrar** el **último** **bloque** (**E8** a **E15**), todo el bloque pasa por la "desencriptación del cifrador de bloques" generando los **bytes intermedios I0 a I15**.\
+Finalmente, cada byte intermedio se **XOR** con los bytes cifrados anteriores (E0 a E7). Así que:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -94,9 +94,9 @@ Entonces, encontrando E'7, es **posible calcular I15**: `I15 = 0x01 ^ E'7`
 
 Lo que nos permite **calcular C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Sabiendo **C15**, ahora es posible **calcular C14**, pero esta vez forzando el relleno `\x02\x02`.
+Conociendo **C15**, ahora es posible **calcular C14**, pero esta vez forzando el relleno `\x02\x02`.
 
-Este BF es tan complejo como el anterior ya que es posible calcular el `E''15` cuyo valor es 0x02: `E''7 = \x02 ^ I15` así que solo se necesita encontrar el **`E'14`** que genera un **`C14` igual a `0x02`**.\
+Este BF es tan complejo como el anterior, ya que es posible calcular el `E''15` cuyo valor es 0x02: `E''7 = \x02 ^ I15`, así que solo se necesita encontrar el **`E'14`** que genera un **`C14` igual a `0x02`**.\
 Luego, haz los mismos pasos para descifrar C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
 **Sigue esta cadena hasta que descifres todo el texto cifrado.**
@@ -104,14 +104,14 @@ Luego, haz los mismos pasos para descifrar C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ 
 ## Detección de la vulnerabilidad
 
 Registra una cuenta e inicia sesión con esta cuenta.\
-Si **inicias sesión muchas veces** y siempre obtienes la **misma cookie**, probablemente haya **algo** **mal** en la aplicación. La **cookie devuelta debería ser única** cada vez que inicias sesión. Si la cookie es **siempre** la **misma**, probablemente siempre será válida y no **habrá forma de invalidarla**.
+Si **inicias sesión muchas veces** y siempre obtienes la **misma cookie**, probablemente haya **algo** **mal** en la aplicación. La **cookie devuelta debería ser única** cada vez que inicias sesión. Si la cookie es **siempre** la **misma**, probablemente siempre será válida y no **habrá manera de invalidarla**.
 
 Ahora, si intentas **modificar** la **cookie**, puedes ver que obtienes un **error** de la aplicación.\
-Pero si forzas el relleno (usando padbuster, por ejemplo) logras obtener otra cookie válida para un usuario diferente. Este escenario es altamente probable que sea vulnerable a padbuster.
+Pero si fuerzas el relleno (usando padbuster, por ejemplo), logras obtener otra cookie válida para un usuario diferente. Este escenario es altamente probable que sea vulnerable a padbuster.
 
 ## Referencias
 
-* [https://es.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://es.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
+* [https://es.wikipedia.org/wiki/Modo\_de\_cifrado\_de\_bloques](https://es.wikipedia.org/wiki/Modo_de_cifrado_de_bloques)
 
 
 <figure><img src="/..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>

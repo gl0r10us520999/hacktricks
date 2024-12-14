@@ -35,7 +35,7 @@ El **firmware personalizado y/o binarios compilados pueden ser subidos para expl
 8. La puerta trasera puede ser accedida a través de netcat.
 9. El binario QEMU debe ser eliminado del rootfs del firmware extraído.
 10. El firmware modificado puede ser reempaquetado usando FMK.
-11. El firmware con puerta trasera puede ser probado emulándolo con un kit de herramientas de análisis de firmware (FAT) y conectándose a la IP y puerto de la puerta trasera objetivo usando netcat.
+11. El firmware con puerta trasera puede ser probado emulándolo con el kit de herramientas de análisis de firmware (FAT) y conectándose a la IP y puerto de la puerta trasera objetivo usando netcat.
 
 Si ya se ha obtenido un shell root a través de análisis dinámico, manipulación del cargador de arranque o pruebas de seguridad de hardware, se pueden ejecutar binarios maliciosos precompilados como implantes o shells reversos. Se pueden aprovechar herramientas automatizadas de carga útil/implante como el marco Metasploit y 'msfvenom' usando los siguientes pasos:
 

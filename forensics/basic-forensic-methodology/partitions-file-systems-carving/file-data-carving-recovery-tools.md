@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Carving & Recovery tools
+## Herramientas de Carving y Recuperación
 
 Más herramientas en [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
@@ -51,13 +51,13 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Esta herramienta viene incluida en Kali, pero puedes encontrarla aquí: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Esta herramienta viene dentro de kali, pero puedes encontrarla aquí: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 Esta herramienta puede escanear una imagen y **extraer pcaps** dentro de ella, **información de red (URLs, dominios, IPs, MACs, correos)** y más **archivos**. Solo tienes que hacer:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee [**análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
+Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee[ **análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
 
 ### PhotoRec
 
@@ -73,7 +73,7 @@ Revisa el [código](https://code.google.com/archive/p/binvis/) y la [página web
 
 #### Características de BinVis
 
-* Visual y activo **visor de estructuras**
+* Visualizador de **estructura** visual y activa
 * Múltiples gráficos para diferentes puntos de enfoque
 * Enfocándose en porciones de una muestra
 * **Viendo cadenas y recursos**, en ejecutables PE o ELF, por ejemplo.
@@ -88,13 +88,13 @@ BinVis es un gran **punto de partida para familiarizarse con un objetivo descono
 
 ### FindAES
 
-Busca claves AES buscando sus programaciones de claves. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
+Busca claves AES buscando sus horarios de clave. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
 
 Descarga [aquí](https://sourceforge.net/projects/findaes/).
 
 ## Herramientas complementarias
 
-Puedes usar [**viu**](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
+Puedes usar [**viu** ](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
 Puedes usar la herramienta de línea de comandos de linux **pdftotext** para transformar un pdf en texto y leerlo.
 
 {% hint style="success" %}

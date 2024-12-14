@@ -22,42 +22,42 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-### Variables de Identificación de Usuario
+### User Identification Variables
 
 - **`ruid`**: El **ID de usuario real** denota al usuario que inició el proceso.
 - **`euid`**: Conocido como el **ID de usuario efectivo**, representa la identidad del usuario utilizada por el sistema para determinar los privilegios del proceso. Generalmente, `euid` refleja `ruid`, salvo en instancias como la ejecución de un binario SetUID, donde `euid` asume la identidad del propietario del archivo, otorgando así permisos operativos específicos.
 - **`suid`**: Este **ID de usuario guardado** es fundamental cuando un proceso de alto privilegio (normalmente ejecutándose como root) necesita renunciar temporalmente a sus privilegios para realizar ciertas tareas, solo para luego recuperar su estado elevado inicial.
 
-#### Nota Importante
+#### Important Note
 Un proceso que no opera bajo root solo puede modificar su `euid` para que coincida con el `ruid`, `euid` o `suid` actuales.
 
-### Entendiendo las Funciones set*uid
+### Understanding set*uid Functions
 
 - **`setuid`**: Contrario a las suposiciones iniciales, `setuid` modifica principalmente `euid` en lugar de `ruid`. Específicamente, para procesos privilegiados, alinea `ruid`, `euid` y `suid` con el usuario especificado, a menudo root, solidificando efectivamente estos IDs debido al `suid` que lo anula. Se pueden encontrar detalles en la [página del manual de setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** y **`setresuid`**: Estas funciones permiten el ajuste matizado de `ruid`, `euid` y `suid`. Sin embargo, sus capacidades dependen del nivel de privilegio del proceso. Para procesos que no son root, las modificaciones están restringidas a los valores actuales de `ruid`, `euid` y `suid`. En contraste, los procesos root o aquellos con la capacidad `CAP_SETUID` pueden asignar valores arbitrarios a estos IDs. Se puede obtener más información de la [página del manual de setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) y la [página del manual de setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setreuid`** y **`setresuid`**: Estas funciones permiten el ajuste matizado de `ruid`, `euid` y `suid`. Sin embargo, sus capacidades dependen del nivel de privilegio del proceso. Para procesos no root, las modificaciones están restringidas a los valores actuales de `ruid`, `euid` y `suid`. En contraste, los procesos root o aquellos con la capacidad `CAP_SETUID` pueden asignar valores arbitrarios a estos IDs. Se puede obtener más información de la [página del manual de setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) y la [página del manual de setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
 Estas funcionalidades no están diseñadas como un mecanismo de seguridad, sino para facilitar el flujo operativo previsto, como cuando un programa adopta la identidad de otro usuario al alterar su ID de usuario efectivo.
 
-Notablemente, aunque `setuid` puede ser un recurso común para la elevación de privilegios a root (ya que alinea todos los IDs a root), diferenciar entre estas funciones es crucial para entender y manipular los comportamientos del ID de usuario en diversas situaciones.
+Notablemente, aunque `setuid` puede ser una opción común para la elevación de privilegios a root (ya que alinea todos los IDs a root), diferenciar entre estas funciones es crucial para entender y manipular los comportamientos del ID de usuario en diferentes escenarios.
 
-### Mecanismos de Ejecución de Programas en Linux
+### Program Execution Mechanisms in Linux
 
-#### **Llamada al Sistema `execve`**
-- **Funcionalidad**: `execve` inicia un programa, determinado por el primer argumento. Toma dos argumentos de matriz, `argv` para argumentos y `envp` para el entorno.
-- **Comportamiento**: Retiene el espacio de memoria del llamador pero actualiza la pila, el montón y los segmentos de datos. El código del programa es reemplazado por el nuevo programa.
-- **Preservación del ID de Usuario**:
+#### **`execve` System Call**
+- **Functionality**: `execve` inicia un programa, determinado por el primer argumento. Toma dos argumentos de matriz, `argv` para argumentos y `envp` para el entorno.
+- **Behavior**: Retiene el espacio de memoria del llamador pero actualiza la pila, el montón y los segmentos de datos. El código del programa es reemplazado por el nuevo programa.
+- **User ID Preservation**:
 - `ruid`, `euid` y los IDs de grupo suplementarios permanecen sin cambios.
 - `euid` puede tener cambios matizados si el nuevo programa tiene el bit SetUID establecido.
 - `suid` se actualiza desde `euid` después de la ejecución.
-- **Documentación**: Se puede encontrar información detallada en la [página del manual de `execve`](https://man7.org/linux/man-pages/man2/execve.2.html).
+- **Documentation**: Se puede encontrar información detallada en la [página del manual de `execve`](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### **Función `system`**
-- **Funcionalidad**: A diferencia de `execve`, `system` crea un proceso hijo usando `fork` y ejecuta un comando dentro de ese proceso hijo usando `execl`.
-- **Ejecución de Comandos**: Ejecuta el comando a través de `sh` con `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Comportamiento**: Como `execl` es una forma de `execve`, opera de manera similar pero en el contexto de un nuevo proceso hijo.
-- **Documentación**: Se pueden obtener más detalles de la [página del manual de `system`](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **`system` Function**
+- **Functionality**: A diferencia de `execve`, `system` crea un proceso hijo usando `fork` y ejecuta un comando dentro de ese proceso hijo usando `execl`.
+- **Command Execution**: Ejecuta el comando a través de `sh` con `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
+- **Behavior**: Como `execl` es una forma de `execve`, opera de manera similar pero en el contexto de un nuevo proceso hijo.
+- **Documentation**: Se pueden obtener más ideas de la [página del manual de `system`](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Comportamiento de `bash` y `sh` con SUID**
+#### **Behavior of `bash` and `sh` with SUID**
 - **`bash`**:
 - Tiene una opción `-p` que influye en cómo se tratan `euid` y `ruid`.
 - Sin `-p`, `bash` establece `euid` a `ruid` si inicialmente difieren.
@@ -66,19 +66,19 @@ Notablemente, aunque `setuid` puede ser un recurso común para la elevación de 
 - **`sh`**:
 - No posee un mecanismo similar a `-p` en `bash`.
 - El comportamiento respecto a los IDs de usuario no se menciona explícitamente, excepto bajo la opción `-i`, enfatizando la preservación de la igualdad entre `euid` y `ruid`.
-- Información adicional está disponible en la [página del manual de `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Se puede encontrar información adicional en la [página del manual de `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
 Estos mecanismos, distintos en su operación, ofrecen una gama versátil de opciones para ejecutar y transitar entre programas, con matices específicos en cómo se gestionan y preservan los IDs de usuario.
 
-### Pruebas de Comportamientos de ID de Usuario en Ejecuciones
+### Testing User ID Behaviors in Executions
 
-Ejemplos tomados de https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, consúltalo para más información
+Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
 
-#### Caso 1: Usando `setuid` con `system`
+#### Case 1: Using `setuid` with `system`
 
-**Objetivo**: Entender el efecto de `setuid` en combinación con `system` y `bash` como `sh`.
+**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
 
-**Código C**:
+**C Code**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>

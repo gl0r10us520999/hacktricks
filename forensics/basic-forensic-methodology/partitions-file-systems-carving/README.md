@@ -1,4 +1,4 @@
-# Partitions/File Systems/Carving
+# Partitions/Sistemas de Archivos/Carving
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Partitions
+## Particiones
 
 Un disco duro o un **SSD puede contener diferentes particiones** con el objetivo de separar datos físicamente.\
 La **unidad mínima** de un disco es el **sector** (normalmente compuesto de 512B). Por lo tanto, el tamaño de cada partición debe ser múltiplo de ese tamaño.
@@ -36,7 +36,7 @@ Desde los **bytes 440 a 443** del MBR puedes encontrar la **Firma de Disco de Wi
 
 **Formato**
 
-| Offset      | Length     | Item                |
+| Offset      | Longitud   | Elemento            |
 | ----------- | ---------- | ------------------- |
 | 0 (0x00)    | 446(0x1BE) | Código de arranque   |
 | 446 (0x1BE) | 16 (0x10)  | Primera partición    |
@@ -47,15 +47,15 @@ Desde los **bytes 440 a 443** del MBR puedes encontrar la **Firma de Disco de Wi
 
 **Formato del Registro de Partición**
 
-| Offset    | Length   | Item                                                   |
+| Offset    | Longitud | Elemento                                               |
 | --------- | -------- | ------------------------------------------------------ |
 | 0 (0x00)  | 1 (0x01) | Bandera activa (0x80 = arrancable)                    |
 | 1 (0x01)  | 1 (0x01) | Cabeza de inicio                                       |
-| 2 (0x02)  | 1 (0x01) | Sector de inicio (bits 0-5); bits superiores del cilindro (6- 7) |
+| 2 (0x02)  | 1 (0x01) | Sector de inicio (bits 0-5); bits superiores del cilindro (6-7) |
 | 3 (0x03)  | 1 (0x01) | Cilindro de inicio, 8 bits más bajos                  |
 | 4 (0x04)  | 1 (0x01) | Código de tipo de partición (0x83 = Linux)            |
 | 5 (0x05)  | 1 (0x01) | Cabeza final                                           |
-| 6 (0x06)  | 1 (0x01) | Sector final (bits 0-5); bits superiores del cilindro (6- 7)   |
+| 6 (0x06)  | 1 (0x01) | Sector final (bits 0-5); bits superiores del cilindro (6-7) |
 | 7 (0x07)  | 1 (0x01) | Cilindro final, 8 bits más bajos                      |
 | 8 (0x08)  | 4 (0x04) | Sectores precedentes a la partición (little endian)   |
 | 12 (0x0C) | 4 (0x04) | Sectores en la partición                               |
@@ -85,7 +85,7 @@ La Tabla de Particiones GUID, conocida como GPT, es preferida por sus capacidade
 
 **Resiliencia y recuperación de datos**:
 
-* **Redundancia**: A diferencia de MBR, GPT no confina la partición y los datos de arranque a un solo lugar. Replica estos datos a lo largo del disco, mejorando la integridad y resiliencia de los datos.
+* **Redundancia**: A diferencia de MBR, GPT no confina la partición y los datos de arranque a un solo lugar. Replica estos datos a través del disco, mejorando la integridad y resiliencia de los datos.
 * **Verificación de redundancia cíclica (CRC)**: GPT emplea CRC para asegurar la integridad de los datos. Monitorea activamente la corrupción de datos y, cuando se detecta, GPT intenta recuperar los datos corruptos de otra ubicación del disco.
 
 **MBR protector (LBA0)**:
@@ -120,7 +120,7 @@ El encabezado de la tabla de particiones define los bloques utilizables en el di
 | 56 (0x38)      | 16 bytes | GUID del disco en endian mixto                                                                                                                                                       |
 | 72 (0x48)      | 8 bytes  | LBA inicial de un array de entradas de partición (siempre 2 en la copia primaria)                                                                                                        |
 | 80 (0x50)      | 4 bytes  | Número de entradas de partición en el array                                                                                                                                            |
-| 84 (0x54)      | 4 bytes  | Tamaño de una única entrada de partición (generalmente 80h o 128)                                                                                                                           |
+| 84 (0x54)      | 4 bytes  | Tamaño de una sola entrada de partición (generalmente 80h o 128)                                                                                                                           |
 | 88 (0x58)      | 4 bytes  | CRC32 del array de entradas de partición en little endian                                                                                                                               |
 | 92 (0x5C)      | \*       | Reservado; debe ser ceros para el resto del bloque (420 bytes para un tamaño de sector de 512 bytes; pero puede ser más con tamaños de sector más grandes)                                         |
 
@@ -129,7 +129,7 @@ El encabezado de la tabla de particiones define los bloques utilizables en el di
 | Formato de entrada de partición GUID |          |                                                                                                                   |
 | ------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Desplazamiento                        | Longitud | Contenido                                                                                                          |
-| 0 (0x00)                              | 16 bytes | [GUID de tipo de partición](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian mixto) |
+| 0 (0x00)                              | 16 bytes | [Tipo de GUID de partición](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian mixto) |
 | 16 (0x10)                             | 16 bytes | GUID único de partición (endian mixto)                                                                              |
 | 32 (0x20)                             | 8 bytes  | Primer LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                             | 8 bytes  | Último LBA (inclusive, generalmente impar)                                                                                 |
@@ -202,7 +202,7 @@ Puedes usar herramientas como [**exiftool**](https://exiftool.org) y [**Metadive
 
 ### Archivos eliminados registrados
 
-Como se vio antes, hay varios lugares donde el archivo aún se guarda después de haber sido "eliminado". Esto se debe a que, generalmente, la eliminación de un archivo de un sistema de archivos simplemente lo marca como eliminado, pero los datos no se tocan. Entonces, es posible inspeccionar los registros de los archivos (como el MFT) y encontrar los archivos eliminados.
+Como se vio antes, hay varios lugares donde el archivo aún se guarda después de haber sido "eliminado". Esto se debe a que generalmente la eliminación de un archivo de un sistema de archivos simplemente lo marca como eliminado, pero los datos no se tocan. Entonces, es posible inspeccionar los registros de los archivos (como el MFT) y encontrar los archivos eliminados.
 
 Además, el sistema operativo generalmente guarda mucha información sobre los cambios en el sistema de archivos y copias de seguridad, por lo que es posible intentar usarlos para recuperar el archivo o la mayor cantidad de información posible.
 
@@ -212,11 +212,11 @@ Además, el sistema operativo generalmente guarda mucha información sobre los c
 
 ### **Carving de archivos**
 
-**El carving de archivos** es una técnica que intenta **encontrar archivos en la gran cantidad de datos**. Hay 3 formas principales en que herramientas como esta funcionan: **Basado en los encabezados y pies de los tipos de archivos**, basado en las **estructuras** de los tipos de archivos y basado en el **contenido** mismo.
+**El carving de archivos** es una técnica que intenta **encontrar archivos en la gran cantidad de datos**. Hay 3 formas principales en que herramientas como esta funcionan: **Basado en encabezados y pies de archivo**, basado en **estructuras** de tipos de archivo y basado en el **contenido** mismo.
 
 Ten en cuenta que esta técnica **no funciona para recuperar archivos fragmentados**. Si un archivo **no está almacenado en sectores contiguos**, entonces esta técnica no podrá encontrarlo o al menos parte de él.
 
-Hay varias herramientas que puedes usar para el carving de archivos indicando los tipos de archivos que deseas buscar.
+Hay varias herramientas que puedes usar para el carving de archivos indicando los tipos de archivo que deseas buscar.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -234,7 +234,7 @@ Por ejemplo, en lugar de buscar un archivo completo que contenga URLs registrada
 ### Eliminación segura
 
 Obviamente, hay formas de **"eliminar de forma segura" archivos y parte de los registros sobre ellos**. Por ejemplo, es posible **sobrescribir el contenido** de un archivo con datos basura varias veces, y luego **eliminar** los **registros** del **$MFT** y **$LOGFILE** sobre el archivo, y **eliminar las copias de sombra del volumen**.\
-Puedes notar que incluso al realizar esa acción puede haber **otras partes donde la existencia del archivo aún está registrada**, y eso es cierto, y parte del trabajo del profesional forense es encontrarlas.
+Puedes notar que incluso al realizar esa acción puede haber **otras partes donde la existencia del archivo aún está registrada**, y eso es cierto y parte del trabajo del profesional forense es encontrarlas.
 
 ## Referencias
 

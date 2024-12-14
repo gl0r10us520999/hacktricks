@@ -71,7 +71,7 @@ ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port
 ```
 ### Reenvío de Puertos Inverso
 
-Esto es útil para obtener shells inversos de hosts internos a través de una DMZ a tu host:
+Esto es útil para obtener shells inversos de hosts internos a través de una DMZ hacia tu host:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -167,14 +167,14 @@ rportfwd stop [bind port]
 ```
 Para tener en cuenta:
 
-* La **reversa de puerto de Beacon** está diseñada para **túnelizar el tráfico hacia el Servidor del Equipo, no para retransmitir entre máquinas individuales**.
+* La **reversa de puerto de Beacon** está diseñada para **túnelizar el tráfico hacia el Servidor de Equipo, no para retransmitir entre máquinas individuales**.
 * El tráfico está **túnelizado dentro del tráfico C2 de Beacon**, incluyendo enlaces P2P.
-* **No se requieren privilegios de administrador** para crear reenvíos de puerto reversos en puertos altos.
+* **No se requieren privilegios de administrador** para crear reversiones de puerto en puertos altos.
 
 ### rPort2Port local
 
 {% hint style="warning" %}
-En este caso, el **puerto se abre en el host de beacon**, no en el Servidor del Equipo y el **tráfico se envía al cliente de Cobalt Strike** (no al Servidor del Equipo) y desde allí al host:puerto indicado.
+En este caso, el **puerto se abre en el host de beacon**, no en el Servidor de Equipo y el **tráfico se envía al cliente de Cobalt Strike** (no al Servidor de Equipo) y desde allí al host:puerto indicado.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -330,7 +330,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-Es como una versión de consola de PuTTY (las opciones son muy similares a las de un cliente ssh).
+Es como una versión de consola de PuTTY (las opciones son muy similares a un cliente ssh).
 
 Como este binario se ejecutará en la víctima y es un cliente ssh, necesitamos abrir nuestro servicio y puerto ssh para que podamos tener una conexión inversa. Luego, para redirigir solo un puerto accesible localmente a un puerto en nuestra máquina:
 ```bash
@@ -364,7 +364,7 @@ En tu computadora cliente carga **`SocksOverRDP-Plugin.dll`** así:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Ahora podemos **conectar** con la **víctima** a través de **RDP** usando **`mstsc.exe`**, y deberíamos recibir un **mensaje** diciendo que el **plugin SocksOverRDP está habilitado**, y escuchará en **127.0.0.1:1080**.
+Ahora podemos **conectar** con la **víctima** a través de **RDP** usando **`mstsc.exe`**, y deberíamos recibir un **mensaje** diciendo que el **plugin SocksOverRDP está habilitado**, y que **escuchará** en **127.0.0.1:1080**.
 
 **Conéctese** a través de **RDP** y suba y ejecute en la máquina de la víctima el binario `SocksOverRDP-Server.exe`:
 ```
@@ -452,7 +452,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Cambiar DNS de proxychains
 
-Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud de DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
+Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
 
 ## Túneles en Go
 

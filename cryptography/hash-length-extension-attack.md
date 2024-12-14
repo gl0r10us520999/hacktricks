@@ -1,42 +1,43 @@
 {% hint style="success" %}
-Aprende y practica AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
+
 # Resumen del ataque
 
-Imagina un servidor que está **firmando** algunos **datos** al **añadir** un **secreto** a algunos datos de texto claro conocidos y luego hasheando esos datos. Si conoces:
+Imagina un servidor que está **firmando** algunos **datos** al **agregar** un **secreto** a algunos datos de texto claro conocidos y luego hasheando esos datos. Si sabes:
 
-* **La longitud del secreto** (esto también se puede encontrar por fuerza bruta dentro de un rango de longitudes dados)
+* **La longitud del secreto** (esto también se puede forzar mediante fuerza bruta desde un rango de longitud dado)
 * **Los datos de texto claro**
-* **El algoritmo (y que sea vulnerable a este ataque)**
-* **El relleno es conocido**
-* Usualmente se usa uno por defecto, por lo que si se cumplen los otros 3 requisitos, este también lo está
-* El relleno varía dependiendo de la longitud del secreto+datos, por eso se necesita la longitud del secreto
+* **El algoritmo (y es vulnerable a este ataque)**
+* **El padding es conocido**
+* Usualmente se usa uno por defecto, así que si se cumplen los otros 3 requisitos, este también lo es
+* El padding varía dependiendo de la longitud del secreto + datos, por eso se necesita la longitud del secreto
 
-Entonces, es posible para un **atacante** **añadir** **datos** y **generar** una **firma válida** para los **datos anteriores + datos añadidos**.
+Entonces, es posible que un **atacante** **agregue** **datos** y **genere** una **firma** válida para los **datos anteriores + datos agregados**.
 
 ## ¿Cómo?
 
-Básicamente, los algoritmos vulnerables generan los hashes primero al **hashear un bloque de datos**, y luego, **a partir** del **hash creado previamente** (estado), **añaden el siguiente bloque de datos** y lo **hashean**.
+Básicamente, los algoritmos vulnerables generan los hashes primero **hasheando un bloque de datos**, y luego, **desde** el **hash** (estado) **creado previamente**, **agregan el siguiente bloque de datos** y **lo hashean**.
 
 Entonces, imagina que el secreto es "secreto" y los datos son "datos", el MD5 de "secretodata" es 6036708eba0d11f6ef52ad44e8b74d5b.\
-Si un atacante quiere añadir la cadena "añadir" puede:
+Si un atacante quiere agregar la cadena "agregar" puede:
 
 * Generar un MD5 de 64 "A"s
-* Cambiar el estado del hash inicializado previamente a 6036708eba0d11f6ef52ad44e8b74d5b
-* Añadir la cadena "añadir"
-* Finalizar el hash y el hash resultante será uno **válido para "secreto" + "datos" + "relleno" + "añadir"**
+* Cambiar el estado del hash previamente inicializado a 6036708eba0d11f6ef52ad44e8b74d5b
+* Agregar la cadena "agregar"
+* Terminar el hash y el hash resultante será un **válido para "secreto" + "datos" + "padding" + "agregar"**
 
 ## **Herramienta**
 
@@ -48,16 +49,16 @@ Puedes encontrar este ataque bien explicado en [https://blog.skullsecurity.org/2
 
 
 {% hint style="success" %}
-Aprende y practica AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -23,7 +23,7 @@ En el modo CBC, el **bloque cifrado anterior se utiliza como IV** para XOR con e
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Para descifrar CBC, se realizan las **operaciones** **opuestas**:
+Para descifrar CBC se realizan las **operaciones** **opuestas**:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
@@ -31,7 +31,7 @@ Nota cómo es necesario usar una **clave de cifrado** y un **IV**.
 
 ## Relleno de Mensaje
 
-Como el cifrado se realiza en **bloques** de **tamaño** **fijo**, generalmente se necesita **relleno** en el **último** **bloque** para completar su longitud.\
+Dado que el cifrado se realiza en **bloques** de **tamaño** **fijo**, generalmente se necesita **relleno** en el **último** **bloque** para completar su longitud.\
 Normalmente se utiliza **PKCS7**, que genera un relleno **repitiendo** el **número** de **bytes** **necesarios** para **completar** el bloque. Por ejemplo, si el último bloque le faltan 3 bytes, el relleno será `\x03\x03\x03`.
 
 Veamos más ejemplos con **2 bloques de longitud 8bytes**:
@@ -79,7 +79,7 @@ En **resumen**, puedes comenzar a descifrar los datos cifrados adivinando los va
 
 Imagina que tienes un texto cifrado que ocupa **2 bloques** formados por los bytes de **E0 a E15**.\
 Para **descifrar** el **último** **bloque** (**E8** a **E15**), todo el bloque pasa por la "cifrado de bloque de descifrado" generando los **bytes intermedios I0 a I15**.\
-Finalmente, cada byte intermedio se **XOR** con los bytes cifrados anteriores (E0 a E7). Así que:
+Finalmente, cada byte intermedio es **XORed** con los bytes cifrados anteriores (E0 a E7). Así que:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`

@@ -124,17 +124,17 @@ Internet Explorer 11 gestiona sus datos y metadatos en varias ubicaciones, ayuda
 
 ### Almacenamiento de Metadatos
 
-Los metadatos para Internet Explorer se almacenan en `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (siendo VX V01, V16 o V24). Acompañando esto, el archivo `V01.log` puede mostrar discrepancias en el tiempo de modificación con `WebcacheVX.data`, indicando la necesidad de reparación usando `esentutl /r V01 /d`. Estos metadatos, alojados en una base de datos ESE, pueden ser recuperados e inspeccionados utilizando herramientas como photorec y [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Dentro de la tabla **Containers**, se puede discernir las tablas o contenedores específicos donde se almacena cada segmento de datos, incluyendo detalles de caché para otras herramientas de Microsoft como Skype.
+Los metadatos para Internet Explorer se almacenan en `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (siendo VX V01, V16 o V24). Acompañando esto, el archivo `V01.log` puede mostrar discrepancias en el tiempo de modificación con `WebcacheVX.data`, indicando la necesidad de reparación usando `esentutl /r V01 /d`. Este metadato, alojado en una base de datos ESE, puede ser recuperado e inspeccionado utilizando herramientas como photorec y [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Dentro de la tabla **Containers**, se puede discernir las tablas o contenedores específicos donde se almacena cada segmento de datos, incluyendo detalles de caché para otras herramientas de Microsoft como Skype.
 
 ### Inspección de Caché
 
-La herramienta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permite la inspección de caché, requiriendo la ubicación de la carpeta de extracción de datos de caché. Los metadatos de caché incluyen nombre de archivo, directorio, conteo de accesos, origen de URL y marcas de tiempo que indican los tiempos de creación, acceso, modificación y expiración de la caché.
+La herramienta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permite la inspección de caché, requiriendo la ubicación de la carpeta de extracción de datos de caché. Los metadatos de caché incluyen nombre de archivo, directorio, conteo de accesos, origen de URL y marcas de tiempo que indican la creación, acceso, modificación y tiempos de expiración de la caché.
 
 ### Gestión de Cookies
 
 Las cookies se pueden explorar utilizando [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), con metadatos que abarcan nombres, URLs, conteos de acceso y varios detalles relacionados con el tiempo. Las cookies persistentes se almacenan en `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, mientras que las cookies de sesión residen en la memoria.
 
-### Detalles de Descarga
+### Detalles de Descargas
 
 Los metadatos de descargas son accesibles a través de [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), con contenedores específicos que contienen datos como URL, tipo de archivo y ubicación de descarga. Los archivos físicos se pueden encontrar en `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
@@ -160,7 +160,7 @@ Microsoft Edge almacena datos de usuario en `%userprofile%\Appdata\Local\Package
 
 Los datos de Safari se almacenan en `/Users/$User/Library/Safari`. Los archivos clave incluyen:
 
-* **History.db**: Contiene tablas `history_visits` y `history_items` con URLs y marcas de tiempo de visita. Use `sqlite3` para consultar.
+* **History.db**: Contiene tablas `history_visits` y `history_items` con URLs y marcas de tiempo de visitas. Use `sqlite3` para consultar.
 * **Downloads.plist**: Información sobre archivos descargados.
 * **Bookmarks.plist**: Almacena URLs marcadas.
 * **TopSites.plist**: Sitios más visitados.
@@ -171,7 +171,7 @@ Los datos de Safari se almacenan en `/Users/$User/Library/Safari`. Los archivos 
 
 ## Opera
 
-Los datos de Opera residen en `/Users/$USER/Library/Application Support/com.operasoftware.Opera` y comparte el formato de Chrome para historial y descargas.
+Los datos de Opera residen en `/Users/$USER/Library/Application Support/com.operasoftware.Opera` y comparte el formato de Chrome para el historial y las descargas.
 
 * **Browser’s built-in anti-phishing**: Verifique comprobando si `fraud_protection_enabled` en el archivo de Preferencias está configurado como `true` usando `grep`.
 
@@ -187,7 +187,7 @@ Estas rutas y comandos son cruciales para acceder y comprender los datos de nave
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** impulsados por las **herramientas más avanzadas** de la comunidad.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas más avanzadas** de la comunidad.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

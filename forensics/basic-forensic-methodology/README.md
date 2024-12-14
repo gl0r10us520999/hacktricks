@@ -31,7 +31,7 @@ Este **no es necesariamente el primer paso a realizar una vez que tienes la imag
 
 ## Inspección de una Imagen
 
-Si te dan una **imagen forense** de un dispositivo, puedes comenzar **analizando las particiones, el sistema de archivos** utilizado y **recuperando** potencialmente **archivos interesantes** (incluso los eliminados). Aprende cómo en:
+Si se te proporciona una **imagen forense** de un dispositivo, puedes comenzar **analizando las particiones, el sistema de archivos** utilizado y **recuperando** potencialmente **archivos interesantes** (incluso los eliminados). Aprende cómo en:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)

@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Herramientas de Carving y Recuperación
+## Carving & Recovery tools
 
 Más herramientas en [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
@@ -57,7 +57,7 @@ Esta herramienta puede escanear una imagen y **extraer pcaps** dentro de ella, *
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee[ **análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
+Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee [**análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
 
 ### PhotoRec
 
@@ -76,9 +76,9 @@ Revisa el [código](https://code.google.com/archive/p/binvis/) y la [página web
 * Visualizador de **estructura** visual y activa
 * Múltiples gráficos para diferentes puntos de enfoque
 * Enfocándose en porciones de una muestra
-* **Viendo cadenas y recursos**, en ejecutables PE o ELF, por ejemplo.
-* Obteniendo **patrones** para criptoanálisis en archivos
-* **Detectando** algoritmos de empaquetado o codificación
+* **Ver cadenas y recursos**, en ejecutables PE o ELF, por ejemplo.
+* Obtener **patrones** para criptoanálisis en archivos
+* **Detectar** algoritmos de empaquetado o codificación
 * **Identificar** esteganografía por patrones
 * **Diferenciación** binaria visual
 
@@ -88,13 +88,13 @@ BinVis es un gran **punto de partida para familiarizarse con un objetivo descono
 
 ### FindAES
 
-Busca claves AES buscando sus programaciones de claves. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
+Busca claves AES buscando sus horarios de clave. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
 
 Descarga [aquí](https://sourceforge.net/projects/findaes/).
 
 ## Herramientas complementarias
 
-Puedes usar [**viu** ](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
+Puedes usar [**viu**](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
 Puedes usar la herramienta de línea de comandos de linux **pdftotext** para transformar un pdf en texto y leerlo.
 
 {% hint style="success" %}
