@@ -19,9 +19,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-### **Ustanawianie sesji debugowania** <a href="#net-core-debugging" id="net-core-debugging"></a>
+### **Establishing a Debugging Session** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-Zarządzanie komunikacją między debuggerem a debugowanym w .NET jest obsługiwane przez [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Ten komponent ustawia dwa nazwane potoki dla każdego procesu .NET, jak widać w [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), które są inicjowane przez [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Te potoki mają sufiksy **`-in`** i **`-out`**.
+Zarządzanie komunikacją między debuggerem a debuggee w .NET jest obsługiwane przez [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Ten komponent ustawia dwa nazwane potoki dla każdego procesu .NET, jak widać w [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), które są inicjowane przez [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Te potoki mają sufiksy **`-in`** i **`-out`**.
 
 Odwiedzając **`$TMPDIR`** użytkownika, można znaleźć dostępne FIFOs do debugowania aplikacji .Net.
 
@@ -66,7 +66,7 @@ Operacja odczytu na rurze `out` potwierdza sukces lub niepowodzenie nawiązania 
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
 ## Reading Memory
-Gdy sesja debugowania jest nawiązana, pamięć można odczytać za pomocą typu wiadomości [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Funkcja readMemory jest szczegółowo opisana, wykonując niezbędne kroki do wysłania żądania odczytu i uzyskania odpowiedzi:
+Gdy sesja debugowania jest nawiązana, pamięć można odczytać za pomocą typu wiadomości [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Funkcja readMemory jest szczegółowo opisana, wykonując niezbędne kroki do wysłania żądania odczytu i pobrania odpowiedzi:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -107,7 +107,7 @@ Zlokalizowanie miejsca do nadpisania wskaźnika funkcji jest konieczne, a w .NET
 
 W systemach x64 można użyć polowania na sygnatury, aby znaleźć odniesienie do symbolu `_hlpDynamicFuncTable` w `libcorclr.dll`.
 
-Funkcja debuggera `MT_GetDCB` dostarcza przydatnych informacji, w tym adresu funkcji pomocniczej, `m_helperRemoteStartAddr`, wskazującego lokalizację `libcorclr.dll` w pamięci procesu. Ten adres jest następnie używany do rozpoczęcia wyszukiwania DFT i nadpisania wskaźnika funkcji adresem shellcode.
+Funkcja debugera `MT_GetDCB` dostarcza przydatnych informacji, w tym adresu funkcji pomocniczej, `m_helperRemoteStartAddr`, wskazującego lokalizację `libcorclr.dll` w pamięci procesu. Ten adres jest następnie używany do rozpoczęcia wyszukiwania DFT i nadpisania wskaźnika funkcji adresem shellcode.
 
 Pełny kod POC do wstrzykiwania do PowerShell jest dostępny [tutaj](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 

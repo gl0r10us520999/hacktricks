@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Seccomp**, czyli tryb bezpiecznego obliczania, to funkcja zabezpieczeń **jądra Linuxa zaprojektowana do filtrowania wywołań systemowych**. Ogranicza procesy do ograniczonego zestawu wywołań systemowych (`exit()`, `sigreturn()`, `read()`, i `write()` dla już otwartych deskryptorów plików). Jeśli proces spróbuje wywołać cokolwiek innego, zostaje zakończony przez jądro za pomocą SIGKILL lub SIGSYS. Ten mechanizm nie wirtualizuje zasobów, ale izoluje proces od nich.
 
-Istnieją dwa sposoby aktywacji seccomp: przez wywołanie systemowe `prctl(2)` z `PR_SET_SECCOMP`, lub dla jąder Linuxa 3.17 i nowszych, wywołanie systemowe `seccomp(2)`. Starsza metoda włączania seccomp poprzez zapis do `/proc/self/seccomp` została wycofana na rzecz `prctl()`.
+Istnieją dwa sposoby aktywacji seccomp: poprzez wywołanie systemowe `prctl(2)` z `PR_SET_SECCOMP`, lub dla jąder Linuxa 3.17 i nowszych, wywołanie systemowe `seccomp(2)`. Starsza metoda włączania seccomp poprzez zapis do `/proc/self/seccomp` została wycofana na rzecz `prctl()`.
 
 Ulepszenie, **seccomp-bpf**, dodaje możliwość filtrowania wywołań systemowych z dostosowywaną polityką, używając reguł Berkeley Packet Filter (BPF). To rozszerzenie jest wykorzystywane przez oprogramowanie takie jak OpenSSH, vsftpd oraz przeglądarki Chrome/Chromium na Chrome OS i Linuxie do elastycznego i efektywnego filtrowania wywołań systemowych, oferując alternatywę dla teraz nieobsługiwanego systrace dla Linuxa.
 
@@ -117,7 +117,7 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp w Dockerze
 
-**Seccomp-bpf** jest wspierany przez **Docker**, aby ograniczyć **syscalls** z kontenerów, skutecznie zmniejszając powierzchnię ataku. Możesz znaleźć **syscalls zablokowane** przez **domyślnie** w [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) a **domyślny profil seccomp** można znaleźć tutaj [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+**Seccomp-bpf** jest wspierany przez **Docker** w celu ograniczenia **syscalls** z kontenerów, skutecznie zmniejszając powierzchnię ataku. Możesz znaleźć **syscalls zablokowane** domyślnie w [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) a **domyślny profil seccomp** można znaleźć tutaj [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
 Możesz uruchomić kontener docker z **inną polityką seccomp** za pomocą:
 ```bash
 docker run --rm \
@@ -126,13 +126,13 @@ docker run --rm \
 hello-world
 ```
 Jeśli chcesz na przykład **zabronić** kontenerowi wykonywania niektórych **syscall** jak `uname`, możesz pobrać domyślny profil z [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) i po prostu **usunąć ciąg `uname` z listy**.\
-Jeśli chcesz upewnić się, że **niektóre binarne pliki nie działają wewnątrz kontenera docker**, możesz użyć strace, aby wylistować syscall, które używa ten plik binarny, a następnie je zabronić.\
-W poniższym przykładzie odkrywane są **syscall** `uname`:
+Jeśli chcesz upewnić się, że **niektóre binarne pliki nie działają wewnątrz kontenera docker**, możesz użyć strace, aby wylistować syscalls, które używa ten plik binarny, a następnie je zabronić.\
+W następującym przykładzie odkrywane są **syscall** `uname`:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Jeśli używasz **Dockera tylko do uruchamiania aplikacji**, możesz **profilować** go za pomocą **`strace`** i **pozwolić tylko na te syscalls**, które są potrzebne
+Jeśli używasz **Dockera tylko do uruchamiania aplikacji**, możesz **profilować** go za pomocą **`strace`** i **pozwolić tylko na te syscally**, które są potrzebne
 {% endhint %}
 
 ### Przykład polityki Seccomp
@@ -172,7 +172,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

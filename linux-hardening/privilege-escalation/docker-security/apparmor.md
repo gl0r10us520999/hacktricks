@@ -17,12 +17,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-AppArmor to **ulepszony kernel zaprojektowany w celu ograniczenia zasobów dostępnych dla programów poprzez profile dla każdego programu**, skutecznie wdrażając Mandatory Access Control (MAC) poprzez powiązanie atrybutów kontroli dostępu bezpośrednio z programami zamiast użytkowników. System ten działa poprzez **ładowanie profili do jądra**, zazwyczaj podczas uruchamiania, a te profile określają, jakie zasoby program może uzyskać, takie jak połączenia sieciowe, dostęp do surowych gniazd i uprawnienia do plików.
+AppArmor to **ulepszony kernel zaprojektowany w celu ograniczenia zasobów dostępnych dla programów poprzez profile dla każdego programu**, skutecznie wdrażając Obowiązkową Kontrolę Dostępu (MAC) poprzez powiązanie atrybutów kontroli dostępu bezpośrednio z programami zamiast użytkowników. System ten działa poprzez **ładowanie profili do jądra**, zazwyczaj podczas uruchamiania, a te profile określają, do jakich zasobów program ma dostęp, takich jak połączenia sieciowe, dostęp do surowych gniazd i uprawnienia do plików.
 
 Są dwa tryby operacyjne dla profili AppArmor:
 
 * **Tryb egzekwowania**: Ten tryb aktywnie egzekwuje zasady zdefiniowane w profilu, blokując działania, które naruszają te zasady i rejestrując wszelkie próby ich naruszenia za pomocą systemów takich jak syslog lub auditd.
-* **Tryb skarg**: W przeciwieństwie do trybu egzekwowania, tryb skarg nie blokuje działań, które są sprzeczne z zasadami profilu. Zamiast tego rejestruje te próby jako naruszenia zasad bez egzekwowania ograniczeń.
+* **Tryb skarg**: W przeciwieństwie do trybu egzekwowania, tryb skarg nie blokuje działań, które są sprzeczne z zasadami profilu. Zamiast tego rejestruje te próby jako naruszenia zasad, nie wprowadzając ograniczeń.
 
 ### Components of AppArmor
 
@@ -34,7 +34,7 @@ Są dwa tryby operacyjne dla profili AppArmor:
 ### Profiles path
 
 Profile AppArmor są zazwyczaj zapisywane w _**/etc/apparmor.d/**_\
-Za pomocą `sudo aa-status` będziesz mógł wylistować binaria, które są ograniczone przez jakiś profil. Jeśli zmienisz znak "/" na kropkę w ścieżce każdego wymienionego binarnego, uzyskasz nazwę profilu AppArmor w wymienionym folderze.
+Za pomocą `sudo aa-status` będziesz mógł wylistować binaria, które są ograniczone przez jakiś profil. Jeśli zmienisz znak "/" na kropkę w ścieżce każdego wymienionego binarnego, otrzymasz nazwę profilu AppArmor w wymienionym folderze.
 
 Na przykład, profil **apparmor** dla _/usr/bin/man_ będzie znajdował się w _/etc/apparmor.d/usr.bin.man_
 
@@ -66,12 +66,12 @@ aa-mergeprof  #used to merge the policies
 
 ### aa-genprof
 
-Aby łatwo rozpocząć tworzenie profilu, apparmor może Ci pomóc. Możliwe jest, aby **apparmor sprawdzał działania wykonywane przez plik binarny, a następnie pozwolił Ci zdecydować, które działania chcesz zezwolić lub odmówić**.\
+Aby łatwo rozpocząć tworzenie profilu, apparmor może Ci pomóc. Możliwe jest, aby **apparmor sprawdził działania wykonywane przez plik binarny, a następnie pozwolił Ci zdecydować, które działania chcesz zezwolić lub odmówić**.\
 Musisz tylko uruchomić:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-Następnie, w innej konsoli wykonaj wszystkie działania, które zazwyczaj wykonuje binarny plik:
+Następnie, w innej konsoli wykonaj wszystkie działania, które binarny plik zazwyczaj wykonuje:
 ```bash
 /path/to/binary -a dosomething
 ```
@@ -83,7 +83,7 @@ Używając klawiszy strzałek, możesz wybrać, co chcesz zezwolić/odmówić/co
 
 ### aa-easyprof
 
-Możesz również stworzyć szablon profilu apparmor dla binarnego pliku za pomocą:
+Możesz również utworzyć szablon profilu apparmor dla binarnego pliku za pomocą:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -109,7 +109,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Zauważ, że domyślnie w utworzonym profilu nic nie jest dozwolone, więc wszystko jest zabronione. Będziesz musiał dodać linie takie jak `/etc/passwd r,` aby zezwolić na odczyt binarnego pliku `/etc/passwd`, na przykład.
+Zauważ, że domyślnie w utworzonym profilu nic nie jest dozwolone, więc wszystko jest zabronione. Będziesz musiał dodać linie takie jak `/etc/passwd r,` aby zezwolić na odczyt binarny `/etc/passwd`, na przykład.
 {% endhint %}
 
 Możesz następnie **wymusić** nowy profil za pomocą
@@ -141,7 +141,7 @@ Przykład logów **AUDIT** i **DENIED** z _/var/log/audit/audit.log_ wykonywalne
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
-Możesz również uzyskać te informacje za pomocą:
+Możesz również uzyskać te informacje, używając:
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -182,7 +182,7 @@ Domyślnie **profil docker-default Apparmor** jest generowany z [https://github.
 **Podsumowanie profilu docker-default**:
 
 * **Dostęp** do całej **sieci**
-* **Brak możliwości** jest zdefiniowany (Jednakże, niektóre możliwości będą pochodzić z podstawowych reguł bazowych t.j. #include \<abstractions/base>)
+* **Brak możliwości** jest zdefiniowany (Jednakże, niektóre możliwości będą pochodzić z podstawowych reguł bazowych tzn. #include \<abstractions/base>)
 * **Pisanie** do jakiegokolwiek pliku **/proc** jest **niedozwolone**
 * Inne **podkatalogi**/**pliki** w /**proc** i /**sys** mają **zabroniony** dostęp do odczytu/zapisu/blokady/linkowania/wykonywania
 * **Montowanie** jest **niedozwolone**
@@ -205,14 +205,14 @@ docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-
 ```
 Zauważ, że domyślnie **AppArmor** również **zabrania kontenerowi montowania** folderów od wewnątrz, nawet z uprawnieniem SYS\_ADMIN.
 
-Zauważ, że możesz **dodać/usunąć** **uprawnienia** do kontenera docker (to będzie nadal ograniczone przez metody ochrony takie jak **AppArmor** i **Seccomp**):
+Zauważ, że możesz **dodać/usunąć** **uprawnienia** do kontenera docker (będzie to nadal ograniczone przez metody ochrony takie jak **AppArmor** i **Seccomp**):
 
 * `--cap-add=SYS_ADMIN` nadaje uprawnienie `SYS_ADMIN`
 * `--cap-add=ALL` nadaje wszystkie uprawnienia
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` usuwa wszystkie uprawnienia i nadaje tylko `SYS_PTRACE`
 
 {% hint style="info" %}
-Zazwyczaj, gdy **znajdziesz**, że masz **uprzywilejowane uprawnienie** dostępne **wewnątrz** kontenera **docker**, **ale** część **eksploatu nie działa**, będzie to spowodowane tym, że **apparmor docker będzie to uniemożliwiać**.
+Zazwyczaj, gdy **znajdziesz**, że masz **uprawnienie uprzywilejowane** dostępne **wewnątrz** kontenera **docker**, **ale** część **eksploatu nie działa**, będzie to spowodowane tym, że **apparmor docker będzie to uniemożliwiał**.
 {% endhint %}
 
 ### Przykład
@@ -249,11 +249,11 @@ Następnie możesz uruchomić następującą linię, aby **znaleźć dokładny p
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-W dziwnym przypadku możesz **zmodyfikować profil docker apparmor i go przeładować.** Możesz usunąć ograniczenia i "obejść" je.
+W dziwnym przypadku możesz **zmodyfikować profil dockera apparmor i go przeładować.** Możesz usunąć ograniczenia i "obejść" je.
 
 ### AppArmor Docker Bypass2
 
-**AppArmor jest oparty na ścieżkach**, co oznacza, że nawet jeśli może **chronić** pliki w katalogu takim jak **`/proc`**, jeśli możesz **skonfigurować, jak kontener ma być uruchomiony**, możesz **zamontować** katalog proc hosta wewnątrz **`/host/proc`** i **nie będzie już chroniony przez AppArmor**.
+**AppArmor jest oparty na ścieżkach**, co oznacza, że nawet jeśli może **chronić** pliki w katalogu takim jak **`/proc`**, jeśli możesz **skonfigurować, jak kontener ma być uruchomiony**, możesz **zamontować** katalog proc hosta wewnątrz **`/host/proc`** i **nie będzie on już chroniony przez AppArmor**.
 
 ### AppArmor Shebang Bypass
 
@@ -276,8 +276,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

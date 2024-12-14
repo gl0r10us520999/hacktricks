@@ -39,11 +39,11 @@ To uprawnienie pozwala innym procesom z uprawnieniem **`com.apple.security.cs.de
 
 ### `com.apple.security.cs.debugger`
 
-Aplikacje z uprawnieniem narzędzia debugowania mogą wywołać `task_for_pid()`, aby uzyskać ważny port zadania dla niepodpisanych i aplikacji osób trzecich z uprawnieniem `Get Task Allow` ustawionym na `true`. Jednak nawet z uprawnieniem narzędzia debugowania, debugger **nie może uzyskać portów zadań** procesów, które **nie mają uprawnienia `Get Task Allow`**, a które są zatem chronione przez System Integrity Protection. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Aplikacje z uprawnieniem narzędzia debugowania mogą wywołać `task_for_pid()`, aby uzyskać ważny port zadania dla aplikacji niesigned i aplikacji osób trzecich z uprawnieniem `Get Task Allow` ustawionym na `true`. Jednak nawet z uprawnieniem narzędzia debugowania, debugger **nie może uzyskać portów zadań** procesów, które **nie mają uprawnienia `Get Task Allow`**, a które są zatem chronione przez System Integrity Protection. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-To uprawnienie pozwala na **ładowanie frameworków, wtyczek lub bibliotek bez bycia podpisanym przez Apple lub podpisanym tym samym identyfikatorem zespołu** co główny plik wykonywalny, więc atakujący mógłby nadużyć ładowania dowolnej biblioteki, aby wstrzyknąć kod. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+To uprawnienie pozwala na **ładowanie frameworków, wtyczek lub bibliotek bez bycia podpisanym przez Apple lub podpisanym tym samym identyfikatorem zespołu** co główny plik wykonywalny, więc atakujący mógłby wykorzystać ładowanie dowolnej biblioteki do wstrzyknięcia kodu. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -72,7 +72,7 @@ Uprawnienie **`com.apple.private.icloud-account-access`** umożliwia komunikacj�
 
 **iMovie** i **Garageband** miały to uprawnienie.
 
-Aby uzyskać więcej **informacji** na temat exploita do **uzyskania tokenów iCloud** z tego uprawnienia, sprawdź wykład: [**#OBTS v5.0: "Co się dzieje na twoim Macu, zostaje na iCloud Apple?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Aby uzyskać więcej **informacji** na temat exploita do **uzyskania tokenów icloud** z tego uprawnienia, sprawdź wykład: [**#OBTS v5.0: "Co się dzieje na twoim Macu, zostaje na iCloud Apple?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -101,7 +101,7 @@ To uprawnienie wymienia grupy **keychain**, do których aplikacja ma dostęp:
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Daje uprawnienia **Pełnego dostępu do dysku**, jedno z najwyższych uprawnień TCC, jakie można mieć.
+Daje **Pełny dostęp do dysku**, jedno z najwyższych uprawnień TCC, jakie można mieć.
 
 ### **`kTCCServiceAppleEvents`**
 
@@ -145,7 +145,7 @@ To uprawnienie pozwala na **tworzenie pamięci, która jest zapisywalna i wykony
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-To uprawnienie pozwala na **nadpisywanie lub patchowanie kodu C**, użycie długo nieaktualizowanej **`NSCreateObjectFileImageFromMemory`** (co jest zasadniczo niebezpieczne), lub użycie frameworka **DVDPlayback**. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+To uprawnienie pozwala na **nadpisywanie lub patchowanie kodu C**, użycie długo nieaktualizowanej **`NSCreateObjectFileImageFromMemory`** (która jest zasadniczo niebezpieczna), lub użycie frameworka **DVDPlayback**. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Uwzględnienie tego uprawnienia naraża Twoją aplikację na powszechne luki w kodzie języków niebezpiecznych dla pamięci. Starannie rozważ, czy Twoja aplikacja potrzebuje tego wyjątku.
@@ -165,7 +165,7 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-To uprawnienie pozwala na zamontowanie systemu plików nullfs (domyślnie zabronione). Narzędzie: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+To uprawnienie pozwala na zamontowanie systemu plików nullfs (zabronione domyślnie). Narzędzie: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
@@ -189,7 +189,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

@@ -15,31 +15,31 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Podstawowe informacje
 
 XPC, co oznacza XNU (jądro używane przez macOS) inter-Process Communication, to framework do **komunikacji między procesami** na macOS i iOS. XPC zapewnia mechanizm do **bezpiecznych, asynchronicznych wywołań metod między różnymi procesami** w systemie. Jest częścią paradygmatu bezpieczeństwa Apple, umożliwiając **tworzenie aplikacji z oddzielonymi uprawnieniami**, gdzie każdy **komponent** działa z **tylko tymi uprawnieniami, które są mu potrzebne** do wykonania swojej pracy, ograniczając w ten sposób potencjalne szkody wynikające z kompromitacji procesu.
 
-XPC używa formy komunikacji międzyprocesowej (IPC), która jest zestawem metod dla różnych programów działających w tym samym systemie do przesyłania danych w obie strony.
+XPC wykorzystuje formę komunikacji międzyprocesowej (IPC), która jest zestawem metod dla różnych programów działających w tym samym systemie do przesyłania danych w obie strony.
 
 Główne korzyści z XPC obejmują:
 
-1. **Bezpieczeństwo**: Oddzielając pracę na różne procesy, każdy proces może otrzymać tylko te uprawnienia, które są mu potrzebne. Oznacza to, że nawet jeśli proces zostanie skompromitowany, ma ograniczone możliwości wyrządzenia szkód.
-2. **Stabilność**: XPC pomaga izolować awarie do komponentu, w którym występują. Jeśli proces ulegnie awarii, może zostać uruchomiony ponownie bez wpływu na resztę systemu.
-3. **Wydajność**: XPC umożliwia łatwą współbieżność, ponieważ różne zadania mogą być uruchamiane jednocześnie w różnych procesach.
+1. **Bezpieczeństwo**: Dzięki oddzieleniu pracy na różne procesy, każdy proces może otrzymać tylko te uprawnienia, które są mu potrzebne. Oznacza to, że nawet jeśli proces zostanie skompromitowany, ma ograniczone możliwości wyrządzenia szkód.
+2. **Stabilność**: XPC pomaga izolować awarie do komponentu, w którym występują. Jeśli proces ulegnie awarii, można go ponownie uruchomić bez wpływu na resztę systemu.
+3. **Wydajność**: XPC umożliwia łatwą współbieżność, ponieważ różne zadania mogą być wykonywane jednocześnie w różnych procesach.
 
 Jedynym **minusem** jest to, że **oddzielanie aplikacji na kilka procesów** i ich komunikacja za pomocą XPC jest **mniej wydajne**. Jednak w dzisiejszych systemach nie jest to prawie zauważalne, a korzyści są lepsze.
 
-## Application Specific XPC services
+## Usługi XPC specyficzne dla aplikacji
 
-Komponenty XPC aplikacji są **wewnątrz samej aplikacji.** Na przykład, w Safari można je znaleźć w **`/Applications/Safari.app/Contents/XPCServices`**. Mają rozszerzenie **`.xpc`** (jak **`com.apple.Safari.SandboxBroker.xpc`**) i są **również pakietami** z głównym plikiem binarnym w środku: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` oraz `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+Komponenty XPC aplikacji znajdują się **wewnątrz samej aplikacji.** Na przykład, w Safari można je znaleźć w **`/Applications/Safari.app/Contents/XPCServices`**. Mają rozszerzenie **`.xpc`** (jak **`com.apple.Safari.SandboxBroker.xpc`**) i są **również pakietami** z głównym binarnym plikiem w środku: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` oraz `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
 Jak możesz się domyślać, **komponent XPC będzie miał różne uprawnienia i przywileje** niż inne komponenty XPC lub główny plik binarny aplikacji. Z WYJĄTKIEM przypadku, gdy usługa XPC jest skonfigurowana z [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) ustawionym na „True” w swoim **pliku Info.plist**. W takim przypadku usługa XPC będzie działać w **tej samej sesji bezpieczeństwa, co aplikacja**, która ją wywołała.
 
 Usługi XPC są **uruchamiane** przez **launchd** w razie potrzeby i **zatrzymywane** po zakończeniu wszystkich zadań, aby zwolnić zasoby systemowe. **Specyficzne dla aplikacji komponenty XPC mogą być wykorzystywane tylko przez aplikację**, co zmniejsza ryzyko związane z potencjalnymi lukami.
 
-## System Wide XPC services
+## Usługi XPC w systemie
 
-Usługi XPC dostępne w systemie są dostępne dla wszystkich użytkowników. Te usługi, czy to launchd, czy typu Mach, muszą być **zdefiniowane w plikach plist** znajdujących się w określonych katalogach, takich jak **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, lub **`/Library/LaunchAgents`**.
+Usługi XPC w systemie są dostępne dla wszystkich użytkowników. Te usługi, czy to launchd, czy typu Mach, muszą być **zdefiniowane w plikach plist** znajdujących się w określonych katalogach, takich jak **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** lub **`/Library/LaunchAgents`**.
 
 Te pliki plist będą miały klucz o nazwie **`MachServices`** z nazwą usługi oraz klucz o nazwie **`Program`** z ścieżką do pliku binarnego:
 ```xml
@@ -77,7 +77,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 ```
 The ones in **`LaunchDameons`** są uruchamiane przez root. Więc jeśli proces bez uprawnień może komunikować się z jednym z nich, może być w stanie eskalować uprawnienia.
 
-## XPC Obiekty
+## Obiekty XPC
 
 * **`xpc_object_t`**
 
@@ -85,7 +85,7 @@ Każda wiadomość XPC jest obiektem słownika, który upraszcza serializację i
 Ponadto, funkcja `xpc_copy_description(object)` może być używana do uzyskania reprezentacji tekstowej obiektu, co może być przydatne do celów debugowania.\
 Te obiekty mają również pewne metody do wywołania, takie jak `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-`xpc_object_t` są tworzone przez wywołanie funkcji `xpc_<objetType>_create`, która wewnętrznie wywołuje `_xpc_base_create(Class, Size)`, gdzie wskazany jest typ klasy obiektu (jeden z `XPC_TYPE_*`) oraz jego rozmiar (do rozmiaru zostanie dodane dodatkowe 40B na metadane). Co oznacza, że dane obiektu będą zaczynały się od offsetu 40B.\
+Obiekty `xpc_object_t` są tworzone przez wywołanie funkcji `xpc_<objetType>_create`, która wewnętrznie wywołuje `_xpc_base_create(Class, Size)`, gdzie wskazany jest typ klasy obiektu (jeden z `XPC_TYPE_*`) oraz jego rozmiar (do rozmiaru zostanie dodane dodatkowe 40B na metadane). Co oznacza, że dane obiektu będą zaczynały się od offsetu 40B.\
 Dlatego `xpc_<objectType>_t` jest rodzajem podklasy `xpc_object_t`, która byłaby podklasą `os_object_t*`.
 
 {% hint style="warning" %}
@@ -106,7 +106,7 @@ Przykładem **`xpc_pipe`** jest **bootstrap pipe** utworzona przez **`launchd`**
 To są obiekty wysokiego poziomu Objective-C, które umożliwiają abstrakcję połączeń XPC.\
 Ponadto łatwiej jest debugować te obiekty za pomocą DTrace niż poprzednie.
 
-* **`GCD Kolejki`**
+* **`GCD Queues`**
 
 XPC używa GCD do przesyłania wiadomości, ponadto generuje pewne kolejki dyspozycyjne, takie jak `xpc.transactionq`, `xpc.io`, `xpc-events.add-listenerq`, `xpc.service-instance`...
 
@@ -115,9 +115,9 @@ XPC używa GCD do przesyłania wiadomości, ponadto generuje pewne kolejki dyspo
 To są **bundles z rozszerzeniem `.xpc`** znajdujące się w folderze **`XPCServices`** innych projektów, a w `Info.plist` mają ustawiony `CFBundlePackageType` na **`XPC!`**.\
 Ten plik ma inne klucze konfiguracyjne, takie jak `ServiceType`, które mogą być Application, User, System lub `_SandboxProfile`, które mogą definiować piaskownicę, lub `_AllowedClients`, które mogą wskazywać uprawnienia lub ID wymagane do kontaktu z serwisem. Te i inne opcje konfiguracyjne będą przydatne do skonfigurowania usługi podczas uruchamiania.
 
-### Uruchamianie Usługi
+### Uruchamianie usługi
 
-Aplikacja próbuje **połączyć się** z usługą XPC, używając `xpc_connection_create_mach_service`, następnie launchd lokalizuje demona i uruchamia **`xpcproxy`**. **`xpcproxy`** egzekwuje skonfigurowane ograniczenia i uruchamia usługę z dostarczonymi FD i portami Mach.
+Aplikacja próbuje **połączyć się** z usługą XPC, używając `xpc_connection_create_mach_service`, następnie launchd lokalizuje demona i uruchamia **`xpcproxy`**. **`xpcproxy`** egzekwuje skonfigurowane ograniczenia i uruchamia usługę z podanymi FD i portami Mach.
 
 Aby poprawić szybkość wyszukiwania usługi XPC, używana jest pamięć podręczna.
 
@@ -150,7 +150,7 @@ Apple również pozwala aplikacjom na **konfigurowanie niektórych praw i sposob
 
 ## XPC Sniffer
 
-Aby podsłuchiwać wiadomości XPC, możesz użyć [**xpcspy**](https://github.com/hot3eed/xpcspy), które wykorzystuje **Frida**.
+Aby podsłuchiwać wiadomości XPC, możesz użyć [**xpcspy**](https://github.com/hot3eed/xpcspy), które używa **Frida**.
 ```bash
 # Install
 pip3 install xpcspy

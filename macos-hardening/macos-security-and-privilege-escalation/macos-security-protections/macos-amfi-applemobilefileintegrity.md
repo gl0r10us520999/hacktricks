@@ -19,16 +19,16 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## AppleMobileFileIntegrity.kext i amfid
 
-Skupia się na egzekwowaniu integralności kodu działającego w systemie, zapewniając logikę weryfikacji podpisu kodu XNU. Może również sprawdzać uprawnienia i obsługiwać inne wrażliwe zadania, takie jak umożliwienie debugowania lub uzyskiwanie portów zadań.
+Skupia się na egzekwowaniu integralności kodu działającego w systemie, zapewniając logikę stojącą za weryfikacją podpisu kodu XNU. Może również sprawdzać uprawnienia i obsługiwać inne wrażliwe zadania, takie jak umożliwienie debugowania lub uzyskiwanie portów zadań.
 
 Ponadto, w przypadku niektórych operacji, kext woli kontaktować się z działającym w przestrzeni użytkownika demonem `/usr/libexec/amfid`. Ta relacja zaufania była nadużywana w kilku jailbreakach.
 
 AMFI używa polityk **MACF** i rejestruje swoje haki w momencie uruchomienia. Ponadto, zapobieganie jego ładowaniu lub odładowaniu może wywołać panikę jądra. Istnieją jednak pewne argumenty rozruchowe, które pozwalają osłabić AMFI:
 
-* `amfi_unrestricted_task_for_pid`: Pozwala na task\_for\_pid bez wymaganych uprawnień
-* `amfi_allow_any_signature`: Pozwala na dowolny podpis kodu
+* `amfi_unrestricted_task_for_pid`: Pozwól na task\_for\_pid bez wymaganych uprawnień
+* `amfi_allow_any_signature`: Pozwól na dowolny podpis kodu
 * `cs_enforcement_disable`: Argument systemowy używany do wyłączenia egzekwowania podpisu kodu
-* `amfi_prevent_old_entitled_platform_binaries`: Unieważnia platformowe binaria z uprawnieniami
+* `amfi_prevent_old_entitled_platform_binaries`: Unieważnij binaria platformowe z uprawnieniami
 * `amfi_get_out_of_my_way`: Całkowicie wyłącza amfi
 
 Oto niektóre z polityk MACF, które rejestruje:
@@ -39,16 +39,16 @@ Oto niektóre z polityk MACF, które rejestruje:
 * **`cred_label_init`**: Ustawia 0 w slocie etykiety mac AMFI
 * **`cred_label_update_execve`:** Sprawdza uprawnienia procesu, aby zobaczyć, czy powinien mieć możliwość modyfikacji etykiet.
 * **`file_check_mmap`:** Sprawdza, czy mmap uzyskuje pamięć i ustawia ją jako wykonywalną. W takim przypadku sprawdza, czy potrzebna jest walidacja biblioteki, a jeśli tak, wywołuje funkcję walidacji biblioteki.
-* **`file_check_library_validation`**: Wywołuje funkcję walidacji biblioteki, która sprawdza między innymi, czy platformowe binarne ładują inne platformowe binarne lub czy proces i nowo załadowany plik mają ten sam TeamID. Niektóre uprawnienia również pozwalają na ładowanie dowolnej biblioteki.
+* **`file_check_library_validation`**: Wywołuje funkcję walidacji biblioteki, która sprawdza między innymi, czy binaria platformowe ładują inne binaria platformowe lub czy proces i nowo załadowany plik mają ten sam TeamID. Niektóre uprawnienia również pozwalają na ładowanie dowolnej biblioteki.
 * **`policy_initbsd`**: Ustawia zaufane klucze NVRAM
-* **`policy_syscall`**: Sprawdza polityki DYLD, takie jak to, czy binarny ma nieograniczone segmenty, czy powinien zezwolić na zmienne środowiskowe... to jest również wywoływane, gdy proces jest uruchamiany przez `amfi_check_dyld_policy_self()`.
-* **`proc_check_inherit_ipc_ports`**: Sprawdza, czy gdy proces wykonuje nowy binarny, inne procesy z prawami SEND nad portem zadania procesu powinny je zachować, czy nie. Dozwolone są platformowe binaria, uprawnienie `get-task-allow` to umożliwia, uprawnienia `task_for_pid-allow` są dozwolone, a binaria z tym samym TeamID.
+* **`policy_syscall`**: Sprawdza polityki DYLD, takie jak to, czy binaria mają nieograniczone segmenty, czy powinny zezwalać na zmienne środowiskowe... to jest również wywoływane, gdy proces jest uruchamiany za pomocą `amfi_check_dyld_policy_self()`.
+* **`proc_check_inherit_ipc_ports`**: Sprawdza, czy gdy proces wykonuje nową binarię, inne procesy z prawami SEND nad portem zadania procesu powinny je zachować, czy nie. Binaria platformowe są dozwolone, uprawnienie `get-task-allow` to umożliwia, uprawnienia `task_for_pid-allow` są dozwolone, a binaria z tym samym TeamID.
 * **`proc_check_expose_task`**: egzekwuje uprawnienia
 * **`amfi_exc_action_check_exception_send`**: Wiadomość o wyjątku jest wysyłana do debuggera
 * **`amfi_exc_action_label_associate & amfi_exc_action_label_copy/populate & amfi_exc_action_label_destroy & amfi_exc_action_label_init & amfi_exc_action_label_update`**: Cykl życia etykiety podczas obsługi wyjątków (debugowanie)
-* **`proc_check_get_task`**: Sprawdza uprawnienia, takie jak `get-task-allow`, które pozwala innym procesom uzyskać porty zadań, oraz `task_for_pid-allow`, które pozwala procesowi uzyskać porty zadań innych procesów. Jeśli żadne z tych nie jest spełnione, wywołuje `amfid permitunrestricteddebugging`, aby sprawdzić, czy jest to dozwolone.
-* **`proc_check_mprotect`**: Odrzuca, jeśli `mprotect` jest wywoływane z flagą `VM_PROT_TRUSTED`, co wskazuje, że region musi być traktowany tak, jakby miał ważny podpis kodu.
-* **`vnode_check_exec`**: Jest wywoływane, gdy pliki wykonywalne są ładowane do pamięci i ustawia `cs_hard | cs_kill`, co zabije proces, jeśli którakolwiek z stron stanie się nieważna
+* **`proc_check_get_task`**: Sprawdza uprawnienia, takie jak `get-task-allow`, które pozwala innym procesom uzyskać porty zadań, oraz `task_for_pid-allow`, które pozwala procesowi uzyskać porty zadań innych procesów. Jeśli żadne z tych nie jest spełnione, wywołuje `amfid permitunrestricteddebugging`, aby sprawdzić, czy to dozwolone.
+* **`proc_check_mprotect`**: Odrzuć, jeśli `mprotect` jest wywoływane z flagą `VM_PROT_TRUSTED`, co wskazuje, że region musi być traktowany tak, jakby miał ważny podpis kodu.
+* **`vnode_check_exec`**: Wywoływane, gdy pliki wykonywalne są ładowane do pamięci i ustawia `cs_hard | cs_kill`, co zabije proces, jeśli którakolwiek z stron stanie się nieważna
 * **`vnode_check_getextattr`**: MacOS: Sprawdza `com.apple.root.installed` i `isVnodeQuarantined()`
 * **`vnode_check_setextattr`**: Jak get + com.apple.private.allow-bless i wewnętrzne uprawnienie równoważne instalatorowi
 * &#x20;**`vnode_check_signature`**: Kod, który wywołuje XNU, aby sprawdzić podpis kodu przy użyciu uprawnień, pamięci zaufania i `amfid`
@@ -106,16 +106,16 @@ security cms -D -i /path/to/profile
 Chociaż czasami nazywane certyfikowanymi, te profile provisioningowe mają więcej niż certyfikat:
 
 * **AppIDName:** Identyfikator aplikacji
-* **AppleInternalProfile**: Oznacza to jako profil wewnętrzny Apple
+* **AppleInternalProfile**: Określa to jako profil wewnętrzny Apple
 * **ApplicationIdentifierPrefix**: Dodawany do AppIDName (taki sam jak TeamIdentifier)
 * **CreationDate**: Data w formacie `YYYY-MM-DDTHH:mm:ssZ`
 * **DeveloperCertificates**: Tablica (zwykle jednego) certyfikatu(ów), zakodowanych jako dane Base64
 * **Entitlements**: Uprawnienia dozwolone z uprawnieniami dla tego profilu
 * **ExpirationDate**: Data wygaśnięcia w formacie `YYYY-MM-DDTHH:mm:ssZ`
 * **Name**: Nazwa aplikacji, taka sama jak AppIDName
-* **ProvisionedDevices**: Tablica (dla certyfikatów dewelopera) UDID-ów, dla których ten profil jest ważny
+* **ProvisionedDevices**: Tablica (dla certyfikatów dewelopera) UDID, dla których ten profil jest ważny
 * **ProvisionsAllDevices**: Wartość logiczna (prawda dla certyfikatów korporacyjnych)
-* **TeamIdentifier**: Tablica (zwykle jednego) alfanumerycznego ciągu(ów) używanych do identyfikacji dewelopera w celach interakcji między aplikacjami
+* **TeamIdentifier**: Tablica (zwykle jednego) ciągu alfanumerycznego używanego do identyfikacji dewelopera w celach interakcji między aplikacjami
 * **TeamName**: Nazwa czytelna dla człowieka używana do identyfikacji dewelopera
 * **TimeToLive**: Ważność (w dniach) certyfikatu
 * **UUID**: Uniwersalny unikalny identyfikator dla tego profilu

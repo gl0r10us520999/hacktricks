@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Obrazek z <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Na poprzednim obrazku można zaobserwować **jak sandbox będzie ładowany** gdy aplikacja z uprawnieniem **`com.apple.security.app-sandbox`** jest uruchamiana.
+Na poprzednim obrazku można zaobserwować **jak sandbox będzie ładowany** gdy uruchomiona zostanie aplikacja z uprawnieniem **`com.apple.security.app-sandbox`**.
 
 Kompilator połączy `/usr/lib/libSystem.B.dylib` z binarnym plikiem.
 
@@ -43,7 +43,7 @@ Zauważ, że jeśli pakiet .app został już autoryzowany do uruchomienia (ma at
 
 ### Nadużywanie funkcji Open
 
-W [**ostatnich przykładach obejścia sandboxa Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) można zauważyć, jak funkcjonalność cli **`open`** może być nadużywana do obejścia sandboxa.
+W [**ostatnich przykładach obejścia sandboxa Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) można zobaczyć, jak funkcjonalność cli **`open`** może być nadużywana do obejścia sandboxa.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -51,14 +51,14 @@ W [**ostatnich przykładach obejścia sandboxa Word**](macos-office-sandbox-bypa
 
 ### Agenci/Daemon
 
-Nawet jeśli aplikacja jest **przeznaczona do działania w sandboxie** (`com.apple.security.app-sandbox`), możliwe jest obejście sandboxa, jeśli jest **uruchamiana z LaunchAgent** (`~/Library/LaunchAgents`), na przykład.\
+Nawet jeśli aplikacja jest **przeznaczona do sandboxowania** (`com.apple.security.app-sandbox`), możliwe jest obejście sandboxa, jeśli jest **uruchamiana z LaunchAgent** (`~/Library/LaunchAgents`), na przykład.\
 Jak wyjaśniono w [**tym poście**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), jeśli chcesz uzyskać trwałość z aplikacją, która jest sandboxowana, możesz sprawić, że będzie automatycznie uruchamiana jako LaunchAgent i może wstrzyknąć złośliwy kod za pomocą zmiennych środowiskowych DyLib.
 
 ### Nadużywanie lokalizacji Auto Start
 
-Jeśli proces sandboxowany może **zapisywać** w miejscu, w którym **później uruchomi się niesandboxowana aplikacja**, będzie mógł **uciec, po prostu umieszczając** tam binarny plik. Dobrym przykładem takich lokalizacji są `~/Library/LaunchAgents` lub `/System/Library/LaunchDaemons`.
+Jeśli proces sandboxowany może **pisać** w miejscu, w którym **później uruchomi się niesandboxowana aplikacja**, będzie mógł **uciec, po prostu umieszczając** tam binarny plik. Dobrym przykładem takich lokalizacji są `~/Library/LaunchAgents` lub `/System/Library/LaunchDaemons`.
 
-W tym celu możesz nawet potrzebować **2 kroków**: Aby proces z **bardziej liberalnym sandboxem** (`file-read*`, `file-write*`) wykonał twój kod, który faktycznie zapisze w miejscu, w którym będzie **wykonywany bez sandboxa**.
+W tym celu możesz nawet potrzebować **2 kroków**: Aby proces z **bardziej permissywnym sandboxem** (`file-read*`, `file-write*`) wykonał twój kod, który faktycznie zapisze w miejscu, w którym będzie **wykonywany bez sandboxa**.
 
 Sprawdź tę stronę o **lokacjach Auto Start**:
 
@@ -76,7 +76,7 @@ Jeśli z procesu sandboxowego jesteś w stanie **skompromentować inne procesy**
 
 ### Kompilacja statyczna i dynamiczne linkowanie
 
-[**To badanie**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) odkryło 2 sposoby na obejście Sandboxa. Ponieważ sandbox jest stosowany z poziomu userland, gdy biblioteka **libSystem** jest ładowana. Jeśli binarny plik mógłby uniknąć jej załadowania, nigdy nie zostałby poddany sandboxowi:
+[**To badanie**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) odkryło 2 sposoby na obejście Sandboxa. Ponieważ sandbox jest stosowany z poziomu użytkownika, gdy biblioteka **libSystem** jest ładowana. Jeśli binarny plik mógłby uniknąć jej załadowania, nigdy nie zostałby poddany sandboxowi:
 
 * Jeśli binarny plik byłby **całkowicie skompilowany statycznie**, mógłby uniknąć załadowania tej biblioteki.
 * Jeśli **binarny plik nie musiałby ładować żadnych bibliotek** (ponieważ linker jest również w libSystem), nie będzie musiał ładować libSystem.
@@ -90,7 +90,7 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 ```
 ### Uprawnienia
 
-Zauważ, że nawet jeśli niektóre **działania** mogą być **dozwolone przez piaskownicę**, jeśli aplikacja ma określone **uprawnienie**, jak w:
+Zauważ, że nawet jeśli niektóre **działania** mogą być **dozwolone przez sandbox**, jeśli aplikacja ma określone **uprawnienie**, jak w:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -334,7 +334,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

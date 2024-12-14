@@ -81,7 +81,7 @@ void			*mpc_data;		/** module data */
 ```
 Łatwo jest zidentyfikować rozszerzenia jądra konfigurowane przez te polityki, sprawdzając wywołania do `mac_policy_register`. Co więcej, sprawdzając dezasemblację rozszerzenia, można również znaleźć używaną strukturę `mac_policy_conf`.
 
-Należy zauważyć, że polityki MACF mogą być rejestrowane i deregisterowane również **dynamicznie**.
+Należy zauważyć, że polityki MACF mogą być rejestrowane i wyrejestrowywane również **dynamicznie**.
 
 Jednym z głównych pól `mac_policy_conf` jest **`mpc_ops`**. To pole określa, które operacje interesują politykę. Należy zauważyć, że jest ich setki, więc możliwe jest wyzerowanie wszystkich z nich, a następnie wybranie tylko tych, którymi polityka jest zainteresowana. Z [tutaj](https://opensource.apple.com/source/xnu/xnu-2050.18.24/security/mac\_policy.h.auto.html):
 ```c
@@ -171,10 +171,10 @@ error = mac_error_select(__step_err, error);         \
 });                                                             \
 } while (0)
 ```
-Które przejdzie przez wszystkie zarejestrowane polityki mac, wywołując ich funkcje i przechowując wynik w zmiennej error, która będzie mogła być nadpisywana tylko przez `mac_error_select` za pomocą kodów sukcesu, więc jeśli jakiekolwiek sprawdzenie się nie powiedzie, całe sprawdzenie się nie powiedzie, a akcja nie będzie dozwolona.
+Które przejdzie przez wszystkie zarejestrowane polityki mac, wywołując ich funkcje i przechowując wynik w zmiennej error, która będzie mogła być nadpisana tylko przez `mac_error_select` za pomocą kodów sukcesu, więc jeśli jakiekolwiek sprawdzenie się nie powiedzie, całe sprawdzenie się nie powiedzie, a akcja nie będzie dozwolona.
 
 {% hint style="success" %}
-Jednak pamiętaj, że nie wszystkie wywołania MACF są używane tylko do odrzucania działań. Na przykład `mac_priv_grant` wywołuje makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274), które przyzna żądane uprawnienie, jeśli jakakolwiek polityka odpowie 0:
+Jednak pamiętaj, że nie wszystkie wywołania MACF są używane tylko do odrzucania działań. Na przykład, `mac_priv_grant` wywołuje makro [**MAC\_GRANT**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/security/mac\_internal.h#L274), które przyzna żądane uprawnienie, jeśli jakakolwiek polityka odpowie 0:
 ```c
 /*
 * MAC_GRANT performs the designated check by walking the policy
@@ -202,7 +202,7 @@ DTRACE_MACF2(mac__rslt__ ## check, void *, mpc, int, __step_res); \
 ### priv\_check & priv\_grant
 
 Te wywołania mają na celu sprawdzenie i przyznanie (dziesiątek) **uprawnień** zdefiniowanych w [**bsd/sys/priv.h**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/sys/priv.h).\
-Niektóre kody jądra wywołają `priv_check_cred()` z [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) z poświadczeniami KAuth procesu oraz jednym z kodów uprawnień, co spowoduje wywołanie `mac_priv_check`, aby sprawdzić, czy jakakolwiek polityka **odmawia** przyznania uprawnienia, a następnie wywołuje `mac_priv_grant`, aby sprawdzić, czy jakakolwiek polityka przyznaje `uprawnienie`.
+Niektóre kody jądra wywołają `priv_check_cred()` z [**bsd/kern/kern\_priv.c**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern\_priv.c) z poświadczeniami KAuth procesu oraz jednym z kodów uprawnień, które wywoła `mac_priv_check`, aby sprawdzić, czy jakakolwiek polityka **odmawia** przyznania uprawnienia, a następnie wywołuje `mac_priv_grant`, aby sprawdzić, czy jakakolwiek polityka przyznaje `uprawnienie`.
 
 ### proc\_check\_syscall\_unix
 
@@ -217,9 +217,9 @@ goto skip_syscall;
 }
 #endif /* CONFIG_MACF */
 ```
-Który sprawdzi w wywołującym procesie **bitmask**, czy bieżące wywołanie systemowe powinno wywołać `mac_proc_check_syscall_unix`. Dzieje się tak, ponieważ wywołania systemowe są wywoływane tak często, że warto unikać wywoływania `mac_proc_check_syscall_unix` za każdym razem.
+Który sprawdzi w wywołującym procesie **bitmaskę**, czy bieżące wywołanie systemowe powinno wywołać `mac_proc_check_syscall_unix`. Dzieje się tak, ponieważ wywołania systemowe są wywoływane tak często, że warto unikać wywoływania `mac_proc_check_syscall_unix` za każdym razem.
 
-Zauważ, że funkcja `proc_set_syscall_filter_mask()`, która ustawia bitmaski wywołań systemowych w procesie, jest wywoływana przez Sandbox w celu ustawienia masek na procesach w piaskownicy.
+Zauważ, że funkcja `proc_set_syscall_filter_mask()`, która ustawia bitmaskę wywołań systemowych w procesie, jest wywoływana przez Sandbox w celu ustawienia masek na procesach w piaskownicy.
 
 ## Ekspozycja wywołań systemowych MACF
 
@@ -248,7 +248,7 @@ int      __mac_syscall(const char *_policyname, int _call, void *_arg);
 __END_DECLS
 #endif /*__APPLE_API_PRIVATE*/
 ```
-## Odniesienia
+## References
 
 * [**\*OS Internals Volume III**](https://newosxbook.com/home.html)
 
@@ -258,11 +258,11 @@ Ucz się i ćwicz Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

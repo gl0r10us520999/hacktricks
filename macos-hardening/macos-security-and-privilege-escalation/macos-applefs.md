@@ -30,12 +30,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Niektóre z istotnych cech APFS to:
 
-1. **Współdzielenie przestrzeni**: APFS pozwala wielu woluminom na **współdzielenie tej samej podstawowej wolnej przestrzeni** na jednym fizycznym urządzeniu. Umożliwia to bardziej efektywne wykorzystanie przestrzeni, ponieważ woluminy mogą dynamicznie rosnąć i kurczyć się bez potrzeby ręcznego zmieniania rozmiaru lub ponownego partycjonowania.
+1. **Współdzielenie przestrzeni**: APFS pozwala wielu woluminom na **współdzielenie tej samej podstawowej wolnej pamięci** na jednym fizycznym urządzeniu. Umożliwia to bardziej efektywne wykorzystanie przestrzeni, ponieważ woluminy mogą dynamicznie rosnąć i kurczyć się bez potrzeby ręcznego zmieniania rozmiaru lub ponownego partycjonowania.
 1. Oznacza to, w porównaniu do tradycyjnych partycji na dyskach plikowych, **że w APFS różne partycje (woluminy) dzielą całą przestrzeń dyskową**, podczas gdy zwykła partycja miała zazwyczaj stały rozmiar.
 2. **Migawki**: APFS obsługuje **tworzenie migawek**, które są **tylko do odczytu**, punktowymi instancjami systemu plików. Migawki umożliwiają efektywne tworzenie kopii zapasowych i łatwe przywracanie systemu, ponieważ zajmują minimalną dodatkową przestrzeń i mogą być szybko tworzone lub przywracane.
-3. **Klonowanie**: APFS może **tworzyć klony plików lub katalogów, które dzielą tę samą przestrzeń** z oryginałem, aż do momentu, gdy klon lub oryginalny plik zostanie zmodyfikowany. Ta funkcja zapewnia efektywny sposób tworzenia kopii plików lub katalogów bez duplikowania przestrzeni dyskowej.
+3. **Klonowanie**: APFS może **tworzyć klony plików lub katalogów, które dzielą tę samą pamięć** co oryginał, aż do momentu, gdy klon lub oryginalny plik zostanie zmodyfikowany. Ta funkcja zapewnia efektywny sposób tworzenia kopii plików lub katalogów bez duplikowania przestrzeni pamięci.
 4. **Szyfrowanie**: APFS **natywnie obsługuje szyfrowanie całego dysku** oraz szyfrowanie na poziomie pliku i katalogu, co zwiększa bezpieczeństwo danych w różnych zastosowaniach.
-5. **Ochrona przed awarią**: APFS wykorzystuje **schemat metadanych copy-on-write, który zapewnia spójność systemu plików** nawet w przypadku nagłej utraty zasilania lub awarii systemu, co zmniejsza ryzyko uszkodzenia danych.
+5. **Ochrona przed awarią**: APFS wykorzystuje **schemat metadanych copy-on-write, który zapewnia spójność systemu plików** nawet w przypadku nagłej utraty zasilania lub awarii systemu, zmniejszając ryzyko uszkodzenia danych.
 
 Ogólnie rzecz biorąc, APFS oferuje nowocześniejszy, elastyczniejszy i bardziej efektywny system plików dla urządzeń Apple, z naciskiem na poprawę wydajności, niezawodności i bezpieczeństwa.
 ```bash

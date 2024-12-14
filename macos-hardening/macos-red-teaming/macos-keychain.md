@@ -25,7 +25,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ### Dostęp do hasła Keychain
 
-Te pliki, chociaż nie mają wbudowanej ochrony i mogą być **pobrane**, są szyfrowane i wymagają **czystego hasła użytkownika do odszyfrowania**. Narzędzie takie jak [**Chainbreaker**](https://github.com/n0fate/chainbreaker) może być użyte do odszyfrowania.
+Te pliki, mimo że nie mają wbudowanej ochrony i mogą być **pobrane**, są szyfrowane i wymagają **czystego hasła użytkownika do odszyfrowania**. Narzędzie takie jak [**Chainbreaker**](https://github.com/n0fate/chainbreaker) może być użyte do odszyfrowania.
 
 ## Ochrona wpisów Keychain
 
@@ -45,7 +45,7 @@ ACL są dodatkowo wspierane przez **listę zaufanych aplikacji**, które mogą w
 
 Wpis może również zawierać klucz **`ACLAuthorizationPartitionID`,** który służy do identyfikacji **teamid, apple** i **cdhash.**
 
-* Jeśli **teamid** jest określony, to aby **uzyskać dostęp do wartości wpisu** **bez** monitu, używana aplikacja musi mieć **to samo teamid**.
+* Jeśli **teamid** jest określony, to aby **uzyskać dostęp do wartości wpisu** **bez** monitu, używana aplikacja musi mieć **ten sam teamid**.
 * Jeśli **apple** jest określony, to aplikacja musi być **podpisana** przez **Apple**.
 * Jeśli **cdhash** jest wskazany, to **aplikacja** musi mieć konkretny **cdhash**.
 
@@ -94,7 +94,7 @@ Enumeracja i zrzut **keychain** sekretów, które **nie wygenerują powiadomieni
 Inne punkty końcowe API można znaleźć w kodzie źródłowym [**SecKeyChain.h**](https://opensource.apple.com/source/libsecurity\_keychain/libsecurity\_keychain-55017/lib/SecKeychain.h.auto.html).
 {% endhint %}
 
-Wypisz i uzyskaj **informacje** o każdym wpisie w **keychain** za pomocą **Security Framework** lub możesz również sprawdzić narzędzie CLI Apple'a [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Oto kilka przykładów API:
+Wypisz i uzyskaj **informacje** o każdym wpisie w **keychain** za pomocą **Security Framework** lub możesz również sprawdzić narzędzie CLI open source Apple [**security**](https://opensource.apple.com/source/Security/Security-59306.61.1/SecurityTool/macOS/security.c.auto.html)**.** Oto kilka przykładów API:
 
 * API **`SecItemCopyMatching`** daje informacje o każdym wpisie i są pewne atrybuty, które możesz ustawić podczas jego używania:
 * **`kSecReturnData`**: Jeśli prawda, spróbuje odszyfrować dane (ustaw na fałsz, aby uniknąć potencjalnych wyskakujących okienek)
@@ -115,12 +115,12 @@ Uzyskaj **ACL** każdego wpisu:
 Eksportuj dane:
 
 * API **`SecKeychainItemCopyContent`** uzyskuje tekst jawny
-* API **`SecItemExport`** eksportuje klucze i certyfikaty, ale może być konieczne ustawienie haseł do eksportu zawartości w formie zaszyfrowanej
+* API **`SecItemExport`** eksportuje klucze i certyfikaty, ale może być konieczne ustawienie haseł do eksportu zawartości zaszyfrowanej
 
 A oto **wymagania**, aby móc **eksportować sekret bez powiadomienia**:
 
 * Jeśli **1+ zaufane** aplikacje są wymienione:
-* Potrzebne są odpowiednie **autoryzacje** (**`Nil`**, lub być **częścią** dozwolonej listy aplikacji w autoryzacji do uzyskania dostępu do informacji o sekrecie)
+* Potrzebne są odpowiednie **autoryzacje** (**`Nil`**, lub być **częścią** dozwolonej listy aplikacji w autoryzacji do uzyskania dostępu do sekretnej informacji)
 * Potrzebny jest podpis kodu, aby pasował do **PartitionID**
 * Potrzebny jest podpis kodu, aby pasował do jednego **zaufanego programu** (lub być członkiem odpowiedniej grupy KeychainAccessGroup)
 * Jeśli **wszystkie aplikacje zaufane**:
@@ -154,7 +154,7 @@ Ucz się i ćwicz Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" 
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

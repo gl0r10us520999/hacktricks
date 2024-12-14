@@ -4,7 +4,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -44,11 +44,11 @@ Znajdź wszystkie binarki suid i sprawdź, czy istnieje binarka **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Jeśli stwierdzisz, że binarny plik pkexec jest binarnym plikiem SUID i należysz do sudo lub admin, prawdopodobnie będziesz mógł wykonywać binaria jako sudo za pomocą pkexec. Sprawdź zawartość:
+Jeśli stwierdzisz, że binarny plik pkexec jest binarnym plikiem SUID i należysz do sudo lub admin, prawdopodobnie możesz wykonywać binaria jako sudo za pomocą pkexec. Sprawdź zawartość:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Tam znajdziesz, które grupy mają prawo do wykonywania **pkexec** i **domyślnie** w niektórych systemach linux mogą **pojawić się** niektóre z grup **sudo lub admin**.
+Tam znajdziesz, które grupy mają prawo do wykonywania **pkexec** i **domyślnie** w niektórych systemach linux mogą **pojawić się** niektóre grupy **sudo lub admin**.
 
 Aby **stać się rootem, możesz wykonać**:
 ```bash
@@ -85,7 +85,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 To oznacza, że **każdy użytkownik, który należy do grupy wheel, może wykonywać cokolwiek jako sudo**.
 
-Jeśli tak jest, aby **stać się rootem, wystarczy wykonać**:
+Jeśli tak jest, aby **stać się rootem, możesz po prostu wykonać**:
 ```text
 sudo su
 ```
@@ -99,7 +99,7 @@ So, przeczytaj plik i spróbuj **złamać niektóre hashe**.
 
 # Grupa dysków
 
-To uprawnienie jest prawie **równoważne dostępowi root** ponieważ możesz uzyskać dostęp do wszystkich danych wewnątrz maszyny.
+To uprawnienie jest prawie **równoważne dostępowi root**, ponieważ możesz uzyskać dostęp do wszystkich danych wewnątrz maszyny.
 
 Pliki: `/dev/sd[a-z][1-9]`
 ```text
@@ -114,11 +114,11 @@ Zauważ, że używając debugfs możesz również **zapisywać pliki**. Na przyk
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Jednakże, jeśli spróbujesz **zapisać pliki należące do roota** \(jak `/etc/shadow` lub `/etc/passwd`\) otrzymasz błąd "**Permission denied**".
+Jednakże, jeśli spróbujesz **zapisać pliki należące do roota** \(jak `/etc/shadow` lub `/etc/passwd`\), otrzymasz błąd "**Zabronione**".
 
 # Grupa Wideo
 
-Używając polecenia `w`, możesz znaleźć **kto jest zalogowany w systemie** i pokaże to wynik podobny do poniższego:
+Używając polecenia `w`, możesz znaleźć **kto jest zalogowany w systemie** i zobaczysz wynik podobny do poniższego:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -177,7 +177,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

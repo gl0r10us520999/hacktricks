@@ -1,4 +1,4 @@
-# macOS Usługi Sieciowe i Protokoły
+# macOS Usługi i Protokoły Sieciowe
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -9,7 +9,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -18,7 +18,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 ## Usługi Zdalnego Dostępu
 
 To są powszechne usługi macOS do zdalnego dostępu.\
-Możesz włączyć/wyłączyć te usługi w `Ustawienia systemowe` --> `Udostępnianie`
+Możesz włączyć/wyłączyć te usługi w `Ustawieniach systemowych` --> `Udostępnianie`
 
 * **VNC**, znane jako “Udostępnianie ekranu” (tcp:5900)
 * **SSH**, nazywane “Zdalnym logowaniem” (tcp:22)
@@ -39,7 +39,7 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 
 Apple Remote Desktop (ARD) to ulepszona wersja [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) dostosowana do macOS, oferująca dodatkowe funkcje. Znaczną podatnością w ARD jest metoda uwierzytelniania dla hasła ekranu kontrolnego, która wykorzystuje tylko pierwsze 8 znaków hasła, co czyni ją podatną na [atak siłowy](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) za pomocą narzędzi takich jak Hydra lub [GoRedShell](https://github.com/ahhh/GoRedShell/), ponieważ nie ma domyślnych limitów szybkości.
 
-Podatne instancje można zidentyfikować za pomocą skryptu `vnc-info` w **nmap**. Usługi obsługujące `VNC Authentication (2)` są szczególnie podatne na ataki siłowe z powodu skrócenia hasła do 8 znaków.
+Podatne instancje można zidentyfikować za pomocą skryptu `vnc-info` w **nmap**. Usługi wspierające `VNC Authentication (2)` są szczególnie podatne na ataki siłowe z powodu skrócenia hasła do 8 znaków.
 
 Aby włączyć ARD do różnych zadań administracyjnych, takich jak eskalacja uprawnień, dostęp GUI lub monitorowanie użytkowników, użyj następującego polecenia:
 ```bash
@@ -132,7 +132,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

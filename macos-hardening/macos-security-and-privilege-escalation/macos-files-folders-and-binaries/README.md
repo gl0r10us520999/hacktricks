@@ -1,15 +1,15 @@
-# macOS Pliki, Foldery, Binaria i Pamięć
+# macOS Pliki, Foldery, Binaries i Pamięć
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
@@ -17,66 +17,66 @@ Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 ## Układ hierarchii plików
 
-* **/Applications**: Zainstalowane aplikacje powinny być tutaj. Wszyscy użytkownicy będą miały do nich dostęp.
-* **/bin**: Binaria wiersza poleceń
-* **/cores**: Jeśli istnieje, jest używane do przechowywania zrzutów pamięci
-* **/dev**: Wszystko jest traktowane jako plik, więc tutaj można zobaczyć urządzenia sprzętowe.
+* **/Applications**: Zainstalowane aplikacje powinny być tutaj. Wszyscy użytkownicy będą mieli do nich dostęp.
+* **/bin**: Binaries wiersza poleceń
+* **/cores**: Jeśli istnieje, jest używane do przechowywania zrzutów rdzenia
+* **/dev**: Wszystko jest traktowane jako plik, więc możesz zobaczyć urządzenia sprzętowe przechowywane tutaj.
 * **/etc**: Pliki konfiguracyjne
-* **/Library**: Można tu znaleźć wiele podkatalogów i plików związanych z preferencjami, pamięci podręcznej i logami. Istnieje folder Library w głównym katalogu i w katalogu każdego użytkownika.
-* **/private**: Nieudokumentowany, ale wiele wspomnianych folderów to łącza symboliczne do katalogu private.
-* **/sbin**: Istotne binaria systemowe (związane z administracją)
-* **/System**: Plik do uruchamiania OS X. Powinieneś tutaj znaleźć głównie pliki specyficzne dla Apple (nie firm trzecich).
-* **/tmp**: Pliki są usuwane po 3 dniach (to miękkie łącze do /private/tmp)
-* **/Users**: Katalog domowy użytkowników.
-* **/usr**: Konfiguracje i binaria systemowe
-* **/var**: Pliki dziennika
-* **/Volumes**: Zamontowane dyski pojawią się tutaj.
-* **/.vol**: Uruchamiając `stat a.txt` otrzymasz coś w rodzaju `16777223 7545753 -rw-r--r-- 1 nazwa_użytkownika wheel ...`, gdzie pierwsza liczba to numer id woluminu, w którym plik istnieje, a druga to numer i-węzła. Możesz uzyskać dostęp do zawartości tego pliku poprzez /.vol/ z tymi informacjami, uruchamiając `cat /.vol/16777223/7545753`
+* **/Library**: Można tutaj znaleźć wiele podkatalogów i plików związanych z preferencjami, pamięciami podręcznymi i logami. Folder Library istnieje w katalogu głównym i w katalogu każdego użytkownika.
+* **/private**: Nieudokumentowane, ale wiele z wymienionych folderów to dowiązania symboliczne do katalogu prywatnego.
+* **/sbin**: Niezbędne systemowe binaries (związane z administracją)
+* **/System**: Plik do uruchamiania OS X. Powinieneś znaleźć głównie pliki specyficzne dla Apple (nie stron trzecich).
+* **/tmp**: Pliki są usuwane po 3 dniach (to jest dowiązanie symboliczne do /private/tmp)
+* **/Users**: Katalog domowy dla użytkowników.
+* **/usr**: Pliki konfiguracyjne i systemowe binaries
+* **/var**: Pliki logów
+* **/Volumes**: Zamontowane dyski będą się tutaj pojawiać.
+* **/.vol**: Uruchamiając `stat a.txt` otrzymujesz coś takiego jak `16777223 7545753 -rw-r--r-- 1 username wheel ...`, gdzie pierwsza liczba to identyfikator woluminu, w którym znajduje się plik, a druga to numer inode. Możesz uzyskać dostęp do zawartości tego pliku przez /.vol/ używając tej informacji, uruchamiając `cat /.vol/16777223/7545753`
 
-### Foldery Aplikacji
+### Foldery aplikacji
 
 * **Aplikacje systemowe** znajdują się w `/System/Applications`
-* **Zainstalowane** aplikacje zazwyczaj są instalowane w `/Applications` lub w `~/Applications`
-* Dane aplikacji można znaleźć w `/Library/Application Support` dla aplikacji działających jako root oraz w `~/Library/Application Support` dla aplikacji działających jako użytkownik.
-* Aplikacje **demona** firm trzecich, które **muszą działać jako root**, zazwyczaj znajdują się w `/Library/PrivilegedHelperTools/`
-* **Aplikacje z piaskownicą** są mapowane do folderu `~/Library/Containers`. Każda aplikacja ma folder nazwany zgodnie z identyfikatorem pakietu aplikacji (`com.apple.Safari`).
+* **Zainstalowane** aplikacje są zazwyczaj zainstalowane w `/Applications` lub w `~/Applications`
+* **Dane aplikacji** można znaleźć w `/Library/Application Support` dla aplikacji działających jako root i `~/Library/Application Support` dla aplikacji działających jako użytkownik.
+* Daemony aplikacji stron trzecich, które **muszą działać jako root**, zazwyczaj znajdują się w `/Library/PrivilegedHelperTools/`
+* **Aplikacje w piaskownicy** są mapowane do folderu `~/Library/Containers`. Każda aplikacja ma folder nazwany zgodnie z identyfikatorem pakietu aplikacji (`com.apple.Safari`).
 * **Jądro** znajduje się w `/System/Library/Kernels/kernel`
-* **Rozszerzenia jądra Apple'a** znajdują się w `/System/Library/Extensions`
-* **Rozszerzenia jądra firm trzecich** są przechowywane w `/Library/Extensions`
+* **Rozszerzenia jądra Apple** znajdują się w `/System/Library/Extensions`
+* **Rozszerzenia jądra stron trzecich** są przechowywane w `/Library/Extensions`
 
-### Pliki z Wrażliwymi Informacjami
+### Pliki z wrażliwymi informacjami
 
-macOS przechowuje informacje takie jak hasła w kilku miejscach:
+MacOS przechowuje informacje takie jak hasła w kilku miejscach:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Narażeni instalatorzy pkg
+### Wrażliwe instalatory pkg
 
 {% content-ref url="macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
-## Rozszerzenia Specyficzne dla OS X
+## Specyficzne rozszerzenia OS X
 
-* **`.dmg`**: Pliki obrazów dysków Apple są bardzo częste dla instalatorów.
-* **`.kext`**: Musi przestrzegać określonej struktury i jest to wersja sterownika dla OS X. (jest to pakiet)
+* **`.dmg`**: Pliki obrazu dysku Apple są bardzo częste dla instalatorów.
+* **`.kext`**: Musi mieć określoną strukturę i jest wersją sterownika dla OS X. (to jest pakiet)
 * **`.plist`**: Znany również jako lista właściwości, przechowuje informacje w formacie XML lub binarnym.
-* Może być XML lub binarny. Binarny można odczytać za pomocą:
+* Może być w formacie XML lub binarnym. Pliki binarne można odczytać za pomocą:
 * `defaults read config.plist`
 * `/usr/libexec/PlistBuddy -c print config.plsit`
 * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
 * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Aplikacje Apple'a, które podążają za strukturą katalogów (jest to pakiet).
-* **`.dylib`**: Biblioteki dynamiczne (podobne do plików DLL w systemie Windows)
-* **`.pkg`**: Są takie same jak xar (format archiwum rozszerzalny). Polecenie instalatora może być użyte do zainstalowania zawartości tych plików.
+* **`.app`**: Aplikacje Apple, które przestrzegają struktury katalogów (to jest pakiet).
+* **`.dylib`**: Biblioteki dynamiczne (jak pliki DLL w Windows)
+* **`.pkg`**: Są takie same jak xar (eXtensible Archive format). Komenda instalatora może być użyta do zainstalowania zawartości tych plików.
 * **`.DS_Store`**: Ten plik znajduje się w każdym katalogu, zapisuje atrybuty i dostosowania katalogu.
-* **`.Spotlight-V100`**: Ten folder pojawia się w głównym katalogu każdego woluminu w systemie.
-* **`.metadata_never_index`**: Jeśli ten plik znajduje się w głównym katalogu woluminu, Spotlight nie zaindeksuje tego woluminu.
+* **`.Spotlight-V100`**: Ten folder pojawia się w katalogu głównym każdego woluminu w systemie.
+* **`.metadata_never_index`**: Jeśli ten plik znajduje się w katalogu głównym woluminu, Spotlight nie zindeksuje tego woluminu.
 * **`.noindex`**: Pliki i foldery z tym rozszerzeniem nie będą indeksowane przez Spotlight.
-* **`.sdef`**: Pliki w pakietach określające, w jaki sposób można wchodzić w interakcje z aplikacją za pomocą AppleScript.
+* **`.sdef`**: Pliki wewnątrz pakietów określające, jak można wchodzić w interakcję z aplikacją z AppleScript.
 
 ### Pakiety macOS
 
@@ -86,16 +86,16 @@ Pakiet to **katalog**, który **wygląda jak obiekt w Finderze** (przykładem pa
 [macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Bufor Bibliotek Współdzielonych Dyld (SLC)
+## Cache współdzielonej biblioteki Dyld (SLC)
 
-Na macOS (i iOS) wszystkie systemowe biblioteki współdzielone, takie jak ramki i dyliby, są **łączone w pojedynczy plik**, zwany **buforem bibliotek współdzielonych dyld**. Poprawia to wydajność, ponieważ kod może być ładowany szybciej.
+W macOS (i iOS) wszystkie współdzielone biblioteki systemowe, takie jak frameworki i dyliby, są **połączone w jeden plik**, zwany **cache współdzielonym dyld**. To poprawia wydajność, ponieważ kod może być ładowany szybciej.
 
-Znajduje się to w macOS w `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/`, a w starszych wersjach możesz znaleźć **bufor współdzielony** w **`/System/Library/dyld/`**.\
-W iOS można je znaleźć w **`/System/Library/Caches/com.apple.dyld/`**.
+Znajduje się to w macOS w `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/` i w starszych wersjach możesz znaleźć **cache współdzielony** w **`/System/Library/dyld/`**.\
+W iOS możesz je znaleźć w **`/System/Library/Caches/com.apple.dyld/`**.
 
-Podobnie jak bufor bibliotek współdzielonych dyld, jądro i rozszerzenia jądra są również kompilowane do bufora jądra, który jest ładowany podczas uruchamiania systemu.
+Podobnie jak cache współdzielony dyld, jądro i rozszerzenia jądra są również kompilowane do cache jądra, które jest ładowane podczas uruchamiania.
 
-Aby wyodrębnić biblioteki z pojedynczego pliku bufora współdzielonych dylibów, można było użyć binarnego [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), który obecnie może nie działać, ale można również użyć [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Aby wyodrębnić biblioteki z pojedynczego pliku cache współdzielonego dylib, można było użyć binarnego [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), który może już nie działać, ale możesz również użyć [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -110,112 +110,112 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 {% endcode %}
 
 {% hint style="success" %}
-Zauważ, że nawet jeśli narzędzie `dyld_shared_cache_util` nie działa, możesz przekazać **wspólny binarny dyld do Hoppera** i Hopper będzie w stanie zidentyfikować wszystkie biblioteki i pozwolić Ci **wybrać, którą** chcesz zbadać:
+Zauważ, że nawet jeśli narzędzie `dyld_shared_cache_util` nie działa, możesz przekazać **wspólny binarny dyld do Hopper** i Hopper będzie w stanie zidentyfikować wszystkie biblioteki i pozwoli ci **wybrać, którą** chcesz zbadać:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Niektóre ekstraktory nie będą działać, ponieważ dylibs są wstępnie połączone z twardymi adresami, dlatego mogą skakać do nieznanych adresów.
+Niektóre ekstraktory nie będą działać, ponieważ dyliby są wstępnie powiązane z twardo zakodowanymi adresami, przez co mogą skakać do nieznanych adresów.
 
 {% hint style="success" %}
-Możliwe jest również pobranie Udostępnionego Cache Bibliotek innych urządzeń \*OS w systemie macOS za pomocą emulatora w Xcode. Zostaną one pobrane do: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, np.: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+Możliwe jest również pobranie pamięci podręcznej wspólnej biblioteki z innych urządzeń \*OS w macos, używając emulatora w Xcode. Zostaną pobrane w: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, jak: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
 ### Mapowanie SLC
 
-**`dyld`** używa wywołania systemowego **`shared_region_check_np`** aby sprawdzić, czy SLC został zmapowany (co zwraca adres) oraz **`shared_region_map_and_slide_np`** aby zmapować SLC.
+**`dyld`** używa wywołania systemowego **`shared_region_check_np`**, aby sprawdzić, czy SLC został zamapowany (co zwraca adres) oraz **`shared_region_map_and_slide_np`**, aby zamapować SLC.
 
-Zauważ, że nawet jeśli SLC jest przesuwany przy pierwszym użyciu, wszystkie **procesy** używają **tej samej kopii**, co **eliminuje ochronę ASLR**, jeśli atakujący był w stanie uruchomić procesy w systemie. Faktycznie było to wykorzystywane w przeszłości i naprawione za pomocą wspólnego regionu pagera.
+Zauważ, że nawet jeśli SLC jest przesunięty przy pierwszym użyciu, wszystkie **procesy** używają **tej samej kopii**, co **eliminowało ochronę ASLR**, jeśli atakujący był w stanie uruchomić procesy w systemie. To było w rzeczywistości wykorzystywane w przeszłości i naprawione z użyciem pagera wspólnego regionu.
 
-Pule gałęzi to małe Mach-O dylibs, które tworzą małe przestrzenie między mapowaniami obrazów, co uniemożliwia interweniowanie w funkcje.
+Pule gałęzi to małe dyliby Mach-O, które tworzą małe przestrzenie między mapowaniami obrazów, co uniemożliwia wstawianie funkcji.
 
 ### Nadpisywanie SLC
 
-Korzystając z zmiennych środowiskowych:
+Używając zmiennych środowiskowych:
 
-* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> To pozwoli na załadowanie nowego wspólnego cache bibliotek
-* **`DYLD_SHARED_CACHE_DIR=avoid`** i ręczne zastąpienie bibliotek dowiązaniami symbolicznymi do cache bibliotek z rzeczywistymi (będziesz musiał je wyodrębnić)
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> To pozwoli na załadowanie nowej pamięci podręcznej wspólnej biblioteki.
+* **`DYLD_SHARED_CACHE_DIR=avoid`** i ręczne zastąpienie bibliotek dowiązaniami do wspólnej pamięci podręcznej z rzeczywistymi (będziesz musiał je wyodrębnić).
 
-## Specjalne Uprawnienia Plików
+## Specjalne uprawnienia plików
 
 ### Uprawnienia folderów
 
-W **folderze**, **odczyt** pozwala na **wylistowanie go**, **zapis** pozwala na **usunięcie** i **zapis** plików w nim, a **wykonanie** pozwala na **przejście** przez katalog. Na przykład użytkownik z **uprawnieniem do odczytu pliku** wewnątrz katalogu, w którym nie ma uprawnienia **do wykonania**, **nie będzie w stanie odczytać** pliku.
+W **folderze**, **odczyt** pozwala na **wyświetlenie go**, **zapis** pozwala na **usunięcie** i **zapis** plików w nim, a **wykonanie** pozwala na **przechodzenie** przez katalog. Na przykład, użytkownik z **uprawnieniami do odczytu pliku** w katalogu, w którym **nie ma uprawnień do wykonania**, **nie będzie mógł odczytać** pliku.
 
 ### Modyfikatory flag
 
-Istnieją pewne flagi, które można ustawić w plikach, które sprawią, że plik będzie zachowywał się inaczej. Możesz **sprawdzić flagi** plików w katalogu za pomocą `ls -lO /ścieżka/do/katalogu`
+Istnieją pewne flagi, które mogą być ustawione w plikach, co sprawi, że plik będzie zachowywał się inaczej. Możesz **sprawdzić flagi** plików w katalogu za pomocą `ls -lO /path/directory`
 
-* **`uchg`**: Znana jako flaga **uchange** uniemożliwi **dokonanie jakiejkolwiek zmiany** lub usunięcie **pliku**. Aby ją ustawić, wykonaj: `chflags uchg plik.txt`
-* Użytkownik root może **usunąć flagę** i zmodyfikować plik
-* **`restricted`**: Ta flaga sprawia, że plik jest **chroniony przez SIP** (nie można dodać tej flagi do pliku).
-* **`Sticky bit`**: Jeśli katalog ma ustawiony bit sticky, **tylko** właściciel katalogów lub root mogą zmienić nazwę lub usunąć pliki. Zazwyczaj jest to ustawione w katalogu /tmp, aby zapobiec zwykłym użytkownikom usuwania lub przenoszenia plików innych użytkowników.
+* **`uchg`**: Znana jako flaga **uchange**, **zapobiegnie wszelkim działaniom** zmieniającym lub usuwającym **plik**. Aby ją ustawić, użyj: `chflags uchg file.txt`
+* Użytkownik root może **usunąć flagę** i zmodyfikować plik.
+* **`restricted`**: Ta flaga sprawia, że plik jest **chroniony przez SIP** (nie możesz dodać tej flagi do pliku).
+* **`Sticky bit`**: Jeśli katalog ma bit sticky, **tylko** właściciel **katalogu lub root może zmieniać lub usuwać** pliki. Zazwyczaj jest to ustawiane w katalogu /tmp, aby zapobiec zwykłym użytkownikom w usuwaniu lub przenoszeniu plików innych użytkowników.
 
-Wszystkie flagi można znaleźć w pliku `sys/stat.h` (znajdź go za pomocą `mdfind stat.h | grep stat.h`) i są:
+Wszystkie flagi można znaleźć w pliku `sys/stat.h` (znajdź go używając `mdfind stat.h | grep stat.h`) i są:
 
-* `UF_SETTABLE` 0x0000ffff: Maska flag, które można zmienić właścicielowi.
-* `UF_NODUMP` 0x00000001: Nie zapisuj pliku.
+* `UF_SETTABLE` 0x0000ffff: Maska flag zmiennych przez właściciela.
+* `UF_NODUMP` 0x00000001: Nie zrzucaj pliku.
 * `UF_IMMUTABLE` 0x00000002: Plik nie może być zmieniany.
-* `UF_APPEND` 0x00000004: Zapisywanie do pliku może być tylko dodawane.
-* `UF_OPAQUE` 0x00000008: Katalog jest nieprzezroczysty w stosunku do unii.
+* `UF_APPEND` 0x00000004: Zapis do pliku może być tylko dołączany.
+* `UF_OPAQUE` 0x00000008: Katalog jest nieprzezroczysty w odniesieniu do unii.
 * `UF_COMPRESSED` 0x00000020: Plik jest skompresowany (niektóre systemy plików).
-* `UF_TRACKED` 0x00000040: Brak powiadomień o usuwaniu/zmianie nazwy dla plików z tym ustawieniem.
-* `UF_DATAVAULT` 0x00000080: Wymagane uprawnienie do odczytu i zapisu.
-* `UF_HIDDEN` 0x00008000: Wskazuje, że ten element nie powinien być wyświetlany w interfejsie GUI.
-* `SF_SUPPORTED` 0x009f0000: Maska flag obsługiwanych przez superużytkownika.
-* `SF_SETTABLE` 0x3fff0000: Maska flag zmienialnych przez superużytkownika.
-* `SF_SYNTHETIC` 0xc0000000: Maska flag systemowych tylko do odczytu.
+* `UF_TRACKED` 0x00000040: Brak powiadomień o usunięciach/zmianach nazw dla plików z tą flagą.
+* `UF_DATAVAULT` 0x00000080: Wymagana uprawnienie do odczytu i zapisu.
+* `UF_HIDDEN` 0x00008000: Wskazówka, że ten element nie powinien być wyświetlany w GUI.
+* `SF_SUPPORTED` 0x009f0000: Maska flag wspieranych przez superużytkownika.
+* `SF_SETTABLE` 0x3fff0000: Maska flag zmiennych przez superużytkownika.
+* `SF_SYNTHETIC` 0xc0000000: Maska systemowych flag tylko do odczytu.
 * `SF_ARCHIVED` 0x00010000: Plik jest zarchiwizowany.
 * `SF_IMMUTABLE` 0x00020000: Plik nie może być zmieniany.
-* `SF_APPEND` 0x00040000: Zapisywanie do pliku może być tylko dodawane.
-* `SF_RESTRICTED` 0x00080000: Wymagane uprawnienie do zapisu.
-* `SF_NOUNLINK` 0x00100000: Element nie może być usunięty, zmieniony lub zamontowany.
-* `SF_FIRMLINK` 0x00800000: Plik jest łączem stałym.
-* `SF_DATALESS` 0x40000000: Plik jest obiektem bez danych.
+* `SF_APPEND` 0x00040000: Zapis do pliku może być tylko dołączany.
+* `SF_RESTRICTED` 0x00080000: Wymagana uprawnienie do zapisu.
+* `SF_NOUNLINK` 0x00100000: Element nie może być usunięty, zmieniony ani zamontowany.
+* `SF_FIRMLINK` 0x00800000: Plik jest linkiem firmowym.
+* `SF_DATALESS` 0x40000000: Plik jest obiektem bezdanych.
 
 ### **ACL plików**
 
-ACL plików zawiera **ACE** (Access Control Entries), gdzie można przypisać różne **bardziej szczegółowe uprawnienia** różnym użytkownikom.
+**ACL** plików zawierają **ACE** (Wpisy Kontroli Dostępu), gdzie można przypisać bardziej **szczegółowe uprawnienia** różnym użytkownikom.
 
 Możliwe jest przyznanie **katalogowi** tych uprawnień: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-A plikowi: `read`, `write`, `append`, `execute`.
+A dla **pliku**: `read`, `write`, `append`, `execute`.
 
-Gdy plik zawiera ACL, zobaczysz **"+" podczas listowania uprawnień jak w**:
+Gdy plik zawiera ACL, **znajdziesz "+" przy wyświetlaniu uprawnień, jak w**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Możesz **odczytać ACL-e** pliku za pomocą:
+Możesz **przeczytać ACL** pliku za pomocą:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Możesz znaleźć **wszystkie pliki z ACL** za pomocą (to jest baaardzo wolne):
+Możesz znaleźć **wszystkie pliki z ACL** za pomocą (to jest bardzo wolne):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-### Rozszerzone atrybuty
+### Extended Attributes
 
-Rozszerzone atrybuty posiadają nazwę i wartość oraz można je zobaczyć za pomocą `ls -@` i manipulować nimi za pomocą polecenia `xattr`. Niektóre wspólne rozszerzone atrybuty to:
+Atrybuty rozszerzone mają nazwę i dowolną wartość, a można je zobaczyć za pomocą `ls -@` i manipulować nimi za pomocą polecenia `xattr`. Niektóre powszechne atrybuty rozszerzone to:
 
-- `com.apple.resourceFork`: Zgodność z widłami zasobów. Widoczne także jako `filename/..namedfork/rsrc`
-- `com.apple.quarantine`: MacOS: Mechanizm kwarantanny Gatekeepera (III/6)
-- `metadata:*`: MacOS: różne metadane, takie jak `_backup_excludeItem` lub `kMD*`
-- `com.apple.lastuseddate` (#PS): Data ostatniego użycia pliku
-- `com.apple.FinderInfo`: MacOS: Informacje Findera (np. kolorowe tagi)
-- `com.apple.TextEncoding`: Określa kodowanie tekstu plików tekstowych ASCII
-- `com.apple.logd.metadata`: Używane przez logd w plikach w `/var/db/diagnostics`
-- `com.apple.genstore.*`: Przechowywanie generacyjne (`/.DocumentRevisions-V100` w głównym katalogu systemu plików)
-- `com.apple.rootless`: MacOS: Używane przez System Integrity Protection do oznaczania pliku (III/10)
-- `com.apple.uuidb.boot-uuid`: Oznaczenia logd epok uruchomień z unikalnym UUID
-- `com.apple.decmpfs`: MacOS: Transparentna kompresja plików (II/7)
-- `com.apple.cprotect`: \*OS: Dane szyfrowania plików (III/11)
-- `com.apple.installd.*`: \*OS: Metadane używane przez installd, np. `installType`, `uniqueInstallID`
+* `com.apple.resourceFork`: Zgodność z forkami zasobów. Widoczne również jako `filename/..namedfork/rsrc`
+* `com.apple.quarantine`: MacOS: mechanizm kwarantanny Gatekeepera (III/6)
+* `metadata:*`: MacOS: różne metadane, takie jak `_backup_excludeItem`, lub `kMD*`
+* `com.apple.lastuseddate` (#PS): Data ostatniego użycia pliku
+* `com.apple.FinderInfo`: MacOS: informacje o Finderze (np. kolorowe tagi)
+* `com.apple.TextEncoding`: Określa kodowanie tekstu plików ASCII
+* `com.apple.logd.metadata`: Używane przez logd w plikach w `/var/db/diagnostics`
+* `com.apple.genstore.*`: Przechowywanie generacyjne (`/.DocumentRevisions-V100` w katalogu głównym systemu plików)
+* `com.apple.rootless`: MacOS: Używane przez System Integrity Protection do oznaczania pliku (III/10)
+* `com.apple.uuidb.boot-uuid`: oznaczenia logd epok rozruchowych z unikalnym UUID
+* `com.apple.decmpfs`: MacOS: Przezroczysta kompresja plików (II/7)
+* `com.apple.cprotect`: \*OS: Dane szyfrowania per-pliku (III/11)
+* `com.apple.installd.*`: \*OS: Metadane używane przez installd, np. `installType`, `uniqueInstallID`
 
-### Widły zasobów | macOS ADS
+### Resource Forks | macOS ADS
 
-To sposób na uzyskanie **Alternatywnych Strumieni Danych w systemach MacOS**. Możesz zapisać zawartość wewnątrz rozszerzonego atrybutu o nazwie **com.apple.ResourceFork** w pliku, zapisując go w **file/..namedfork/rsrc**.
+To sposób na uzyskanie **Alternatywnych Strumieni Danych w MacOS**. Możesz zapisać zawartość w atrybucie rozszerzonym o nazwie **com.apple.ResourceFork** wewnątrz pliku, zapisując go w **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -226,7 +226,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Możesz **znaleźć wszystkie pliki zawierające ten rozszerzony atrybut** za pomocą:
+Możesz **znaleźć wszystkie pliki zawierające ten rozszerzony atrybut** za pomocą: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -236,59 +236,59 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 ### decmpfs
 
-Rozszerzony atrybut `com.apple.decmpfs` wskazuje, że plik jest przechowywany zaszyfrowany, `ls -l` będzie raportować **rozmiar 0** a skompresowane dane znajdują się w tym atrybucie. Za każdym razem, gdy plik jest dostępny, zostanie zdeszyfrowany w pamięci.
+Atrybut rozszerzony `com.apple.decmpfs` wskazuje, że plik jest przechowywany w zaszyfrowanej formie, `ls -l` zgłosi **rozmiar 0**, a skompresowane dane znajdują się w tym atrybucie. Kiedy plik jest otwierany, jest odszyfrowywany w pamięci.
 
-Ten atrybut można zobaczyć za pomocą `ls -lO` oznaczonego jako skompresowany, ponieważ skompresowane pliki są również oznaczone flagą `UF_COMPRESSED`. Jeśli skompresowany plik zostanie usunięty z tą flagą za pomocą `chflags nocompressed </ścieżka/do/pliku>`, system nie będzie wiedział, że plik był skompresowany i dlatego nie będzie w stanie go zdekompresować i uzyskać dostępu do danych (będzie myślał, że jest pusty).
+Ten atrybut można zobaczyć za pomocą `ls -lO`, oznaczony jako skompresowany, ponieważ skompresowane pliki są również oznaczone flagą `UF_COMPRESSED`. Jeśli skompresowany plik zostanie usunięty z tą flagą za pomocą `chflags nocompressed </path/to/file>`, system nie będzie wiedział, że plik był skompresowany i dlatego nie będzie w stanie go dekompresować i uzyskać dostęp do danych (pomyśli, że jest pusty).
 
 Narzędzie afscexpand może być użyte do wymuszenia dekompresji pliku.
 
-## **Uniwersalne binarne &** Format Mach-o
+## **Binarne uniwersalne &** Format Mach-o
 
-Binarki systemu Mac OS zazwyczaj są kompilowane jako **uniwersalne binarne**. **Uniwersalny binarny** może **obsługiwać wiele architektur w tym samym pliku**.
+Binarne pliki Mac OS są zazwyczaj kompilowane jako **binarne uniwersalne**. **Binarne uniwersalne** mogą **obsługiwać wiele architektur w tym samym pliku**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## Pamięć procesu macOS
+## Pamięć procesów macOS
 
-## Zrzucanie pamięci macOS
+## Zrzut pamięci macOS
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Pliki kategorii ryzyka w systemie Mac OS
+## Kategoria ryzyka plików Mac OS
 
-Katalog `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` to miejsce, gdzie przechowywane są informacje o **ryzyku związanym z różnymi rozszerzeniami plików**. Ten katalog kategoryzuje pliki na różne poziomy ryzyka, wpływając na to, w jaki sposób Safari traktuje te pliki po pobraniu. Kategorie to:
+Katalog `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` to miejsce, w którym przechowywane są informacje o **ryzyku związanym z różnymi rozszerzeniami plików**. Katalog ten klasyfikuje pliki w różne poziomy ryzyka, co wpływa na to, jak Safari obsługuje te pliki po ich pobraniu. Kategorie są następujące:
 
-* **LSRiskCategorySafe**: Pliki w tej kategorii są uważane za **całkowicie bezpieczne**. Safari automatycznie otworzy te pliki po pobraniu.
-* **LSRiskCategoryNeutral**: Te pliki nie wyświetlają żadnych ostrzeżeń i nie są **automatycznie otwierane** przez Safari.
-* **LSRiskCategoryUnsafeExecutable**: Pliki w tej kategorii **wywołują ostrzeżenie**, wskazując, że plik jest aplikacją. Jest to środek bezpieczeństwa mający na celu poinformowanie użytkownika.
-* **LSRiskCategoryMayContainUnsafeExecutable**: Ta kategoria jest przeznaczona dla plików, takich jak archiwa, które mogą zawierać plik wykonywalny. Safari **wywoła ostrzeżenie**, chyba że może zweryfikować, że wszystkie zawartości są bezpieczne lub neutralne.
+* **LSRiskCategorySafe**: Pliki w tej kategorii są uważane za **całkowicie bezpieczne**. Safari automatycznie otworzy te pliki po ich pobraniu.
+* **LSRiskCategoryNeutral**: Te pliki nie mają żadnych ostrzeżeń i **nie są automatycznie otwierane** przez Safari.
+* **LSRiskCategoryUnsafeExecutable**: Pliki w tej kategorii **wywołują ostrzeżenie**, wskazujące, że plik jest aplikacją. Służy to jako środek bezpieczeństwa, aby ostrzec użytkownika.
+* **LSRiskCategoryMayContainUnsafeExecutable**: Ta kategoria dotyczy plików, takich jak archiwa, które mogą zawierać plik wykonywalny. Safari **wywoła ostrzeżenie**, chyba że może zweryfikować, że wszystkie zawartości są bezpieczne lub neutralne.
 
-## Pliki dzienników
+## Pliki dziennika
 
 * **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Zawiera informacje o pobranych plikach, takie jak adres URL, z którego zostały pobrane.
-* **`/var/log/system.log`**: Główny dziennik systemów OSX. com.apple.syslogd.plist jest odpowiedzialny za wykonywanie sysloggingu (możesz sprawdzić, czy jest wyłączony, szukając "com.apple.syslogd" w `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: To Apple System Logs, które mogą zawierać interesujące informacje.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Przechowuje niedawno odwiedzane pliki i aplikacje za pośrednictwem "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Przechowuje elementy do uruchomienia po uruchomieniu systemu.
+* **`/var/log/system.log`**: Główny dziennik systemów OSX. com.apple.syslogd.plist jest odpowiedzialny za wykonywanie syslogowania (możesz sprawdzić, czy jest wyłączony, szukając "com.apple.syslogd" w `launchctl list`).
+* **`/private/var/log/asl/*.asl`**: To są Dzienniki Systemowe Apple, które mogą zawierać interesujące informacje.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Przechowuje ostatnio otwierane pliki i aplikacje przez "Finder".
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Przechowuje elementy do uruchomienia przy starcie systemu.
 * **`$HOME/Library/Logs/DiskUtility.log`**: Plik dziennika dla aplikacji DiskUtility (informacje o dyskach, w tym USB).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Dane o punktach dostępu bezprzewodowego.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lista dezaktywowanych demonów.
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

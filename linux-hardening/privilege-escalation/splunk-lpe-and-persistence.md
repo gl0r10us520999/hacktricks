@@ -19,7 +19,7 @@ Jeśli **enumerując** maszynę **wewnętrznie** lub **zewnętrznie** znajdziesz
 
 Jeśli jesteś **już rootem i usługa Splunk nie nasłuchuje tylko na localhost**, możesz **ukraść** plik **hasła** **z** usługi Splunk i **złamać** hasła lub **dodać nowe** dane logowania. I utrzymać trwałość na hoście.
 
-Na pierwszym obrazku poniżej możesz zobaczyć, jak wygląda strona internetowa Splunkd.
+Na pierwszym obrazie poniżej możesz zobaczyć, jak wygląda strona internetowa Splunkd.
 
 
 
@@ -41,8 +41,8 @@ Eksploatacja celująca w Agenta Splunk Universal Forwarder (UF) pozwala atakują
 3. Możliwe działania obejmują ekstrakcję plików, manipulację kontami użytkowników i kompromitację systemu.
 
 **Wpływ:**
-- Pełna kompromitacja sieci z uprawnieniami SYSTEM/root na każdym hoście.
-- Potencjalna możliwość wyłączenia logowania w celu uniknięcia wykrycia.
+- Całkowita kompromitacja sieci z uprawnieniami SYSTEM/root na każdym hoście.
+- Potencjał do wyłączenia logowania w celu uniknięcia wykrycia.
 - Instalacja backdoorów lub ransomware.
 
 **Przykładowe Polecenie do Eksploatacji:**
@@ -69,7 +69,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

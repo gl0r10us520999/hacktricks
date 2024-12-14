@@ -15,28 +15,28 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Basic Information
+## Podstawowe informacje
 
-Mount namespace to funkcja jądra Linux, która zapewnia izolację punktów montowania systemu plików widocznych dla grupy procesów. Każda przestrzeń montowania ma swój własny zestaw punktów montowania systemu plików, a **zmiany w punktach montowania w jednej przestrzeni nie wpływają na inne przestrzenie**. Oznacza to, że procesy działające w różnych przestrzeniach montowania mogą mieć różne widoki hierarchii systemu plików.
+Mount namespace to funkcja jądra Linux, która zapewnia izolację punktów montowania systemu plików widocznych dla grupy procesów. Każdy mount namespace ma swój własny zestaw punktów montowania systemu plików, a **zmiany w punktach montowania w jednym namespace nie wpływają na inne namespace**. Oznacza to, że procesy działające w różnych mount namespaces mogą mieć różne widoki hierarchii systemu plików.
 
-Przestrzenie montowania są szczególnie przydatne w konteneryzacji, gdzie każdy kontener powinien mieć swój własny system plików i konfigurację, izolowaną od innych kontenerów i systemu gospodarza.
+Mount namespaces są szczególnie przydatne w konteneryzacji, gdzie każdy kontener powinien mieć swój własny system plików i konfigurację, izolowaną od innych kontenerów i systemu gospodarza.
 
-### How it works:
+### Jak to działa:
 
-1. Gdy nowa przestrzeń montowania jest tworzona, jest inicjowana **kopią punktów montowania z jej nadrzędnej przestrzeni**. Oznacza to, że w momencie utworzenia nowa przestrzeń dzieli ten sam widok systemu plików co jej nadrzędna. Jednak wszelkie późniejsze zmiany w punktach montowania w obrębie przestrzeni nie wpłyną na nadrzędną ani inne przestrzenie.
-2. Gdy proces modyfikuje punkt montowania w swojej przestrzeni, na przykład montując lub odmontowując system plików, **zmiana jest lokalna dla tej przestrzeni** i nie wpływa na inne przestrzenie. Umożliwia to każdej przestrzeni posiadanie własnej niezależnej hierarchii systemu plików.
-3. Procesy mogą przemieszczać się między przestrzeniami za pomocą wywołania systemowego `setns()`, lub tworzyć nowe przestrzenie za pomocą wywołań systemowych `unshare()` lub `clone()` z flagą `CLONE_NEWNS`. Gdy proces przemieszcza się do nowej przestrzeni lub ją tworzy, zacznie używać punktów montowania związanych z tą przestrzenią.
-4. **Deskryptory plików i inody są współdzielone między przestrzeniami**, co oznacza, że jeśli proces w jednej przestrzeni ma otwarty deskryptor pliku wskazujący na plik, może **przekazać ten deskryptor** do procesu w innej przestrzeni, a **oba procesy będą miały dostęp do tego samego pliku**. Jednak ścieżka pliku może nie być taka sama w obu przestrzeniach z powodu różnic w punktach montowania.
+1. Gdy nowy mount namespace jest tworzony, jest inicjowany **kopią punktów montowania z jego rodzicielskiego namespace**. Oznacza to, że w momencie utworzenia nowy namespace dzieli ten sam widok systemu plików co jego rodzic. Jednak wszelkie późniejsze zmiany w punktach montowania w obrębie namespace nie wpłyną na rodzica ani inne namespace.
+2. Gdy proces modyfikuje punkt montowania w swoim namespace, na przykład montując lub odmontowując system plików, **zmiana jest lokalna dla tego namespace** i nie wpływa na inne namespace. To pozwala każdemu namespace mieć swoją własną niezależną hierarchię systemu plików.
+3. Procesy mogą przechodzić między namespace'ami za pomocą wywołania systemowego `setns()`, lub tworzyć nowe namespace'y za pomocą wywołań systemowych `unshare()` lub `clone()` z flagą `CLONE_NEWNS`. Gdy proces przechodzi do nowego namespace lub go tworzy, zacznie używać punktów montowania związanych z tym namespace.
+4. **Deskryptory plików i inody są współdzielone między namespace'ami**, co oznacza, że jeśli proces w jednym namespace ma otwarty deskryptor pliku wskazujący na plik, może **przekazać ten deskryptor** do procesu w innym namespace, a **oba procesy będą miały dostęp do tego samego pliku**. Jednak ścieżka pliku może nie być taka sama w obu namespace'ach z powodu różnic w punktach montowania.
 
-## Lab:
+## Laboratorium:
 
-### Create different Namespaces
+### Utwórz różne namespace'y
 
 #### CLI
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-Mountując nową instancję systemu plików `/proc`, używając parametru `--mount-proc`, zapewniasz, że nowa przestrzeń montowania ma **dokładny i izolowany widok informacji o procesach specyficznych dla tej przestrzeni**.
+Przez zamontowanie nowej instancji systemu plików `/proc`, jeśli użyjesz parametru `--mount-proc`, zapewniasz, że nowa przestrzeń montowania ma **dokładny i izolowany widok informacji o procesach specyficznych dla tej przestrzeni**.
 
 <details>
 
@@ -47,16 +47,16 @@ Gdy `unshare` jest wykonywane bez opcji `-f`, napotykany jest błąd z powodu sp
 1. **Wyjaśnienie problemu**:
 - Jądro Linuxa pozwala procesowi na tworzenie nowych przestrzeni nazw za pomocą wywołania systemowego `unshare`. Jednak proces, który inicjuje tworzenie nowej przestrzeni nazw PID (nazywany "procesem unshare"), nie wchodzi do nowej przestrzeni; tylko jego procesy potomne to robią.
 - Uruchomienie `%unshare -p /bin/bash%` uruchamia `/bin/bash` w tym samym procesie co `unshare`. W konsekwencji, `/bin/bash` i jego procesy potomne znajdują się w oryginalnej przestrzeni nazw PID.
-- Pierwszy proces potomny `/bin/bash` w nowej przestrzeni staje się PID 1. Gdy ten proces kończy działanie, uruchamia czyszczenie przestrzeni, jeśli nie ma innych procesów, ponieważ PID 1 ma specjalną rolę przyjmowania procesów osieroconych. Jądro Linuxa wyłączy wtedy przydzielanie PID w tej przestrzeni.
+- Pierwszy proces potomny `/bin/bash` w nowej przestrzeni staje się PID 1. Gdy ten proces kończy działanie, uruchamia czyszczenie przestrzeni, jeśli nie ma innych procesów, ponieważ PID 1 ma specjalną rolę przyjmowania osieroconych procesów. Jądro Linuxa następnie wyłączy przydzielanie PID w tej przestrzeni.
 
 2. **Konsekwencja**:
-- Zakończenie PID 1 w nowej przestrzeni prowadzi do wyczyszczenia flagi `PIDNS_HASH_ADDING`. Skutkuje to niepowodzeniem funkcji `alloc_pid` w przydzieleniu nowego PID podczas tworzenia nowego procesu, co skutkuje błędem "Nie można przydzielić pamięci".
+- Zakończenie PID 1 w nowej przestrzeni prowadzi do usunięcia flagi `PIDNS_HASH_ADDING`. Skutkuje to niepowodzeniem funkcji `alloc_pid` w przydzieleniu nowego PID podczas tworzenia nowego procesu, co skutkuje błędem "Nie można przydzielić pamięci".
 
 3. **Rozwiązanie**:
 - Problem można rozwiązać, używając opcji `-f` z `unshare`. Ta opcja sprawia, że `unshare` fork'uje nowy proces po utworzeniu nowej przestrzeni nazw PID.
-- Wykonanie `%unshare -fp /bin/bash%` zapewnia, że polecenie `unshare` samo staje się PID 1 w nowej przestrzeni. `/bin/bash` i jego procesy potomne są wtedy bezpiecznie zawarte w tej nowej przestrzeni, co zapobiega przedwczesnemu zakończeniu PID 1 i umożliwia normalne przydzielanie PID.
+- Wykonanie `%unshare -fp /bin/bash%` zapewnia, że polecenie `unshare` samo staje się PID 1 w nowej przestrzeni. `/bin/bash` i jego procesy potomne są następnie bezpiecznie zawarte w tej nowej przestrzeni, co zapobiega przedwczesnemu zakończeniu PID 1 i umożliwia normalne przydzielanie PID.
 
-Zapewniając, że `unshare` działa z flagą `-f`, nowa przestrzeń nazw PID jest prawidłowo utrzymywana, co pozwala `/bin/bash` i jego podprocesom działać bez napotkania błędu przydzielania pamięci.
+Zapewniając, że `unshare` działa z flagą `-f`, nowa przestrzeń nazw PID jest prawidłowo utrzymywana, co pozwala na działanie `/bin/bash` i jego podprocesów bez napotkania błędu przydzielania pamięci.
 
 </details>
 
@@ -64,7 +64,7 @@ Zapewniając, że `unshare` działa z flagą `-f`, nowa przestrzeń nazw PID jes
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Sprawdź, w którym namespace znajduje się twój proces
+### &#x20;Sprawdź, w której przestrzeni nazw znajduje się twój proces
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'

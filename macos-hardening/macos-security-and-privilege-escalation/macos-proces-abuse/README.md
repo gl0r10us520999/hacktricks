@@ -1,61 +1,61 @@
-# Nadużycie procesów w macOS
+# macOS Process Abuse
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Podstawowe informacje o procesach
 
-Proces to instancja działającego pliku wykonywalnego, jednak procesy nie wykonują kodu, to wątki to wykonują. Dlatego **procesy są jedynie kontenerami dla działających wątków**, zapewniając pamięć, deskryptory, porty, uprawnienia...
+Proces to instancja uruchamianego pliku wykonywalnego, jednak procesy nie wykonują kodu, to wątki. Dlatego **procesy są tylko kontenerami dla uruchamianych wątków**, zapewniając pamięć, deskryptory, porty, uprawnienia...
 
-Tradycyjnie procesy były uruchamiane w innych procesach (z wyjątkiem PID 1) poprzez wywołanie **`fork`**, które tworzyłoby dokładną kopię bieżącego procesu, a następnie **proces potomny** zazwyczaj wywoływałby **`execve`**, aby załadować nowy plik wykonywalny i go uruchomić. Następnie wprowadzono **`vfork`**, aby ten proces był szybszy bez kopiowania pamięci.\
-Następnie wprowadzono **`posix_spawn`**, łącząc **`vfork`** i **`execve`** w jedno wywołanie i akceptując flagi:
+Tradycyjnie procesy były uruchamiane w ramach innych procesów (z wyjątkiem PID 1) poprzez wywołanie **`fork`**, co tworzyło dokładną kopię bieżącego procesu, a następnie **proces potomny** zazwyczaj wywoływał **`execve`**, aby załadować nowy plik wykonywalny i go uruchomić. Następnie wprowadzono **`vfork`**, aby przyspieszyć ten proces bez kopiowania pamięci.\
+Następnie wprowadzono **`posix_spawn`**, łącząc **`vfork`** i **`execve`** w jednym wywołaniu i akceptując flagi:
 
-* `POSIX_SPAWN_RESETIDS`: Zresetuj identyfikatory efektywne na rzeczywiste identyfikatory
+* `POSIX_SPAWN_RESETIDS`: Resetuj efektywne identyfikatory do rzeczywistych identyfikatorów
 * `POSIX_SPAWN_SETPGROUP`: Ustaw przynależność do grupy procesów
-* `POSUX_SPAWN_SETSIGDEF`: Ustaw domyślne zachowanie sygnału
-* `POSIX_SPAWN_SETSIGMASK`: Ustaw maskę sygnału
-* `POSIX_SPAWN_SETEXEC`: Wykonaj w tym samym procesie (jak `execve` z większą liczbą opcji)
-* `POSIX_SPAWN_START_SUSPENDED`: Rozpocznij wstrzymanie
+* `POSUX_SPAWN_SETSIGDEF`: Ustaw domyślne zachowanie sygnałów
+* `POSIX_SPAWN_SETSIGMASK`: Ustaw maskę sygnałów
+* `POSIX_SPAWN_SETEXEC`: Wykonaj w tym samym procesie (jak `execve` z dodatkowymi opcjami)
+* `POSIX_SPAWN_START_SUSPENDED`: Rozpocznij wstrzymany
 * `_POSIX_SPAWN_DISABLE_ASLR`: Rozpocznij bez ASLR
-* `_POSIX_SPAWN_NANO_ALLOCATOR:` Użyj Nano alokatora libmalloc
-* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Zezwalaj na `rwx` na segmentach danych
-* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Domyślnie zamknij wszystkie deskryptory plików podczas exec(2)
-* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Losowo zmieniaj wysokie bity przesunięcia ASLR
+* `_POSIX_SPAWN_NANO_ALLOCATOR:` Użyj alokatora Nano z libmalloc
+* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Zezwól na `rwx` w segmentach danych
+* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Domyślnie zamknij wszystkie opisy plików przy exec(2)
+* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomizuj wysokie bity przesunięcia ASLR
 
 Ponadto `posix_spawn` pozwala określić tablicę **`posix_spawnattr`**, która kontroluje niektóre aspekty uruchamianego procesu, oraz **`posix_spawn_file_actions`**, aby zmodyfikować stan deskryptorów.
 
-Gdy proces umiera, wysyła **kod powrotu do procesu nadrzędnego** (jeśli proces nadrzędny umarł, nowym rodzicem jest PID 1) sygnałem `SIGCHLD`. Proces nadrzędny musi pobrać tę wartość, wywołując `wait4()` lub `waitid()`, aż do tego momentu dziecko pozostaje w stanie zombie, gdzie jest nadal wymienione, ale nie zużywa zasobów.
+Gdy proces umiera, wysyła **kod zwrotu do procesu macierzystego** (jeśli proces macierzysty umarł, nowym procesem macierzystym jest PID 1) z sygnałem `SIGCHLD`. Proces macierzysty musi uzyskać tę wartość, wywołując `wait4()` lub `waitid()`, a do tego czasu proces potomny pozostaje w stanie zombie, gdzie nadal jest wymieniany, ale nie zużywa zasobów.
 
-### PID-y
+### PIDs
 
-PID-y, identyfikatory procesów, identyfikują unikalny proces. W XNU **PID-y** są **64-bitowe**, zwiększają się monotonicznie i **nigdy nie zawijają** (aby uniknąć nadużyć).
+PID, identyfikatory procesów, identyfikuje unikalny proces. W XNU **PIDs** mają **64 bity**, rosną monotonnie i **nigdy się nie zawijają** (aby uniknąć nadużyć).
 
 ### Grupy procesów, sesje i koalicje
 
-**Procesy** mogą być umieszczone w **grupach**, aby ułatwić ich obsługę. Na przykład polecenia w skrypcie powłoki będą w tej samej grupie procesów, dzięki czemu możliwe jest **sygnalizowanie ich razem** za pomocą na przykład kill.\
+**Procesy** mogą być wstawiane do **grup**, aby ułatwić ich obsługę. Na przykład, polecenia w skrypcie powłoki będą w tej samej grupie procesów, więc możliwe jest **sygnalizowanie ich razem** za pomocą kill na przykład.\
 Możliwe jest również **grupowanie procesów w sesje**. Gdy proces rozpoczyna sesję (`setsid(2)`), procesy potomne są umieszczane w sesji, chyba że rozpoczną własną sesję.
 
-Koalicja to inny sposób grupowania procesów w Darwin. Proces dołączający do koalicji pozwala mu uzyskać dostęp do zasobów puli, dzieląc księgę rachunkową lub stawiając czoła Jetsamowi. Koalicje mają różne role: Lider, Usługa XPC, Rozszerzenie.
+Koalicja to inny sposób grupowania procesów w Darwin. Proces dołączający do koalicji pozwala mu uzyskać dostęp do zasobów puli, dzieląc się księgą lub stawiając czoła Jetsam. Koalicje mają różne role: Lider, usługa XPC, Rozszerzenie.
 
-### Poświadczenia i persony
+### Uprawnienia i personae
 
-Każdy proces posiada **poświadczenia**, które **identyfikują jego uprawnienia** w systemie. Każdy proces będzie miał jedno podstawowe `uid` i jedno podstawowe `gid` (choć może należeć do kilku grup).\
-Możliwa jest również zmiana identyfikatora użytkownika i grupy, jeśli plik binarny ma ustawiony bit `setuid/setgid`.\
-Istnieje kilka funkcji do **ustawiania nowych uid/gid**.
+Każdy proces posiada **uprawnienia**, które **identyfikują jego przywileje** w systemie. Każdy proces będzie miał jeden główny `uid` i jeden główny `gid` (chociaż może należeć do kilku grup).\
+Możliwe jest również zmienienie identyfikatora użytkownika i grupy, jeśli binarka ma bit `setuid/setgid`.\
+Istnieje kilka funkcji do **ustawiania nowych uids/gids**.
 
-Wywołanie systemowe **`persona`** zapewnia **alternatywny** zestaw **poświadczeń**. Przyjęcie persony zakłada jego uid, gid i przynależności do grup **jednocześnie**. W [**kodzie źródłowym**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) można znaleźć strukturę:
+Wywołanie systemowe **`persona`** zapewnia **alternatywny** zestaw **uprawnień**. Przyjęcie persony zakłada jej uid, gid i przynależności grupowe **jednocześnie**. W [**kodzie źródłowym**](https://github.com/apple/darwin-xnu/blob/main/bsd/sys/persona.h) można znaleźć strukturę:
 ```c
 struct kpersona_info { uint32_t persona_info_version;
 uid_t    persona_id; /* overlaps with UID */
@@ -71,32 +71,32 @@ char     persona_name[MAXLOGNAME + 1];
 ```
 ## Podstawowe informacje o wątkach
 
-1. **Wątki POSIX (pthreads):** macOS obsługuje wątki POSIX (`pthreads`), które są częścią standardowego interfejsu programowania wątków dla języków C/C++. Implementacja pthreads w macOS znajduje się w `/usr/lib/system/libsystem_pthread.dylib` i pochodzi z publicznie dostępnego projektu `libpthread`. Ta biblioteka dostarcza niezbędne funkcje do tworzenia i zarządzania wątkami.
-2. **Tworzenie wątków:** Funkcja `pthread_create()` służy do tworzenia nowych wątków. Wewnętrznie ta funkcja wywołuje `bsdthread_create()`, które jest wywołaniem systemowym na niższym poziomie specyficznym dla jądra XNU (jądro, na którym opiera się macOS). To wywołanie systemowe przyjmuje różne flagi pochodzące z `pthread_attr` (atrybuty), które określają zachowanie wątku, w tym polityki harmonogramowania i rozmiar stosu.
-* **Domyślny rozmiar stosu:** Domyślny rozmiar stosu dla nowych wątków to 512 KB, co jest wystarczające dla typowych operacji, ale może być dostosowane za pomocą atrybutów wątku, jeśli potrzebna jest większa lub mniejsza przestrzeń.
+1. **Wątki POSIX (pthreads):** macOS obsługuje wątki POSIX (`pthreads`), które są częścią standardowego API wątków dla C/C++. Implementacja pthreads w macOS znajduje się w `/usr/lib/system/libsystem_pthread.dylib`, która pochodzi z publicznie dostępnego projektu `libpthread`. Ta biblioteka zapewnia niezbędne funkcje do tworzenia i zarządzania wątkami.
+2. **Tworzenie wątków:** Funkcja `pthread_create()` jest używana do tworzenia nowych wątków. Wewnątrz ta funkcja wywołuje `bsdthread_create()`, która jest wywołaniem systemowym na niższym poziomie specyficznym dla jądra XNU (na którym oparty jest macOS). To wywołanie systemowe przyjmuje różne flagi pochodzące z `pthread_attr` (atrybuty), które określają zachowanie wątku, w tym polityki planowania i rozmiar stosu.
+* **Domyślny rozmiar stosu:** Domyślny rozmiar stosu dla nowych wątków wynosi 512 KB, co jest wystarczające dla typowych operacji, ale może być dostosowane za pomocą atrybutów wątku, jeśli potrzebna jest większa lub mniejsza przestrzeń.
 3. **Inicjalizacja wątku:** Funkcja `__pthread_init()` jest kluczowa podczas konfiguracji wątku, wykorzystując argument `env[]` do analizy zmiennych środowiskowych, które mogą zawierać szczegóły dotyczące lokalizacji i rozmiaru stosu.
 
-#### Zakończenie wątku w macOS
+#### Zakończenie wątków w macOS
 
-1. **Zamykanie wątków:** Wątki są zazwyczaj zamykane poprzez wywołanie `pthread_exit()`. Ta funkcja pozwala wątkowi zakończyć się w sposób czysty, wykonując niezbędne czyszczenie i umożliwiając wątkowi przesłanie wartości zwrotnej do ewentualnych wątków dołączających.
-2. **Czyszczenie wątku:** Po wywołaniu `pthread_exit()`, wywoływana jest funkcja `pthread_terminate()`, która zajmuje się usuwaniem wszystkich powiązanych struktur wątku. Dezalokuje porty wątków Mach (Mach to podsystem komunikacyjny w jądrze XNU) i wywołuje `bsdthread_terminate`, wywołanie systemowe, które usuwa struktury na poziomie jądra związane z wątkiem.
+1. **Zakończenie wątków:** Wątki są zazwyczaj kończone przez wywołanie `pthread_exit()`. Ta funkcja pozwala wątkowi na czyste zakończenie, wykonując niezbędne czynności porządkowe i umożliwiając wątkowi przesłanie wartości zwrotnej do wszelkich oczekujących.
+2. **Czyszczenie wątku:** Po wywołaniu `pthread_exit()`, wywoływana jest funkcja `pthread_terminate()`, która zajmuje się usunięciem wszystkich powiązanych struktur wątku. Zwalnia porty wątków Mach (Mach to podsystem komunikacyjny w jądrze XNU) i wywołuje `bsdthread_terminate`, wywołanie systemowe, które usuwa struktury na poziomie jądra związane z wątkiem.
 
 #### Mechanizmy synchronizacji
 
-Aby zarządzać dostępem do współdzielonych zasobów i unikać wyścigów, macOS dostarcza kilka podstawowych mechanizmów synchronizacji. Są one kluczowe w środowiskach wielowątkowych, aby zapewnić integralność danych i stabilność systemu:
+Aby zarządzać dostępem do wspólnych zasobów i unikać warunków wyścigu, macOS zapewnia kilka prymitywów synchronizacji. Są one kluczowe w środowiskach wielowątkowych, aby zapewnić integralność danych i stabilność systemu:
 
-1. **Muteksy:**
-* **Zwykły muteks (Sygnatura: 0x4D555458):** Standardowy muteks o rozmiarze pamięci 60 bajtów (56 bajtów dla muteksu i 4 bajty dla sygnatury).
-* **Szybki muteks (Sygnatura: 0x4d55545A):** Podobny do zwykłego muteksu, ale zoptymalizowany dla szybszych operacji, również o rozmiarze 60 bajtów.
+1. **Mutexy:**
+* **Zwykły mutex (Podpis: 0x4D555458):** Standardowy mutex o rozmiarze pamięci 60 bajtów (56 bajtów dla mutexa i 4 bajty dla podpisu).
+* **Szybki mutex (Podpis: 0x4d55545A):** Podobny do zwykłego mutexa, ale zoptymalizowany do szybszych operacji, również 60 bajtów.
 2. **Zmienne warunkowe:**
-* Używane do oczekiwania na wystąpienie określonych warunków, o rozmiarze 44 bajty (40 bajtów plus 4-bajtowa sygnatura).
-* **Atrybuty zmiennej warunkowej (Sygnatura: 0x434e4441):** Atrybuty konfiguracyjne dla zmiennych warunkowych, o rozmiarze 12 bajtów.
-3. **Zmienna raz (Sygnatura: 0x4f4e4345):**
-* Zapewnia, że kawałek kodu inicjalizacji jest wykonywany tylko raz. Jej rozmiar to 12 bajtów.
-4. **Blokady odczytu-zapisu:**
-* Pozwalają na wielu czytelników lub jednego pisarza naraz, ułatwiając efektywny dostęp do danych współdzielonych.
-* **Blokada odczytu-zapisu (Sygnatura: 0x52574c4b):** O rozmiarze 196 bajtów.
-* **Atrybuty blokady odczytu-zapisu (Sygnatura: 0x52574c41):** Atrybuty dla blokad odczytu-zapisu, o rozmiarze 20 bajtów.
+* Używane do oczekiwania na wystąpienie określonych warunków, o rozmiarze 44 bajtów (40 bajtów plus 4-bajtowy podpis).
+* **Atrybuty zmiennych warunkowych (Podpis: 0x434e4441):** Atrybuty konfiguracyjne dla zmiennych warunkowych, o rozmiarze 12 bajtów.
+3. **Zmienna Once (Podpis: 0x4f4e4345):**
+* Zapewnia, że fragment kodu inicjalizacyjnego jest wykonywany tylko raz. Jej rozmiar wynosi 12 bajtów.
+4. **Blokady do odczytu i zapisu:**
+* Umożliwiają jednoczesny dostęp wielu czytelników lub jednego pisarza, ułatwiając efektywny dostęp do wspólnych danych.
+* **Blokada do odczytu i zapisu (Podpis: 0x52574c4b):** O rozmiarze 196 bajtów.
+* **Atrybuty blokady do odczytu i zapisu (Podpis: 0x52574c41):** Atrybuty dla blokad do odczytu i zapisu, o rozmiarze 20 bajtów.
 
 {% hint style="success" %}
 Ostatnie 4 bajty tych obiektów są używane do wykrywania przepełnień.
@@ -104,9 +104,9 @@ Ostatnie 4 bajty tych obiektów są używane do wykrywania przepełnień.
 
 ### Zmienne lokalne wątku (TLV)
 
-**Zmienne lokalne wątku (TLV)** w kontekście plików Mach-O (format plików wykonywalnych w macOS) służą do deklarowania zmiennych specyficznych dla **każdego wątku** w aplikacji wielowątkowej. Zapewnia to, że każdy wątek ma własną osobną instancję zmiennej, umożliwiając uniknięcie konfliktów i utrzymanie integralności danych bez konieczności użycia jawnie zaimplementowanych mechanizmów synchronizacji, takich jak muteksy.
+**Zmienne lokalne wątku (TLV)** w kontekście plików Mach-O (format dla plików wykonywalnych w macOS) są używane do deklarowania zmiennych, które są specyficzne dla **każdego wątku** w aplikacji wielowątkowej. Zapewnia to, że każdy wątek ma swoją własną oddzielną instancję zmiennej, co pozwala unikać konfliktów i utrzymywać integralność danych bez potrzeby stosowania jawnych mechanizmów synchronizacji, takich jak mutexy.
 
-W języku C i pokrewnych językach można zadeklarować zmienną lokalną wątku za pomocą słowa kluczowego **`__thread`**. Oto jak to działa na przykładzie:
+W języku C i pokrewnych można zadeklarować zmienną lokalną wątku, używając słowa kluczowego **`__thread`**. Oto jak to działa w twoim przykładzie:
 ```c
 cCopy code__thread int tlv_var;
 
@@ -114,74 +114,74 @@ void main (int argc, char **argv){
 tlv_var = 10;
 }
 ```
-To fragment definiuje `tlv_var` jako zmienną lokalną wątku. Każdy wątek uruchamiający ten kod będzie miał swoje własne `tlv_var`, a zmiany dokonywane przez jeden wątek w `tlv_var` nie wpłyną na `tlv_var` w innym wątku.
+Ten fragment definiuje `tlv_var` jako zmienną lokalną dla wątku. Każdy wątek uruchamiający ten kod będzie miał swoją własną `tlv_var`, a zmiany, które jeden wątek wprowadza do `tlv_var`, nie wpłyną na `tlv_var` w innym wątku.
 
-W pliku Mach-O dane związane z zmiennymi lokalnymi wątku są zorganizowane w określone sekcje:
+W binarnym pliku Mach-O dane związane z zmiennymi lokalnymi dla wątku są zorganizowane w określonych sekcjach:
 
-* **`__DATA.__thread_vars`**: Ta sekcja zawiera metadane dotyczące zmiennych lokalnych wątku, takie jak ich typy i status inicjalizacji.
-* **`__DATA.__thread_bss`**: Ta sekcja jest używana do zmiennych lokalnych wątku, które nie są jawnie zainicjowane. Jest to część pamięci przeznaczona na dane zainicjowane zerami.
+* **`__DATA.__thread_vars`**: Ta sekcja zawiera metadane dotyczące zmiennych lokalnych dla wątku, takie jak ich typy i status inicjalizacji.
+* **`__DATA.__thread_bss`**: Ta sekcja jest używana dla zmiennych lokalnych dla wątku, które nie są jawnie inicjalizowane. Jest to część pamięci zarezerwowanej dla danych z inicjalizacją zerową.
 
-Mach-O zapewnia również specyficzne API o nazwie **`tlv_atexit`** do zarządzania zmiennymi lokalnymi wątku podczas zakończenia wątku. To API pozwala **zarejestrować destruktory** - specjalne funkcje, które czyścić dane lokalne wątku po zakończeniu wątku.
+Mach-O zapewnia również specyficzne API o nazwie **`tlv_atexit`**, aby zarządzać zmiennymi lokalnymi dla wątku, gdy wątek kończy działanie. To API pozwala na **rejestrowanie destruktorów** — specjalnych funkcji, które sprzątają dane lokalne dla wątku, gdy wątek kończy działanie.
 
-### Priorytety wątków
+### Priorytety Wątków
 
-Zrozumienie priorytetów wątków polega na analizie sposobu, w jaki system operacyjny decyduje, które wątki mają być uruchamiane i kiedy. Ta decyzja jest wpływana przez poziom priorytetu przypisanego każdemu wątkowi. W systemach macOS i podobnych systemach Unixowych jest to obsługiwane za pomocą koncepcji takich jak `nice`, `renice` i klasy jakości usług (QoS).
+Zrozumienie priorytetów wątków polega na przyjrzeniu się, jak system operacyjny decyduje, które wątki uruchomić i kiedy. Ta decyzja jest wpływana przez poziom priorytetu przypisany do każdego wątku. W systemach macOS i podobnych do Uniksa, obsługiwane jest to za pomocą koncepcji takich jak `nice`, `renice` i klasy jakości usług (QoS).
 
 #### Nice i Renice
 
 1. **Nice:**
-* Wartość `nice` procesu to liczba, która wpływa na jego priorytet. Każdy proces ma wartość `nice` w zakresie od -20 (najwyższy priorytet) do 19 (najniższy priorytet). Domyślna wartość `nice` przy tworzeniu procesu to zazwyczaj 0.
-* Niższa wartość `nice` (bliżej -20) sprawia, że proces jest bardziej "samolubny", dając mu więcej czasu CPU w porównaniu do innych procesów z wyższymi wartościami `nice`.
+* Wartość `nice` procesu to liczba, która wpływa na jego priorytet. Każdy proces ma wartość nice w zakresie od -20 (najwyższy priorytet) do 19 (najniższy priorytet). Domyślna wartość nice, gdy proces jest tworzony, wynosi zazwyczaj 0.
+* Niższa wartość nice (bliżej -20) sprawia, że proces jest bardziej "egoistyczny", przydzielając mu więcej czasu CPU w porównaniu do innych procesów z wyższymi wartościami nice.
 2. **Renice:**
-* `renice` to polecenie używane do zmiany wartości `nice` już działającego procesu. Może to być używane do dynamicznej regulacji priorytetów procesów, zwiększając lub zmniejszając ich alokację czasu CPU na podstawie nowych wartości `nice`.
-* Na przykład, jeśli proces potrzebuje tymczasowo więcej zasobów CPU, można obniżyć jego wartość `nice` za pomocą `renice`.
+* `renice` to polecenie używane do zmiany wartości nice już działającego procesu. Może być używane do dynamicznego dostosowywania priorytetu procesów, zarówno zwiększając, jak i zmniejszając ich przydział czasu CPU na podstawie nowych wartości nice.
+* Na przykład, jeśli proces potrzebuje tymczasowo więcej zasobów CPU, możesz obniżyć jego wartość nice za pomocą `renice`.
 
-#### Klasy jakości usług (QoS)
+#### Klasy Jakości Usług (QoS)
 
-Klasy jakości usług są bardziej nowoczesnym podejściem do obsługi priorytetów wątków, zwłaszcza w systemach takich jak macOS, które obsługują **Grand Central Dispatch (GCD)**. Klasy QoS pozwalają programistom **kategoryzować** pracę na różne poziomy w zależności od ich ważności lub pilności. macOS automatycznie zarządza priorytetami wątków na podstawie tych klas QoS:
+Klasy QoS to nowocześniejsze podejście do zarządzania priorytetami wątków, szczególnie w systemach takich jak macOS, które wspierają **Grand Central Dispatch (GCD)**. Klasy QoS pozwalają programistom na **kategoryzowanie** pracy na różne poziomy w zależności od ich znaczenia lub pilności. macOS automatycznie zarządza priorytetami wątków na podstawie tych klas QoS:
 
-1. **Interaktywny użytkownika:**
-* Ta klasa jest przeznaczona dla zadań, które obecnie współdziałają z użytkownikiem lub wymagają natychmiastowych wyników, aby zapewnić dobrą jakość interfejsu użytkownika. Te zadania otrzymują najwyższy priorytet, aby zachować responsywność interfejsu (np. animacje lub obsługa zdarzeń).
-2. **Zainicjowany przez użytkownika:**
-* Zadania, które użytkownik inicjuje i oczekuje natychmiastowych wyników, takie jak otwarcie dokumentu lub kliknięcie przycisku wymagające obliczeń. Są to zadania o wysokim priorytecie, ale poniżej interaktywnego użytkownika.
-3. **Użyteczności:**
-* Te zadania są długotrwałe i zazwyczaj pokazują wskaźnik postępu (np. pobieranie plików, importowanie danych). Mają one niższy priorytet niż zadania zainicjowane przez użytkownika i nie muszą kończyć się natychmiastowo.
+1. **Interaktywne dla Użytkownika:**
+* Ta klasa jest przeznaczona dla zadań, które aktualnie wchodzą w interakcję z użytkownikiem lub wymagają natychmiastowych wyników, aby zapewnić dobrą jakość doświadczenia użytkownika. Te zadania mają najwyższy priorytet, aby utrzymać responsywność interfejsu (np. animacje lub obsługa zdarzeń).
+2. **Inicjowane przez Użytkownika:**
+* Zadania, które użytkownik inicjuje i oczekuje natychmiastowych wyników, takie jak otwieranie dokumentu lub klikanie przycisku, który wymaga obliczeń. Te mają wysoki priorytet, ale są poniżej interaktywnych dla użytkownika.
+3. **Użyteczność:**
+* Te zadania są długoterminowe i zazwyczaj pokazują wskaźnik postępu (np. pobieranie plików, importowanie danych). Mają niższy priorytet niż zadania inicjowane przez użytkownika i nie muszą kończyć się natychmiast.
 4. **Tło:**
-* Ta klasa jest przeznaczona dla zadań działających w tle i niewidocznych dla użytkownika. Mogą to być zadania takie jak indeksowanie, synchronizacja lub tworzenie kopii zapasowych. Mają one najniższy priorytet i minimalny wpływ na wydajność systemu.
+* Ta klasa jest przeznaczona dla zadań, które działają w tle i nie są widoczne dla użytkownika. Mogą to być zadania takie jak indeksowanie, synchronizacja lub kopie zapasowe. Mają najniższy priorytet i minimalny wpływ na wydajność systemu.
 
-Korzystając z klas QoS, programiści nie muszą zarządzać dokładnymi numerami priorytetów, ale skupiają się raczej na charakterze zadania, a system optymalizuje zasoby CPU odpowiednio.
+Korzystając z klas QoS, programiści nie muszą zarządzać dokładnymi numerami priorytetów, ale raczej koncentrować się na naturze zadania, a system optymalizuje zasoby CPU odpowiednio.
 
-Ponadto istnieją różne **polityki harmonogramowania wątków**, które pozwalają określić zestaw parametrów harmonogramowania, które scheduler będzie brał pod uwagę. Można to zrobić za pomocą `thread_policy_[set/get]`. Może to być przydatne w atakach na warunki wyścigowe.
+Ponadto istnieją różne **polityki planowania wątków**, które określają zestaw parametrów planowania, które planista weźmie pod uwagę. Można to zrobić za pomocą `thread_policy_[set/get]`. Może to być przydatne w atakach warunków wyścigu.
 
-## Nadużycia procesów w systemie MacOS
+## Nadużycie Procesów w MacOS
 
-System MacOS, podobnie jak każdy inny system operacyjny, zapewnia różnorodne metody i mechanizmy, dzięki którym **procesy mogą współdziałać, komunikować się i dzielić danymi**. Choć te techniki są niezbędne dla efektywnego funkcjonowania systemu, mogą być również wykorzystywane przez sprawców zagrożeń do **wykonywania działań o charakterze złośliwym**.
+MacOS, jak każdy inny system operacyjny, zapewnia różnorodne metody i mechanizmy, aby **procesy mogły wchodzić w interakcje, komunikować się i dzielić danymi**. Chociaż te techniki są niezbędne do efektywnego funkcjonowania systemu, mogą być również nadużywane przez aktorów zagrożeń do **przeprowadzania złośliwych działań**.
 
-### Wstrzykiwanie bibliotek
+### Wstrzykiwanie Bibliotek
 
-Wstrzykiwanie bibliotek to technika, w której atakujący **zmusza proces do załadowania złośliwej biblioteki**. Po wstrzyknięciu biblioteka działa w kontekście procesu docelowego, zapewniając atakującemu takie same uprawnienia i dostęp jak proces.
+Wstrzykiwanie bibliotek to technika, w której atakujący **zmusza proces do załadowania złośliwej biblioteki**. Po wstrzyknięciu biblioteka działa w kontekście docelowego procesu, dając atakującemu te same uprawnienia i dostęp, co proces.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Hakowanie funkcji
+### Hookowanie Funkcji
 
-Hakowanie funkcji polega na **przechwytywaniu wywołań funkcji** lub komunikatów w kodzie oprogramowania. Poprzez hakowanie funkcji atakujący może **modyfikować zachowanie** procesu, obserwować wrażliwe dane lub nawet uzyskać kontrolę nad przepływem wykonania.
+Hookowanie funkcji polega na **przechwytywaniu wywołań funkcji** lub wiadomości w kodzie oprogramowania. Poprzez hookowanie funkcji, atakujący może **zmodyfikować zachowanie** procesu, obserwować wrażliwe dane lub nawet zyskać kontrolę nad przepływem wykonania.
 
 {% content-ref url="macos-function-hooking.md" %}
 [macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Komunikacja międzyprocesowa
+### Komunikacja Między Procesami
 
-Komunikacja międzyprocesowa (IPC) odnosi się do różnych metod, za pomocą których oddzielne procesy **dzielą się i wymieniają danymi**. Choć IPC jest podstawą wielu legalnych aplikacji, może być również nadużywane do omijania izolacji procesów, ujawniania wrażliwych informacji lub wykonywania nieautoryzowanych działań.
+Komunikacja między procesami (IPC) odnosi się do różnych metod, za pomocą których oddzielne procesy **dzielą się i wymieniają danymi**. Chociaż IPC jest fundamentalne dla wielu legalnych aplikacji, może być również nadużywane do podważania izolacji procesów, wycieku wrażliwych informacji lub wykonywania nieautoryzowanych działań.
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Electron
+### Wstrzykiwanie Aplikacji Electron
 
 Aplikacje Electron uruchamiane z określonymi zmiennymi środowiskowymi mogą być podatne na wstrzykiwanie procesów:
 
@@ -191,63 +191,64 @@ Aplikacje Electron uruchamiane z określonymi zmiennymi środowiskowymi mogą by
 
 ### Wstrzykiwanie Chromium
 
-Możliwe jest użycie flag `--load-extension` i `--use-fake-ui-for-media-stream` do przeprowadzenia **ataku typu man in the browser**, pozwalającego na kradzież naciśnięć klawiszy, ruchu, plików cookie, wstrzykiwanie skryptów na stronach...:
+Możliwe jest użycie flag `--load-extension` i `--use-fake-ui-for-media-stream`, aby przeprowadzić **atak typu man in the browser**, co pozwala na kradzież naciśnięć klawiszy, ruchu, ciasteczek, wstrzykiwanie skryptów na stronach...:
 
 {% content-ref url="macos-chromium-injection.md" %}
 [macos-chromium-injection.md](macos-chromium-injection.md)
 {% endcontent-ref %}
 
-### Brudne NIB
+### Brudny NIB
 
-Pliki NIB **definiują elementy interfejsu użytkownika (UI)** i ich interakcje w ramach aplikacji. Jednak mogą **wykonywać dowolne polecenia** i **Gatekeeper nie blokuje** już uruchomionej aplikacji przed ponownym uruchomieniem, jeśli **plik NIB zostanie zmodyfikowany**. Dlatego mogą być one wykorzystane do uruchamiania dowolnych programów:
+Pliki NIB **definiują elementy interfejsu użytkownika (UI)** i ich interakcje w aplikacji. Mogą jednak **wykonywać dowolne polecenia** i **Gatekeeper nie zatrzymuje** już uruchomionej aplikacji przed ponownym uruchomieniem, jeśli **plik NIB jest zmodyfikowany**. Dlatego mogą być używane do uruchamiania dowolnych programów w celu wykonania dowolnych poleceń:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Java
+### Wstrzykiwanie Aplikacji Java
 
-Możliwe jest nadużycie pewnych możliwości Javy (takich jak zmienna środowiskowa **`_JAVA_OPTS`**) do zmuszenia aplikacji Javy do wykonania **dowolnego kodu/polecenia**.
+Możliwe jest nadużycie niektórych możliwości Javy (takich jak zmienna środowiskowa **`_JAVA_OPTS`**), aby sprawić, że aplikacja Java wykona **dowolny kod/polecenia**.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji .Net
+### Wstrzykiwanie Aplikacji .Net
 
-Możliwe jest wstrzykiwanie kodu do aplikacji .Net poprzez **nadużycie funkcjonalności debugowania .Net** (niechronionej przez zabezpieczenia macOS, takie jak utwardzanie czasu wykonania).
+Możliwe jest wstrzykiwanie kodu do aplikacji .Net poprzez **nadużycie funkcjonalności debugowania .Net** (niechronionej przez zabezpieczenia macOS, takie jak wzmocnienie czasu wykonania).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Perl
+### Wstrzykiwanie Perl
 
-Sprawdź różne opcje, aby skrypt Perl mógł wykonać dowolny kod w:
+Sprawdź różne opcje, aby sprawić, że skrypt Perl wykona dowolny kod w:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Wstrzykiwanie aplikacji Ruby
+### Wstrzykiwanie Ruby
 
-Możliwe jest również nadużycie zmiennych środowiskowych Ruby do wykonania dowolnych skryptów:
+Możliwe jest również nadużycie zmiennych środowiskowych Ruby, aby sprawić, że dowolne skrypty wykonają dowolny kod:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
+
 ### Wstrzykiwanie Pythona
 
-Jeśli zmienna środowiskowa **`PYTHONINSPECT`** jest ustawiona, proces pythona przejdzie do interaktywnej konsoli pythona po zakończeniu działania. Można również użyć **`PYTHONSTARTUP`** do wskazania skryptu pythona do wykonania na początku sesji interaktywnej.\
-Należy jednak zauważyć, że skrypt **`PYTHONSTARTUP`** nie zostanie wykonany, gdy **`PYTHONINSPECT`** tworzy sesję interaktywną.
+Jeśli zmienna środowiskowa **`PYTHONINSPECT`** jest ustawiona, proces Pythona przejdzie do interfejsu CLI Pythona, gdy zakończy działanie. Możliwe jest również użycie **`PYTHONSTARTUP`**, aby wskazać skrypt Pythona do wykonania na początku interaktywnej sesji.\
+Należy jednak zauważyć, że skrypt **`PYTHONSTARTUP`** nie zostanie wykonany, gdy **`PYTHONINSPECT`** utworzy interaktywną sesję.
 
-Inne zmienne środowiskowe, takie jak **`PYTHONPATH`** i **`PYTHONHOME`**, mogą również być przydatne do wykonania dowolnego kodu za pomocą polecenia pythona.
+Inne zmienne środowiskowe, takie jak **`PYTHONPATH`** i **`PYTHONHOME`**, mogą być również przydatne do wykonania polecenia Pythona, które wykona dowolny kod.
 
-Należy pamiętać, że pliki wykonywalne skompilowane przy użyciu **`pyinstaller`** nie będą korzystać z tych zmiennych środowiskowych, nawet jeśli są uruchamiane przy użyciu osadzonego pythona.
+Należy zauważyć, że pliki wykonywalne skompilowane za pomocą **`pyinstaller`** nie będą używać tych zmiennych środowiskowych, nawet jeśli działają przy użyciu osadzonego Pythona.
 
 {% hint style="danger" %}
-Ogólnie rzecz biorąc, nie udało mi się znaleźć sposobu na zmuszenie pythona do wykonania dowolnego kodu poprzez nadużycie zmiennych środowiskowych.\
-Jednak większość osób instaluje pythona za pomocą **Hombrew**, który zainstaluje pythona w **zapisywalnej lokalizacji** dla domyślnego użytkownika admina. Możesz go przejąć używając na przykład:
+Ogólnie nie mogłem znaleźć sposobu, aby zmusić Pythona do wykonania dowolnego kodu, nadużywając zmiennych środowiskowych.\
+Jednak większość ludzi instaluje Pythona za pomocą **Homebrew**, co zainstaluje Pythona w **zapisywalnej lokalizacji** dla domyślnego użytkownika administracyjnego. Możesz to przejąć za pomocą czegoś takiego:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -257,42 +258,42 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-Nawet **root** uruchomi ten kod podczas uruchamiania pythona.
+Even **root** will run this code when running python.
 {% endhint %}
 
 ## Wykrywanie
 
-### Tarcza
+### Shield
 
-[**Tarcza**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) to aplikacja typu open source, która może **wykrywać i blokować działania związane z wstrzykiwaniem procesów**:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) to aplikacja open source, która może **wykrywać i blokować działania związane z wstrzykiwaniem procesów**:
 
-* Korzystanie z **Zmiennych Środowiskowych**: Będzie monitorować obecność dowolnej z następujących zmiennych środowiskowych: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** oraz **`ELECTRON_RUN_AS_NODE`**
-* Korzystanie z wywołań **`task_for_pid`**: Aby znaleźć, kiedy jeden proces chce uzyskać **port zadania innego**, co pozwala na wstrzyknięcie kodu do procesu.
-* Parametry aplikacji **Electron**: Ktoś może użyć argumentów wiersza poleceń **`--inspect`**, **`--inspect-brk`** oraz **`--remote-debugging-port`** do uruchomienia aplikacji Electron w trybie debugowania, co umożliwia wstrzyknięcie kodu do niej.
-* Korzystanie z **symlinków** lub **hardlinków**: Zazwyczaj najczęstszym nadużyciem jest **umieszczenie linku z uprawnieniami naszego użytkownika** i **skierowanie go do lokalizacji o wyższych uprawnieniach**. Wykrycie jest bardzo proste zarówno dla hardlinków, jak i symlinków. Jeśli proces tworzący link ma **inne poziomy uprawnień** niż plik docelowy, tworzymy **alert**. Niestety w przypadku symlinków blokowanie nie jest możliwe, ponieważ nie mamy informacji o miejscu docelowym linku przed jego utworzeniem. Jest to ograniczenie frameworka EndpointSecuriy firmy Apple.
+* Używając **zmiennych środowiskowych**: Będzie monitorować obecność którejkolwiek z następujących zmiennych środowiskowych: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** i **`ELECTRON_RUN_AS_NODE`**
+* Używając wywołań **`task_for_pid`**: Aby znaleźć, kiedy jeden proces chce uzyskać **port zadania innego**, co pozwala na wstrzykiwanie kodu do procesu.
+* **Parametry aplikacji Electron**: Ktoś może użyć argumentów wiersza poleceń **`--inspect`**, **`--inspect-brk`** i **`--remote-debugging-port`**, aby uruchomić aplikację Electron w trybie debugowania, a tym samym wstrzyknąć do niej kod.
+* Używając **symlinków** lub **hardlinków**: Typowo najczęstszym nadużyciem jest **umieszczenie linku z naszymi uprawnieniami**, i **wskazanie go na lokalizację o wyższych uprawnieniach**. Wykrywanie jest bardzo proste zarówno dla hardlinków, jak i symlinków. Jeśli proces tworzący link ma **inny poziom uprawnień** niż plik docelowy, tworzymy **alert**. Niestety w przypadku symlinków blokowanie nie jest możliwe, ponieważ nie mamy informacji o docelowym miejscu linku przed jego utworzeniem. To jest ograniczenie frameworka EndpointSecurity firmy Apple.
 
-### Wywołania dokonywane przez inne procesy
+### Wywołania wykonywane przez inne procesy
 
-W [**tym wpisie na blogu**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) można dowiedzieć się, jak można użyć funkcji **`task_name_for_pid`** do uzyskania informacji o innych **procesach wstrzykujących kod w proces** i uzyskania informacji o tym innym procesie.
+W [**tym wpisie na blogu**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) można znaleźć, jak można użyć funkcji **`task_name_for_pid`**, aby uzyskać informacje o innych **procesach wstrzykujących kod do procesu** i następnie uzyskać informacje o tym innym procesie.
 
-Należy zauważyć, że aby wywołać tę funkcję, musisz być **tym samym uid** co proces uruchamiający lub **root** (i zwraca informacje o procesie, a nie sposób wstrzyknięcia kodu).
+Zauważ, że aby wywołać tę funkcję, musisz być **tym samym uid**, co ten, który uruchamia proces lub **root** (i zwraca informacje o procesie, a nie sposób wstrzykiwania kodu).
 
-## Odnośniki
+## Odniesienia
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 {% hint style="success" %}
-Naucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

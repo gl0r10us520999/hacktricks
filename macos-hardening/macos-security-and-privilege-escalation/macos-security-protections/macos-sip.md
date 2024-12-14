@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 * **/sbin**
 * **/usr**
 
-Zasady regulujące zachowanie SIP są zdefiniowane w pliku konfiguracyjnym znajdującym się w **`/System/Library/Sandbox/rootless.conf`**. W tym pliku ścieżki, które są poprzedzone gwiazdką (\*), są oznaczone jako wyjątki od w przeciwnym razie surowych ograniczeń SIP.
+Zasady regulujące zachowanie SIP są zdefiniowane w pliku konfiguracyjnym znajdującym się w **`/System/Library/Sandbox/rootless.conf`**. W tym pliku ścieżki, które są poprzedzone znakiem gwiazdki (\*), są oznaczone jako wyjątki od w przeciwnym razie surowych ograniczeń SIP.
 
 Rozważ poniższy przykład:
 ```javascript
@@ -52,7 +52,7 @@ Tutaj flaga **`restricted`** wskazuje, że katalog `/usr/libexec` jest chroniony
 Ponadto, jeśli plik zawiera atrybut **`com.apple.rootless`** jako rozszerzony **atrybut**, ten plik również będzie **chroniony przez SIP**.
 
 {% hint style="success" %}
-Zauważ, że **Sandbox** hook **`hook_vnode_check_setextattr`** zapobiega wszelkim próbom modyfikacji rozszerzonego atrybutu **`com.apple.rootless`.**
+Zauważ, że hak **Sandbox** **`hook_vnode_check_setextattr`** zapobiega wszelkim próbom modyfikacji rozszerzonego atrybutu **`com.apple.rootless`.**
 {% endhint %}
 
 **SIP ogranicza również inne działania roota** takie jak:
@@ -62,7 +62,7 @@ Zauważ, że **Sandbox** hook **`hook_vnode_check_setextattr`** zapobiega wszelk
 * Modyfikowanie zmiennych NVRAM
 * Umożliwianie debugowania jądra
 
-Opcje są przechowywane w zmiennej nvram jako bitflag (`csr-active-config` na Intel i `lp-sip0` jest odczytywane z uruchomionego drzewa urządzeń dla ARM). Flagi można znaleźć w kodzie źródłowym XNU w `csr.sh`:
+Opcje są przechowywane w zmiennej nvram jako bitflaga (`csr-active-config` na Intel i `lp-sip0` jest odczytywane z uruchomionego drzewa urządzeń dla ARM). Flagi można znaleźć w kodzie źródłowym XNU w `csr.sh`:
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
@@ -83,7 +83,7 @@ csrutil enable --without debug
 ### Inne Ograniczenia
 
 * **Zabrania ładowania niepodpisanych rozszerzeń jądra** (kexts), zapewniając, że tylko zweryfikowane rozszerzenia wchodzą w interakcję z jądrem systemu.
-* **Zapobiega debugowaniu** procesów systemowych macOS, chroniąc podstawowe komponenty systemu przed nieautoryzowanym dostępem i modyfikacją.
+* **Zapobiega debugowaniu** procesów systemowych macOS, chroniąc kluczowe komponenty systemu przed nieautoryzowanym dostępem i modyfikacją.
 * **Hamuje narzędzia** takie jak dtrace przed inspekcją procesów systemowych, dodatkowo chroniąc integralność działania systemu.
 
 [**Dowiedz się więcej o informacji SIP w tej prezentacji**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
@@ -100,7 +100,7 @@ csrutil enable --without debug
 * `com.apple.rootless.internal.installer-equivalent`: Nieograniczony dostęp do systemu plików
 * `com.apple.rootless.restricted-nvram-variables[.heritable]`: Pełny dostęp do NVRAM
 * `com.apple.rootless.storage.label`: Modyfikacja plików ograniczonych przez com.apple.rootless xattr z odpowiednią etykietą
-* `com.apple.rootless.volume.VM.label`: Utrzymanie VM swap na wolumenie
+* `com.apple.rootless.volume.VM.label`: Utrzymanie VM swap na woluminie
 
 ## Obejścia SIP
 
@@ -108,12 +108,12 @@ Obejście SIP umożliwia atakującemu:
 
 * **Dostęp do danych użytkownika**: Odczyt wrażliwych danych użytkownika, takich jak poczta, wiadomości i historia Safari ze wszystkich kont użytkowników.
 * **Obejście TCC**: Bezpośrednia manipulacja bazą danych TCC (Transparentność, Zgoda i Kontrola) w celu przyznania nieautoryzowanego dostępu do kamery internetowej, mikrofonu i innych zasobów.
-* **Ustanowienie trwałości**: Umieszczenie złośliwego oprogramowania w lokalizacjach chronionych przez SIP, co czyni je odpornym na usunięcie, nawet przez uprawnienia roota. Obejmuje to również możliwość manipulacji Narzędziem Usuwania Złośliwego Oprogramowania (MRT).
+* **Ustanowienie trwałości**: Umieszczenie złośliwego oprogramowania w lokalizacjach chronionych przez SIP, co czyni je odpornym na usunięcie, nawet przez uprawnienia root. Obejmuje to również możliwość manipulacji Narzędziem Usuwania Złośliwego Oprogramowania (MRT).
 * **Ładowanie rozszerzeń jądra**: Chociaż istnieją dodatkowe zabezpieczenia, obejście SIP upraszcza proces ładowania niepodpisanych rozszerzeń jądra.
 
 ### Pakiety Instalacyjne
 
-**Pakiety instalacyjne podpisane certyfikatem Apple** mogą omijać jego zabezpieczenia. Oznacza to, że nawet pakiety podpisane przez standardowych deweloperów będą blokowane, jeśli będą próbowały modyfikować katalogi chronione przez SIP.
+**Pakiety instalacyjne podpisane certyfikatem Apple** mogą omijać jego zabezpieczenia. Oznacza to, że nawet pakiety podpisane przez standardowych deweloperów będą blokowane, jeśli spróbują modyfikować katalogi chronione przez SIP.
 
 ### Nieistniejący plik SIP
 
@@ -135,21 +135,21 @@ Jeśli pakiet był instalowany z zamontowanego obrazu lub zewnętrznego dysku, *
 
 #### CVE-2021-30892 - Shrootless
 
-[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli lukę w mechanizmie Ochrony Integralności Systemu (SIP) macOS, nazwaną luką 'Shrootless'. Ta luka koncentruje się na demonie **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, które pozwala dowolnym jego procesom potomnym na obejście ograniczeń systemu plików SIP.
+[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli lukę w mechanizmie Ochrony Integralności Systemu (SIP) macOS, nazwaną luką 'Shrootless'. Ta luka koncentruje się na demonie **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, co pozwala dowolnym jego procesom potomnym na obejście ograniczeń systemu plików SIP.
 
 Demon **`system_installd`** zainstaluje pakiety, które zostały podpisane przez **Apple**.
 
 Badacze odkryli, że podczas instalacji pakietu podpisanego przez Apple (.pkg), **`system_installd`** **uruchamia** wszelkie **skrypty po instalacji** zawarte w pakiecie. Te skrypty są wykonywane przez domyślną powłokę, **`zsh`**, która automatycznie **uruchamia** polecenia z pliku **`/etc/zshenv`**, jeśli istnieje, nawet w trybie nieinteraktywnym. To zachowanie mogłoby być wykorzystane przez atakujących: tworząc złośliwy plik `/etc/zshenv` i czekając na **`system_installd`, aby wywołać `zsh`**, mogliby przeprowadzać dowolne operacje na urządzeniu.
 
-Ponadto odkryto, że **`/etc/zshenv`** mogłoby być używane jako ogólna technika ataku, nie tylko do obejścia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień roota. Plik ten mógłby być używany jako mechanizm trwałości, uruchamiając się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podwyższenia uprawnień. Jeśli użytkownik administracyjny podniesie uprawnienia do roota, używając `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, skutecznie podnosząc uprawnienia do roota.
+Ponadto odkryto, że **`/etc/zshenv`** mogłoby być używane jako ogólna technika ataku, nie tylko do obejścia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień root. Plik ten mógłby być używany jako mechanizm trwałości, uruchamiając się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podwyższenia uprawnień. Jeśli użytkownik administracyjny podniesie uprawnienia do roota za pomocą `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, skutecznie podnosząc uprawnienia do roota.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** mógł być nadal nadużywany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP w `/tmp`**. Problem polega na tym, że **`/tmp`** sam w sobie nie jest chroniony przez SIP, więc możliwe było **zamontowanie** **obrazu wirtualnego na nim**, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** obraz wirtualny, **odtworzył** wszystkie **foldery** i **dodał** **skrypt po instalacji** z **ładunkiem** do wykonania.
+W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** mógł być nadal nadużywany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP w `/tmp`**. Problem polega na tym, że **`/tmp` sam w sobie nie jest chroniony przez SIP**, więc możliwe było **zamontowanie** **obrazu wirtualnego na nim**, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** obraz wirtualny, **odtworzył** wszystkie **foldery** i **dodał** **skrypt po instalacji** z **ładunkiem** do wykonania.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Zidentyfikowano lukę, w której **`fsck_cs`** został wprowadzony w błąd do uszkodzenia kluczowego pliku, z powodu jego zdolności do śledzenia **linków symbolicznych**. Konkretnie, atakujący stworzyli link z _`/dev/diskX`_ do pliku `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Wykonanie **`fsck_cs`** na _`/dev/diskX`_ doprowadziło do uszkodzenia `Info.plist`. Integralność tego pliku jest kluczowa dla SIP (Ochrony Integralności Systemu) systemu operacyjnego, który kontroluje ładowanie rozszerzeń jądra. Po uszkodzeniu, zdolność SIP do zarządzania wykluczeniami jądra jest zagrożona.
+Zidentyfikowano lukę, w której **`fsck_cs`** został wprowadzony w błąd do uszkodzenia kluczowego pliku, z powodu jego zdolności do podążania za **linkami symbolicznymi**. Konkretnie, atakujący stworzyli link z _`/dev/diskX`_ do pliku `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Wykonanie **`fsck_cs`** na _`/dev/diskX`_ doprowadziło do uszkodzenia `Info.plist`. Integralność tego pliku jest kluczowa dla SIP (Ochrony Integralności Systemu) systemu operacyjnego, który kontroluje ładowanie rozszerzeń jądra. Po uszkodzeniu, zdolność SIP do zarządzania wykluczeniami jądra jest zagrożona.
 
 Polecenia do wykorzystania tej luki to:
 ```bash
@@ -158,7 +158,7 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-Wykorzystanie tej luki ma poważne konsekwencje. Plik `Info.plist`, normalnie odpowiedzialny za zarządzanie uprawnieniami dla rozszerzeń jądra, staje się nieskuteczny. Obejmuje to niemożność dodania do czarnej listy niektórych rozszerzeń, takich jak `AppleHWAccess.kext`. W konsekwencji, gdy mechanizm kontrolny SIP jest uszkodzony, to rozszerzenie może być załadowane, co daje nieautoryzowany dostęp do odczytu i zapisu pamięci RAM systemu.
+The exploitation of this vulnerability has severe implications. The `Info.plist` file, normally responsible for managing permissions for kernel extensions, becomes ineffective. This includes the inability to blacklist certain extensions, such as `AppleHWAccess.kext`. Consequently, with the SIP's control mechanism out of order, this extension can be loaded, granting unauthorized read and write access to the system's RAM.
 
 #### [Montowanie nad folderami chronionymi przez SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -183,11 +183,11 @@ Ponadto, w `InstallESD.dmg` znajduje się `BaseSystem.dmg`, który służy jako 
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
-W tym wykładzie z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (który może omijać SIP) wykonuje skrypt **bash** i skrypt **perl**, które mogą być nadużywane za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
+W tym wystąpieniu z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (który może omijać SIP) wykonuje skrypt **bash** i skrypt **perl**, które mogą być nadużywane za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
-Jak [**szczegółowo opisano w tym poście na blogu**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), skrypt `postinstall` z pakietów `InstallAssistant.pkg` pozwalał na wykonanie:
+Jak [**szczegółowo opisano w tym wpisie na blogu**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), skrypt `postinstall` z pakietów `InstallAssistant.pkg` pozwalał na wykonanie:
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
@@ -207,13 +207,13 @@ W tym konkretnym przypadku, usługa XPC systemu znajdująca się w `/System/Libr
 
 Sealed System Snapshots to funkcja wprowadzona przez Apple w **macOS Big Sur (macOS 11)** jako część mechanizmu **System Integrity Protection (SIP)**, aby zapewnić dodatkową warstwę bezpieczeństwa i stabilności systemu. Są to zasadniczo wersje tylko do odczytu wolumenu systemowego.
 
-Oto bardziej szczegółowy opis:
+Oto bardziej szczegółowy przegląd:
 
 1. **Niemodyfikowalny system**: Sealed System Snapshots sprawiają, że wolumen systemowy macOS jest "niemodyfikowalny", co oznacza, że nie może być zmieniany. Zapobiega to wszelkim nieautoryzowanym lub przypadkowym zmianom w systemie, które mogłyby zagrozić bezpieczeństwu lub stabilności systemu.
 2. **Aktualizacje oprogramowania systemowego**: Gdy instalujesz aktualizacje lub ulepszenia macOS, macOS tworzy nowy zrzut systemu. Wolumen startowy macOS następnie używa **APFS (Apple File System)** do przełączenia się na ten nowy zrzut. Cały proces stosowania aktualizacji staje się bezpieczniejszy i bardziej niezawodny, ponieważ system zawsze może wrócić do poprzedniego zrzutu, jeśli coś pójdzie nie tak podczas aktualizacji.
 3. **Separacja danych**: W połączeniu z koncepcją separacji danych i wolumenu systemowego wprowadzoną w macOS Catalina, funkcja Sealed System Snapshot zapewnia, że wszystkie twoje dane i ustawienia są przechowywane na oddzielnym wolumenie "**Data**". Ta separacja sprawia, że twoje dane są niezależne od systemu, co upraszcza proces aktualizacji systemu i zwiększa bezpieczeństwo systemu.
 
-Pamiętaj, że te zrzuty są automatycznie zarządzane przez macOS i nie zajmują dodatkowego miejsca na twoim dysku, dzięki możliwościom współdzielenia przestrzeni APFS. Ważne jest również, aby zauważyć, że te zrzuty różnią się od **zrzutów Time Machine**, które są kopią zapasową całego systemu dostępną dla użytkownika.
+Pamiętaj, że te zrzuty są automatycznie zarządzane przez macOS i nie zajmują dodatkowego miejsca na twoim dysku, dzięki możliwościom współdzielenia przestrzeni APFS. Ważne jest również, aby zauważyć, że te zrzuty różnią się od **zrzutów Time Machine**, które są dostępne dla użytkownika kopie zapasowe całego systemu.
 
 ### Sprawdź zrzuty
 
@@ -260,7 +260,7 @@ W poprzednim wyjściu można zobaczyć, że **lokacje dostępne dla użytkownika
 
 Ponadto, **zrzut wolumenu systemowego macOS** jest zamontowany w `/` i jest **zabezpieczony** (podpisany kryptograficznie przez system operacyjny). Tak więc, jeśli SIP zostanie ominięty i zmodyfikowany, **system operacyjny nie uruchomi się więcej**.
 
-Możliwe jest również **zweryfikowanie, że pieczęć jest włączona** poprzez uruchomienie:
+Można również **zweryfikować, że pieczęć jest włączona** uruchamiając:
 ```bash
 csrutil authenticated-root status
 Authenticated Root status: enabled
@@ -279,8 +279,8 @@ Ucz się i ćwicz Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt=
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

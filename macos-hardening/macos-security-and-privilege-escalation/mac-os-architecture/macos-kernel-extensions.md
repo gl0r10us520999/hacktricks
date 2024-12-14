@@ -38,9 +38,9 @@ Oczywiście, jest to tak potężne, że **załadowanie rozszerzenia jądra** jes
 W Catalina wyglądało to tak: Interesujące jest to, że proces **weryfikacji** zachodzi w **userland**. Jednak tylko aplikacje z przyznaniem **`com.apple.private.security.kext-management`** mogą **zażądać od jądra załadowania rozszerzenia**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** cli **rozpoczyna** proces **weryfikacji** ładowania rozszerzenia
-* Będzie komunikować się z **`kextd`** za pomocą **usługi Mach**.
+* Będzie rozmawiać z **`kextd`**, wysyłając za pomocą **usługi Mach**.
 2. **`kextd`** sprawdzi kilka rzeczy, takich jak **podpis**
-* Będzie komunikować się z **`syspolicyd`**, aby **sprawdzić**, czy rozszerzenie może być **załadowane**.
+* Będzie rozmawiać z **`syspolicyd`**, aby **sprawdzić**, czy rozszerzenie może być **załadowane**.
 3. **`syspolicyd`** **poprosi** **użytkownika**, jeśli rozszerzenie nie zostało wcześniej załadowane.
 * **`syspolicyd`** przekaże wynik do **`kextd`**
 4. **`kextd`** w końcu będzie mógł **powiedzieć jądru, aby załadowało** rozszerzenie
@@ -72,22 +72,22 @@ W moim przypadku w macOS znalazłem go w:
 
 #### IMG4
 
-Format pliku IMG4 to format kontenerowy używany przez Apple w urządzeniach iOS i macOS do bezpiecznego **przechowywania i weryfikowania komponentów oprogramowania układowego** (takich jak **kernelcache**). Format IMG4 zawiera nagłówek i kilka tagów, które kapsułkują różne fragmenty danych, w tym rzeczywisty ładunek (tak jak jądro lub bootloader), podpis oraz zestaw właściwości manifestu. Format wspiera weryfikację kryptograficzną, pozwalając urządzeniu potwierdzić autentyczność i integralność komponentu oprogramowania układowego przed jego wykonaniem.
+Format pliku IMG4 to format kontenerowy używany przez Apple w swoich urządzeniach iOS i macOS do bezpiecznego **przechowywania i weryfikowania komponentów oprogramowania układowego** (takich jak **kernelcache**). Format IMG4 zawiera nagłówek i kilka tagów, które kapsułkują różne fragmenty danych, w tym rzeczywisty ładunek (tak jak jądro lub bootloader), podpis oraz zestaw właściwości manifestu. Format wspiera weryfikację kryptograficzną, pozwalając urządzeniu potwierdzić autentyczność i integralność komponentu oprogramowania układowego przed jego wykonaniem.
 
 Zwykle składa się z następujących komponentów:
 
-* **Payload (IM4P)**:
+* **Ładunek (IM4P)**:
 * Często skompresowany (LZFSE4, LZSS, …)
 * Opcjonalnie szyfrowany
 * **Manifest (IM4M)**:
 * Zawiera podpis
 * Dodatkowy słownik klucz/wartość
-* **Restore Info (IM4R)**:
-* Znany również jako APNonce
+* **Informacje o przywracaniu (IM4R)**:
+* Znane również jako APNonce
 * Zapobiega powtarzaniu niektórych aktualizacji
-* OPCJONALNE: Zwykle nie jest to znalezione
+* OPCJONALNE: Zwykle to nie jest znalezione
 
-Dekomprymuj Kernelcache:
+Dekompresuj Kernelcache:
 ```bash
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -101,7 +101,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 
 W [https://github.com/dortania/KdkSupportPkg/releases](https://github.com/dortania/KdkSupportPkg/releases) można znaleźć wszystkie zestawy debugowania jądra. Możesz je pobrać, zamontować, otworzyć za pomocą narzędzia [Suspicious Package](https://www.mothersruin.com/software/SuspiciousPackage/get.html), uzyskać dostęp do folderu **`.kext`** i **wyodrębnić go**.
 
-Sprawdź go pod kątem symboli za pomocą:
+Sprawdź to pod kątem symboli za pomocą:
 ```bash
 nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 ```
@@ -111,7 +111,7 @@ Czasami Apple wydaje **kernelcache** z **symbolami**. Możesz pobrać niektóre 
 
 Aby **wyodrębnić** pliki, zacznij od zmiany rozszerzenia z `.ipsw` na `.zip` i **rozpakuj** je.
 
-Po wyodrębnieniu firmware otrzymasz plik o nazwie: **`kernelcache.release.iphone14`**. Jest w formacie **IMG4**, możesz wyodrębnić interesujące informacje za pomocą:
+Po wyodrębnieniu firmware otrzymasz plik taki jak: **`kernelcache.release.iphone14`**. Jest w formacie **IMG4**, możesz wyodrębnić interesujące informacje za pomocą:
 
 [**pyimg4**](https://github.com/m1stadev/PyIMG4)**:**
 

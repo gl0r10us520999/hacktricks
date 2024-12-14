@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## PID Reuse
 
-Kiedy **usługa XPC** w macOS sprawdza wywołany proces na podstawie **PID** a nie na podstawie **tokenu audytu**, jest podatna na atak ponownego użycia PID. Atak ten opiera się na **warunkach wyścigu**, w których **eksploit** będzie **wysyłał wiadomości do usługi XPC**, **nadużywając** funkcjonalności, a dopiero **po** tym wykona **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** z **dozwolonym** binarnym.
+Kiedy **usługa XPC** w macOS sprawdza wywoływany proces na podstawie **PID** a nie na podstawie **tokenu audytu**, jest podatna na atak ponownego użycia PID. Atak ten opiera się na **warunkach wyścigu**, w których **eksploit** będzie **wysyłać wiadomości do usługi XPC**, **nadużywając** funkcjonalności, a następnie wykonując **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** z **dozwolonym** binarnym.
 
 Ta funkcja sprawi, że **dozwolona binarna** przejmie PID, ale **złośliwa wiadomość XPC** zostanie wysłana tuż przed tym. Więc, jeśli usługa **XPC** **używa** **PID** do **uwierzytelnienia** nadawcy i sprawdza go **PO** wykonaniu **`posix_spawn`**, pomyśli, że pochodzi z **autoryzowanego** procesu.
 
@@ -30,7 +30,7 @@ Na przykład w tym obrazie (pochodzącym z odniesienia):
 
 Sprawdź ten przykład eksploitu (ponownie, pochodzący z odniesienia), aby zobaczyć 2 części eksploitu:
 
-* Jedna, która **generuje kilka forków**
+* Jeden, który **generuje kilka forków**
 * **Każdy fork** **wyśle** **ładunek** do usługi XPC, wykonując **`posix_spawn`** tuż po wysłaniu wiadomości.
 
 {% hint style="danger" %}

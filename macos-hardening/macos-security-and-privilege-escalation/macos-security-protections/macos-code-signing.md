@@ -51,14 +51,14 @@ char data[];
 } CS_GenericBlob
 __attribute__ ((aligned(1)));
 ```
-Powszechnie zawarte bloby to Code Directory, Requirements i Entitlements oraz Cryptographic Message Syntax (CMS).\
-Ponadto, zauważ, że dane zakodowane w blobach są zakodowane w **Big Endian.**
+Common blobs contained are Code Directory, Requirements and Entitlements and a Cryptographic Message Syntax (CMS).\
+Moreover, note how the data encoded in the blobs is encoded in **Big Endian.**
 
-Ponadto, podpisy mogą być odłączane od binarnych plików i przechowywane w `/var/db/DetachedSignatures` (używane przez iOS).
+Moreover, podpisy mogą być odłączone od binarnych i przechowywane w `/var/db/DetachedSignatures` (używane przez iOS).
 
 ## Code Directory Blob
 
-Możliwe jest znalezienie deklaracji [Code Directory Blob w kodzie](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
+It's possible to find the declaration of the [Code Directory Blob in the code](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104):
 ```c
 typedef struct __CodeDirectory {
 uint32_t magic;                                 /* magic number (CSMAGIC_CODEDIRECTORY) */
@@ -116,7 +116,7 @@ __attribute__ ((aligned(1)));
 ```
 Zauważ, że istnieją różne wersje tej struktury, w których starsze mogą zawierać mniej informacji.
 
-## Signing Code Pages
+## Strony podpisu kodu
 
 Haszowanie pełnego binarnego pliku byłoby nieefektywne, a nawet bezużyteczne, jeśli jest on ładowany w pamięci tylko częściowo. Dlatego podpis kodu jest w rzeczywistości haszem haszy, gdzie każda strona binarna jest haszowana indywidualnie.\
 W rzeczywistości, w poprzednim kodzie **Code Directory** możesz zobaczyć, że **rozmiar strony jest określony** w jednym z jego pól. Co więcej, jeśli rozmiar binarnego pliku nie jest wielokrotnością rozmiaru strony, pole **CodeLimit** określa, gdzie kończy się podpis.
@@ -157,17 +157,17 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Entitlements Blob
 
-Zauważ, że aplikacje mogą również zawierać **blob uprawnień**, w którym zdefiniowane są wszystkie uprawnienia. Co więcej, niektóre binaria iOS mogą mieć swoje uprawnienia określone w specjalnym slocie -7 (zamiast w specjalnym slocie -5 uprawnień).
+Zauważ, że aplikacje mogą również zawierać **blob uprawnień**, w którym zdefiniowane są wszystkie uprawnienia. Co więcej, niektóre binaria iOS mogą mieć swoje uprawnienia określone w specjalnym slocie -7 (zamiast w specjalnym slocie -5 dla uprawnień).
 
 ## Special Slots
 
-Aplikacje MacOS nie mają wszystkiego, co potrzebne do wykonania wewnątrz binarnego, ale korzystają również z **zewnętrznych zasobów** (zwykle wewnątrz **bundla** aplikacji). Dlatego w binarnym znajdują się pewne sloty, które będą zawierać hashe niektórych interesujących zewnętrznych zasobów, aby sprawdzić, czy nie zostały zmodyfikowane.
+Aplikacje MacOS nie mają wszystkiego, co potrzebne do wykonania wewnątrz binarnego, ale korzystają również z **zasobów zewnętrznych** (zwykle wewnątrz **bundla** aplikacji). Dlatego w binarnym znajdują się pewne sloty, które będą zawierać hashe niektórych interesujących zasobów zewnętrznych, aby sprawdzić, czy nie zostały zmodyfikowane.
 
-W rzeczywistości można zobaczyć w strukturach Katalogu Kodów parametr zwany **`nSpecialSlots`**, który wskazuje liczbę specjalnych slotów. Nie ma slotu specjalnego 0, a najczęstsze z nich (od -1 do -6) to:
+W rzeczywistości można zobaczyć w strukturach Code Directory parametr zwany **`nSpecialSlots`**, który wskazuje liczbę specjalnych slotów. Nie ma slotu specjalnego 0, a najczęstsze z nich (od -1 do -6) to:
 
 * Hash `info.plist` (lub ten wewnątrz `__TEXT.__info__plist`).
-* Hash Wymagań
-* Hash Katalogu Zasobów (hash pliku `_CodeSignature/CodeResources` wewnątrz bundla).
+* Hash wymagań
+* Hash katalogu zasobów (hash pliku `_CodeSignature/CodeResources` wewnątrz bundla).
 * Specyficzny dla aplikacji (niewykorzystany)
 * Hash uprawnień
 * Tylko podpisy kodu DMG
@@ -175,7 +175,7 @@ W rzeczywistości można zobaczyć w strukturach Katalogu Kodów parametr zwany 
 
 ## Code Signing Flags
 
-Każdy proces ma powiązany bitmaskę znaną jako `status`, która jest inicjowana przez jądro, a niektóre z nich mogą być nadpisane przez **podpis kodu**. Te flagi, które mogą być zawarte w podpisie kodu, są [zdefiniowane w kodzie](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Każdy proces ma powiązaną maskę bitową znaną jako `status`, która jest inicjowana przez jądro, a niektóre z nich mogą być nadpisane przez **podpis kodu**. Te flagi, które mogą być uwzględnione w podpisie kodu, są [zdefiniowane w kodzie](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -220,7 +220,7 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Zauważ, że funkcja [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) może również dynamicznie dodawać flagi `CS_EXEC_*` podczas uruchamiania wykonania.
+Zauważ, że funkcja [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) może również dynamicznie dodawać flagi `CS_EXEC_*` podczas uruchamiania.
 
 ## Wymagania dotyczące podpisu kodu
 
@@ -277,7 +277,7 @@ Możliwe jest uzyskanie dostępu do tych informacji oraz tworzenie lub modyfikow
 * **`SecRequirementCopy[Data/String]`**: Pobiera binarną reprezentację danych `SecRequirementRef`.
 * **`SecRequirementCreateGroup`**: Tworzy wymaganie dla członkostwa w grupie aplikacji.
 
-#### **Uzyskiwanie informacji o podpisywaniu kodu**
+#### **Uzyskiwanie informacji o podpisie kodu**
 
 * **`SecStaticCodeCreateWithPath`**: Inicjalizuje obiekt `SecStaticCodeRef` z ścieżki systemu plików do inspekcji podpisów kodu.
 * **`SecCodeCopySigningInformation`**: Uzyskuje informacje o podpisie z `SecCodeRef` lub `SecStaticCodeRef`.
@@ -301,14 +301,14 @@ Możliwe jest uzyskanie dostępu do tych informacji oraz tworzenie lub modyfikow
 * **`SecCodeGetTypeID`**: Zwraca identyfikator typu dla obiektów `SecCodeRef`.
 * **`SecRequirementGetTypeID`**: Uzyskuje CFTypeID `SecRequirementRef`.
 
-#### **Flagi i stałe podpisywania kodu**
+#### **Flagi i stałe podpisu kodu**
 
 * **`kSecCSDefaultFlags`**: Domyślne flagi używane w wielu funkcjach Security.framework do operacji podpisywania kodu.
 * **`kSecCSSigningInformation`**: Flaga używana do określenia, że informacje o podpisie powinny być pobrane.
 
 ## Egzekwowanie podpisu kodu
 
-**Jądro** to to, które **sprawdza podpis kodu** przed zezwoleniem na wykonanie kodu aplikacji. Ponadto, jednym ze sposobów na możliwość pisania i wykonywania nowego kodu w pamięci jest nadużycie JIT, jeśli `mprotect` jest wywoływane z flagą `MAP_JIT`. Należy zauważyć, że aplikacja potrzebuje specjalnego uprawnienia, aby móc to zrobić.
+**Jądro** to to, które **sprawdza podpis kodu** przed zezwoleniem na wykonanie kodu aplikacji. Co więcej, jednym ze sposobów na możliwość pisania i wykonywania nowego kodu w pamięci jest nadużycie JIT, jeśli `mprotect` jest wywoływane z flagą `MAP_JIT`. Należy zauważyć, że aplikacja potrzebuje specjalnego uprawnienia, aby móc to zrobić.
 
 ## `cs_blobs` & `cs_blob`
 
@@ -381,11 +381,11 @@ Ucz się i ćwicz Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt=
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

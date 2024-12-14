@@ -15,21 +15,21 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-## Pkg Podstawowe Informacje
+## Pkg Basic Information
 
 Pakiet **instalacyjny macOS** (znany również jako plik `.pkg`) to format pliku używany przez macOS do **dystrybucji oprogramowania**. Te pliki są jak **pudełko, które zawiera wszystko, co potrzebne do poprawnej instalacji i uruchomienia oprogramowania**.
 
 Sam plik pakietu jest archiwum, które zawiera **hierarchię plików i katalogów, które będą instalowane na docelowym** komputerze. Może również zawierać **skrypty** do wykonywania zadań przed i po instalacji, takie jak konfigurowanie plików konfiguracyjnych lub usuwanie starych wersji oprogramowania.
 
-### Hierarchia
+### Hierarchy
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Dystrybucja (xml)**: Dostosowania (tytuł, tekst powitalny…) oraz kontrole skryptów/instalacji
+* **Distribution (xml)**: Dostosowania (tytuł, tekst powitalny…) oraz kontrole skryptów/instalacji
 * **PackageInfo (xml)**: Informacje, wymagania instalacyjne, lokalizacja instalacji, ścieżki do skryptów do uruchomienia
 * **Bill of materials (bom)**: Lista plików do zainstalowania, zaktualizowania lub usunięcia z uprawnieniami do plików
-* **Payload (archiwum CPIO skompresowane gzip)**: Pliki do zainstalowania w `install-location` z PackageInfo
-* **Skrypty (archiwum CPIO skompresowane gzip)**: Skrypty przed i po instalacji oraz inne zasoby wyodrębnione do katalogu tymczasowego do wykonania.
+* **Payload (CPIO archive gzip compresses)**: Pliki do zainstalowania w `install-location` z PackageInfo
+* **Scripts (CPIO archive gzip compressed)**: Skrypty przed i po instalacji oraz inne zasoby wyodrębnione do katalogu tymczasowego do wykonania.
 
 ### Decompress
 ```bash
@@ -49,7 +49,7 @@ Aby zobaczyć zawartość instalatora bez ręcznego dekompresowania, możesz ró
 
 ## Podstawowe informacje o DMG
 
-Pliki DMG, czyli obrazy dysków Apple, to format plików używany przez macOS firmy Apple do obrazów dysków. Plik DMG to zasadniczo **montowalny obraz dysku** (zawiera własny system plików), który zawiera surowe dane blokowe, zazwyczaj skompresowane, a czasami szyfrowane. Gdy otwierasz plik DMG, macOS **montuje go tak, jakby był fizycznym dyskiem**, co pozwala na dostęp do jego zawartości.
+Pliki DMG, czyli obrazy dysków Apple, to format plików używany przez macOS firmy Apple do obrazów dysków. Plik DMG to w zasadzie **montowalny obraz dysku** (zawiera własny system plików), który zawiera surowe dane blokowe, zazwyczaj skompresowane, a czasami szyfrowane. Gdy otwierasz plik DMG, macOS **montuje go tak, jakby był fizycznym dyskiem**, co pozwala na dostęp do jego zawartości.
 
 {% hint style="danger" %}
 Zauważ, że instalatory **`.dmg`** obsługują **tak wiele formatów**, że w przeszłości niektóre z nich zawierające luki były wykorzystywane do uzyskania **wykonania kodu jądra**.
@@ -75,7 +75,7 @@ Jeśli skrypt przed lub po instalacji na przykład wykonuje się z **`/var/tmp/I
 
 ### AuthorizationExecuteWithPrivileges
 
-To jest [publiczna funkcja](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), którą kilka instalatorów i aktualizatorów wywoła, aby **wykonać coś jako root**. Ta funkcja akceptuje **ścieżkę** do **pliku**, który ma być **wykonany** jako parametr, jednak jeśli atakujący mógłby **zmodyfikować** ten plik, będzie w stanie **nadużyć** jego wykonania z uprawnieniami roota, aby **eskalować uprawnienia**.
+To jest [publiczna funkcja](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), którą kilka instalatorów i aktualizatorów wywołuje, aby **wykonać coś jako root**. Ta funkcja akceptuje **ścieżkę** do **pliku**, który ma być **wykonany** jako parametr, jednak jeśli atakujący mógłby **zmodyfikować** ten plik, będzie w stanie **nadużyć** jego wykonania z uprawnieniami roota, aby **eskalować uprawnienia**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges

@@ -9,19 +9,19 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
 
 ## **Wprowadzenie do x64**
 
-x64, znane również jako x86-64, to 64-bitowa architektura procesora, głównie używana w komputerach stacjonarnych i serwerach. Pochodzi z architektury x86 produkowanej przez Intel, a później przyjętej przez AMD pod nazwą AMD64, jest to dominująca architektura w komputerach osobistych i serwerach dzisiaj.
+x64, znana również jako x86-64, to 64-bitowa architektura procesora, głównie używana w komputerach stacjonarnych i serwerach. Pochodzi z architektury x86 produkowanej przez Intel, a później przyjętej przez AMD pod nazwą AMD64, jest to dominująca architektura w komputerach osobistych i serwerach dzisiaj.
 
 ### **Rejestry**
 
-x64 rozwija architekturę x86, oferując **16 rejestrów ogólnego przeznaczenia** oznaczonych jako `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, oraz `r8` do `r15`. Każdy z nich może przechowywać wartość **64-bitową** (8-bajtową). Te rejestry mają również 32-bitowe, 16-bitowe i 8-bitowe podrejestry dla zgodności i specyficznych zadań.
+x64 rozwija architekturę x86, oferując **16 rejestrów ogólnego przeznaczenia** oznaczonych jako `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, oraz `r8` do `r15`. Każdy z nich może przechowywać wartość **64-bitową** (8-bajtową). Te rejestry mają również podrejestry 32-bitowe, 16-bitowe i 8-bitowe dla zgodności i specyficznych zadań.
 
 1. **`rax`** - Tradycyjnie używany do **wartości zwracanych** z funkcji.
 2. **`rbx`** - Często używany jako **rejestr bazowy** dla operacji pamięci.
@@ -39,7 +39,7 @@ Konwencja wywołań x64 różni się w zależności od systemu operacyjnego. Na 
 * **Windows**: Pierwsze **cztery parametry** są przekazywane w rejestrach **`rcx`**, **`rdx`**, **`r8`** i **`r9`**. Dalsze parametry są umieszczane na stosie. Wartość zwracana znajduje się w **`rax`**.
 * **System V (powszechnie używany w systemach podobnych do UNIX)**: Pierwsze **sześć parametrów całkowitych lub wskaźnikowych** jest przekazywanych w rejestrach **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** i **`r9`**. Wartość zwracana również znajduje się w **`rax`**.
 
-Jeśli funkcja ma więcej niż sześć argumentów, **pozostałe będą przekazywane na stosie**. **RSP**, wskaźnik stosu, musi być **wyrównany do 16 bajtów**, co oznacza, że adres, na który wskazuje, musi być podzielny przez 16 przed jakimkolwiek wywołaniem. Oznacza to, że normalnie musielibyśmy upewnić się, że RSP jest odpowiednio wyrównany w naszym shellcode przed wywołaniem funkcji. Jednak w praktyce wywołania systemowe działają wiele razy, nawet jeśli ten wymóg nie jest spełniony.
+Jeśli funkcja ma więcej niż sześć argumentów, **pozostałe będą przekazywane na stosie**. **RSP**, wskaźnik stosu, musi być **wyrównany do 16 bajtów**, co oznacza, że adres, na który wskazuje, musi być podzielny przez 16 przed jakimkolwiek wywołaniem. Oznacza to, że normalnie musielibyśmy upewnić się, że RSP jest odpowiednio wyrównany w naszym shellcode przed wykonaniem wywołania funkcji. Jednak w praktyce wywołania systemowe działają wiele razy, nawet jeśli ten wymóg nie jest spełniony.
 
 ### Konwencja wywołań w Swift
 
@@ -49,9 +49,9 @@ Swift ma swoją własną **konwencję wywołań**, którą można znaleźć w [*
 
 Instrukcje x64 mają bogaty zestaw, zachowując zgodność z wcześniejszymi instrukcjami x86 i wprowadzając nowe.
 
-* **`mov`**: **Przenieś** wartość z jednego **rejestru** lub **lokacji pamięci** do drugiego.
+* **`mov`**: **Przenieś** wartość z jednego **rejestru** lub **lokacji pamięci** do innego.
 * Przykład: `mov rax, rbx` — Przenosi wartość z `rbx` do `rax`.
-* **`push`** i **`pop`**: Wstawiaj lub wyjmuj wartości z **stosu**.
+* **`push`** i **`pop`**: Wstawiaj lub wyjmuj wartości ze/na **stos**.
 * Przykład: `push rax` — Wstawia wartość w `rax` na stos.
 * Przykład: `pop rax` — Wyjmuje górną wartość ze stosu do `rax`.
 * **`add`** i **`sub`**: Operacje **dodawania** i **odejmowania**.
@@ -209,7 +209,7 @@ syscall
 ```
 {% endtab %}
 
-{% tab title="z użyciem stosu" %}
+{% tab title="ze stosem" %}
 ```armasm
 bits 64
 global _main
@@ -449,7 +449,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

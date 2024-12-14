@@ -31,7 +31,7 @@ W XNU, Mach jest **odpowiedzialny za wiele krytycznych operacji niskiego poziomu
 
 ### BSD
 
-Kernel XNU **zawiera** również znaczną ilość kodu pochodzącego z projektu **FreeBSD**. Ten kod **działa jako część jądra wraz z Machem**, w tej samej przestrzeni adresowej. Jednak kod FreeBSD w XNU może znacznie różnić się od oryginalnego kodu FreeBSD, ponieważ wymagane były modyfikacje, aby zapewnić jego zgodność z Machem. FreeBSD przyczynia się do wielu operacji jądra, w tym:
+Kernel XNU **zawiera** również znaczną ilość kodu pochodzącego z projektu **FreeBSD**. Ten kod **działa jako część jądra razem z Machem**, w tej samej przestrzeni adresowej. Jednak kod FreeBSD w XNU może znacznie różnić się od oryginalnego kodu FreeBSD, ponieważ wymagane były modyfikacje, aby zapewnić jego zgodność z Machem. FreeBSD przyczynia się do wielu operacji jądra, w tym:
 
 * Zarządzanie procesami
 * Obsługa sygnałów
@@ -40,7 +40,7 @@ Kernel XNU **zawiera** również znaczną ilość kodu pochodzącego z projektu 
 * Stos TCP/IP i gniazda
 * Zapora ogniowa i filtrowanie pakietów
 
-Zrozumienie interakcji między BSD a Machem może być skomplikowane, z powodu ich różnych ram koncepcyjnych. Na przykład, BSD używa procesów jako swojej podstawowej jednostki wykonawczej, podczas gdy Mach działa na podstawie wątków. Ta rozbieżność jest rozwiązywana w XNU poprzez **powiązanie każdego procesu BSD z zadaniem Mach**, które zawiera dokładnie jeden wątek Mach. Gdy używane jest wywołanie systemowe fork() w BSD, kod BSD w jądrze używa funkcji Mach do tworzenia struktury zadania i wątku.
+Zrozumienie interakcji między BSD a Machem może być skomplikowane, z powodu ich różnych ram koncepcyjnych. Na przykład, BSD używa procesów jako swojej podstawowej jednostki wykonawczej, podczas gdy Mach działa na podstawie wątków. Ta rozbieżność jest rozwiązywana w XNU poprzez **powiązanie każdego procesu BSD z zadaniem Mach**, które zawiera dokładnie jeden wątek Mach. Gdy używany jest wywołanie systemowe fork() w BSD, kod BSD w jądrze używa funkcji Mach do tworzenia struktury zadania i wątku.
 
 Ponadto, **Mach i BSD utrzymują różne modele bezpieczeństwa**: **model** bezpieczeństwa **Macha** oparty jest na **prawach portów**, podczas gdy model bezpieczeństwa BSD działa na podstawie **własności procesów**. Różnice między tymi dwoma modelami czasami prowadziły do lokalnych luk w podnoszeniu uprawnień. Oprócz typowych wywołań systemowych, istnieją również **pułapki Mach, które pozwalają programom w przestrzeni użytkownika na interakcję z jądrem**. Te różne elementy razem tworzą złożoną, hybrydową architekturę jądra macOS.
 

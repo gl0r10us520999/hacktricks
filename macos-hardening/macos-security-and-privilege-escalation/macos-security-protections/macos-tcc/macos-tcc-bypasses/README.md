@@ -10,7 +10,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -41,7 +41,7 @@ Możliwe jest **umieszczenie okna nad monitorem TCC**, aby użytkownik **zaakcep
 
 ### TCC Request by arbitrary name
 
-Atakujący może **tworzyć aplikacje o dowolnej nazwie** (np. Finder, Google Chrome...) w **`Info.plist`** i sprawić, że będą one żądały dostępu do chronionej lokalizacji TCC. Użytkownik pomyśli, że to legalna aplikacja żąda tego dostępu.\
+Napastnik może **tworzyć aplikacje o dowolnej nazwie** (np. Finder, Google Chrome...) w **`Info.plist`** i sprawić, że będzie żądać dostępu do chronionej lokalizacji TCC. Użytkownik pomyśli, że to legalna aplikacja żąda tego dostępu.\
 Co więcej, możliwe jest **usunięcie legalnej aplikacji z Docka i umieszczenie na nim fałszywej**, więc gdy użytkownik kliknie na fałszywą (która może używać tego samego ikony), może wywołać legalną, poprosić o uprawnienia TCC i uruchomić złośliwe oprogramowanie, sprawiając, że użytkownik uwierzy, że to legalna aplikacja żądała dostępu.
 
 <figure><img src="https://lh7-us.googleusercontent.com/Sh-Z9qekS_fgIqnhPVSvBRmGpCXCpyuVuTw0x5DLAIxc2MZsSlzBOP7QFeGo_fjMeCJJBNh82f7RnewW1aWo8r--JEx9Pp29S17zdDmiyGgps1hH9AGR8v240m5jJM8k0hovp7lm8ZOrbzv-RC8NwzbB8w=s2048" alt="" width="375"><figcaption></figcaption></figure>
@@ -70,7 +70,7 @@ Zauważ, że teraz, aby móc włączyć SSH, potrzebujesz **Pełnego dostępu do
 
 Atrybut **`com.apple.macl`** jest nadawany plikom, aby dać **pewnej aplikacji uprawnienia do jego odczytu.** Ten atrybut jest ustawiany, gdy **przeciągasz i upuszczasz** plik na aplikację lub gdy użytkownik **kliknie dwukrotnie** plik, aby otworzyć go w **domyślnej aplikacji**.
 
-Dlatego użytkownik mógłby **zarejestrować złośliwą aplikację** do obsługi wszystkich rozszerzeń i wywołać usługi uruchamiania, aby **otworzyć** dowolny plik (tak, aby złośliwy plik uzyskał dostęp do jego odczytu).
+Dlatego użytkownik mógłby **zarejestrować złośliwą aplikację** do obsługi wszystkich rozszerzeń i wywołać usługi uruchamiania, aby **otworzyć** dowolny plik (więc złośliwy plik uzyska dostęp do jego odczytu).
 
 ### iCloud
 
@@ -78,11 +78,11 @@ Uprawnienie **`com.apple.private.icloud-account-access`** umożliwia komunikacj�
 
 **iMovie** i **Garageband** miały to uprawnienie i inne, które to umożliwiały.
 
-Aby uzyskać więcej **informacji** na temat exploita do **uzyskania tokenów iCloud** z tego uprawnienia, sprawdź wykład: [**#OBTS v5.0: "Co się dzieje na twoim Macu, zostaje na iCloud Apple'a?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Aby uzyskać więcej **informacji** na temat eksploitu do **uzyskania tokenów icloud** z tego uprawnienia, sprawdź wykład: [**#OBTS v5.0: "Co się dzieje na twoim Macu, zostaje na iCloud Apple'a?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
-Aplikacja z uprawnieniem **`kTCCServiceAppleEvents`** będzie mogła **kontrolować inne aplikacje**. Oznacza to, że może być w stanie **nadużywać uprawnień przyznanych innym aplikacjom**.
+Aplikacja z uprawnieniem **`kTCCServiceAppleEvents`** będzie mogła **kontrolować inne aplikacje**. Oznacza to, że mogłaby **nadużywać uprawnień przyznanych innym aplikacjom**.
 
 Aby uzyskać więcej informacji na temat skryptów Apple, sprawdź:
 
@@ -133,7 +133,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 Demon **tccd** w przestrzeni użytkownika używa zmiennej **`HOME`** **env** do uzyskania dostępu do bazy danych użytkowników TCC z: **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
 Zgodnie z [tym postem na Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) i ponieważ demon TCC działa za pośrednictwem `launchd` w obrębie domeny bieżącego użytkownika, możliwe jest **kontrolowanie wszystkich zmiennych środowiskowych** przekazywanych do niego.\
-W ten sposób **atakujący mógłby ustawić zmienną środowiskową `$HOME`** w **`launchctl`**, aby wskazywała na **kontrolowany** **katalog**, **zrestartować** **demon TCC** i następnie **bezpośrednio zmodyfikować bazę danych TCC**, aby nadać sobie **wszystkie dostępne uprawnienia TCC** bez wywoływania żadnych komunikatów dla użytkownika końcowego.\
+W ten sposób **atakujący mógłby ustawić zmienną środowiskową `$HOME`** w **`launchctl`**, aby wskazywała na **kontrolowany** **katalog**, **zrestartować** **demona TCC** i następnie **bezpośrednio zmodyfikować bazę danych TCC**, aby nadać sobie **wszystkie dostępne uprawnienia TCC** bez wywoływania jakiegokolwiek komunikatu dla użytkownika końcowego.\
 PoC:
 ```bash
 # reset database just in case (no cheating!)
@@ -169,9 +169,9 @@ Notatki miały dostęp do lokalizacji chronionych przez TCC, ale gdy notatka jes
 
 ### CVE-2021-30782 - Translokacja
 
-Binarne `/usr/libexec/lsd` z biblioteką `libsecurity_translocate` miało uprawnienie `com.apple.private.nullfs_allow`, co pozwalało na utworzenie **nullfs** montażu i miało uprawnienie `com.apple.private.tcc.allow` z **`kTCCServiceSystemPolicyAllFiles`**, aby uzyskać dostęp do każdego pliku.
+Binarne `/usr/libexec/lsd` z biblioteką `libsecurity_translocate` miało uprawnienie `com.apple.private.nullfs_allow`, które pozwalało na utworzenie **nullfs** montażu i miało uprawnienie `com.apple.private.tcc.allow` z **`kTCCServiceSystemPolicyAllFiles`**, aby uzyskać dostęp do każdego pliku.
 
-Można było dodać atrybut kwarantanny do "Biblioteki", wywołać usługę XPC **`com.apple.security.translocation`**, a następnie mapować Bibliotekę do **`$TMPDIR/AppTranslocation/d/d/Library`**, gdzie wszystkie dokumenty w Bibliotece mogły być **dostępne**.
+Można było dodać atrybut kwarantanny do "Biblioteki", wywołać usługę XPC **`com.apple.security.translocation`**, a następnie mapowałoby to Bibliotekę do **`$TMPDIR/AppTranslocation/d/d/Library`**, gdzie wszystkie dokumenty w Bibliotece mogły być **dostępne**.
 
 ### CVE-2023-38571 - Muzyka i TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
@@ -184,8 +184,8 @@ To **`rename(a, b);`** zachowanie jest podatne na **Race Condition**, ponieważ 
 
 ### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-Jeśli **`SQLITE_SQLLOG_DIR="path/folder"`**, oznacza to zasadniczo, że **każda otwarta baza danych jest kopiowana do tej ścieżki**. W tym CVE kontrola ta została nadużyta do **zapisu** wewnątrz **bazy danych SQLite**, która ma być **otwarta przez proces z FDA bazą danych TCC**, a następnie nadużycie **`SQLITE_SQLLOG_DIR`** z **symlinkiem w nazwie pliku**, tak aby, gdy ta baza danych jest **otwarta**, użytkownik **TCC.db jest nadpisywany** otwartą.\
-**Więcej informacji** [**w opisie**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **i**[ **w wykładzie**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
+Jeśli **`SQLITE_SQLLOG_DIR="path/folder"`**, oznacza to zasadniczo, że **każda otwarta baza danych jest kopiowana do tej ścieżki**. W tym CVE kontrola ta została nadużyta do **zapisu** wewnątrz **bazy danych SQLite**, która ma być **otwarta przez proces z FDA bazą danych TCC**, a następnie nadużycie **`SQLITE_SQLLOG_DIR`** z **symlinkiem w nazwie pliku**, aby gdy ta baza danych jest **otwarta**, użytkownik **TCC.db jest nadpisywany** otwartą.\
+**Więcej informacji** [**w opisie**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **i**[ **w prezentacji**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
 
 ### **SQLITE\_AUTO\_TRACE**
 
@@ -230,7 +230,7 @@ To był atak w CVE: Na przykład, aby nadpisać `TCC.db` użytkownika, możemy:
 * sprawdzić, czy mieliśmy szczęście
 * jeśli nie, uruchomić ponownie od początku
 
-Więcej informacji w [https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html](https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html)
+Więcej informacji na [https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html](https://gergelykalman.com/lateralus-CVE-2023-32407-a-macos-tcc-bypass.html)
 
 {% hint style="danger" %}
 Teraz, jeśli spróbujesz użyć zmiennej środowiskowej `MTL_DUMP_PIPELINES_TO_JSON_FILE`, aplikacje nie uruchomią się
@@ -238,7 +238,7 @@ Teraz, jeśli spróbujesz użyć zmiennej środowiskowej `MTL_DUMP_PIPELINES_TO_
 
 ### Apple Remote Desktop
 
-Jako root możesz włączyć tę usługę, a **agent ARD będzie miał pełny dostęp do dysku**, co może być nadużywane przez użytkownika do skopiowania nowej **bazy danych użytkowników TCC**.
+Jako root możesz włączyć tę usługę, a **agent ARD będzie miał pełny dostęp do dysku**, co może być nadużywane przez użytkownika, aby skopiować nową **bazę danych użytkowników TCC**.
 
 ## Przez **NFSHomeDirectory**
 
@@ -259,15 +259,15 @@ Zauważ, że Apple używa ustawienia przechowywanego w profilu użytkownika w at
 
 1. Uzyskaj blob _csreq_ dla docelowej aplikacji.
 2. Zasiej fałszywy plik _TCC.db_ z wymaganym dostępem i blobem _csreq_.
-3. Eksportuj wpis usługi katalogowej użytkownika za pomocą [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
-4. Zmodyfikuj wpis usługi katalogowej, aby zmienić katalog domowy użytkownika.
-5. Importuj zmodyfikowany wpis usługi katalogowej za pomocą [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
+3. Eksportuj wpis usług katalogowych użytkownika za pomocą [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
+4. Zmodyfikuj wpis usług katalogowych, aby zmienić katalog domowy użytkownika.
+5. Importuj zmodyfikowany wpis usług katalogowych za pomocą [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
 6. Zatrzymaj _tccd_ użytkownika i zrestartuj proces.
 
 Drugi POC użył **`/usr/libexec/configd`**, który miał `com.apple.private.tcc.allow` z wartością `kTCCServiceSystemPolicySysAdminFiles`.\
-Możliwe było uruchomienie **`configd`** z opcją **`-t`**, atakujący mógł określić **niestandardowy pakiet do załadowania**. Dlatego exploit **zastępuje** metodę **`dsexport`** i **`dsimport`** zmiany katalogu domowego użytkownika za pomocą **wstrzyknięcia kodu configd**.
+Można było uruchomić **`configd`** z opcją **`-t`**, a atakujący mógł określić **niestandardowy pakiet do załadowania**. Dlatego exploit **zastępuje** metodę **`dsexport`** i **`dsimport`** zmiany katalogu domowego użytkownika za pomocą **wstrzyknięcia kodu configd**.
 
-Więcej informacji można znaleźć w [**oryginalnym raporcie**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
+Więcej informacji znajdziesz w [**oryginalnym raporcie**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
 
 ## Przez wstrzyknięcie procesu
 
@@ -286,13 +286,13 @@ Aplikacja `/System/Library/CoreServices/Applications/Directory Utility.app` mia�
 
 Aby uzbroić ten CVE, **`NFSHomeDirectory`** jest **zmieniane** (nadużywając poprzedniego uprawnienia), aby móc **przejąć bazę danych TCC użytkowników** w celu obejścia TCC.
 
-Więcej informacji można znaleźć w [**oryginalnym raporcie**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
+Więcej informacji znajdziesz w [**oryginalnym raporcie**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
 
 ### CVE-2020-29621 - Coreaudiod
 
 Binarny **`/usr/sbin/coreaudiod`** miał uprawnienia `com.apple.security.cs.disable-library-validation` i `com.apple.private.tcc.manager`. Pierwsze **pozwala na wstrzyknięcie kodu**, a drugie daje dostęp do **zarządzania TCC**.
 
-Ten binarny plik pozwalał na ładowanie **pluginów firm trzecich** z folderu `/Library/Audio/Plug-Ins/HAL`. Dlatego możliwe było **załadowanie pluginu i nadużycie uprawnień TCC** z tym PoC:
+Ten binarny plik pozwalał na ładowanie **pluginów stron trzecich** z folderu `/Library/Audio/Plug-Ins/HAL`. Dlatego możliwe było **załadowanie pluginu i nadużycie uprawnień TCC** z tym PoC:
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -323,7 +323,7 @@ For more info check the [**original report**](https://wojciechregula.blog/post/p
 
 ### Device Abstraction Layer (DAL) Plug-Ins
 
-Aplikacje systemowe, które otwierają strumień kamery za pomocą Core Media I/O (aplikacje z **`kTCCServiceCamera`**) ładują **w procesie te wtyczki** znajdujące się w `/Library/CoreMediaIO/Plug-Ins/DAL` (nie są ograniczone przez SIP).
+Aplikacje systemowe, które otwierają strumień kamery za pomocą Core Media I/O (aplikacje z **`kTCCServiceCamera`**), ładują **w procesie te wtyczki** znajdujące się w `/Library/CoreMediaIO/Plug-Ins/DAL` (nie są ograniczone przez SIP).
 
 Samo przechowywanie tam biblioteki z wspólnym **konstruktorem** zadziała, aby **wstrzyknąć kod**.
 
@@ -357,15 +357,15 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
-Fore more info about how to easily exploit this [**sprawdź oryginalny raport**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
+Fore more info about how to easily exploit this [**check the original report**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
 
-Plik binarny `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` miał uprawnienia **`com.apple.private.tcc.allow`** i **`com.apple.security.get-task-allow`**, co pozwalało na wstrzykiwanie kodu do procesu i korzystanie z uprawnień TCC.
+Binarne `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` miało uprawnienia **`com.apple.private.tcc.allow`** i **`com.apple.security.get-task-allow`**, co pozwalało na wstrzykiwanie kodu do procesu i korzystanie z uprawnień TCC.
 
 ### CVE-2023-26818 - Telegram
 
-Telegram miał uprawnienia **`com.apple.security.cs.allow-dyld-environment-variables`** i **`com.apple.security.cs.disable-library-validation`**, więc możliwe było nadużycie tego, aby **uzyskać dostęp do jego uprawnień**, takich jak nagrywanie za pomocą kamery. Możesz [**znaleźć ładunek w opisie**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram miało uprawnienia **`com.apple.security.cs.allow-dyld-environment-variables`** i **`com.apple.security.cs.disable-library-validation`**, więc możliwe było nadużycie tego, aby **uzyskać dostęp do jego uprawnień**, takich jak nagrywanie za pomocą kamery. Możesz [**znaleźć ładunek w opisie**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 Zauważ, jak użyć zmiennej env do załadowania biblioteki, stworzono **niestandardowy plist**, aby wstrzyknąć tę bibliotekę, a **`launchctl`** został użyty do jej uruchomienia:
 ```xml
@@ -403,7 +403,7 @@ Możliwe jest wywołanie **`open`** nawet w trybie piaskownicy
 
 ### Skrypty terminala
 
-Jest dość powszechne, aby przyznać terminalowi **Pełny dostęp do dysku (FDA)**, przynajmniej w komputerach używanych przez osoby z branży technologicznej. I możliwe jest wywołanie skryptów **`.terminal`** z jego użyciem.
+Jest dość powszechne, aby przyznać terminalowi **Pełny dostęp do dysku (FDA)**, przynajmniej w komputerach używanych przez osoby techniczne. I możliwe jest wywołanie skryptów **`.terminal`** z jego użyciem.
 
 Skrypty **`.terminal`** to pliki plist, takie jak ten, z poleceniem do wykonania w kluczu **`CommandString`**:
 ```xml
@@ -436,10 +436,10 @@ exploit_location]; task.standardOutput = pipe;
 ```
 ## Montując
 
-### CVE-2020-9771 - mount\_apfs TCC bypass i eskalacja uprawnień
+### CVE-2020-9771 - mount\_apfs obejście TCC i eskalacja uprawnień
 
 **Każdy użytkownik** (nawet nieuprzywilejowany) może utworzyć i zamontować migawkę Time Machine oraz **uzyskać dostęp do WSZYSTKICH plików** tej migawki.\
-**Jedynym wymaganym** uprawnieniem jest to, aby aplikacja używana (jak `Terminal`) miała dostęp **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), co musi być przyznane przez administratora.
+**Jedynym wymaganym uprawnieniem** jest to, aby aplikacja używana (jak `Terminal`) miała dostęp **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), co musi być przyznane przez administratora.
 
 {% code overflow="wrap" %}
 ```bash
@@ -527,8 +527,8 @@ Inny sposób używając [**zdarzeń CoreGraphics**](https://objectivebythesea.or
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
-* [**20+ sposobów na obejście mechanizmów prywatności macOS**](https://www.youtube.com/watch?v=W9GxnP8c8FU)
-* [**Knockout Win Against TCC - 20+ NOWYCH sposobów na obejście mechanizmów prywatności macOS**](https://www.youtube.com/watch?v=a9hsxPdRxsY)
+* [**20+ sposobów na ominięcie mechanizmów prywatności macOS**](https://www.youtube.com/watch?v=W9GxnP8c8FU)
+* [**Knockout Win Against TCC - 20+ NOWYCH sposobów na ominięcie mechanizmów prywatności macOS**](https://www.youtube.com/watch?v=a9hsxPdRxsY)
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -539,7 +539,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

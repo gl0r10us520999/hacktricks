@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## **Baza danych autoryzacji**
 
-Baza danych znajdująca się w `/var/db/auth.db` jest używana do przechowywania uprawnień do wykonywania wrażliwych operacji. Operacje te są wykonywane całkowicie w **przestrzeni użytkownika** i zazwyczaj są używane przez **usługi XPC**, które muszą sprawdzić **czy wywołujący klient jest uprawniony** do wykonania określonej akcji, sprawdzając tę bazę danych.
+Baza danych znajdująca się w `/var/db/auth.db` jest bazą danych używaną do przechowywania uprawnień do wykonywania wrażliwych operacji. Operacje te są wykonywane całkowicie w **przestrzeni użytkownika** i zazwyczaj są używane przez **usługi XPC**, które muszą sprawdzić **czy wywołujący klient jest uprawniony** do wykonania określonej akcji, sprawdzając tę bazę danych.
 
 Początkowo ta baza danych jest tworzona na podstawie zawartości `/System/Library/Security/authorization.plist`. Następnie niektóre usługi mogą dodać lub zmodyfikować tę bazę danych, aby dodać do niej inne uprawnienia.
 
@@ -40,7 +40,7 @@ Reguły są przechowywane w tabeli `rules` wewnątrz bazy danych i zawierają na
 * **modified**: Przechowuje znacznik czasu ostatniej modyfikacji dokonanej w regule.
 * **hash**: Przechowuje wartość hasha reguły, aby zapewnić jej integralność i wykryć manipulacje.
 * **identifier**: Dostarcza unikalny identyfikator w postaci ciągu, taki jak UUID, dla zewnętrznych odniesień do reguły.
-* **requirement**: Zawiera zserializowane dane definiujące specyficzne wymagania autoryzacji i mechanizmy reguły.
+* **requirement**: Zawiera zserializowane dane definiujące specyficzne wymagania autoryzacji reguły i mechanizmy.
 * **comment**: Oferuje opis lub komentarz w formie czytelnej dla człowieka dotyczący reguły w celach dokumentacyjnych i jasności.
 
 ### Przykład

@@ -23,11 +23,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 1. Przejęcie wątku
 
-Początkowo wywoływana jest funkcja **`task_threads()`** na porcie zadania, aby uzyskać listę wątków z zdalnego zadania. Wątek jest wybierany do przejęcia. To podejście różni się od konwencjonalnych metod wstrzykiwania kodu, ponieważ tworzenie nowego zdalnego wątku jest zabronione z powodu nowej mitigacji blokującej `thread_create_running()`.
+Początkowo wywoływana jest funkcja **`task_threads()`** na porcie zadania, aby uzyskać listę wątków zdalnego zadania. Wątek jest wybierany do przejęcia. To podejście różni się od konwencjonalnych metod wstrzykiwania kodu, ponieważ tworzenie nowego zdalnego wątku jest zabronione z powodu nowej mitigacji blokującej `thread_create_running()`.
 
 Aby kontrolować wątek, wywoływana jest funkcja **`thread_suspend()`**, zatrzymując jego wykonanie.
 
-Jedynymi dozwolonymi operacjami na zdalnym wątku są **zatrzymywanie** i **uruchamianie** go, **pobieranie** i **modyfikowanie** wartości jego rejestrów. Zdalne wywołania funkcji są inicjowane przez ustawienie rejestrów `x0` do `x7` na **argumenty**, konfigurowanie **`pc`** w celu skierowania do pożądanej funkcji i aktywację wątku. Zapewnienie, że wątek nie ulegnie awarii po zwrocie, wymaga wykrycia zwrotu.
+Jedynymi dozwolonymi operacjami na zdalnym wątku są **zatrzymywanie** i **uruchamianie** go, **pobieranie** i **modyfikowanie** wartości jego rejestrów. Zdalne wywołania funkcji są inicjowane przez ustawienie rejestrów `x0` do `x7` na **argumenty**, konfigurowanie **`pc`** w celu skierowania do pożądanej funkcji i aktywowanie wątku. Zapewnienie, że wątek nie ulegnie awarii po zwrocie, wymaga wykrycia zwrotu.
 
 Jedna ze strategii polega na **rejestrowaniu obsługi wyjątków** dla zdalnego wątku za pomocą `thread_set_exception_ports()`, ustawiając rejestr `lr` na nieprawidłowy adres przed wywołaniem funkcji. To wywołuje wyjątek po wykonaniu funkcji, wysyłając wiadomość do portu wyjątków, co umożliwia inspekcję stanu wątku w celu odzyskania wartości zwrotnej. Alternatywnie, jak przyjęto z exploitacji triple\_fetch Iana Beera, `lr` jest ustawiane na nieskończoną pętlę. Rejestry wątku są następnie ciągle monitorowane, aż **`pc` wskaże na tę instrukcję**.
 
@@ -43,15 +43,15 @@ Strategia polega na wykorzystaniu `thread_set_special_port()`, aby umieścić pr
 
 Dla zdalnego portu proces jest zasadniczo odwrócony. Zdalny wątek jest kierowany do wygenerowania portu Mach za pomocą `mach_reply_port()` (ponieważ `mach_port_allocate()` jest nieodpowiednie z powodu swojego mechanizmu zwrotu). Po utworzeniu portu wywoływana jest `mach_port_insert_right()` w zdalnym wątku, aby ustanowić prawo wysyłania. To prawo jest następnie przechowywane w jądrze za pomocą `thread_set_special_port()`. W lokalnym zadaniu używa się `thread_get_special_port()` na zdalnym wątku, aby uzyskać prawo wysyłania do nowo przydzielonego portu Mach w zdalnym zadaniu.
 
-Zakończenie tych kroków skutkuje ustanowieniem portów Mach, kładąc fundamenty dla komunikacji dwukierunkowej.
+Zakończenie tych kroków skutkuje ustanowieniem portów Mach, kładąc podwaliny pod komunikację dwukierunkową.
 
 ## 3. Podstawowe prymitywy odczytu/zapisu pamięci
 
-W tej sekcji skupiamy się na wykorzystaniu prymitywu wykonania do ustanowienia podstawowych prymitywów odczytu i zapisu pamięci. Te początkowe kroki są kluczowe dla uzyskania większej kontroli nad zdalnym procesem, chociaż prymitywy na tym etapie nie będą miały wielu zastosowań. Wkrótce zostaną one ulepszone do bardziej zaawansowanych wersji.
+W tej sekcji skupiamy się na wykorzystaniu prymitywu wykonania do ustanowienia podstawowych prymitywów odczytu i zapisu pamięci. Te początkowe kroki są kluczowe dla uzyskania większej kontroli nad zdalnym procesem, chociaż prymitywy na tym etapie nie będą miały wielu zastosowań. Wkrótce zostaną one zaktualizowane do bardziej zaawansowanych wersji.
 
 ### Odczyt i zapis pamięci przy użyciu prymitywu wykonania
 
-Celem jest wykonanie odczytu i zapisu pamięci przy użyciu określonych funkcji. Do odczytu pamięci używane są funkcje przypominające następującą strukturę:
+Celem jest przeprowadzenie odczytu i zapisu pamięci przy użyciu określonych funkcji. Do odczytu pamięci używane są funkcje przypominające następującą strukturę:
 ```c
 uint64_t read_func(uint64_t *address) {
 return *address;
@@ -86,7 +86,7 @@ return prop->name;
 Ta funkcja działa efektywnie jak `read_func`, zwracając pierwsze pole `objc_property_t`.
 
 2. **Pisanie pamięci:**
-Znalezienie gotowej funkcji do pisania pamięci jest bardziej wymagające. Jednak funkcja `_xpc_int64_set_value()` z libxpc jest odpowiednim kandydatem z następującą dezasemblacją:
+Znalezienie gotowej funkcji do pisania pamięci jest bardziej wymagające. Jednak funkcja `_xpc_int64_set_value()` z libxpc jest odpowiednim kandydatem z następującą deasemblacją:
 ```c
 __xpc_int64_set_value:
 str x1, [x0, #0x18]
@@ -141,8 +141,8 @@ Pamiętaj, aby poprawnie obsługiwać szczegóły portów Mach i nazw wpisów pa
 Po pomyślnym ustanowieniu pamięci współdzielonej i uzyskaniu możliwości dowolnego wykonywania, zasadniczo zyskaliśmy pełną kontrolę nad docelowym procesem. Kluczowe funkcjonalności umożliwiające tę kontrolę to:
 
 1. **Dowolne Operacje na Pamięci**:
-- Wykonuj dowolne odczyty pamięci, wywołując `memcpy()`, aby skopiować dane z regionu współdzielonego.
-- Wykonuj dowolne zapisy pamięci, używając `memcpy()`, aby przenieść dane do regionu współdzielonego.
+- Wykonuj dowolne odczyty pamięci, wywołując `memcpy()`, aby skopiować dane z współdzielonego obszaru.
+- Wykonuj dowolne zapisy pamięci, używając `memcpy()`, aby przenieść dane do współdzielonego obszaru.
 
 2. **Obsługa Wywołań Funkcji z Wieloma Argumentami**:
 - Dla funkcji wymagających więcej niż 8 argumentów, umieść dodatkowe argumenty na stosie zgodnie z konwencją wywołania.
@@ -174,7 +174,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

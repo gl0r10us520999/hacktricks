@@ -29,7 +29,7 @@ Gdy nawiązywane jest połączenie z usługą XPC, serwer sprawdzi, czy połącz
 * Jeśli to **nie jest zweryfikowane**, stary, niebezpieczny klient, podatny na wstrzykiwanie procesów, może być użyty do połączenia z usługą XPC, nawet przy innych kontrolach.
 5. (4 lub 5) Sprawdź, czy proces łączący ma wzmocniony czas działania bez niebezpiecznych uprawnień (jak te, które pozwalają na ładowanie dowolnych bibliotek lub używanie zmiennych środowiskowych DYLD).
 * Jeśli to **nie jest zweryfikowane**, klient może być **podatny na wstrzykiwanie kodu**.
-6. Sprawdź, czy proces łączący ma **uprawnienie**, które pozwala mu połączyć się z usługą. To dotyczy binarnych plików Apple.
+6. Sprawdź, czy proces łączący ma **uprawnienie**, które pozwala mu połączyć się z usługą. To dotyczy binariów Apple.
 7. **Weryfikacja** musi być **oparta** na **tokenie audytu klienta** **zamiast** na jego identyfikatorze procesu (**PID**), ponieważ ten pierwszy zapobiega **atakom na ponowne użycie PID**.
 * Deweloperzy **rzadko używają tokena audytu** w wywołaniach API, ponieważ jest on **prywatny**, więc Apple może **zmienić** go w dowolnym momencie. Dodatkowo, użycie prywatnych API nie jest dozwolone w aplikacjach Mac App Store.
 * Jeśli używana jest metoda **`processIdentifier`**, może być podatna.
@@ -51,11 +51,11 @@ Aby uzyskać więcej informacji o ataku **`xpc_connection_get_audit_token`**, sp
 
 ### Trustcache - Downgrade Attacks Prevention
 
-Trustcache to metoda obronna wprowadzona w maszynach Apple Silicon, która przechowuje bazę danych CDHSAH binarnych plików Apple, aby tylko dozwolone, niezmodyfikowane binaria mogły być wykonywane. Co zapobiega wykonywaniu wersji downgrade.
+Trustcache to metoda obronna wprowadzona w maszynach Apple Silicon, która przechowuje bazę danych CDHSAH binariów Apple, aby tylko dozwolone, niezmodyfikowane binaria mogły być wykonywane. Co zapobiega wykonywaniu wersji downgrade.
 
 ### Code Examples
 
-Serwer zaimplementuje tę **weryfikację** w funkcji zwanej **`shouldAcceptNewConnection`**.
+Serwer zaimplementuje tę **weryfikację** w funkcji o nazwie **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -117,7 +117,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

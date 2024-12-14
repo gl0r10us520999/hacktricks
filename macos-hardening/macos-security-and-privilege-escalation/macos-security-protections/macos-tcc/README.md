@@ -17,13 +17,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Podstawowe informacje**
 
-**TCC (Transparentność, Zgoda i Kontrola)** to protokół bezpieczeństwa koncentrujący się na regulacji uprawnień aplikacji. Jego główną rolą jest ochrona wrażliwych funkcji, takich jak **usługi lokalizacyjne, kontakty, zdjęcia, mikrofon, kamera, dostęp do pełnego dysku**. Wymuszając wyraźną zgodę użytkownika przed przyznaniem aplikacji dostępu do tych elementów, TCC zwiększa prywatność i kontrolę użytkownika nad swoimi danymi.
+**TCC (Transparentność, Zgoda i Kontrola)** to protokół bezpieczeństwa koncentrujący się na regulowaniu uprawnień aplikacji. Jego główną rolą jest ochrona wrażliwych funkcji, takich jak **usługi lokalizacyjne, kontakty, zdjęcia, mikrofon, kamera, dostęp do pełnego dysku**. Wymuszając wyraźną zgodę użytkownika przed przyznaniem aplikacji dostępu do tych elementów, TCC zwiększa prywatność i kontrolę użytkownika nad swoimi danymi.
 
-Użytkownicy napotykają TCC, gdy aplikacje żądają dostępu do chronionych funkcji. Jest to widoczne poprzez komunikat, który pozwala użytkownikom **zatwierdzić lub odmówić dostępu**. Ponadto TCC umożliwia bezpośrednie działania użytkownika, takie jak **przeciąganie i upuszczanie plików do aplikacji**, aby przyznać dostęp do konkretnych plików, zapewniając, że aplikacje mają dostęp tylko do tego, co jest wyraźnie dozwolone.
+Użytkownicy napotykają TCC, gdy aplikacje żądają dostępu do chronionych funkcji. Jest to widoczne poprzez monit, który pozwala użytkownikom **zatwierdzić lub odmówić dostępu**. Ponadto TCC uwzględnia bezpośrednie działania użytkownika, takie jak **przeciąganie i upuszczanie plików do aplikacji**, aby przyznać dostęp do konkretnych plików, zapewniając, że aplikacje mają dostęp tylko do tego, co jest wyraźnie dozwolone.
 
-![Przykład komunikatu TCC](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
+![Przykład monitu TCC](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
-**TCC** jest obsługiwany przez **demon** znajdujący się w `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` i skonfigurowany w `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (rejestrując usługę mach `com.apple.tccd.system`).
+**TCC** jest obsługiwane przez **demon** znajdujący się w `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` i skonfigurowany w `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (rejestrując usługę mach `com.apple.tccd.system`).
 
 Istnieje **tccd w trybie użytkownika** działający dla każdego zalogowanego użytkownika zdefiniowanego w `/System/Library/LaunchAgents/com.apple.tccd.plist`, rejestrujący usługi mach `com.apple.tccd` i `com.apple.usernotifications.delegate.com.apple.tccd`.
 
@@ -33,16 +33,16 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-Uprawnienia są **dziedziczone z aplikacji nadrzędnej** a **uprawnienia** są **śledzone** na podstawie **Bundle ID** i **Developer ID**.
+Permissions are **dziedziczone z aplikacji nadrzędnej** i **uprawnienia** są **śledzone** na podstawie **Bundle ID** i **Developer ID**.
 
-### Bazy danych TCC
+### TCC Databases
 
 Zezwolenia/odmowy są następnie przechowywane w niektórych bazach danych TCC:
 
 * Baza danych systemowa w **`/Library/Application Support/com.apple.TCC/TCC.db`**.
-* Ta baza danych jest **chroniona przez SIP**, więc tylko obejście SIP może do niej zapisać.
+* Ta baza danych jest **chroniona przez SIP**, więc tylko obejście SIP może w nią zapisać.
 * Użytkownik TCC baza danych **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** dla preferencji per użytkownik.
-* Ta baza danych jest chroniona, więc tylko procesy z wysokimi uprawnieniami TCC, takie jak Pełny dostęp do dysku, mogą do niej zapisać (ale nie jest chroniona przez SIP).
+* Ta baza danych jest chroniona, więc tylko procesy z wysokimi uprawnieniami TCC, takie jak Pełny dostęp do dysku, mogą w nią zapisać (ale nie jest chroniona przez SIP).
 
 {% hint style="warning" %}
 Poprzednie bazy danych są również **chronione przez TCC dla dostępu do odczytu**. Więc **nie będziesz w stanie odczytać** swojej regularnej bazy danych TCC użytkownika, chyba że pochodzi z procesu z uprawnieniami TCC.
@@ -53,7 +53,7 @@ Jednak pamiętaj, że proces z tymi wysokimi uprawnieniami (jak **FDA** lub **`k
 * Istnieje **trzecia** baza danych TCC w **`/var/db/locationd/clients.plist`**, aby wskazać klientów, którym zezwolono na **dostęp do usług lokalizacyjnych**.
 * Plik chroniony SIP **`/Users/carlospolop/Downloads/REG.db`** (również chroniony przed dostępem do odczytu z TCC) zawiera **lokację** wszystkich **ważnych baz danych TCC**.
 * Plik chroniony SIP **`/Users/carlospolop/Downloads/MDMOverrides.plist`** (również chroniony przed dostępem do odczytu z TCC) zawiera więcej przyznanych uprawnień TCC.
-* Plik chroniony SIP **`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`** (czytelny dla każdego) jest listą dozwolonych aplikacji, które wymagają wyjątku TCC.
+* Plik chroniony SIP **`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`** (czytelny dla każdego) jest listą aplikacji, które wymagają wyjątku TCC.
 
 {% hint style="success" %}
 Baza danych TCC w **iOS** znajduje się w **`/private/var/mobile/Library/TCC/TCC.db`**.
@@ -135,7 +135,7 @@ Sprawdzając obie bazy danych, możesz sprawdzić, jakie uprawnienia aplikacja p
 
 <summary>Jak wykonać, jeśli to ścieżka bezwzględna</summary>
 
-Po prostu wykonaj **`launctl load you_bin.plist`**, z plistą taką jak:
+Po prostu wykonaj **`launctl load you_bin.plist`**, z plist jak:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -176,7 +176,7 @@ Po prostu wykonaj **`launctl load you_bin.plist`**, z plistą taką jak:
 
 * Wartość **`auth_value`** może mieć różne wartości: denied(0), unknown(1), allowed(2) lub limited(3).
 * Wartość **`auth_reason`** może przyjmować następujące wartości: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
-* Pole **csreq** służy do wskazania, jak zweryfikować binarny plik do wykonania i przyznać uprawnienia TCC:
+* Pole **csreq** jest używane do wskazania, jak zweryfikować binarny plik do wykonania i przyznania uprawnień TCC:
 ```bash
 # Query to get cserq in printable hex
 select service, client, hex(csreq) from access where auth_value=2;
@@ -210,7 +210,7 @@ tccutil reset All
 ```
 ### TCC Signature Checks
 
-Baza danych TCC **przechowuje** **Bundle ID** aplikacji, ale także **przechowuje** **informacje** o **podpisie**, aby **upewnić się**, że aplikacja prosząca o użycie uprawnienia jest tą właściwą.
+Baza danych TCC **przechowuje** **Bundle ID** aplikacji, ale również **przechowuje** **informacje** o **podpisie**, aby **upewnić się**, że aplikacja prosząca o użycie uprawnienia jest tą właściwą.
 
 {% code overflow="wrap" %}
 ```bash
@@ -233,11 +233,11 @@ Dlatego inne aplikacje używające tej samej nazwy i identyfikatora pakietu nie 
 ### Uprawnienia i uprawnienia TCC
 
 Aplikacje **nie tylko muszą** **prosić** i **otrzymać dostęp** do niektórych zasobów, ale także muszą **mieć odpowiednie uprawnienia**.\
-Na przykład **Telegram** ma uprawnienie `com.apple.security.device.camera`, aby poprosić o **dostęp do kamery**. Aplikacja, która **nie ma** tego **uprawnienia, nie będzie mogła** uzyskać dostępu do kamery (a użytkownik nie zostanie nawet poproszony o uprawnienia).
+Na przykład **Telegram** ma uprawnienie `com.apple.security.device.camera`, aby zażądać **dostępu do kamery**. Aplikacja, która **nie ma** tego **uprawnienia, nie będzie mogła** uzyskać dostępu do kamery (a użytkownik nie zostanie nawet poproszony o uprawnienia).
 
 Jednak aby aplikacje mogły **uzyskać dostęp** do **niektórych folderów użytkownika**, takich jak `~/Desktop`, `~/Downloads` i `~/Documents`, **nie muszą** mieć żadnych specyficznych **uprawnień.** System przejrzysto obsłuży dostęp i **poprosi użytkownika** w razie potrzeby.
 
-Aplikacje Apple **nie będą generować powiadomień**. Zawierają **wcześniej przyznane prawa** w swojej liście **uprawnień**, co oznacza, że **nigdy nie wygenerują okna pop-up**, **ani** nie pojawią się w żadnej z **baz danych TCC.** Na przykład:
+Aplikacje Apple **nie będą generować powiadomień**. Zawierają **wcześniej przyznane prawa** w swojej liście **uprawnień**, co oznacza, że **nigdy nie wygenerują wyskakującego okna**, **ani** nie pojawią się w żadnej z **baz danych TCC.** Na przykład:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -280,12 +280,12 @@ otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| gr
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
 {% hint style="info" %}
-Ciekawe, że atrybut **`com.apple.macl`** jest zarządzany przez **Sandbox**, a nie tccd.
+Ciekawe, że atrybut **`com.apple.macl`** jest zarządzany przez **Sandbox**, a nie przez tccd.
 
 Zauważ również, że jeśli przeniesiesz plik, który pozwala na UUID aplikacji na swoim komputerze do innego komputera, ponieważ ta sama aplikacja będzie miała różne UID-y, nie przyzna dostępu do tej aplikacji.
 {% endhint %}
 
-Rozszerzony atrybut `com.apple.macl` **nie może być usunięty** jak inne rozszerzone atrybuty, ponieważ jest **chroniony przez SIP**. Jednak, jak [**wyjaśniono w tym poście**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), możliwe jest jego wyłączenie **zipując** plik, **usuwając** go i **rozpakowując** go.
+Rozszerzony atrybut `com.apple.macl` **nie może być usunięty** jak inne rozszerzone atrybuty, ponieważ jest **chroniony przez SIP**. Jednak, jak [**wyjaśniono w tym poście**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), możliwe jest jego wyłączenie **spakowując** plik, **usuwając** go i **rozpakowując** go.
 
 ## TCC Privesc & Bypassy
 
@@ -339,7 +339,7 @@ strftime('%s', 'now') -- last_reminded with default current timestamp
 
 ### TCC Payloads
 
-Jeśli udało Ci się uzyskać dostęp do aplikacji z pewnymi uprawnieniami TCC, sprawdź następującą stronę z ładunkami TCC, aby je wykorzystać:
+Jeśli udało ci się dostać do aplikacji z pewnymi uprawnieniami TCC, sprawdź następującą stronę z ładunkami TCC, aby je wykorzystać:
 
 {% content-ref url="macos-tcc-payloads.md" %}
 [macos-tcc-payloads.md](macos-tcc-payloads.md)
@@ -353,13 +353,13 @@ Dowiedz się o Apple Events w:
 [macos-apple-events.md](macos-apple-events.md)
 {% endcontent-ref %}
 
-### Automation (Finder) do FDA\*
+### Automatyzacja (Finder) do FDA\*
 
-Nazwa TCC dla uprawnienia Automatyzacji to: **`kTCCServiceAppleEvents`**\
+Nazwa TCC uprawnienia Automatyzacji to: **`kTCCServiceAppleEvents`**\
 To konkretne uprawnienie TCC wskazuje również **aplikację, która może być zarządzana** w bazie danych TCC (więc uprawnienia nie pozwalają tylko na zarządzanie wszystkim).
 
 **Finder** to aplikacja, która **zawsze ma FDA** (nawet jeśli nie pojawia się w interfejsie użytkownika), więc jeśli masz **uprawnienia Automatyzacji** nad nią, możesz wykorzystać jej uprawnienia, aby **wykonać pewne akcje**.\
-W tym przypadku Twoja aplikacja potrzebowałaby uprawnienia **`kTCCServiceAppleEvents`** nad **`com.apple.Finder`**.
+W tym przypadku twoja aplikacja potrzebowałaby uprawnienia **`kTCCServiceAppleEvents`** nad **`com.apple.Finder`**.
 
 {% tabs %}
 {% tab title="Steal users TCC.db" %}
@@ -527,7 +527,7 @@ EOF
 ```
 ### `kTCCServiceAccessibility` do FDA\*
 
-Sprawdź tę stronę po niektóre [**ładunki do nadużywania uprawnień Dostępności**](macos-tcc-payloads.md#accessibility) do privesc do FDA\* lub uruchomienia keyloggera na przykład.
+Sprawdź tę stronę po niektóre [**ładunki do nadużycia uprawnień Dostępności**](macos-tcc-payloads.md#accessibility) do privesc do FDA\* lub uruchomienia keyloggera na przykład.
 
 ### **Klient Bezpieczeństwa Endpoint do FDA**
 
@@ -553,7 +553,7 @@ Nie sądzę, że to jest prawdziwe privesc, ale na wszelki wypadek, jeśli uznas
 
 Baza danych **TCC** systemu jest chroniona przez **SIP**, dlatego tylko procesy z **wskazanymi uprawnieniami będą mogły ją modyfikować**. Dlatego, jeśli atakujący znajdzie **obejście SIP** nad **plikem** (będzie mógł modyfikować plik ograniczony przez SIP), będzie mógł:
 
-* **Usunąć ochronę** bazy danych TCC i przyznać sobie wszystkie uprawnienia TCC. Może nadużyć dowolnego z tych plików na przykład:
+* **Usunąć ochronę** bazy danych TCC i przyznać sobie wszystkie uprawnienia TCC. Może nadużyć dowolnego z tych plików, na przykład:
 * Baza danych systemowa TCC
 * REG.db
 * MDMOverrides.plist
@@ -609,8 +609,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

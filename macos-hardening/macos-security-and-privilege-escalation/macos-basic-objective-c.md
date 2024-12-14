@@ -1,18 +1,19 @@
 # macOS Objective-C
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
 {% endhint %}
 {% endhint %}
 {% endhint %}
@@ -31,14 +32,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Objective-C
 
 {% hint style="danger" %}
-Zauważ, że programy napisane w Objective-C **zachowują** swoje deklaracje klas **gdy** **są** **kompilowane** do [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Takie deklaracje klas **zawierają** nazwę i typ:
+Zauważ, że programy napisane w Objective-C **zachowują** swoje deklaracje klas **gdy** są **kompilowane** do [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Takie deklaracje klas **zawierają** nazwę i typ:
 {% endhint %}
 
 * Klasy
 * Metod klasy
 * Zmiennych instancji klasy
 
-Możesz uzyskać te informacje używając [**class-dump**](https://github.com/nygard/class-dump):
+Możesz uzyskać te informacje, używając [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
@@ -77,7 +78,7 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Obiekt i Wywołanie Metody**
+### **Obiekt i wywołanie metody**
 
 Aby utworzyć instancję klasy, wywoływana jest metoda **`alloc`**, która **przydziela pamięć** dla każdej **właściwości** i **zeruje** te przydziały. Następnie wywoływana jest **`init`**, która **inicjalizuje właściwości** do **wymaganych wartości**.
 ```objectivec
@@ -93,7 +94,7 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **Metody klasowe**
 
-Metody klasowe są definiowane za pomocą **znaku plus** (+), a nie myślnika (-), który jest używany w przypadku metod instancji. Podobnie jak metoda klasowa **NSString** **`stringWithString`**:
+Metody klasowe są definiowane za pomocą **znaku plus** (+), a nie myślnika (-), który jest używany w przypadku metod instancji. Jak metoda klasowa **NSString** **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
@@ -122,7 +123,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 Protokoły to zestaw deklaracji metod (bez właściwości). Klasa, która implementuje protokół, implementuje zadeklarowane metody.
 
-Istnieją 2 typy metod: **obowiązkowe** i **opcjonalne**. Domyślnie metoda jest **obowiązkowa** (ale możesz to również wskazać za pomocą tagu **`@required`**). Aby wskazać, że metoda jest opcjonalna, użyj **`@optional`**.
+Istnieją 2 typy metod: **obowiązkowe** i **opcjonalne**. Domyślnie metoda jest **obowiązkowa** (ale można to również wskazać za pomocą tagu **`@required`**). Aby wskazać, że metoda jest opcjonalna, użyj **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -215,8 +216,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:bookPublicationYear];
 ```
 #### Numer
-
-{% code overflow="wrap" %}
 ```objectivec
 // character literals.
 NSNumber *theLetterZ = @'Z'; // equivalent to [NSNumber numberWithChar:'Z']

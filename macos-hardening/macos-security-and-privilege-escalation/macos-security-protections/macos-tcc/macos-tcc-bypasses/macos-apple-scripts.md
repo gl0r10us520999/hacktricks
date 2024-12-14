@@ -17,8 +17,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-To język skryptowy używany do automatyzacji zadań **interakcji z procesami zdalnymi**. Umożliwia łatwe **proszę inne procesy o wykonanie pewnych działań**. **Złośliwe oprogramowanie** może nadużywać tych funkcji, aby wykorzystywać funkcje eksportowane przez inne procesy.\
-Na przykład, złośliwe oprogramowanie mogłoby **wstrzykiwać dowolny kod JS w otwartych stronach przeglądarki**. Lub **automatycznie klikać** niektóre pozwolenia wymagane od użytkownika;
+To język skryptowy używany do automatyzacji zadań **interakcji z procesami zdalnymi**. Umożliwia dość łatwe **proszę inne procesy o wykonanie pewnych działań**. **Złośliwe oprogramowanie** może nadużywać tych funkcji, aby wykorzystać funkcje eksportowane przez inne procesy.\
+Na przykład, złośliwe oprogramowanie mogłoby **wstrzyknąć dowolny kod JS w otwartych stronach przeglądarki**. Lub **automatycznie kliknąć** niektóre pozwolenia wymagane od użytkownika;
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
@@ -49,7 +49,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

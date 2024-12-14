@@ -37,7 +37,7 @@ Please note that **most of the tricks about privilege escalation affecting Linux
 
 You can find the original [Sudo Hijacking technique inside the Linux Privilege Escalation post](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-However, macOS **maintains** the user's **`PATH`** when he executes **`sudo`**. Which means that another way to achieve this attack would be to **hijack other binaries** that the victim **wciąż** execute when **running sudo:**
+However, macOS **utrzymuje** **`PATH`** użytkownika, gdy wykonuje **`sudo`**. Co oznacza, że innym sposobem na przeprowadzenie tego ataku byłoby **przejęcie innych binarek**, które ofiara nadal wykona podczas **uruchamiania sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -137,11 +137,11 @@ killall Dock
 {% tab title="Impersonacja Findera" %}
 Kilka sugestii:
 
-* Nie **możesz usunąć Findera z Docka**, więc jeśli zamierzasz dodać go do Docka, możesz umieścić fałszywego Findera tuż obok prawdziwego. W tym celu musisz **dodać fałszywy wpis Findera na początku tablicy Docka**.
+* Nie **możesz usunąć Findera z Docka**, więc jeśli zamierzasz go dodać do Docka, możesz umieścić fałszywego Findera tuż obok prawdziwego. W tym celu musisz **dodać fałszywy wpis Findera na początku tablicy Docka**.
 * Inną opcją jest nie umieszczanie go w Docku i po prostu otwarcie go, "Finder prosi o kontrolę Findera" nie jest takie dziwne.
-* Inną opcją na **eskalację do roota bez pytania** o hasło z oknem, które wygląda strasznie, jest sprawienie, aby Finder naprawdę poprosił o hasło do wykonania uprzywilejowanej akcji:
-* Poproś Findera o skopiowanie do **`/etc/pam.d`** nowego pliku **`sudo`** (Okno proszące o hasło wskaże, że "Finder chce skopiować sudo")
-* Poproś Findera o skopiowanie nowego **Pluginu Autoryzacji** (Możesz kontrolować nazwę pliku, aby okno proszące o hasło wskazało, że "Finder chce skopiować Finder.bundle")
+* Inną opcją na **eskalację do roota bez pytania** o hasło za pomocą okropnego okna, jest sprawienie, aby Finder naprawdę poprosił o hasło do wykonania uprzywilejowanej akcji:
+* Poproś Findera o skopiowanie do **`/etc/pam.d`** nowego pliku **`sudo`** (Okno z prośbą o hasło wskaże, że "Finder chce skopiować sudo")
+* Poproś Findera o skopiowanie nowego **Pluginu Autoryzacji** (Możesz kontrolować nazwę pliku, aby okno z prośbą o hasło wskazało, że "Finder chce skopiować Finder.bundle")
 ```bash
 #!/bin/sh
 
@@ -263,7 +263,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

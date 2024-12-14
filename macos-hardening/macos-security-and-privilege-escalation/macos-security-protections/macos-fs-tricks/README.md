@@ -29,15 +29,15 @@ Uprawnienia w **katalogu**:
 
 **Jak nadpisać plik/folder należący do roota**, ale:
 
-* Jeden właściciel **katalogu nadrzędnego** w ścieżce to użytkownik
-* Jeden właściciel **katalogu nadrzędnego** w ścieżce to **grupa użytkowników** z **dostępem do zapisu**
+* Jeden rodzic **właściciel katalogu** w ścieżce to użytkownik
+* Jeden rodzic **właściciel katalogu** w ścieżce to **grupa użytkowników** z **dostępem do zapisu**
 * Grupa użytkowników ma **dostęp do zapisu** do **pliku**
 
-Przy dowolnej z powyższych kombinacji, atakujący mógłby **wstrzyknąć** **link symboliczny/twardy** do oczekiwanej ścieżki, aby uzyskać uprzywilejowany, dowolny zapis.
+Przy dowolnej z powyższych kombinacji, atakujący mógłby **wstrzyknąć** **link symboliczny/twardy** w oczekiwanej ścieżce, aby uzyskać uprzywilejowany, dowolny zapis.
 
 ### Folder root R+X Przypadek specjalny
 
-Jeśli w **katalogu** znajdują się pliki, w których **tylko root ma dostęp R+X**, to są **niedostępne dla nikogo innego**. Zatem luka pozwalająca na **przeniesienie pliku czytanego przez użytkownika**, który nie może być odczytany z powodu tej **ograniczenia**, z tego folderu **do innego**, mogłaby być wykorzystana do odczytu tych plików.
+Jeśli w **katalogu** znajdują się pliki, w których **tylko root ma dostęp R+X**, to **nie są one dostępne dla nikogo innego**. Zatem luka pozwalająca na **przeniesienie pliku czytanego przez użytkownika**, który nie może być odczytany z powodu tej **ograniczenia**, z tego folderu **do innego**, mogłaby być wykorzystana do odczytu tych plików.
 
 Przykład w: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 **AppleDouble** format pliku kopiuje plik wraz z jego ACE.
 
-W [**kodzie źródłowym**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) można zobaczyć, że tekstowa reprezentacja ACL przechowywana w xattr o nazwie **`com.apple.acl.text`** zostanie ustawiona jako ACL w dekompresowanym pliku. Więc, jeśli skompresujesz aplikację do pliku zip w formacie **AppleDouble** z ACL, który uniemożliwia zapisanie innych xattr... xattr kwarantanny nie został ustawiony w aplikacji:
+W [**kodzie źródłowym**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) można zobaczyć, że tekstowa reprezentacja ACL przechowywana w xattr o nazwie **`com.apple.acl.text`** zostanie ustawiona jako ACL w zdekompresowanym pliku. Więc, jeśli skompresujesz aplikację do pliku zip w formacie **AppleDouble** z ACL, który uniemożliwia zapisanie innych xattrs... xattr kwarantanny nie został ustawiony w aplikacji:
 
 Sprawdź [**oryginalny raport**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) po więcej informacji.
 
@@ -157,7 +157,7 @@ Nie jest to naprawdę potrzebne, ale zostawiam to na wszelki wypadek:
 
 ## Ominięcie podpisów kodu
 
-Bundles zawierają plik **`_CodeSignature/CodeResources`**, który zawiera **hash** każdego pojedynczego **pliku** w **bundle**. Należy zauważyć, że hash CodeResources jest również **osadzony w wykonywalnym**, więc nie możemy się z tym bawić.
+Bundles zawierają plik **`_CodeSignature/CodeResources`**, który zawiera **hash** każdego pojedynczego **pliku** w **bundle**. Zauważ, że hash CodeResources jest również **osadzony w wykonywalnym**, więc nie możemy się z tym bawić.
 
 Jednak istnieją pewne pliki, których podpis nie będzie sprawdzany, mają one klucz omit w plist, takie jak:
 ```xml
@@ -238,14 +238,14 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Zwykle macOS montuje dysk, komunikując się z usługą Mach `com.apple.DiskArbitrarion.diskarbitrariond` (dostarczaną przez `/usr/libexec/diskarbitrationd`). Jeśli dodasz parametr `-d` do pliku plist LaunchDaemons i uruchomisz ponownie, będzie przechowywać logi w `/var/log/diskarbitrationd.log`.\
+Zazwyczaj macOS montuje dysk, komunikując się z usługą Mach `com.apple.DiskArbitrarion.diskarbitrariond` (dostarczaną przez `/usr/libexec/diskarbitrationd`). Jeśli dodasz parametr `-d` do pliku plist LaunchDaemons i uruchomisz ponownie, zapisze logi w `/var/log/diskarbitrationd.log`.\
 Jednak możliwe jest użycie narzędzi takich jak `hdik` i `hdiutil`, aby komunikować się bezpośrednio z kextem `com.apple.driver.DiskImages`.
 
 ## Dowolne zapisy
 
 ### Okresowe skrypty sh
 
-Jeśli twój skrypt mógłby być interpretowany jako **skrypt powłoki**, mógłbyś nadpisać **`/etc/periodic/daily/999.local`** skrypt powłoki, który będzie uruchamiany codziennie.
+Jeśli twój skrypt mógłby być interpretowany jako **skrypt powłoki**, możesz nadpisać **`/etc/periodic/daily/999.local`** skrypt powłoki, który będzie uruchamiany codziennie.
 
 Możesz **sfałszować** wykonanie tego skryptu za pomocą: **`sudo periodic daily`**
 
@@ -392,13 +392,13 @@ return 0;
 
 ## macOS Guarded Descriptors
 
-**macOSCguarded descriptors** to funkcja zabezpieczeń wprowadzona w macOS, mająca na celu zwiększenie bezpieczeństwa i niezawodności **operacji na deskryptorach plików** w aplikacjach użytkownika. Te zabezpieczone deskryptory umożliwiają przypisanie określonych ograniczeń lub "zabezpieczeń" do deskryptorów plików, które są egzekwowane przez jądro.
+**macOS guarded descriptors** to funkcja zabezpieczeń wprowadzona w macOS, mająca na celu zwiększenie bezpieczeństwa i niezawodności **operacji na deskryptorach plików** w aplikacjach użytkownika. Te zabezpieczone deskryptory zapewniają sposób na powiązanie określonych ograniczeń lub "strażników" z deskryptorami plików, które są egzekwowane przez jądro.
 
 Funkcja ta jest szczególnie przydatna w zapobieganiu pewnym klasom luk w zabezpieczeniach, takim jak **nieautoryzowany dostęp do plików** lub **warunki wyścigu**. Te luki występują, gdy na przykład wątek uzyskuje dostęp do opisu pliku, dając **innemu podatnemu wątkowi dostęp do niego** lub gdy deskryptor pliku jest **dziedziczony** przez podatny proces potomny. Niektóre funkcje związane z tą funkcjonalnością to:
 
-* `guarded_open_np`: Otwiera FD z zabezpieczeniem
+* `guarded_open_np`: Otwiera FD z ochroną
 * `guarded_close_np`: Zamyka go
-* `change_fdguard_np`: Zmienia flagi zabezpieczeń na deskryptorze (nawet usuwając ochronę)
+* `change_fdguard_np`: Zmienia flagi ochrony na deskryptorze (nawet usuwając ochronę)
 
 ## References
 

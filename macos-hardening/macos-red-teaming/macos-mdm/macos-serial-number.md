@@ -30,7 +30,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 Urządzenia Apple po 2010 roku mają numery seryjne składające się z **12 znaków alfanumerycznych**, z których każdy segment przekazuje konkretne informacje:
 
-- **Pierwsze 3 znaki**: Wskazują na **miejsce produkcji**.
+- **Pierwsze 3 znaki**: Wskazują **miejsce produkcji**.
 - **Znaki 4 i 5**: Oznaczają **rok i tydzień produkcji**.
 - **Znaki 6 do 8**: Służą jako **unikalny identyfikator** dla każdego urządzenia.
 - **Ostatnie 4 znaki**: Określają **numer modelu**.
@@ -86,7 +86,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 </details>
 {% endhint %}
 </details>
-{% endhint %}sztukami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+{% endhint %}sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 {% endhint %}
 </details>

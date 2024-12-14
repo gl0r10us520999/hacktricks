@@ -20,7 +20,7 @@ Możesz **określić, którego właściciela pliku i uprawnienia chcesz skopiowa
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
-Możesz to wykorzystać, używając [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(połączony atak)_\
+Możesz to wykorzystać za pomocą [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(połączony atak)_\
 Więcej informacji w [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Tar
@@ -46,7 +46,7 @@ Interesting rsync option from manual:
 ```bash
 touch "-e sh shell.sh"
 ```
-Możesz to wykorzystać używając [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_atak _rsync)_\
+Możesz to wykorzystać, używając [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_atak _rsync)_\
 Więcej informacji w [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## 7z
@@ -61,7 +61,7 @@ cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Następnie, gdy **7z** zostanie uruchomiony, potraktuje `root.txt` jako plik zawierający listę plików, które powinien skompresować (to wskazuje na istnienie `@root.txt`), a gdy 7z odczyta `root.txt`, odczyta `/file/you/want/to/read` i **ponieważ zawartość tego pliku nie jest listą plików, zgłosi błąd** pokazując zawartość.
+Wtedy, gdy **7z** jest uruchamiane, traktuje `root.txt` jako plik zawierający listę plików, które powinno skompresować (to wskazuje na istnienie `@root.txt`), a gdy 7z odczytuje `root.txt`, odczyta `/file/you/want/to/read` i **ponieważ zawartość tego pliku nie jest listą plików, zgłosi błąd** pokazując zawartość.
 
 _Więcej informacji w Write-upach z boxa CTF z HackTheBox._
 
@@ -81,7 +81,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

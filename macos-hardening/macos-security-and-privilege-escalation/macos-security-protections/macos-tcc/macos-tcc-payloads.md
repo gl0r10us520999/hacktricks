@@ -441,8 +441,8 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Nagrywanie" %}
-Nagrywaj 5s dźwięku i zapisz go w `/tmp/recording.m4a`
+{% tab title="ObjetiveC - Nagraj" %}
+Nagraj 5s dźwięku i zapisz go w `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -586,7 +586,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Lokalizacja
 
 {% hint style="success" %}
-Aby aplikacja mogła uzyskać dostęp do lokalizacji, **Usługi lokalizacji** (z Prywatności i bezpieczeństwa) **muszą być włączone,** w przeciwnym razie nie będzie mogła uzyskać do nich dostępu.
+Aby aplikacja mogła uzyskać dostęp do lokalizacji, **Usługi lokalizacji** (z Prywatności i bezpieczeństwa) **muszą być włączone,** w przeciwnym razie nie będzie mogła uzyskać do niej dostępu.
 {% endhint %}
 
 * **Uprawnienie**: `com.apple.security.personal-information.location`
@@ -892,7 +892,7 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**Dostępność to bardzo potężne uprawnienie**, można je nadużyć na inne sposoby, na przykład można przeprowadzić **atak na naciśnięcia klawiszy** tylko z tego, bez potrzeby wywoływania System Events.
+**Dostępność to bardzo potężne uprawnienie**, możesz je nadużyć na inne sposoby, na przykład możesz przeprowadzić **atak na naciśnięcia klawiszy** tylko z tego, bez potrzeby wywoływania System Events.
 {% endhint %}
 
 {% hint style="success" %}

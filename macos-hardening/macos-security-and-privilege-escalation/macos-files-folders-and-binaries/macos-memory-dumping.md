@@ -32,7 +32,7 @@ Warto zauważyć, że w nowoczesnych systemach MacOS ten plik jest zazwyczaj szy
 
 ### Memory Pressure Logs
 
-Innym ważnym plikiem związanym z pamięcią w systemach MacOS jest **dziennik ciśnienia pamięci**. Dzienniki te znajdują się w `/var/log` i zawierają szczegółowe informacje o użyciu pamięci przez system oraz zdarzeniach ciśnienia. Mogą być szczególnie przydatne do diagnozowania problemów związanych z pamięcią lub zrozumienia, jak system zarządza pamięcią w czasie.
+Innym ważnym plikiem związanym z pamięcią w systemach MacOS jest **dziennik ciśnienia pamięci**. Te dzienniki znajdują się w `/var/log` i zawierają szczegółowe informacje o użyciu pamięci systemu oraz zdarzeniach ciśnienia. Mogą być szczególnie przydatne do diagnozowania problemów związanych z pamięcią lub zrozumienia, jak system zarządza pamięcią w czasie.
 
 ## Dumping memory with osxpmem
 
@@ -71,7 +71,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

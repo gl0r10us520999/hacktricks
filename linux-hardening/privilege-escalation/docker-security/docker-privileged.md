@@ -48,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 
 ### Systemy plików jądra tylko do odczytu
 
-Systemy plików jądra zapewniają mechanizm, który pozwala procesowi modyfikować zachowanie jądra. Jednak w przypadku procesów kontenerowych chcemy zapobiec ich wprowadzaniu jakichkolwiek zmian w jądrze. Dlatego montujemy systemy plików jądra jako **tylko do odczytu** w obrębie kontenera, zapewniając, że procesy kontenerowe nie mogą modyfikować jądra.
+Systemy plików jądra zapewniają mechanizm, który pozwala procesowi modyfikować zachowanie jądra. Jednak w przypadku procesów kontenerowych chcemy zapobiec ich wprowadzaniu jakichkolwiek zmian w jądrze. Dlatego montujemy systemy plików jądra jako **tylko do odczytu** w obrębie kontenera, zapewniając, że procesy kontenera nie mogą modyfikować jądra.
 
 {% tabs %}
 {% tab title="Wewnątrz domyślnego kontenera" %}
@@ -70,7 +70,7 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Maskowanie nad systemami plików jądra
+### Maskowanie systemów plików jądra
 
 System plików **/proc** jest selektywnie zapisywalny, ale dla bezpieczeństwa, niektóre części są chronione przed dostępem do zapisu i odczytu poprzez nałożenie na nie **tmpfs**, co zapewnia, że procesy kontenera nie mogą uzyskać dostępu do wrażliwych obszarów.
 
@@ -162,11 +162,11 @@ Seccomp_filters:	0
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-Również zauważ, że gdy Docker (lub inne CRI) są używane w klastrze **Kubernetes**, **filtr seccomp jest domyślnie wyłączony**.
+Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
 
 ### AppArmor
 
-**AppArmor** to ulepszenie jądra, które ogranicza **kontenery** do **ograniczonego** zestawu **zasobów** z **profilami per program**. Gdy uruchamiasz z flagą `--privileged`, ta ochrona jest wyłączona.
+**AppArmor** to ulepszenie jądra, które ogranicza **kontenery** do **ograniczonego** zestawu **zasobów** z **profilami per-program**. Gdy uruchamiasz z flagą `--privileged`, ta ochrona jest wyłączona.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -230,11 +230,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
