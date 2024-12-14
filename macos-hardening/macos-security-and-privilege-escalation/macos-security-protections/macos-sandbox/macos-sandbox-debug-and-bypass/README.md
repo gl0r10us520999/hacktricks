@@ -20,25 +20,25 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-이전 이미지에서는 **`com.apple.security.app-sandbox`** 권한을 가진 애플리케이션이 실행될 때 **샌드박스가 어떻게 로드되는지** 관찰할 수 있습니다.
+이전 이미지에서는 **`com.apple.security.app-sandbox`** 권한이 있는 애플리케이션이 실행될 때 **샌드박스가 어떻게 로드되는지** 관찰할 수 있습니다.
 
 컴파일러는 `/usr/lib/libSystem.B.dylib`를 바이너리에 링크합니다.
 
-그런 다음, **`libSystem.B`**는 여러 다른 함수를 호출하여 **`xpc_pipe_routine`**이 앱의 권한을 **`securityd`**에 전송할 때까지 진행합니다. Securityd는 프로세스가 샌드박스 내에서 격리되어야 하는지 확인하고, 그렇다면 격리합니다.\
+그런 다음, **`libSystem.B`**는 여러 함수를 호출하여 **`xpc_pipe_routine`**이 앱의 권한을 **`securityd`**에 전송할 때까지 진행합니다. Securityd는 프로세스가 샌드박스 내에서 격리되어야 하는지 확인하고, 그렇다면 격리합니다.\
 마지막으로, 샌드박스는 **`__sandbox_ms`**에 대한 호출로 활성화되며, 이는 **`__mac_syscall`**을 호출합니다.
 
 ## Possible Bypasses
 
 ### Bypassing quarantine attribute
 
-**샌드박스화된 프로세스에 의해 생성된 파일**은 샌드박스 탈출을 방지하기 위해 **격리 속성**이 추가됩니다. 그러나 샌드박스화된 애플리케이션 내에서 **격리 속성이 없는 `.app` 폴더를 생성**할 수 있다면, 앱 번들 바이너리를 **`/bin/bash`**로 가리키게 하고 **plist**에 몇 가지 환경 변수를 추가하여 **`open`**을 악용하여 **새 앱을 샌드박스 없이 실행**할 수 있습니다.
+**샌드박스화된 프로세스에 의해 생성된 파일**은 샌드박스 탈출을 방지하기 위해 **격리 속성**이 추가됩니다. 그러나 샌드박스화된 애플리케이션 내에서 **격리 속성이 없는 `.app` 폴더를 생성**할 수 있다면, 앱 번들 바이너리를 **`/bin/bash`**로 가리키게 하고 **plist**에 몇 가지 환경 변수를 추가하여 **`open`**을 악용하여 **새 앱을 비샌드박스 상태로 실행**할 수 있습니다.
 
 이것은 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**에서 수행된 것입니다.**
 
 {% hint style="danger" %}
-따라서 현재로서는 **격리 속성이 없는** **`.app`**로 끝나는 이름의 폴더를 생성할 수 있다면, 샌드박스를 탈출할 수 있습니다. macOS는 **`.app` 폴더**와 **주 실행 파일**에서만 **격리** 속성을 **확인**하기 때문입니다 (그리고 우리는 주 실행 파일을 **`/bin/bash`**로 가리키게 할 것입니다).
+따라서 현재로서는 **`.app`**로 끝나는 이름의 폴더를 격리 속성 없이 생성할 수 있다면, 샌드박스를 탈출할 수 있습니다. macOS는 **`.app` 폴더**와 **주 실행 파일**에서만 **격리** 속성을 **확인**하기 때문입니다 (그리고 우리는 주 실행 파일을 **`/bin/bash`**로 가리키게 할 것입니다).
 
-이미 실행할 수 있도록 승인된 .app 번들이 있는 경우 (실행 승인 플래그가 있는 격리 xttr가 있는 경우), 이를 악용할 수도 있습니다... 단, 이제는 샌드박스 내에서 일부 특권 TCC 권한이 없으면 **`.app`** 번들 내에서 쓸 수 없습니다 (샌드박스가 높기 때문에).
+이미 실행할 수 있도록 승인된 .app 번들이 있다면 (실행 승인 플래그가 있는 격리 xttr가 있음), 그것을 악용할 수도 있습니다... 단, 이제는 샌드박스 내에서 권한이 없는 TCC 권한이 없으면 **`.app`** 번들 내에서 쓸 수 없습니다.
 {% endhint %}
 
 ### Abusing Open functionality
@@ -51,14 +51,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Launch Agents/Daemons
 
-애플리케이션이 **샌드박스화되도록 설계되었더라도** (`com.apple.security.app-sandbox`), 예를 들어 **LaunchAgent** (`~/Library/LaunchAgents`)에서 실행되면 샌드박스를 우회할 수 있습니다.\
-[**이 게시물**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818)에서 설명한 바와 같이, 샌드박스화된 애플리케이션으로 지속성을 얻으려면 LaunchAgent로 자동 실행되도록 만들고 DyLib 환경 변수를 통해 악성 코드를 주입할 수 있습니다.
+애플리케이션이 **샌드박스화되어야 하는 경우**(`com.apple.security.app-sandbox`), 예를 들어 **LaunchAgent**(`~/Library/LaunchAgents`)에서 실행되면 샌드박스를 우회할 수 있습니다.\
+[**이 게시물**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818)에서 설명한 바와 같이, 샌드박스화된 애플리케이션으로 지속성을 얻으려면 LaunchAgent로 자동 실행되도록 설정하고 DyLib 환경 변수를 통해 악성 코드를 주입할 수 있습니다.
 
 ### Abusing Auto Start Locations
 
-샌드박스화된 프로세스가 **나중에 샌드박스가 없는 애플리케이션이 바이너리를 실행할 위치에** **쓰기** 할 수 있다면, 그곳에 바이너리를 **배치하기만 하면** 탈출할 수 있습니다. 이러한 위치의 좋은 예는 `~/Library/LaunchAgents` 또는 `/System/Library/LaunchDaemons`입니다.
+샌드박스화된 프로세스가 **나중에 비샌드박스 애플리케이션이 바이너리를 실행할 위치에** **쓰기** 할 수 있다면, 그곳에 바이너리를 **배치하기만 하면** 탈출할 수 있습니다. 이러한 위치의 좋은 예는 `~/Library/LaunchAgents` 또는 `/System/Library/LaunchDaemons`입니다.
 
-이를 위해서는 **2단계**가 필요할 수 있습니다: **더 관대 한 샌드박스** (`file-read*`, `file-write*`)를 가진 프로세스가 실제로 **샌드박스 없이 실행될** 위치에 코드를 작성하도록 실행해야 합니다.
+이를 위해서는 **2단계**가 필요할 수 있습니다: **더 관대 한 샌드박스**(`file-read*`, `file-write*`)를 가진 프로세스가 실제로 **비샌드박스 상태로 실행될** 위치에 쓰도록 코드를 실행하게 합니다.
 
 **자동 시작 위치**에 대한 이 페이지를 확인하세요:
 
@@ -68,7 +68,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Abusing other processes
 
-샌드박스 프로세스에서 **덜 제한적인 샌드박스**(또는 없는 샌드박스)에서 실행 중인 다른 프로세스를 **타협**할 수 있다면, 해당 샌드박스로 탈출할 수 있습니다:
+샌드박스 프로세스에서 **덜 제한적인 샌드박스**(또는 없는 샌드박스)에서 실행 중인 다른 프로세스를 **타격**할 수 있다면, 그들의 샌드박스를 탈출할 수 있습니다:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -76,14 +76,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Static Compiling & Dynamically linking
 
-[**이 연구**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)에서는 샌드박스를 우회하는 2가지 방법을 발견했습니다. 샌드박스는 **libSystem** 라이브러리가 로드될 때 사용자 공간에서 적용됩니다. 바이너리가 이를 로드하지 않도록 할 수 있다면, 샌드박스에 걸리지 않을 것입니다:
+[**이 연구**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)에서는 샌드박스를 우회하는 2가지 방법을 발견했습니다. 샌드박스는 사용자 공간에서 **libSystem** 라이브러리가 로드될 때 적용됩니다. 바이너리가 이를 로드하지 않도록 할 수 있다면, 샌드박스에 걸리지 않을 것입니다:
 
-* 바이너리가 **완전히 정적으로 컴파일된 경우**, 해당 라이브러리를 로드하지 않을 수 있습니다.
-* **바이너리가 어떤 라이브러리도 로드할 필요가 없는 경우** (링커도 libSystem에 있기 때문에), libSystem을 로드할 필요가 없습니다.
+* 바이너리가 **완전히 정적으로 컴파일**되었다면, 해당 라이브러리를 로드하지 않을 수 있습니다.
+* **바이너리가 어떤 라이브러리도 로드할 필요가 없다면** (링커도 libSystem에 있기 때문에), libSystem을 로드할 필요가 없습니다.
 
 ### Shellcodes
 
-**셸코드**조차도 ARM64에서는 `libSystem.dylib`에 링크되어야 함을 유의하세요:
+**ARM64의 shellcodes**도 `libSystem.dylib`에 링크되어야 함을 유의하세요:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
@@ -239,7 +239,7 @@ echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-애플리케이션을 디버깅하여 샌드박스가 언제 로드되는지 확인해 봅시다:
+애플리케이션을 디버깅하여 샌드박스가 언제 로드되는지 확인해 보겠습니다:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -317,7 +317,7 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**샌드박스를 우회하더라도 TCC**는 사용자가 프로세스가 데스크탑에서 파일을 읽는 것을 허용할 것인지 물어봅니다.
+**샌드박스를 우회하더라도 TCC**는 사용자가 프로세스가 데스크탑의 파일을 읽는 것을 허용할지 물어볼 것입니다.
 {% endhint %}
 
 ## References

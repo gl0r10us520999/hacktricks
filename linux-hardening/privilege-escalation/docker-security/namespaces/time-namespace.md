@@ -21,10 +21,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 {% endhint %}
 {% endhint %}
+{% endhint %}
 
 ## Basic Information
 
-Linux의 시간 네임스페이스는 시스템 단조 및 부팅 시간 시계에 대한 네임스페이스별 오프셋을 허용합니다. 이는 일반적으로 Linux 컨테이너에서 컨테이너 내의 날짜/시간을 변경하고 체크포인트 또는 스냅샷에서 복원한 후 시계를 조정하는 데 사용됩니다.
+리눅스의 시간 네임스페이스는 시스템 단조 및 부팅 시간 시계에 대한 네임스페이스별 오프셋을 허용합니다. 이는 리눅스 컨테이너에서 컨테이너 내의 날짜/시간을 변경하고 체크포인트 또는 스냅샷에서 복원한 후 시계를 조정하는 데 일반적으로 사용됩니다.
 
 ## Lab:
 
@@ -77,7 +78,7 @@ sudo find /proc -maxdepth 3 -type l -name time -exec ls -l  {} \; 2>/dev/null | 
 ```
 {% endcode %}
 
-### 시간 네임스페이스에 들어가기
+### 시간 네임스페이스 내부로 들어가기
 ```bash
 nsenter -T TARGET_PID --pid /bin/bash
 ```

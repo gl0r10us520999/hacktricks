@@ -37,20 +37,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### 폴더 루트 R+X 특별 사례
 
-**루트만 R+X 접근 권한**을 가진 **디렉토리**에 파일이 있는 경우, 그 파일은 **다른 누구도 접근할 수 없습니다**. 따라서 **제한**으로 인해 사용자가 읽을 수 없는 **읽을 수 있는 파일**을 이 폴더에서 **다른 폴더로 이동**할 수 있는 취약점이 있다면, 이를 악용하여 이러한 파일을 읽을 수 있습니다.
+**오직 루트만 R+X 접근 권한을 가진** 파일이 있는 **디렉토리**에서는 **다른 누구도 접근할 수 없습니다**. 따라서 **제한**으로 인해 사용자가 읽을 수 없는 **읽기 가능한 파일**을 이 폴더에서 **다른 폴더로 이동**할 수 있는 취약점이 있다면, 이 파일들을 읽기 위해 악용될 수 있습니다.
 
-예제: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+예시: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 심볼릭 링크 / 하드 링크
 
-특권 프로세스가 **하위 권한 사용자**에 의해 **제어될 수 있는** **파일**에 데이터를 쓰고 있거나, 하위 권한 사용자에 의해 **이전에 생성된** 경우, 사용자는 심볼릭 또는 하드 링크를 통해 **다른 파일**을 가리킬 수 있으며, 특권 프로세스는 해당 파일에 쓰게 됩니다.
+특권 프로세스가 **하위 특권 사용자**에 의해 **제어될 수 있는** **파일**에 데이터를 쓰고 있거나, 하위 특권 사용자에 의해 **이전에 생성된** 경우, 사용자는 심볼릭 또는 하드 링크를 통해 **다른 파일을 가리킬 수 있습니다**, 그리고 특권 프로세스는 그 파일에 쓸 것입니다.
 
 공격자가 **임의 쓰기를 악용하여 권한을 상승**시킬 수 있는 다른 섹션을 확인하십시오.
 
 ## .fileloc
 
 **`.fileloc`** 확장자를 가진 파일은 다른 애플리케이션이나 바이너리를 가리킬 수 있으므로, 열릴 때 애플리케이션/바이너리가 실행됩니다.\
-예제:
+예시:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -75,9 +75,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable flag
+### uchg / uchange / uimmutable 플래그
 
-파일/폴더에 이 불변 속성이 설정되어 있으면 xattr를 추가할 수 없습니다.
+파일/폴더에 이 불변 속성이 있으면 xattr를 설정할 수 없습니다.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -89,7 +89,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs mount
 
-**devfs** 마운트는 **xattr**를 지원하지 않습니다. 자세한 내용은 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)에서 확인하세요.
+A **devfs** mount **는 xattr를 지원하지 않습니다**, 자세한 내용은 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)에서 확인하세요.
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -123,9 +123,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** 파일 형식은 ACE를 포함한 파일을 복사합니다.
+**AppleDouble** 파일 형식은 ACE를 포함하여 파일을 복사합니다.
 
-[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서 **`com.apple.acl.text`**라는 xattr에 저장된 ACL 텍스트 표현이 압축 해제된 파일의 ACL로 설정될 것임을 확인할 수 있습니다. 따라서, ACL이 다른 xattr의 기록을 방지하는 애플리케이션을 **AppleDouble** 파일 형식으로 zip 파일에 압축했다면... 격리 xattr는 애플리케이션에 설정되지 않았습니다:
+[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서 **`com.apple.acl.text`**라는 xattr에 저장된 ACL 텍스트 표현이 압축 해제된 파일의 ACL로 설정될 것임을 확인할 수 있습니다. 따라서 ACL이 다른 xattr의 쓰기를 방지하는 애플리케이션을 **AppleDouble** 파일 형식으로 zip 파일로 압축하면... 격리 xattr는 애플리케이션에 설정되지 않았습니다:
 
 자세한 정보는 [**원본 보고서**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)를 확인하세요.
 
@@ -147,9 +147,9 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(작동하더라도 샌드박스는 먼저 격리 xattr를 씁니다)
+(작동하더라도 샌드박스는 먼저 격리 xattr를 작성합니다)
 
-정확히 필요하지는 않지만 혹시 모르니 남겨둡니다:
+정확히 필요하지는 않지만, 혹시 모르니 남겨둡니다:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -157,7 +157,7 @@ ls -le test
 
 ## 코드 서명 우회
 
-번들에는 **`_CodeSignature/CodeResources`** 파일이 포함되어 있으며, 이 파일은 **번들** 내의 모든 **파일**의 **해시**를 포함합니다. CodeResources의 해시도 **실행 파일**에 **내장**되어 있으므로, 그것을 건드릴 수는 없습니다.
+번들에는 **`_CodeSignature/CodeResources`** 파일이 포함되어 있으며, 이 파일은 **번들**의 모든 **파일**의 **해시**를 포함합니다. CodeResources의 해시는 **실행 파일**에도 **내장**되어 있으므로, 그것을 건드릴 수는 없습니다.
 
 그러나 서명이 확인되지 않는 몇 가지 파일이 있으며, 이 파일들은 plist에서 omit 키를 가지고 있습니다.
 ```xml
@@ -213,7 +213,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 
 ## DMG 마운트
 
-사용자는 기존 폴더 위에 생성된 사용자 정의 dmg를 마운트할 수 있습니다. 이렇게 하면 사용자 정의 콘텐츠가 포함된 사용자 정의 dmg 패키지를 생성할 수 있습니다:
+사용자는 기존 폴더 위에 생성된 사용자 정의 DMG를 마운트할 수 있습니다. 이렇게 하면 사용자 정의 콘텐츠가 포함된 사용자 정의 DMG 패키지를 생성할 수 있습니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -238,7 +238,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-보통 macOS는 `com.apple.DiskArbitrarion.diskarbitrariond` Mach 서비스와 통신하여 디스크를 마운트합니다 (이는 `/usr/libexec/diskarbitrationd`에서 제공됨). LaunchDaemons plist 파일에 `-d` 매개변수를 추가하고 재시작하면 `/var/log/diskarbitrationd.log`에 로그를 저장합니다.\
+보통 macOS는 `/usr/libexec/diskarbitrationd`에서 제공하는 `com.apple.DiskArbitrarion.diskarbitrariond` Mach 서비스와 통신하여 디스크를 마운트합니다. LaunchDaemons plist 파일에 `-d` 매개변수를 추가하고 재시작하면 `/var/log/diskarbitrationd.log`에 로그를 저장합니다.\
 그러나 `hdik` 및 `hdiutil`과 같은 도구를 사용하여 `com.apple.driver.DiskImages` kext와 직접 통신할 수 있습니다.
 
 ## 임의 쓰기
@@ -251,7 +251,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### 데몬
 
-임의의 **LaunchDaemon**을 작성하십시오. 예: **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**는 임의의 스크립트를 실행하는 plist입니다.
+임의의 스크립트를 실행하는 plist와 함께 **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**와 같은 임의의 **LaunchDaemon**을 작성합니다:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -282,7 +282,7 @@ You can also write files in **`/etc/paths.d`** to load new folders into the `PAT
 
 ## Generate writable files as other users
 
-이것은 내가 쓸 수 있는 루트 소유의 파일을 생성합니다 ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). 이것은 privesc로도 작동할 수 있습니다:
+이것은 내가 쓸 수 있는 루트 소속의 파일을 생성합니다 ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). 이것은 privesc로도 작동할 수 있습니다:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -296,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX 공유 메모리
 
-**POSIX 공유 메모리**는 POSIX 호환 운영 체제에서 프로세스가 공통 메모리 영역에 접근할 수 있도록 하여 다른 프로세스 간 통신 방법에 비해 더 빠른 통신을 가능하게 합니다. 이는 `shm_open()`으로 공유 메모리 객체를 생성하거나 열고, `ftruncate()`로 크기를 설정하며, `mmap()`을 사용하여 프로세스의 주소 공간에 매핑하는 과정을 포함합니다. 프로세스는 이 메모리 영역에서 직접 읽고 쓸 수 있습니다. 동시 접근을 관리하고 데이터 손상을 방지하기 위해 뮤텍스나 세마포어와 같은 동기화 메커니즘이 자주 사용됩니다. 마지막으로, 프로세스는 `munmap()`과 `close()`로 공유 메모리를 언매핑하고 닫으며, 선택적으로 `shm_unlink()`로 메모리 객체를 제거합니다. 이 시스템은 여러 프로세스가 공유 데이터에 빠르게 접근해야 하는 환경에서 효율적이고 빠른 IPC에 특히 효과적입니다.
+**POSIX 공유 메모리**는 POSIX 호환 운영 체제에서 프로세스가 공통 메모리 영역에 접근할 수 있도록 하여 다른 프로세스 간 통신 방법에 비해 더 빠른 통신을 가능하게 합니다. 이는 `shm_open()`으로 공유 메모리 객체를 생성하거나 열고, `ftruncate()`로 크기를 설정하며, `mmap()`을 사용하여 프로세스의 주소 공간에 매핑하는 과정을 포함합니다. 프로세스는 이 메모리 영역에서 직접 읽고 쓸 수 있습니다. 동시 접근을 관리하고 데이터 손상을 방지하기 위해 뮤텍스나 세마포와 같은 동기화 메커니즘이 자주 사용됩니다. 마지막으로, 프로세스는 `munmap()`과 `close()`로 공유 메모리를 언매핑하고 닫으며, 선택적으로 `shm_unlink()`로 메모리 객체를 제거합니다. 이 시스템은 여러 프로세스가 공유 데이터에 빠르게 접근해야 하는 환경에서 효율적이고 빠른 IPC를 위해 특히 효과적입니다.
 
 <details>
 
@@ -390,7 +390,7 @@ return 0;
 ```
 </details>
 
-## macOS Guarded Descriptors
+## macOS 보호된 설명자
 
 **macOS 보호된 설명자**는 사용자 애플리케이션에서 **파일 설명자 작업**의 안전성과 신뢰성을 향상시키기 위해 macOS에 도입된 보안 기능입니다. 이러한 보호된 설명자는 파일 설명자와 특정 제한 또는 "가드"를 연결하는 방법을 제공하며, 이는 커널에 의해 시행됩니다.
 

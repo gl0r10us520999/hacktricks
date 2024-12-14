@@ -21,7 +21,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ### Requirements
 
-명백히, 이것은 매우 강력하여 **커널 확장을 로드하는 것이 복잡합니다**. 커널 확장이 로드되기 위해 충족해야 하는 **요구 사항**은 다음과 같습니다:
+명백히, 이것은 매우 강력하여 **커널 확장을 로드하는 것이 복잡합니다**. 커널 확장이 로드되기 위해 충족해야 할 **요구 사항**은 다음과 같습니다:
 
 * **복구 모드에 들어갈 때**, 커널 **확장이 로드될 수 있도록 허용되어야 합니다**:
 
@@ -37,7 +37,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 카탈리나에서는 이렇게 진행되었습니다: **검증** 과정이 **사용자 공간**에서 발생한다는 점이 흥미롭습니다. 그러나 **`com.apple.private.security.kext-management`** 권한이 있는 애플리케이션만이 **커널에 확장을 로드하도록 요청할 수 있습니다**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli **가** 확장을 로드하기 위한 **검증** 과정을 **시작합니다**
+1. **`kextutil`** CLI가 **확장을 로드하기 위한 검증** 과정을 **시작합니다**
 * **Mach 서비스**를 사용하여 **`kextd`**와 통신합니다.
 2. **`kextd`**는 **서명**과 같은 여러 가지를 확인합니다.
 * **`syspolicyd`**와 통신하여 확장이 **로드될 수 있는지 확인합니다.
@@ -58,12 +58,12 @@ kextstat | grep " 22 " | cut -c2-5,50- | cut -d '(' -f1
 ## Kernelcache
 
 {% hint style="danger" %}
-커널 확장 프로그램이 `/System/Library/Extensions/`에 있어야 하지만, 이 폴더에 가면 **이진 파일을 찾을 수 없습니다**. 이는 **kernelcache** 때문이며, 하나의 `.kext`를 리버스 엔지니어링하려면 이를 얻는 방법을 찾아야 합니다.
+커널 확장 프로그램이 `/System/Library/Extensions/`에 있어야 하지만, 이 폴더에 가면 **바이너리**를 **찾을 수 없습니다**. 이는 **kernelcache** 때문이며, 하나의 `.kext`를 리버스 엔지니어링하려면 이를 얻는 방법을 찾아야 합니다.
 {% endhint %}
 
 **kernelcache**는 **XNU 커널의 미리 컴파일되고 미리 링크된 버전**과 필수 장치 **드라이버** 및 **커널 확장 프로그램**을 포함합니다. 이는 **압축된** 형식으로 저장되며 부팅 과정 중 메모리로 압축 해제됩니다. kernelcache는 커널과 중요한 드라이버의 실행 준비가 된 버전을 제공하여 부팅 시간을 단축시키고, 부팅 시 이러한 구성 요소를 동적으로 로드하고 링크하는 데 소요되는 시간과 자원을 줄여줍니다.
 
-### Local Kernelcache
+### Local Kerlnelcache
 
 iOS에서는 **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**에 위치하며, macOS에서는 **`find / -name "kernelcache" 2>/dev/null`**로 찾을 수 있습니다. \
 제 경우 macOS에서 찾은 위치는:
@@ -109,7 +109,7 @@ nm -a ~/Downloads/Sandbox.kext/Contents/MacOS/Sandbox | wc -l
 
 가끔 Apple은 **kernelcache**와 **symbols**를 함께 배포합니다. 해당 페이지의 링크를 따라가면 **symbols**가 포함된 일부 펌웨어를 다운로드할 수 있습니다. 펌웨어에는 다른 파일들 중에 **kernelcache**가 포함되어 있습니다.
 
-파일을 **추출**하려면 `.ipsw` 확장자를 `.zip`으로 변경한 후 **압축을 풉니다**.
+파일을 **추출**하려면 `.ipsw` 확장자를 `.zip`으로 변경한 후 **압축 해제**합니다.
 
 펌웨어를 추출한 후에는 **`kernelcache.release.iphone14`**와 같은 파일을 얻게 됩니다. 이 파일은 **IMG4** 형식이며, 다음을 사용하여 흥미로운 정보를 추출할 수 있습니다:
 
@@ -131,7 +131,7 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```bash
 nm -a kernelcache.release.iphone14.e | wc -l
 ```
-이제 **모든 확장** 또는 **관심 있는 확장**을 **추출할 수 있습니다:**
+이제 **모든 확장자를 추출**하거나 **관심 있는 확장자**를 추출할 수 있습니다:
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e

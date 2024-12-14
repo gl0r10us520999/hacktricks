@@ -99,7 +99,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 에이전트를 **다른 Java 버전**으로 생성하면 에이전트와 애플리케이션 모두의 실행이 중단될 수 있습니다.
 {% endhint %}
 
-에이전트는 다음과 같을 수 있습니다:
+에이전트는 다음과 같습니다:
 
 {% code title="Agent.java" %}
 ```java
@@ -144,11 +144,11 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 ## vmoptions 파일
 
 이 파일은 Java가 실행될 때 **Java 매개변수**의 지정을 지원합니다. 이전의 몇 가지 트릭을 사용하여 java 매개변수를 변경하고 **프로세스가 임의의 명령을 실행하도록 만들 수 있습니다**.\
-게다가, 이 파일은 `include` 디렉토리로 다른 파일을 **포함할 수** 있으므로 포함된 파일을 변경할 수도 있습니다.
+게다가, 이 파일은 `include` 디렉토리를 사용하여 **다른 파일을 포함할 수** 있으므로 포함된 파일을 변경할 수도 있습니다.
 
 더욱이, 일부 Java 앱은 **하나 이상의 `vmoptions`** 파일을 **로드**합니다.
 
-Android Studio와 같은 일부 애플리케이션은 이러한 파일을 찾고 있는 **출력 위치를** 나타냅니다, 예:
+Android Studio와 같은 일부 애플리케이션은 이러한 파일을 찾고 있는 **출력 위치를 표시합니다**, 예:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -159,7 +159,7 @@ Android Studio와 같은 일부 애플리케이션은 이러한 파일을 찾고
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-그렇지 않다면 다음과 같이 쉽게 확인할 수 있습니다:
+그렇지 않으면 다음과 같이 쉽게 확인할 수 있습니다:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal

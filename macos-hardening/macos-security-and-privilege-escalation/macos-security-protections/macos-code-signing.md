@@ -118,7 +118,7 @@ __attribute__ ((aligned(1)));
 
 ## 서명 코드 페이지
 
-전체 바이너리를 해싱하는 것은 비효율적이며, 메모리에 부분적으로만 로드될 경우에는 무의미합니다. 따라서 코드 서명은 실제로 각 바이너리 페이지가 개별적으로 해싱된 해시의 해시입니다.\
+전체 바이너리를 해싱하는 것은 비효율적이며, 메모리에 부분적으로만 로드될 때는 심지어 쓸모가 없습니다. 따라서 코드 서명은 실제로 각 바이너리 페이지가 개별적으로 해싱된 해시의 해시입니다.\
 실제로 이전 **코드 디렉토리** 코드에서 **페이지 크기가 지정된** 것을 볼 수 있습니다. 또한, 바이너리의 크기가 페이지 크기의 배수가 아닐 경우, 필드 **CodeLimit**는 서명의 끝이 어디인지 지정합니다.
 ```bash
 # Get all hashes of /bin/ps
@@ -175,7 +175,7 @@ MacOS 응용 프로그램은 실행에 필요한 모든 것을 바이너리 내�
 
 ## Code Signing Flags
 
-모든 프로세스는 커널에 의해 시작되는 비트마스크인 `status`와 관련이 있으며, 그 중 일부는 **코드 서명**에 의해 재정의될 수 있습니다. 코드 서명에 포함될 수 있는 이러한 플래그는 [코드에서 정의되어 있습니다](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+모든 프로세스는 `status`라는 비트마스크와 관련이 있으며, 이는 커널에 의해 시작되며 일부는 **코드 서명**에 의해 재정의될 수 있습니다. 코드 서명에 포함될 수 있는 이러한 플래그는 [코드에서 정의되어 있습니다](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -220,13 +220,13 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Note that the function [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) can also add the `CS_EXEC_*` flags dynamically when starting the execution.
+Note that the function [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420)는 실행을 시작할 때 `CS_EXEC_*` 플래그를 동적으로 추가할 수 있습니다.
 
 ## 코드 서명 요구 사항
 
-각 애플리케이션은 실행될 수 있도록 **충족해야 하는** **요구 사항**을 저장합니다. 만약 **애플리케이션이 충족되지 않는 요구 사항을 포함하고 있다면**, 실행되지 않습니다 (아마도 변경되었기 때문입니다).
+각 애플리케이션은 실행될 수 있도록 **충족해야 하는** **요구 사항**을 저장합니다. 만약 **애플리케이션에 의해 충족되지 않는 요구 사항이 포함되어 있다면**, 실행되지 않습니다 (아마도 변경되었기 때문입니다).
 
-바이너리의 요구 사항은 **특별한 문법**을 사용하며, 이는 **표현식**의 흐름으로 `0xfade0c00`을 매직으로 사용하여 블롭으로 인코딩됩니다. 이 **해시는 특별한 코드 슬롯에 저장됩니다**.
+바이너리의 요구 사항은 **특별한 문법**을 사용하며, 이는 **표현**의 흐름이고 `0xfade0c00`을 매직으로 사용하여 블롭으로 인코딩됩니다. 이 **해시는 특별한 코드 슬롯에 저장됩니다**.
 
 바이너리의 요구 사항은 다음을 실행하여 확인할 수 있습니다:
 
@@ -298,7 +298,7 @@ od -A x -t x1 /tmp/output.csreq
 * **`SecCodeCopyGuestWithAttributes`**: 특정 속성을 기반으로 하는 코드 객체를 나타내는 `SecCodeRef`를 생성하며, 샌드박싱에 유용합니다.
 * **`SecCodeCopyPath`**: `SecCodeRef`와 관련된 파일 시스템 경로를 검색합니다.
 * **`SecCodeCopySigningIdentifier`**: `SecCodeRef`에서 서명 식별자(예: 팀 ID)를 얻습니다.
-* **`SecCodeGetTypeID`**: `SecCodeRef` 객체에 대한 유형 식별자를 반환합니다.
+* **`SecCodeGetTypeID`**: `SecCodeRef` 객체의 유형 식별자를 반환합니다.
 * **`SecRequirementGetTypeID`**: `SecRequirementRef`의 CFTypeID를 가져옵니다.
 
 #### **코드 서명 플래그 및 상수**
@@ -308,7 +308,7 @@ od -A x -t x1 /tmp/output.csreq
 
 ## 코드 서명 강제 적용
 
-**커널**은 앱의 코드가 실행되기 전에 **코드 서명**을 **검사**하는 역할을 합니다. 또한, 메모리에 새로운 코드를 작성하고 실행할 수 있는 한 가지 방법은 `mprotect`가 `MAP_JIT` 플래그와 함께 호출될 때 JIT를 악용하는 것입니다. 이 작업을 수행하려면 애플리케이션에 특별한 권한이 필요합니다.
+**커널**은 앱의 코드가 실행되기 전에 **코드 서명**을 **검사**합니다. 또한, 메모리에 새로운 코드를 작성하고 실행할 수 있는 한 가지 방법은 `mprotect`가 `MAP_JIT` 플래그와 함께 호출될 때 JIT를 악용하는 것입니다. 이 작업을 수행하려면 애플리케이션에 특별한 권한이 필요합니다.
 
 ## `cs_blobs` & `cs_blob`
 

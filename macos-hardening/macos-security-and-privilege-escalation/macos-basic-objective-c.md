@@ -31,7 +31,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Objective-C
 
 {% hint style="danger" %}
-Objective-C로 작성된 프로그램은 [Mach-O 바이너리](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)로 **컴파일**될 때 **클래스 선언**을 **유지**한다는 점에 유의하십시오. 이러한 클래스 선언에는 다음의 이름과 유형이 **포함**됩니다:
+Objective-C로 작성된 프로그램은 [Mach-O 바이너리](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)로 **컴파일**될 때 **클래스 선언**을 **유지**합니다. 이러한 클래스 선언에는 다음의 이름과 유형이 **포함**됩니다:
 {% endhint %}
 
 * 클래스
@@ -79,7 +79,7 @@ self.numberOfWheels += value;
 ```
 ### **객체 및 메서드 호출**
 
-클래스의 인스턴스를 생성하기 위해 **`alloc`** 메서드가 호출되어 각 **속성**에 대한 **메모리**를 **할당**하고 해당 할당을 **제로**로 설정합니다. 그런 다음 **`init`**이 호출되어 **속성**을 **필요한 값**으로 **초기화**합니다.
+클래스의 인스턴스를 생성하기 위해 **`alloc`** 메서드가 호출되어 각 **속성**에 대한 **메모리**를 **할당**하고 해당 할당을 **0**으로 설정합니다. 그런 다음 **`init`**이 호출되어 **속성**을 **필요한 값**으로 **초기화**합니다.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -93,7 +93,7 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **클래스 메서드**
 
-클래스 메서드는 인스턴스 메서드에 사용되는 하이픈(-)이 아닌 **플러스 기호**(+)로 정의됩니다. **NSString** 클래스 메서드 **`stringWithString`**와 같습니다:
+클래스 메서드는 인스턴스 메서드에 사용되는 하이픈(-)이 아닌 **플러스 기호**(+)로 정의됩니다. **NSString** 클래스 메서드 **`stringWithString`**와 같이:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
@@ -118,7 +118,7 @@ _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### Protocols
+### 프로토콜
 
 프로토콜은 메서드 선언의 집합입니다(속성 없이). 프로토콜을 구현하는 클래스는 선언된 메서드를 구현합니다.
 
@@ -203,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-또한 **mutable** 문자열 클래스를 사용할 수도 있습니다:
+또는 **mutable** 문자열 클래스를 사용할 수도 있습니다:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -355,7 +355,7 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-파일을 **`NSString`** 객체 대신 **`NSURL`** 객체를 사용하여 관리하는 것도 가능합니다. 메서드 이름은 비슷하지만 **`Path` 대신 `URL`**을 사용합니다.
+파일을 **`NSString`** 객체 대신 **`NSURL`** 객체를 사용하여 관리하는 것도 가능합니다. 메서드 이름은 유사하지만 **`Path`** 대신 **`URL`**을 사용합니다.
 ```objectivec
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -30,7 +30,7 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 
 [**이 스크립트들**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) 또는 [**이 스크립트**](https://github.com/octomagon/davegrohl.git)는 해시를 **hashcat** **형식**으로 변환하는 데 사용할 수 있습니다.
 
-모든 비서비스 계정의 자격 증명을 hashcat 형식 `-m 7100` (macOS PBKDF2-SHA512)으로 덤프하는 대체 원라이너: 
+모든 비서비스 계정의 자격 증명을 해시캣 형식 `-m 7100` (macOS PBKDF2-SHA512)으로 덤프하는 대체 원라이너: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -63,13 +63,13 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 
 ### Keychaindump 개요
 
-**keychaindump**라는 도구는 macOS 키체인에서 비밀번호를 추출하기 위해 개발되었지만, Big Sur와 같은 최신 macOS 버전에서는 제한이 있습니다. **keychaindump**를 사용하려면 공격자가 **root** 권한을 얻고 권한을 상승시켜야 합니다. 이 도구는 사용자 로그인 시 기본적으로 키체인이 잠금 해제된다는 사실을 이용하여, 애플리케이션이 사용자의 비밀번호를 반복적으로 요구하지 않고도 접근할 수 있도록 합니다. 그러나 사용자가 매번 사용 후 키체인을 잠그기로 선택하면 **keychaindump**는 효과가 없습니다.
+**keychaindump**라는 도구는 macOS 키체인에서 비밀번호를 추출하기 위해 개발되었지만, Big Sur와 같은 최신 macOS 버전에서는 제한이 있습니다. **keychaindump**를 사용하려면 공격자가 **root** 권한을 얻고 권한을 상승시켜야 합니다. 이 도구는 사용자 로그인 시 키체인이 기본적으로 잠금 해제된다는 사실을 이용하여, 애플리케이션이 사용자의 비밀번호를 반복적으로 요구하지 않고도 접근할 수 있도록 합니다. 그러나 사용자가 매번 사용 후 키체인을 잠그기로 선택하면 **keychaindump**는 효과가 없어집니다.
 
-**Keychaindump**는 **securityd**라는 특정 프로세스를 타겟으로 작동하며, Apple에 의해 권한 부여 및 암호화 작업을 위한 데몬으로 설명됩니다. 이는 키체인에 접근하는 데 필수적입니다. 추출 과정은 사용자의 로그인 비밀번호에서 파생된 **Master Key**를 식별하는 것을 포함합니다. 이 키는 키체인 파일을 읽는 데 필수적입니다. **Master Key**를 찾기 위해 **keychaindump**는 `vmmap` 명령을 사용하여 **securityd**의 메모리 힙을 스캔하고, `MALLOC_TINY`로 플래그가 지정된 영역 내에서 잠재적인 키를 찾습니다. 다음 명령은 이러한 메모리 위치를 검사하는 데 사용됩니다:
+**Keychaindump**는 Apple이 권한 부여 및 암호화 작업을 위한 데몬으로 설명하는 특정 프로세스인 **securityd**를 타겟으로 작동합니다. 이 프로세스는 키체인에 접근하는 데 필수적입니다. 추출 과정은 사용자의 로그인 비밀번호에서 파생된 **Master Key**를 식별하는 것을 포함합니다. 이 키는 키체인 파일을 읽는 데 필수적입니다. **Master Key**를 찾기 위해 **keychaindump**는 `vmmap` 명령을 사용하여 **securityd**의 메모리 힙을 스캔하고, `MALLOC_TINY`로 플래그가 지정된 영역 내에서 잠재적인 키를 찾습니다. 다음 명령은 이러한 메모리 위치를 검사하는 데 사용됩니다:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-잠재적인 마스터 키를 식별한 후, **keychaindump**는 특정 패턴(`0x0000000000000018`)을 나타내는 후보 마스터 키를 찾기 위해 힙을 검색합니다. 이 키를 활용하기 위해서는 **keychaindump**의 소스 코드에 설명된 대로 추가적인 단계, 즉 디옵퓨스케이션이 필요합니다. 이 분야에 집중하는 분석가는 키체인을 복호화하는 데 필요한 중요한 데이터가 **securityd** 프로세스의 메모리에 저장되어 있다는 점에 유의해야 합니다. **keychaindump**를 실행하는 예제 명령은:
+잠재적인 마스터 키를 식별한 후, **keychaindump**는 특정 패턴(`0x0000000000000018`)을 나타내는 후보 마스터 키를 찾기 위해 힙을 검색합니다. 이 키를 활용하기 위해서는 **keychaindump**의 소스 코드에 설명된 대로 추가적인 단계인 디옵스큐레이션이 필요합니다. 이 분야에 집중하는 분석가는 키체인을 복호화하는 데 필요한 중요한 데이터가 **securityd** 프로세스의 메모리에 저장되어 있다는 점에 유의해야 합니다. **keychaindump**를 실행하는 예제 명령은:
 ```bash
 sudo ./keychaindump
 ```
@@ -84,7 +84,7 @@ sudo ./keychaindump
 * 공개 키
 * X509 인증서
 * 보안 노트
-* 애플쉐어 비밀번호
+* Appleshare 비밀번호
 
 키체인 잠금 해제 비밀번호, [volafox](https://github.com/n0fate/volafox) 또는 [volatility](https://github.com/volatilityfoundation/volatility)를 사용하여 얻은 마스터 키, 또는 SystemKey와 같은 잠금 해제 파일이 주어지면 Chainbreaker는 평문 비밀번호도 제공합니다.
 
@@ -95,7 +95,7 @@ sudo ./keychaindump
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-#### **SystemKey를 사용하여 키체인 키(비밀번호 포함) 덤프하기**
+#### **SystemKey로 키체인 키(비밀번호 포함) 덤프하기**
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -125,7 +125,7 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **사용자 비밀번호를 사용하여 키체인 키 덤프(비밀번호 포함)**
 
-사용자의 비밀번호를 알고 있다면 이를 사용하여 **사용자에게 속한 키체인을 덤프하고 복호화할 수 있습니다**.
+사용자 비밀번호를 알고 있다면 이를 사용하여 **사용자에게 속한 키체인을 덤프하고 복호화할 수 있습니다**.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
@@ -135,11 +135,11 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 **kcpassword** 파일은 **사용자의 로그인 비밀번호**를 저장하는 파일이지만, 시스템 소유자가 **자동 로그인을 활성화**한 경우에만 해당됩니다. 따라서 사용자는 비밀번호를 입력하라는 요청 없이 자동으로 로그인됩니다(이는 그리 안전하지 않습니다).
 
 비밀번호는 **`/etc/kcpassword`** 파일에 **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** 키와 XOR되어 저장됩니다. 사용자의 비밀번호가 키보다 길면 키가 재사용됩니다.\
-이로 인해 비밀번호를 복구하기가 꽤 쉬워지며, 예를 들어 [**이 스크립트**](https://gist.github.com/opshope/32f65875d45215c3677d)를 사용할 수 있습니다.
+이로 인해 비밀번호를 복구하기가 꽤 쉬워지며, 예를 들어 [**이 스크립트**](https://gist.github.com/opshope/32f65875d45215c3677d)와 같은 스크립트를 사용할 수 있습니다.
 
-## 데이터베이스의 흥미로운 정보
+## Interesting Information in Databases
 
-### 메시지
+### Messages
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -151,7 +151,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`에서 알림 데이터를 찾을 수 있습니다.
 
-대부분의 흥미로운 정보는 **blob**에 있을 것입니다. 따라서 해당 내용을 **추출**하고 **사람이 읽을 수 있는** 형식으로 **변환**하거나 **`strings`**를 사용할 필요가 있습니다. 접근하려면 다음과 같이 할 수 있습니다:
+가장 흥미로운 정보는 **blob**에 있을 것입니다. 따라서 해당 내용을 **추출**하고 **사람이 읽을 수 있는** 형식으로 **변환**하거나 **`strings`**를 사용할 필요가 있습니다. 접근하려면 다음과 같이 할 수 있습니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -221,11 +221,11 @@ macOS에서는 CLI 도구 **`defaults`**를 사용하여 **환경설정 파일�
 
 ### 다윈 알림
 
-알림을 위한 주요 데몬은 **`/usr/sbin/notifyd`**입니다. 알림을 받기 위해 클라이언트는 `com.apple.system.notification_center` Mach 포트를 통해 등록해야 합니다(이를 확인하려면 `sudo lsmp -p <pid notifyd>`를 사용하세요). 데몬은 `/etc/notify.conf` 파일로 구성할 수 있습니다.
+알림을 위한 주요 데몬은 **`/usr/sbin/notifyd`**입니다. 알림을 받기 위해 클라이언트는 `com.apple.system.notification_center` Mach 포트를 통해 등록해야 합니다 (이를 확인하려면 `sudo lsmp -p <pid notifyd>`를 사용하세요). 데몬은 `/etc/notify.conf` 파일로 구성할 수 있습니다.
 
 알림에 사용되는 이름은 고유한 역 DNS 표기법이며, 알림이 그 중 하나로 전송되면 이를 처리할 수 있다고 표시한 클라이언트가 수신하게 됩니다.
 
-현재 상태를 덤프하고(모든 이름을 확인) notifyd 프로세스에 SIGUSR2 신호를 보내고 생성된 파일을 읽어 `/var/run/notifyd_<pid>.status`를 확인하는 것이 가능합니다.
+현재 상태를 덤프하고 (모든 이름을 확인하려면) notifyd 프로세스에 SIGUSR2 신호를 보내고 생성된 파일을 읽으면 됩니다: `/var/run/notifyd_<pid>.status`:
 ```bash
 ps -ef | grep -i notifyd
 0   376     1   0 15Mar24 ??        27:40.97 /usr/sbin/notifyd
@@ -252,7 +252,7 @@ common: com.apple.security.octagon.joined-with-bottle
 
 환경 설정은 `/Library/Preferences/com.apple.apsd.plist`에 위치합니다.
 
-macOS의 메시지 로컬 데이터베이스는 `/Library/Application\ Support/ApplePushService/aps.db`에 있으며, iOS에서는 `/var/mobile/Library/ApplePushService`에 있습니다. 이 데이터베이스는 `incoming_messages`, `outgoing_messages` 및 `channel`의 3개 테이블을 가지고 있습니다.
+macOS에는 `/Library/Application\ Support/ApplePushService/aps.db`에 메시지의 로컬 데이터베이스가 있으며, iOS에는 `/var/mobile/Library/ApplePushService`에 있습니다. 이 데이터베이스에는 `incoming_messages`, `outgoing_messages` 및 `channel`의 3개 테이블이 있습니다.
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
@@ -262,7 +262,7 @@ sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
 ## 사용자 알림
 
-사용자가 화면에서 봐야 할 알림입니다:
+사용자가 화면에서 봐야 하는 알림입니다:
 
 * **`CFUserNotification`**: 이 API는 메시지를 포함한 팝업을 화면에 표시하는 방법을 제공합니다.
 * **게시판**: iOS에서 사라지는 배너를 표시하며, 알림 센터에 저장됩니다.

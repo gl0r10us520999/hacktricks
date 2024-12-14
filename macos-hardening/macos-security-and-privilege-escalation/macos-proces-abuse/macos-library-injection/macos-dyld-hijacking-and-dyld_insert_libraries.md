@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## DYLD\_INSERT\_LIBRARIES 기본 예제
 
-**쉘을 실행하기 위해 주입할 라이브러리:**
+**주입할 라이브러리** 쉘을 실행하기 위해:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -52,7 +52,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
 ## Dyld Hijacking Example
 
-타겟 취약 바이너리는 `/Applications/VulnDyld.app/Contents/Resources/lib/binary`입니다.
+대상 취약 이진 파일은 `/Applications/VulnDyld.app/Contents/Resources/lib/binary`입니다.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -159,17 +159,17 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 그리고 **바이너리**를 실행하고 **라이브러리가 로드되었는지** 확인합니다:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib가 /Applications/VulnDyld.app/Contents/Resources/lib/binary에서 탈취되었습니다
 </strong>Usage: [...]
 </code></pre>
 
 {% hint style="info" %}
-텔레그램의 카메라 권한을 악용하는 방법에 대한 좋은 글은 [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)에서 찾을 수 있습니다.
+텔레그램의 카메라 권한을 악용하는 방법에 대한 좋은 글은 [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)에서 확인할 수 있습니다.
 {% endhint %}
 
 ## 더 큰 규모
 
-예상치 못한 바이너리에 라이브러리를 주입하려고 계획하고 있다면, 프로세스 내에서 라이브러리가 로드될 때를 알아내기 위해 이벤트 메시지를 확인할 수 있습니다(이 경우 printf와 `/bin/bash` 실행을 제거하십시오).
+예상치 못한 바이너리에 라이브러리를 주입하려고 계획하고 있다면, 프로세스 내에서 라이브러리가 로드될 때를 알아내기 위해 이벤트 메시지를 확인할 수 있습니다 (이 경우 printf와 `/bin/bash` 실행을 제거하십시오).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
@@ -182,8 +182,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

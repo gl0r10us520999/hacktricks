@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**이것은 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/) 게시물의 요약입니다. 추가 세부정보는 해당 링크를 확인하세요!**
+**이것은 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/) 게시물의 요약입니다. 자세한 내용은 확인하세요!**
 
 ## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
@@ -23,9 +23,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 .NET에서 디버거와 디버그 대상 간의 통신 처리는 [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp)에서 관리됩니다. 이 구성 요소는 [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127)에서 볼 수 있듯이 각 .NET 프로세스에 대해 두 개의 명명된 파이프를 설정하며, 이는 [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)를 통해 시작됩니다. 이러한 파이프는 **`-in`** 및 **`-out`**으로 접미사가 붙습니다.
 
-사용자의 **`$TMPDIR`**를 방문하면 .Net 애플리케이션을 디버깅하기 위한 디버깅 FIFO를 찾을 수 있습니다.
+사용자의 **`$TMPDIR`**를 방문하면 .Net 애플리케이션을 디버깅하기 위한 FIFO를 찾을 수 있습니다.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)는 디버거로부터의 통신 관리를 담당합니다. 새로운 디버깅 세션을 시작하려면 디버거는 `MessageHeader` 구조체로 시작하는 메시지를 `out` 파이프를 통해 전송해야 하며, 이는 .NET 소스 코드에 자세히 설명되어 있습니다:
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)는 디버거로부터의 통신을 관리하는 역할을 합니다. 새로운 디버깅 세션을 시작하려면, 디버거는 `out` 파이프를 통해 `MessageHeader` 구조체로 시작하는 메시지를 전송해야 하며, 이는 .NET 소스 코드에 자세히 설명되어 있습니다:
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -44,7 +44,7 @@ DWORD         m_dwMinorVersion;
 BYTE          m_sMustBeZero[8];
 }
 ```
-새 세션을 요청하기 위해, 이 구조체는 다음과 같이 채워지며, 메시지 유형을 `MT_SessionRequest`로 설정하고 프로토콜 버전을 현재 버전으로 설정합니다:
+새 세션을 요청하기 위해 이 구조체는 다음과 같이 채워지며, 메시지 유형을 `MT_SessionRequest`로 설정하고 프로토콜 버전을 현재 버전으로 설정합니다:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -66,7 +66,7 @@ write(wr, &sDataBlock, sizeof(SessionRequestData));
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
 ## 메모리 읽기
-디버깅 세션이 설정되면 [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) 메시지 유형을 사용하여 메모리를 읽을 수 있습니다. 함수 readMemory는 읽기 요청을 보내고 응답을 검색하는 데 필요한 단계를 수행하는 자세한 내용입니다:
+디버깅 세션이 설정되면, [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) 메시지 유형을 사용하여 메모리를 읽을 수 있습니다. 함수 readMemory는 읽기 요청을 보내고 응답을 검색하는 데 필요한 단계를 수행하는 자세한 내용입니다:
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -107,7 +107,7 @@ vmmap -pages 35829 | grep "rwx/rwx"
 
 x64 시스템의 경우, 서명 검색을 사용하여 `libcorclr.dll`에서 심볼 `_hlpDynamicFuncTable`에 대한 참조를 찾을 수 있습니다.
 
-`MT_GetDCB` 디버거 함수는 헬퍼 함수의 주소인 `m_helperRemoteStartAddr`를 포함하여 유용한 정보를 제공합니다. 이는 프로세스 메모리에서 `libcorclr.dll`의 위치를 나타냅니다. 이 주소는 DFT 검색을 시작하고 함수 포인터를 셸코드의 주소로 덮어쓰는 데 사용됩니다.
+`MT_GetDCB` 디버거 함수는 헬퍼 함수의 주소인 `m_helperRemoteStartAddr`를 포함하여 유용한 정보를 제공합니다. 이는 프로세스 메모리에서 `libcorclr.dll`의 위치를 나타냅니다. 이 주소는 DFT 검색을 시작하고 함수 포인터를 쉘코드의 주소로 덮어쓰는 데 사용됩니다.
 
 PowerShell에 대한 주입을 위한 전체 POC 코드는 [여기](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6)에서 접근할 수 있습니다.
 

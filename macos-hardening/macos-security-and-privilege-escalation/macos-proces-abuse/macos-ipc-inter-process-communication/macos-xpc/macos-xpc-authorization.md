@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m`의 `setupAuthorizationRights` 함수는 애플리케이션의 권한을 `/var/db/auth.db`의 인증 데이터베이스에 저장합니다. 데이터베이스에 아직 없는 권한만 추가된다는 점에 유의하십시오:
+`Common/Common.m`의 `setupAuthorizationRights` 함수는 애플리케이션의 권한을 `/var/db/auth.db` 인증 데이터베이스에 저장합니다. 데이터베이스에 아직 없는 권한만 추가한다는 점에 유의하십시오:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -189,11 +189,11 @@ block(authRightName, authRightDefault, authRightDesc);
 
 권한에 접근할 수 있는 사람을 나타내기 위한 다양한 범위가 있습니다. 그 중 일부는 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)에서 정의되어 있으며 (여기에서 [모두 찾을 수 있습니다](https://www.dssw.co.uk/reference/authorization-rights/)), 요약하면:
 
-<table><thead><tr><th width="284.3333333333333">이름</th><th width="165">값</th><th>설명</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>모두</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>아무도 아님</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>현재 사용자는 관리자여야 함 (관리자 그룹 내)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>사용자에게 인증을 요청합니다.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>사용자에게 인증을 요청합니다. 그는 관리자여야 함 (관리자 그룹 내)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>규칙을 지정합니다</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>권한에 대한 추가 주석을 지정합니다</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">이름</th><th width="165">값</th><th>설명</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>모든 사람</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>아무도 아님</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>현재 사용자는 관리자여야 함 (관리자 그룹 내)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>사용자에게 인증을 요청합니다.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>사용자에게 인증을 요청합니다. 그는 관리자여야 함 (관리자 그룹 내)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>규칙을 지정합니다</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>권한에 대한 추가 주석을 지정합니다</td></tr></tbody></table>
 
 ### 권한 검증
 
-`HelperTool/HelperTool.m`에서 함수 **`readLicenseKeyAuthorization`**는 호출자가 **해당 메서드를 실행할 수 있는 권한이 있는지** 확인하기 위해 함수 **`checkAuthorization`**을 호출합니다. 이 함수는 호출 프로세스에서 전송된 **authData**가 **올바른 형식**인지 확인한 다음 **특정 메서드를 호출하기 위해 필요한 것이 무엇인지** 확인합니다. 모든 것이 잘 진행되면 **반환된 `error`는 `nil`이 됩니다**:
+`HelperTool/HelperTool.m`에서 함수 **`readLicenseKeyAuthorization`**는 호출자가 **해당 메서드를 실행할 수 있는 권한이 있는지** 확인하기 위해 **`checkAuthorization`** 함수를 호출합니다. 이 함수는 호출 프로세스에서 전송된 **authData**가 **올바른 형식**인지 확인한 다음 **특정 메서드를 호출하기 위해 필요한 것이 무엇인지** 확인합니다. 모든 것이 잘 진행되면 **반환된 `error`는 `nil`이 됩니다**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -259,19 +259,19 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### Permissive rights
 
-You can find **모든 권한 구성** [**여기에서**](https://www.dssw.co.uk/reference/authorization-rights/) 확인할 수 있지만, 사용자 상호작용이 필요하지 않은 조합은 다음과 같습니다:
+You can find **all the permissions configurations** [**in here**](https://www.dssw.co.uk/reference/authorization-rights/), but the combinations that won't require user interaction would be:
 
 1. **'authenticate-user': 'false'**
-* 이것은 가장 직접적인 키입니다. `false`로 설정하면 사용자가 이 권리를 얻기 위해 인증을 제공할 필요가 없음을 지정합니다.
-* 이는 아래의 2개 중 하나와 조합하여 사용되거나 사용자가 속해야 하는 그룹을 나타내는 데 사용됩니다.
+* 이것은 가장 직접적인 키입니다. `false`로 설정하면 사용자가 이 권한을 얻기 위해 인증을 제공할 필요가 없음을 지정합니다.
+* 이는 아래의 2개 중 하나와 조합되거나 사용자가 속해야 하는 그룹을 나타내는 데 사용됩니다.
 2. **'allow-root': 'true'**
-* 사용자가 루트 사용자로 작동하고(상승된 권한을 가진), 이 키가 `true`로 설정되면 루트 사용자가 추가 인증 없이 이 권리를 얻을 수 있습니다. 그러나 일반적으로 루트 사용자 상태에 도달하려면 이미 인증이 필요하므로 대부분의 사용자에게는 "인증 없음" 시나리오는 아닙니다.
+* 사용자가 루트 사용자로 작동하고(권한이 상승된 상태), 이 키가 `true`로 설정되면 루트 사용자가 추가 인증 없이 이 권한을 얻을 수 있습니다. 그러나 일반적으로 루트 사용자 상태에 도달하려면 이미 인증이 필요하므로 대부분의 사용자에게는 "인증 없음" 시나리오가 아닙니다.
 3. **'session-owner': 'true'**
-* `true`로 설정하면 세션의 소유자(현재 로그인한 사용자)가 자동으로 이 권리를 얻습니다. 사용자가 이미 로그인한 경우 추가 인증을 우회할 수 있습니다.
+* `true`로 설정하면 세션의 소유자(현재 로그인한 사용자)가 자동으로 이 권한을 얻습니다. 사용자가 이미 로그인한 경우 추가 인증을 우회할 수 있습니다.
 4. **'shared': 'true'**
-* 이 키는 인증 없이 권한을 부여하지 않습니다. 대신, `true`로 설정되면 권한이 인증된 후 여러 프로세스 간에 공유될 수 있으며 각 프로세스가 다시 인증할 필요가 없습니다. 그러나 권한의 초기 부여는 여전히 인증이 필요하며, `'authenticate-user': 'false'`와 같은 다른 키와 결합되지 않는 한 그렇습니다.
+* 이 키는 인증 없이 권한을 부여하지 않습니다. 대신, `true`로 설정하면 권한이 인증된 후 여러 프로세스 간에 공유될 수 있으며 각 프로세스가 다시 인증할 필요가 없습니다. 그러나 권한의 초기 부여는 여전히 인증이 필요하며, `'authenticate-user': 'false'`와 같은 다른 키와 결합되지 않는 한 그렇습니다.
 
-You can [**이 스크립트**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)를 사용하여 흥미로운 권리를 얻을 수 있습니다:
+You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -344,7 +344,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 * 함수가 포함된 프로토콜의 정의
 * 접근 요청을 위해 사용할 빈 인증
 * XPC 서비스에 대한 연결
-* 연결이 성공적일 경우 함수 호출
+* 연결이 성공했는지 확인하기 위한 함수 호출
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 

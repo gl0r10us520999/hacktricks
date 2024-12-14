@@ -62,8 +62,8 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-이 오류를 발견하면 _**오류: 저장소 풀이 없습니다. 새 저장소 풀을 생성하십시오**_\
-**`lxd init`**을 실행하고 **이전 명령어 조각을 반복**하십시오.
+이 오류 _**Error: No storage pool found. Please create a new storage pool**_를 발견하면\
+**`lxd init`**을 실행하고 **이전 명령어 조각을 반복**하세요.
 {% endhint %}
 
 마지막으로 컨테이너를 실행하고 root를 얻을 수 있습니다:

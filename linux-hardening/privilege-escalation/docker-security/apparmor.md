@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-AppArmor는 **프로그램별 프로필을 통해 프로그램에 제공되는 리소스를 제한하도록 설계된 커널 향상 기능**으로, 사용자 대신 프로그램에 직접 액세스 제어 속성을 연결하여 강제 액세스 제어(MAC)를 효과적으로 구현합니다. 이 시스템은 **부팅 중에 프로필을 커널에 로드**하여 작동하며, 이러한 프로필은 프로그램이 접근할 수 있는 리소스(예: 네트워크 연결, 원시 소켓 접근 및 파일 권한)를 규정합니다.
+AppArmor는 **프로그램별 프로필을 통해 프로그램에 사용할 수 있는 리소스를 제한하도록 설계된 커널 향상 기능**으로, 접근 제어 속성을 사용자 대신 프로그램에 직접 연결하여 강제 접근 제어(MAC)를 효과적으로 구현합니다. 이 시스템은 **부팅 중에 프로필을 커널에 로드**하여 작동하며, 이러한 프로필은 프로그램이 접근할 수 있는 리소스(예: 네트워크 연결, 원시 소켓 접근 및 파일 권한)를 규정합니다.
 
 AppArmor 프로필에는 두 가지 운영 모드가 있습니다:
 
@@ -48,7 +48,7 @@ aa-genprof    #generate a new profile
 aa-logprof    #used to change the policy when the binary/program is changed
 aa-mergeprof  #used to merge the policies
 ```
-## 프로파일 생성
+## 프로필 생성
 
 * 영향을 받는 실행 파일을 나타내기 위해 **절대 경로와 와일드카드**가 파일을 지정하는 데 허용됩니다.
 * 바이너리가 **파일**에 대해 가질 접근을 나타내기 위해 다음 **접근 제어**를 사용할 수 있습니다:
@@ -58,15 +58,15 @@ aa-mergeprof  #used to merge the policies
 * **k** (파일 잠금)
 * **l** (하드 링크 생성)
 * **ix** (새 프로그램이 정책을 상속받아 다른 프로그램을 실행)
-* **Px** (환경을 정리한 후 다른 프로파일 아래에서 실행)
-* **Cx** (환경을 정리한 후 자식 프로파일 아래에서 실행)
+* **Px** (환경을 정리한 후 다른 프로필에서 실행)
+* **Cx** (환경을 정리한 후 자식 프로필에서 실행)
 * **Ux** (환경을 정리한 후 제한 없이 실행)
-* **변수**는 프로파일에서 정의할 수 있으며 프로파일 외부에서 조작할 수 있습니다. 예: @{PROC} 및 @{HOME} (프로파일 파일에 #include \<tunables/global> 추가)
+* **변수**는 프로필에서 정의할 수 있으며 프로필 외부에서 조작할 수 있습니다. 예: @{PROC} 및 @{HOME} (프로필 파일에 #include \<tunables/global> 추가)
 * **허용 규칙을 무시하기 위해 거부 규칙이 지원됩니다**.
 
 ### aa-genprof
 
-프로파일 생성을 쉽게 시작하기 위해 apparmor가 도움을 줄 수 있습니다. **apparmor가 바이너리에 의해 수행된 작업을 검사하고 어떤 작업을 허용하거나 거부할지 결정할 수 있게 해줍니다**.\
+프로필 생성을 쉽게 시작하려면 apparmor가 도움이 될 수 있습니다. **apparmor가 바이너리에 의해 수행된 작업을 검사하고 어떤 작업을 허용하거나 거부할지 결정할 수 있게 해줍니다**.\
 단순히 다음을 실행하면 됩니다:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -78,7 +78,7 @@ sudo aa-genprof /path/to/binary
 그런 다음 첫 번째 콘솔에서 "**s**"를 누르고 기록된 작업에서 무시할지, 허용할지 또는 다른 작업을 선택합니다. 완료되면 "**f**"를 눌러 새 프로필이 _/etc/apparmor.d/path.to.binary_에 생성됩니다.
 
 {% hint style="info" %}
-화살표 키를 사용하여 허용/거부/기타 작업을 선택할 수 있습니다.
+화살표 키를 사용하여 허용/거부/기타를 선택할 수 있습니다.
 {% endhint %}
 
 ### aa-easyprof
@@ -116,9 +116,9 @@ sudo aa-easyprof /path/to/binary
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
-### 로그에서 프로필 수정하기
+### Modifying a profile from logs
 
-다음 도구는 로그를 읽고 사용자가 감지된 금지된 행동 중 일부를 허용할 것인지 물어봅니다:
+다음 도구는 로그를 읽고 사용자가 감지된 금지된 작업 중 일부를 허용할 것인지 물어봅니다:
 ```bash
 sudo aa-logprof
 ```
@@ -183,17 +183,18 @@ docker-default
 
 * 모든 **네트워킹**에 대한 **접근**
 * **능력**이 정의되어 있지 않음 (그러나 일부 능력은 기본 기본 규칙을 포함하여 올 수 있음, 즉 #include \<abstractions/base>)
-* **/proc** 파일에 대한 **쓰기**는 **허용되지 않음**
+* 모든 **/proc** 파일에 대한 **쓰기**는 **허용되지 않음**
 * 다른 **하위 디렉토리**/**파일**인 /**proc** 및 /**sys**에 대한 읽기/쓰기/잠금/링크/실행 접근이 **거부됨**
 * **마운트**는 **허용되지 않음**
-* **Ptrace**는 **같은 apparmor 프로필**로 제한된 프로세스에서만 실행할 수 있음
+* **Ptrace**는 **같은 apparmor 프로필**에 의해 제한된 프로세스에서만 실행할 수 있음
 
 **docker 컨테이너를 실행하면** 다음 출력을 볼 수 있어야 합니다:
 ```bash
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Note that **apparmor는 기본적으로 컨테이너에 부여된 capabilities privileges도 차단합니다**. 예를 들어, **SYS\_ADMIN capability가 부여되더라도 /proc 내부에 쓰기 권한을 차단할 수 있습니다**. 기본적으로 docker apparmor 프로필이 이 접근을 거부하기 때문입니다:
+Note that **apparmor will even block capabilities privileges** granted to the container by default. For example, it will be able to **block permission to write inside /proc even if the SYS\_ADMIN capability is granted** because by default docker apparmor profile denies this access:  
+**apparmor는 기본적으로 컨테이너에 부여된 권한을 차단합니다. 예를 들어, SYS\_ADMIN 권한이 부여되더라도 /proc 내부에 쓰기 권한을 차단할 수 있습니다. 이는 기본적으로 docker apparmor 프로파일이 이 접근을 거부하기 때문입니다:**
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -210,10 +211,10 @@ docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-
 
 * `--cap-add=SYS_ADMIN` `SYS_ADMIN` 권한 부여
 * `--cap-add=ALL` 모든 권한 부여
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` 모든 권한 제거 및 `SYS_PTRACE`만 부여
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` 모든 권한 제거 후 `SYS_PTRACE`만 부여
 
 {% hint style="info" %}
-보통, **docker** 컨테이너 **내부**에서 **특권 권한**이 **있음을 발견**했지만 **익스플로잇의 일부가 작동하지 않는** 경우, 이는 docker **apparmor가 이를 방지하고 있기 때문**입니다.
+보통, **docker** 컨테이너 내부에서 **privileged capability**가 사용 가능하다는 것을 **발견**했지만 **exploit의 일부가 작동하지 않는** 경우, 이는 docker **apparmor가 이를 방지하고 있기 때문**입니다.
 {% endhint %}
 
 ### 예시
@@ -233,7 +234,7 @@ sudo apparmor_parser -r -W mydocker
 $ sudo apparmor_status  | grep mydocker
 mydocker
 ```
-아래와 같이, AppArmor 프로파일이 “/etc”에 대한 쓰기 접근을 방지하고 있기 때문에 “/etc/”를 변경하려고 할 때 오류가 발생합니다.
+아래와 같이, AppArmor 프로필이 “/etc”에 대한 쓰기 접근을 방지하고 있기 때문에 “/etc/”를 변경하려고 할 때 오류가 발생합니다.
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
@@ -258,7 +259,7 @@ In the weird case you can **modify the apparmor docker profile and reload it.** 
 
 ### AppArmor Shebang Bypass
 
-[**이 버그**](https://bugs.launchpad.net/apparmor/+bug/1911431)에서는 **특정 리소스와 함께 perl의 실행을 방지하고 있더라도**, 첫 번째 줄에 **`#!/usr/bin/perl`**을 지정한 셸 스크립트를 생성하고 **파일을 직접 실행하면**, 원하는 것을 실행할 수 있는 방법의 예를 볼 수 있습니다. 예:
+[**이 버그**](https://bugs.launchpad.net/apparmor/+bug/1911431)에서 **특정 리소스와 함께 perl의 실행을 방지하고 있다 하더라도**, 첫 번째 줄에 **`#!/usr/bin/perl`**을 **지정**한 셸 스크립트를 생성하고 **파일을 직접 실행하면**, 원하는 것을 실행할 수 있는 예를 볼 수 있습니다. 예:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -278,7 +279,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Desktop
 
-* **Entitlement**: 없음
+* **권한**: 없음
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
@@ -541,7 +541,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - 확인" %}
+{% tab title="ObjectiveC - Check" %}
 앱이 마이크에 접근할 수 있는지 확인합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -715,7 +715,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-주 화면을 5초 동안 녹화합니다.
+주 화면을 5초 동안 기록합니다.
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -892,7 +892,7 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**접근성은 매우 강력한 권한입니다**, 이를 다른 방식으로 악용할 수 있습니다. 예를 들어, System Events를 호출할 필요 없이 **키스트로크 공격**을 수행할 수 있습니다.
+**접근성은 매우 강력한 권한입니다**, 이를 다른 방식으로 악용할 수 있습니다. 예를 들어, 시스템 이벤트를 호출할 필요 없이 **키스트로크 공격**을 수행할 수 있습니다.
 {% endhint %}
 
 {% hint style="success" %}
@@ -904,7 +904,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>

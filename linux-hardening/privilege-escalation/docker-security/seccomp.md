@@ -17,15 +17,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-**Seccomp**(보안 컴퓨팅 모드)는 **시스템 호출을 필터링하기 위해 설계된 Linux 커널의 보안 기능**입니다. 이는 프로세스를 제한된 시스템 호출 집합(`exit()`, `sigreturn()`, `read()`, 및 이미 열린 파일 설명자에 대한 `write()`)으로 제한합니다. 프로세스가 다른 호출을 시도하면 커널에 의해 SIGKILL 또는 SIGSYS로 종료됩니다. 이 메커니즘은 리소스를 가상화하지 않고 프로세스를 이로부터 격리합니다.
+**Seccomp**는 Secure Computing mode의 약자로, **시스템 호출을 필터링하기 위해 설계된 Linux 커널의 보안 기능**입니다. 이는 프로세스를 제한된 시스템 호출 집합(`exit()`, `sigreturn()`, `read()`, 및 `write()` 이미 열린 파일 설명자에 대해)으로 제한합니다. 프로세스가 다른 호출을 시도하면 커널에 의해 SIGKILL 또는 SIGSYS로 종료됩니다. 이 메커니즘은 자원을 가상화하지 않고 프로세스를 자원으로부터 격리합니다.
 
-Seccomp를 활성화하는 방법은 두 가지가 있습니다: `PR_SET_SECCOMP`와 함께 `prctl(2)` 시스템 호출을 사용하거나, Linux 커널 3.17 이상에서는 `seccomp(2)` 시스템 호출을 사용합니다. `/proc/self/seccomp`에 쓰는 오래된 방법은 `prctl()`을 선호하여 더 이상 사용되지 않습니다.
+Seccomp를 활성화하는 방법은 두 가지가 있습니다: `PR_SET_SECCOMP`와 함께 `prctl(2)` 시스템 호출을 사용하거나, Linux 커널 3.17 이상에서는 `seccomp(2)` 시스템 호출을 사용하는 것입니다. `/proc/self/seccomp`에 쓰는 오래된 방법은 `prctl()`을 선호하여 더 이상 사용되지 않습니다.
 
-향상된 기능인 **seccomp-bpf**는 Berkeley Packet Filter(BPF) 규칙을 사용하여 사용자 정의 정책으로 시스템 호출을 필터링할 수 있는 기능을 추가합니다. 이 확장은 OpenSSH, vsftpd 및 Chrome OS와 Linux의 Chrome/Chromium 브라우저와 같은 소프트웨어에서 유연하고 효율적인 시스템 호출 필터링을 위해 활용되며, 이제 지원되지 않는 Linux의 systrace에 대한 대안을 제공합니다.
+향상된 기능인 **seccomp-bpf**는 Berkeley Packet Filter (BPF) 규칙을 사용하여 사용자 정의 정책으로 시스템 호출을 필터링할 수 있는 기능을 추가합니다. 이 확장은 OpenSSH, vsftpd 및 Chrome OS와 Linux의 Chrome/Chromium 브라우저와 같은 소프트웨어에서 유연하고 효율적인 시스템 호출 필터링을 위해 활용되며, 이제 지원되지 않는 Linux의 systrace에 대한 대안을 제공합니다.
 
 ### **Original/Strict Mode**
 
-이 모드에서 Seccomp는 **오직 syscalls** `exit()`, `sigreturn()`, `read()` 및 이미 열린 파일 설명자에 대한 `write()`만 허용합니다. 다른 syscalls가 발생하면 프로세스는 SIGKILL로 종료됩니다.
+이 모드에서 Seccomp는 **오직 syscalls** `exit()`, `sigreturn()`, `read()` 및 `write()`를 이미 열린 파일 설명자에 대해서만 허용합니다. 다른 시스템 호출이 이루어지면 프로세스는 SIGKILL로 종료됩니다.
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -125,19 +125,19 @@ docker run --rm \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-만약 예를 들어 **금지**하고 싶은 **syscall**이 `uname`인 컨테이너가 있다면, [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)에서 기본 프로필을 다운로드하고 **목록에서 `uname` 문자열을 제거하면 됩니다**.\
+만약 예를 들어 **금지**하고 싶은 **syscall**이 `uname`인 컨테이너가 있다면, [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)에서 기본 프로필을 다운로드하고 **목록에서 `uname` 문자열을 제거**하면 됩니다.\
 **어떤 바이너리가 도커 컨테이너 내에서 작동하지 않도록** 하려면 strace를 사용하여 바이너리가 사용하는 syscalls를 나열한 다음 이를 금지할 수 있습니다.\
 다음 예제에서는 `uname`의 **syscalls**가 발견됩니다:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-애플리케이션을 실행하기 위해 **Docker**를 사용하는 경우, **`strace`**로 **프로파일링**하고 필요한 시스템 호출만 **허용**할 수 있습니다.
+애플리케이션을 실행하기 위해 **Docker**를 사용하는 경우, **`strace`**로 **프로파일링**하고 필요한 시스템 호출만 허용할 수 있습니다.
 {% endhint %}
 
 ### 예제 Seccomp 정책
 
-[여기에서 예제](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/) 
+[여기에서 예제](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)를 참조하세요.
 
 Seccomp 기능을 설명하기 위해, 아래와 같이 "chmod" 시스템 호출을 비활성화하는 Seccomp 프로파일을 생성해 보겠습니다.
 ```json

@@ -32,7 +32,7 @@ Docker Auth 플러그인은 **외부** **플러그인**으로, 요청된 **작�
 
 플러그인에 전송된 각 요청은 **인증된 사용자, HTTP 헤더 및 요청/응답 본문**을 포함합니다. **사용자 이름**과 **사용된 인증 방법**만 플러그인에 전달됩니다. 가장 중요한 것은 **사용자 자격 증명**이나 토큰이 전달되지 않는다는 것입니다. 마지막으로, **모든 요청/응답 본문이** 권한 부여 플러그인에 전송되는 것은 아닙니다. `Content-Type`이 `text/*` 또는 `application/json`인 요청/응답 본문만 전송됩니다.
 
-HTTP 연결을 잠재적으로 탈취할 수 있는 명령(`HTTP Upgrade`)의 경우, `exec`와 같은 경우, 권한 부여 플러그인은 초기 HTTP 요청에 대해서만 호출됩니다. 플러그인이 명령을 승인하면, 나머지 흐름에 대해서는 권한 부여가 적용되지 않습니다. 특히, 스트리밍 데이터는 권한 부여 플러그인에 전달되지 않습니다. 청크된 HTTP 응답을 반환하는 명령(`logs` 및 `events`와 같은)의 경우, HTTP 요청만 권한 부여 플러그인에 전송됩니다.
+HTTP 연결을 탈취할 수 있는 명령(`HTTP Upgrade`)의 경우, `exec`와 같은 경우, 권한 부여 플러그인은 초기 HTTP 요청에 대해서만 호출됩니다. 플러그인이 명령을 승인하면, 나머지 흐름에는 권한 부여가 적용되지 않습니다. 특히, 스트리밍 데이터는 권한 부여 플러그인에 전달되지 않습니다. 청크된 HTTP 응답을 반환하는 명령(`logs` 및 `events`와 같은)의 경우, HTTP 요청만 권한 부여 플러그인에 전송됩니다.
 
 요청/응답 처리 중 일부 권한 부여 흐름은 Docker 데몬에 추가 쿼리를 수행해야 할 수 있습니다. 이러한 흐름을 완료하기 위해 플러그인은 일반 사용자와 유사하게 데몬 API를 호출할 수 있습니다. 이러한 추가 쿼리를 활성화하려면 플러그인이 관리자가 적절한 인증 및 보안 정책을 구성할 수 있는 수단을 제공해야 합니다.
 
@@ -44,7 +44,7 @@ Docker 데몬 **시작**의 일환으로 **플러그인**을 **등록**하는 �
 
 ## Twistlock AuthZ Broker
 
-플러그인 [**authz**](https://github.com/twistlock/authz)는 요청을 승인하기 위해 **플러그인**이 **읽을** **JSON** 파일을 생성할 수 있도록 합니다. 따라서 각 사용자가 어떤 API 엔드포인트에 접근할 수 있는지를 매우 쉽게 제어할 수 있는 기회를 제공합니다.
+플러그인 [**authz**](https://github.com/twistlock/authz)는 요청을 승인하기 위해 **플러그인**이 **읽을** **JSON** 파일을 생성할 수 있도록 합니다. 따라서 각 API 엔드포인트에 도달할 수 있는 사용자를 매우 쉽게 제어할 수 있는 기회를 제공합니다.
 
 다음은 Alice와 Bob이 새로운 컨테이너를 생성할 수 있도록 허용하는 예입니다: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
@@ -56,7 +56,7 @@ Docker 데몬 **시작**의 일환으로 **플러그인**을 **등록**하는 �
 
 `README` 및 `plugin.go` 코드를 읽어 작동 방식을 이해하세요.
 
-# Docker Auth 플러그인 우회
+# Docker Auth Plugin 우회
 
 ## 접근 열거
 
@@ -72,7 +72,7 @@ docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubunt
 ```
 ### 컨테이너 실행 후 특권 세션 얻기
 
-이 경우 시스템 관리자 **사용자가 볼륨을 마운트하고 `--privileged` 플래그로 컨테이너를 실행하는 것을 허용하지 않거나** 컨테이너에 추가 권한을 부여하지 않았습니다:
+이 경우 시스템 관리자는 **사용자가 볼륨을 마운트하고 `--privileged` 플래그로 컨테이너를 실행하는 것을 허용하지 않거나 컨테이너에 추가 권한을 부여하는 것을 금지했습니다:**
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
@@ -104,9 +104,9 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-다음과 같은 이유로 `/tmp` 폴더를 마운트할 수 없을 수도 있지만, **다른 쓰기 가능한 폴더**를 마운트할 수 있습니다. 쓰기 가능한 디렉토리는 다음 명령어를 사용하여 찾을 수 있습니다: `find / -writable -type d 2>/dev/null`
+다음과 같이 `/tmp` 폴더를 마운트할 수 없을 수도 있지만, **다른 쓰기 가능한 폴더**를 마운트할 수 있습니다. 쓰기 가능한 디렉토리는 다음 명령어를 사용하여 찾을 수 있습니다: `find / -writable -type d 2>/dev/null`
 
-**모든 리눅스 머신의 디렉토리가 suid 비트를 지원하는 것은 아닙니다!** suid 비트를 지원하는 디렉토리를 확인하려면 `mount | grep -v "nosuid"` 명령어를 실행하세요. 예를 들어, 일반적으로 `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup`, `/var/lib/lxcfs`는 suid 비트를 지원하지 않습니다.
+**모든 리눅스 머신의 디렉토리가 suid 비트를 지원하는 것은 아닙니다!** suid 비트를 지원하는 디렉토리를 확인하려면 `mount | grep -v "nosuid"`를 실행하세요. 예를 들어, 일반적으로 `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup`, `/var/lib/lxcfs`는 suid 비트를 지원하지 않습니다.
 
 또한 **`/etc`** 또는 **구성 파일이 포함된 다른 폴더**를 **마운트할 수 있다면**, 루트로 도커 컨테이너에서 이를 변경하여 **호스트에서 악용하고** 권한을 상승시킬 수 있습니다 (예: `/etc/shadow` 수정).
 {% endhint %}
@@ -156,7 +156,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## Unchecked JSON Attribute
 
-시스템 관리자가 도커 방화벽을 구성할 때 **"HostConfig"** 내의 "**Capabilities**"와 같은 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 매개변수의 중요한 속성을 **잊어버렸을 가능성**이 있습니다. 다음 예제에서는 이 잘못된 구성을 악용하여 **SYS\_MODULE** 권한을 가진 컨테이너를 생성하고 실행할 수 있습니다:
+시스템 관리자가 도커 방화벽을 구성할 때 **"HostConfig"** 내의 **"Capabilities"**와 같은 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 매개변수의 중요한 속성을 **잊었을 가능성**이 있습니다. 다음 예제에서는 이 잘못된 구성을 악용하여 **SYS\_MODULE** 권한을 가진 컨테이너를 생성하고 실행할 수 있습니다:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -191,16 +191,16 @@ Remember to **re-enable the plugin after escalating**, or a **restart of docker 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

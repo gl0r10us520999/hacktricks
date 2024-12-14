@@ -1,44 +1,44 @@
 # macOS MIG - Mach Interface Generator
 
 {% hint style="success" %}
-AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소에 PR을 제출하여 해킹 요령을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## 기본 정보
+## Basic Information
 
-MIG는 **Mach IPC 코드 생성 과정을 간소화**하기 위해 만들어졌습니다. 기본적으로 서버와 클라이언트가 주어진 정의와 통신하기 위해 필요한 코드를 **생성**합니다. 생성된 코드가 어색해 보이더라도, 개발자는 그것을 가져와서 이전보다 훨씬 간단한 코드를 작성할 수 있습니다.
+MIG는 **Mach IPC** 코드 생성을 단순화하기 위해 만들어졌습니다. 기본적으로 **서버와 클라이언트가 주어진 정의로 통신하기 위해 필요한 코드를 생성**합니다. 생성된 코드가 보기 좋지 않더라도, 개발자는 이를 가져오기만 하면 그의 코드는 이전보다 훨씬 간단해질 것입니다.
 
-이 정의는 `.defs` 확장자를 사용하여 인터페이스 정의 언어(IDL)로 지정됩니다.
+정의는 `.defs` 확장자를 사용하여 인터페이스 정의 언어(IDL)로 지정됩니다.
 
-이러한 정의에는 5개의 섹션이 있습니다:
+이 정의는 5개의 섹션으로 구성됩니다:
 
-* **서브시스템 선언**: 서브시스템 키워드는 **이름**과 **ID**를 나타내는 데 사용됩니다. 또한 서버를 커널에서 실행해야 하는 경우 **`KernelServer`**로 표시할 수도 있습니다.
-* **포함 및 임포트**: MIG는 C-프리프로세서를 사용하므로 임포트를 사용할 수 있습니다. 또한 사용자 또는 서버 생성 코드에 대해 `uimport` 및 `simport`를 사용할 수 있습니다.
-* **유형 선언**: 데이터 유형을 정의할 수 있지만 일반적으로 `mach_types.defs` 및 `std_types.defs`를 가져올 것입니다. 사용자 정의 유형의 경우 일부 구문을 사용할 수 있습니다:
-* \[i`n/out]tran`: 수신 또는 송신 메시지에서 번역해야 하는 함수
-* `c[user/server]type`: 다른 C 유형에 매핑
-* `destructor`: 유형이 해제될 때 이 함수를 호출
-* **작업**: 이들은 RPC 메서드의 정의입니다. 5가지 다른 유형이 있습니다:
-* `routine`: 응답을 기대
-* `simpleroutine`: 응답을 기대하지 않음
-* `procedure`: 응답을 기대
-* `simpleprocedure`: 응답을 기대하지 않음
-* `function`: 응답을 기대
+* **서브시스템 선언**: 키워드 subsystem은 **이름**과 **id**를 나타내는 데 사용됩니다. 서버가 커널에서 실행되어야 하는 경우 **`KernelServer`**로 표시할 수도 있습니다.
+* **포함 및 가져오기**: MIG는 C 전처리기를 사용하므로 가져오기를 사용할 수 있습니다. 또한, 사용자 또는 서버 생성 코드에 대해 `uimport` 및 `simport`를 사용할 수 있습니다.
+* **타입 선언**: 데이터 타입을 정의할 수 있지만 일반적으로 `mach_types.defs` 및 `std_types.defs`를 가져옵니다. 사용자 정의 타입의 경우 일부 구문을 사용할 수 있습니다:
+* \[i`n/out]tran`: 들어오는 메시지 또는 나가는 메시지로 변환해야 하는 함수
+* `c[user/server]type`: 다른 C 타입에 매핑.
+* `destructor`: 타입이 해제될 때 이 함수를 호출합니다.
+* **작업**: RPC 메서드의 정의입니다. 5가지 유형이 있습니다:
+* `routine`: 응답을 기대합니다.
+* `simpleroutine`: 응답을 기대하지 않습니다.
+* `procedure`: 응답을 기대합니다.
+* `simpleprocedure`: 응답을 기대하지 않습니다.
+* `function`: 응답을 기대합니다.
 
-### 예시
+### Example
 
-매우 간단한 함수가 있는 정의 파일을 만듭니다:
+정의 파일을 생성합니다. 이 경우 매우 간단한 함수를 사용합니다:
 
 {% code title="myipc.defs" %}
 ```cpp
@@ -57,20 +57,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-첫 번째 **인수는 바인딩할 포트**이며 MIG는 **자동으로 응답 포트를 처리**할 것입니다 (`mig_get_reply_port()`를 클라이언트 코드에서 호출하지 않는 한). 게다가, **작업의 ID**는 지정된 서브시스템 ID부터 시작하는 **연속적**일 것입니다 (따라서 작업이 사용되지 않는 경우 삭제되고 `skip`이 사용되어 여전히 해당 ID를 사용합니다).
+첫 번째 **인자는 바인딩할 포트**이며 MIG는 **응답 포트를 자동으로 처리**합니다 (클라이언트 코드에서 `mig_get_reply_port()`를 호출하지 않는 한). 또한, **작업의 ID는** 지정된 서브시스템 ID부터 **순차적**으로 시작됩니다 (따라서 작업이 더 이상 사용되지 않는 경우 삭제되고 `skip`을 사용하여 여전히 해당 ID를 사용할 수 있습니다).
 
-이제 MIG를 사용하여 서버 및 클라이언트 코드를 생성하여 서로 통신하고 빼기 함수를 호출할 수 있도록 합니다:
+이제 MIG를 사용하여 서로 통신할 수 있는 서버 및 클라이언트 코드를 생성하여 Subtract 함수를 호출하십시오:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-현재 디렉토리에 여러 개의 새 파일이 생성됩니다.
+현재 디렉토리에 여러 개의 새로운 파일이 생성됩니다.
 
 {% hint style="success" %}
-시스템에서 더 복잡한 예제를 찾을 수 있습니다: `mdfind mach_port.defs`\
-그리고 파일이 있는 폴더에서 다음과 같이 컴파일할 수 있습니다: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+시스템에서 더 복잡한 예제를 찾으려면: `mdfind mach_port.defs`\
+그리고 파일과 같은 폴더에서 컴파일하려면: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
 {% endhint %}
 
-**`myipcServer.c`** 및 **`myipcServer.h`** 파일에서는 **`SERVERPREFmyipc_subsystem`** 구조체의 선언과 정의를 찾을 수 있습니다. 이 구조체는 기본적으로 수신된 메시지 ID에 따라 호출할 함수를 정의합니다 (시작 번호로 500을 지정했습니다):
+파일 **`myipcServer.c`**와 **`myipcServer.h`**에서 수신된 메시지 ID에 따라 호출할 함수를 정의하는 구조체 **`SERVERPREFmyipc_subsystem`**의 선언과 정의를 찾을 수 있습니다(시작 번호로 500을 지정했습니다):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -91,27 +91,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %} 
-
-## macOS IPC (Inter-Process Communication)
-
-### macOS MIG (Mach Interface Generator)
-
-Mach Interface Generator (MIG) is a tool used to define inter-process communication on macOS systems. It generates client-side and server-side code for message-based communication between processes. By defining interfaces in a .defs file, MIG creates the necessary C code for handling messages between processes.
-
-#### Example:
-
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
-```
-
-In the example above, `myipc_server` is a function generated by MIG that handles incoming messages from client processes. This function processes the incoming message and generates an appropriate response.
-
-MIG simplifies the process of defining and handling inter-process communication on macOS, making it easier to implement secure and efficient communication between processes.
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -127,7 +107,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-이전 구조체를 기반으로 **`myipc_server_routine`** 함수는 **메시지 ID**를 받고 호출할 적절한 함수를 반환합니다:
+이전 구조를 기반으로 함수 **`myipc_server_routine`**은 **메시지 ID**를 가져와서 호출할 적절한 함수를 반환합니다:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -142,18 +122,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-이 예제에서는 정의된 함수가 하나뿐이지만, 더 많은 함수를 정의했다면 이들은 **`SERVERPREFmyipc_subsystem`** 배열 내에 있었을 것이며, 첫 번째 함수는 **500** ID에 할당되었을 것이고, 두 번째 함수는 **501** ID에 할당되었을 것입니다...
+이 예제에서는 정의에서 1개의 함수만 정의했지만, 더 많은 함수를 정의했다면 그것들은 **`SERVERPREFmyipc_subsystem`** 배열 안에 있었을 것이고, 첫 번째 함수는 ID **500**에, 두 번째 함수는 ID **501**에 할당되었을 것입니다...
 
-함수가 **응답**을 보내기를 기대한다면, 함수 `mig_internal kern_return_t __MIG_check__Reply__<name>`도 존재했을 것입니다.
+함수가 **reply**를 보내는 것이 예상되었다면, 함수 `mig_internal kern_return_t __MIG_check__Reply__<name>`도 존재했을 것입니다.
 
-실제로 이 관계를 **`myipcServer.h`**의 **`subsystem_to_name_map_myipc`** 구조체에서 확인할 수 있습니다 (**다른 파일들에서는 **`subsystem_to_name_map_***`**):
+실제로 이 관계는 **`myipcServer.h`**의 구조체 **`subsystem_to_name_map_myipc`**에서 확인할 수 있습니다 (**다른 파일에서는 **`subsystem_to_name_map_***`**).
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-마지막으로, 서버가 작동하도록 하는 데 중요한 기능 중 하나는 **`myipc_server`**일 것입니다. 이 함수는 실제로 받은 ID에 관련된 함수를 **호출**할 것입니다:
+마지막으로, 서버가 작동하도록 하는 또 다른 중요한 기능은 **`myipc_server`**입니다. 이 기능은 실제로 수신된 ID와 관련된 **함수를 호출**합니다:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -170,7 +150,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* 최소 크기: 다르면 routine()이 업데이트할 것 */
+/* 최소 크기: routine()이 다르면 업데이트합니다 */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -187,9 +167,9 @@ return FALSE;
 }
 </code></pre>
 
-이전에 강조된 줄을 확인하여 ID에 의해 호출할 함수에 액세스합니다.
+ID로 호출할 함수를 접근하는 이전에 강조된 줄을 확인하십시오.
 
-다음은 서버와 클라이언트를 만들기 위한 코드이며, 클라이언트는 서버에서 함수를 호출할 수 있습니다. Subtract:
+다음은 클라이언트가 서버에서 Subtract 함수를 호출할 수 있는 간단한 **서버** 및 **클라이언트**를 생성하는 코드입니다:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -225,7 +205,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}클라이언트 애플리케이션은 서버와 통신하기 위해 MIG 함수를 사용합니다. 이를 위해 mach_msg 함수를 사용하여 MIG 서버로 요청을 보냅니다. 이 요청은 MIG 서버에서 처리되고 응답이 클라이언트로 다시 전송됩니다. 이를 통해 클라이언트는 서버와의 상호 작용을 달성할 수 있습니다.{% endtab %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -255,38 +235,38 @@ USERPREFSubtract(port, 40, 2);
 
 ### NDR\_record
 
-NDR\_record은 `libsystem_kernel.dylib`에 의해 내보내어지며, MIG가 **데이터를 변환하여 시스템에 대해 중립적으로 만드는 것을 허용하는 구조체**입니다. MIG는 서로 다른 시스템 간에 사용되도록 고안되었기 때문에 동일한 기계에서만 사용되는 것이 아닙니다.
+NDR\_record는 `libsystem_kernel.dylib`에 의해 내보내지며, MIG가 **시스템에 무관하게 데이터를 변환할 수 있도록 하는 구조체**입니다. MIG는 서로 다른 시스템 간에 사용되도록 설계되었기 때문에 (단지 같은 머신에서만 사용되는 것이 아닙니다).
 
-이것은 `_NDR_record`가 이진 파일에서 종속성으로 발견된다면 (`jtool2 -S <binary> | grep NDR` 또는 `nm`), 해당 이진 파일이 MIG 클라이언트 또는 서버임을 의미합니다.
+이것은 흥미로운데, 만약 `_NDR_record`가 바이너리에서 의존성으로 발견된다면 (`jtool2 -S <binary> | grep NDR` 또는 `nm`), 이는 해당 바이너리가 MIG 클라이언트 또는 서버임을 의미합니다.
 
-또한 **MIG 서버**는 디스패치 테이블을 `__DATA.__const`에 가지고 있습니다 (또는 macOS 커널의 `__CONST.__constdata` 및 다른 \*OS 커널의 `__DATA_CONST.__const`에 있음). 이는 **`jtool2`**로 덤프할 수 있습니다.
+게다가 **MIG 서버**는 `__DATA.__const`에 디스패치 테이블을 가지고 있습니다 (macOS 커널에서는 `__CONST.__constdata`, 다른 \*OS 커널에서는 `__DATA_CONST.__const`에 있습니다). 이는 **`jtool2`**로 덤프할 수 있습니다.
 
-그리고 **MIG 클라이언트**는 `__mach_msg`를 사용하여 서버에게 전송하기 위해 `__NDR_record`를 사용할 것입니다.
+그리고 **MIG 클라이언트**는 `__mach_msg`를 사용하여 서버에 보내기 위해 `__NDR_record`를 사용할 것입니다.
 
-## 이진 분석
+## 바이너리 분석
 
 ### jtool
 
-많은 바이너리가 이제 MIG를 노출하기 위해 mach 포트를 사용하므로, MIG가 사용되었는지 **식별하는 방법**과 각 메시지 ID별로 **MIG가 실행하는 함수**를 알아내는 것이 흥미로울 것입니다.
+많은 바이너리가 이제 MIG를 사용하여 맥 포트를 노출하기 때문에, **MIG가 사용되었음을 식별하는 방법**과 **각 메시지 ID에 대해 MIG가 실행하는 함수**를 아는 것이 흥미롭습니다.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)는 Mach-O 바이너리에서 MIG 정보를 구문 분석하여 메시지 ID를 나타내고 실행할 함수를 식별할 수 있습니다:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)는 Mach-O 바이너리에서 MIG 정보를 구문 분석하여 메시지 ID를 표시하고 실행할 함수를 식별할 수 있습니다:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-게다가, MIG 함수는 호출되는 실제 함수의 래퍼일 뿐이므로, 해당 함수의 어셈블리를 가져와 BL을 찾으면 호출되는 실제 함수를 찾을 수도 있습니다:
+또한, MIG 함수는 호출되는 실제 함수의 래퍼에 불과하므로, 해당 함수의 디스어셈블리를 얻고 BL을 grep하면 호출되는 실제 함수를 찾을 수 있습니다:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep BL
 ```
-### 어셈블리
+### Assembly
 
-이전에 **수신된 메시지 ID에 따라 올바른 함수를 호출하는 함수**는 `myipc_server`라고 언급되었습니다. 그러나 보통 이진 파일의 심볼(함수 이름 없음)을 가지고 있지 않기 때문에, 이 함수가 어떻게 디컴파일된 것처럼 보이는지 **확인하는 것이 흥미로울 것**입니다. 이 함수의 코드는 항상 매우 유사할 것이기 때문입니다 (이 함수의 코드는 노출된 함수와 독립적입니다):
+이전에 **수신된 메시지 ID에 따라 올바른 함수를 호출하는** 기능을 담당할 함수는 `myipc_server`라고 언급되었습니다. 그러나 일반적으로 바이너리의 기호(함수 이름)가 없기 때문에 **디컴파일된 모습이 어떻게 보이는지 확인하는 것이 흥미롭습니다**. 이 함수의 코드는 노출된 함수와는 독립적이기 때문에 항상 매우 유사합니다:
 
 {% tabs %}
-{% tab title="myipc_server 디컴파일 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// 적절한 함수 포인터를 찾기 위한 초기 명령문
+// 적절한 함수 포인터를 찾기 위한 초기 명령어
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -296,19 +276,19 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // 이 함수를 식별하는 데 도움이 되는 sign_extend_64 호출
-// 이는 호출해야 하는 호출 지점의 포인터를 rax에 저장합니다
-// 주소 0x100004040(함수 주소 배열)의 사용 확인
+// 이는 rax에 호출해야 할 포인터를 저장합니다
+// 주소 0x100004040(함수 주소 배열)의 사용을 확인하세요
 // 0x1f4 = 500 (시작 ID)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, if는 false를 반환하고 else는 올바른 함수를 호출하고 true를 반환합니다
+// if - else, if는 false를 반환하고, else는 올바른 함수를 호출하고 true를 반환합니다
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// 2개의 인수로 올바른 함수를 호출하는 계산된 주소
+// 두 개의 인수로 적절한 함수를 호출하는 계산된 주소
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -324,8 +304,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server 디컴파일 2" %}
-다음은 다른 Hopper 무료 버전에서 디컴파일된 동일한 함수입니다:
+{% tab title="myipc_server decompiled 2" %}
+이것은 다른 Hopper 무료 버전에서 디컴파일된 동일한 함수입니다:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -333,7 +313,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// 적절한 함수 포인터를 찾기 위한 초기 명령문
+// 적절한 함수 포인터를 찾기 위한 초기 명령어
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -369,14 +349,14 @@ r8 = 0x1;
 }
 }
 // 이전 버전과 동일한 if else
-// 주소 0x100004040(함수 주소 배열)의 사용 확인
+// 주소 0x100004040(함수 주소 배열)의 사용을 확인하세요
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
 }
 else {
-// 함수가 있어야 하는 계산된 주소로의 호출
+// 함수가 있어야 하는 계산된 주소 호출
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -400,32 +380,33 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-실제로 **`0x100004000`** 함수로 이동하면 **`routine_descriptor`** 구조체 배열을 찾을 수 있습니다. 구조체의 첫 번째 요소는 **함수가 구현된 주소**이며, **구조체는 0x28 바이트**를 차지하므로 각 0x28 바이트(바이트 0부터 시작)마다 8바이트를 얻을 수 있고, 그것이 **호출될 함수의 주소**가 됩니다:
+실제로 **`0x100004000`** 함수로 가면 **`routine_descriptor`** 구조체 배열을 찾을 수 있습니다. 구조체의 첫 번째 요소는 **함수가 구현된 주소**이며, **구조체는 0x28 바이트를 차지하므로**, 0에서 시작하여 0x28 바이트마다 8 바이트를 가져오면 호출될 **함수의 주소**가 됩니다:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-이 데이터는 [**이 Hopper 스크립트**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)를 사용하여 추출할 수 있습니다.
-### 디버그
+이 데이터는 [**이 Hopper 스크립트를 사용하여**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) 추출할 수 있습니다.
 
-MIG에 의해 생성된 코드는 또한 `kernel_debug`를 호출하여 진입 및 종료에 대한 작업 로그를 생성합니다. **`trace`** 또는 **`kdv`**를 사용하여 이를 확인할 수 있습니다: `kdv all | grep MIG`
+### Debug
 
-## 참고 자료
+MIG에 의해 생성된 코드는 또한 `kernel_debug`를 호출하여 진입 및 종료 작업에 대한 로그를 생성합니다. **`trace`** 또는 **`kdv`**를 사용하여 이를 확인할 수 있습니다: `kdv all | grep MIG`
+
+## References
 
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 {% hint style="success" %}
-AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* 해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

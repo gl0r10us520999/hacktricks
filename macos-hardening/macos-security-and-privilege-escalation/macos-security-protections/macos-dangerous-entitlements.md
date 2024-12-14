@@ -23,36 +23,36 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### `com.apple.rootless.install.heritable`
 
-권한 **`com.apple.rootless.install.heritable`**는 **SIP를 우회**할 수 있게 해줍니다. [자세한 내용은 여기](macos-sip.md#com.apple.rootless.install.heritable)를 확인하세요.
+권한 **`com.apple.rootless.install.heritable`**는 **SIP를 우회**할 수 있게 해줍니다. [자세한 정보는 여기](macos-sip.md#com.apple.rootless.install.heritable)를 확인하세요.
 
 ### **`com.apple.rootless.install`**
 
-권한 **`com.apple.rootless.install`**는 **SIP를 우회**할 수 있게 해줍니다. [자세한 내용은 여기](macos-sip.md#com.apple.rootless.install)를 확인하세요.
+권한 **`com.apple.rootless.install`**는 **SIP를 우회**할 수 있게 해줍니다. [자세한 정보는 여기](macos-sip.md#com.apple.rootless.install)를 확인하세요.
 
 ### **`com.apple.system-task-ports` (이전 이름: `task_for_pid-allow`)**
 
-이 권한은 **커널을 제외한 모든** 프로세스의 **작업 포트**를 얻을 수 있게 해줍니다. [자세한 내용은 여기](../macos-proces-abuse/macos-ipc-inter-process-communication/)를 확인하세요.
+이 권한은 **커널을 제외한 모든** 프로세스의 **작업 포트**를 가져올 수 있게 해줍니다. [자세한 정보는 여기](../macos-proces-abuse/macos-ipc-inter-process-communication/)를 확인하세요.
 
 ### `com.apple.security.get-task-allow`
 
-이 권한은 **`com.apple.security.cs.debugger`** 권한을 가진 다른 프로세스가 이 권한을 가진 바이너리로 실행된 프로세스의 작업 포트를 얻고 **코드를 주입**할 수 있게 해줍니다. [자세한 내용은 여기](../macos-proces-abuse/macos-ipc-inter-process-communication/)를 확인하세요.
+이 권한은 **`com.apple.security.cs.debugger`** 권한을 가진 다른 프로세스가 이 권한을 가진 바이너리에서 실행되는 프로세스의 작업 포트를 가져오고 **코드를 주입**할 수 있게 해줍니다. [자세한 정보는 여기](../macos-proces-abuse/macos-ipc-inter-process-communication/)를 확인하세요.
 
 ### `com.apple.security.cs.debugger`
 
-디버깅 도구 권한을 가진 앱은 `task_for_pid()`를 호출하여 `Get Task Allow` 권한이 `true`로 설정된 서명되지 않은 제3자 앱의 유효한 작업 포트를 검색할 수 있습니다. 그러나 디버깅 도구 권한이 있어도, 디버거는 **`Get Task Allow` 권한이 없는** 프로세스의 작업 포트를 **얻을 수 없습니다**, 따라서 시스템 무결성 보호에 의해 보호됩니다. [자세한 내용은 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)를 확인하세요.
+디버깅 도구 권한을 가진 앱은 `task_for_pid()`를 호출하여 서명되지 않은 앱과 제3자 앱의 유효한 작업 포트를 가져올 수 있습니다. 그러나 디버깅 도구 권한이 있어도, 디버거는 **`Get Task Allow` 권한이 없는** 프로세스의 작업 포트를 **가져올 수 없습니다**, 따라서 시스템 무결성 보호에 의해 보호됩니다. [자세한 정보는 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)를 확인하세요.
 
 ### `com.apple.security.cs.disable-library-validation`
 
-이 권한은 **Apple에 의해 서명되지 않았거나 메인 실행 파일과 동일한 팀 ID로 서명되지 않은 프레임워크, 플러그인 또는 라이브러리를 로드**할 수 있게 해줍니다. 따라서 공격자는 임의의 라이브러리 로드를 악용하여 코드를 주입할 수 있습니다. [자세한 내용은 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)를 확인하세요.
+이 권한은 **Apple에 의해 서명되지 않았거나 메인 실행 파일과 동일한 팀 ID로 서명되지 않은 프레임워크, 플러그인 또는 라이브러리를 로드**할 수 있게 해줍니다. 따라서 공격자는 임의의 라이브러리 로드를 악용하여 코드를 주입할 수 있습니다. [자세한 정보는 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)를 확인하세요.
 
 ### `com.apple.private.security.clear-library-validation`
 
-이 권한은 **`com.apple.security.cs.disable-library-validation`**와 매우 유사하지만, **직접적으로** 라이브러리 검증을 **비활성화하는 대신**, 프로세스가 **`csops` 시스템 호출을 호출하여 비활성화**할 수 있게 해줍니다.\
-[자세한 내용은 여기](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/)를 확인하세요.
+이 권한은 **`com.apple.security.cs.disable-library-validation`**와 매우 유사하지만, **직접적으로** 라이브러리 검증을 **비활성화하는 대신**, 프로세스가 **`csops` 시스템 호출을 통해 이를 비활성화**할 수 있게 해줍니다.\
+[자세한 정보는 여기](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/)를 확인하세요.
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-이 권한은 **DYLD 환경 변수를 사용**할 수 있게 해주며, 이는 라이브러리와 코드를 주입하는 데 사용될 수 있습니다. [자세한 내용은 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)를 확인하세요.
+이 권한은 **DYLD 환경 변수를 사용**할 수 있게 해주며, 이는 라이브러리와 코드를 주입하는 데 사용될 수 있습니다. [자세한 정보는 여기](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)를 확인하세요.
 
 ### `com.apple.private.tcc.manager` 또는 `com.apple.rootless.storage`.`TCC`
 
@@ -68,7 +68,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### **`com.apple.private.icloud-account-access`**
 
-권한 **`com.apple.private.icloud-account-access`**를 통해 **`com.apple.iCloudHelper`** XPC 서비스와 통신할 수 있으며, 이 서비스는 **iCloud 토큰**을 **제공**합니다.
+권한 **`com.apple.private.icloud-account-access`**를 통해 **`com.apple.iCloudHelper`** XPC 서비스와 통신할 수 있으며, 이는 **iCloud 토큰**을 **제공**합니다.
 
 **iMovie**와 **Garageband**는 이 권한을 가지고 있었습니다.
 
@@ -107,7 +107,7 @@ TODO: [**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Up
 
 앱이 일반적으로 **작업 자동화**에 사용되는 다른 애플리케이션에 이벤트를 보낼 수 있도록 허용합니다. 다른 앱을 제어함으로써, 이러한 다른 앱에 부여된 권한을 남용할 수 있습니다.
 
-사용자에게 비밀번호를 요청하도록 만들기:
+예를 들어, 사용자에게 비밀번호를 요청하도록 만들 수 있습니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -123,7 +123,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-사용자의 홈 폴더 경로를 변경하는 **`NFSHomeDirectory`** 속성을 **변경**할 수 있게 하여 TCC를 **우회**할 수 있습니다.
+사용자의 **`NFSHomeDirectory`** 속성을 **변경**할 수 있게 하여 홈 폴더 경로를 변경하고 따라서 TCC를 **우회**할 수 있게 합니다.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
@@ -135,17 +135,17 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `kTCCServiceAccessibility`
 
-프로세스는 **macOS 접근성 기능을 악용**할 수 있으며, 예를 들어 키 입력을 누를 수 있습니다. 따라서 Finder와 같은 앱을 제어할 수 있는 접근 권한을 요청하고 이 권한으로 대화 상자를 승인할 수 있습니다.
+프로세스는 **macOS 접근성 기능을 악용**할 수 있으며, 예를 들어 키 입력을 누를 수 있습니다. 따라서 Finder와 같은 앱을 제어할 수 있는 접근을 요청하고 이 권한으로 대화 상자를 승인할 수 있습니다.
 
 ## 중간
 
 ### `com.apple.security.cs.allow-jit`
 
-이 권한은 `mmap()` 시스템 함수에 `MAP_JIT` 플래그를 전달하여 **쓰기 가능하고 실행 가능한 메모리**를 **생성**할 수 있게 합니다. [**자세한 내용은 여기에서 확인하세요**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+이 권한은 `mmap()` 시스템 함수에 `MAP_JIT` 플래그를 전달하여 **쓰기 가능하고 실행 가능한 메모리**를 **생성**할 수 있게 합니다. [**자세한 내용은 여기**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit)를 확인하세요.
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-이 권한은 **C 코드를 재정의하거나 패치**할 수 있게 하며, 오래된 **`NSCreateObjectFileImageFromMemory`**(근본적으로 안전하지 않음)를 사용하거나 **DVDPlayback** 프레임워크를 사용할 수 있게 합니다. [**자세한 내용은 여기에서 확인하세요**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+이 권한은 **C 코드를 재정의하거나 패치**할 수 있게 하며, 오래전부터 사용이 중단된 **`NSCreateObjectFileImageFromMemory`**(근본적으로 안전하지 않음)를 사용하거나 **DVDPlayback** 프레임워크를 사용할 수 있게 합니다. [**자세한 내용은 여기**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)를 확인하세요.
 
 {% hint style="danger" %}
 이 권한을 포함하면 메모리 안전하지 않은 코드 언어에서 일반적인 취약점에 앱이 노출됩니다. 앱이 이 예외가 필요한지 신중하게 고려하세요.
@@ -153,10 +153,10 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-이 권한은 디스크에서 자신의 실행 파일의 섹션을 **수정**하여 강제로 종료할 수 있게 합니다. [**자세한 내용은 여기에서 확인하세요**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+이 권한은 디스크에서 **자신의 실행 파일의 섹션을 수정**하여 강제로 종료할 수 있게 합니다. [**자세한 내용은 여기**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)를 확인하세요.
 
 {% hint style="danger" %}
-Disable Executable Memory Protection Entitlement는 앱에서 기본적인 보안 보호를 제거하는 극단적인 권한으로, 공격자가 탐지 없이 앱의 실행 코드를 재작성할 수 있게 합니다. 가능하면 더 좁은 권한을 선호하세요.
+Disable Executable Memory Protection Entitlement는 앱에서 기본 보안 보호를 제거하는 극단적인 권한으로, 공격자가 탐지 없이 앱의 실행 코드를 재작성할 수 있게 합니다. 가능하면 더 좁은 권한을 선호하세요.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -176,20 +176,20 @@ TODO
 [Array]
 [String] kTCCServiceAll
 ```
-프로세스가 **모든 TCC 권한을 요청하도록 허용**합니다.
+Allow the process to **ask for all the TCC permissions**.
 
 ### **`kTCCServicePostEvent`**
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

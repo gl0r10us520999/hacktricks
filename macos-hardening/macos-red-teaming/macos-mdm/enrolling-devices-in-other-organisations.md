@@ -40,7 +40,7 @@ DEP 체크인은 비공식 구성 프로필 프레임워크의 `CPFetchActivatio
 
 ## 테슬라 프로토콜 및 앱신트 스킴 리버스 엔지니어링
 
-DEP 체크인은 `cloudconfigurationd`가 _iprofiles.apple.com/macProfile_에 암호화되고 서명된 JSON 페이로드를 전송하는 것을 포함합니다. 페이로드에는 장치의 일련 번호와 "RequestProfileConfiguration"이라는 작업이 포함됩니다. 사용된 암호화 스킴은 내부적으로 "Absinthe"라고 불립니다. 이 스킴을 풀어내는 것은 복잡하며 여러 단계를 포함하여 활성화 레코드 요청에 임의의 일련 번호를 삽입하는 대체 방법을 탐색하게 되었습니다.
+DEP 체크인은 `cloudconfigurationd`가 _iprofiles.apple.com/macProfile_에 암호화되고 서명된 JSON 페이로드를 전송하는 것을 포함합니다. 페이로드에는 장치의 일련 번호와 "RequestProfileConfiguration" 작업이 포함됩니다. 사용된 암호화 스킴은 내부적으로 "Absinthe"라고 불립니다. 이 스킴을 풀어내는 것은 복잡하며 여러 단계를 포함하여 활성화 레코드 요청에 임의의 일련 번호를 삽입하는 대체 방법을 탐색하게 되었습니다.
 
 ## DEP 요청 프록시
 
@@ -51,7 +51,7 @@ Charles Proxy와 같은 도구를 사용하여 _iprofiles.apple.com_에 대한 D
 `cloudconfigurationd`와 같은 시스템 이진 파일을 계측하려면 macOS에서 시스템 무결성 보호(SIP)를 비활성화해야 합니다. SIP가 비활성화되면 LLDB와 같은 도구를 사용하여 시스템 프로세스에 연결하고 DEP API 상호작용에 사용되는 일련 번호를 수정할 수 있습니다. 이 방법은 권한 및 코드 서명의 복잡성을 피할 수 있어 선호됩니다.
 
 **이진 계측 활용:**
-`cloudconfigurationd`에서 JSON 직렬화 전에 DEP 요청 페이로드를 수정하는 것이 효과적임을 입증했습니다. 이 과정은 다음을 포함했습니다:
+`cloudconfigurationd`에서 JSON 직렬화 전에 DEP 요청 페이로드를 수정하는 것이 효과적임을 입증했습니다. 이 과정은 다음을 포함합니다:
 
 1. `cloudconfigurationd`에 LLDB 연결.
 2. 시스템 일련 번호가 검색되는 지점 찾기.

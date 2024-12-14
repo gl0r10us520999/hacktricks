@@ -1,16 +1,16 @@
 # macOS PID 재사용
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter**에서 **팔로우**하세요** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 macOS **XPC 서비스**가 **PID**를 기반으로 호출된 프로세스를 확인하고 **감사 토큰**을 사용하지 않을 때, PID 재사용 공격에 취약합니다. 이 공격은 **경쟁 조건**에 기반하며, **익스플로잇**이 **XPC** 서비스에 **메시지를 전송**하여 기능을 **악용**한 후, **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**를 **허용된** 바이너리로 실행합니다.
 
-이 함수는 **허용된 바이너리**가 PID를 소유하게 만들지만, **악의적인 XPC 메시지는** 그 직전에 전송됩니다. 따라서, **XPC** 서비스가 **PID**를 사용하여 발신자를 **인증**하고 **`posix_spawn`** 실행 **후에** 확인하면, 이를 **인증된** 프로세스에서 온 것으로 생각할 것입니다.
+이 함수는 **허용된 바이너리**가 PID를 소유하게 만들지만, **악의적인 XPC 메시지는** 그 직전에 전송됩니다. 따라서, **XPC** 서비스가 **PID**를 사용하여 발신자를 **인증**하고 **`posix_spawn`** 실행 **후에** 이를 확인하면, **권한이 있는** 프로세스에서 온 것으로 생각할 것입니다.
 
 ### 익스플로잇 예시
 
@@ -28,7 +28,7 @@ macOS **XPC 서비스**가 **PID**를 기반으로 호출된 프로세스를 확
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-이 예시 익스플로잇을 확인하세요 (다시, 참조에서 가져옴) 익스플로잇의 두 부분을 확인할 수 있습니다:
+익스플로잇의 두 부분을 확인하기 위해 이 예시 익스플로잇을 보십시오 (다시, 참조에서 가져옴):
 
 * 여러 개의 포크를 **생성하는** 부분
 * **각 포크**는 **메시지를 전송한 후** **`posix_spawn`**을 실행하면서 **페이로드**를 XPC 서비스에 **전송**합니다.
@@ -44,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-첫 번째 옵션은 **`NSTasks`**를 사용하고 인수를 통해 자식 프로세스를 시작하여 RC를 악용하는 것입니다.
+**`NSTasks`**와 인수를 사용하여 자식을 시작하여 RC를 악용하는 첫 번째 옵션
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl

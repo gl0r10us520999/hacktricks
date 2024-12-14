@@ -26,7 +26,7 @@ mina 데몬은 `/System/Library/CoreServices/appleeventsd`로, 서비스 `com.ap
 샌드박스 애플리케이션은 이벤트를 보낼 수 있도록 `allow appleevent-send` 및 `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`와 같은 권한이 필요합니다. `com.apple.security.temporary-exception.apple-events`와 같은 권한은 이벤트를 보낼 수 있는 접근을 제한할 수 있으며, 이는 `com.apple.private.appleevents`와 같은 권한이 필요합니다.
 
 {% hint style="success" %}
-It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:
+**`AEDebugSends`** 환경 변수를 사용하여 전송된 메시지에 대한 정보를 기록할 수 있습니다:
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
@@ -41,8 +41,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.**
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

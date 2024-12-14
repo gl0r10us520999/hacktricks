@@ -17,7 +17,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 ## [OTA 해킹](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)에서는 소프트웨어 업데이트 프로그램을 타겟으로 하는 커널을 손상시킬 수 있는 여러 취약점이 설명되어 있습니다.\
+[**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)에서는 소프트웨어 업데이트 프로그램을 손상시켜 커널을 침해할 수 있게 해준 여러 취약점이 설명되어 있습니다.\
 [**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
 
 {% hint style="success" %}

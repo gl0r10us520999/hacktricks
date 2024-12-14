@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-그래서, 그것을 탈취하는 것이 가능합니다! **임의의 코드를 실행하고 정품 라이브러리와 동일한 기능을 재수출하여** 라이브러리를 만드세요. 그리고 예상되는 버전으로 컴파일하는 것을 잊지 마세요:
+그래서, 그것을 탈취하는 것이 가능합니다! **임의의 코드를 실행하고 정품 라이브러리와 동일한 기능을 재수출하는** 라이브러리를 만드세요. 그리고 예상되는 버전으로 컴파일하는 것을 잊지 마세요:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -159,7 +159,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 그리고 **이진 파일을 실행**하고 **라이브러리가 로드되었는지 확인**합니다:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib가 /Applications/VulnDyld.app/Contents/Resources/lib/binary에서 탈취됨
 </strong>Usage: [...]
 </code></pre>
 
@@ -183,7 +183,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

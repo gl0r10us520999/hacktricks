@@ -100,7 +100,7 @@ In ObjectiveC this is how a method is called like: **`[myClassInstance nameOfThe
 
 객체는 **`someObject`**, 메서드는 **`@selector(method1p1:p2:)`**이며, 인수는 **value1**, **value2**입니다.
 
-객체 구조를 따라 **메서드 배열**에 접근할 수 있으며, 여기에는 **이름**과 **메서드 코드에 대한 포인터**가 **위치**합니다.
+객체 구조를 따라가면 **메서드 배열**에 접근할 수 있으며, 여기에는 **이름**과 **메서드 코드에 대한 포인터**가 **위치**해 있습니다.
 
 {% hint style="danger" %}
 Note that because methods and classes are accessed based on their names, this information is store in the binary, so it's possible to retrieve it with `otool -ov </path/bin>` or [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
@@ -225,7 +225,7 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-이 경우 **정상** 메서드의 **구현 코드**가 **메서드** **이름**을 **검증**하면 이 스위즐링을 **감지**하고 실행을 방지할 수 있습니다.
+이 경우 **정상적인** 메서드의 **구현 코드**가 **메서드** **이름**을 **검증**하면 이 스위즐링을 **감지**하고 실행을 방지할 수 있습니다.
 
 다음 기술은 이러한 제한이 없습니다.
 {% endhint %}
@@ -234,7 +234,7 @@ return 0;
 
 이전 형식은 두 메서드의 구현을 서로 변경하기 때문에 이상합니다. **`method_setImplementation`** 함수를 사용하면 **하나의 메서드의 구현을 다른 메서드로 변경**할 수 있습니다.
 
-새로운 구현에서 호출하기 위해 원래 구현의 주소를 **저장하는 것을 잊지 마세요**. 나중에 그 주소를 찾는 것이 훨씬 복잡해질 것입니다.
+덮어쓰기 전에 **원래 메서드의 구현 주소를 저장**하는 것을 잊지 마세요. 나중에 그 주소를 찾는 것이 훨씬 복잡해질 것입니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -288,15 +288,15 @@ return 0;
 ```
 ## Hooking Attack Methodology
 
-이 페이지에서는 함수를 후킹하는 다양한 방법에 대해 논의했습니다. 그러나 이들은 **공격을 위해 프로세스 내에서 코드를 실행하는 것**을 포함했습니다.
+이 페이지에서는 함수를 훅하는 다양한 방법에 대해 논의했습니다. 그러나 이 방법들은 **공격을 위해 프로세스 내에서 코드를 실행하는 것**을 포함했습니다.
 
 이를 위해 가장 쉬운 기술은 [환경 변수를 통한 Dyld 주입 또는 하이재킹](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)입니다. 그러나 이것은 [Dylib 프로세스 주입](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)을 통해서도 수행될 수 있다고 생각합니다.
 
-그러나 두 옵션 모두 **보호되지 않은** 바이너리/프로세스에 **제한**됩니다. 각 기술을 확인하여 제한 사항에 대해 더 알아보세요.
+그러나 두 옵션 모두 **보호되지 않은** 바이너리/프로세스에 **제한적**입니다. 각 기술을 확인하여 제한 사항에 대해 더 알아보세요.
 
-그러나 함수 후킹 공격은 매우 구체적이며, 공격자는 **프로세스 내부에서 민감한 정보를 훔치기 위해** 이를 수행합니다(그렇지 않으면 단순히 프로세스 주입 공격을 수행할 것입니다). 이 민감한 정보는 MacPass와 같은 사용자 다운로드 앱에 위치할 수 있습니다.
+그러나 함수 훅킹 공격은 매우 구체적이며, 공격자는 **프로세스 내부에서 민감한 정보를 훔치기 위해** 이를 수행합니다(그렇지 않으면 프로세스 주입 공격을 수행할 것입니다). 이 민감한 정보는 MacPass와 같은 사용자 다운로드 앱에 위치할 수 있습니다.
 
-따라서 공격자 벡터는 취약점을 찾거나 애플리케이션의 서명을 제거하고, 애플리케이션의 Info.plist를 통해 **`DYLD_INSERT_LIBRARIES`** 환경 변수를 주입하여 다음과 같은 것을 추가하는 것입니다:
+따라서 공격자 벡터는 취약점을 찾거나 애플리케이션의 서명을 제거하고, 애플리케이션의 Info.plist를 통해 **`DYLD_INSERT_LIBRARIES`** 환경 변수를 주입하여 다음과 같은 내용을 추가하는 것입니다:
 ```xml
 <key>LSEnvironment</key>
 <dict>

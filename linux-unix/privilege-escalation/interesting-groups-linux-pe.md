@@ -44,7 +44,8 @@ sudo su
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-만약 pkexec 바이너리가 SUID 바이너리이고 당신이 sudo 또는 admin 그룹에 속한다면, pkexec를 사용하여 sudo로 바이너리를 실행할 수 있을 것입니다. 다음 내용을 확인하세요:
+If you find that the binary pkexec is a SUID binary and you belong to sudo or admin, you could probably execute binaries as sudo using pkexec.  
+다음 내용을 확인하세요:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -99,7 +100,7 @@ So, read the file and try to **crack some hashes**.
 
 # Disk Group
 
-이 권한은 거의 **루트 접근과 동등**하며, 머신 내부의 모든 데이터에 접근할 수 있습니다.
+이 권한은 **루트 접근과 거의 동등**하며, 머신 내부의 모든 데이터에 접근할 수 있습니다.
 
 Files:`/dev/sd[a-z][1-9]`
 ```text
@@ -119,7 +120,7 @@ debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 
 # 비디오 그룹
 
-`w` 명령어를 사용하면 **시스템에 로그인한 사람**을 찾을 수 있으며, 다음과 같은 출력을 보여줍니다:
+`w` 명령을 사용하면 **시스템에 로그인한 사람**을 찾을 수 있으며 다음과 같은 출력을 보여줍니다:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -127,24 +128,24 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 The **tty1**는 사용자 **yossi가 물리적으로** 머신의 터미널에 로그인했음을 의미합니다.
 
-**video group**은 화면 출력을 볼 수 있는 권한이 있습니다. 기본적으로 화면을 관찰할 수 있습니다. 이를 위해서는 **현재 화면의 이미지를** 원시 데이터로 가져오고 화면이 사용하는 해상도를 알아야 합니다. 화면 데이터는 `/dev/fb0`에 저장할 수 있으며, 이 화면의 해상도는 `/sys/class/graphics/fb0/virtual_size`에서 찾을 수 있습니다.
+**video group**은 화면 출력을 볼 수 있는 권한이 있습니다. 기본적으로 화면을 관찰할 수 있습니다. 이를 위해서는 **현재 화면의 이미지를** 원시 데이터로 가져오고 화면이 사용하는 해상도를 알아야 합니다. 화면 데이터는 `/dev/fb0`에 저장될 수 있으며, 이 화면의 해상도는 `/sys/class/graphics/fb0/virtual_size`에서 찾을 수 있습니다.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-**원시 이미지**를 **열기** 위해 **GIMP**를 사용하고 **`screen.raw`** 파일을 선택한 후 파일 형식으로 **원시 이미지 데이터**를 선택할 수 있습니다:
+To **open** the **raw image** you can use **GIMP**, select the **`screen.raw`** file and select as file type **Raw image data**:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-그런 다음 너비와 높이를 화면에서 사용된 값으로 수정하고 다양한 이미지 유형을 확인한 후 (화면을 더 잘 보여주는 것을 선택합니다):
+Then modify the Width and Height to the ones used on the screen and check different Image Types \(and select the one that shows better the screen\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
-# 루트 그룹
+# Root Group
 
-기본적으로 **루트 그룹의 구성원**은 **서비스** 구성 파일이나 일부 **라이브러리** 파일 또는 권한 상승에 사용할 수 있는 **기타 흥미로운 것들**을 **수정**할 수 있는 접근 권한이 있는 것 같습니다...
+기본적으로 **root 그룹의 구성원**은 **서비스** 구성 파일이나 **라이브러리** 파일 또는 **권한 상승**에 사용할 수 있는 **기타 흥미로운 것들**을 **수정**할 수 있는 접근 권한을 가질 수 있습니다...
 
-**루트 구성원이 수정할 수 있는 파일 확인**:
+**root 구성원이 수정할 수 있는 파일 확인**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
@@ -177,8 +178,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 **팔로우**하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}

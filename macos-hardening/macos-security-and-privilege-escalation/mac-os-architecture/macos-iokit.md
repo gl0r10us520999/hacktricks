@@ -23,9 +23,9 @@ IOKit 드라이버는 기본적으로 **커널에서 함수를 내보냅니다**
 
 **IOKit XNU 커널 코드**는 Apple에 의해 [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit)에서 오픈 소스화되었습니다. 또한, 사용자 공간 IOKit 구성 요소도 오픈 소스입니다 [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-그러나 **IOKit 드라이버**는 오픈 소스가 아닙니다. 어쨌든, 때때로 드라이버의 릴리스가 디버깅을 쉽게 해주는 기호와 함께 제공될 수 있습니다. [**펌웨어에서 드라이버 확장을 가져오는 방법을 확인하세요**](./#ipsw)**.**
+그러나 **IOKit 드라이버**는 오픈 소스가 아닙니다. 어쨌든, 때때로 드라이버의 릴리스가 디버깅을 쉽게 해주는 기호와 함께 제공될 수 있습니다. [**여기에서 펌웨어에서 드라이버 확장을 얻는 방법을 확인하세요**](./#ipsw)**.**
 
-C++로 작성되었습니다. 다음을 사용하여 디맹글된 C++ 기호를 얻을 수 있습니다:
+C++로 작성되었습니다. 다음을 사용하여 디망글된 C++ 기호를 얻을 수 있습니다:
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -36,7 +36,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **노출된 함수**는 클라이언트가 함수를 호출하려고 할 때 **추가 보안 검사를** 수행할 수 있지만, 앱은 일반적으로 IOKit 함수와 상호작용할 수 있는 **샌드박스**에 의해 **제한**된다는 점에 유의해야 합니다.
+IOKit **노출된 함수**는 클라이언트가 함수를 호출하려고 할 때 **추가 보안 검사를** 수행할 수 있지만, 앱은 일반적으로 IOKit 함수와 상호작용할 수 있는 **샌드박스**에 의해 **제한**됩니다.
 {% endhint %}
 
 ## 드라이버
@@ -84,32 +84,32 @@ kextunload com.apple.iokit.IOReportFamily
 
 **IORegistry**는 macOS 및 iOS의 IOKit 프레임워크에서 시스템의 하드웨어 구성 및 상태를 나타내는 데이터베이스의 중요한 부분입니다. 이는 **시스템에 로드된 모든 하드웨어 및 드라이버를 나타내는 객체의 계층적 컬렉션**이며, 이들 간의 관계를 나타냅니다.
 
-콘솔에서 IORegistry를 검사하기 위해 cli **`ioreg`**를 사용하여 이를 얻을 수 있습니다(특히 iOS에 유용합니다).
+콘솔에서 이를 검사하기 위해 cli **`ioreg`**를 사용하여 IORegistry를 얻을 수 있습니다(특히 iOS에 유용합니다).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-You could download **`IORegistryExplorer`** from **Xcode Additional Tools** from [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) and inspect the **macOS IORegistry** through a **graphical** interface.
+**`IORegistryExplorer`**를 **Xcode 추가 도구**에서 [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/)에서 다운로드하여 **macOS IORegistry**를 **그래픽** 인터페이스를 통해 검사할 수 있습니다.
 
 <figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-In IORegistryExplorer, "planes" are used to organize and display the relationships between different objects in the IORegistry. Each plane represents a specific type of relationship or a particular view of the system's hardware and driver configuration. Here are some of the common planes you might encounter in IORegistryExplorer:
+IORegistryExplorer에서 "플레인"은 IORegistry의 다양한 객체 간의 관계를 조직하고 표시하는 데 사용됩니다. 각 플레인은 특정 유형의 관계 또는 시스템의 하드웨어 및 드라이버 구성의 특정 뷰를 나타냅니다. IORegistryExplorer에서 마주칠 수 있는 일반적인 플레인은 다음과 같습니다:
 
-1. **IOService Plane**: 가장 일반적인 평면으로, 드라이버와 넙스(드라이버 간의 통신 채널)를 나타내는 서비스 객체를 표시합니다. 이 객체들 간의 공급자-클라이언트 관계를 보여줍니다.
-2. **IODeviceTree Plane**: 이 평면은 시스템에 연결된 장치 간의 물리적 연결을 나타냅니다. USB 또는 PCI와 같은 버스를 통해 연결된 장치의 계층 구조를 시각화하는 데 자주 사용됩니다.
+1. **IOService Plane**: 가장 일반적인 플레인으로, 드라이버와 넙(드라이버 간의 통신 채널)을 나타내는 서비스 객체를 표시합니다. 이 객체들 간의 제공자-클라이언트 관계를 보여줍니다.
+2. **IODeviceTree Plane**: 이 플레인은 시스템에 연결된 장치 간의 물리적 연결을 나타냅니다. USB 또는 PCI와 같은 버스를 통해 연결된 장치의 계층 구조를 시각화하는 데 자주 사용됩니다.
 3. **IOPower Plane**: 전원 관리 측면에서 객체와 그 관계를 표시합니다. 다른 객체의 전원 상태에 영향을 미치는 객체를 보여줄 수 있어 전원 관련 문제를 디버깅하는 데 유용합니다.
 4. **IOUSB Plane**: USB 장치와 그 관계에 특별히 초점을 맞추어 USB 허브와 연결된 장치의 계층 구조를 보여줍니다.
-5. **IOAudio Plane**: 이 평면은 시스템 내의 오디오 장치와 그 관계를 나타내기 위한 것입니다.
+5. **IOAudio Plane**: 이 플레인은 시스템 내의 오디오 장치와 그 관계를 나타내는 데 사용됩니다.
 6. ...
 
-## Driver Comm Code Example
+## 드라이버 커뮤니케이션 코드 예제
 
-The following code connects to the IOKit service `"YourServiceNameHere"` and calls the function inside the selector 0. For it:
+다음 코드는 IOKit 서비스 `"YourServiceNameHere"`에 연결하고 선택자 0 내의 함수를 호출합니다. 이를 위해:
 
-* it first calls **`IOServiceMatching`** and **`IOServiceGetMatchingServices`** to get the service.
-* It then establish a connection calling **`IOServiceOpen`**.
-* And it finally calls a function with **`IOConnectCallScalarMethod`** indicating the selector 0 (the selector is the number the function you want to call has assigned).
+* 먼저 **`IOServiceMatching`** 및 **`IOServiceGetMatchingServices`**를 호출하여 서비스를 가져옵니다.
+* 그런 다음 **`IOServiceOpen`**을 호출하여 연결을 설정합니다.
+* 마지막으로 선택자 0을 나타내는 **`IOConnectCallScalarMethod`**로 함수를 호출합니다(선택자는 호출하려는 함수에 할당된 번호입니다).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -243,8 +243,8 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter**에서 **팔로우**하세요 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
 
 </details>
 {% endhint %}

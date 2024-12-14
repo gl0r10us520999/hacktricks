@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Introduction to x64**
 
-x64, 또는 x86-64로 알려진, 64비트 프로세서 아키텍처로 주로 데스크탑 및 서버 컴퓨팅에 사용됩니다. Intel에서 생산한 x86 아키텍처에서 유래되었으며, 이후 AMD가 AMD64라는 이름으로 채택하였습니다. 현재 개인용 컴퓨터와 서버에서 널리 사용되는 아키텍처입니다.
+x64, 또는 x86-64로 알려진,은 주로 데스크탑 및 서버 컴퓨팅에 사용되는 64비트 프로세서 아키텍처입니다. Intel에서 생산한 x86 아키텍처에서 유래되었으며, 이후 AMD가 AMD64라는 이름으로 채택하였습니다. 현재 개인 컴퓨터와 서버에서 널리 사용되는 아키텍처입니다.
 
 ### **Registers**
 
-x64는 x86 아키텍처를 확장하여 **16개의 범용 레지스터**를 제공합니다. 이들은 `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, 및 `r8`에서 `r15`까지 레이블이 붙어 있습니다. 각 레지스터는 **64비트**(8바이트) 값을 저장할 수 있습니다. 이 레지스터들은 호환성과 특정 작업을 위해 32비트, 16비트, 8비트 하위 레지스터도 가지고 있습니다.
+x64는 x86 아키텍처를 확장하여 **16개의 범용 레지스터**를 특징으로 하며, 이들은 `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, 그리고 `r8`부터 `r15`까지 레이블이 붙어 있습니다. 이들 각각은 **64비트**(8바이트) 값을 저장할 수 있습니다. 이러한 레지스터는 호환성과 특정 작업을 위해 32비트, 16비트 및 8비트 하위 레지스터도 가지고 있습니다.
 
 1. **`rax`** - 전통적으로 **함수의 반환 값**에 사용됩니다.
 2. **`rbx`** - 메모리 작업을 위한 **기본 레지스터**로 자주 사용됩니다.
@@ -30,7 +30,7 @@ x64는 x86 아키텍처를 확장하여 **16개의 범용 레지스터**를 제�
 5. **`rbp`** - 스택 프레임의 **기본 포인터**입니다.
 6. **`rsp`** - 스택의 맨 위를 추적하는 **스택 포인터**입니다.
 7. **`rsi`** 및 **`rdi`** - 문자열/메모리 작업에서 **소스** 및 **대상** 인덱스에 사용됩니다.
-8. **`r8`**에서 **`r15`** - x64에서 도입된 추가 범용 레지스터입니다.
+8. **`r8`**부터 **`r15`**까지 - x64에서 도입된 추가 범용 레지스터입니다.
 
 ### **Calling Convention**
 
@@ -58,7 +58,7 @@ x64 명령어는 풍부한 세트를 가지고 있으며, 이전 x86 명령어�
 * 예: `add rax, rcx` — `rax`와 `rcx`의 값을 더하여 결과를 `rax`에 저장합니다.
 * **`mul`** 및 **`div`**: **곱셈** 및 **나눗셈** 연산입니다. 주의: 이들은 피연산자 사용에 대한 특정 동작을 가지고 있습니다.
 * **`call`** 및 **`ret`**: 함수를 **호출**하고 **반환**하는 데 사용됩니다.
-* **`int`**: 소프트웨어 **인터럽트**를 트리거하는 데 사용됩니다. 예: `int 0x80`는 32비트 x86 리눅스에서 시스템 호출에 사용되었습니다.
+* **`int`**: 소프트웨어 **인터럽트**를 트리거하는 데 사용됩니다. 예: `int 0x80`는 32비트 x86 Linux에서 시스템 호출에 사용되었습니다.
 * **`cmp`**: 두 값을 **비교**하고 결과에 따라 CPU의 플래그를 설정합니다.
 * 예: `cmp rax, rdx` — `rax`를 `rdx`와 비교합니다.
 * **`je`, `jne`, `jl`, `jge`, ...**: 이전 `cmp` 또는 테스트의 결과에 따라 제어 흐름을 변경하는 **조건부 점프** 명령어입니다.
@@ -91,7 +91,7 @@ x64 명령어는 풍부한 세트를 가지고 있으며, 이전 x86 명령어�
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-그럼 각 syscall 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:** 찾을 수 있습니다.
+그런 다음, 각 syscall 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:** 찾을 수 있습니다.
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -108,13 +108,13 @@ x64 명령어는 풍부한 세트를 가지고 있으며, 이전 x86 명령어�
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-그래서 **Unix/BSD 클래스**에서 `open` 시스템 호출 (**5**)을 호출하려면 다음을 추가해야 합니다: `0x2000000`
+그래서 **Unix/BSD 클래스**에서 `open` 시스템 호출(**5**)을 호출하려면 다음을 추가해야 합니다: `0x2000000`
 
 따라서 open을 호출하는 시스템 호출 번호는 `0x2000005`가 됩니다.
 
 ### Shellcodes
 
-컴파일하려면: 
+컴파일하려면:
 
 {% code overflow="wrap" %}
 ```bash
@@ -139,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>쉘코드를 테스트하는 C 코드</summary>
+<summary>쉘코드를 테스트하기 위한 C 코드</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -230,7 +230,7 @@ syscall
 
 #### cat으로 읽기
 
-목표는 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`를 실행하는 것이며, 두 번째 인수(x1)는 매개변수의 배열입니다(메모리에서 이는 주소의 스택을 의미합니다).
+목표는 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`를 실행하는 것입니다. 따라서 두 번째 인수(x1)는 매개변수의 배열입니다(메모리에서 이는 주소의 스택을 의미합니다).
 ```armasm
 bits 64
 section .text
@@ -376,7 +376,7 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Reverse Shell
+#### 리버스 셸
 
 [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html)에서 리버스 셸. **127.0.0.1:4444**로 리버스 셸
 ```armasm
@@ -441,16 +441,16 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
