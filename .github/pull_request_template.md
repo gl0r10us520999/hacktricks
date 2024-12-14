@@ -1,4 +1,6 @@
-## Toewysing
-Ons waardeer jou kennis en moedig jou aan om inhoud te deel. Maak asseblief seker dat jy slegs inhoud oplaai wat jy besit of uitdruklike toestemming het van die oorspronklike skrywer om dit te gebruik. Jou respek vir intellektuele eiendomsregte bevorder 'n betroubare en wettige deelomgewing vir almal.
+您可以在发送 PR 之前删除此内容：
 
-Dankie dat jy bydra tot HackTricks!
+## Attribution
+我们重视您的知识，并鼓励您分享内容。请确保您仅上传您拥有或已获得原作者分享权限的内容（在添加的文本中或您正在修改的页面末尾添加对作者的引用，或两者都添加）。 您对知识产权的尊重为每个人营造了一个值得信赖和合法的分享环境。
+
+感谢您为 HackTricks 做出的贡献！

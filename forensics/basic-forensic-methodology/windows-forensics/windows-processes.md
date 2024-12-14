@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -16,130 +16,130 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 
 ## smss.exe
 
-**Sessiebestuurder**.\
-Sessie 0 begin **csrss.exe** en **wininit.exe** (**OS-diens**) terwyl Sessie 1 **csrss.exe** en **winlogon.exe** (**Gebruikersessie**) begin. Jy behoort egter **net een proses** van daardie **binêre** te sien sonder kinders in die prosesseboom.
+**会话管理器**。\
+会话 0 启动 **csrss.exe** 和 **wininit.exe** (**操作系统** **服务**)，而会话 1 启动 **csrss.exe** 和 **winlogon.exe** (**用户** **会话**)。然而，您应该只看到该 **二进制文件** 的 **一个进程**，且在进程树中没有子进程。
 
-Verder kan sessies anders as 0 en 1 beteken dat RDP-sessies plaasvind.
+此外，除了 0 和 1 的会话可能意味着正在发生 RDP 会话。
 
 
 ## csrss.exe
 
-**Kliënt/Bediener Uitvoeringsondersteuningsproses**.\
-Dit bestuur **prosesse** en **drade**, maak die **Windows-API** beskikbaar vir ander prosesse en ook **koppel stationsletters aan**, skep **tydelike lêers**, en hanteer die **afsluitingsproses**.
+**客户端/服务器运行子系统进程**。\
+它管理 **进程** 和 **线程**，使 **Windows** **API** 可供其他进程使用，并且还 **映射驱动器字母**，创建 **临时文件**，并处理 **关机** **过程**。
 
-Daar is een wat in Sessie 0 hardloop en nog een in Sessie 1 (dus **2 prosesse** in die prosesseboom). Nog een word geskep **per nuwe Sessie**.
+在会话 0 中有一个 **正在运行的进程，在会话 1 中还有一个**（因此在进程树中有 **2 个进程**）。每个新会话会创建一个新的进程。
 
 
 ## winlogon.exe
 
-**Windows Aanmeldingsproses**.\
-Dit is verantwoordelik vir gebruiker **aanmeldings**/**afmeldings**. Dit begin **logonui.exe** om vir gebruikersnaam en wagwoord te vra en skakel dan **lsass.exe** in om dit te verifieer.
+**Windows 登录进程**。\
+它负责用户 **登录**/**注销**。它启动 **logonui.exe** 以请求用户名和密码，然后调用 **lsass.exe** 进行验证。
 
-Daarna begin dit **userinit.exe** wat gespesifiseer is in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** met sleutel **Userinit**.
+然后它启动 **userinit.exe**，该程序在 **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** 中指定，键为 **Userinit**。
 
-Daarbenewens behoort die vorige register **explorer.exe** in die **Shell-sleutel** te hê of dit kan misbruik word as 'n **malware volhardingsmetode**.
+此外，之前的注册表应在 **Shell 键** 中包含 **explorer.exe**，否则可能会被滥用作为 **恶意软件持久性方法**。
 
 
 ## wininit.exe
 
-**Windows Inisialisasieproses**. \
-Dit begin **services.exe**, **lsass.exe**, en **lsm.exe** in Sessie 0. Daar behoort net 1 proses te wees.
+**Windows 初始化进程**。 \
+它在会话 0 中启动 **services.exe**、**lsass.exe** 和 **lsm.exe**。应该只有 1 个进程。
 
 
 ## userinit.exe
 
-**Gebruikerinisialisasie Aanmeldingsprogram**.\
-Laai die **ntduser.dat in HKCU** en inisialiseer die **gebruiker** **omgewing** en voer **aanmeldingskripte** en **GPO** uit.
+**用户初始化登录应用程序**。\
+加载 **HKCU 中的 ntduser.dat**，初始化 **用户** **环境**，并运行 **登录** **脚本** 和 **GPO**。
 
-Dit begin **explorer.exe**.
+它启动 **explorer.exe**。
 
 
 ## lsm.exe
 
-**Plaaslike Sessiebestuurder**.\
-Dit werk saam met smss.exe om gebruikersessies te manipuleer: Aanmelding/afmelding, skerm begin, skerm sluit/ontsluit, ens.
+**本地会话管理器**。\
+它与 smss.exe 一起工作以操纵用户会话：登录/注销、启动 shell、锁定/解锁桌面等。
 
-Na W7 is lsm.exe omskep in 'n diens (lsm.dll).
+在 W7 之后，lsm.exe 被转变为服务 (lsm.dll)。
 
-Daar behoort net 1 proses in W7 te wees en van hulle 'n diens wat die DLL hardloop.
+在 W7 中应该只有 1 个进程，并且其中一个是运行 DLL 的服务。
 
 
 ## services.exe
 
-**Diensbeheerder**.\
-Dit **laai** **dienste** wat as **outomatiese aanvang** en **bestuurders** gekonfigureer is.
+**服务控制管理器**。\
+它 **加载** 配置为 **自动启动** 的 **服务** 和 **驱动程序**。
 
-Dit is die ouerproses van **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** en baie meer.
+它是 **svchost.exe**、**dllhost.exe**、**taskhost.exe**、**spoolsv.exe** 等的父进程。
 
-Dienste word gedefinieer in `HKLM\SYSTEM\CurrentControlSet\Services` en hierdie proses handhaaf 'n DB in die geheue van diensinligting wat deur sc.exe ondervra kan word.
+服务在 `HKLM\SYSTEM\CurrentControlSet\Services` 中定义，该进程在内存中维护服务信息的数据库，可以通过 sc.exe 查询。
 
-Let op hoe **sommige** **dienste** in 'n **proses van hul eie** gaan hardloop en ander gaan **'n svchost.exe-proses deel**.
+请注意，**某些** **服务** 将在 **自己的进程中运行**，而其他服务将 **共享一个 svchost.exe 进程**。
 
-Daar behoort net 1 proses te wees.
+应该只有 1 个进程。
 
 
 ## lsass.exe
 
-**Plaaslike Sekuriteitsowerheidsondersteuning**.\
-Dit is verantwoordelik vir die gebruiker **verifikasie** en skep die **sekuriteit** **tokens**. Dit gebruik verifikasiepakette wat in `HKLM\System\CurrentControlSet\Control\Lsa` geleë is.
+**本地安全授权子系统**。\
+它负责用户 **身份验证** 并创建 **安全** **令牌**。它使用位于 `HKLM\System\CurrentControlSet\Control\Lsa` 的身份验证包。
 
-Dit skryf na die **Sekuriteit** **gebeurtenis** **logboek** en daar behoort net 1 proses te wees.
+它写入 **安全** **事件** **日志**，并且应该只有 1 个进程。
 
-Hou in gedagte dat hierdie proses hoogs aangeval word om wagwoorde te dump.
+请记住，该进程是高度攻击的目标，用于提取密码。
 
 
 ## svchost.exe
 
-**Generiese Diensgasheerproses**.\
-Dit bied gasheer aan meervoudige DLL-dienste in een gedeelde proses.
+**通用服务主机进程**。\
+它在一个共享进程中托管多个 DLL 服务。
 
-Gewoonlik sal jy vind dat **svchost.exe** met die `-k` vlag gelanseer word. Dit sal 'n navraag na die register **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** lanceer waar daar 'n sleutel met die genoemde argument in -k sal wees wat die dienste bevat om in dieselfde proses te lanceer.
+通常，您会发现 **svchost.exe** 是使用 `-k` 标志启动的。这将查询注册表 **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost**，其中将有一个带有 -k 中提到的参数的键，该键将包含在同一进程中启动的服务。
 
-Byvoorbeeld: `-k UnistackSvcGroup` sal lanceer: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+例如：`-k UnistackSvcGroup` 将启动：`PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-As die **vlag `-s`** ook met 'n argument gebruik word, word svchost gevra om **net die gespesifiseerde diens** in hierdie argument te lanceer.
+如果 **标志 `-s`** 也与参数一起使用，则 svchost 被要求 **仅启动指定的服务**。
 
-Daar sal verskeie prosesse van `svchost.exe` wees. As enige van hulle **nie die `-k` vlag gebruik nie**, is dit baie verdag. As jy vind dat **services.exe nie die ouerproses is nie**, is dit ook baie verdag.
+将会有多个 `svchost.exe` 进程。如果其中任何一个 **没有使用 `-k` 标志**，那么这非常可疑。如果您发现 **services.exe 不是父进程**，那也是非常可疑的。
 
 
 ## taskhost.exe
 
-Hierdie proses tree op as 'n gasheer vir prosesse wat van DLL's hardloop. Dit laai ook die dienste wat van DLL's hardloop.
+该进程充当从 DLL 运行的进程的主机。它还加载从 DLL 运行的服务。
 
-In W8 word dit taskhostex.exe genoem en in W10 taskhostw.exe.
+在 W8 中称为 taskhostex.exe，在 W10 中称为 taskhostw.exe。
 
 
 ## explorer.exe
 
-Dit is die proses wat verantwoordelik is vir die **gebruiker se lessenaar** en die aanvang van lêers via lêeruitbreidings.
+这是负责 **用户桌面** 和通过文件扩展名启动文件的进程。
 
-**Net 1** proses behoort **per aangemelde gebruiker** gegenereer te word.
+**每个登录用户应该只生成 1 个** 进程。
 
-Dit word vanaf **userinit.exe** uitgevoer wat beëindig behoort te word, sodat **geen ouer** vir hierdie proses moet verskyn nie.
+这是从 **userinit.exe** 运行的，应该被终止，因此 **该进程不应出现父进程**。
 
 
-# Vangskadelike Prosesse
+# 捕获恶意进程
 
-* Hardloop dit van die verwagte pad af? (Geen Windows-binêres hardloop vanaf 'n tydelike plek nie)
-* Kommunikeer dit met vreemde IP-adresse?
-* Kontroleer digitale handtekeninge (Microsoft-artefakte behoort onderteken te wees)
-* Is dit korrek gespel?
-* Hardloop dit onder die verwagte SID?
-* Is die ouerproses die verwagte een (indien enige)?
-* Is die kinderprosesse die verwagte (geen cmd.exe, wscript.exe, powershell.exe..?)?
+* 它是否从预期路径运行？（没有 Windows 二进制文件从临时位置运行）
+* 它是否与奇怪的 IP 通信？
+* 检查数字签名（Microsoft 工件应已签名）
+* 拼写是否正确？
+* 是否在预期的 SID 下运行？
+* 父进程是否是预期的进程（如果有的话）？
+* 子进程是否是预期的进程？（没有 cmd.exe、wscript.exe、powershell.exe..？）
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

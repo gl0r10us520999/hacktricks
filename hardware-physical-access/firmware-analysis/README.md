@@ -1,58 +1,58 @@
-# Firmware Analise
+# 固件分析
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## **Inleiding**
+## **介绍**
 
-Firmware is noodsaaklike sagteware wat toestelle in staat stel om korrek te werk deur die bestuur en fasilitering van kommunikasie tussen die hardewarekomponente en die sagteware wat gebruikers mee interaksie het. Dit word gestoor in permanente geheue, wat verseker dat die toestel vanaf die oomblik dat dit aangeskakel word, toegang tot noodsaaklike instruksies kan verkry, wat lei tot die aanvang van die bedryfstelsel. Die ondersoek en moontlike wysiging van firmware is 'n kritieke stap om sekuriteitskwessies te identifiseer.
+固件是使设备正常运行的基本软件，通过管理和促进硬件组件与用户交互的软件之间的通信。它存储在永久内存中，确保设备在开机时能够访问重要指令，从而启动操作系统。检查和潜在修改固件是识别安全漏洞的关键步骤。
 
-## **Inligting Versameling**
+## **收集信息**
 
-**Inligting Versameling** is 'n kritieke aanvanklike stap om 'n toestel se samestelling en die tegnologieë wat dit gebruik, te verstaan. Hierdie proses behels die insameling van data oor:
+**收集信息**是理解设备构成和所用技术的关键初步步骤。此过程涉及收集以下数据：
 
-* Die CPU-argitektuur en bedryfstelsel waarop dit loop
-* Bootloader spesifieke inligting
-* Hardeware uitleg en databladsye
-* Kodebasis metriek en bronlokasies
-* Eksterne biblioteke en lisensietipes
-* Opdateringsgeskiedenisse en reguleringsertifisering
-* Argitektoniese en vloeidiagramme
-* Sekuriteitsassesserings en geïdentifiseerde kwessies
+* CPU 架构和运行的操作系统
+* 引导加载程序的具体信息
+* 硬件布局和数据表
+* 代码库指标和源位置
+* 外部库和许可证类型
+* 更新历史和监管认证
+* 架构和流程图
+* 安全评估和已识别的漏洞
 
-Vir hierdie doel is **open-source intelligensie (OSINT)**-hulpmiddels van onschatbare waarde, asook die analise van enige beskikbare oopbron-sagtewarekomponente deur middel van handmatige en geoutomatiseerde hersieningsprosesse. Hulpmiddels soos [Coverity Scan](https://scan.coverity.com) en [Semmle’s LGTM](https://lgtm.com/#explore) bied gratis statiese analise wat benut kan word om potensiële kwessies te vind.
+为此，**开源情报 (OSINT)** 工具是不可或缺的，同时通过手动和自动审查过程分析任何可用的开源软件组件也很重要。像 [Coverity Scan](https://scan.coverity.com) 和 [Semmle’s LGTM](https://lgtm.com/#explore) 这样的工具提供免费的静态分析，可以用来发现潜在问题。
 
-## **Verkryging van die Firmware**
+## **获取固件**
 
-Die verkryging van firmware kan op verskeie maniere benader word, elk met sy eie vlak van kompleksiteit:
+获取固件可以通过多种方式进行，每种方式的复杂程度不同：
 
-* **Direk** van die bron (ontwikkelaars, vervaardigers)
-* Dit **bou** deur die voorsiene instruksies
-* **Aflaai** van amptelike ondersteuningswebwerwe
-* Gebruik **Google dork**-navrae om gehuisvese firmware-lêers te vind
-* Direkte toegang tot **wolkmagazyn** met hulpmiddels soos [S3Scanner](https://github.com/sa7mon/S3Scanner)
-* Onderskepping van **opdaterings** deur man-in-die-middel tegnieke
-* **Uitpakking** van die toestel deur koppelings soos **UART**, **JTAG**, of **PICit**
-* **Sniffing** vir opdateringsversoeke binne toestelkommunikasie
-* Identifisering en gebruik van **hardgekoppelde opdaterings-eindpunte**
-* **Dumping** vanaf die bootloader of netwerk
-* **Verwydering en lees** van die stoorchip, wanneer alles anders faal, deur die gebruik van toepaslike hardewarehulpmiddels
+* **直接**从源头（开发者、制造商）
+* **根据**提供的说明进行**构建**
+* **从**官方支持网站**下载**
+* 利用 **Google dork** 查询查找托管的固件文件
+* 直接访问 **云存储**，使用工具如 [S3Scanner](https://github.com/sa7mon/S3Scanner)
+* 通过中间人技术**拦截** **更新**
+* 通过 **UART**、**JTAG** 或 **PICit** 等连接**提取**设备中的固件
+* 在设备通信中**嗅探**更新请求
+* 识别并使用 **硬编码的更新端点**
+* 从引导加载程序或网络**转储**
+* 在万不得已时，使用适当的硬件工具**拆卸并读取**存储芯片
 
-## Analise van die firmware
+## 分析固件
 
-Nou dat jy **die firmware het**, moet jy inligting daaroor onttrek om te weet hoe om dit te hanteer. Verskillende hulpmiddels wat jy vir dit kan gebruik:
+现在你**拥有固件**，你需要提取有关它的信息，以了解如何处理它。你可以使用的不同工具有：
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -61,24 +61,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-Indien jy nie veel vind met daardie gereedskap nie, kontroleer die **entropie** van die beeld met `binwalk -E <bin>`, as die entropie laag is, is dit nie waarskynlik versleutel nie. As die entropie hoog is, is dit waarskynlik versleutel (of op een of ander manier saamgedruk).
+如果你用这些工具没有找到太多东西，可以用 `binwalk -E <bin>` 检查图像的 **熵**，如果熵低，那么它不太可能被加密。如果熵高，则很可能被加密（或以某种方式压缩）。
 
-Verder kan jy hierdie gereedskap gebruik om **lêers wat binne die firmware ingebed is, te onttrek**:
+此外，你可以使用这些工具来提取 **嵌入固件中的文件**：
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../generic-methodologies-and-resources/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Of [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) om die lêer te inspekteer.
+或者 [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) 来检查文件。
 
-### Kry die Lêersisteem
+### 获取文件系统
 
-Met die vorige genoemde gereedskap soos `binwalk -ev <bin>` behoort jy in staat te wees om die **lêersisteem te onttrek**.\
-Binwalk onttrek dit gewoonlik binne 'n **vouer wat genoem word na die lêersisteem tipe**, wat gewoonlik een van die volgende is: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+使用之前提到的工具，如 `binwalk -ev <bin>`，你应该能够 **提取文件系统**。\
+Binwalk 通常会将其提取到一个 **以文件系统类型命名的文件夹** 中，通常是以下之一：squashfs、ubifs、romfs、rootfs、jffs2、yaffs2、cramfs、initramfs。
 
-#### Handmatige Lêersisteem Uittrekking
+#### 手动文件系统提取
 
-Soms sal binwalk **nie die sielkundige byte van die lêersisteem in sy handtekeninge hê nie**. In hierdie gevalle, gebruik binwalk om die **offset van die lêersisteem te vind en die saamgedrukte lêersisteem te kerf** uit die binêre en **handmatig die lêersisteem te onttrek** volgens sy tipe deur die stappe hieronder te volg.
+有时，binwalk **在其签名中没有文件系统的魔术字节**。在这些情况下，使用 binwalk **查找文件系统的偏移量并从二进制文件中切割压缩的文件系统**，并根据其类型使用以下步骤 **手动提取** 文件系统。
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -90,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Voer die volgende **dd-opdrag** uit om die Squashfs-lêersisteem uit te snys.
+运行以下 **dd 命令** 切割 Squashfs 文件系统。
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -100,37 +100,37 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-Alternatiewelik kan die volgende bevel ook uitgevoer word.
+另外，可以运行以下命令。
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* Vir squashfs (soos in die voorbeeld hierbo)
+* 对于 squashfs（在上面的示例中使用）
 
 `$ unsquashfs dir.squashfs`
 
-Lêers sal daarna in die "`squashfs-root`" gids wees.
+文件将随后位于 "`squashfs-root`" 目录中。
 
-* CPIO-argief lêers
+* CPIO 存档文件
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* Vir jffs2-lêersisteme
+* 对于 jffs2 文件系统
 
 `$ jefferson rootfsfile.jffs2`
 
-* Vir ubifs-lêersisteme met NAND-flits
+* 对于带有 NAND 闪存的 ubifs 文件系统
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
-## Ontleding van Firmware
+## 分析固件
 
-Sodra die firmware verkry is, is dit noodsaaklik om dit te ontleed om die struktuur en potensiële kwesbaarhede daarvan te verstaan. Hierdie proses behels die gebruik van verskeie gereedskap om waardevolle data uit die firmwarebeeld te ontleed en te onttrek.
+一旦获得固件，拆解它以理解其结构和潜在漏洞是至关重要的。此过程涉及利用各种工具分析和提取固件映像中的有价值数据。
 
-### Inisieële Ontledingsgereedskap
+### 初步分析工具
 
-'n Stel bevele word voorsien vir die aanvanklike inspeksie van die binêre lêer (verwys as `<bin>`). Hierdie bevele help om lêertipes te identifiseer, strings te onttrek, binêre data te ontleed, en die partisie- en lêersisteembesonderhede te verstaan:
+提供了一组命令用于对二进制文件（称为 `<bin>`）进行初步检查。这些命令有助于识别文件类型、提取字符串、分析二进制数据以及理解分区和文件系统的详细信息：
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -139,96 +139,98 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-Om die versleutelingstatus van die beeld te assesseer, word die **entropie** nagegaan met `binwalk -E <bin>`. Lae entropie dui op 'n gebrek aan versleuteling, terwyl hoë entropie moontlike versleuteling of kompressie aandui.
+为了评估映像的加密状态，使用 `binwalk -E <bin>` 检查 **entropy**。低熵表明缺乏加密，而高熵则表示可能存在加密或压缩。
 
-Vir die onttrekking van **ingeslote lêers**, word gereedskap en bronne soos die **file-data-carving-recovery-tools** dokumentasie en **binvis.io** vir lêerinspeksie aanbeveel.
+对于提取 **embedded files**，建议使用 **file-data-carving-recovery-tools** 文档和 **binvis.io** 进行文件检查的工具和资源。
 
-### Onttrekking van die Lêersisteem
+### 提取文件系统
 
-Deur `binwalk -ev <bin>` te gebruik, kan die lêersisteem gewoonlik onttrek word, dikwels na 'n gids wat genoem is na die lêersisteemtipe (bv., squashfs, ubifs). Wanneer **binwalk** egter nie die lêersisteemtipe herken as gevolg van ontbrekende sielkundige bytjies nie, is handmatige onttrekking nodig. Dit behels die gebruik van `binwalk` om die lêersisteem se afskuif te vind, gevolg deur die `dd`-bevel om die lêersisteem uit te kerf:
+使用 `binwalk -ev <bin>`，通常可以提取文件系统，通常提取到一个以文件系统类型命名的目录中（例如，squashfs，ubifs）。然而，当 **binwalk** 由于缺少魔术字节而无法识别文件系统类型时，需要手动提取。这涉及使用 `binwalk` 定位文件系统的偏移量，然后使用 `dd` 命令提取文件系统：
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-Na afloop, afhangende van die lêersisteemtipe (bv. squashfs, cpio, jffs2, ubifs), word verskillende bevele gebruik om die inhoud handmatig te onttrek.
+之后，根据文件系统类型（例如，squashfs、cpio、jffs2、ubifs），使用不同的命令手动提取内容。
 
-### Lêersisteemanalise
+### 文件系统分析
 
-Met die lêersisteem onttrek, begin die soektog na sekuriteitsgebreke. Aandag word geskenk aan onveilige netwerkdemonne, hardgekoppelde geloofsbriewe, API-eindpunte, opdateringbedienerfunksionaliteite, ongekompileerde kodes, aanvangskripte, en gekompileerde binêre lêers vir aflynontleding.
+提取文件系统后，开始寻找安全漏洞。关注不安全的网络守护进程、硬编码凭据、API 端点、更新服务器功能、未编译代码、启动脚本和编译的二进制文件以进行离线分析。
 
-**Sleutellokasies** en **items** om te ondersoek sluit in:
+**关键位置**和**项目**检查包括：
 
-- **etc/shadow** en **etc/passwd** vir gebruikersgelde
-- SSL-sertifikate en sleutels in **etc/ssl**
-- Opset- en skriptlêers vir potensiële kwesbaarhede
-- Ingeslote binêre lêers vir verdere ontleding
-- Gewone IoT-toestel-webbediener en binêre lêers
+* **etc/shadow** 和 **etc/passwd** 中的用户凭据
+* **etc/ssl** 中的 SSL 证书和密钥
+* 配置和脚本文件中的潜在漏洞
+* 嵌入的二进制文件以进行进一步分析
+* 常见 IoT 设备的网络服务器和二进制文件
 
-Verskeie gereedskap help om sensitiewe inligting en kwesbaarhede binne die lêersisteem bloot te lê:
+几个工具有助于揭示文件系统中的敏感信息和漏洞：
 
-- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) en [**Firmwalker**](https://github.com/craigz28/firmwalker) vir soektog na sensitiewe inligting
-- [**Die Firmwareontledings- en Vergelykingstool (FACT)**](https://github.com/fkie-cad/FACT\_core) vir omvattende firmware-ontleding
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), en [**EMBA**](https://github.com/e-m-b-a/emba) vir statiese en dinamiese ontleding
+* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) 和 [**Firmwalker**](https://github.com/craigz28/firmwalker) 用于敏感信息搜索
+* [**固件分析和比较工具 (FACT)**](https://github.com/fkie-cad/FACT\_core) 用于全面的固件分析
+* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer)、[**ByteSweep**](https://gitlab.com/bytesweep/bytesweep)、[**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) 和 [**EMBA**](https://github.com/e-m-b-a/emba) 用于静态和动态分析
 
-### Sekuriteitskontroles op Gekompileerde Binêre Lêers
+### 对编译二进制文件的安全检查
 
-Bronkode en gekompileerde binêre lêers wat in die lêersisteem gevind word, moet ondersoek word vir kwesbaarhede. Gereedskap soos **checksec.sh** vir Unix-binêre lêers en **PESecurity** vir Windows-binêre lêers help om onbeskermde binêre lêers te identifiseer wat uitgebuit kan word.
+必须仔细检查文件系统中发现的源代码和编译的二进制文件以寻找漏洞。像 **checksec.sh** 这样的工具用于 Unix 二进制文件，**PESecurity** 用于 Windows 二进制文件，帮助识别可能被利用的未保护二进制文件。
 
-## Nabootsing van Firmware vir Dinamiese Ontleding
+## 模拟固件进行动态分析
 
-Die proses van die nabootsing van firmware maak **dinamiese ontleding** van óf 'n toestel se werking óf 'n individuele program moontlik. Hierdie benadering kan uitdagings in die vorm van hardeware- of argitektuurafhanklikhede inhou, maar die oordrag van die hooflêersisteem of spesifieke binêre lêers na 'n toestel met 'n ooreenstemmende argitektuur en endianness, soos 'n Raspberry Pi, of na 'n voorafgeboude virtuele masjien, kan verdere toetsing fasiliteer.
+模拟固件的过程使得可以对设备的操作或单个程序进行**动态分析**。这种方法可能会遇到硬件或架构依赖性的问题，但将根文件系统或特定二进制文件转移到具有匹配架构和字节序的设备（例如 Raspberry Pi）或预构建的虚拟机上，可以促进进一步的测试。
 
-### Nabootsing van Individuele Binêre Lêers
+### 模拟单个二进制文件
 
-Vir die ondersoek van enkelprogramme is dit noodsaaklik om die endianness en CPU-argitektuur van die program te identifiseer.
+检查单个程序时，识别程序的字节序和 CPU 架构至关重要。
 
-#### Voorbeeld met MIPS-argitektuur
+#### MIPS 架构示例
 
-Om 'n MIPS-argitektuur binêre lêer na te boots, kan die volgende bevel gebruik word:
+要模拟 MIPS 架构的二进制文件，可以使用以下命令：
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-En om die nodige emulasiehulpmiddels te installeer:
+并安装必要的仿真工具：
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-### ARM-argitektuur Emulasie
+对于 MIPS（大端），使用 `qemu-mips`，而对于小端二进制文件，则选择 `qemu-mipsel`。
 
-Vir ARM-binêre lêers is die proses soortgelyk, met die `qemu-arm` emulator wat gebruik word vir emulasie.
+#### ARM 架构仿真
 
-### Volledige Sisteem Emulasie
+对于 ARM 二进制文件，过程类似，使用 `qemu-arm` 模拟器进行仿真。
 
-Hulpmiddels soos [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analise Toolkit](https://github.com/attify/firmware-analysis-toolkit), en ander, fasiliteer volledige firmware emulasie, outomatiseer die proses en help met dinamiese analise.
+### 完整系统仿真
 
-## Dinamiese Analise in Praktyk
+像 [Firmadyne](https://github.com/firmadyne/firmadyne)、[Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) 等工具，促进了完整固件仿真，自动化了过程并帮助进行动态分析。
 
-Op hierdie stadium word óf 'n werklike óf 'n geëmuleerde toestelomgewing vir analise gebruik. Dit is noodsaaklik om skaal toegang tot die OS en lêersisteem te behou. Emulasie mag nie hardeware-interaksies perfek naboots nie, wat af en toe emulasie herstarts noodsaaklik maak. Analise behoort die lêersisteem te hersien, blootgestelde webbladsye en netwerkdienste te benut, en opstartlaaier kwesbaarhede te ondersoek. Firmware-integriteitstoetse is krities om potensiële agterdeur kwesbaarhede te identifiseer.
+## 实践中的动态分析
 
-## Runtime Analise Tegnieke
+在这个阶段，使用真实或仿真的设备环境进行分析。保持对操作系统和文件系统的 shell 访问是至关重要的。仿真可能无法完美模拟硬件交互，因此需要偶尔重新启动仿真。分析应重新访问文件系统，利用暴露的网页和网络服务，并探索引导加载程序漏洞。固件完整性测试对于识别潜在后门漏洞至关重要。
 
-Runtime-analise behels interaksie met 'n proses of binêre lêer in sy bedryfsomgewing, deur gebruik te maak van hulpmiddels soos gdb-multiarch, Frida, en Ghidra om breekpunte in te stel en kwesbaarhede deur fuzzing en ander tegnieke te identifiseer.
+## 运行时分析技术
 
-## Binêre Uitbuiting en Bewys-van-Konsep
+运行时分析涉及在其操作环境中与进程或二进制文件进行交互，使用 gdb-multiarch、Frida 和 Ghidra 等工具设置断点，并通过模糊测试和其他技术识别漏洞。
 
-Die ontwikkeling van 'n PoC vir geïdentifiseerde kwesbaarhede vereis 'n diepgaande begrip van die teikenargitektuur en programmering in laervlak tale. Binêre runtime-beskerming in ingebedde stelsels is skaars, maar wanneer teenwoordig, mag tegnieke soos Return Oriented Programming (ROP) nodig wees.
+## 二进制利用和概念验证
 
-## Voorbereide Bedryfstelsels vir Firmware Analise
+为识别的漏洞开发 PoC 需要对目标架构的深入理解以及使用低级语言编程。嵌入式系统中的二进制运行时保护很少见，但在存在时，可能需要使用如返回导向编程（ROP）等技术。
 
-Bedryfstelsels soos [AttifyOS](https://github.com/adi0x90/attifyos) en [EmbedOS](https://github.com/scriptingxss/EmbedOS) bied vooraf gekonfigureerde omgewings vir firmware-sekuriteitstoetsing, toegerus met nodige hulpmiddels.
+## 准备好的操作系统用于固件分析
 
-## Voorbereide BS'e om Firmware te analiseer
+操作系统如 [AttifyOS](https://github.com/adi0x90/attifyos) 和 [EmbedOS](https://github.com/scriptingxss/EmbedOS) 提供了预配置的环境用于固件安全测试，配备了必要的工具。
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS is 'n distro bedoel om jou te help met die uitvoering van sekerheidsevaluering en indringingstoetsing van Internet of Things (IoT) toestelle. Dit bespaar baie tyd deur 'n vooraf gekonfigureerde omgewing met al die nodige hulpmiddels gelaai te voorsien.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Ingeslote sekerheidstoetsbedryfstelsel gebaseer op Ubuntu 18.04 voorgelaai met firmware-sekuriteitstoetsingshulpmiddels.
+## 准备好的操作系统用于分析固件
 
-## Kwesbare firmware om te oefen
+* [**AttifyOS**](https://github.com/adi0x90/attifyos)：AttifyOS 是一个旨在帮助您对物联网（IoT）设备进行安全评估和渗透测试的发行版。它通过提供一个预配置的环境，加载所有必要的工具，为您节省了大量时间。
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS)：基于 Ubuntu 18.04 的嵌入式安全测试操作系统，预装了固件安全测试工具。
 
-Om kwesbaarhede in firmware te ontdek, gebruik die volgende kwesbare firmwareprojekte as 'n beginpunt.
+## 漏洞固件以供练习
+
+要练习发现固件中的漏洞，可以使用以下漏洞固件项目作为起点。
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
-* Die Damn Vulnerable Router Firmware Project
+* Damn Vulnerable Router Firmware Project
 * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
 * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
@@ -239,11 +241,26 @@ Om kwesbaarhede in firmware te ontdek, gebruik die volgende kwesbare firmwarepro
 * Damn Vulnerable IoT Device (DVID)
 * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## Verwysings
+## 参考文献
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
-* [Praktiese IoT Hacking: Die Definitiewe Gids tot die Aanval op die Internet van Dinge](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
+* [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-## Opleiding en Sertifisering
+## 培训和认证
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
+
+{% hint style="success" %}
+学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+
+</details>
+{% endhint %}

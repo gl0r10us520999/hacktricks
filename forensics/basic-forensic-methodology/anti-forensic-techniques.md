@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hackingtruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -18,150 +18,151 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 {% embed url="https://websec.nl/" %}
 
 
-# Tydstempels
+# 时间戳
 
-'n Aanvaller mag belangstel in **die verandering van die tydstempels van lêers** om opsporing te vermy.\
-Dit is moontlik om die tydstempels binne die MFT in eienskappe `$STANDARD_INFORMATION` __ en __ `$FILE_NAME` te vind.
+攻击者可能会对**更改文件的时间戳**感兴趣，以避免被检测。\
+可以在 MFT 中的属性 `$STANDARD_INFORMATION` __ 和 __ `$FILE_NAME` 中找到时间戳。
 
-Beide eienskappe het 4 tydstempels: **Wysiging**, **toegang**, **skepping**, en **MFT-registerwysiging** (MACE of MACB).
+这两个属性都有 4 个时间戳：**修改**、**访问**、**创建**和 **MFT 注册修改**（MACE 或 MACB）。
 
-**Windows verkenner** en ander gereedskap toon die inligting vanaf **`$STANDARD_INFORMATION`**.
+**Windows 资源管理器**和其他工具显示来自 **`$STANDARD_INFORMATION`** 的信息。
 
-## TimeStomp - Anti-forensiese Gereedskap
+## TimeStomp - 反取证工具
 
-Hierdie gereedskap **verander** die tydstempelinligting binne **`$STANDARD_INFORMATION`** **maar nie** die inligting binne **`$FILE_NAME`** nie. Daarom is dit moontlik om **verdagte aktiwiteit te identifiseer**.
+该工具**修改** **`$STANDARD_INFORMATION`** 中的时间戳信息**但**不修改 **`$FILE_NAME`** 中的信息。因此，可以**识别** **可疑** **活动**。
 
 ## Usnjrnl
 
-Die **USN Joernaal** (Update Sequence Number Journal) is 'n kenmerk van die NTFS (Windows NT-lêersisteem) wat volume-veranderings byhou. Die [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) gereedskap maak dit moontlik om hierdie veranderings te ondersoek.
+**USN 日志**（更新序列号日志）是 NTFS（Windows NT 文件系统）的一个特性，用于跟踪卷更改。 [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) 工具允许检查这些更改。
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-Die vorige beeld is die **uitset** wat deur die **gereedskap** getoon word waar dit waargeneem kan word dat sekere **veranderings aan die lêer gedoen is**.
+上图是**工具**显示的**输出**，可以观察到对文件进行了**某些更改**。
 
 ## $LogFile
 
-**Alle metadata-veranderings aan 'n lêersisteem word gelog** in 'n proses wat bekend staan as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Die gelogde metadata word in 'n lêer genaamd `**$LogFile**` gehou, wat in die hoofgids van 'n NTFS-lêersisteem geleë is. Gereedskap soos [LogFileParser](https://github.com/jschicht/LogFileParser) kan gebruik word om hierdie lêer te ontled en veranderings te identifiseer.
+**对文件系统的所有元数据更改都被记录**在一个称为 [预写日志](https://en.wikipedia.org/wiki/Write-ahead_logging) 的过程中。记录的元数据保存在名为 `**$LogFile**` 的文件中，该文件位于 NTFS 文件系统的根目录。可以使用 [LogFileParser](https://github.com/jschicht/LogFileParser) 等工具解析此文件并识别更改。
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Weereens, in die uitset van die gereedskap is dit moontlik om te sien dat **sekere veranderings uitgevoer is**.
+同样，在工具的输出中可以看到**进行了某些更改**。
 
-Met dieselfde gereedskap is dit moontlik om te identifiseer **wanneer die tydstempels verander is**:
+使用同一工具可以识别**时间戳被修改到哪个时间**：
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: Lêer se skeppingstyd
-* ATIME: Lêer se wysigingstyd
-* MTIME: Lêer se MFT-registerwysiging
-* RTIME: Lêer se toegangstyd
+* CTIME：文件的创建时间
+* ATIME：文件的修改时间
+* MTIME：文件的 MFT 注册修改
+* RTIME：文件的访问时间
 
-## `$STANDARD_INFORMATION` en `$FILE_NAME` vergelyking
+## `$STANDARD_INFORMATION` 和 `$FILE_NAME` 比较
 
-'n Ander manier om verdagte veranderde lêers te identifiseer sou wees om die tyd op beide eienskappe te vergelyk en te soek na **verskille**.
+识别可疑修改文件的另一种方法是比较两个属性上的时间，寻找**不匹配**。
 
-## Nanosekondes
+## 纳秒
 
-**NTFS**-tydstempels het 'n **presisie** van **100 nanosekondes**. Dan is dit baie verdag as lêers met tydstempels soos 2010-10-10 10:10:**00.000:0000 gevind word**.
+**NTFS** 时间戳的**精度**为**100 纳秒**。因此，找到时间戳如 2010-10-10 10:10:**00.000:0000 的文件是非常可疑的。
 
-## SetMace - Anti-forensiese Gereedskap
+## SetMace - 反取证工具
 
-Hierdie gereedskap kan beide eienskappe `$STARNDAR_INFORMATION` en `$FILE_NAME` verander. Vanaf Windows Vista is dit egter nodig vir 'n lewende OS om hierdie inligting te verander.
+该工具可以修改两个属性 `$STARNDAR_INFORMATION` 和 `$FILE_NAME`。然而，从 Windows Vista 开始，必须在活动操作系统中修改此信息。
 
-# Data Versteek
+# 数据隐藏
 
-NTFS gebruik 'n groep en die minimum inligtingsgrootte. Dit beteken dat as 'n lêer 'n groep en 'n half gebruik, die **oorskietende helfte nooit gebruik gaan word** totdat die lêer uitgevee word. Dan is dit moontlik om data in hierdie "verborge" spasie te **versteek**.
+NFTS 使用集群和最小信息大小。这意味着如果一个文件占用一个集群和一半，**剩下的一半将永远不会被使用**，直到文件被删除。因此，可以在这个松弛空间中**隐藏数据**。
 
-Daar is gereedskap soos slacker wat dit moontlik maak om data in hierdie "verborge" spasie te versteek. 'n Ontleding van die `$logfile` en `$usnjrnl` kan egter wys dat sekere data bygevoeg is:
+有像 slacker 这样的工具可以在这个“隐藏”空间中隐藏数据。然而，对 `$logfile` 和 `$usnjrnl` 的分析可以显示某些数据被添加：
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Dit is dan moontlik om die oorskietende spasie te herwin deur gereedskap soos FTK Imager te gebruik. Let daarop dat hierdie soort gereedskap die inhoud geobfuskeer of selfs versleutel kan stoor.
+然后，可以使用像 FTK Imager 这样的工具检索松弛空间。请注意，这种工具可以保存内容为模糊或甚至加密。
 
 # UsbKill
 
-Dit is 'n gereedskap wat die rekenaar sal **afsluit as enige verandering in die USB**-poorte opgespoor word.\
-'n Manier om dit te ontdek sou wees om die lopende prosesse te ondersoek en **elke python-skrip wat loop te hersien**.
+这是一个工具，如果检测到 USB 端口的任何更改，将**关闭计算机**。\
+发现这一点的一种方法是检查正在运行的进程并**审查每个正在运行的 Python 脚本**。
 
-# Lewende Linux-verspreidings
+# 实时 Linux 发行版
 
-Hierdie verspreidings word **uitgevoer binne die RAM**-geheue. Die enigste manier om hulle op te spoor is **as die NTFS-lêersisteem met skryfregte aangeheg is**. As dit net met leesregte aangeheg is, sal dit nie moontlik wees om die indringing op te spoor nie.
+这些发行版在**RAM**内存中**执行**。检测它们的唯一方法是**如果 NTFS 文件系统以写入权限挂载**。如果仅以读取权限挂载，则无法检测到入侵。
 
-# Veilige Skrapping
+# 安全删除
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows-konfigurasie
+# Windows 配置
 
-Dit is moontlik om verskeie Windows-loggingsmetodes te deaktiveer om die forensiese ondersoek baie moeiliker te maak.
+可以禁用多种 Windows 日志记录方法，以使取证调查变得更加困难。
 
-## Deaktiveer Tydstempels - UserAssist
+## 禁用时间戳 - UserAssist
 
-Dit is 'n register sleutel wat datums en ure behou wanneer elke uitvoerbare lêer deur die gebruiker uitgevoer is.
+这是一个注册表项，维护用户运行每个可执行文件的日期和时间。
 
-Die deaktivering van UserAssist vereis twee stappe:
+禁用 UserAssist 需要两个步骤：
 
-1. Stel twee register sleutels, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` en `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, albei na nul om aan te dui dat ons wil hê UserAssist gedeaktiveer moet word.
-2. Maak jou register-subbome skoon wat lyk soos `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. 设置两个注册表项，`HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 和 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`，都设置为零，以表示我们希望禁用 UserAssist。
+2. 清除看起来像 `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` 的注册表子树。
 
-## Deaktiveer Tydstempels - Prefetch
+## 禁用时间戳 - Prefetch
 
-Dit sal inligting oor die toepassings wat uitgevoer is, stoor met die doel om die werking van die Windows-stelsel te verbeter. Dit kan egter ook nuttig wees vir forensiese praktyke.
+这将保存有关执行的应用程序的信息，目的是提高 Windows 系统的性能。然而，这对于取证实践也可能有用。
 
-* Voer `regedit` uit
-* Kies die lêerpad `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Regsklik op beide `EnablePrefetcher` en `EnableSuperfetch`
-* Kies Wysig op elkeen van hierdie om die waarde van 1 (of 3) na 0 te verander
-* Herlaai
+* 执行 `regedit`
+* 选择文件路径 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
+* 右键单击 `EnablePrefetcher` 和 `EnableSuperfetch`
+* 选择修改，将每个值从 1（或 3）更改为 0
+* 重启
 
-## Deaktiveer Tydstempels - Laaste Toegangstyd
+## 禁用时间戳 - 最后访问时间
 
-Telkens wanneer 'n gids vanaf 'n NTFS-volume op 'n Windows NT-bediener geopen word, neem die stelsel die tyd om **'n tydstempelveld op elke gelysde gids by te werk**, genaamd die laaste toegangstyd. Op 'n baie gebruikte NTFS-volume kan dit die werking beïnvloed.
+每当从 NTFS 卷打开文件夹时，系统会花时间**更新每个列出文件夹的时间戳字段**，称为最后访问时间。在使用频繁的 NTFS 卷上，这可能会影响性能。
 
-1. Maak die Registerredakteur oop (Regedit.exe).
-2. Blaai na `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Soek na `NtfsDisableLastAccessUpdate`. As dit nie bestaan nie, voeg hierdie DWORD by en stel sy waarde op 1, wat die proses sal deaktiveer.
-4. Sluit die Registerredakteur en herlaai die bediener.
-## Verwyder USB Geskiedenis
+1. 打开注册表编辑器 (Regedit.exe)。
+2. 浏览到 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`。
+3. 查找 `NtfsDisableLastAccessUpdate`。如果不存在，请添加此 DWORD 并将其值设置为 1，这将禁用该过程。
+4. 关闭注册表编辑器，并重启服务器。
 
-Al die **USB-toestelinskrywings** word gestoor in die Windows-register onder die **USBSTOR** register sleutel wat sub sleutels bevat wat geskep word wanneer jy 'n USB-toestel in jou rekenaar of draagbare rekenaar insteek. Jy kan hierdie sleutel vind by `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deur hierdie** te verwyder, sal jy die USB-geskiedenis verwyder.\
-Jy kan ook die hulpmiddel [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) gebruik om seker te maak dat jy hulle verwyder het (en om hulle te verwyder).
+## 删除 USB 历史
 
-'n Ander lêer wat inligting oor die USB's stoor is die lêer `setupapi.dev.log` binne `C:\Windows\INF`. Dit moet ook verwyder word.
+所有**USB 设备条目**都存储在 Windows 注册表中的 **USBSTOR** 注册表项下，该项包含在您将 USB 设备插入 PC 或笔记本电脑时创建的子项。您可以在这里找到此项 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`。**删除此项**将删除 USB 历史。\
+您还可以使用工具 [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) 确保您已删除它们（并删除它们）。
 
-## Deaktiveer Skadukopieë
+另一个保存 USB 信息的文件是 `C:\Windows\INF` 中的 `setupapi.dev.log`。这也应该被删除。
 
-**Lys** skadukopieë met `vssadmin list shadowstorage`\
-**Verwyder** hulle deur `vssadmin delete shadow` uit te voer
+## 禁用影子副本
 
-Jy kan hulle ook via die GUI verwyder deur die stappe te volg wat voorgestel word by [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+**列出**影子副本使用 `vssadmin list shadowstorage`\
+**删除**它们运行 `vssadmin delete shadow`
 
-Om skadukopieë te deaktiveer [stappe vanaf hier](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+您还可以通过 GUI 删除它们，按照 [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) 中提出的步骤。
 
-1. Maak die Dienste-program oop deur "dienste" in die tekssoekkas in te tik nadat jy op die Windows begin-knoppie geklik het.
-2. Vind "Volume Shadow Copy" in die lys, kies dit, en kry toegang tot Eienskappe deur regs te klik.
-3. Kies "Gedeaktiveer" vanaf die "Beginsoort" keuselys, en bevestig dan die verandering deur op Toepas en OK te klik.
+要禁用影子副本，请参见 [这里的步骤](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows)：
 
-Dit is ook moontlik om die konfigurasie te wysig van watter lêers in die skadukopie gekopieer gaan word in die register `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+1. 通过在单击 Windows 开始按钮后在文本搜索框中输入“services”打开服务程序。
+2. 从列表中找到“卷影复制”，选择它，然后右键单击访问属性。
+3. 从“启动类型”下拉菜单中选择禁用，然后通过单击应用和确定确认更改。
 
-## Oorskryf verwyderde lêers
+还可以在注册表中修改将要在影子副本中复制的文件的配置 `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-* Jy kan 'n **Windows-hulpmiddel** gebruik: `cipher /w:C` Dit sal cipher aandui om enige data van die beskikbare ongebruikte skyfspasie binne die C-aandrywing te verwyder.
-* Jy kan ook hulpmiddels soos [**Eraser**](https://eraser.heidi.ie) gebruik
+## 重写已删除的文件
 
-## Verwyder Windows gebeurtenislogboeke
+* 您可以使用**Windows 工具**：`cipher /w:C` 这将指示 cipher 从 C 盘的可用未使用磁盘空间中删除任何数据。
+* 您还可以使用像 [**Eraser**](https://eraser.heidi.ie) 这样的工具。
 
-* Windows + R --> eventvwr.msc --> Brei "Windows-logboeke" uit --> Regsklik op elke kategorie en kies "Logboek skoonmaak"
+## 删除 Windows 事件日志
+
+* Windows + R --> eventvwr.msc --> 展开“Windows 日志” --> 右键单击每个类别并选择“清除日志”
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Deaktiveer Windows gebeurtenislogboeke
+## 禁用 Windows 事件日志
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Binne die dienste-afdeling deaktiveer die diens "Windows-gebeurtenislogboek"
-* `WEvtUtil.exec clear-log` of `WEvtUtil.exe cl`
+* 在服务部分禁用“Windows 事件日志”服务
+* `WEvtUtil.exec clear-log` 或 `WEvtUtil.exe cl`
 
-## Deaktiveer $UsnJrnl
+## 禁用 $UsnJrnl
 
 * `fsutil usn deletejournal /d c:`
 
@@ -171,16 +172,16 @@ Dit is ook moontlik om die konfigurasie te wysig van watter lêers in die skaduk
 
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

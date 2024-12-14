@@ -1,42 +1,43 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Lewe en manipuleer klank- en videobestande** is 'n kernpunt in **CTF forensiese uitdagings**, wat **steganografie** en metadatabestudering benut om geheime boodskappe te verberg of te onthul. Gereedskap soos **[mediainfo](https://mediaarea.net/en/MediaInfo)** en **`exiftool`** is noodsaaklik vir die ondersoek van lêermetadate en die identifisering van inhoudstipes.
+**音频和视频文件操作**是**CTF取证挑战**中的一个重要组成部分，利用**隐写术**和元数据分析来隐藏或揭示秘密信息。工具如**[mediainfo](https://mediaarea.net/en/MediaInfo)**和**`exiftool`**对于检查文件元数据和识别内容类型至关重要。
 
-Vir klankuitdagings steek **[Audacity](http://www.audacityteam.org/)** uit as 'n voorste gereedskap vir die sien van golfvorme en die analise van spektrogramme, noodsaaklik vir die ontdekking van teks wat in klank gekodeer is. **[Sonic Visualiser](http://www.sonicvisualiser.org/)** word sterk aanbeveel vir gedetailleerde spektrogramanalise. **Audacity** maak klankmanipulasie moontlik soos die verlangsaam of omkeer van snitte om verskuilde boodskappe op te spoor. **[Sox](http://sox.sourceforge.net/)**, 'n opdraggereghulpmiddel, blink uit in die omskakeling en redigering van klanklêers.
+对于音频挑战，**[Audacity](http://www.audacityteam.org/)**作为查看波形和分析频谱图的首选工具，必不可少，以揭示音频中编码的文本。**[Sonic Visualiser](http://www.sonicvisualiser.org/)**非常推荐用于详细的频谱分析。**Audacity**允许音频操作，如减慢或反转音轨，以检测隐藏信息。**[Sox](http://sox.sourceforge.net/)**，一个命令行工具，擅长转换和编辑音频文件。
 
-**Minderbetekenisvolle bytjies (LSB)**-manipulasie is 'n algemene tegniek in klank- en video-steganografie, wat die vaste-grootte stukke van mediabestande benut om data onopvallend in te bed. **[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)** is nuttig vir die ontsleuteling van boodskappe wat versteek is as **DTMF-tone** of **Morse-kode**.
+**最低有效位（LSB）**操作是音频和视频隐写术中的一种常见技术，利用固定大小的媒体文件块来隐蔽地嵌入数据。**[Multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng)**对于解码作为**DTMF音调**或**摩尔斯电码**隐藏的信息非常有用。
 
-Video-uitdagings behels dikwels houerformate wat klank- en videostrome bundel. **[FFmpeg](http://ffmpeg.org/)** is die go-to vir die analise en manipulasie van hierdie formate, wat in staat is om inhoud te demultiplex en terug te speel. Vir ontwikkelaars integreer **[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)** FFmpeg se vermoëns in Python vir gevorderde skriptbare interaksies.
+视频挑战通常涉及将音频和视频流打包的容器格式。**[FFmpeg](http://ffmpeg.org/)**是分析和操作这些格式的首选工具，能够进行解复用和播放内容。对于开发者，**[ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html)**将FFmpeg的功能集成到Python中，以实现高级可编程交互。
 
-Hierdie reeks gereedskap beklemtoon die veelsydigheid wat vereis word in CTF-uitdagings, waar deelnemers 'n breë spektrum van analise- en manipulasietegnieke moet gebruik om verskuilde data binne klank- en videolêers te ontbloot.
+这一系列工具突显了CTF挑战中所需的多样性，参与者必须运用广泛的分析和操作技术，以揭示音频和视频文件中的隐藏数据。
 
-## Verwysings
+## References
 * [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
-  
+
+
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

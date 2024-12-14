@@ -1,95 +1,95 @@
-# Detecting Phishing
+# 检测钓鱼
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Introduction
+## 介绍
 
-Om 'n phishing poging te ontdek, is dit belangrik om die **phishing tegnieke wat vandag gebruik word te verstaan**. Op die ouer bladsy van hierdie pos, kan jy hierdie inligting vind, so as jy nie bewus is van watter tegnieke vandag gebruik word nie, beveel ek aan dat jy na die ouer bladsy gaan en ten minste daardie afdeling lees.
+要检测钓鱼尝试，重要的是 **了解当前使用的钓鱼技术**。在此帖子的父页面上，您可以找到这些信息，因此如果您不知道今天使用了哪些技术，我建议您访问父页面并至少阅读该部分。
 
-Hierdie pos is gebaseer op die idee dat die **aanvallers op een of ander manier die slagoffer se domeinnaam sal probeer naboots of gebruik**. As jou domein `example.com` genoem word en jy gephish word met 'n heeltemal ander domeinnaam om een of ander rede soos `youwonthelottery.com`, sal hierdie tegnieke dit nie ontdek nie.
+这篇文章基于这样的想法：**攻击者会试图以某种方式模仿或使用受害者的域名**。如果您的域名是 `example.com`，而您被钓鱼使用了一个完全不同的域名，例如 `youwonthelottery.com`，这些技术将无法揭示它。
 
-## Domain name variations
+## 域名变体
 
-Dit is **redelik maklik** om die **phishing** pogings wat 'n **soortgelyke domein** naam in die e-pos gebruik, te **ontdek**.\
-Dit is genoeg om 'n **lys van die mees waarskynlike phishing name** wat 'n aanvaller mag gebruik te **genereer** en te **kontroleer** of dit ** geregistreer** is of net te kyk of daar enige **IP** is wat dit gebruik.
+揭露那些在电子邮件中使用 **相似域名** 的 **钓鱼** 尝试是相对 **简单** 的。\
+只需 **生成一份攻击者可能使用的最可能的钓鱼名称列表**，并 **检查** 它是否 **已注册**，或者检查是否有任何 **IP** 使用它。
 
-### Finding suspicious domains
+### 查找可疑域名
 
-Vir hierdie doel kan jy enige van die volgende gereedskap gebruik. Let daarop dat hierdie gereedskap ook DNS versoeke outomaties sal uitvoer om te kyk of die domein enige IP aan toegeken het:
+为此，您可以使用以下任何工具。请注意，这些工具还会自动执行 DNS 请求，以检查域名是否分配了任何 IP：
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-### Bitflipping
+### 位翻转
 
-**Jy kan 'n kort verduideliking van hierdie tegniek op die ouer bladsy vind. Of lees die oorspronklike navorsing in** [**https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/**](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+**您可以在父页面找到此技术的简短解释。或者阅读原始研究** [**https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/**](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-Byvoorbeeld, 'n 1 bit verandering in die domein microsoft.com kan dit in _windnws.com_ transformeer.\
-**Aanvallers mag soveel bit-flipping domeine registreer as moontlik wat verband hou met die slagoffer om wettige gebruikers na hul infrastruktuur te herlei**.
+例如，对域名 microsoft.com 进行 1 位修改可以将其转换为 _windnws.com._\
+**攻击者可能会注册尽可能多的与受害者相关的位翻转域名，以将合法用户重定向到他们的基础设施**。
 
-**Alle moontlike bit-flipping domeinnames moet ook gemonitor word.**
+**所有可能的位翻转域名也应进行监控。**
 
-### Basic checks
+### 基本检查
 
-Sodra jy 'n lys van potensieel verdagte domeinnames het, moet jy hulle **kontroleer** (hoofsaaklik die poorte HTTP en HTTPS) om te **sien of hulle 'n aanmeldvorm gebruik wat soortgelyk is** aan iemand van die slagoffer se domein.\
-Jy kan ook poort 3333 kontroleer om te sien of dit oop is en 'n instance van `gophish` draai.\
-Dit is ook interessant om te weet **hoe oud elke ontdekte verdagte domein is**, hoe jonger dit is, hoe riskanter is dit.\
-Jy kan ook **skermskote** van die HTTP en/of HTTPS verdagte webblad kry om te sien of dit verdag is en in daardie geval **dit betree om 'n dieper kyk te neem**.
+一旦您拥有潜在可疑域名的列表，您应该 **检查** 它们（主要是 HTTP 和 HTTPS 端口），以 **查看它们是否使用与受害者域名相似的登录表单**。\
+您还可以检查端口 3333，以查看它是否开放并运行 `gophish` 实例。\
+了解 **每个发现的可疑域名的年龄** 也很有趣，越年轻的风险越大。\
+您还可以获取可疑网页的 **截图**，以查看它是否可疑，如果是，则 **访问它以进行更深入的查看**。
 
-### Advanced checks
+### 高级检查
 
-As jy een stap verder wil gaan, beveel ek aan dat jy **daardie verdagte domeine monitor en van tyd tot tyd meer soek** (elke dag? dit neem net 'n paar sekondes/minute). Jy moet ook die oop **poorte** van die verwante IPs **kontroleer** en **soek na instances van `gophish` of soortgelyke gereedskap** (ja, aanvallers maak ook foute) en **monitor die HTTP en HTTPS webbladsye van die verdagte domeine en subdomeine** om te sien of hulle enige aanmeldvorm van die slagoffer se webbladsye gekopieer het.\
-Om dit te **automateer**, beveel ek aan om 'n lys van aanmeldvorms van die slagoffer se domeine te hê, die verdagte webbladsye te spinn en elke aanmeldvorm wat in die verdagte domeine gevind word met elke aanmeldvorm van die slagoffer se domein te vergelyk met iets soos `ssdeep`.\
-As jy die aanmeldvorms van die verdagte domeine geleë het, kan jy probeer om **rommel geloofsbriewe te stuur** en **te kyk of dit jou na die slagoffer se domein herlei**.
+如果您想更进一步，我建议您 **监控这些可疑域名，并不时搜索更多**（每天？只需几秒钟/分钟）。您还应该 **检查** 相关 IP 的开放 **端口**，并 **搜索 `gophish` 或类似工具的实例**（是的，攻击者也会犯错），并 **监控可疑域名和子域名的 HTTP 和 HTTPS 网页**，以查看它们是否复制了受害者网页的任何登录表单。\
+为了 **自动化这一过程**，我建议您拥有受害者域名的登录表单列表，爬取可疑网页，并使用类似 `ssdeep` 的工具比较可疑域名中的每个登录表单与受害者域名的每个登录表单。\
+如果您找到了可疑域名的登录表单，您可以尝试 **发送垃圾凭据**，并 **检查它是否将您重定向到受害者的域名**。
 
-## Domain names using keywords
+## 使用关键字的域名
 
-Die ouer bladsy noem ook 'n domeinnaam variasie tegniek wat bestaan uit die **slagoffer se domeinnaam binne 'n groter domein te plaas** (bv. paypal-financial.com vir paypal.com).
+父页面还提到了一种域名变体技术，即将 **受害者的域名放入更大的域名中**（例如 paypal-financial.com 对于 paypal.com）。
 
-### Certificate Transparency
+### 证书透明度
 
-Dit is nie moontlik om die vorige "Brute-Force" benadering te neem nie, maar dit is eintlik **moontlik om sulke phishing pogings te ontdek** ook danksy sertifikaat deursigtigheid. Elke keer as 'n sertifikaat deur 'n CA uitgereik word, word die besonderhede publiek gemaak. Dit beteken dat deur die sertifikaat deursigtigheid te lees of selfs dit te monitor, dit **moontlik is om domeine te vind wat 'n sleutelwoord in sy naam gebruik**. Byvoorbeeld, as 'n aanvaller 'n sertifikaat van [https://paypal-financial.com](https://paypal-financial.com) genereer, kan jy deur die sertifikaat te kyk die sleutelwoord "paypal" vind en weet dat 'n verdagte e-pos gebruik word.
+无法采用之前的“暴力破解”方法，但实际上 **也可以通过证书透明度揭露此类钓鱼尝试**。每当 CA 发出证书时，详细信息会公开。这意味着通过阅读证书透明度或甚至监控它，**可以找到在其名称中使用关键字的域名**。例如，如果攻击者生成了 [https://paypal-financial.com](https://paypal-financial.com) 的证书，通过查看证书可以找到关键字“paypal”，并知道正在使用可疑电子邮件。
 
-Die pos [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) stel voor dat jy Censys kan gebruik om sertifikate wat 'n spesifieke sleutelwoord beïnvloed te soek en te filter op datum (slegs "nuwe" sertifikate) en deur die CA-uitreiker "Let's Encrypt":
+帖子 [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) 建议您可以使用 Censys 搜索影响特定关键字的证书，并按日期（仅“新”证书）和 CA 发行者“Let's Encrypt”进行过滤：
 
 ![https://0xpatrik.com/content/images/2018/07/cert\_listing.png](<../../.gitbook/assets/image (1115).png>)
 
-Jy kan egter "die dieselfde" doen met die gratis web [**crt.sh**](https://crt.sh). Jy kan **soek na die sleutelwoord** en die **resultate filter** **op datum en CA** as jy wil.
+然而，您可以使用免费的网页 [**crt.sh**](https://crt.sh) 做“同样的事情”。您可以 **搜索关键字**，并 **按日期和 CA 过滤** 结果（如果您愿意）。
 
 ![](<../../.gitbook/assets/image (519).png>)
 
-Met hierdie laaste opsie kan jy selfs die veld ooreenstemmende identiteite gebruik om te sien of enige identiteit van die werklike domein ooreenstem met enige van die verdagte domeine (let daarop dat 'n verdagte domein 'n vals positiewe kan wees).
+使用最后一个选项，您甚至可以使用匹配身份字段查看真实域名的任何身份是否与任何可疑域名匹配（请注意，可疑域名可能是误报）。
 
-**Nog 'n alternatief** is die fantastiese projek genaamd [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream bied 'n regte-tyd stroom van nuut gegenereerde sertifikate wat jy kan gebruik om gespesifiseerde sleutelwoorde in (naby) regte tyd te ontdek. Trouens, daar is 'n projek genaamd [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) wat presies dit doen.
+**另一个替代方案** 是一个名为 [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067) 的精彩项目。CertStream 提供新生成证书的实时流，您可以使用它来实时检测指定关键字。实际上，有一个名为 [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) 的项目就是这样做的。
 
-### **New domains**
+### **新域名**
 
-**Een laaste alternatief** is om 'n lys van **nuut geregistreerde domeine** vir sommige TLDs te versamel ([Whoxy](https://www.whoxy.com/newly-registered-domains/) bied so 'n diens) en **die sleutelwoorde in hierdie domeine te kontroleer**. Maar, lang domeine gebruik gewoonlik een of meer subdomeine, daarom sal die sleutelwoord nie binne die FLD verskyn nie en jy sal nie in staat wees om die phishing subdomein te vind nie.
+**最后一个替代方案** 是收集某些 TLD 的 **新注册域名** 列表（[Whoxy](https://www.whoxy.com/newly-registered-domains/) 提供此服务），并 **检查这些域名中的关键字**。然而，长域名通常使用一个或多个子域，因此关键字不会出现在 FLD 中，您将无法找到钓鱼子域。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

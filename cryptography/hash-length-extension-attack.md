@@ -1,64 +1,32 @@
-{% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+# 攻击总结
 
-<details>
+想象一个服务器，它通过将一个**秘密**附加到一些已知的明文数据上并对这些数据进行**签名**。如果你知道：
 
-<summary>Ondersteun HackTricks</summary>
+* **秘密的长度**（这也可以从给定的长度范围中暴力破解）
+* **明文数据**
+* **算法（并且它对这种攻击是脆弱的）**
+* **填充是已知的**
+* 通常使用默认填充，因此如果满足其他三个要求，这个也适用
+* 填充根据秘密+数据的长度而变化，这就是为什么需要知道秘密的长度
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+那么，**攻击者**可以**附加****数据**并为**之前的数据 + 附加的数据**生成一个有效的**签名**。
 
-</details>
-{% endhint %}
+## 如何？
 
+基本上，脆弱的算法首先通过**哈希一个数据块**来生成哈希，然后，从**之前**创建的**哈希**（状态）中，他们**添加下一个数据块**并**哈希它**。
 
-# Opsomming van die aanval
+然后，想象秘密是“secret”，数据是“data”，"secretdata"的MD5是6036708eba0d11f6ef52ad44e8b74d5b。\
+如果攻击者想要附加字符串“append”，他可以：
 
-Stel jou voor 'n bediener wat **data** onderteken deur 'n **geheim** by 'n bekende teksdata te **voeg** en dan daardie data te has. As jy weet:
+* 生成64个“A”的MD5
+* 将之前初始化的哈希状态更改为6036708eba0d11f6ef52ad44e8b74d5b
+* 附加字符串“append”
+* 完成哈希，结果哈希将是“secret” + “data” + “padding” + “append”的**有效哈希**
 
-* **Die lengte van die geheim** (dit kan ook afgedwing word van 'n gegewe lengte-reeks)
-* **Die teksdata**
-* **Die algoritme (en dit is vatbaar vir hierdie aanval)**
-* **Die opvulling is bekend**
-* Gewoonlik word 'n verstek een gebruik, so as die ander 3 vereistes voldoen is, is dit ook
-* Die opvulling varieer afhangende van die lengte van die geheim+data, daarom is die lengte van die geheim nodig
-
-Dan is dit moontlik vir 'n **aanvaller** om **data** by te **voeg** en 'n geldige **handtekening** te **genereer** vir die **vorige data + bygevoegde data**.
-
-## Hoe?
-
-Basies genereer die vatbare algoritmes die hasse deur eerstens 'n blok data te **has**, en dan, **van** die **voorheen** geskepte **has** (toestand), voeg hulle die volgende blok data by en **has dit**.
-
-Stel jou voor dat die geheim "geheim" is en die data "data" is, die MD5 van "geheimdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-As 'n aanvaller die string "byvoeg" wil byvoeg, kan hy:
-
-* Genereer 'n MD5 van 64 "A"s
-* Verander die toestand van die voorheen geïnisialiseerde has na 6036708eba0d11f6ef52ad44e8b74d5b
-* Voeg die string "byvoeg" by
-* Voltooi die has en die resulterende has sal 'n **geldige een wees vir "geheim" + "data" + "opvulling" + "byvoeg"**
-
-## **Gereedskap**
+## **工具**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-## Verwysings
+## 参考
 
-Jy kan hierdie aanval goed verduidelik vind in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
-
-
-{% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
-</details>
-{% endhint %}
+你可以在[https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)找到对此攻击的详细解释。

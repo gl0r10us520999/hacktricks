@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -16,135 +16,135 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 # [ProjectHoneypot](https://www.projecthoneypot.org/)
 
-Jy kan vra of 'n IP verband hou met verdagte/boosaardige aktiwiteite. Heeltemal gratis.
+您可以询问某个 IP 是否与可疑/恶意活动相关。完全免费。
 
 # [**BotScout**](http://botscout.com/api.htm)
 
-Kyk of die IP-adres verband hou met 'n bot wat rekeninge registreer. Dit kan ook gebruikersname en e-posse nagaan. Aanvanklik gratis.
+检查 IP 地址是否与注册账户的机器人相关。它还可以检查用户名和电子邮件。最初免费。
 
 # [Hunter](https://hunter.io/)
 
-Vind en verifieer e-posse.
-Sommige gratis API-versoeke gratis, vir meer moet jy betaal.
-Kommersieel?
+查找和验证电子邮件。
+一些免费 API 请求，更多需要付费。
+商业？
 
 # [AlientVault](https://otx.alienvault.com/api)
 
-Vind boosaardige aktiwiteite wat verband hou met IP's en domeine. Gratis.
+查找与 IP 和域名相关的恶意活动。免费。
 
 # [Clearbit](https://dashboard.clearbit.com/)
 
-Vind verwante persoonlike data vir 'n e-pos \(profiele op ander platforms\), domein \(basiese maatskappy-inligting, e-posse en mense wat werk\) en maatskappye \(kry maatskappy-inligting vanaf e-pos\).
-Jy moet betaal om toegang tot al die moontlikhede te verkry.
-Kommersieel?
+查找与电子邮件（其他平台上的个人资料）、域名（基本公司信息、邮件和工作人员）和公司（从邮件获取公司信息）相关的个人数据。
+您需要付费才能访问所有功能。
+商业？
 
 # [BuiltWith](https://builtwith.com/)
 
-Tegnologieë wat deur webwerwe gebruik word. Duur...
-Kommersieel?
+网站使用的技术。昂贵...
+商业？
 
 # [Fraudguard](https://fraudguard.io/)
 
-Kyk of 'n gasheer \(domein of IP\) verband hou met verdagte/boosaardige aktiwiteite. Het 'n paar gratis API-toegang.
-Kommersieel?
+检查主机（域名或 IP）是否与可疑/恶意活动相关。有一些免费 API 访问。
+商业？
 
 # [FortiGuard](https://fortiguard.com/)
 
-Kyk of 'n gasheer \(domein of IP\) verband hou met verdagte/boosaardige aktiwiteite. Het 'n paar gratis API-toegang.
+检查主机（域名或 IP）是否与可疑/恶意活动相关。有一些免费 API 访问。
 
 # [SpamCop](https://www.spamcop.net/)
 
-Dui aan of 'n gasheer verband hou met spam-aktiwiteit. Het 'n paar gratis API-toegang.
+指示主机是否与垃圾邮件活动相关。有一些免费 API 访问。
 
 # [mywot](https://www.mywot.com/)
 
-Gebaseer op menings en ander metriek kry of 'n domein verband hou met verdagte/boosaardige inligting.
+基于意见和其他指标判断域名是否与可疑/恶意信息相关。
 
 # [ipinfo](https://ipinfo.io/)
 
-Kry basiese inligting vanaf 'n IP-adres. Jy kan tot 100K/maand toets.
+从 IP 地址获取基本信息。您每月可以测试最多 100K。
 
 # [securitytrails](https://securitytrails.com/app/account)
 
-Hierdie platform gee inligting oor domeine en IP-adresse soos domeine binne 'n IP of binne 'n domeinbediener, domeine wat deur 'n e-pos besit word \(vind verwante domeine\), IP-geskiedenis van domeine \(vind die gasheer agter CloudFlare\), alle domeine wat 'n naamsbediener gebruik....
-Jy het 'n paar gratis toegang.
+该平台提供有关域名和 IP 地址的信息，例如 IP 内的域名或域名服务器内的域名、由电子邮件拥有的域名（查找相关域名）、域名的 IP 历史（查找 CloudFlare 背后的主机）、使用某个名称服务器的所有域名...
+您有一些免费访问权限。
 
 # [fullcontact](https://www.fullcontact.com/)
 
-Laat toe om te soek op e-pos, domein of maatskappy naam en "persoonlike" inligting te kry. Dit kan ook e-posse verifieer. Daar is 'n paar gratis toegang.
+允许通过电子邮件、域名或公司名称进行搜索并检索相关的“个人”信息。它还可以验证电子邮件。有一些免费访问权限。
 
 # [RiskIQ](https://www.spiderfoot.net/documentation/)
 
-Baie inligting van domeine en IP's selfs in die gratis/gemeenskapsweergawe.
+即使在免费/社区版本中，也有大量关于域名和 IP 的信息。
 
 # [\_IntelligenceX](https://intelx.io/)
 
-Soek domeine, IP's en e-posse en kry inligting vanaf stortings. Het 'n paar gratis toegang.
+搜索域名、IP 和电子邮件并从数据泄露中获取信息。有一些免费访问权限。
 
 # [IBM X-Force Exchange](https://exchange.xforce.ibmcloud.com/)
 
-Soek op IP en kry inligting wat verband hou met verdagte aktiwiteite. Daar is 'n paar gratis toegang.
+通过 IP 搜索并收集与可疑活动相关的信息。有一些免费访问权限。
 
 # [Greynoise](https://viz.greynoise.io/)
 
-Soek op IP of IP-reeks en kry inligting oor IP's wat die Internet skandeer. 15 dae gratis toegang.
+通过 IP 或 IP 范围搜索并获取有关扫描互联网的 IP 的信息。15 天免费访问。
 
 # [Shodan](https://www.shodan.io/)
 
-Kry skandeerinligting van 'n IP-adres. Het 'n paar gratis API-toegang.
+获取 IP 地址的扫描信息。有一些免费 API 访问。
 
 # [Censys](https://censys.io/)
 
-Baie soortgelyk aan shodan
+与 shodan 非常相似。
 
 # [buckets.grayhatwarfare.com](https://buckets.grayhatwarfare.com/)
 
-Vind oop S3-emmers deur te soek op sleutelwoord.
+通过关键字查找开放的 S3 桶。
 
 # [Dehashed](https://www.dehashed.com/data)
 
-Vind uitgelekde geloofsbriewe van e-posse en selfs domeine
-Kommersieel?
+查找泄露的电子邮件和域名凭据。
+商业？
 
 # [psbdmp](https://psbdmp.ws/)
 
-Soek na pastebins waar 'n e-pos verskyn het. Kommersieel?
+搜索电子邮件出现的 pastebins。商业？
 
 # [emailrep.io](https://emailrep.io/key)
 
-Kry reputasie van 'n e-pos. Kommersieel?
+获取邮件的声誉。商业？
 
 # [ghostproject](https://ghostproject.fr/)
 
-Kry wagwoorde van uitgelekte e-posse. Kommersieel?
+获取泄露电子邮件的密码。商业？
 
 # [Binaryedge](https://www.binaryedge.io/)
 
-Kry interessante inligting vanaf IP's
+从 IP 获取有趣的信息。
 
 # [haveibeenpwned](https://haveibeenpwned.com/)
 
-Soek op domein en e-pos en kry of dit gekompromitteer is en wagwoorde. Kommersieel?
+通过域名和电子邮件搜索，查看是否被泄露及密码。商业？
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)\(in 'n kommersiële instrument?\)
+[https://dnsdumpster.com/](https://dnsdumpster.com/)（在商业工具中？）
 
-[https://www.netcraft.com/](https://www.netcraft.com/) \(in 'n kommersiële instrument?\)
+[https://www.netcraft.com/](https://www.netcraft.com/)（在商业工具中？）
 
-[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/) \(in 'n kommersiële instrument?\)
+[https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/)（在商业工具中？）
 
 
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**abonnementsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

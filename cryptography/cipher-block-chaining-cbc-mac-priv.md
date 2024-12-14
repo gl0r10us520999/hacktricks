@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,68 +16,68 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 
 # CBC
 
-Indien die **koekie** slegs die **gebruikersnaam** is (of die eerste deel van die koekie die gebruikersnaam is) en jy wil die gebruikersnaam "**admin**" naboots. Dan kan jy die gebruikersnaam **"bdmin"** skep en die **eerste byte** van die koekie **bruteforce**.
+如果**cookie**仅仅是**用户名**（或者cookie的第一部分是用户名），而你想要冒充用户名“**admin**”。那么，你可以创建用户名**"bdmin"**并**暴力破解**cookie的**第一个字节**。
 
 # CBC-MAC
 
-**Cipher block chaining message authentication code** (**CBC-MAC**) is 'n metode wat in kriptografie gebruik word. Dit werk deur 'n boodskap te neem en dit blok vir blok te enkripteer, waar elke blok se enkripsie gekoppel is aan die een voor dit. Hierdie proses skep 'n **ketting van blokke**, wat verseker dat selfs 'n enkele bit van die oorspronklike boodskap verander, sal lei tot 'n onvoorspelbare verandering in die laaste blok van enkripteerde data. Om so 'n verandering te maak of omkeer, is die enkripsiesleutel nodig, wat sekuriteit verseker.
+**密码块链消息认证码**（**CBC-MAC**）是一种在密码学中使用的方法。它通过逐块加密消息来工作，每个块的加密与前一个块相连。这个过程创建了一个**块链**，确保即使改变原始消息的一个比特，也会导致最后一个加密数据块的不可预测变化。要进行或逆转这样的变化，需要加密密钥，以确保安全性。
 
-Om die CBC-MAC van boodskap m te bereken, enkripteer mens m in CBC-modus met 'n nul-inisialiseringsvektor en hou die laaste blok. Die volgende figuur skets die berekening van die CBC-MAC van 'n boodskap wat uit blokke bestaan ![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) met 'n geheime sleutel k en 'n blok-sif E:
+要计算消息m的CBC-MAC，可以在CBC模式下用零初始化向量加密m，并保留最后一个块。下图勾勒了使用秘密密钥k和块密码E计算由块组成的消息的CBC-MAC的过程![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5)：
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
-# Kwesbaarheid
+# Vulnerability
 
-Met CBC-MAC is die **IV wat gebruik word gewoonlik 0**.\
-Dit is 'n probleem omdat 2 bekende boodskappe (`m1` en `m2`) onafhanklik 2 handtekeninge (`s1` en `s2`) sal genereer. So:
+在CBC-MAC中，通常使用的**IV是0**。\
+这是一个问题，因为两个已知消息（`m1`和`m2`）独立生成两个签名（`s1`和`s2`）。所以：
 
 * `E(m1 XOR 0) = s1`
 * `E(m2 XOR 0) = s2`
 
-Dan sal 'n boodskap saamgestel deur m1 en m2 aanmekaar te sit (m3) 2 handtekeninge genereer (s31 en s32):
+然后由m1和m2连接而成的消息（m3）将生成两个签名（s31和s32）：
 
 * `E(m1 XOR 0) = s31 = s1`
 * `E(m2 XOR s1) = s32`
 
-**Dit is moontlik om sonder om die enkripsiesleutel te ken, te bereken.**
+**这可以在不知道加密密钥的情况下计算。**
 
-Stel jou voor jy enkripteer die naam **Administrator** in **8 byte** blokke:
+想象一下你在加密名称**Administrator**时使用**8字节**块：
 
 * `Administ`
 * `rator\00\00\00`
 
-Jy kan 'n gebruikersnaam genaamd **Administ** (m1) skep en die handtekening (s1) herwin.\
-Dan kan jy 'n gebruikersnaam skep wat die resultaat is van `rator\00\00\00 XOR s1`. Dit sal `E(m2 XOR s1 XOR 0)` genereer wat s32 is.\
-Nou kan jy s32 gebruik as die handtekening van die volledige naam **Administrator**.
+你可以创建一个名为**Administ**（m1）的用户名并获取签名（s1）。\
+然后，你可以创建一个名为`rator\00\00\00 XOR s1`的用户名。这将生成`E(m2 XOR s1 XOR 0)`，即s32。\
+现在，你可以使用s32作为完整名称**Administrator**的签名。
 
-### Opsomming
+### Summary
 
-1. Kry die handtekening van gebruikersnaam **Administ** (m1) wat s1 is
-2. Kry die handtekening van gebruikersnaam **rator\x00\x00\x00 XOR s1 XOR 0** is s32**.**
-3. Stel die koekie in op s32 en dit sal 'n geldige koekie wees vir die gebruiker **Administrator**.
+1. 获取用户名**Administ**（m1）的签名，即s1
+2. 获取用户名**rator\x00\x00\x00 XOR s1 XOR 0**的签名，即s32**。**
+3. 将cookie设置为s32，它将是用户**Administrator**的有效cookie。
 
-# Aanval Beheer IV
+# Attack Controlling IV
 
-As jy die gebruikte IV kan beheer, kan die aanval baie maklik wees.\
-As die koekies net die gebruikersnaam enkripteer is, om die gebruiker "**administrator**" na te boots, kan jy die gebruiker "**Administrator**" skep en jy sal sy koekie kry.\
-Nou, as jy die IV kan beheer, kan jy die eerste Byte van die IV verander sodat **IV\[0] XOR "A" == IV'\[0] XOR "a"** en hergenereer die koekie vir die gebruiker **Administrator.** Hierdie koekie sal geldig wees om die gebruiker **administrator** met die aanvanklike **IV** na te boots.
+如果你可以控制使用的IV，攻击可能会非常简单。\
+如果cookie仅仅是加密的用户名，要冒充用户“**administrator**”，你可以创建用户“**Administrator**”，你将获得它的cookie。\
+现在，如果你可以控制IV，你可以改变IV的第一个字节，使得**IV\[0] XOR "A" == IV'\[0] XOR "a"**，并为用户**Administrator**重新生成cookie。这个cookie将有效地**冒充**用户**administrator**，使用初始**IV**。
 
-## Verwysings
+## References
 
-Meer inligting in [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
+更多信息请访问[https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

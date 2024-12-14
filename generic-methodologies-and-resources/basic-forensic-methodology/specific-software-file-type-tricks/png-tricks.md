@@ -1,35 +1,5 @@
-{% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+**PNG 文件**在 **CTF 挑战**中备受推崇，因为它们具有 **无损压缩**，使其非常适合嵌入隐藏数据。像 **Wireshark** 这样的工具可以通过解析网络数据包中的 PNG 文件来分析它们，揭示嵌入的信息或异常。
 
-<details>
+为了检查 PNG 文件的完整性和修复损坏，**pngcheck** 是一个关键工具，提供命令行功能来验证和诊断 PNG 文件 ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html))。当文件超出简单修复时，像 [OfficeRecovery's PixRecovery](https://online.officerecovery.com/pixrecovery/) 这样的在线服务提供基于网络的解决方案来 **修复损坏的 PNG**，帮助 CTF 参与者恢复重要数据。
 
-<summary>Ondersteun HackTricks</summary>
-
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
-</details>
-{% endhint %}
-
-**PNG-lêers** word hoog aangeslaan in **CTF-uitdagings** vir hul **verlieslose kompressie**, wat hulle ideaal maak vir die inbedding van verborge data. Gereedskap soos **Wireshark** maak die ontleding van PNG-lêers moontlik deur hul data binne netwerkpakette te ontleed, wat ingebedde inligting of anomalieë onthul.
-
-Vir die kontrole van PNG-lêerintegriteit en die herstel van korrupte lêers, is **pngcheck** 'n noodsaaklike gereedskap wat 'n opdraggelynfunksionaliteit bied om PNG-lêers te valideer en diagnoseer ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Wanneer lêers buite eenvoudige regstellings val, bied aanlyn dienste soos [OfficeRecovery se PixRecovery](https://online.officerecovery.com/pixrecovery/) 'n webgebaseerde oplossing vir die **herstel van korrupte PNG's**, wat help om belangrike data vir CTF-deelnemers te herwin.
-
-Hierdie strategieë beklemtoon die belangrikheid van 'n omvattende benadering in CTF's, waar 'n kombinasie van analitiese gereedskap en hersteltegnieke gebruik word om verborge of verlore data bloot te lê en te herwin.
-
-{% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
-</details>
-{% endhint %}
+这些策略强调了在 CTF 中采用全面方法的重要性，利用分析工具和修复技术的结合来发现和恢复隐藏或丢失的数据。

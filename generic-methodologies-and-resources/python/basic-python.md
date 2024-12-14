@@ -1,38 +1,38 @@
-# Basiese Python
+# Basic Python
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Python Basiese Beginsels
+## Python 基础
 
-### Nuttige inligting
+### 有用的信息
 
-list(xrange()) == range() --> In python3 is die reeks die xrange van python2 (dit is nie 'n lys nie, maar 'n generator)\
-Die verskil tussen 'n Tuple en 'n Lys is dat die posisie van 'n waarde in 'n tuple dit betekenis gee, maar die lyste is net geordende waardes. Tuples het strukture maar lyste het 'n volgorde.
+list(xrange()) == range() --> 在 python3 中，range 是 python2 的 xrange（它不是列表而是生成器）\
+元组和列表的区别在于，元组中值的位置赋予其意义，而列表只是有序的值。元组有结构，但列表有顺序。
 
-### Hoof-operasies
+### 主要操作
 
-Om 'n nommer te verhoog gebruik jy: 3\*\*2 (nie 3^2 nie)\
-As jy 2/3 doen, gee dit 1 terug omdat jy twee ints (heeltalle) verdeel. As jy desimale wil hê, moet jy drijfgetalle verdeel (2.0/3.0).\
+要提升一个数字，你使用：3\*\*2（而不是 3^2）\
+如果你做 2/3，它返回 1，因为你在除以两个整数。如果你想要小数，你应该除以浮点数（2.0/3.0）。\
 i >= j\
 i <= j\
 i == j\
 i != j\
-a en b\
-a of b\
-nie a\
+a 和 b\
+a 或 b\
+not a\
 float(a)\
 int(a)\
 str(d)\
@@ -40,41 +40,41 @@ ord("A") = 65\
 chr(65) = 'A'\
 hex(100) = '0x64'\
 hex(100)\[2:] = '64'\
-isinstance(1, int) = Waar\
+isinstance(1, int) = True\
 "a b".split(" ") = \['a', 'b']\
 " ".join(\['a', 'b']) = "a b"\
-"abcdef".startswith("ab") = Waar\
-"abcdef".contains("abc") = Waar\
+"abcdef".startswith("ab") = True\
+"abcdef".contains("abc") = True\
 "abc\n".strip() = "abc"\
 "apbc".replace("p","") = "abc"\
-dir(str) = Lys van al die beskikbare metodes\
-help(str) = Definisie van die klas str\
+dir(str) = 所有可用方法的列表\
+help(str) = 类 str 的定义\
 "a".upper() = "A"\
 "A".lower() = "a"\
 "abc".capitalize() = "Abc"\
 sum(\[1,2,3]) = 6\
 sorted(\[1,43,5,3,21,4])
 
-**Voeg karakters saam**\
+**连接字符**\
 3 \* ’a’ = ‘aaa’\
 ‘a’ + ‘b’ = ‘ab’\
 ‘a’ + str(3) = ‘a3’\
 \[1,2,3]+\[4,5]=\[1,2,3,4,5]
 
-**Dele van 'n lys**\
+**列表的部分**\
 ‘abc’\[0] = ‘a’\
 'abc’\[-1] = ‘c’\
-'abc’\[1:3] = ‘bc’ vanaf \[1] tot \[2]\
+'abc’\[1:3] = ‘bc’ 从 \[1] 到 \[2]\
 "qwertyuiop"\[:-1] = 'qwertyuio'
 
-**Kommentaar**\
-\# Een reël kommentaar\
+**注释**\
+\# 单行注释\
 """\
-Verskeie reëls kommentaar\
-Nog een\
+多行注释\
+另一个\
 """
 
-**Lusse**
+**循环**
 ```
 if a:
 #somethig
@@ -94,60 +94,60 @@ for letter in "hola":
 ```
 ### Tuples
 
-t1 = (1, '2', 'drie')\
-t2 = (5, 6)\
-t3 = t1 + t2 = (1, '2', 'drie', 5, 6)\
-(4,) = Singelton\
-d = () leë tuple\
-d += (4,) --> Byvoeging in 'n tuple\
-KAN NIE! --> t1\[1] == 'Nuwe waarde'\
-list(t2) = \[5, 6] --> Van tuple na lys
+t1 = (1,'2,'three')\
+t2 = (5,6)\
+t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
+(4,) = 单例\
+d = () 空元组\
+d += (4,) --> 添加到元组中\
+不能！ --> t1\[1] == '新值'\
+list(t2) = \[5,6] --> 从元组到列表
 
 ### List (array)
 
-d = \[] leeg\
-a = \[1, 2, 3]\
-b = \[4, 5]\
-a + b = \[1, 2, 3, 4, 5]\
-b.append(6) = \[4, 5, 6]\
-tuple(a) = (1, 2, 3) --> Van lys na tuple
+d = \[] 空\
+a = \[1,2,3]\
+b = \[4,5]\
+a + b = \[1,2,3,4,5]\
+b.append(6) = \[4,5,6]\
+tuple(a) = (1,2,3) --> 从列表到元组
 
 ### Dictionary
 
-d = {} leeg\
-monthNumbers={1:'Jan', 2: 'feb','feb':2}—> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
-monthNumbers\[1] = 'Jan'\
-monthNumbers\['feb'] = 2\
-list(monthNumbers) = \[1, 2, 'feb']\
-monthNumbers.values() = \['Jan', 'feb', 2]\
-keys = \[k vir k in monthNumbers]\
+d = {} 空\
+monthNumbers={1:’一月’, 2: ‘二月’,’二月’:2}—> monthNumbers ->{1:’一月’, 2: ‘二月’,’二月’:2}\
+monthNumbers\[1] = ‘一月’\
+monthNumbers\[‘二月’] = 2\
+list(monthNumbers) = \[1,2,’二月’]\
+monthNumbers.values() = \[‘一月’,’二月’,2]\
+keys = \[k for k in monthNumbers]\
 a={'9':9}\
-monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
-mN = monthNumbers.copy() #Onafhanklike kopie\
-monthNumbers.get('sleutel',0) #Kyk of sleutel bestaan, Gee waarde van monthNumbers\["sleutel"] of 0 indien dit nie bestaan nie
+monthNumbers.update(a) = {'9':9, 1:’一月’, 2: ‘二月’,’二月’:2}\
+mN = monthNumbers.copy() #独立副本\
+monthNumbers.get('key',0) #检查键是否存在，返回 monthNumbers\["key"] 的值，如果不存在则返回 0
 
 ### Set
 
-In stelle is daar geen herhalings nie\
+在集合中没有重复\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
-myset.add('a') = {'a', 'b', 'c'} #Geen herhalings\
-myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
-myset.discard(10) #Indien teenwoordig, verwyder dit, indien nie, niks\
-myset.remove(10) #Indien teenwoordig, verwyder dit, indien nie, gooi 'n uitsondering\
+myset.add('a') = {'a', 'b', 'c'} #没有重复\
+myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.discard(10) #如果存在，移除它，如果不存在，则什么也不做\
+myset.remove(10) #如果存在，移除它，如果不存在，抛出异常\
 myset2 = set(\[1, 2, 3, 4])\
-myset.union(myset2) #Waardes in myset OF myset2\
-myset.intersection(myset2) #Waardes in myset EN myset2\
-myset.difference(myset2) #Waardes in myset maar nie in myset2\
-myset.symmetric\_difference(myset2) #Waardes wat nie in myset EN myset2 is nie (nie in beide nie)\
-myset.pop() #Kry die eerste element van die stel en verwyder dit\
-myset.intersection\_update(myset2) #myset = Elemente in beide myset en myset2\
-myset.difference\_update(myset2) #myset = Elemente in myset maar nie in myset2\
-myset.symmetric\_difference\_update(myset2) #myset = Elemente wat nie in beide is
+myset.union(myset2) #myset 或 myset2 的值\
+myset.intersection(myset2) #myset 和 myset2 的值\
+myset.difference(myset2) #myset 中的值但不在 myset2 中\
+myset.symmetric\_difference(myset2) #不在 myset 和 myset2 中的值（不在两个集合中）\
+myset.pop() #获取集合的第一个元素并移除它\
+myset.intersection\_update(myset2) #myset = 同时在 myset 和 myset2 中的元素\
+myset.difference\_update(myset2) #myset = 在 myset 中但不在 myset2 中的元素\
+myset.symmetric\_difference\_update(myset2) #myset = 不在两个集合中的元素
 
 ### Classes
 
-Die metode in \_\_It\_\_ sal die een wees wat deur sort gebruik word om te vergelyk of 'n objek van hierdie klas groter is as 'n ander
+\_\_It\_\_ 中的方法将被 sort 用于比较该类的对象是否大于其他对象
 ```python
 class Person(name):
 def __init__(self,name):
@@ -175,20 +175,20 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted en een-regelige programme
+### map, zip, filter, lambda, sorted 和一行代码
 
-**Map** is soos: \[f(x) vir x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
+**Map** 就像: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** stop wanneer die kortste van foo of bar stop:
+**zip** 在 foo 或 bar 较短的停止时停止:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
 ```
-**Lambda** word gebruik om 'n funksie te definieer\
-(lambda x,y: x+y)(5,3) = 8 --> Gebruik lambda as 'n eenvoudige **funksie**\
-**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Gebruik lambda om 'n lys te sorteer\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Gebruik lambda om te filter\
+**Lambda** 用于定义一个函数\
+(lambda x,y: x+y)(5,3) = 8 --> 使用 lambda 作为简单的 **function**\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> 使用 lambda 对列表进行排序\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> 使用 lambda 进行过滤\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
 ```
 def make_adder(n):
@@ -200,11 +200,9 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```html
-mult1 = \[x vir x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] as x%3 == 0 ]
+mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 
-### Uitsonderings
-```
+### 异常
 ```
 def divide(x,y):
 try:
@@ -220,76 +218,74 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-Indien die voorwaarde vals is, sal die string op die skerm gedruk word.
+如果条件为假，字符串将会在屏幕上打印。
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
 assert len(grades) == 'wrong number grades'
 ```
-### Opwekkers, opbrengs
+### 生成器，yield
 
-'n Opwekker, in plaas van om iets terug te gee, "opbreng" dit iets. Wanneer jy dit toegang gee, sal dit die eerste waarde wat opgewek is "teruggee", dan kan jy dit weer toegang gee en dit sal die volgende waarde wat opgewek is teruggee. Dus, word nie al die waardes op dieselfde tyd opgewek nie en baie geheue kan bewaar word deur dit te gebruik in plaas van 'n lys met al die waardes.
+生成器不是返回某个值，而是“生成”某个值。当你访问它时，它将“返回”第一个生成的值，然后，你可以再次访问它，它将返回下一个生成的值。因此，所有的值并不是同时生成的，使用这个而不是包含所有值的列表可以节省大量内存。
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
-```afrikaans
 g = myGen(6) --> 6\
 next(g) --> 7\
-next(g) --> Fout
+next(g) --> 错误
 
-### Gereelde Uitdrukkings
+### 正则表达式
 
 import re\
 re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**Spesiale betekenisse:**\
-. --> Alles\
+**特殊含义:**\
+. --> 一切\
 \w --> \[a-zA-Z0-9\_]\
-\d --> Nommer\
-\s --> WitSpasie karakter\[ \n\r\t\f]\
-\S --> Nie-witSpasie karakter\
-^ --> Begin met\
-$ --> Eindig met\
-\+ --> Een of meer\
-\* --> 0 of meer\
-? --> 0 of 1 voorkomste
+\d --> 数字\
+\s --> 空白字符\[ \n\r\t\f]\
+\S --> 非空白字符\
+^ --> 以...开始\
+$ --> 以...结束\
+\+ --> 一个或多个\
+\* --> 0个或多个\
+? --> 0或1次出现
 
-**Opsies:**\
+**选项:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Laat die punt toe om 'n nuwe lyn te pas\
-MULTILINE --> Laat ^ en $ toe om in verskillende lyne te pas
+DOTALL --> 允许点匹配换行符\
+MULTILINE --> 允许^和$在不同的行中匹配
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> Genereer kombinasies tussen 1 of meer lysse, dalk herhalende waardes, kartesiese produk (distributiewe eienskap)\
+from **itertools** import product --> 生成1个或多个列表之间的组合，可能重复值，笛卡尔积（分配属性）\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
 **permutations**\
-from **itertools** import **permutations** --> Genereer kombinasies van alle karakters op elke posisie\
-print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Elke moontlike kombinasie\
-print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Elke moontlike kombinasie van lengte 2
+from **itertools** import **permutations** --> 生成每个位置上所有字符的组合\
+print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... 每个可能的组合\
+print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] 长度为2的每个可能组合
 
 **combinations**\
-from itertools import **combinations** --> Genereer alle moontlike kombinasies sonder om karakters te herhaal (as "ab" bestaan, genereer dit nie "ba")\
+from itertools import **combinations** --> 生成所有可能的组合而不重复字符（如果存在"ab"，则不生成"ba"）\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Genereer alle moontlike kombinasies vanaf die karakter voort (byvoorbeeld, die 3de is gemeng vanaf die 3de voort maar nie met die 2de of eerste nie)\
+from itertools import **combinations\_with\_replacement** --> 从字符开始生成所有可能的组合（例如，第3个是从第3个开始混合，但不与第2个或第一个混合）\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
-### Versierders
+### 装饰器
 
-Versierder wat die tyd meet wat 'n funksie benodig om uitgevoer te word (van [hier](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
-```
+装饰器用于测量函数执行所需的时间（来自 [这里](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
 ```python
 from functools import wraps
 import time
@@ -307,23 +303,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-As jy dit hardloop, sal jy iets soos die volgende sien:
+如果你运行它，你会看到如下内容：
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

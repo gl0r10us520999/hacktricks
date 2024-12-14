@@ -1,36 +1,36 @@
-# Python Internele Lees Gadgets
+# Python Internal Read Gadgets
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-Verskillende kwesbaarhede soos [**Python Formaat Strings**](bypass-python-sandboxes/#python-format-string) of [**Klas Besoedeling**](class-pollution-pythons-prototype-pollution.md) mag jou in staat stel om **Python interne data te lees, maar sal nie toelaat dat jy kode uitvoer nie**. Daarom sal 'n pentester die meeste moet maak van hierdie leesregte om **sensitiewe voorregte te verkry en die kwesbaarheid te eskaleer**.
+不同的漏洞，例如 [**Python 格式字符串**](bypass-python-sandboxes/#python-format-string) 或 [**类污染**](class-pollution-pythons-prototype-pollution.md)，可能允许你 **读取 Python 内部数据，但不允许你执行代码**。因此，渗透测试人员需要充分利用这些读取权限，以 **获取敏感权限并升级漏洞**。
 
-### Flask - Lees geheime sleutel
+### Flask - 读取密钥
 
-Die hoofbladsy van 'n Flask-aansoek sal waarskynlik die **`app`** globale objek hê waar hierdie **geheime ingestel is**.
+Flask 应用程序的主页面可能会有 **`app`** 全局对象，其中配置了这个 **密钥**。
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-In hierdie geval is dit moontlik om toegang tot hierdie objek te verkry deur net enige gadget te gebruik om **globale objekte te benader** vanaf die [**Bypass Python sandboxes page**](bypass-python-sandboxes/).
+在这种情况下，只需使用任何小工具即可从[**绕过 Python 沙箱页面**](bypass-python-sandboxes/)访问此对象以**访问全局对象**。
 
-In die geval waar **die kwesbaarheid in 'n ander Python-lêer is**, het jy 'n gadget nodig om deur lêers te navigeer om by die hooflêer te kom om die **globale objek `app.secret_key`** te benader om die Flask-geheim sleutel te verander en in staat te wees om [**privileges te eskaleer** deur hierdie sleutel te ken](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+在**漏洞位于不同的 Python 文件**的情况下，您需要一个小工具来遍历文件，以便到达主文件以**访问全局对象 `app.secret_key`**，以更改 Flask 秘密密钥并能够[**利用此密钥提升权限**](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign)。
 
-'n Lading soos hierdie een [van hierdie skryfstuk](https://ctftime.org/writeup/36082):
+像这样的有效载荷[来自这篇文章](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -38,32 +38,32 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Gebruik hierdie ladingstuk om **`app.secret_key` te verander** (die naam in jou app kan verskil) sodat jy nuwe en meer voorregte flask-koekies kan teken.
+使用此有效载荷来**更改 `app.secret_key`**（您应用中的名称可能不同），以便能够签署新的和更高级的 flask cookies。
 
-### Werkzeug - machine\_id en node uuid
+### Werkzeug - machine\_id 和 node uuid
 
-[**Deur hierdie ladingstuk van hierdie skryfstuk te gebruik**](https://vozec.fr/writeups/tweedle-dum-dee/) sal jy in staat wees om die **machine\_id** en die **uuid** node te ontsluit, wat die **hoofgeheime** is wat jy nodig het om die [**Werkzeug-speld te genereer**](../../network-services-pentesting/pentesting-web/werkzeug.md) wat jy kan gebruik om toegang tot die python-konsole in `/console` te verkry as die **foutopsporingsmodus geaktiveer is:**
+[**使用此写作中的有效载荷**](https://vozec.fr/writeups/tweedle-dum-dee/)，您将能够访问**machine\_id**和**uuid**节点，这些是您需要的**主要秘密**，以[**生成 Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md)，您可以在**调试模式启用**时使用它访问 `/console` 中的 python 控制台：
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
 {% hint style="warning" %}
-Let wel dat jy die **bedieners se plaaslike pad na die `app.py`** kan kry deur 'n **fout** op die webbladsy te veroorsaak wat jou die pad sal **gee**.
+注意，您可以通过在网页上生成一些**错误**来获取**服务器本地路径到 `app.py`**，这将**给您路径**。
 {% endhint %}
 
-As die kwesbaarheid in 'n ander Python-lêer is, kyk na die vorige Flask-truuk om toegang tot die voorwerpe van die hoof-Python-lêer te verkry.
+如果漏洞在另一个python文件中，请检查之前的Flask技巧以访问主python文件中的对象。
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我们在**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github库提交PR来分享黑客技巧。
 
 </details>
 {% endhint %}

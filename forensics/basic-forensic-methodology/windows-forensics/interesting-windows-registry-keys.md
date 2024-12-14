@@ -1,105 +1,106 @@
-# Interessante Windows-Registrasiesleutels
+# 有趣的 Windows 注册表键
 
-### Interessante Windows-Registrasiesleutels
+### 有趣的 Windows 注册表键
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-### **Windows-weergawe en Eienaarinligting**
-- Onder **`Software\Microsoft\Windows NT\CurrentVersion`** vind jy die Windows-weergawe, Dienspakket, installasie-tyd, en die geregistreerde eienaar se naam op 'n maklike manier.
 
-### **Rekenaarnaam**
-- Die rekenaam word gevind onder **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+### **Windows 版本和所有者信息**
+- 位于 **`Software\Microsoft\Windows NT\CurrentVersion`**，您可以简单地找到 Windows 版本、服务包、安装时间和注册所有者的名称。
 
-### **Tydsone-instelling**
-- Die stelsel se tydsone word gestoor in **`System\ControlSet001\Control\TimeZoneInformation`**.
+### **计算机名称**
+- 主机名位于 **`System\ControlSet001\Control\ComputerName\ComputerName`** 下。
 
-### **Toegangstydopsporing**
-- Standaard is die laaste toegangstydopsporing afgeskakel (**`NtfsDisableLastAccessUpdate=1`**). Om dit te aktiveer, gebruik:
+### **时区设置**
+- 系统的时区存储在 **`System\ControlSet001\Control\TimeZoneInformation`** 中。
+
+### **访问时间跟踪**
+- 默认情况下，最后访问时间跟踪是关闭的 (**`NtfsDisableLastAccessUpdate=1`**)。要启用它，请使用：
 `fsutil behavior set disablelastaccess 0`
 
-### Windows-weergawes en Dienspakketten
-- Die **Windows-weergawe** dui die uitgawe aan (bv., Home, Pro) en sy vrystelling (bv., Windows 10, Windows 11), terwyl **Dienspakette** opdaterings is wat oplossings insluit en soms nuwe funksies.
+### Windows 版本和服务包
+- **Windows 版本** 指示版本（例如，家庭版、专业版）及其发布（例如，Windows 10、Windows 11），而 **服务包** 是包含修复和有时新功能的更新。
 
-### Aktivering van Laaste Toegangstyd
-- Die aktivering van laaste toegangstydopsporing stel jou in staat om te sien wanneer lêers laas geopen is, wat krities kan wees vir forensiese analise of stelselmonitoring.
+### 启用最后访问时间
+- 启用最后访问时间跟踪可以让您看到文件最后一次打开的时间，这对于取证分析或系统监控至关重要。
 
-### Netwerkinligtingbesonderhede
-- Die register bevat omvattende data oor netwerkkonfigurasies, insluitend **tipes netwerke (draadloos, kabel, 3G)** en **netwerkkategorieë (Publiek, Privaat/Tuis, Domein/Werk)**, wat noodsaaklik is vir die begrip van netwerksekuriteitsinstellings en -toestemmings.
+### 网络信息详细信息
+- 注册表保存了关于网络配置的广泛数据，包括 **网络类型（无线、有线、3G）** 和 **网络类别（公共、私人/家庭、域/工作）**，这些对于理解网络安全设置和权限至关重要。
 
-### Kliëntkantse Caching (CSC)
-- **CSC** verbeter die aanlyn lêertoegang deur kopieë van gedeelde lêers te kacheer. Verskillende **CSCFlags**-instellings beheer hoe en watter lêers gekacheer word, wat die prestasie en gebruikerervaring beïnvloed, veral in omgewings met onderbrekende konnektiwiteit.
+### 客户端缓存 (CSC)
+- **CSC** 通过缓存共享文件的副本来增强离线文件访问。不同的 **CSCFlags** 设置控制如何以及缓存哪些文件，影响性能和用户体验，特别是在连接不稳定的环境中。
 
-### Outomatiese Beginprogramme
-- Programme wat in verskeie `Run` en `RunOnce` registerleutels gelys word, word outomaties by aanvang van die stelsel begin, wat die stelselopstarttyd beïnvloed en moontlik punte van belang kan wees vir die identifisering van malware of ongewenste sagteware.
+### 自动启动程序
+- 列在各种 `Run` 和 `RunOnce` 注册表键中的程序会在启动时自动启动，影响系统启动时间，并可能成为识别恶意软件或不需要软件的关注点。
 
 ### Shellbags
-- **Shellbags** stoor nie net voorkeure vir vouerweergawes nie, maar verskaf ook forensiese bewyse van vouertoegang selfs as die vouer nie meer bestaan nie. Dit is van onschatbare waarde vir ondersoeke, wat gebruikersaktiwiteit onthul wat nie duidelik is deur ander metodes nie.
+- **Shellbags** 不仅存储文件夹视图的偏好，还提供文件夹访问的取证证据，即使该文件夹不再存在。它们对于调查非常宝贵，揭示了通过其他方式不明显的用户活动。
 
-### USB-inligting en Forensika
-- Die besonderhede wat in die register oor USB-toestelle gestoor word, kan help om vas te stel watter toestelle aan 'n rekenaar gekoppel was, wat moontlik 'n toestel aan sensitiewe lêeroordragte of ongemagtigde toegangsinvalle kan koppel.
+### USB 信息和取证
+- 注册表中存储的关于 USB 设备的详细信息可以帮助追踪哪些设备连接到计算机，可能将设备与敏感文件传输或未经授权的访问事件联系起来。
 
-### Volumereeksnommer
-- Die **Volumereeksnommer** kan van kritieke belang wees vir die opsporing van die spesifieke instansie van 'n lêersisteem, nuttig in forensiese scenario's waar lêeroorsprong oor verskillende toestelle vasgestel moet word.
+### 卷序列号
+- **卷序列号** 对于追踪文件系统的特定实例至关重要，在需要跨不同设备建立文件来源的取证场景中非常有用。
 
-### **Afskakelingsbesonderhede**
-- Afskakelingstyd en telling (laasgenoemde slegs vir XP) word in **`System\ControlSet001\Control\Windows`** en **`System\ControlSet001\Control\Watchdog\Display`** bewaar.
+### **关机详细信息**
+- 关机时间和计数（后者仅适用于 XP）保存在 **`System\ControlSet001\Control\Windows`** 和 **`System\ControlSet001\Control\Watchdog\Display`** 中。
 
-### **Netwerkkonfigurasie**
-- Vir gedetailleerde netwerkinterfase-inligting, verwys na **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- Eerste en laaste netwerkverbindingsdae, insluitend VPN-verbindings, word gelog onder verskeie paaie in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **网络配置**
+- 有关详细的网络接口信息，请参阅 **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**。
+- 包括 VPN 连接在内的首次和最后网络连接时间记录在 **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`** 的不同路径下。
 
-### **Gedeelde Vouers**
-- Gedeelde vouers en instellings is onder **`System\ControlSet001\Services\lanmanserver\Shares`**. Die Kliëntkantse Caching (CSC) instellings bepaal die aanlyn lêerbeskikbaarheid.
+### **共享文件夹**
+- 共享文件夹和设置位于 **`System\ControlSet001\Services\lanmanserver\Shares`** 下。客户端缓存 (CSC) 设置决定离线文件的可用性。
 
-### **Programme wat Outomaties Begin**
-- Paaie soos **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** en soortgelyke inskrywings onder `Software\Microsoft\Windows\CurrentVersion` beskryf programme wat by aanvang begin moet word.
+### **自动启动的程序**
+- 像 **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** 这样的路径和 `Software\Microsoft\Windows\CurrentVersion` 下的类似条目详细说明了设置为在启动时运行的程序。
 
-### **Soekopdragte en Getikte Paaie**
-- Ontdekkingsreisiger-soekopdragte en getikte paaie word in die register onder **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** vir WordwheelQuery en TypedPaths, onderskeidelik, gevolg.
+### **搜索和输入路径**
+- 资源管理器搜索和输入路径在注册表中跟踪，位于 **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** 的 WordwheelQuery 和 TypedPaths 下。
 
-### **Onlangse Dokumente en Kantoorlêers**
-- Onlangse dokumente en kantoorlêers wat benader is, word aangeteken in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` en spesifieke kantoorweergawe-paaie.
+### **最近的文档和 Office 文件**
+- 最近访问的文档和 Office 文件记录在 `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` 和特定 Office 版本路径中。
 
-### **Mees Onlangs Gebruikte (MRU) Items**
-- MRU-lyste, wat onlangse lêerpaaie en opdragte aandui, word gestoor in verskeie `ComDlg32` en `Explorer` subleutels onder `NTUSER.DAT`.
+### **最近使用的 (MRU) 项目**
+- MRU 列表，指示最近的文件路径和命令，存储在 `NTUSER.DAT` 下的各种 `ComDlg32` 和 `Explorer` 子键中。
 
-### **Gebruikersaktiwiteitsopsporing**
-- Die Gebruikersassist-funksie log gedetailleerde aansoekgebruikstatistieke, insluitend loop telling en laaste loop tyd, by **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
+### **用户活动跟踪**
+- 用户助手功能记录详细的应用程序使用统计信息，包括运行次数和最后运行时间，位于 **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**。
 
-### **Shellbags-analise**
-- Shellbags, wat vouertoegangsdetails onthul, word gestoor in `USRCLASS.DAT` en `NTUSER.DAT` onder `Software\Microsoft\Windows\Shell`. Gebruik **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** vir analise.
+### **Shellbags 分析**
+- Shellbags，揭示文件夹访问详细信息，存储在 `USRCLASS.DAT` 和 `NTUSER.DAT` 下的 `Software\Microsoft\Windows\Shell` 中。使用 **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** 进行分析。
 
-### **USB-toestelgeskiedenis**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** en **`HKLM\SYSTEM\ControlSet001\Enum\USB`** bevat ryk besonderhede oor gekoppelde USB-toestelle, insluitend vervaardiger, produknaam, en koppeltydstempels.
-- Die gebruiker wat met 'n spesifieke USB-toestel geassosieer word, kan bepaal word deur in `NTUSER.DAT`-korwe vir die toestel se **{GUID}** te soek.
-- Die laaste gemonteerde toestel en sy volumereeksnommer kan opgespoor word deur `System\MountedDevices` en `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, onderskeidelik.
+### **USB 设备历史**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** 和 **`HKLM\SYSTEM\ControlSet001\Enum\USB`** 包含有关连接的 USB 设备的丰富详细信息，包括制造商、产品名称和连接时间戳。
+- 通过在 `NTUSER.DAT` 注册表项中搜索设备的 **{GUID}**，可以确定与特定 USB 设备关联的用户。
+- 最后挂载的设备及其卷序列号可以通过 `System\MountedDevices` 和 `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt` 追踪。
 
-Hierdie gids kondenseer die noodsaaklike paaie en metodes vir die verkryging van gedetailleerde stelsel-, netwerk-, en gebruikersaktiwiteitsinligting op Windows-stelsels, met die doel om duidelikheid en bruikbaarheid te bied.
+本指南概述了访问 Windows 系统上详细系统、网络和用户活动信息的关键路径和方法，旨在提供清晰和可用性。
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

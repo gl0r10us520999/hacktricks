@@ -1,112 +1,112 @@
-# Bedreigingsmodellering
+# 威胁建模
 
 
-## Bedreigingsmodellering
+## 威胁建模
 
-Welkom by HackTricks se omvattende gids oor Bedreigingsmodellering! Begin 'n verkenning van hierdie kritieke aspek van kuberveiligheid, waar ons potensiële kwesbaarhede in 'n stelsel identifiseer, verstaan en strategieë ontwikkel om teen hulle te veg. Hierdie draad dien as 'n stap-vir-stap gids vol werklike voorbeelde, nuttige sagteware en maklik verstaanbare verduidelikings. Ideaal vir beide beginners en ervare praktisyns wat hul kuberveiligheid verdediging wil versterk.
+欢迎来到 HackTricks 关于威胁建模的综合指南！开始探索网络安全这一关键方面，在这里我们识别、理解并制定针对系统潜在漏洞的策略。此线程作为逐步指南，包含真实案例、有用软件和易于理解的解释。非常适合希望加强网络安全防御的新手和经验丰富的从业者。
 
-### Gewoonlik Gebruikte Scenario's
+### 常用场景
 
-1. **Sagteware Ontwikkeling**: As deel van die Veilige Sagteware Ontwikkelingslewe Siklus (SSDLC), help bedreigingsmodellering in **die identifisering van potensiële bronne van kwesbaarhede** in die vroeë stadiums van ontwikkeling.
-2. **Penetrasietoetsing**: Die Penetrasietoetsing Uitvoeringsstandaard (PTES) raamwerk vereis **bedreigingsmodellering om die stelsel se kwesbaarhede te verstaan** voordat die toets uitgevoer word.
+1. **软件开发**：作为安全软件开发生命周期（SSDLC）的一部分，威胁建模有助于**在开发早期识别潜在漏洞来源**。
+2. **渗透测试**：渗透测试执行标准（PTES）框架要求**进行威胁建模以了解系统的漏洞**，然后再进行测试。
 
-### Bedreigingsmodel in 'n Neutedop
+### 威胁模型概述
 
-'n Bedreigingsmodel word tipies voorgestel as 'n diagram, beeld, of 'n ander vorm van visuele illustrasie wat die beplande argitektuur of bestaande bou van 'n toepassing uitbeeld. Dit is soortgelyk aan 'n **data vloei diagram**, maar die sleutelonderskeid lê in die sekuriteitsgerigte ontwerp.
+威胁模型通常以图表、图像或其他形式的可视化插图表示，描绘应用程序的计划架构或现有构建。它与**数据流图**相似，但关键区别在于其安全导向的设计。
 
-Bedreigingsmodelle bevat dikwels elemente wat in rooi gemerk is, wat potensiële kwesbaarhede, risiko's of hindernisse simboliseer. Om die proses van risiko-identifikasie te stroomlyn, word die CIA (Vertroulikheid, Integriteit, Beskikbaarheid) triade gebruik, wat die basis vorm van baie bedreigingsmodellering metodologieë, met STRIDE as een van die mees algemene. Die gekose metodologie kan egter wissel, afhangende van die spesifieke konteks en vereistes.
+威胁模型通常包含用红色标记的元素，象征潜在的漏洞、风险或障碍。为了简化风险识别过程，采用 CIA（机密性、完整性、可用性）三元组，构成许多威胁建模方法的基础，其中 STRIDE 是最常见的。然而，所选方法可能会根据具体上下文和要求而有所不同。
 
-### Die CIA Triade
+### CIA 三元组
 
-Die CIA Triade is 'n algemeen erkende model in die veld van inligtingsveiligheid, wat staan vir Vertroulikheid, Integriteit, en Beskikbaarheid. Hierdie drie pilare vorm die grondslag waarop baie sekuriteitsmaatreëls en -beleide gebou word, insluitend bedreigingsmodellering metodologieë.
+CIA 三元组是信息安全领域广泛认可的模型，代表机密性、完整性和可用性。这三大支柱构成了许多安全措施和政策的基础，包括威胁建模方法。
 
-1. **Vertroulikheid**: Verseker dat die data of stelsel nie deur ongeoorloofde individue toegang verkry word nie. Dit is 'n sentrale aspek van sekuriteit, wat toepaslike toegangbeheer, versleuteling, en ander maatreëls vereis om datalekke te voorkom.
-2. **Integriteit**: Die akkuraatheid, konsekwentheid, en betroubaarheid van die data oor sy lewensiklus. Hierdie beginsel verseker dat die data nie deur ongeoorloofde partye verander of gemanipuleer word nie. Dit behels dikwels kontrole, hashing, en ander data-verifikasiemetodes.
-3. **Beskikbaarheid**: Dit verseker dat data en dienste beskikbaar is vir geautoriseerde gebruikers wanneer nodig. Dit behels dikwels redundansie, fouttoleransie, en hoë-beskikbaarheid konfigurasies om stelsels aan die gang te hou, selfs in die gesig van onderbrekings.
+1. **机密性**：确保数据或系统不被未经授权的个人访问。这是安全的核心方面，需要适当的访问控制、加密和其他措施以防止数据泄露。
+2. **完整性**：数据在其生命周期内的准确性、一致性和可信度。该原则确保数据不被未经授权的方更改或篡改。它通常涉及校验和、哈希和其他数据验证方法。
+3. **可用性**：确保数据和服务在需要时可供授权用户访问。这通常涉及冗余、容错和高可用性配置，以保持系统在中断情况下的运行。
 
-### Bedreigingsmodellering Metodologieë
+### 威胁建模方法
 
-1. **STRIDE**: Ontwikkel deur Microsoft, STRIDE is 'n akroniem vir **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Elke kategorie verteenwoordig 'n tipe bedreiging, en hierdie metodologie word algemeen gebruik in die ontwerpfase van 'n program of stelsel om potensiële bedreigings te identifiseer.
-2. **DREAD**: Dit is 'n ander metodologie van Microsoft wat gebruik word vir risiko-assessering van geïdentifiseerde bedreigings. DREAD staan vir **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Elke van hierdie faktore word gegradeer, en die resultaat word gebruik om geïdentifiseerde bedreigings te prioriseer.
-3. **PASTA** (Proses vir Aanvalsimulasie en Bedreigingsanalise): Dit is 'n sewe-stap, **risiko-georiënteerde** metodologie. Dit sluit die definisie en identifisering van sekuriteitsdoelwitte in, die skep van 'n tegniese omvang, toepassingsdekomposisie, bedreigingsanalise, kwesbaarheidsanalise, en risiko/triage-assessering.
-4. **Trike**: Dit is 'n risiko-gebaseerde metodologie wat fokus op die verdediging van bates. Dit begin vanuit 'n **risikobestuur** perspektief en kyk na bedreigings en kwesbaarhede in daardie konteks.
-5. **VAST** (Visueel, Agile, en Eenvoudige Bedreigingsmodellering): Hierdie benadering streef daarna om meer toeganklik te wees en integreer in Agile ontwikkelingsomgewings. Dit kombineer elemente van die ander metodologieë en fokus op **visuele voorstellings van bedreigings**.
-6. **OCTAVE** (Operationeel Kritieke Bedreiging, Bates, en Kwesbaarheid Evaluasie): Ontwikkel deur die CERT Koördinasiesentrum, is hierdie raamwerk gerig op **organisatoriese risiko-assessering eerder as spesifieke stelsels of sagteware**.
+1. **STRIDE**：由微软开发，STRIDE 是**欺骗、篡改、否认、信息泄露、服务拒绝和特权提升**的首字母缩略词。每个类别代表一种威胁，这种方法通常用于程序或系统的设计阶段，以识别潜在威胁。
+2. **DREAD**：这是微软用于识别威胁风险评估的另一种方法。DREAD 代表**损害潜力、可重现性、可利用性、受影响用户和可发现性**。每个因素都被评分，结果用于优先排序已识别的威胁。
+3. **PASTA**（攻击模拟和威胁分析过程）：这是一种七步的**风险中心**方法。它包括定义和识别安全目标、创建技术范围、应用程序分解、威胁分析、漏洞分析和风险/分流评估。
+4. **Trike**：这是一种基于风险的方法，专注于保护资产。它从**风险管理**的角度出发，考虑威胁和漏洞。
+5. **VAST**（可视化、敏捷和简单的威胁建模）：这种方法旨在更易于访问，并集成到敏捷开发环境中。它结合了其他方法的元素，专注于**威胁的可视化表示**。
+6. **OCTAVE**（操作关键威胁、资产和漏洞评估）：由 CERT 协调中心开发，该框架旨在**进行组织风险评估，而不是特定系统或软件**。
 
-## Gereedskap
+## 工具
 
-Daar is verskeie gereedskap en sagteoplossings beskikbaar wat kan **help** met die skepping en bestuur van bedreigingsmodelle. Hier is 'n paar wat jy mag oorweeg.
+有几种工具和软件解决方案可用于**协助**创建和管理威胁模型。以下是您可能考虑的一些工具。
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-'n Gevorderde kruis-platform en multi-funksie GUI web spinnekop/kruiper vir kuberveiligheid professionele. Spider Suite kan gebruik word vir aanvaloppervlak kartering en analise.
+一个先进的跨平台多功能 GUI 网络爬虫/蜘蛛，适用于网络安全专业人员。Spider Suite 可用于攻击面映射和分析。
 
-**Gebruik**
+**使用方法**
 
-1. Kies 'n URL en Kruip
+1. 选择一个 URL 并爬取
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
-2. Bekyk Grafiek
+2. 查看图表
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_2.png" alt=""><figcaption></figcaption></figure>
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-'n Open-source projek van OWASP, Threat Dragon is beide 'n web- en desktoptoepassing wat stelseldiagrammering insluit sowel as 'n reël-enjin om bedreigings/mitigasies outomaties te genereer.
+OWASP 的一个开源项目，Threat Dragon 是一个包含系统图示和规则引擎以自动生成威胁/缓解措施的网络和桌面应用程序。
 
-**Gebruik**
+**使用方法**
 
-1. Skep Nuwe Projek
+1. 创建新项目
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Soms kan dit soos volg lyk:
+有时它可能看起来像这样：
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Begin Nuwe Projek
+2. 启动新项目
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Stoor Die Nuwe Projek
+3. 保存新项目
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Skep jou model
+4. 创建您的模型
 
-Jy kan gereedskap soos SpiderSuite Crawler gebruik om jou inspirasie te gee, 'n basiese model kan iets soos hierdie lyk
+您可以使用像 SpiderSuite Crawler 这样的工具来获得灵感，基本模型可能看起来像这样
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Net 'n bietjie verduideliking oor die entiteite:
+关于实体的简单解释：
 
-* Proses (Die entiteit self soos Webbediener of web funksionaliteit)
-* Akteur ( 'n Persoon soos 'n Webwerf Besoeker, Gebruiker of Administrateur)
-* Data Vloei Lyn (Aanduiding van Interaksie)
-* Vertroue Grens (Verskillende netwerksegmente of skope.)
-* Stoor (Dinge waar data gestoor word soos Databasisse)
+* 过程（实体本身，如 Web 服务器或 Web 功能）
+* 参与者（如网站访客、用户或管理员的人）
+* 数据流线（交互的指示）
+* 信任边界（不同的网络段或范围）
+* 存储（数据存储的地方，如数据库）
 
-5. Skep 'n Bedreiging (Stap 1)
+5. 创建威胁（步骤 1）
 
-Eerstens moet jy die laag kies waaraan jy 'n bedreiging wil toevoeg
+首先，您必须选择要添加威胁的层
 
 <figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
 
-Nou kan jy die bedreiging skep
+现在您可以创建威胁
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Hou in gedagte dat daar 'n verskil is tussen Akteur Bedreigings en Proses Bedreigings. As jy 'n bedreiging aan 'n Akteur sou toevoeg, sal jy slegs "Spoofing" en "Repudiation" kan kies. In ons voorbeeld voeg ons egter 'n bedreiging aan 'n Proses entiteit toe, so ons sal dit in die bedreiging skeppingskassie sien:
+请记住，参与者威胁和过程威胁之间是有区别的。如果您要向参与者添加威胁，则只能选择“欺骗”和“否认”。然而，在我们的示例中，我们将威胁添加到过程实体，因此我们将在威胁创建框中看到：
 
 <figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
 
-6. Klaar
+6. 完成
 
-Nou behoort jou voltooide model iets soos hierdie te lyk. En dit is hoe jy 'n eenvoudige bedreigingsmodel met OWASP Threat Dragon maak.
+现在您完成的模型应该看起来像这样。这就是如何使用 OWASP Threat Dragon 制作简单的威胁模型。
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 
 ### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
 
-Dit is 'n gratis gereedskap van Microsoft wat help om bedreigings in die ontwerpfase van sagtewareprojekte te vind. Dit gebruik die STRIDE metodologie en is veral geskik vir diegene wat op Microsoft se stapel ontwikkel.
+这是微软提供的免费工具，帮助在软件项目的设计阶段发现威胁。它使用 STRIDE 方法，特别适合在微软技术栈上开发的人员。

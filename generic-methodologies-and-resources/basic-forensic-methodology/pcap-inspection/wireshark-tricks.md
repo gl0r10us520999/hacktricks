@@ -1,145 +1,145 @@
-# Wireshark truuks
+# Wireshark技巧
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家(ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家(GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)或**关注**我们在**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-## Verbeter jou Wireshark vaardighede
+## 提升你的Wireshark技能
 
-### Tutorials
+### 教程
 
-Die volgende tutorials is wonderlik om 'n paar koel basiese truuks te leer:
+以下教程非常适合学习一些酷炫的基本技巧：
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### Geanaliseerde Inligting
+### 分析信息
 
-**Deskundige Inligting**
+**专家信息**
 
-Deur te klik op _**Analiseer** --> **Deskundige Inligting**_ sal jy 'n **oorsig** hê van wat in die pakkette **geanaliseer** word:
+点击 _**分析** --> **专家信息**_ 你将获得一个**概述**，了解在**分析**的数据包中发生了什么：
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
-**Opgeloste Adresse**
+**已解析地址**
 
-Onder _**Statistieke --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind wat deur wireshark "**opgelos**" is soos poort/transport na protokol, MAC na die vervaardiger, ens. Dit is interessant om te weet wat betrokke is in die kommunikasie.
+在 _**统计信息 --> 已解析地址**_ 下，你可以找到Wireshark“**解析**”的多条**信息**，如端口/传输到协议、MAC到制造商等。了解通信中涉及的内容是很有趣的。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
-**Protokol Hiërargie**
+**协议层次**
 
-Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data oor hulle vind.
+在 _**统计信息 --> 协议层次**_ 下，你可以找到通信中涉及的**协议**及其相关数据。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
-**Gesprekke**
+**对话**
 
-Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data oor hulle vind.
+在 _**统计信息 --> 对话**_ 下，你可以找到通信中的**对话摘要**及其相关数据。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
-**Eindpunte**
+**端点**
 
-Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elkeen van hulle vind.
+在 _**统计信息 --> 端点**_ 下，你可以找到通信中的**端点摘要**及其相关数据。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS inligting**
+**DNS信息**
 
-Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is vind.
+在 _**统计信息 --> DNS**_ 下，你可以找到捕获的DNS请求的统计信息。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**I/O Grafiek**
+**I/O图**
 
-Onder _**Statistieke --> I/O Grafiek**_ kan jy 'n **grafiek van die kommunikasie** vind.
+在 _**统计信息 --> I/O图**_ 下，你可以找到**通信图**。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
-### Filters
+### 过滤器
 
-Hier kan jy wireshark filter vind afhangende van die protokol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Ander interessante filters:
+在这里你可以找到根据协议的Wireshark过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+其他有趣的过滤器：
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer
+* HTTP和初始HTTPS流量
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer + TCP SYN
+* HTTP和初始HTTPS流量 + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP en aanvanklike HTTPS verkeer + TCP SYN + DNS versoeke
+* HTTP和初始HTTPS流量 + TCP SYN + DNS请求
 
-### Soek
+### 搜索
 
-As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies druk _CTRL+f_. Jy kan nuwe lae by die hoofinligtingbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
+如果你想在会话的**数据包**中**搜索****内容**，请按 _CTRL+f_。你可以通过右键点击并编辑列来添加新的层到主信息栏（编号、时间、源等）。
 
-### Gratis pcap laboratoriums
+### 免费pcap实验室
 
-**Oefen met die gratis uitdagings van:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**通过以下免费挑战进行练习：** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Identifisering van Domeine
+## 识别域名
 
-Jy kan 'n kolom byvoeg wat die Host HTTP koptekst wys:
+你可以添加一个显示Host HTTP头的列：
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-En 'n kolom wat die Bediener naam van 'n inisierende HTTPS verbinding byvoeg (**ssl.handshake.type == 1**):
+以及一个添加发起HTTPS连接的服务器名称的列（**ssl.handshake.type == 1**）：
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identifisering van plaaslike gasheurname
+## 识别本地主机名
 
-### Van DHCP
+### 从DHCP
 
-In die huidige Wireshark in plaas van `bootp` moet jy soek na `DHCP`
+在当前的Wireshark中，你需要搜索`DHCP`而不是`bootp`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
-### Van NBNS
+### 从NBNS
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## Ontsleuteling van TLS
+## 解密TLS
 
-### Ontsleuteling van https verkeer met bediener se privaat sleutel
+### 使用服务器私钥解密HTTPS流量
 
-_edit>voorkeur>protokol>ssl>_
+_edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Druk _Edit_ en voeg al die data van die bediener en die privaat sleutel (_IP, Poort, Protokol, Sleutel lêer en wagwoord_)
+按 _Edit_ 并添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
 
-### Ontsleuteling van https verkeer met simmetriese sessiesleutels
+### 使用对称会话密钥解密HTTPS流量
 
-Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat gebruik kan word met Wireshark om TLS verkeer te ontsleutel. Dit stel in staat tot diepgaande analise van veilige kommunikasies. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Firefox和Chrome都能够记录TLS会话密钥，这些密钥可以与Wireshark一起使用以解密TLS流量。这允许对安全通信进行深入分析。有关如何执行此解密的更多详细信息，请参阅[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)中的指南。
 
-Om dit te detecteer soek binne die omgewing na die veranderlike `SSLKEYLOGFILE`
+要检测此内容，请在环境中搜索变量`SSLKEYLOGFILE`
 
-'n Lêer van gedeelde sleutels sal soos volg lyk:
+共享密钥的文件看起来像这样：
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Om dit in wireshark te importeer gaan na \_edit > voorkeur > protokol > ssl > en importeer dit in (Pre)-Master-Secret log lêernaam:
+要在Wireshark中导入此文件，请转到 _edit > preference > protocol > ssl > 并将其导入到（Pre）-Master-Secret日志文件名中：
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
-## ADB kommunikasie
+## ADB通信
 
-Onthaal 'n APK uit 'n ADB kommunikasie waar die APK gestuur is:
+从ADB通信中提取APK，其中APK被发送：
 ```python
 from scapy.all import *
 
@@ -167,16 +167,16 @@ f.write(all_bytes)
 f.close()
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

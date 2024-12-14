@@ -1,23 +1,23 @@
-# Crypto CTFs Truuks
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Aanlyn Hash-databasisse
+## 在线哈希数据库
 
-* _**Google dit**_
+* _**谷歌一下**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
 * [https://crackstation.net/](https://crackstation.net)
@@ -29,36 +29,36 @@ Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Towerige Autosolvers
+## 魔法自动解码器
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Magic-module)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (魔法模块)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Koders
+## 编码器
 
-Die meeste van die gekodeerde data kan ontkodeer word met hierdie 2 bronne:
+大多数编码数据可以通过这两个资源解码：
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Substitusie Autosolvers
+### 替换自动解码器
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - Baie goed !
+* [https://quipqiup.com/](https://quipqiup.com) - 非常好！
 
-#### Caesar - ROTx Autosolvers
+#### 凯撒 - ROTx 自动解码器
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Atbash Cipher
+#### Atbash 密码
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Basisenkoderingsautosolver
+### 基础编码自动解码器
 
-Kontroleer al hierdie basisse met: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+使用以下链接检查所有这些基础：[https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -127,21 +127,21 @@ Kontroleer al hierdie basisse met: [https://github.com/dhondta/python-codext](ht
 * **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
-[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 死链: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dood: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 死链接: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
-### Morse
+### 摩尔斯
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dood: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 死链接: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### UUencoder
+### UU编码器
 ```
 begin 644 webutils_pl
 M2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(
@@ -152,7 +152,7 @@ end
 ```
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
-### XXKoder
+### XXEncoder
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -183,7 +183,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 * [http://www.webutils.pl/index.php?idx=ascii85](http://www.webutils.pl/index.php?idx=ascii85)
 
-### Dvorak sleutelbord
+### Dvorak 键盘
 ```
 drnajapajrna
 ```
@@ -191,54 +191,54 @@ drnajapajrna
 
 ### A1Z26
 
-Briewe na hul numeriese waarde
+字母对应其数字值
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Affine Chiffer Enkodeer
+### Affine Cipher Encode
 
-Brief na nommer `(ax+b)%26` (_a_ en _b_ is die sleutels en _x_ is die letter) en die resultaat terug na 'n letter
+字母到数字 `(ax+b)%26` (_a_ 和 _b_ 是密钥，_x_ 是字母) 并将结果转换回字母
 ```
 krodfdudfrod
 ```
-### SMS Kode
+### SMS Code
 
-**Multitap** [vervang 'n letter](https://www.dcode.fr/word-letter-change) deur herhaalde syfers wat gedefinieer word deur die ooreenstemmende sleutelkode op 'n mobiele [foon-knoppieskema](https://www.dcode.fr/phone-keypad-cipher) (Hierdie modus word gebruik wanneer SMS geskryf word).\
-Byvoorbeeld: 2=A, 22=B, 222=C, 3=D...\
-Jy kan hierdie kode identifiseer omdat jy\*\* verskeie herhaalde syfers\*\* sal sien.
+**Multitap** [通过重复数字](https://www.dcode.fr/word-letter-change) 替换字母，这些数字由手机 [键盘](https://www.dcode.fr/phone-keypad-cipher) 上对应的键码定义（此模式在编写 SMS 时使用）。\
+例如：2=A，22=B，222=C，3=D...\
+您可以通过看到\*\* 多个数字重复\*\* 来识别此代码。
 
-Jy kan hierdie kode ontsluit by: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+您可以在以下网址解码此代码：[https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
-### Bacon Kode
+### Bacon Code
 
-Vervang elke letter met 4 As of Bs (of 1s en 0s)
+将每个字母替换为 4 个 A 或 B（或 1 和 0）
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Runes
+### 符文
 
 ![](../.gitbook/assets/runes.jpg)
 
-## Kompressie
+## 压缩
 
-**Raw Deflate** en **Raw Inflate** (jy kan beide in Cyberchef vind) kan data komprimeer en dekomprimeer sonder koppe.
+**原始压缩** 和 **原始解压**（你可以在 Cyberchef 中找到这两者）可以在没有头部的情况下压缩和解压数据。
 
-## Maklike Kripto
+## 简易加密
 
-### XOR - Autosolver
+### 异或 - 自动解密器
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
-### Bifid
+### 双重密钥
 
-'n Sleutelwoord is nodig
+需要一个关键字
 ```
 fgaargaamnlunesuneoa
 ```
 ### Vigenere
 
-'n Sleutelwoord is nodig
+需要一个关键词
 ```
 wodsyoidrods
 ```
@@ -246,11 +246,11 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Sterk Kripto
+## 强加密
 
 ### Fernet
 
-2 base64 strings (token en sleutel)
+2 个 base64 字符串（令牌和密钥）
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -260,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Samir Geheime Deling
+### Samir 秘密共享
 
-'n Geheim word in X dele verdeel en om dit te herwin, het jy Y dele nodig (_Y <=X_).
+一个秘密被分成 X 部分，要恢复它需要 Y 部分 (_Y <=X_)。
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -270,28 +270,28 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### OpenSSL kragtige krag
+### OpenSSL 暴力破解
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
 
-## Gereedskap
+## 工具
 
 * [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool)
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

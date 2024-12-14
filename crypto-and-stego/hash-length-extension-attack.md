@@ -1,67 +1,67 @@
 # Hash Length Extension Attack
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-## Summary of the attack
+## 攻击总结
 
-Stel jou voor 'n bediener wat **onderteken** sekere **data** deur 'n **geheime** by te voeg aan 'n bekende duidelike teks data en dan daardie data te hash. As jy weet:
+想象一个服务器，它通过将一个**秘密**附加到一些已知的明文数据上并对这些数据进行**签名**。如果你知道：
 
-* **Die lengte van die geheim** (dit kan ook gebruteforced word vanaf 'n gegewe lengte reeks)
-* **Die duidelike teks data**
-* **Die algoritme (en dit is kwesbaar vir hierdie aanval)**
-* **Die padding is bekend**
-* Gewoonlik word 'n standaard een gebruik, so as die ander 3 vereistes nagekom word, is dit ook
-* Die padding wissel afhangende van die lengte van die geheim+data, daarom is die lengte van die geheim nodig
+* **秘密的长度**（这也可以从给定的长度范围中暴力破解）
+* **明文数据**
+* **算法（并且它对这种攻击是脆弱的）**
+* **填充是已知的**
+* 通常使用默认填充，因此如果满足其他三个要求，这也是
+* 填充根据秘密+数据的长度而变化，这就是需要秘密长度的原因
 
-Dan is dit moontlik vir 'n **aanvaller** om **data** by te voeg en 'n geldige **handtekening** te genereer vir die **vorige data + bygevoegde data**.
+那么，**攻击者**可以**附加** **数据**并为**之前的数据 + 附加的数据**生成一个有效的**签名**。
 
-### How?
+### 如何？
 
-Basies genereer die kwesbare algoritmes die hashes deur eerstens **'n blok data te hash**, en dan, **van** die **voorheen** geskepte **hash** (toestand), voeg hulle **die volgende blok data** by en **hash dit**.
+基本上，脆弱的算法首先通过**哈希一个数据块**来生成哈希，然后，从**之前**创建的**哈希**（状态）中，**添加下一个数据块**并**哈希它**。
 
-Stel jou voor dat die geheim "geheim" is en die data "data", die MD5 van "geheimdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-As 'n aanvaller die string "byvoeg" wil byvoeg kan hy:
+然后，想象秘密是“secret”，数据是“data”，"secretdata"的MD5是6036708eba0d11f6ef52ad44e8b74d5b。\
+如果攻击者想要附加字符串“append”，他可以：
 
-* 'n MD5 van 64 "A"s genereer
-* Die toestand van die voorheen geïnitialiseerde hash verander na 6036708eba0d11f6ef52ad44e8b74d5b
-* Die string "byvoeg" byvoeg
-* Die hash voltooi en die resulterende hash sal 'n **geldige een wees vir "geheim" + "data" + "padding" + "byvoeg"**
+* 生成64个“A”的MD5
+* 将之前初始化的哈希状态更改为6036708eba0d11f6ef52ad44e8b74d5b
+* 附加字符串“append”
+* 完成哈希，结果哈希将是“secret” + “data” + “padding” + “append”的**有效哈希**
 
-### **Tool**
+### **工具**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### References
+### 参考
 
-Jy kan hierdie aanval goed verduidelik vind in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+你可以在 [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks) 找到对此攻击的详细解释。
 
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

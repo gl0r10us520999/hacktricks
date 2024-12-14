@@ -1,16 +1,16 @@
-# Plaaslike Wolk Berging
+# 本地云存储
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -18,121 +18,121 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
-In Windows kan jy die OneDrive-gids vind in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. En binne `logs\Personal` is dit moontlik om die lêer `SyncDiagnostics.log` te vind wat interessante data bevat rakende die gesinkroniseerde lêers:
+在 Windows 中，您可以在 `\Users\<username>\AppData\Local\Microsoft\OneDrive` 找到 OneDrive 文件夹。在 `logs\Personal` 中可以找到文件 `SyncDiagnostics.log`，其中包含有关同步文件的一些有趣数据：
 
-* Grootte in bytes
-* Skeppingsdatum
-* Wysigingsdatum
-* Aantal lêers in die wolk
-* Aantal lêers in die gids
-* **CID**: Unieke ID van die OneDrive-gebruiker
-* Verslaggenerasietyd
-* Grootte van die HD van die OS
+* 字节大小
+* 创建日期
+* 修改日期
+* 云中的文件数量
+* 文件夹中的文件数量
+* **CID**：OneDrive 用户的唯一 ID
+* 报告生成时间
+* 操作系统的硬盘大小
 
-Sodra jy die CID gevind het, word dit aanbeveel om **lêers te soek wat hierdie ID bevat**. Jy mag dalk lêers met die naam: _**\<CID>.ini**_ en _**\<CID>.dat**_ vind wat interessante inligting kan bevat soos die name van lêers wat met OneDrive gesinkroniseer is.
+一旦找到 CID，建议 **搜索包含此 ID 的文件**。您可能会找到名为：_**\<CID>.ini**_ 和 _**\<CID>.dat**_ 的文件，这些文件可能包含与 OneDrive 同步的文件名等有趣信息。
 
 ## Google Drive
 
-In Windows kan jy die hoof Google Drive-gids vind in `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-Hierdie gids bevat 'n lêer genaamd Sync\_log.log met inligting soos die e-posadres van die rekening, lêernames, tydstempels, MD5-hashes van die lêers, ens. Selfs verwyderde lêers verskyn in daardie loglêer met die ooreenstemmende MD5.
+在 Windows 中，您可以在 `\Users\<username>\AppData\Local\Google\Drive\user_default` 找到主要的 Google Drive 文件夹\
+此文件夹包含一个名为 Sync\_log.log 的文件，其中包含帐户的电子邮件地址、文件名、时间戳、文件的 MD5 哈希等信息。即使是已删除的文件也会出现在该日志文件中及其对应的 MD5。
 
-Die lêer **`Cloud_graph\Cloud_graph.db`** is 'n sqlite-databasis wat die tabel **`cloud_graph_entry`** bevat. In hierdie tabel kan jy die **naam** van die **gesinkroniseerde** **lêers**, gewysigde tyd, grootte, en die MD5 kontrole som van die lêers vind.
+文件 **`Cloud_graph\Cloud_graph.db`** 是一个 sqlite 数据库，其中包含表 **`cloud_graph_entry`**。在此表中，您可以找到 **同步** **文件** 的 **名称**、修改时间、大小和文件的 MD5 校验和。
 
-Die tabeldata van die databasis **`Sync_config.db`** bevat die e-posadres van die rekening, die pad van die gedeelde gidsen en die Google Drive weergawe.
+数据库 **`Sync_config.db`** 的表数据包含帐户的电子邮件地址、共享文件夹的路径和 Google Drive 版本。
 
 ## Dropbox
 
-Dropbox gebruik **SQLite-databasisse** om die lêers te bestuur. In hierdie\
-Jy kan die databasisse in die gidsen vind:
+Dropbox 使用 **SQLite 数据库** 来管理文件。在此\
+您可以在以下文件夹中找到数据库：
 
 * `\Users\<username>\AppData\Local\Dropbox`
 * `\Users\<username>\AppData\Local\Dropbox\Instance1`
 * `\Users\<username>\AppData\Roaming\Dropbox`
 
-En die hoofdatabasisse is:
+主要数据库包括：
 
 * Sigstore.dbx
 * Filecache.dbx
 * Deleted.dbx
 * Config.dbx
 
-Die ".dbx" uitbreiding beteken dat die **databasisse** **versleuteld** is. Dropbox gebruik **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+“.dbx” 扩展名表示 **数据库** 是 **加密的**。Dropbox 使用 **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Om beter te verstaan die versleuteling wat Dropbox gebruik, kan jy lees [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+要更好地理解 Dropbox 使用的加密，您可以阅读 [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html)。
 
-Tog, die hoofinligting is:
+然而，主要信息是：
 
-* **Entropie**: d114a55212655f74bd772e37e64aee9b
-* **Salt**: 0D638C092E8B82FC452883F95F355B8E
-* **Algoritme**: PBKDF2
-* **Herhalings**: 1066
+* **熵**：d114a55212655f74bd772e37e64aee9b
+* **盐**：0D638C092E8B82FC452883F95F355B8E
+* **算法**：PBKDF2
+* **迭代次数**：1066
 
-Afgesien van daardie inligting, om die databasisse te ontsleutel het jy steeds nodig:
+除此之外，要解密数据库，您还需要：
 
-* Die **versleutelde DPAPI-sleutel**: Jy kan dit in die register vind binne `NTUSER.DAT\Software\Dropbox\ks\client` (voer hierdie data as binêr uit)
-* Die **`SYSTEM`** en **`SECURITY`** hives
-* Die **DPAPI meester sleutels**: Wat in `\Users\<username>\AppData\Roaming\Microsoft\Protect` gevind kan word
-* Die **gebruikersnaam** en **wagwoord** van die Windows-gebruiker
+* **加密的 DPAPI 密钥**：您可以在注册表中找到它，路径为 `NTUSER.DAT\Software\Dropbox\ks\client`（将此数据导出为二进制）
+* **`SYSTEM`** 和 **`SECURITY`** 注册表项
+* **DPAPI 主密钥**：可以在 `\Users\<username>\AppData\Roaming\Microsoft\Protect` 找到
+* Windows 用户的 **用户名** 和 **密码**
 
-Dan kan jy die hulpmiddel [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
+然后您可以使用工具 [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-As alles volgens verwagting verloop, sal die hulpmiddel die **primêre sleutel** aandui wat jy moet **gebruik om die oorspronklike een te herstel**. Om die oorspronklike een te herstel, gebruik net hierdie [cyber\_chef resep](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) en plaas die primêre sleutel as die "wagwoord" binne die resep.
+如果一切顺利，该工具将指示您需要 **使用以恢复原始密钥**。要恢复原始密钥，只需使用此 [cyber\_chef 配方](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) 将主密钥作为配方中的“密码短语”。
 
-Die resulterende hex is die finale sleutel wat gebruik word om die databasisse te versleutel wat ontsleuteld kan word met:
+结果十六进制是用于加密数据库的最终密钥，可以用来解密：
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-The **`config.dbx`** databasis bevat:
+The **`config.dbx`** 数据库包含：
 
-* **E-pos**: Die e-pos van die gebruiker
-* **usernamedisplayname**: Die naam van die gebruiker
-* **dropbox\_path**: Pad waar die dropbox-gids geleë is
-* **Host\_id: Hash** wat gebruik word om aan die wolk te autentiseer. Dit kan slegs vanaf die web herroep word.
-* **Root\_ns**: Gebruiker identifiseerder
+* **Email**: 用户的电子邮件
+* **usernamedisplayname**: 用户的名称
+* **dropbox\_path**: Dropbox 文件夹所在的路径
+* **Host\_id: Hash** 用于认证到云端。只能从网页上撤销。
+* **Root\_ns**: 用户标识符
 
-Die **`filecache.db`** databasis bevat inligting oor al die lêers en gidse wat met Dropbox gesinkroniseer is. Die tabel `File_journal` is die een met die meeste nuttige inligting:
+The **`filecache.db`** 数据库包含与 Dropbox 同步的所有文件和文件夹的信息。表 `File_journal` 是包含更多有用信息的表：
 
-* **Server\_path**: Pad waar die lêer binne die bediener geleë is (hierdie pad word voorafgegaan deur die `host_id` van die kliënt).
-* **local\_sjid**: Weergawe van die lêer
-* **local\_mtime**: Wysigingsdatum
-* **local\_ctime**: Skeppingsdatum
+* **Server\_path**: 文件在服务器内部的路径（该路径前面有客户端的 `host_id`）。
+* **local\_sjid**: 文件的版本
+* **local\_mtime**: 修改日期
+* **local\_ctime**: 创建日期
 
-Ander tabelle binne hierdie databasis bevat meer interessante inligting:
+该数据库中的其他表包含更有趣的信息：
 
-* **block\_cache**: hash van al die lêers en gidse van Dropbox
-* **block\_ref**: Verbind die hash ID van die tabel `block_cache` met die lêer ID in die tabel `file_journal`
-* **mount\_table**: Deel gidse van dropbox
-* **deleted\_fields**: Dropbox verwyderde lêers
+* **block\_cache**: Dropbox 所有文件和文件夹的哈希
+* **block\_ref**: 将表 `block_cache` 的哈希 ID 与表 `file_journal` 中的文件 ID 关联
+* **mount\_table**: Dropbox 的共享文件夹
+* **deleted\_fields**: Dropbox 删除的文件
 * **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **meest gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 渗透测试：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 渗透测试： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

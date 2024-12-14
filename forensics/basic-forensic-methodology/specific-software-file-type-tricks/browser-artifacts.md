@@ -1,16 +1,16 @@
-# Blaaier Artefakte
+# 浏览器伪影
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -18,62 +18,62 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和 **自动化工作流**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Blaaier Artefakte <a href="#id-3def" id="id-3def"></a>
+## 浏览器伪影 <a href="#id-3def" id="id-3def"></a>
 
-Blaaier artefakte sluit verskeie tipes data in wat deur webblaaiers gestoor word, soos navigasiegeskiedenis, boekmerke en kasdata. Hierdie artefakte word in spesifieke vouers binne die bedryfstelsel gehou, wat verskil in ligging en naam oor blaaiers, maar oor die algemeen soortgelyke datatipes stoor.
+浏览器伪影包括由网页浏览器存储的各种类型的数据，例如导航历史、书签和缓存数据。这些伪影保存在操作系统中的特定文件夹中，不同浏览器的存储位置和名称各异，但通常存储相似类型的数据。
 
-Hier is 'n opsomming van die mees algemene blaaier artefakte:
+以下是最常见的浏览器伪影的总结：
 
-* **Navigasiegeskiedenis**: Volg gebruikersbesoeke aan webwerwe, nuttig om besoeke aan kwaadwillige webwerwe te identifiseer.
-* **Outomatiese Voltooiing Data**: Voorstelle gebaseer op gereelde soektogte, wat insigte bied wanneer dit gekombineer word met navigasiegeskiedenis.
-* **Boekmerke**: Webwerwe wat deur die gebruiker gestoor is vir vinnige toegang.
-* **Uitbreidings en Byvoegings**: Blaaier uitbreidings of byvoegings wat deur die gebruiker geïnstalleer is.
-* **Kas**: Stoor webinhoud (bv. beelde, JavaScript-lêers) om webwerf laai tye te verbeter, waardevol vir forensiese analise.
-* **Aanmeldings**: Gestoor aanmeldbesonderhede.
-* **Favicons**: Ikone wat met webwerwe geassosieer word, wat in oortjies en boekmerke verskyn, nuttig vir addisionele inligting oor gebruikersbesoeke.
-* **Blaaier Sessies**: Data verwant aan oop blaaier sessies.
-* **Aflaaie**: Rekords van lêers wat deur die blaaier afgelaai is.
-* **Vormdata**: Inligting wat in webvorms ingevoer is, gestoor vir toekomstige outomatiese voltooiing voorstelle.
-* **Miniatuurbeelde**: Voorbeeldbeelde van webwerwe.
-* **Custom Dictionary.txt**: Woorde wat deur die gebruiker aan die blaaier se woordeskat bygevoeg is.
+* **导航历史**：跟踪用户访问的网站，识别访问恶意网站的情况。
+* **自动完成数据**：基于频繁搜索的建议，与导航历史结合时提供见解。
+* **书签**：用户保存以便快速访问的网站。
+* **扩展和附加组件**：用户安装的浏览器扩展或附加组件。
+* **缓存**：存储网页内容（例如，图像、JavaScript 文件），以提高网站加载速度，对取证分析有价值。
+* **登录信息**：存储的登录凭据。
+* **网站图标**：与网站相关的图标，出现在标签和书签中，有助于提供用户访问的额外信息。
+* **浏览器会话**：与打开的浏览器会话相关的数据。
+* **下载**：通过浏览器下载的文件记录。
+* **表单数据**：在网页表单中输入的信息，保存以供将来的自动填充建议。
+* **缩略图**：网站的预览图像。
+* **Custom Dictionary.txt**：用户添加到浏览器字典中的单词。
 
 ## Firefox
 
-Firefox organiseer gebruikersdata binne profiele, gestoor in spesifieke plekke gebaseer op die bedryfstelsel:
+Firefox 在用户数据中组织配置文件，存储在基于操作系统的特定位置：
 
 * **Linux**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-'n `profiles.ini` lêer binne hierdie gidse lys die gebruikersprofiele. Elke profiel se data word in 'n vouer gestoor wat in die `Path` veranderlike binne `profiles.ini` genoem word, geleë in dieselfde gids as `profiles.ini` self. As 'n profiel se vouer ontbreek, mag dit verwyder gewees het.
+这些目录中的 `profiles.ini` 文件列出了用户配置文件。每个配置文件的数据存储在 `profiles.ini` 中 `Path` 变量命名的文件夹中，位于与 `profiles.ini` 本身相同的目录中。如果配置文件的文件夹缺失，可能已被删除。
 
-Binne elke profiel vouer, kan jy verskeie belangrike lêers vind:
+在每个配置文件文件夹中，您可以找到几个重要文件：
 
-* **places.sqlite**: Stoor geskiedenis, boekmerke, en aflaaie. Gereedskap soos [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) op Windows kan toegang tot die geskiedenisdata verkry.
-* Gebruik spesifieke SQL navrae om geskiedenis en aflaaie inligting te onttrek.
-* **bookmarkbackups**: Bevat rugsteun van boekmerke.
-* **formhistory.sqlite**: Stoor webvorm data.
-* **handlers.json**: Bestuur protokol handlers.
-* **persdict.dat**: Aangepaste woordeskat woorde.
-* **addons.json** en **extensions.sqlite**: Inligting oor geïnstalleerde byvoegings en uitbreidings.
-* **cookies.sqlite**: Koekie stoor, met [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) beskikbaar vir inspeksie op Windows.
-* **cache2/entries** of **startupCache**: Kasdata, toeganklik deur gereedskap soos [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
-* **favicons.sqlite**: Stoor favicons.
-* **prefs.js**: Gebruikerinstellings en voorkeure.
-* **downloads.sqlite**: Ouere aflaaie databasis, nou geïntegreer in places.sqlite.
-* **thumbnails**: Webwerf miniatuurbeelde.
-* **logins.json**: Geënkripteerde aanmeldinligting.
-* **key4.db** of **key3.db**: Stoor enkripsiesleutels vir die beveiliging van sensitiewe inligting.
+* **places.sqlite**：存储历史、书签和下载。Windows 上的工具如 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) 可以访问历史数据。
+* 使用特定的 SQL 查询提取历史和下载信息。
+* **bookmarkbackups**：包含书签的备份。
+* **formhistory.sqlite**：存储网页表单数据。
+* **handlers.json**：管理协议处理程序。
+* **persdict.dat**：自定义字典单词。
+* **addons.json** 和 **extensions.sqlite**：有关已安装附加组件和扩展的信息。
+* **cookies.sqlite**：Cookie 存储，Windows 上可使用 [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) 进行检查。
+* **cache2/entries** 或 **startupCache**：缓存数据，可通过工具如 [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html) 访问。
+* **favicons.sqlite**：存储网站图标。
+* **prefs.js**：用户设置和偏好。
+* **downloads.sqlite**：旧的下载数据库，现在已集成到 places.sqlite 中。
+* **thumbnails**：网站缩略图。
+* **logins.json**：加密的登录信息。
+* **key4.db** 或 **key3.db**：存储用于保护敏感信息的加密密钥。
 
-Boonop kan jy die blaaier se anti-phishing instellings nagaan deur te soek na `browser.safebrowsing` inskrywings in `prefs.js`, wat aandui of veilige blaai funksies geaktiveer of gedeaktiveer is.
+此外，可以通过在 `prefs.js` 中搜索 `browser.safebrowsing` 条目来检查浏览器的反钓鱼设置，指示安全浏览功能是否启用或禁用。
 
-Om te probeer om die meesterwagwoord te ontsleutel, kan jy [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) gebruik\
-Met die volgende skrip en oproep kan jy 'n wagwoord lêer spesifiseer om te brute force:
+要尝试解密主密码，可以使用 [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+使用以下脚本和调用，您可以指定一个密码文件进行暴力破解：
 
 {% code title="brute.sh" %}
 ```bash
@@ -92,63 +92,63 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome stoor gebruikersprofiele in spesifieke plekke gebaseer op die bedryfstelsel:
+Google Chrome 根据操作系统将用户配置文件存储在特定位置：
 
 * **Linux**: `~/.config/google-chrome/`
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 * **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-Binne hierdie gidse kan die meeste gebruikersdata in die **Default/** of **ChromeDefaultData/** vouers gevind word. Die volgende lêers hou belangrike data:
+在这些目录中，大多数用户数据可以在 **Default/** 或 **ChromeDefaultData/** 文件夹中找到。以下文件包含重要数据：
 
-* **History**: Bevat URL's, aflaaie, en soekwoorde. Op Windows kan [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) gebruik word om die geskiedenis te lees. Die "Transition Type" kolom het verskeie betekenisse, insluitend gebruikersklieks op skakels, getypte URL's, vormindienings, en bladsy herlaai.
-* **Cookies**: Stoor koekies. Vir inspeksie is [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) beskikbaar.
-* **Cache**: Hou gekapte data. Om te inspekteer, kan Windows gebruikers [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) gebruik.
-* **Bookmarks**: Gebruikersboekmerke.
-* **Web Data**: Bevat vormgeskiedenis.
-* **Favicons**: Stoor webwerf favicons.
-* **Login Data**: Sluit aanmeldbesonderhede soos gebruikersname en wagwoorde in.
-* **Current Session**/**Current Tabs**: Data oor die huidige blaai sessie en oop oortjies.
-* **Last Session**/**Last Tabs**: Inligting oor die webwerwe wat aktief was tydens die laaste sessie voordat Chrome gesluit is.
-* **Extensions**: Gidse vir blaaiers uitbreidings en addons.
-* **Thumbnails**: Stoor webwerf duimnaels.
-* **Preferences**: 'n Lêer ryk aan inligting, insluitend instellings vir plugins, uitbreidings, pop-ups, kennisgewings, en meer.
-* **Browser’s built-in anti-phishing**: Om te kontroleer of anti-phishing en malware beskerming geaktiveer is, voer `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` uit. Soek na `{"enabled: true,"}` in die uitvoer.
+* **History**: 包含 URL、下载和搜索关键字。在 Windows 上，可以使用 [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) 来读取历史记录。“Transition Type” 列有多种含义，包括用户点击链接、输入的 URL、表单提交和页面重新加载。
+* **Cookies**: 存储 cookies。可以使用 [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) 进行检查。
+* **Cache**: 存储缓存数据。要检查，Windows 用户可以使用 [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)。
+* **Bookmarks**: 用户书签。
+* **Web Data**: 包含表单历史。
+* **Favicons**: 存储网站图标。
+* **Login Data**: 包含登录凭据，如用户名和密码。
+* **Current Session**/**Current Tabs**: 当前浏览会话和打开标签的数据。
+* **Last Session**/**Last Tabs**: Chrome 关闭前最后会话中活动网站的信息。
+* **Extensions**: 浏览器扩展和附加组件的目录。
+* **Thumbnails**: 存储网站缩略图。
+* **Preferences**: 一个信息丰富的文件，包括插件、扩展、弹出窗口、通知等的设置。
+* **Browser’s built-in anti-phishing**: 要检查反钓鱼和恶意软件保护是否启用，请运行 `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`。在输出中查找 `{"enabled: true,"}`。
 
 ## **SQLite DB Data Recovery**
 
-Soos jy in die vorige afdelings kan waarneem, gebruik beide Chrome en Firefox **SQLite** databasisse om die data te stoor. Dit is moontlik om **verwyderde inskrywings te herstel met die hulpmiddel** [**sqlparse**](https://github.com/padfoot999/sqlparse) **of** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+如前所述，Chrome 和 Firefox 使用 **SQLite** 数据库存储数据。可以使用工具 [**sqlparse**](https://github.com/padfoot999/sqlparse) **或** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) **恢复已删除的条目**。
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 bestuur sy data en metadata oor verskeie plekke, wat help om gestoor inligting en sy ooreenstemmende besonderhede te skei vir maklike toegang en bestuur.
+Internet Explorer 11 在多个位置管理其数据和元数据，帮助分离存储的信息及其对应的详细信息，以便于访问和管理。
 
 ### Metadata Storage
 
-Metadata vir Internet Explorer word gestoor in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (met VX wat V01, V16, of V24 is). Saam hiermee kan die `V01.log` lêer wys datums van verandering met `WebcacheVX.data`, wat 'n behoefte aan herstel aandui met `esentutl /r V01 /d`. Hierdie metadata, wat in 'n ESE-databasis gehuisves word, kan herstel en ondersoek word met hulpmiddels soos photorec en [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), onderskeidelik. Binne die **Containers** tabel kan 'n mens die spesifieke tabelle of houers waar elke datasegment gestoor word, onderskei, insluitend cache besonderhede vir ander Microsoft gereedskap soos Skype.
+Internet Explorer 的元数据存储在 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`（VX 为 V01、V16 或 V24）。此外，`V01.log` 文件可能显示与 `WebcacheVX.data` 的修改时间差异，表明需要使用 `esentutl /r V01 /d` 进行修复。此元数据存储在 ESE 数据库中，可以使用工具如 photorec 和 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) 进行恢复和检查。在 **Containers** 表中，可以辨别每个数据段存储的特定表或容器，包括其他 Microsoft 工具（如 Skype）的缓存详细信息。
 
 ### Cache Inspection
 
-Die [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) hulpmiddel laat vir cache inspeksie toe, wat die cache data ekstraksie vouer plek vereis. Metadata vir cache sluit lêernaam, gids, toegang telling, URL oorsprong, en tydstempels in wat die cache skepping, toegang, verandering, en vervaldatums aandui.
+[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) 工具允许进行缓存检查，需要缓存数据提取文件夹位置。缓存的元数据包括文件名、目录、访问计数、URL 来源和指示缓存创建、访问、修改和过期时间的时间戳。
 
 ### Cookies Management
 
-Koekies kan ondersoek word met [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), met metadata wat name, URL's, toegang tellings, en verskeie tydverwante besonderhede insluit. Volhoubare koekies word gestoor in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, met sessie koekies wat in geheue woon.
+可以使用 [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) 探索 cookies，元数据包括名称、URL、访问计数和各种时间相关的详细信息。持久性 cookies 存储在 `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` 中，会话 cookies 存储在内存中。
 
 ### Download Details
 
-Aflaai metadata is toeganklik via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), met spesifieke houers wat data soos URL, lêer tipe, en aflaai plek hou. Fisiese lêers kan onder `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` gevind word.
+下载元数据可以通过 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) 访问，特定容器中保存 URL、文件类型和下载位置等数据。物理文件可以在 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` 下找到。
 
 ### Browsing History
 
-Om blaai geskiedenis te hersien, kan [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gebruik word, wat die plek van ekstrakte geskiedenis lêers en konfigurasie vir Internet Explorer vereis. Metadata hier sluit verandering en toegang tye in, saam met toegang tellings. Geskiedenis lêers is geleë in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+要查看浏览历史，可以使用 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)，需要提取的历史文件位置和 Internet Explorer 的配置。这里的元数据包括修改和访问时间，以及访问计数。历史文件位于 `%userprofile%\Appdata\Local\Microsoft\Windows\History`。
 
 ### Typed URLs
 
-Getypte URL's en hul gebruik tydstippe word in die register onder `NTUSER.DAT` gestoor by `Software\Microsoft\InternetExplorer\TypedURLs` en `Software\Microsoft\InternetExplorer\TypedURLsTime`, wat die laaste 50 URL's wat deur die gebruiker ingevoer is en hul laaste invoer tye opneem.
+输入的 URL 及其使用时间存储在注册表的 `NTUSER.DAT` 下的 `Software\Microsoft\InternetExplorer\TypedURLs` 和 `Software\Microsoft\InternetExplorer\TypedURLsTime` 中，跟踪用户输入的最后 50 个 URL 及其最后输入时间。
 
 ## Microsoft Edge
 
-Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. Die paaie vir verskillende datatipes is:
+Microsoft Edge 将用户数据存储在 `%userprofile%\Appdata\Local\Packages` 中。各种数据类型的路径如下：
 
 * **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -158,24 +158,24 @@ Microsoft Edge stoor gebruikersdata in `%userprofile%\Appdata\Local\Packages`. D
 
 ## Safari
 
-Safari data word gestoor by `/Users/$User/Library/Safari`. Sleutellêers sluit in:
+Safari 数据存储在 `/Users/$User/Library/Safari`。关键文件包括：
 
-* **History.db**: Bevat `history_visits` en `history_items` tabelle met URL's en besoek tydstempels. Gebruik `sqlite3` om te vra.
-* **Downloads.plist**: Inligting oor afgelaaide lêers.
-* **Bookmarks.plist**: Stoor geboekmerkte URL's.
-* **TopSites.plist**: Meest besoekte webwerwe.
-* **Extensions.plist**: Lys van Safari blaaiers uitbreidings. Gebruik `plutil` of `pluginkit` om te onttrek.
-* **UserNotificationPermissions.plist**: Domeine wat toegelaat word om kennisgewings te stuur. Gebruik `plutil` om te parse.
-* **LastSession.plist**: Oortjies van die laaste sessie. Gebruik `plutil` om te parse.
-* **Browser’s built-in anti-phishing**: Kontroleer met `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. 'n Antwoord van 1 dui aan dat die funksie aktief is.
+* **History.db**: 包含 `history_visits` 和 `history_items` 表，存储 URL 和访问时间戳。使用 `sqlite3` 查询。
+* **Downloads.plist**: 有关下载文件的信息。
+* **Bookmarks.plist**: 存储书签的 URL。
+* **TopSites.plist**: 最常访问的网站。
+* **Extensions.plist**: Safari 浏览器扩展的列表。使用 `plutil` 或 `pluginkit` 检索。
+* **UserNotificationPermissions.plist**: 允许推送通知的域。使用 `plutil` 进行解析。
+* **LastSession.plist**: 上一会话的标签。使用 `plutil` 进行解析。
+* **Browser’s built-in anti-phishing**: 使用 `defaults read com.apple.Safari WarnAboutFraudulentWebsites` 检查。响应为 1 表示该功能处于活动状态。
 
 ## Opera
 
-Opera se data is geleë in `/Users/$USER/Library/Application Support/com.operasoftware.Opera` en deel Chrome se formaat vir geskiedenis en aflaaie.
+Opera 的数据位于 `/Users/$USER/Library/Application Support/com.operasoftware.Opera`，并与 Chrome 的历史和下载格式相同。
 
-* **Browser’s built-in anti-phishing**: Verifieer deur te kontroleer of `fraud_protection_enabled` in die Voorkeurlêer op `true` gestel is met `grep`.
+* **Browser’s built-in anti-phishing**: 通过检查 Preferences 文件中的 `fraud_protection_enabled` 是否设置为 `true` 来验证，使用 `grep`。
 
-Hierdie paaie en opdragte is noodsaaklik vir toegang tot en begrip van die blaai data wat deur verskillende webblaaiers gestoor word.
+这些路径和命令对于访问和理解不同网络浏览器存储的浏览数据至关重要。
 
 ## References
 
@@ -187,22 +187,22 @@ Hierdie paaie en opdragte is noodsaaklik vir toegang tot en begrip van die blaai
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

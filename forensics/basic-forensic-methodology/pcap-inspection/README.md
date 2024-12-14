@@ -1,90 +1,90 @@
-# Pcap Inspeksie
+# Pcap Inspection
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekerheidgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekerheidspesialiste in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的事件之一。该大会的 **使命是促进技术知识**，是各个学科技术和网络安全专业人士的热烈交流平台。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-'n Nota oor **PCAP** vs **PCAPNG**: daar is twee weergawes van die PCAP-lêerformaat; **PCAPNG is nuwer en nie deur al die gereedskap ondersteun nie**. Jy mag 'n lêer van PCAPNG na PCAP moet omskakel met Wireshark of 'n ander geskikte gereedskap, om daarmee te werk in ander gereedskap.
+关于 **PCAP** 与 **PCAPNG** 的说明：PCAP 文件格式有两个版本；**PCAPNG 是较新的，并不是所有工具都支持**。您可能需要使用 Wireshark 或其他兼容工具将文件从 PCAPNG 转换为 PCAP，以便在某些其他工具中使用。
 {% endhint %}
 
-## Aanlyn gereedskap vir pcaps
+## 在线工具用于 pcap
 
-* As die kop van jou pcap **beskadig** is, moet jy probeer om dit te **herstel** met: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Ontgin **inligting** en soek na **malware** binne 'n pcap in [**PacketTotal**](https://packettotal.com)
-* Soek na **skadelike aktiwiteit** met [**www.virustotal.com**](https://www.virustotal.com) en [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* 如果您的 pcap 头部 **损坏**，您应该尝试使用：[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php) **修复** 它
+* 在 [**PacketTotal**](https://packettotal.com) 中提取 **信息** 并搜索 pcap 中的 **恶意软件**
+* 使用 [**www.virustotal.com**](https://www.virustotal.com) 和 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) 搜索 **恶意活动**
 
-## Ontgin Inligting
+## 提取信息
 
-Die volgende gereedskap is nuttig om statistieke, lêers, ens. te ontsluit.
+以下工具对于提取统计信息、文件等非常有用。
 
 ### Wireshark
 
 {% hint style="info" %}
-**As jy 'n PCAP gaan analiseer, moet jy basies weet hoe om Wireshark te gebruik**
+**如果您要分析一个 PCAP，您基本上必须知道如何使用 Wireshark**
 {% endhint %}
 
-Jy kan 'n paar Wireshark-truuks vind in:
+您可以在以下位置找到一些 Wireshark 技巧：
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
 {% endcontent-ref %}
 
-### Xplico-raamwerk
+### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(slegs linux)_ kan 'n **pcap** analiseer en inligting daaruit onttrek. Byvoorbeeld, van 'n pcap-lêer onttrek Xplico elke e-pos (POP, IMAP, en SMTP-protokolle), alle HTTP-inhoud, elke VoIP-oproep (SIP), FTP, TFTP, ensovoorts.
+[**Xplico** ](https://github.com/xplico/xplico)_(仅限 Linux)_ 可以 **分析** 一个 **pcap** 并从中提取信息。例如，从一个 pcap 文件中，Xplico 提取每封电子邮件（POP、IMAP 和 SMTP 协议）、所有 HTTP 内容、每个 VoIP 通话（SIP）、FTP、TFTP 等等。
 
-**Installeer**
+**安装**
 ```bash
 sudo bash -c 'echo "deb http://repo.xplico.org/ $(lsb_release -s -c) main" /etc/apt/sources.list'
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-**Hardloop**
+**运行**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-Kry toegang tot _**127.0.0.1:9876**_ met geloofsbriewe _**xplico:xplico**_
+访问 _**127.0.0.1:9876**_，凭证为 _**xplico:xplico**_
 
-Skep dan 'n **nuwe saak**, skep 'n **nuwe sessie** binne die saak en **laai die pcap-lêer op**.
+然后创建一个 **新案例**，在案例中创建一个 **新会话** 并 **上传 pcap** 文件。
 
 ### NetworkMiner
 
-Soos Xplico is dit 'n instrument om **analiseer en voorwerpe uit pcaps te onttrek**. Dit het 'n gratis weergawe wat jy kan **aflaai** [**hier**](https://www.netresec.com/?page=NetworkMiner). Dit werk met **Windows**.\
-Hierdie instrument is ook nuttig om **ander inligting geanaliseer** te kry uit die pakkies om te weet wat in 'n **vinniger** manier gebeur het.
+像 Xplico 一样，它是一个 **分析和提取 pcaps 中对象** 的工具。它有一个免费版，你可以 **下载** [**这里**](https://www.netresec.com/?page=NetworkMiner)。它适用于 **Windows**。\
+这个工具也有助于从数据包中获取 **其他信息分析**，以便能够更 **快速** 地了解发生了什么。
 
-### NetWitness Ondersoeker
+### NetWitness Investigator
 
-Jy kan [**NetWitness Ondersoeker hier aflaai**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Dit werk in Windows)**.\
-Dit is 'n ander nuttige instrument wat **die pakkies analiseer** en die inligting op 'n nuttige manier **sorteer om te weet wat binne gebeur**.
+你可以从 [**这里下载 NetWitness Investigator**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **（适用于 Windows）**。\
+这是另一个有用的工具，**分析数据包** 并以有用的方式整理信息，以 **了解内部发生的事情**。
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Onttrek en kodeer gebruikersname en wagwoorde (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Onttrek outentiseringshasse en kraak hulle met behulp van Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Bou 'n visuele netwerkdiagram (Netwerknodes & gebruikers)
-* Onttrek DNS-navrae
-* Herkonstrueer alle TCP- en UDP-sessies
-* Lêer Uitsnyding
+* 提取和编码用户名和密码 (HTTP, FTP, Telnet, IMAP, SMTP...)
+* 提取认证哈希并使用 Hashcat 破解它们 (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* 构建可视化网络图 (网络节点和用户)
+* 提取 DNS 查询
+* 重建所有 TCP 和 UDP 会话
+* 文件雕刻
 
 ### Capinfos
 ```
@@ -92,56 +92,56 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-As jy **iets** binne die pcap **soek**, kan jy **ngrep** gebruik. Hier is 'n voorbeeld wat die hooffilters gebruik:
+如果您在 pcap 中**寻找**某些**东西**，可以使用 **ngrep**。以下是使用主要过滤器的示例：
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Uithol
+### Carving
 
-Die gebruik van algemene uitholtegnieke kan nuttig wees om lêers en inligting uit die pcap te onttrek:
+使用常见的雕刻技术可以从pcap中提取文件和信息：
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Vang van geloofsbriewe
+### Capturing credentials
 
-Jy kan gereedskap soos [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) gebruik om geloofsbriewe van 'n pcap of 'n lewende koppelvlak te ontled.
+您可以使用像 [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) 这样的工具从pcap或实时接口中解析凭据。
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekuriteitsgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekuriteitsprofessionals in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的事件之一。该大会 **旨在促进技术知识**，是各个学科的技术和网络安全专业人士的热烈交流点。
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Kontroleer Uitbuitings/Malware
+## Check Exploits/Malware
 
 ### Suricata
 
-**Installeer en stel op**
+**安装和设置**
 ```
 apt-get install suricata
 apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
-**Kyk na pcap**
+**检查 pcap**
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) is 'n gereedskap wat
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) 是一个工具
 
-* 'n PCAP-lêer lees en HTTP-strome onttrek.
-* gzip defleer enige saamgedrukte strome
-* Skandeer elke lêer met yara
-* Skryf 'n report.txt
-* Opsioneel stoor ooreenstemmende lêers na 'n Dir
+* 读取 PCAP 文件并提取 Http 流。
+* gzip 解压任何压缩流
+* 使用 yara 扫描每个文件
+* 写入 report.txt
+* 可选地将匹配的文件保存到一个目录
 
-### Malware Analise
+### 恶意软件分析
 
-Kyk of jy enige vingerafdruk van 'n bekende malware kan vind:
+检查您是否可以找到已知恶意软件的任何指纹：
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -149,11 +149,11 @@ Kyk of jy enige vingerafdruk van 'n bekende malware kan vind:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) is 'n passiewe, oopbron-netwerkverkeerontleder. Baie operateurs gebruik Zeek as 'n Netwerksekuriteitsmonitor (NSM) om ondersoeke van verdagte of skadelike aktiwiteit te ondersteun. Zeek ondersteun ook 'n wye reeks verkeersontledingstake buite die veiligheidsdomein, insluitend prestasiemetings en foutoplossing.
+> [Zeek](https://docs.zeek.org/en/master/about.html) 是一个被动的开源网络流量分析器。许多操作员使用 Zeek 作为网络安全监控器 (NSM) 来支持对可疑或恶意活动的调查。Zeek 还支持广泛的流量分析任务，超出安全领域，包括性能测量和故障排除。
 
-Basies, logboeke wat deur `zeek` geskep word, is nie **pcaps** nie. Daarom sal jy **ander gereedskap** moet gebruik om die logboeke te analiseer waar die **inligting** oor die pcaps is.
+基本上，由 `zeek` 创建的日志不是 **pcaps**。因此，您需要使用 **其他工具** 来分析包含 **pcaps 信息** 的日志。
 
-### Verbindingsinligting
+### 连接信息
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -203,7 +203,7 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
-### DNS inligting
+### DNS 信息
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -220,7 +220,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-## Ander pcap-analise truuks
+## 其他 pcap 分析技巧
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -238,21 +238,21 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekuriteitgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekuriteitsprofessionals in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的事件之一。该大会 **旨在促进技术知识**，是各个学科的技术和网络安全专业人士的热烈交流平台。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

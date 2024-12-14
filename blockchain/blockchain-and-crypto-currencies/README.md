@@ -1,187 +1,186 @@
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Konsepte
 
-- **Slimme Kontrakte** word gedefinieer as programme wat op 'n blokketting uitgevoer word wanneer sekere voorwaardes voldoen is, wat ooreenkomste outomatiseer sonder bemiddelaars.
-- **Gedekentraliseerde Toepassings (dApps)** bou op slimme kontrakte, met 'n gebruikersvriendelike voorkant en 'n deursigtige, ouditeerbare agterkant.
-- **Tokens & Munte** onderskei waar munte as digitale geld dien, terwyl tokens waarde of eienaarskap in spesifieke kontekste verteenwoordig.
-- **Hulpprogram Tokens** gee toegang tot dienste, en **Sekerheidstokens** dui bate-eienaarskap aan.
-- **DeFi** staan vir Gedekentraliseerde Finansies, wat finansiële dienste sonder sentrale owerhede bied.
-- **DEX** en **DAOs** verwys na Gedekentraliseerde Ruilplatforms en Gedekentraliseerde Outonome Organisasies, onderskeidelik.
+## 基本概念
 
-## Konsensus Meganismes
+- **智能合约** 被定义为在区块链上执行的程序，当满足特定条件时，自动执行协议，无需中介。
+- **去中心化应用 (dApps)** 基于智能合约，具有用户友好的前端和透明、可审计的后端。
+- **代币与币** 的区别在于，币作为数字货币，而代币在特定上下文中代表价值或所有权。
+- **实用代币** 授予对服务的访问权限，**安全代币** 表示资产所有权。
+- **去中心化金融 (DeFi)** 提供无中央权威的金融服务。
+- **去中心化交易所 (DEX)** 和 **去中心化自治组织 (DAOs)** 分别指去中心化交易平台和去中心化自治组织。
 
-Konsensusmeganismes verseker veilige en ooreengekome transaksievalidasies op die blokketting:
-- **Bewys van Werk (PoW)** steun op rekenkundige krag vir transaksieverifikasie.
-- **Bewys van Deelname (PoS)** vereis dat valideerders 'n sekere hoeveelheid tokens moet besit, wat energieverbruik verminder in vergelyking met PoW.
+## 共识机制
 
-## Bitcoin Essensies
+共识机制确保区块链上安全和一致的交易验证：
+- **工作量证明 (PoW)** 依赖计算能力进行交易验证。
+- **权益证明 (PoS)** 要求验证者持有一定数量的代币，相比 PoW 减少能耗。
 
-### Transaksies
+## 比特币基础知识
 
-Bitcoin-transaksies behels die oordrag van fondse tussen adresse. Transaksies word deur digitale handtekeninge gevalideer, wat verseker dat slegs die eienaar van die privaatsleutel oordragte kan inisieer.
+### 交易
 
-#### Sleutelkomponente:
+比特币交易涉及在地址之间转移资金。交易通过数字签名进行验证，确保只有私钥的所有者可以发起转账。
 
-- **Multisignatuurtransaksies** vereis meervoudige handtekeninge om 'n transaksie te magtig.
-- Transaksies bestaan uit **inskrywings** (bron van fondse), **uitsette** (bestemming), **fooie** (betaal aan mynwerkers), en **skripte** (transaksiereëls).
+#### 关键组件：
 
-### Blikseminetwerk
+- **多重签名交易** 需要多个签名来授权交易。
+- 交易由 **输入**（资金来源）、**输出**（目的地）、**费用**（支付给矿工）和 **脚本**（交易规则）组成。
 
-Mik om Bitcoin se skaalbaarheid te verbeter deur meervoudige transaksies binne 'n kanaal toe te laat, en slegs die finale toestand na die blokketting uit te saai.
+### 闪电网络
 
-## Bitcoin-privasiekwessies
+旨在通过允许在一个通道内进行多笔交易来增强比特币的可扩展性，仅将最终状态广播到区块链。
 
-Privasie-aanvalle, soos **Gemeenskaplike Invoereienaarskap** en **UTXO-veranderingsadresopsporing**, benut transaksiepatrone. Strategieë soos **Mengers** en **CoinJoin** verbeter anonimiteit deur transaksieskakels tussen gebruikers te verduister.
+## 比特币隐私问题
 
-## Anoniem Bitcoins verkry
+隐私攻击，如 **共同输入所有权** 和 **UTXO 找零地址检测**，利用交易模式。像 **混合器** 和 **CoinJoin** 这样的策略通过模糊用户之间的交易链接来提高匿名性。
 
-Metodes sluit kontanttransaksies, mynbou, en die gebruik van mengers in. **CoinJoin** meng verskeie transaksies om naspeurbaarheid te bemoeilik, terwyl **PayJoin** CoinJoins as gewone transaksies vermom vir verhoogde privaatheid.
+## 匿名获取比特币
 
+方法包括现金交易、挖矿和使用混合器。**CoinJoin** 混合多笔交易以复杂化可追溯性，而 **PayJoin** 将 CoinJoins 伪装成常规交易以提高隐私。
 
-# Bitcoin-privasieaanvalle
+# 比特币隐私攻击
 
-# Opsomming van Bitcoin-privasieaanvalle
+# 比特币隐私攻击总结
 
-In die wêreld van Bitcoin is die privaatheid van transaksies en die anonimiteit van gebruikers dikwels onderwerp van kommer. Hier is 'n vereenvoudigde oorsig van verskeie algemene metodes waardeur aanvallers Bitcoin-privasie kan kompromiteer.
+在比特币的世界中，交易的隐私和用户的匿名性常常是关注的主题。以下是攻击者可能通过几种常见方法破坏比特币隐私的简化概述。
 
-## **Gemeenskaplike Invoereienaarskap Aannames**
+## **共同输入所有权假设**
 
-Dit is oor die algemeen selde dat invoere van verskillende gebruikers in 'n enkele transaksie gekombineer word weens die betrokkenheid van kompleksiteit. Dus word **daar dikwels aanvaar dat twee invoeradresse in dieselfde transaksie aan dieselfde eienaar behoort**.
+由于涉及的复杂性，不同用户的输入在单笔交易中组合的情况通常很少。因此，**同一交易中的两个输入地址通常被假设为属于同一所有者**。
 
-## **UTXO-veranderingsadresopsporing**
+## **UTXO 找零地址检测**
 
-'n UTXO, of **Ongebruikte Transaksie-uitset**, moet heeltemal in 'n transaksie spandeer word. As slegs 'n deel daarvan na 'n ander adres gestuur word, gaan die res na 'n nuwe veranderingsadres. Waarnemers kan aanneem dat hierdie nuwe adres aan die sender behoort, wat privaatheid kompromiteer.
+UTXO，或 **未花费交易输出**，必须在交易中完全花费。如果只有一部分发送到另一个地址，剩余部分将转到一个新的找零地址。观察者可以假设这个新地址属于发送者，从而损害隐私。
 
-### Voorbeeld
-Om dit te verminder, kan mengdienste of die gebruik van verskeie adresse help om eienaarskap te verduister.
+### 示例
+为减轻此问题，混合服务或使用多个地址可以帮助模糊所有权。
 
-## **Sosiale Netwerke & Forum Blootstelling**
+## **社交网络与论坛曝光**
 
-Gebruikers deel soms hul Bitcoin-adresse aanlyn, wat dit **maklik maak om die adres aan sy eienaar te koppel**.
+用户有时会在线分享他们的比特币地址，这使得 **很容易将地址与其所有者关联**。
 
-## **Transaksiegrafiekontleding**
+## **交易图分析**
 
-Transaksies kan as grafieke gevisualiseer word, wat potensiële verbindings tussen gebruikers onthul gebaseer op die vloei van fondse.
+交易可以被可视化为图形，揭示基于资金流动的用户之间的潜在连接。
 
-## **Onnodige Invoerheuristiek (Optimale Veranderingsheuristiek)**
+## **不必要输入启发式（最佳找零启发式）**
 
-Hierdie heuristiek is gebaseer op die analise van transaksies met meervoudige invoere en uitsette om te raai watter uitset na die sender terugkeer.
+该启发式基于分析具有多个输入和输出的交易，以猜测哪个输出是返回给发送者的找零。
 
-### Voorbeeld
+### 示例
 ```bash
 2 btc --> 4 btc
 3 btc     1 btc
 ```
-## **Gedwonge Adres Hergebruik**
+如果添加更多输入使得找零输出大于任何单一输入，这可能会混淆启发式分析。
 
-Aanvallers kan klein bedrae na voorheen gebruikte adresse stuur, in die hoop dat die ontvanger dit saam met ander insette in toekomstige transaksies gebruik, en sodoende adresse aan mekaar koppel.
+## **强制地址重用**
 
-### Korrekte Beursiegedrag
-Beursies moet vermy om munte te gebruik wat ontvang is op reeds gebruikte, leë adresse om hierdie privaatheidslek te voorkom.
+攻击者可能会向之前使用过的地址发送少量资金，希望收款人在未来的交易中将这些资金与其他输入合并，从而将地址链接在一起。
 
-## **Ander Blockchain Analise Tegnieke**
+### 正确的钱包行为
+钱包应避免使用在已经使用过的空地址上收到的币，以防止这种隐私泄露。
 
-- **Presiese Betalingsbedrae:** Transaksies sonder verandering is waarskynlik tussen twee adresse wat deur dieselfde gebruiker besit word.
-- **Ronde Getalle:** 'n Ronde getal in 'n transaksie dui daarop dat dit 'n betaling is, met die nie-ronde uitset wat waarskynlik die verandering is.
-- **Beursie Vingerafdrukke:** Verskillende beursies het unieke transaksieskeppingspatrone, wat analiste in staat stel om die gebruikte sagteware te identifiseer en moontlik die veranderingsadres.
-- **Bedrag & Tydsamehang:** Die bekendmaking van transaksie tye of bedrae kan transaksies naspeurbaar maak.
+## **其他区块链分析技术**
 
-## **Verkeersanalise**
+- **确切支付金额：** 没有找零的交易很可能是在两个由同一用户拥有的地址之间进行的。
+- **整数金额：** 交易中的整数金额表明这是一次支付，而非整数输出很可能是找零。
+- **钱包指纹识别：** 不同的钱包具有独特的交易创建模式，允许分析师识别所使用的软件以及可能的找零地址。
+- **金额与时间相关性：** 公开交易时间或金额可能使交易可追踪。
 
-Deur netwerkverkeer te monitor, kan aanvallers moontlik transaksies of blokke aan IP adresse koppel, wat gebruikersprivaatheid in gevaar kan bring. Dit is veral waar as 'n entiteit baie Bitcoin knotsdieners bedryf, wat hul vermoë om transaksies te monitor verbeter.
+## **流量分析**
 
-## Meer
-Vir 'n omvattende lys van privaatheidsaanvalle en verdedigings, besoek [Bitcoin Privacy op Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
+通过监控网络流量，攻击者可能将交易或区块与IP地址关联，从而危及用户隐私。如果一个实体运营多个比特币节点，这种情况尤其明显，因为这增强了他们监控交易的能力。
 
+## 更多
+有关隐私攻击和防御的全面列表，请访问 [Bitcoin Privacy on Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy)。
 
-# Anonieme Bitcoin Transaksies
+# 匿名比特币交易
 
-## Maniere om Bitcoins Anoniem te Kry
+## 匿名获取比特币的方法
 
-- **Kontant Transaksies**: Bitcoin verkry deur kontant.
-- **Kontant Alternatiewe**: Koop geskenkkaarte en ruil dit aanlyn vir bitcoin.
-- **Mynbou**: Die mees private metode om bitcoins te verdien is deur mynbou, veral wanneer alleen gedoen omdat mynbougroepe die mynwerker se IP-adres kan ken. [Mynbou Groepe Inligting](https://en.bitcoin.it/wiki/Pooled_mining)
-- **Diefstal**: Teoreties kan diefstal van bitcoin 'n ander metode wees om dit anoniem te bekom, alhoewel dit onwettig is en nie aanbeveel word nie.
+- **现金交易：** 通过现金获取比特币。
+- **现金替代品：** 购买礼品卡并在线兑换比特币。
+- **挖矿：** 通过挖矿获得比特币是最私密的方法，尤其是单独进行时，因为挖矿池可能知道矿工的IP地址。 [挖矿池信息](https://en.bitcoin.it/wiki/Pooled_mining)
+- **盗窃：** 理论上，盗窃比特币可能是另一种匿名获取比特币的方法，尽管这是非法的且不推荐。
 
-## Mengdienste
+## 混合服务
 
-Deur 'n mengdiens te gebruik, kan 'n gebruiker **bitcoins stuur** en **verskillende bitcoins terugontvang**, wat dit moeilik maak om die oorspronklike eienaar op te spoor. Dit vereis egter vertroue in die diens om nie logboeke te hou en om werklik die bitcoins terug te gee nie. Alternatiewe mengopsies sluit Bitcoin kasinos in.
+通过使用混合服务，用户可以**发送比特币**并接收**不同的比特币作为回报**，这使得追踪原始所有者变得困难。然而，这需要对服务的信任，以确保其不保留日志并实际返回比特币。替代的混合选项包括比特币赌场。
 
 ## CoinJoin
 
-**CoinJoin** kombineer meervoudige transaksies van verskillende gebruikers in een, wat die proses vir enigiemand wat probeer om insette met uitsette te koppel, bemoeilik. Ten spyte van sy doeltreffendheid, kan transaksies met unieke inset- en uitsetgroottes steeds moontlik nagespeur word.
+**CoinJoin** 将来自不同用户的多个交易合并为一个，复杂化了任何试图将输入与输出匹配的过程。尽管其有效性，具有独特输入和输出大小的交易仍然可能被追踪。
 
-Voorbeeldtransaksies wat moontlik CoinJoin gebruik het, sluit in `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` en `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+可能使用CoinJoin的示例交易包括 `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` 和 `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`。
 
-Vir meer inligting, besoek [CoinJoin](https://coinjoin.io/en). Vir 'n soortgelyke diens op Ethereum, kyk na [Tornado Cash](https://tornado.cash), wat transaksies anonimiseer met fondse van mynbouers.
+有关更多信息，请访问 [CoinJoin](https://coinjoin.io/en)。有关以太坊上的类似服务，请查看 [Tornado Cash](https://tornado.cash)，它通过矿工的资金匿名化交易。
 
 ## PayJoin
 
-'n Variante van CoinJoin, **PayJoin** (of P2EP), vermom die transaksie tussen twee partye (bv. 'n kliënt en 'n handelaar) as 'n gewone transaksie, sonder die kenmerkende gelyke uitsette van CoinJoin. Dit maak dit uiters moeilik om op te spoor en kan die algemene-inset-eienaarskap heuristiek wat deur transaksie-surveillance entiteite gebruik word, ongeldig maak.
+**PayJoin**（或P2EP）是CoinJoin的一种变体，在两个参与方（例如，客户和商家）之间伪装交易为常规交易，而没有CoinJoin特有的相等输出特征。这使得检测变得极其困难，并可能使交易监控实体使用的共同输入所有权启发式失效。
 ```plaintext
 2 btc --> 3 btc
 5 btc     4 btc
 ```
-Transaksies soos die bogenoemde kan PayJoin wees, wat privaatheid verbeter terwyl dit nie onderskeibaar is van standaard bitcoin-transaksies nie.
+像上面这样的交易可能是 PayJoin，增强隐私，同时与标准比特币交易无差别。
 
-**Die gebruik van PayJoin kan tradisionele moniteringsmetodes aansienlik ontwrig**, wat dit 'n belowende ontwikkeling maak in die strewe na transaksionele privaatheid.
+**PayJoin 的使用可能会显著破坏传统监控方法**，使其成为追求交易隐私的一个有前景的发展。
 
+# 加密货币隐私的最佳实践
 
-# Beste Praktyke vir Privaatheid in Kriptogeldeenhede
+## **钱包同步技术**
 
-## **Bewaarbeurs Synchronisasie Tegnieke**
+为了维护隐私和安全，与区块链同步钱包至关重要。有两种方法脱颖而出：
 
-Om privaatheid en sekuriteit te handhaaf, is dit noodsaaklik om bewaarbeurse met die blokketting te synchroniseer. Twee metodes steek uit:
+- **全节点**：通过下载整个区块链，全节点确保最大隐私。所有曾经进行的交易都存储在本地，使对手无法识别用户感兴趣的交易或地址。
+- **客户端区块过滤**：此方法涉及为区块链中的每个区块创建过滤器，使钱包能够识别相关交易，而不向网络观察者暴露特定兴趣。轻量级钱包下载这些过滤器，仅在找到与用户地址匹配时才获取完整区块。
 
-- **Volle node**: Deur die hele blokketting af te laai, verseker 'n volle node maksimum privaatheid. Alle transaksies wat ooit gemaak is, word plaaslik gestoor, wat dit onmoontlik maak vir teenstanders om te identifiseer in watter transaksies of adresse die gebruiker belangstel.
-- **Kliëntkant blokfiltering**: Hierdie metode behels die skep van filters vir elke blok in die blokketting, wat bewaarbeurse in staat stel om relevante transaksies te identifiseer sonder om spesifieke belange aan netwerkwaarnemers bloot te stel. Ligte bewaarbeurse laai hierdie filters af, enige volle blokke wanneer 'n ooreenkoms met die gebruiker se adresse gevind word.
+## **利用 Tor 实现匿名性**
 
-## **Tor benut vir Anonimiteit**
+鉴于比特币在点对点网络上运行，建议使用 Tor 来掩盖您的 IP 地址，在与网络交互时增强隐私。
 
-Gegewe dat Bitcoin op 'n ewekansige netwerk werk, word dit aanbeveel om Tor te gebruik om jou IP-adres te verberg, wat privaatheid verbeter wanneer jy met die netwerk interaksie het.
+## **防止地址重用**
 
-## **Voorkoming van Adres Hergebruik**
+为了保护隐私，使用新地址进行每笔交易至关重要。重用地址可能会通过将交易链接到同一实体而危及隐私。现代钱包通过其设计来阻止地址重用。
 
-Om privaatheid te beskerm, is dit noodsaaklik om vir elke transaksie 'n nuwe adres te gebruik. Adreshergebruik kan privaatheid in gevaar bring deur transaksies aan dieselfde entiteit te koppel. Moderne bewaarbeurse ontmoedig adreshergebruik deur hul ontwerp.
+## **交易隐私策略**
 
-## **Strategieë vir Transaksie Privaatheid**
+- **多笔交易**：将支付拆分为几笔交易可以模糊交易金额，阻止隐私攻击。
+- **避免找零**：选择不需要找零输出的交易可以通过干扰找零检测方法来增强隐私。
+- **多个找零输出**：如果无法避免找零，生成多个找零输出仍然可以改善隐私。
 
-- **Meervoudige transaksies**: Die opsplitting van 'n betaling in verskeie transaksies kan die transaksiebedrag verberg, privaatheidsaanvalle dwarsboom.
-- **Vermy verandering**: Om te kies vir transaksies wat nie veranderingsuitsette benodig nie, verbeter privaatheid deur veranderingsopsporingsmetodes te ontwrig.
-- **Meervoudige veranderingsuitsette**: As die vermyding van verandering nie moontlik is nie, kan die skep van meervoudige veranderingsuitsette steeds privaatheid verbeter.
+# **门罗币：匿名性的灯塔**
 
-# **Monero: 'n Baken van Anonimiteit**
+门罗币满足数字交易中对绝对匿名性的需求，为隐私设定了高标准。
 
-Monero spreek die behoefte aan absolute anonimiteit in digitale transaksies aan, en stel 'n hoë standaard vir privaatheid.
+# **以太坊：燃料和交易**
 
-# **Ethereum: Gas en Transaksies**
+## **理解燃料**
 
-## **Begrip van Gas**
+燃料衡量在以太坊上执行操作所需的计算努力，以 **gwei** 计价。例如，成本为 2,310,000 gwei（或 0.00231 ETH）的交易涉及燃料限制和基本费用，并向矿工提供小费以激励他们。用户可以设置最高费用，以确保他们不会支付过多，超出部分会退还。
 
-Gas meet die rekenkundige poging wat nodig is om operasies op Ethereum uit te voer, geprijs in **gwei**. Byvoorbeeld, 'n transaksie wat 2,310,000 gwei (of 0.00231 ETH) kos, behels 'n gaslimiet en 'n basiskoers, met 'n fooi om myners te motiveer. Gebruikers kan 'n maksimumfooi instel om te verseker dat hulle nie te veel betaal nie, met die oortollige terugbetaal.
+## **执行交易**
 
-## **Uitvoering van Transaksies**
+以太坊中的交易涉及发送者和接收者，可以是用户或智能合约地址。它们需要费用并且必须被挖掘。交易中的关键信息包括接收者、发送者的签名、价值、可选数据、燃料限制和费用。值得注意的是，发送者的地址是从签名中推导出来的，因此在交易数据中不需要它。
 
-Transaksies in Ethereum behels 'n sender en 'n ontvanger, wat beide gebruiker- of slimkontrakadresse kan wees. Hulle vereis 'n fooi en moet gemyn word. Essensiële inligting in 'n transaksie sluit die ontvanger, die sender se handtekening, waarde, opsionele data, gaslimiet en fooie in. Merkwaardig word die sender se adres afgelei uit die handtekening, wat die behoefte daaraan in die transaksiedata uitskakel.
+这些实践和机制是任何希望参与加密货币并优先考虑隐私和安全的人的基础。
 
-Hierdie praktyke en meganismes is fundamenteel vir enigeen wat met kriptogeldeenhede wil betrokke raak terwyl hulle privaatheid en sekuriteit prioriteer.
-
-
-## Verwysings
+## 参考文献
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
@@ -190,18 +189,17 @@ Hierdie praktyke en meganismes is fundamenteel vir enigeen wat met kriptogeldeen
 * [https://ethereum.org/en/developers/docs/gas/](https://ethereum.org/en/developers/docs/gas/)
 * [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy#Forced\_address\_reuse)
 
-
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

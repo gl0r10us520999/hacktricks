@@ -1,23 +1,23 @@
-# Klasverontreiniging (Python se Prototipeverontreiniging)
+# 类污染（Python 的原型污染）
 
 {% hint style="success" %}
-Leer en oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Voorbeeld
+## 基本示例
 
-Kyk hoe dit moontlik is om klasse van voorwerpe met strings te verontreinig:
+检查如何通过字符串污染对象的类：
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,7 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Basiese Swakheid Voorbeeld
+## 基本漏洞示例
 ```python
 # Initial state
 class Employee: pass
@@ -74,11 +74,11 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-## Gadget Voorbeelde
+## Gadget 示例
 
 <details>
 
-<summary>Skep klas eienskap standaard waarde na RCE (subprocess)</summary>
+<summary>创建类属性默认值以实现 RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Vervuiling van ander klasse en globale vars deur <code>globals</code></summary>
+<summary>通过 <code>globals</code> 污染其他类和全局变量</summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Willekeurige subproses uitvoering</summary>
+<summary>任意子进程执行</summary>
 ```python
 import subprocess, json
 
@@ -193,9 +193,9 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <details>
 
-<summary>Oorskrywing van <strong><code>__kwdefaults__</code></strong></summary>
+<summary>覆盖 <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** is 'n spesiale eienskap van alle funksies, gebaseer op Python [dokumentasie](https://docs.python.org/3/library/inspect.html), dit is 'n "afbeelding van enige verstekwaardes vir **sleutelwoord-alleen** parameters". Om hierdie eienskap te besoedel, stel dit ons in staat om die verstekwaardes van sleutelwoord-alleen parameters van 'n funksie te beheer, dit is die funksie se parameters wat na \* of \*args kom.
+**`__kwdefaults__`** 是所有函数的一个特殊属性，基于 Python [文档](https://docs.python.org/3/library/inspect.html)，它是“任何 **仅限关键字** 参数的默认值的映射”。污染此属性使我们能够控制函数的仅限关键字参数的默认值，这些参数是在 \* 或 \*args 之后的函数参数。
 ```python
 from os import system
 import json
@@ -236,17 +236,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Oorskryf Flask-geheim regoor lêers</summary>
+<summary>跨文件覆盖Flask密钥</summary>
 
-Dus, as jy 'n klasvervuiling kan doen oor 'n voorwerp wat in die hoof Python-lêer van die web gedefinieer is, **maar waarvan die klas in 'n ander lêer as die hoof een gedefinieer is**. Omdat jy in die vorige ladinge \_\_globals\_\_ moet benader om toegang te verkry tot die klas van die voorwerp of metodes van die klas, sal jy in staat wees om **die globals in daardie lêer te benader, maar nie in die hoof een nie**. \
-Daarom sal jy **nie die Flask-program se globale voorwerp kan benader** wat die **geheime sleutel** in die hoofbladsy gedefinieer het nie:
+因此，如果您可以对在Web的主Python文件中定义的对象进行类污染，但**其类在与主文件不同的文件中定义**。因为为了在之前的有效载荷中访问\_\_globals\_\_，您需要访问对象的类或类的方法，您将能够**访问该文件中的全局变量，但无法访问主文件中的全局变量**。\
+因此，您**将无法访问定义了主页面中**密钥**的Flask应用程序全局对象**：
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-In hierdie scenario het jy 'n toestel nodig om deur lêers te navigeer om by die hooflêer te kom om **toegang te verkry tot die globale voorwerp `app.secret_key`** om die Flask geheime sleutel te verander en in staat te wees om [**voorregte te eskaleer** deur hierdie sleutel te ken](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+在这种情况下，您需要一个小工具来遍历文件，以便访问主文件以**访问全局对象 `app.secret_key`**，以更改 Flask 秘密密钥，并能够[**提升权限**，知道这个密钥](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign)。
 
-'n Nuttige lading soos hierdie een [van hierdie skryfstuk](https://ctftime.org/writeup/36082):
+像这样的有效载荷[来自这篇文章](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -254,31 +254,31 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Gebruik hierdie lading om **`app.secret_key`** te **verander** (die naam in jou program mag verskil) om nuwe en meer bevoorregte flask koekies te kan teken.
+使用此有效载荷来**更改 `app.secret_key`**（您应用中的名称可能不同），以便能够签署新的和更高权限的 flask cookies。
 
 </details>
 
-Kyk ook na die volgende bladsy vir meer slegs lees-toestelle:
+还可以查看以下页面以获取更多只读小工具：
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## Verwysings
+## 参考文献
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

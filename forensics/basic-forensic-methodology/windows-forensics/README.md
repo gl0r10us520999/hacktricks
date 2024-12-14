@@ -1,18 +1,18 @@
-# Windows Artefakte
+# Windows Artifacts
 
-## Windows Artefakte
+## Windows Artifacts
 
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -21,293 +21,296 @@ Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="li
 
 {% embed url="https://websec.nl/" %}
 
-## Generiese Windows Artefakte
+## 通用 Windows 伪迹
 
-### Windows 10 Kennisgewings
+### Windows 10 通知
 
-In die pad `\Users\<gebruikersnaam>\AppData\Local\Microsoft\Windows\Notifications` kan jy die databasis `appdb.dat` (voor Windows-herdenking) of `wpndatabase.db` (na Windows-herdenking) vind.
+在路径 `\Users\<username>\AppData\Local\Microsoft\Windows\Notifications` 中可以找到数据库 `appdb.dat`（在 Windows 周年更新之前）或 `wpndatabase.db`（在 Windows 周年更新之后）。
 
-Binne hierdie SQLite-databasis kan jy die `Kennisgewing`-tabel vind met al die kennisgewings (in XML-formaat) wat interessante data kan bevat.
+在这个 SQLite 数据库中，可以找到 `Notification` 表，里面包含所有可能包含有趣数据的通知（以 XML 格式）。
 
-### Tydlyn
+### 时间线
 
-Tydlyn is 'n Windows kenmerk wat 'n **chronologiese geskiedenis** van besoekte webwerwe, bewerkte dokumente, en uitgevoerde toepassings bied.
+时间线是 Windows 的一个特性，提供 **访问过的网页、编辑的文档和执行的应用程序的时间顺序历史**。
 
-Die databasis bly in die pad `\Users\<gebruikersnaam>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Hierdie databasis kan geopen word met 'n SQLite-instrument of met die instrument [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **wat 2 lêers genereer wat geopen kan word met die instrument** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
+数据库位于路径 `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`。这个数据库可以使用 SQLite 工具或工具 [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) 打开，**该工具生成 2 个可以用工具** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md) **打开的文件**。
 
-### ADS (Alternatiewe Datastrome)
+### ADS（备用数据流）
 
-Lêers wat afgelaai is, kan die **ADS Zone.Identifier** bevat wat aandui **hoe** dit van die intranet, internet, ens. afgelaai is. Sommige sagteware (soos webblaaier) sit gewoonlik selfs **meer** **inligting** soos die **URL** waarvandaan die lêer afgelaai is.
+下载的文件可能包含 **ADS Zone.Identifier**，指示 **它是如何** 从内网、互联网等 **下载的**。一些软件（如浏览器）通常会提供更多的信息，例如文件下载的 **URL**。
 
-## **Lêeragtergronde**
+## **文件备份**
 
-### Stortmandjie
+### 回收站
 
-In Vista/Win7/Win8/Win10 kan die **Stortmandjie** gevind word in die vouer **`$Recycle.bin`** in die wortel van die aandrywing (`C:\$Recycle.bin`).\
-Wanneer 'n lêer in hierdie vouer verwyder word, word 2 spesifieke lêers geskep:
+在 Vista/Win7/Win8/Win10 中，**回收站**可以在驱动器根目录的文件夹 **`$Recycle.bin`** 中找到（`C:\$Recycle.bin`）。\
+当在此文件夹中删除文件时，会创建 2 个特定文件：
 
-* `$I{id}`: Lêerinligting (datum van wanneer dit verwyder is}
-* `$R{id}`: Inhoud van die lêer
+* `$I{id}`：文件信息（删除日期）
+* `$R{id}`：文件内容
 
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Met hierdie lêers kan jy die instrument [**Rifiuti**](https://github.com/abelcheung/rifiuti2) gebruik om die oorspronklike adres van die verwyderde lêers en die datum waarop dit verwyder is, te kry (gebruik `rifiuti-vista.exe` vir Vista – Win10).
+拥有这些文件后，可以使用工具 [**Rifiuti**](https://github.com/abelcheung/rifiuti2) 获取已删除文件的原始地址和删除日期（使用 `rifiuti-vista.exe` 适用于 Vista – Win10）。
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
 ![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
 
-### Skadukopieë
+### 卷影复制
 
-Skadukopie is 'n tegnologie wat ingesluit is in Microsoft Windows wat **agterkopieë** of afskrifte van rekenaar lêers of volumes kan skep, selfs wanneer hulle in gebruik is.
+卷影复制是微软Windows中包含的一项技术，可以创建计算机文件或卷的**备份副本**或快照，即使在使用时也可以。
 
-Hierdie agterkopieë is gewoonlik geleë in die `\System Volume Information` van die wortel van die lêersisteem en die naam is saamgestel uit **UID's** soos in die volgende afbeelding getoon:
+这些备份通常位于文件系统根目录下的`\System Volume Information`中，名称由以下图像中显示的**UIDs**组成：
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-Deur die forensiese beeld te koppel met die **ArsenalImageMounter**, kan die hulpmiddel [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) gebruik word om 'n skadukopie te ondersoek en selfs **die lêers** uit die skadukopie-agterkopieë te onttrek.
+使用**ArsenalImageMounter**挂载取证映像，可以使用工具[**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html)检查卷影复制，甚至**提取文件**。
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
-Die registerinskrywing `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` bevat die lêers en sleutels **wat nie agtergekopieer moet word nie**:
+注册表项`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore`包含**不备份**的文件和键：
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
-Die register `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` bevat ook konfigurasie-inligting oor die `Volume Shadow Copies`.
+注册表`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS`也包含有关`卷影复制`的配置信息。
 
-### Kantoor Opgeslane Lêers
+### Office自动保存文件
 
-Jy kan die kantoor opgeslane lêers vind in: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+您可以在以下位置找到Office自动保存的文件：`C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
-## Skuldelemente
+## Shell项目
 
-'n Skuldelement is 'n item wat inligting bevat oor hoe om toegang tot 'n ander lêer te verkry.
+Shell项目是包含有关如何访问另一个文件的信息的项目。
 
-### Onlangse Dokumente (LNK)
+### 最近文档 (LNK)
 
-Windows **skep outomaties** hierdie **afkortings** wanneer die gebruiker 'n lêer **open, gebruik of skep** in:
+Windows **自动** **创建**这些**快捷方式**，当用户在以下位置**打开、使用或创建文件**时：
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
-* Kantoor: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
+* Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Wanneer 'n vouer geskep word, word 'n skakel na die vouer, na die ouervouer en die ouerouervouer ook geskep.
+当创建一个文件夹时，还会创建指向该文件夹、父文件夹和祖父文件夹的链接。
 
-Hierdie outomaties geskepte skakellêers bevat inligting oor die oorsprong soos of dit 'n **lêer** **of** 'n **vouer** is, **MAC** **tye** van daardie lêer, **volume-inligting** waar die lêer gestoor word en **vouer van die teikenvouer**. Hierdie inligting kan nuttig wees om daardie lêers te herstel in die geval dat hulle verwyder is.
+这些自动创建的链接文件**包含有关来源的信息**，例如它是一个**文件** **还是**一个**文件夹**、该文件的**MAC** **时间**、文件存储的**卷信息**和**目标文件的文件夹**。这些信息在文件被删除的情况下可以用于恢复这些文件。
 
-Ook is die **datum geskep van die skakel** lêer die eerste **keer** wat die oorspronklike lêer **eerste** **gebruik** is en die **datum** **gewysig** van die skakel lêer is die **laaste** **keer** wat die oorspronklike lêer gebruik is.
+此外，链接文件的**创建日期**是原始文件**首次** **使用**的**时间**，而链接文件的**修改日期**是原始文件**最后** **使用**的**时间**。
 
-Om hierdie lêers te ondersoek, kan jy [**LinkParser**](http://4discovery.com/our-tools/) gebruik.
+要检查这些文件，您可以使用[**LinkParser**](http://4discovery.com/our-tools/)。
 
-In hierdie hulpmiddels sal jy **2 stelle** tydmerke vind:
+在此工具中，您将找到**2组**时间戳：
 
-* **Eerste Stel:**
-1. LêerGewysigdeDatum
-2. LêerToegangsDatum
-3. LêerSkeppingsDatum
-* **Tweede Stel:**
-1. SkakelGewysigdeDatum
-2. SkakelToegangsDatum
-3. SkakelSkeppingsDatum.
+* **第一组：**
+1. FileModifiedDate
+2. FileAccessDate
+3. FileCreationDate
+* **第二组：**
+1. LinkModifiedDate
+2. LinkAccessDate
+3. LinkCreationDate。
 
-Die eerste stel tydmerke verwys na die **tydmerke van die lêer self**. Die tweede stel verwys na die **tydmerke van die gekoppelde lêer**.
+第一组时间戳引用的是**文件本身的时间戳**。第二组引用的是**链接文件的时间戳**。
 
-Jy kan dieselfde inligting kry deur die Windows CLI-hulpmiddel uit te voer: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
+您可以通过运行Windows CLI工具[**LECmd.exe**](https://github.com/EricZimmerman/LECmd)获取相同的信息。
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
-### Springlêers
+在这种情况下，信息将保存在 CSV 文件中。
 
-Hierdie is die onlangse lêers wat per toepassing aangedui word. Dit is die lys van **onlangse lêers wat deur 'n toepassing gebruik is** wat jy op elke toepassing kan raadpleeg. Hulle kan **outomaties geskep word of aangepas wees**.
+### Jumplists
 
-Die **springlêers** wat outomaties geskep word, word gestoor in `C:\Users\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Die springlêers word benoem volgens die formaat `{id}.autmaticDestinations-ms` waar die aanvanklike ID die ID van die toepassing is.
+这些是每个应用程序指示的最近文件。它是 **应用程序使用的最近文件列表**，您可以在每个应用程序上访问。它们可以 **自动创建或自定义**。
 
-Die aangepaste springlêers word gestoor in `C:\Users\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` en hulle word gewoonlik deur die toepassing geskep omdat iets **belangrik** met die lêer gebeur het (miskien as gunsteling gemerk).
+自动创建的 **jumplists** 存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`。jumplists 的命名格式为 `{id}.autmaticDestinations-ms`，其中初始 ID 是应用程序的 ID。
 
-Die **geskepte tyd** van enige springlys dui die **eerste keer aan dat die lêer benader is** en die **gewysigde tyd die laaste keer**.
+自定义的 jumplists 存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\`，通常是因为文件发生了某些 **重要** 事件（可能被标记为收藏）。
 
-Jy kan die springlêers inspekteer met behulp van [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
+任何 jumplist 的 **创建时间** 表示 **文件首次访问的时间**，**修改时间为最后一次**。
+
+您可以使用 [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md) 检查 jumplists。
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
-(Merk op dat die tydmerke wat deur JumplistExplorer voorsien word, verband hou met die springlys lêer self)
+（_请注意，JumplistExplorer 提供的时间戳与 jumplist 文件本身相关_）
 
 ### Shellbags
 
-[**Volg hierdie skakel om uit te vind wat die shellbags is.**](interesting-windows-registry-keys.md#shellbags)
+[**点击此链接了解什么是 shellbags。**](interesting-windows-registry-keys.md#shellbags)
 
-## Gebruik van Windows USB's
+## 使用 Windows USB
 
-Dit is moontlik om te identifiseer dat 'n USB-toestel gebruik is danksy die skepping van:
+可以通过以下方式识别 USB 设备的使用：
 
-* Windows Onlangse Vouer
-* Microsoft Office Onlangse Vouer
-* Springlêers
+* Windows Recent Folder
+* Microsoft Office Recent Folder
+* Jumplists
 
-Merk op dat sommige LNK-lêers in plaas van na die oorspronklike pad te verwys, na die WPDNSE-vouer verwys:
+请注意，有些 LNK 文件不是指向原始路径，而是指向 WPDNSE 文件夹：
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Die lêers in die WPDNSE-vouer is 'n kopie van die oorspronklike lêers, sal dus nie oorleef 'n herbegin van die rekenaar nie en die GUID word geneem uit 'n shellbag.
+WPDNSE 文件夹中的文件是原始文件的副本，因此在 PC 重启后不会保留，GUID 是从 shellbag 中获取的。
 
-### Registreer Inligting
+### 注册表信息
 
-[Kyk na hierdie bladsy om te leer](interesting-windows-registry-keys.md#usb-information) watter register sleutels interessante inligting oor USB-aangeslote toestelle bevat.
+[查看此页面以了解](interesting-windows-registry-keys.md#usb-information) 哪些注册表键包含有关 USB 连接设备的有趣信息。
 
 ### setupapi
 
-Kyk na die lêer `C:\Windows\inf\setupapi.dev.log` om die tydmerke te kry oor wanneer die USB-verbinding geproduseer is (soek vir `Section start`).
+检查文件 `C:\Windows\inf\setupapi.dev.log` 以获取 USB 连接产生的时间戳（搜索 `Section start`）。
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) kan gebruik word om inligting te verkry oor die USB-toestelle wat aan 'n beeld gekoppel was.
+[**USBDetective**](https://usbdetective.com) 可用于获取有关已连接到图像的 USB 设备的信息。
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
-### Inprop en Speel Skoonmaak
+### Plug and Play Cleanup
 
-Die geskeduleerde taak wat bekend staan as 'Inprop en Speel Skoonmaak' is hoofsaaklik ontwerp vir die verwydering van verouderde bestuurderweergawes. In teenstelling met sy gespesifiseerde doel om die jongste bestuurderpakketweergawe te behou, suggereer aanlynbronne dat dit ook mik op bestuurders wat vir 30 dae onaktief was. Gevolglik kan bestuurders vir verwyderbare toestelle wat nie in die afgelope 30 dae aangesluit is nie, onderwerp wees aan uitwissing.
+名为“Plug and Play Cleanup”的计划任务主要用于删除过时的驱动程序版本。与其指定的保留最新驱动程序包版本的目的相反，在线来源表明它还针对过去 30 天未活动的驱动程序。因此，过去 30 天未连接的可移动设备的驱动程序可能会被删除。
 
-Die taak is geleë op die volgende pad:
-`C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
+该任务位于以下路径：
+`C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`。
 
-'n Skermkiekie wat die inhoud van die taak uitbeeld, word voorsien:
+提供了任务内容的屏幕截图：
 ![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-**Kernkomponente en Instellings van die Taak:**
-- **pnpclean.dll**: Hierdie DLL is verantwoordelik vir die werklike skoonmaakproses.
-- **UseUnifiedSchedulingEngine**: Gestel op `TRUE`, wat dui op die gebruik van die generiese taakbeplanningsenjin.
-- **MaintenanceSettings**:
-- **Tydperk ('P1M')**: Stuur die Taakbeplanner om die skoonmaaktaak maandeliks tydens gereelde Outomatiese instandhouding te begin.
-- **Deurnooi ('P2M')**: Instrueer die Taakbeplanner, as die taak vir twee opeenvolgende maande misluk, om die taak tydens noodsaaklike Outomatiese instandhouding uit te voer.
+**任务的关键组件和设置：**
+- **pnpclean.dll**：此 DLL 负责实际的清理过程。
+- **UseUnifiedSchedulingEngine**：设置为 `TRUE`，表示使用通用任务调度引擎。
+- **MaintenanceSettings**：
+- **Period ('P1M')**：指示任务调度程序每月在常规自动维护期间启动清理任务。
+- **Deadline ('P2M')**：指示任务调度程序，如果任务连续两个月失败，则在紧急自动维护期间执行该任务。
 
-Hierdie konfigurasie verseker gereelde instandhouding en skoonmaak van bestuurders, met bepalings vir herpogings van die taak in geval van opeenvolgende mislukkings.
+此配置确保定期维护和清理驱动程序，并在连续失败的情况下重新尝试任务。
 
-**Vir meer inligting kyk na:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**有关更多信息，请查看：** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
-## E-posse
+## 电子邮件
 
-E-posse bevat **2 interessante dele: Die koppe en die inhoud** van die e-pos. In die **koppe** kan jy inligting soos vind:
+电子邮件包含 **2 个有趣的部分：电子邮件的标题和内容**。在 **标题** 中，您可以找到以下信息：
 
-* **Wie** het die e-posse gestuur (e-posadres, IP, posdiensers wat die e-pos omgelei het)
-* **Wanneer** is die e-pos gestuur
+* **谁** 发送了电子邮件（电子邮件地址、IP、重定向电子邮件的邮件服务器）
+* **何时** 发送了电子邮件
 
-Ook kan jy binne die `Verwysings` en `In-Reply-To` koppe die ID van die boodskappe vind:
+此外，在 `References` 和 `In-Reply-To` 标头中，您可以找到消息的 ID：
 
 ![](<../../../.gitbook/assets/image (484).png>)
 
-### Windows Pos App
+### Windows Mail 应用
 
-Hierdie toepassing stoor e-posse in HTML of teks. Jy kan die e-posse vind binne subvouers binne `\Users\<gebruikersnaam>\AppData\Local\Comms\Unistore\data\3\`. Die e-posse word gestoor met die `.dat`-uitbreiding.
+此应用程序以 HTML 或文本格式保存电子邮件。您可以在 `\Users\<username>\AppData\Local\Comms\Unistore\data\3\` 的子文件夹中找到电子邮件。电子邮件以 `.dat` 扩展名保存。
 
-Die **metadata** van die e-posse en die **kontakbesonderhede** kan binne die **EDB-databasis** gevind word: `\Users\<gebruikersnaam>\AppData\Local\Comms\UnistoreDB\store.vol`
+电子邮件的 **元数据** 和 **联系人** 可以在 **EDB 数据库** 中找到： `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**Verander die uitbreiding** van die lêer van `.vol` na `.edb` en jy kan die instrument [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gebruik om dit oop te maak. Binne die `Boodskap`-tabel kan jy die e-posse sien.
+**将文件的扩展名** 从 `.vol` 更改为 `.edb`，您可以使用工具 [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html) 打开它。在 `Message` 表中，您可以看到电子邮件。
 
 ### Microsoft Outlook
 
-Wanneer Exchange-bedieners of Outlook-kliënte gebruik word, gaan daar 'n paar MAPI-koppe wees:
+当使用 Exchange 服务器或 Outlook 客户端时，将会有一些 MAPI 标头：
 
-* `Mapi-Client-Submit-Time`: Tyd van die stelsel wanneer die e-pos gestuur is
-* `Mapi-Conversation-Index`: Aantal kinderboodskappe van die draad en tydmerk van elke boodskap van die draad
-* `Mapi-Entry-ID`: Boodskapidentifiseerder.
-* `Mappi-Message-Flags` en `Pr_last_Verb-Executed`: Inligting oor die MAPI-kliënt (boodskap gelees? nie gelees nie? geantwoord? omgelei? uit die kantoor?)
+* `Mapi-Client-Submit-Time`：发送电子邮件时系统的时间
+* `Mapi-Conversation-Index`：线程的子消息数量和每条消息的时间戳
+* `Mapi-Entry-ID`：消息标识符。
+* `Mappi-Message-Flags` 和 `Pr_last_Verb-Executed`：有关 MAPI 客户端的信息（消息已读？未读？已回复？重定向？不在办公室？）
 
-In die Microsoft Outlook-kliënt word al die gestuurde/ontvangsboodskappe, kontakbesonderhede, en kalenderbesonderhede gestoor in 'n PST-lêer in:
+在 Microsoft Outlook 客户端中，所有发送/接收的消息、联系人数据和日历数据都存储在 PST 文件中，路径为：
 
-* `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook` (WinXP)
+* `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook`（WinXP）
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
 
-Die registerpad `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` dui aan watter lêer gebruik word.
+注册表路径 `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` 指示正在使用的文件。
 
-Jy kan die PST-lêer oopmaak met die instrument [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
+您可以使用工具 [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html) 打开 PST 文件。
 
 ![](<../../../.gitbook/assets/image (485).png>)
-### Microsoft Outlook OST-lêers
 
-'n **OST-lêer** word gegenereer deur Microsoft Outlook wanneer dit gekonfigureer is met **IMAP** of 'n **Exchange**-bediener, wat soortgelyke inligting as 'n PST-lêer stoor. Hierdie lêer word gesinkroniseer met die bediener, behou data vir **die laaste 12 maande** tot 'n **maksimum grootte van 50GB**, en word in dieselfde gids as die PST-lêer gevind. Om 'n OST-lêer te sien, kan die [**Kernel OST-aansig**](https://www.nucleustechnologies.com/ost-viewer.html) gebruik word.
+### Microsoft Outlook OST 文件
 
-### Terugwinning van Aanhegsels
+**OST 文件** 是 Microsoft Outlook 在配置为 **IMAP** 或 **Exchange** 服务器时生成的，存储与 PST 文件类似的信息。此文件与服务器同步，保留 **过去 12 个月** 的数据，最大大小为 50GB，并位于与 PST 文件相同的目录中。要查看 OST 文件，可以使用 [**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html)。
 
-Verlore aanhegsels kan herwin word vanaf:
+### 检索附件
 
-- Vir **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
-- Vir **IE11 en hoër**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
+丢失的附件可能可以从以下位置恢复：
 
-### Thunderbird MBOX-lêers
+- 对于 **IE10**：`%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
+- 对于 **IE11 及更高版本**：`%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
-**Thunderbird** maak gebruik van **MBOX-lêers** om data te stoor, geleë by `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
+### Thunderbird MBOX 文件
 
-### Beeld Duimnaels
+**Thunderbird** 使用 **MBOX 文件** 存储数据，位于 `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`。
 
-- **Windows XP en 8-8.1**: Toegang tot 'n gids met duimnaels genereer 'n `thumbs.db`-lêer wat beeldvoorbeelde stoor, selfs ná skrapping.
-- **Windows 7/10**: `thumbs.db` word geskep wanneer dit oor 'n netwerk via 'n UNC-paadjie benader word.
-- **Windows Vista en nuwer**: Duimnaelvoorbeelde is gesentraliseer in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` met lêers genaamd **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) en [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) is gereedskap vir die sien van hierdie lêers.
+### 图像缩略图
 
-### Windows Registerinligting
+- **Windows XP 和 8-8.1**：访问带有缩略图的文件夹会生成一个 `thumbs.db` 文件，存储图像预览，即使在删除后也会保留。
+- **Windows 7/10**：通过 UNC 路径访问时会创建 `thumbs.db`。
+- **Windows Vista 及更高版本**：缩略图预览集中在 `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` 中，文件名为 **thumbcache\_xxx.db**。 [**Thumbsviewer**](https://thumbsviewer.github.io) 和 [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) 是查看这些文件的工具。
 
-Die Windows-register, wat omvattende stelsel- en gebruikersaktiwiteitsdata stoor, word bevat binne lêers in:
+### Windows 注册表信息
 
-- `%windir%\System32\Config` vir verskeie `HKEY_LOCAL_MACHINE` subklasse.
-- `%UserProfile%{User}\NTUSER.DAT` vir `HKEY_CURRENT_USER`.
-- Windows Vista en nuwer weergawes maak 'n rugsteun van `HKEY_LOCAL_MACHINE` registerlêers in `%Windir%\System32\Config\RegBack\`.
-- Daarbenewens word programuitvoerinligting gestoor in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` vanaf Windows Vista en Windows 2008 Server aan.
+Windows 注册表存储大量系统和用户活动数据，包含在以下文件中：
 
-### Gereedskap
+- `%windir%\System32\Config` 用于各种 `HKEY_LOCAL_MACHINE` 子键。
+- `%UserProfile%{User}\NTUSER.DAT` 用于 `HKEY_CURRENT_USER`。
+- Windows Vista 及更高版本在 `%Windir%\System32\Config\RegBack\` 中备份 `HKEY_LOCAL_MACHINE` 注册表文件。
+- 此外，程序执行信息存储在 `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` 中，从 Windows Vista 和 Windows 2008 Server 开始。
 
-Sommige gereedskap is nuttig om die registerlêers te analiseer:
+### 工具
 
-* **Registerredigeerder**: Dit is geïnstalleer in Windows. Dit is 'n GUI om deur die Windows-register van die huidige sessie te navigeer.
-* [**Registerontdekker**](https://ericzimmerman.github.io/#!index.md): Dit laat jou toe om die registerlêer te laai en daardeur te navigeer met 'n GUI. Dit bevat ook Bladmerke wat sleutels met interessante inligting beklemtoon.
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Weereens, dit het 'n GUI wat toelaat om deur die gelaai register te navigeer en bevat ook aanvullings wat interessante inligting binne die gelaai register beklemtoon.
-* [**Windows Registerherwinning**](https://www.mitec.cz/wrr.html): 'n Ander GUI-toepassing wat in staat is om die belangrike inligting uit die gelaai register te onttrek.
+一些工具对于分析注册表文件非常有用：
 
-### Herwinning van Verwyderde Element
+* **注册表编辑器**：它安装在 Windows 中。它是一个 GUI，用于浏览当前会话的 Windows 注册表。
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md)：它允许您加载注册表文件并通过 GUI 浏览。它还包含书签，突出显示包含有趣信息的键。
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0)：同样，它具有一个 GUI，允许浏览加载的注册表，并且还包含突出显示加载的注册表中有趣信息的插件。
+* [**Windows 注册表恢复**](https://www.mitec.cz/wrr.html)：另一个 GUI 应用程序，能够从加载的注册表中提取重要信息。
 
-Wanneer 'n sleutel verwyder word, word dit as sodanig gemerk, maar totdat die spasie wat dit beset word benodig word, sal dit nie verwyder word nie. Daarom is dit moontlik om hierdie verwyderde sleutels te herwin deur gereedskap soos **Registerontdekker** te gebruik.
+### 恢复已删除元素
 
-### Laaste Skryftyd
+当一个键被删除时，它会被标记为已删除，但在占用的空间被需要之前不会被移除。因此，使用像 **Registry Explorer** 这样的工具可以恢复这些已删除的键。
 
-Elke Sleutel-Waarde bevat 'n **tydstempel** wat aandui wanneer dit laas gewysig is.
+### 最后写入时间
+
+每个键值包含一个 **时间戳**，指示最后一次修改的时间。
 
 ### SAM
 
-Die lêer/hive **SAM** bevat die **gebruikers, groepe en gebruikerswagwoorde** hasjies van die stelsel.
+文件/哈希 **SAM** 包含系统的 **用户、组和用户密码** 哈希。
 
-In `SAM\Domains\Account\Users` kan jy die gebruikersnaam, die RID, laaste aanmelding, laaste mislukte aanmelding, aanmeldingteller, wagwoordbeleid en wanneer die rekening geskep is, verkry. Om die **hasjies** te kry, het jy ook die lêer/hive **SYSTEM** nodig.
+在 `SAM\Domains\Account\Users` 中，您可以获取用户名、RID、最后登录、最后失败登录、登录计数、密码策略以及帐户创建时间。要获取 **哈希**，您还 **需要** 文件/哈希 **SYSTEM**。
 
-### Interessante inskrywings in die Windows-register
+### Windows 注册表中的有趣条目
 
 {% content-ref url="interesting-windows-registry-keys.md" %}
 [interesting-windows-registry-keys.md](interesting-windows-registry-keys.md)
 {% endcontent-ref %}
 
-## Programme Uitgevoer
+## 执行的程序
 
-### Basiese Windows Prosesse
+### 基本 Windows 进程
 
-In [hierdie pos](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) kan jy leer oor die algemene Windows prosesse om verdagte gedrag te identifiseer.
+在 [这篇文章](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) 中，您可以了解常见的 Windows 进程以检测可疑行为。
 
-### Windows Onlangse Toepassings
+### Windows Recent APPs
 
-Binne die register `NTUSER.DAT` in die paadjie `Software\Microsoft\Current Version\Search\RecentApps` kan jy subklasse met inligting oor die **uitgevoerde toepassing**, **laaste tyd** wat dit uitgevoer is, en **aantal kere** wat dit afgeskop is, vind.
+在注册表 `NTUSER.DAT` 中的路径 `Software\Microsoft\Current Version\Search\RecentApps` 中，您可以找到有关 **执行的应用程序**、**最后一次** 执行的时间和 **启动次数** 的子键。
 
-### BAM (Agtergrondaktiwiteitsmoderator)
+### BAM (后台活动调节器)
 
-Jy kan die `SYSTEM`-lêer oopmaak met 'n registerredigeerder en binne die paadjie `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` kan jy die inligting oor die **toepassings wat deur elke gebruiker uitgevoer is** vind (let op die `{SID}` in die paadjie) en op **watter tyd** hulle uitgevoer is (die tyd is binne die Data-waarde van die register).
+您可以使用注册表编辑器打开 `SYSTEM` 文件，在路径 `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` 中找到有关 **每个用户执行的应用程序** 的信息（注意路径中的 `{SID}`）以及 **它们执行的时间**（时间在注册表的 Data 值中）。
 
 ### Windows Prefetch
 
-Prefetching is 'n tegniek wat 'n rekenaar toelaat om stilweg die nodige hulpbronne te **haal wat nodig is om inhoud te vertoon** wat 'n gebruiker **moontlik binnekort sal toegang** sodat hulpbronne vinniger toeganklik kan wees.
+预取是一种技术，允许计算机静默 **获取用户可能在不久的将来访问的内容所需的资源**，以便更快地访问资源。
 
-Windows prefetch bestaan uit die skep van **kasgeheues van die uitgevoerde programme** om hulle vinniger te kan laai. Hierdie geheues word geskep as `.pf`-lêers binne die paadjie: `C:\Windows\Prefetch`. Daar is 'n limiet van 128 lêers in XP/VISTA/WIN7 en 1024 lêers in Win8/Win10.
+Windows 预取由创建 **已执行程序的缓存** 组成，以便能够更快地加载它们。这些缓存作为 `.pf` 文件创建，路径为： `C:\Windows\Prefetch`。在 XP/VISTA/WIN7 中限制为 128 个文件，在 Win8/Win10 中限制为 1024 个文件。
 
-Die lêernaam word geskep as `{program_naam}-{hasj}.pf` (die hasj is gebaseer op die paadjie en argumente van die uitvoerbare lêer). In W10 is hierdie lêers saamgedruk. Let daarop dat die bloot teenwoordigheid van die lêer aandui dat **die program op 'n stadium uitgevoer is**.
+文件名格式为 `{program_name}-{hash}.pf`（哈希基于可执行文件的路径和参数）。在 W10 中，这些文件是压缩的。请注意，文件的存在仅表明 **该程序在某个时刻被执行**。
 
-Die lêer `C:\Windows\Prefetch\Layout.ini` bevat die **name van die gids van die lêers wat voorgelaai word**. Hierdie lêer bevat **inligting oor die aantal uitvoerings**, **datums** van die uitvoering en **lêers** **wat oop** is deur die program.
+文件 `C:\Windows\Prefetch\Layout.ini` 包含 **预取文件的文件夹名称**。该文件包含 **执行次数**、**执行日期** 和 **程序打开的文件** 的信息。
 
-Om hierdie lêers te ondersoek, kan jy die gereedskap [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) gebruik:
+要检查这些文件，您可以使用工具 [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd)：
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
@@ -315,191 +318,192 @@ Om hierdie lêers te ondersoek, kan jy die gereedskap [**PEcmd.exe**](https://gi
 
 ### Superprefetch
 
-**Superprefetch** het dieselfde doel as prefetch, **laai programme vinniger** deur te voorspel wat gaan volgende gelaai word. Dit vervang egter nie die prefetch-diens nie.\
-Hierdie diens sal databasislêers genereer in `C:\Windows\Prefetch\Ag*.db`.
+**Superprefetch** 的目标与 prefetch 相同，**通过预测将要加载的内容来加快程序加载速度**。然而，它并不替代 prefetch 服务。\
+该服务将在 `C:\Windows\Prefetch\Ag*.db` 中生成数据库文件。
 
-In hierdie databasisse kan jy die **naam** van die **program**, **aantal** **uitvoerings**, **lêers** **geopen**, **volume** **toegang**, **volledige** **pad**, **tydraamwerke** en **tydstempels** vind.
+在这些数据库中，您可以找到 **程序的名称**、**执行次数**、**打开的文件**、**访问的卷**、**完整路径**、**时间范围** 和 **时间戳**。
 
-Jy kan hierdie inligting kry deur die werktuig [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) te gebruik.
+您可以使用工具 [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) 访问这些信息。
 
 ### SRUM
 
-**System Resource Usage Monitor** (SRUM) **monitor** die **hulpbronne** **verbruik** **deur 'n proses**. Dit het in W8 verskyn en stoor die data in 'n ESE-databasis wat in `C:\Windows\System32\sru\SRUDB.dat` geleë is.
+**系统资源使用监视器** (SRUM) **监视** **进程消耗的资源**。它出现在 W8 中，并将数据存储在位于 `C:\Windows\System32\sru\SRUDB.dat` 的 ESE 数据库中。
 
-Dit gee die volgende inligting:
+它提供以下信息：
 
-* AppID en Pad
-* Gebruiker wat die proses uitgevoer het
-* Gestuurde grepe
-* Ontvangs grepe
-* Netwerk koppelvlak
-* Koppelingsduur
-* Prosesduur
+* AppID 和路径
+* 执行该进程的用户
+* 发送的字节
+* 接收的字节
+* 网络接口
+* 连接持续时间
+* 进程持续时间
 
-Hierdie inligting word elke 60 minute opgedateer.
+这些信息每 60 分钟更新一次。
 
-Jy kan die datum uit hierdie lêer verkry deur die werktuig [**srum\_dump**](https://github.com/MarkBaggett/srum-dump) te gebruik.
+您可以使用工具 [**srum\_dump**](https://github.com/MarkBaggett/srum-dump) 从该文件中获取日期。
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
 ### AppCompatCache (ShimCache)
 
-Die **AppCompatCache**, ook bekend as **ShimCache**, vorm 'n deel van die **Toepassingsverenigbaarheidsdatabasis** wat deur **Microsoft** ontwikkel is om toepassingsverenigbaarheidsprobleme aan te spreek. Hierdie stelselkomponent neem verskeie stukke lêermetadate op, wat onder meer die volgende insluit:
+**AppCompatCache**，也称为 **ShimCache**，是 **Microsoft** 开发的 **应用程序兼容性数据库** 的一部分，用于解决应用程序兼容性问题。该系统组件记录了各种文件元数据，包括：
 
-- Volledige pad van die lêer
-- Grootte van die lêer
-- Laaste gewysigde tyd onder **$Standard\_Information** (SI)
-- Laaste opgedateerde tyd van die ShimCache
-- Proseshanteringvlag
+- 文件的完整路径
+- 文件的大小
+- 在 **$Standard\_Information** (SI) 下的最后修改时间
+- ShimCache 的最后更新时间
+- 进程执行标志
 
-Hierdie data word binne die register gestoor op spesifieke plekke gebaseer op die weergawe van die bedryfstelsel:
+这些数据根据操作系统的版本存储在注册表的特定位置：
 
-- Vir XP word die data gestoor onder `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` met 'n kapasiteit vir 96 inskrywings.
-- Vir Server 2003, sowel as vir Windows-weergawes 2008, 2012, 2016, 7, 8, en 10, is die stoorpad `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, wat onderskeidelik 512 en 1024 inskrywings akkommodeer.
+- 对于 XP，数据存储在 `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` 下，容量为 96 条目。
+- 对于 Server 2003，以及 Windows 版本 2008、2012、2016、7、8 和 10，存储路径为 `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`，分别容纳 512 和 1024 条目。
 
-Om die gestoorde inligting te ontled, word die [**AppCompatCacheParser**-werktuig](https://github.com/EricZimmerman/AppCompatCacheParser) aanbeveel vir gebruik.
+要解析存储的信息，建议使用 [**AppCompatCacheParser** 工具](https://github.com/EricZimmerman/AppCompatCacheParser)。
 
 ![](<../../../.gitbook/assets/image (488).png>)
 
 ### Amcache
 
-Die **Amcache.hve**-lêer is essensieel 'n registerstok wat besonderhede oor toepassings wat op 'n stelsel uitgevoer is, log. Dit word tipies gevind by `C:\Windows\AppCompat\Programas\Amcache.hve`.
+**Amcache.hve** 文件本质上是一个注册表蜂巢，记录了在系统上执行的应用程序的详细信息。它通常位于 `C:\Windows\AppCompat\Programas\Amcache.hve`。
 
-Hierdie lêer is opmerklik vir die stoor van rekords van onlangs uitgevoerde prosesse, insluitend die paaie na die uitvoerbare lêers en hul SHA1-hashes. Hierdie inligting is van onskatbare waarde vir die opsporing van die aktiwiteit van toepassings op 'n stelsel.
+该文件以存储最近执行的进程记录而著称，包括可执行文件的路径及其 SHA1 哈希。这些信息对于跟踪系统上应用程序的活动非常宝贵。
 
-Om die data uit **Amcache.hve** te onttrek en te analiseer, kan die [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser)-werktuig gebruik word. Die volgende bevel is 'n voorbeeld van hoe AmcacheParser gebruik kan word om die inhoud van die **Amcache.hve**-lêer te ontled en die resultate in CSV-formaat uit te voer:
+要提取和分析 **Amcache.hve** 中的数据，可以使用 [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) 工具。以下命令是使用 AmcacheParser 解析 **Amcache.hve** 文件内容并以 CSV 格式输出结果的示例：
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-Onder die gegenereerde CSV-lêers is die `Amcache_Unassociated file entries` veral merkwaardig vanweë die ryk inligting wat dit bied oor ongeassosieerde lêerinskrywings.
+在生成的 CSV 文件中，`Amcache_Unassociated file entries` 特别值得注意，因为它提供了关于未关联文件条目的丰富信息。
 
-Die mees interessante CVS-lêer wat gegenereer word, is die `Amcache_Unassociated file entries`.
+生成的最有趣的 CVS 文件是 `Amcache_Unassociated file entries`。
 
 ### RecentFileCache
 
-Hierdie artefak kan slegs in W7 gevind word in `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` en dit bevat inligting oor die onlangse uitvoering van sekere binêre lêers.
+此工件仅在 W7 中的 `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` 中找到，它包含有关某些二进制文件最近执行的信息。
 
-Jy kan die werktuig [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) gebruik om die lêer te ontled.
+您可以使用工具 [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) 来解析该文件。
 
-### Beplande take
+### 计划任务
 
-Jy kan hulle onttrek uit `C:\Windows\Tasks` of `C:\Windows\System32\Tasks` en dit as XML lees.
+您可以从 `C:\Windows\Tasks` 或 `C:\Windows\System32\Tasks` 中提取它们，并将其作为 XML 读取。
 
-### Dienste
+### 服务
 
-Jy kan hulle in die register vind onder `SYSTEM\ControlSet001\Services`. Jy kan sien wat gaan uitgevoer word en wanneer.
+您可以在注册表中找到它们，路径为 `SYSTEM\ControlSet001\Services`。您可以查看将要执行的内容及其时间。
 
 ### **Windows Store**
 
-Die geïnstalleerde aansoeke kan gevind word in `\ProgramData\Microsoft\Windows\AppRepository\`\
-Hierdie argief het 'n **log** met **elke aansoek wat geïnstalleer is** in die stelsel binne die databasis **`StateRepository-Machine.srd`**.
+已安装的应用程序可以在 `\ProgramData\Microsoft\Windows\AppRepository\` 中找到。\
+该存储库有一个 **日志**，记录了系统中 **每个已安装的应用程序**，存储在数据库 **`StateRepository-Machine.srd`** 中。
 
-Binne die Toepassingstabel van hierdie databasis is dit moontlik om die kolomme te vind: "Toepassings-ID", "Pakketnommer", en "Vertoonnaam". Hierdie kolomme bevat inligting oor vooraf geïnstalleerde en geïnstalleerde aansoeke en dit kan gevind word as sommige aansoeke ongeïnstalleer is omdat die ID's van geïnstalleerde aansoeke opeenvolgend moet wees.
+在该数据库的应用程序表中，可以找到列：“Application ID”、“PackageNumber”和“Display Name”。这些列包含有关预安装和已安装应用程序的信息，如果某些应用程序被卸载，可以找到，因为已安装应用程序的 ID 应该是连续的。
 
-Dit is ook moontlik om **geïnstalleerde aansoek** in die registerpad te vind: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-En **ongeïnstalleerde** **aansoeke** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+您还可以在注册表路径 `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\` 中 **找到已安装的应用程序**，\
+并在 `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\` 中找到 **已卸载的应用程序**。
 
-## Windows Gebeure
+## Windows 事件
 
-Inligting wat binne Windows-gebeure verskyn, is:
+Windows 事件中出现的信息包括：
 
-* Wat gebeur het
-* Tydstempel (UTC + 0)
-* Gebruikers betrokke
-* Gasheer betrokke (gasheernaam, IP)
-* Bates wat benader is (lêers, vouer, drukker, dienste)
+* 发生了什么
+* 时间戳 (UTC + 0)
+* 相关用户
+* 相关主机 (主机名，IP)
+* 访问的资产 (文件，文件夹，打印机，服务)
 
-Die logboeke is geleë in `C:\Windows\System32\config` voor Windows Vista en in `C:\Windows\System32\winevt\Logs` na Windows Vista. Voor Windows Vista was die gebeurtenislogboeke in binêre formaat en daarna is hulle in **XML-formaat** en gebruik die **.evtx**-uitbreiding.
+日志位于 `C:\Windows\System32\config`（在 Windows Vista 之前）和 `C:\Windows\System32\winevt\Logs`（在 Windows Vista 之后）。在 Windows Vista 之前，事件日志是二进制格式，而之后则是 **XML 格式**，并使用 **.evtx** 扩展名。
 
-Die ligging van die gebeurtenis lêers kan gevind word in die SYSTEM-register in **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
+事件文件的位置可以在 SYSTEM 注册表中找到，路径为 **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**。
 
-Hulle kan gesien word vanuit die Windows-gebeurtenis kyker (**`eventvwr.msc`**) of met ander gereedskap soos [**Event Log Explorer**](https://eventlogxp.com) **of** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+您可以通过 Windows 事件查看器 (**`eventvwr.msc`**) 或其他工具如 [**Event Log Explorer**](https://eventlogxp.com) **或** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)** 来可视化它们。
 
-## Begrip van Windows-sekuriteit Gebeur Registrasie
+## 理解 Windows 安全事件日志
 
-Toeganggebeure word aangeteken in die sekuriteitskonfigurasie lêer wat geleë is by `C:\Windows\System32\winevt\Security.evtx`. Hierdie lêer se grootte is aanpasbaar, en wanneer sy kapasiteit bereik is, word ouer gebeure oorskryf. Aangetekende gebeure sluit in gebruikersaanmeldings en -afmeldings, gebruikeraksies, en veranderinge aan sekuriteitsinstellings, sowel as toegang tot lêers, vouers, en gedeelde bates.
+访问事件记录在位于 `C:\Windows\System32\winevt\Security.evtx` 的安全配置文件中。该文件的大小是可调的，当其容量达到时，旧事件会被覆盖。记录的事件包括用户登录和注销、用户操作以及安全设置的更改，以及文件、文件夹和共享资产的访问。
 
-### Sleutel Gebeurtenis-ID's vir Gebruiker-Verifikasie:
+### 用户身份验证的关键事件 ID：
 
-- **Gebeurtenis-ID 4624**: Dui aan dat 'n gebruiker suksesvol geverifieer is.
-- **Gebeurtenis-ID 4625**: Dui op 'n verifikasie-mislukking.
-- **Gebeurtenis-ID's 4634/4647**: Verteenwoordig gebruiker-afmeldgebeure.
-- **Gebeurtenis-ID 4672**: Dui op aanmelding met administratiewe voorregte.
+- **EventID 4624**：表示用户成功认证。
+- **EventID 4625**：表示认证失败。
+- **EventIDs 4634/4647**：表示用户注销事件。
+- **EventID 4672**：表示以管理员权限登录。
 
-#### Sub-tipes binne Gebeurtenis-ID 4634/4647:
+#### EventID 4634/4647 中的子类型：
 
-- **Interaktief (2)**: Direkte gebruiker aanmelding.
-- **Netwerk (3)**: Toegang tot gedeelde vouers.
-- **Batch (4)**: Uitvoering van lotprosesse.
-- **Diens (5)**: Diensbeginne.
-- **Proksi (6)**: Proksi-verifikasie.
-- **Ontsluit (7)**: Skerm ontgrendel met 'n wagwoord.
-- **Netwerk Skoon (8)**: Skoon teks wagwoord oordrag, dikwels vanaf IIS.
-- **Nuwe Gelde (9)**: Gebruik van verskillende gelde vir toegang.
-- **Verre Interaktief (10)**: Verre lessenaar of terminaaldiens aanmelding.
-- **Kas Interaktief (11)**: Aanmelding met gekas gelde sonder domeinbeheerder kontak.
-- **Kas Verre Interaktief (12)**: Verre aanmelding met gekas gelde.
-- **Gekas Ontsluit (13)**: Ontsluiting met gekas gelde.
+- **Interactive (2)**：直接用户登录。
+- **Network (3)**：访问共享文件夹。
+- **Batch (4)**：执行批处理过程。
+- **Service (5)**：服务启动。
+- **Proxy (6)**：代理认证。
+- **Unlock (7)**：使用密码解锁屏幕。
+- **Network Cleartext (8)**：明文密码传输，通常来自 IIS。
+- **New Credentials (9)**：使用不同的凭据进行访问。
+- **Remote Interactive (10)**：远程桌面或终端服务登录。
+- **Cache Interactive (11)**：使用缓存凭据登录，无需联系域控制器。
+- **Cache Remote Interactive (12)**：使用缓存凭据进行远程登录。
+- **Cached Unlock (13)**：使用缓存凭据解锁。
 
-#### Status en Sub-status Kodes vir Gebeur ID 4625:
+#### EventID 4625 的状态和子状态代码：
 
-- **0xC0000064**: Gebruikersnaam bestaan nie - Kan dui op 'n gebruikersnaam opname aanval.
-- **0xC000006A**: Korrekte gebruikersnaam maar verkeerde wagwoord - Moontlike wagwoord raai of kraginspanning.
-- **0xC0000234**: Gebruikersrekening gesluit - Kan volg op 'n kraginspanning aanval wat lei tot meervoudige mislukte aanmeldings.
-- **0xC0000072**: Rekening gedeaktiveer - Onbevoegde pogings om toegang te verkry tot gedeaktiveerde rekeninge.
-- **0xC000006F**: Aanmelding buite toegelate tyd - Dui op pogings om toegang te verkry buite die vasgestelde aanmeldingstye, 'n moontlike teken van onbevoegde toegang.
-- **0xC0000070**: Oortreding van werkstasie beperkings - Kan 'n poging wees om vanaf 'n onbevoegde plek aan te meld.
-- **0xC0000193**: Rekening verval - Toegangspogings met vervalde gebruikersrekeninge.
-- **0xC0000071**: Vervalde wagwoord - Aanmeldingspogings met verouderde wagwoorde.
-- **0xC0000133**: Tyd sinchronisasie probleme - Groot tydverskille tussen klient en bediener kan dui op meer gesofistikeerde aanvalle soos pass-the-ticket.
-- **0xC0000224**: Verpligte wagwoord verandering vereis - Gereelde verpligte veranderinge mag dui op 'n poging om rekeningsekuriteit te destabiliseer.
-- **0xC0000225**: Dui op 'n stelsel fout eerder as 'n sekuriteitskwessie.
-- **0xC000015b**: Geweierde aanmeldingstipe - Toegangspoging met ongemagtigde aanmeldingstipe, soos 'n gebruiker wat probeer om 'n diens aanmelding uit te voer.
+- **0xC0000064**：用户名不存在 - 可能表示用户名枚举攻击。
+- **0xC000006A**：正确的用户名但错误的密码 - 可能是密码猜测或暴力破解尝试。
+- **0xC0000234**：用户账户被锁定 - 可能是在暴力攻击后导致多次登录失败。
+- **0xC0000072**：账户被禁用 - 未经授权尝试访问禁用账户。
+- **0xC000006F**：在允许的时间之外登录 - 表示在设定的登录时间之外尝试访问，可能是未经授权的访问迹象。
+- **0xC0000070**：违反工作站限制 - 可能是尝试从未经授权的位置登录。
+- **0xC0000193**：账户过期 - 使用过期用户账户的访问尝试。
+- **0xC0000071**：密码过期 - 使用过时密码的登录尝试。
+- **0xC0000133**：时间同步问题 - 客户端和服务器之间的大时间差异可能表明更复杂的攻击，如票据传递攻击。
+- **0xC0000224**：需要强制更改密码 - 频繁的强制更改可能表明试图破坏账户安全。
+- **0xC0000225**：表示系统错误而非安全问题。
+- **0xC000015b**：拒绝的登录类型 - 使用未经授权的登录类型进行的访问尝试，例如用户尝试执行服务登录。
 
-#### Gebeur ID 4616:
-- **Tyd Verandering**: Wysiging van die stelseltyd, kan die tydlyn van gebeure verduister.
+#### EventID 4616：
+- **时间更改**：系统时间的修改，可能会模糊事件的时间线。
 
-#### Gebeur ID 6005 en 6006:
-- **Stelsel Begin en Afsluiting**: Gebeur ID 6005 dui op die stelsel wat begin, terwyl Gebeur ID 6006 dit aandui wat afsluit.
+#### EventID 6005 和 6006：
+- **系统启动和关闭**：EventID 6005 表示系统启动，而 EventID 6006 表示系统关闭。
 
-#### Gebeur ID 1102:
-- **Log Skrapping**: Sekuriteitslogboeke wat skoongemaak word, wat dikwels 'n rooi vlag is vir die bedekking van onwettige aktiwiteite.
+#### EventID 1102：
+- **日志删除**：安全日志被清除，通常是掩盖非法活动的红旗。
 
-#### Gebeur ID's vir USB-toestelopsporing:
-- **20001 / 20003 / 10000**: USB-toestel eerste koppeling.
-- **10100**: USB-bestuurder opdatering.
-- **Gebeur ID 112**: Tyd van USB-toestel invoeging.
+#### USB 设备跟踪的事件 ID：
+- **20001 / 20003 / 10000**：USB 设备首次连接。
+- **10100**：USB 驱动程序更新。
+- **EventID 112**：USB 设备插入的时间。
 
-Vir praktiese voorbeelde oor die simulasie van hierdie aanmeldingstipes en gelde dumpingsgeleenthede, verwys na [Altered Security se gedetailleerde gids](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
+有关模拟这些登录类型和凭据转储机会的实际示例，请参考 [Altered Security 的详细指南](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them)。
 
-Gebeur detaille, insluitend status en sub-status kodes, bied verdere insigte in gebeur oorsake, veral opmerklik in Gebeur ID 4625.
+事件详细信息，包括状态和子状态代码，提供了对事件原因的进一步洞察，特别是在事件 ID 4625 中尤为显著。
 
-### Herstel van Windows Gebeure
+### 恢复 Windows 事件
 
-Om die kanse op die herwinning van geskrapte Windows-gebeure te verbeter, word dit aanbeveel om die verdagte rekenaar af te skakel deur dit direk uit te trek. **Bulk_extractor**, 'n herstelwerktuig wat die `.evtx`-uitbreiding spesifiseer, word aanbeveel vir die poging om sulke gebeure te herwin.
+为了提高恢复已删除 Windows 事件的机会，建议通过直接拔掉电源来关闭可疑计算机。**Bulk_extractor** 是一款指定 `.evtx` 扩展名的恢复工具，推荐用于尝试恢复此类事件。
 
-### Identifisering van Algemene Aanvalle via Windows Gebeure
+### 通过 Windows 事件识别常见攻击
 
-Vir 'n omvattende gids oor die gebruik van Windows-gebeur ID's om algemene siber aanvalle te identifiseer, besoek [Red Team Recipe](https://redteamrecipe.com/event-codes/).
+有关利用 Windows 事件 ID 识别常见网络攻击的全面指南，请访问 [Red Team Recipe](https://redteamrecipe.com/event-codes/)。
 
-#### Kraginspanning Aanvalle
+#### 暴力攻击
 
-Identifiseerbaar deur meervoudige Gebeur ID 4625 rekords, gevolg deur 'n Gebeur ID 4624 as die aanval slaag.
+通过多个 EventID 4625 记录可识别，若攻击成功，则后续会有 EventID 4624。
 
-#### Tyd Verandering
+#### 时间更改
 
-Aangeteken deur Gebeur ID 4616, veranderinge aan die stelseltyd kan forensiese analise kompliseer.
+通过 EventID 4616 记录，系统时间的更改可能会使取证分析变得复杂。
 
-#### USB Toestel Opvolging
+#### USB 设备跟踪
 
-Nuttige Stelsel Gebeur ID's vir USB-toestel opsporing sluit in 20001/20003/10000 vir aanvanklike gebruik, 10100 vir bestuurderopdaterings, en Gebeur ID 112 van DeviceSetupManager vir invoegingstydpeile.
-#### Stelselkraggebeure
+用于 USB 设备跟踪的有用系统事件 ID 包括 20001/20003/10000（首次使用），10100（驱动程序更新）和 EventID 112（来自 DeviceSetupManager 的插入时间戳）。
 
-GebeurtenisID 6005 dui op stelselbegin, terwyl GebeurtenisID 6006 afsluiting aandui.
+#### 系统电源事件
 
-#### Logverwydering
+EventID 6005 表示系统启动，而 EventID 6006 表示关闭。
 
-Sekuriteit GebeurtenisID 1102 dui op die verwydering van logboeke, 'n kritieke gebeurtenis vir forensiese analise.
+#### 日志删除
+
+安全 EventID 1102 表示日志被删除，这是取证分析中的关键事件。
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -507,16 +511,16 @@ Sekuriteit GebeurtenisID 1102 dui op die verwydering van logboeke, 'n kritieke g
 
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

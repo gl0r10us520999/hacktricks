@@ -1,58 +1,58 @@
-# Phishing Metodologie
+# Phishing Methodology
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Metodologie
+## Methodology
 
-1. Recon die slagoffer
-1. Kies die **slagoffer domein**.
-2. Voer 'n paar basiese web-opsomming **uit om inlogportale** te soek wat deur die slagoffer gebruik word en **besluit** watter een jy gaan **naboots**.
-3. Gebruik 'n bietjie **OSINT** om **e-posse** te **vind**.
-2. Berei die omgewing voor
-1. **Koop die domein** wat jy gaan gebruik vir die phishing assessering
-2. **Konfigureer die e-posdiens** verwante rekords (SPF, DMARC, DKIM, rDNS)
-3. Konfigureer die VPS met **gophish**
-3. Berei die veldtog voor
-1. Berei die **e-pos sjabloon** voor
-2. Berei die **webblad** voor om die geloofsbriewe te steel
-4. Begin die veldtog!
+1. 侦查受害者
+1. 选择 **受害者域名**。
+2. 执行一些基本的网络枚举 **寻找受害者使用的登录门户** 并 **决定** 你将 **冒充** 哪一个。
+3. 使用一些 **OSINT** 来 **查找电子邮件**。
+2. 准备环境
+1. **购买你将用于钓鱼评估的域名**
+2. **配置电子邮件服务** 相关记录 (SPF, DMARC, DKIM, rDNS)
+3. 使用 **gophish** 配置 VPS
+3. 准备活动
+1. 准备 **电子邮件模板**
+2. 准备 **网页** 以窃取凭据
+4. 启动活动！
 
-## Genereer soortgelyke domeinnames of koop 'n vertroude domein
+## 生成类似域名或购买受信任的域名
 
-### Domeinnaam Variasie Tegnieke
+### 域名变体技术
 
-* **Sleutelwoord**: Die domeinnaam **bevat** 'n belangrike **sleutelwoord** van die oorspronklike domein (bv. zelster.com-management.com).
-* **gehipen subdomein**: Verander die **punt in 'n hipen** van 'n subdomein (bv. www-zelster.com).
-* **Nuwe TLD**: Dieselfde domein met 'n **nuwe TLD** (bv. zelster.org)
-* **Homoglyph**: Dit **vervang** 'n letter in die domeinnaam met **letters wat soortgelyk lyk** (bv. zelfser.com).
-* **Transposisie:** Dit **ruil twee letters** binne die domeinnaam (bv. zelsetr.com).
-* **Singularisering/Meervouding**: Voeg "s" by of verwyder dit aan die einde van die domeinnaam (bv. zeltsers.com).
-* **Omissie**: Dit **verwyder een** van die letters uit die domeinnaam (bv. zelser.com).
-* **Herhaling:** Dit **herhaal een** van die letters in die domeinnaam (bv. zeltsser.com).
-* **Vervanging**: Soos homoglyph maar minder stil. Dit vervang een van die letters in die domeinnaam, dalk met 'n letter naby die oorspronklike letter op die sleutelbord (bv. zektser.com).
-* **Subdomein**: Introduceer 'n **punt** binne die domeinnaam (bv. ze.lster.com).
-* **Invoeging**: Dit **voeg 'n letter** in die domeinnaam in (bv. zerltser.com).
-* **Verlies van punt**: Voeg die TLD by die domeinnaam. (bv. zelstercom.com)
+* **关键词**：域名 **包含** 原始域名的重要 **关键词** (例如，zelster.com-management.com)。
+* **带连字符的子域**：将子域的 **点替换为连字符** (例如，www-zelster.com)。
+* **新 TLD**：使用 **新 TLD** 的相同域名 (例如，zelster.org)
+* **同形异义字**：用 **看起来相似的字母** 替换域名中的一个字母 (例如，zelfser.com)。
+* **置换**：在域名中 **交换两个字母** (例如，zelsetr.com)。
+* **单数/复数化**：在域名末尾添加或删除 “s” (例如，zeltsers.com)。
+* **省略**：从域名中 **删除一个** 字母 (例如，zelser.com)。
+* **重复**：在域名中 **重复一个** 字母 (例如，zeltsser.com)。
+* **替换**：类似同形异义字，但不太隐蔽。它用键盘上与原字母相近的字母替换域名中的一个字母 (例如，zektser.com)。
+* **子域化**：在域名中引入一个 **点** (例如，ze.lster.com)。
+* **插入**：在域名中 **插入一个字母** (例如，zerltser.com)。
+* **缺失点**：将 TLD 附加到域名上 (例如，zelstercom.com)
 
-**Outomatiese Gereedskap**
+**自动工具**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-**Webwerwe**
+**网站**
 
 * [https://dnstwist.it/](https://dnstwist.it)
 * [https://dnstwister.report/](https://dnstwister.report)
@@ -60,51 +60,51 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 ### Bitflipping
 
-Daar is 'n **moontlikheid dat een van sommige bits wat gestoor of in kommunikasie is, outomaties omgedraai kan word** as gevolg van verskeie faktore soos sonvlamme, kosmiese strale, of hardewarefoute.
+有 **可能性某些存储或通信中的位会因各种因素而自动翻转**，例如太阳耀斑、宇宙射线或硬件错误。
 
-Wanneer hierdie konsep **toegepas word op DNS versoeke**, is dit moontlik dat die **domein wat deur die DNS bediener ontvang word** nie dieselfde is as die domein wat aanvanklik aangevra is nie.
+当这个概念 **应用于 DNS 请求** 时，**DNS 服务器接收到的域名** 可能与最初请求的域名不同。
 
-Byvoorbeeld, 'n enkele bit-wijziging in die domein "windows.com" kan dit verander na "windnws.com."
+例如，域名 "windows.com" 的单个位修改可以将其更改为 "windnws.com"。
 
-Aanvallers kan **voordeel trek uit hierdie deur verskeie bit-flipping domeine te registreer** wat soortgelyk is aan die slagoffer se domein. Hul bedoeling is om wettige gebruikers na hul eie infrastruktuur te herlei.
+攻击者可能会 **利用这一点注册多个与受害者域名相似的位翻转域名**。他们的意图是将合法用户重定向到他们自己的基础设施。
 
-Vir meer inligting lees [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+有关更多信息，请阅读 [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Koop 'n vertroude domein
+### 购买受信任的域名
 
-Jy kan soek in [https://www.expireddomains.net/](https://www.expireddomains.net) vir 'n vervalle domein wat jy kan gebruik.\
-Om seker te maak dat die vervalle domein wat jy gaan koop **alreeds 'n goeie SEO het**, kan jy soek hoe dit gekategoriseer is in:
+你可以在 [https://www.expireddomains.net/](https://www.expireddomains.net) 搜索可以使用的过期域名。\
+为了确保你要购买的过期域名 **已经有良好的 SEO**，你可以搜索它在以下网站的分类：
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Ontdek E-posse
+## 发现电子邮件
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% gratis)
-* [https://phonebook.cz/](https://phonebook.cz) (100% gratis)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% 免费)
+* [https://phonebook.cz/](https://phonebook.cz) (100% 免费)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Om **meer** geldige e-posadresse te **ontdek** of **diegene wat jy reeds ontdek het te verifieer**, kan jy kyk of jy die slagoffer se smtp bedieners kan brute-force. [Leer hoe om e-posadres hier te verifieer/ontdek](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Boonop, moenie vergeet dat as die gebruikers **enige webportaal gebruik om toegang tot hul e-posse te verkry**, jy kan kyk of dit kwesbaar is vir **gebruikersnaam brute force**, en die kwesbaarheid indien moontlik benut.
+为了 **发现更多** 有效的电子邮件地址或 **验证你已经发现的地址**，你可以检查是否可以对受害者的 smtp 服务器进行暴力破解。 [在这里学习如何验证/发现电子邮件地址](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration)。\
+此外，不要忘记，如果用户使用 **任何网络门户访问他们的邮件**，你可以检查它是否容易受到 **用户名暴力破解**，并在可能的情况下利用该漏洞。
 
-## Konfigureer GoPhish
+## 配置 GoPhish
 
-### Installasie
+### 安装
 
-Jy kan dit aflaai van [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+你可以从 [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0) 下载。
 
-Laai dit af en ontbind dit binne `/opt/gophish` en voer `/opt/gophish/gophish` uit.\
-Jy sal 'n wagwoord vir die admin gebruiker in poort 3333 in die uitvoer ontvang. Daarom, toegang daartoe en gebruik daardie geloofsbriewe om die admin wagwoord te verander. Jy mag nodig hê om daardie poort na lokaal te tonnel:
+下载并解压到 `/opt/gophish` 中，然后执行 `/opt/gophish/gophish`\
+你将在输出中获得端口 3333 的管理员用户密码。因此，访问该端口并使用这些凭据更改管理员密码。你可能需要将该端口隧道到本地：
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
-### Konfigurasie
+### 配置
 
-**TLS sertifikaat konfigurasie**
+**TLS 证书配置**
 
-Voor hierdie stap moet jy **reeds die domein gekoop het** wat jy gaan gebruik en dit moet **wys** na die **IP van die VPS** waar jy **gophish** konfigureer.
+在这一步之前，您应该已经**购买了您将要使用的域名**，并且它必须**指向**您正在配置**gophish**的**VPS 的 IP**。
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -120,34 +120,34 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Poskonfigurasie**
+**邮件配置**
 
-Begin met installasie: `apt-get install postfix`
+开始安装: `apt-get install postfix`
 
-Voeg dan die domein by die volgende lêers:
+然后将域名添加到以下文件中:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Verander ook die waardes van die volgende veranderlikes binne /etc/postfix/main.cf**
+**还要更改 /etc/postfix/main.cf 中以下变量的值**
 
-`myhostname = <domein>`\
-`mydestination = $myhostname, <domein>, localhost.com, localhost`
+`myhostname = <domain>`\
+`mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Laastens, wysig die lêers **`/etc/hostname`** en **`/etc/mailname`** na jou domeinnaam en **herbegin jou VPS.**
+最后将文件 **`/etc/hostname`** 和 **`/etc/mailname`** 修改为您的域名，并**重启您的 VPS。**
 
-Nou, skep 'n **DNS A rekord** van `mail.<domein>` wat na die **ip adres** van die VPS wys en 'n **DNS MX** rekord wat na `mail.<domein>` wys.
+现在，创建一个指向 VPS **ip 地址** 的 **DNS A 记录** `mail.<domain>` 和一个指向 `mail.<domain>` 的 **DNS MX** 记录。
 
-Nou laat ons toets om 'n e-pos te stuur:
+现在让我们测试发送电子邮件:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
-**Gophish konfigurasie**
+**Gophish 配置**
 
-Stop die uitvoering van gophish en laat ons dit konfigureer.\
-Wysig `/opt/gophish/config.json` na die volgende (let op die gebruik van https):
+停止 gophish 的执行，然后进行配置。\
+将 `/opt/gophish/config.json` 修改为以下内容（注意使用 https）：
 ```bash
 {
 "admin_server": {
@@ -172,9 +172,9 @@ Wysig `/opt/gophish/config.json` na die volgende (let op die gebruik van https):
 }
 }
 ```
-**Configure gophish diens**
+**配置 gophish 服务**
 
-Om die gophish diens te skep sodat dit outomaties begin kan word en as 'n diens bestuur kan word, kan jy die lêer `/etc/init.d/gophish` met die volgende inhoud skep:
+为了创建 gophish 服务，使其能够自动启动并作为服务进行管理，您可以创建文件 `/etc/init.d/gophish`，并添加以下内容：
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -221,7 +221,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Voltooi die konfigurasie van die diens en kontroleer dit deur:
+完成配置服务并检查它的方法是：
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -232,60 +232,60 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Konfigurasie van e-pos bediener en domein
+## 配置邮件服务器和域名
 
-### Wag & wees wettig
+### 等待并保持合法
 
-Hoe ouer 'n domein is, hoe minder waarskynlik is dit dat dit as spam gevang gaan word. Dan moet jy so lank as moontlik wag (ten minste 1 week) voor die phishing assessering. Boonop, as jy 'n bladsy oor 'n reputasionele sektor plaas, sal die reputasie wat verkry word beter wees.
+域名越老，被识别为垃圾邮件的可能性就越小。因此，在进行钓鱼评估之前，您应该尽可能等待更长的时间（至少1周）。此外，如果您放置一个关于声誉行业的页面，获得的声誉将会更好。
 
-Let daarop dat jy, selfs al moet jy 'n week wag, alles nou kan klaar konfigureer.
+请注意，即使您需要等待一周，您现在也可以完成所有配置。
 
-### Konfigureer Omgekeerde DNS (rDNS) rekord
+### 配置反向DNS (rDNS) 记录
 
-Stel 'n rDNS (PTR) rekord op wat die IP adres van die VPS na die domeinnaam oplos.
+设置一个将VPS的IP地址解析到域名的rDNS (PTR) 记录。
 
-### Sender Policy Framework (SPF) Rekord
+### 发件人策略框架 (SPF) 记录
 
-Jy moet **'n SPF rekord vir die nuwe domein konfigureer**. As jy nie weet wat 'n SPF rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#spf).
+您必须**为新域配置SPF记录**。如果您不知道什么是SPF记录，请[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#spf)。
 
-Jy kan [https://www.spfwizard.net/](https://www.spfwizard.net) gebruik om jou SPF beleid te genereer (gebruik die IP van die VPS masjien)
+您可以使用[https://www.spfwizard.net/](https://www.spfwizard.net)来生成您的SPF策略（使用VPS机器的IP）
 
 ![](<../../.gitbook/assets/image (1037).png>)
 
-Dit is die inhoud wat binne 'n TXT rekord binne die domein gestel moet word:
+这是必须在域名的TXT记录中设置的内容：
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Domein-gebaseerde Boodskapoutentiekering, Verslagdoening & Nakoming (DMARC) Rekord
+### 基于域的消息认证、报告和一致性 (DMARC) 记录
 
-Jy moet **'n DMARC rekord vir die nuwe domein konfigureer**. As jy nie weet wat 'n DMARC rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dmarc).
+您必须**为新域配置 DMARC 记录**。如果您不知道什么是 DMARC 记录 [**请阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dmarc)。
 
-Jy moet 'n nuwe DNS TXT rekord skep wat die gasheernaam `_dmarc.<domain>` met die volgende inhoud aandui:
+您需要创建一个新的 DNS TXT 记录，指向主机名 `_dmarc.<domain>`，内容如下：
 ```bash
 v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Jy moet **'n DKIM vir die nuwe domein konfigureer**. As jy nie weet wat 'n DMARC-record is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dkim).
+您必须**为新域配置 DKIM**。如果您不知道什么是 DMARC 记录 [**请阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dkim)。
 
-Hierdie tutoriaal is gebaseer op: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+本教程基于：[https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-Jy moet beide B64-waardes wat die DKIM-sleutel genereer, saamvoeg:
+您需要连接 DKIM 密钥生成的两个 B64 值：
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Toets jou e-poskonfigurasie telling
+### 测试您的电子邮件配置得分
 
-Jy kan dit doen deur [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Besoek net die bladsy en stuur 'n e-pos na die adres wat hulle jou gee:
+您可以使用 [https://www.mail-tester.com/](https://www.mail-tester.com)\
+只需访问该页面并向他们提供的地址发送电子邮件：
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-U kan ook **kontroleer u e-poskonfigurasie** deur 'n e-pos te stuur na `check-auth@verifier.port25.com` en **die antwoord te lees** (vir hierdie sal u moet **oopmaak** poort **25** en die antwoord in die lêer _/var/mail/root_ sien as u die e-pos as root stuur).\
-Kontroleer dat u al die toetse slaag:
+您还可以通过向 `check-auth@verifier.port25.com` 发送电子邮件来**检查您的电子邮件配置**，并**阅读响应**（为此，您需要**打开**端口**25**，并在文件 _/var/mail/root_ 中查看响应，如果您以 root 身份发送电子邮件）。\
+检查您是否通过了所有测试：
 ```bash
 ==========================================================
 Summary of Results
@@ -296,41 +296,41 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-U kan ook **'n boodskap na 'n Gmail onder u beheer stuur**, en die **e-pos se koptekste** in u Gmail-inboks nagaan, `dkim=pass` moet teenwoordig wees in die `Authentication-Results` kopveld.
+您还可以向**您控制的Gmail发送消息**，并检查您Gmail收件箱中的**电子邮件头**，`dkim=pass`应出现在`Authentication-Results`头字段中。
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### ​Verwydering van Spamhouse Swartlys
+### ​从Spamhouse黑名单中移除
 
-Die bladsy [www.mail-tester.com](https://www.mail-tester.com) kan jou aandui of jou domein deur spamhouse geblokkeer word. Jy kan versoek dat jou domein/IP verwyder word by: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+页面 [www.mail-tester.com](https://www.mail-tester.com) 可以指示您的域名是否被spamhouse阻止。您可以在以下网址请求移除您的域名/IP: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Verwydering van Microsoft Swartlys
+### 从Microsoft黑名单中移除
 
-​​Jy kan versoek dat jou domein/IP verwyder word by [https://sender.office.com/](https://sender.office.com).
+您可以在 [https://sender.office.com/](https://sender.office.com) 请求移除您的域名/IP。
 
-## Skep & Begin GoPhish Campagne
+## 创建并启动GoPhish活动
 
-### Stuur Profiel
+### 发送配置
 
-* Stel 'n **naam om die** sender profiel te identifiseer
-* Besluit vanaf watter rekening jy die phishing e-posse gaan stuur. Voorstelle: _noreply, support, servicedesk, salesforce..._
-* Jy kan die gebruikersnaam en wagwoord leeg laat, maar maak seker om die Ignore Certificate Errors te merk
+* 设置一些 **名称以识别** 发送者配置
+* 决定您将从哪个账户发送钓鱼邮件。建议：_noreply, support, servicedesk, salesforce..._
+* 您可以将用户名和密码留空，但请确保勾选忽略证书错误
 
 ![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
-Dit word aanbeveel om die "**Stuur Toets E-pos**" funksionaliteit te gebruik om te toets of alles werk.\
-Ek sou aanbeveel om **die toets e-posse na 10min e-pos adresse te stuur** om te verhoed dat jy op 'n swartlys geplaas word terwyl jy toetse doen.
+建议使用“**发送测试邮件**”功能来测试一切是否正常。\
+我建议将**测试邮件发送到10分钟邮件地址**以避免在测试中被列入黑名单。
 {% endhint %}
 
-### E-pos Sjabloon
+### 邮件模板
 
-* Stel 'n **naam om die** sjabloon te identifiseer
-* Skryf dan 'n **onderwerp** (niks vreemd nie, net iets wat jy sou verwag om in 'n gewone e-pos te lees)
-* Maak seker jy het "**Voeg Volg Beeld**" gemerk
-* Skryf die **e-pos sjabloon** (jy kan veranderlikes gebruik soos in die volgende voorbeeld):
+* 设置一些 **名称以识别** 模板
+* 然后写一个 **主题**（没有奇怪的内容，只是您在常规邮件中可能会看到的内容）
+* 确保您已勾选“**添加跟踪图像**”
+* 编写 **邮件模板**（您可以使用变量，如以下示例所示）：
 ```markup
 <html>
 <head>
@@ -349,110 +349,110 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Note that **om die geloofwaardigheid van die e-pos te verhoog**, dit word aanbeveel om 'n handtekening van 'n e-pos van die kliënt te gebruik. Voorstelle:
+注意，**为了提高电子邮件的可信度**，建议使用客户的电子邮件中的某些签名。建议：
 
-* Stuur 'n e-pos na 'n **nie-bestaande adres** en kyk of die antwoord enige handtekening het.
-* Soek na **publieke e-posse** soos info@ex.com of press@ex.com of public@ex.com en stuur hulle 'n e-pos en wag vir die antwoord.
-* Probeer om **'n geldige ontdekte** e-pos te kontak en wag vir die antwoord.
+* 向一个**不存在的地址**发送电子邮件，并检查回复是否有任何签名。
+* 搜索**公共电子邮件**，如 info@ex.com 或 press@ex.com 或 public@ex.com，并向他们发送电子邮件，等待回复。
+* 尝试联系**一些有效发现的**电子邮件，并等待回复。
 
 ![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Die E-pos Sjabloon laat ook toe om **lêers aan te heg om te stuur**. As jy ook NTLM-uitdagings wil steel met behulp van spesiaal saamgestelde lêers/dokumente [lees hierdie bladsy](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+电子邮件模板还允许**附加要发送的文件**。如果您还想使用一些特别制作的文件/文档窃取 NTLM 挑战，请[阅读此页面](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)。
 {% endhint %}
 
-### Landing Page
+### 登陆页面
 
-* Skryf 'n **naam**
-* **Skryf die HTML-kode** van die webblad. Let daarop dat jy **webbladsye kan invoer**.
-* Merk **Vang ingediende data** en **Vang wagwoorde**
-* Stel 'n **herleiding** in
+* 写一个**名称**
+* **编写网页的 HTML 代码**。请注意，您可以**导入**网页。
+* 标记**捕获提交的数据**和**捕获密码**
+* 设置**重定向**
 
 ![](<../../.gitbook/assets/image (826).png>)
 
 {% hint style="info" %}
-Gewoonlik sal jy die HTML-kode van die bladsy moet wysig en 'n paar toetse in plaaslike omgewing doen (miskien met 'n Apache-bediener) **totdat jy hou van die resultate.** Skryf dan daardie HTML-kode in die boks.\
-Let daarop dat as jy **sommige statiese hulpbronne** vir die HTML benodig (miskien 'n paar CSS en JS bladsye) jy dit in _**/opt/gophish/static/endpoint**_ kan stoor en dit dan kan benader vanaf _**/static/\<filename>**_
+通常，您需要修改页面的 HTML 代码并在本地进行一些测试（可能使用一些 Apache 服务器）**直到您喜欢结果。** 然后，将该 HTML 代码写入框中。\
+请注意，如果您需要**使用一些静态资源**用于 HTML（可能是一些 CSS 和 JS 页面），您可以将它们保存在 _**/opt/gophish/static/endpoint**_ 中，然后从 _**/static/\<filename>**_ 访问它们。
 {% endhint %}
 
 {% hint style="info" %}
-Vir die herleiding kan jy **die gebruikers na die wettige hoofwebblad** van die slagoffer herlei, of hulle na _/static/migration.html_ herlei, byvoorbeeld, 'n **draaiwiel** (**[**https://loading.io/**](https://loading.io)**) vir 5 sekondes plaas en dan aandui dat die proses suksesvol was**.
+对于重定向，您可以**将用户重定向到受害者的合法主网页**，或者将他们重定向到 _/static/migration.html_，例如，放置一些**旋转轮**（**[https://loading.io/](https://loading.io)**）5 秒钟，然后指示该过程成功。
 {% endhint %}
 
-### Users & Groups
+### 用户与组
 
-* Stel 'n naam in
-* **Importeer die data** (let daarop dat jy die voornaam, van en e-posadres van elke gebruiker benodig om die sjabloon vir die voorbeeld te gebruik)
+* 设置一个名称
+* **导入数据**（请注意，为了使用示例模板，您需要每个用户的名字、姓氏和电子邮件地址）
 
 ![](<../../.gitbook/assets/image (163).png>)
 
-### Campaign
+### 活动
 
-Laastens, skep 'n veldtog deur 'n naam, die e-pos sjabloon, die landing page, die URL, die sending profiel en die groep te kies. Let daarop dat die URL die skakel sal wees wat aan die slagoffers gestuur word.
+最后，创建一个活动，选择一个名称、电子邮件模板、登陆页面、URL、发送配置文件和组。请注意，URL 将是发送给受害者的链接。
 
-Let daarop dat die **Sending Profile toelaat om 'n toets e-pos te stuur om te sien hoe die finale phishing e-pos sal lyk**:
+请注意，**发送配置文件允许发送测试电子邮件以查看最终的钓鱼电子邮件的外观**：
 
 ![](<../../.gitbook/assets/image (192).png>)
 
 {% hint style="info" %}
-Ek sou aanbeveel om **die toets e-posse na 10min e-posadresse te stuur** om te verhoed dat jy op 'n swartlys geplaas word terwyl jy toetse doen.
+我建议**将测试电子邮件发送到 10 分钟邮件地址**以避免在测试中被列入黑名单。
 {% endhint %}
 
-Sodra alles gereed is, begin net die veldtog!
+一切准备就绪后，只需启动活动！
 
-## Website Cloning
+## 网站克隆
 
-As jy om enige rede die webwerf wil kloon, kyk na die volgende bladsy:
+如果出于任何原因您想克隆网站，请查看以下页面：
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Backdoored Documents & Files
+## 后门文档和文件
 
-In sommige phishing-evaluasies (hoofsaaklik vir Red Teams) wil jy ook **lêers stuur wat 'n soort backdoor bevat** (miskien 'n C2 of miskien net iets wat 'n verifikasie sal aktiveer).\
-Kyk na die volgende bladsy vir 'n paar voorbeelde:
+在某些钓鱼评估中（主要针对红队），您还希望**发送包含某种后门的文件**（可能是 C2，或者只是触发身份验证的东西）。\
+查看以下页面以获取一些示例：
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
 {% endcontent-ref %}
 
-## Phishing MFA
+## 钓鱼 MFA
 
-### Via Proxy MitM
+### 通过代理 MitM
 
-Die vorige aanval is redelik slim aangesien jy 'n werklike webwerf naboots en die inligting wat deur die gebruiker ingestel is, versamel. Ongelukkig, as die gebruiker nie die korrekte wagwoord ingevoer het nie of as die toepassing wat jy naboots met 2FA geconfigureer is, **sal hierdie inligting jou nie toelaat om die misleide gebruiker na te boots nie**.
+之前的攻击非常聪明，因为您伪造了一个真实的网站并收集了用户输入的信息。不幸的是，如果用户没有输入正确的密码，或者您伪造的应用程序配置了 2FA，**这些信息将无法让您冒充被欺骗的用户**。
 
-Hier is waar gereedskap soos [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) en [**muraena**](https://github.com/muraenateam/muraena) nuttig is. Hierdie gereedskap sal jou toelaat om 'n MitM-agtige aanval te genereer. Basies werk die aanvalle soos volg:
+这就是像 [**evilginx2**](https://github.com/kgretzky/evilginx2)**、** [**CredSniper**](https://github.com/ustayready/CredSniper) 和 [**muraena**](https://github.com/muraenateam/muraena) 这样的工具有用的地方。该工具将允许您生成类似 MitM 的攻击。基本上，攻击的工作方式如下：
 
-1. Jy **naboots die aanmeld** vorm van die werklike webblad.
-2. Die gebruiker **stuur** sy **akkrediteer** na jou vals bladsy en die gereedskap stuur dit na die werklike webblad, **om te kyk of die akkrediteer werk**.
-3. As die rekening met **2FA** geconfigureer is, sal die MitM-bladsy daarna vra en sodra die **gebruiker dit invoer**, sal die gereedskap dit na die werklike webblad stuur.
-4. Sodra die gebruiker geverifieer is, sal jy (as aanvaller) **die akkrediteer, die 2FA, die koekie en enige inligting** van elke interaksie wat jy het, gevang het terwyl die gereedskap 'n MitM uitvoer.
+1. 您**冒充真实网页的登录**表单。
+2. 用户**发送**他的**凭据**到您的假页面，工具将这些发送到真实网页，**检查凭据是否有效**。
+3. 如果账户配置了**2FA**，MitM 页面将要求输入，一旦**用户输入**，工具将其发送到真实网页。
+4. 一旦用户通过身份验证，您（作为攻击者）将**捕获凭据、2FA、cookie 和任何信息**，在工具执行 MitM 时的每次交互。
 
-### Via VNC
+### 通过 VNC
 
-Wat as jy in plaas van **die slagoffer na 'n kwaadwillige bladsy** met dieselfde voorkoms as die oorspronklike, hom na 'n **VNC-sessie met 'n blaaiersessie wat aan die werklike webblad gekoppel is** stuur? Jy sal in staat wees om te sien wat hy doen, die wagwoord, die MFA wat gebruik word, die koekies...\
-Jy kan dit doen met [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+如果您不是**将受害者发送到一个与原始页面外观相同的恶意页面**，而是将他发送到一个**与真实网页连接的浏览器的 VNC 会话**呢？您将能够看到他所做的事情，窃取密码、使用的 MFA、cookie...\
+您可以使用 [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC) 来做到这一点。
 
-## Detecting the detection
+## 检测检测
 
-Dit is duidelik dat een van die beste maniere om te weet of jy betrap is, is om **jou domein in swartlyste te soek**. As dit gelys word, was jou domein op een of ander manier as verdag beskou.\
-Een maklike manier om te kyk of jou domein in enige swartlys verskyn, is om [https://malwareworld.com/](https://malwareworld.com) te gebruik.
+显然，知道您是否被发现的最佳方法之一是**在黑名单中搜索您的域名**。如果它出现在列表中，您的域名以某种方式被检测为可疑。\
+检查您的域名是否出现在任何黑名单中的一种简单方法是使用 [https://malwareworld.com/](https://malwareworld.com)。
 
-Daar is egter ander maniere om te weet of die slagoffer **aktief op soek is na verdagte phishingaktiwiteite in die natuur**, soos verduidelik in:
+然而，还有其他方法可以知道受害者是否**在积极寻找可疑的钓鱼活动**，如以下所述：
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Jy kan **'n domein met 'n baie soortgelyke naam** as die slagoffer se domein **koop en/of 'n sertifikaat genereer** vir 'n **subdomein** van 'n domein wat deur jou beheer word **wat die** **sleutelwoord** van die slagoffer se domein bevat. As die **slagoffer** enige soort **DNS of HTTP-interaksie** met hulle uitvoer, sal jy weet dat **hy aktief op soek is** na verdagte domeine en jy sal baie stil moet wees.
+您可以**购买一个与受害者域名非常相似的域名**，**和/或为您控制的域名的**子域名**生成证书**，**包含**受害者域名的**关键字**。如果**受害者**与它们进行任何类型的**DNS 或 HTTP 交互**，您将知道**他在积极寻找**可疑域名，您需要非常隐蔽。
 
-### Evaluate the phishing
+### 评估钓鱼
 
-Gebruik [**Phishious** ](https://github.com/Rices/Phishious) om te evalueer of jou e-pos in die spammap gaan eindig of of dit geblokkeer gaan word of suksesvol gaan wees.
+使用 [**Phishious** ](https://github.com/Rices/Phishious) 评估您的电子邮件是否会进入垃圾邮件文件夹，或者是否会被阻止或成功。
 
-## References
+## 参考
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
@@ -460,16 +460,16 @@ Gebruik [**Phishious** ](https://github.com/Rices/Phishious) om te evalueer of j
 * [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

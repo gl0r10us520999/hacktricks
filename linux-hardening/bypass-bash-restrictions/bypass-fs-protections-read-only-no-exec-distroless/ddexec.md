@@ -1,31 +1,31 @@
 # DDexec / EverythingExec
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Konteks
+## 上下文
 
-In Linux moet 'n program as 'n lêer bestaan om uitgevoer te word, dit moet op een of ander manier toeganklik wees deur die lêersisteemhiërargie (dit is net hoe `execve()` werk). Hierdie lêer kan op die skyf of in ram (tmpfs, memfd) wees, maar jy het 'n lêerpad nodig. Dit maak dit baie maklik om te beheer wat op 'n Linux-sisteem uitgevoer word, dit maak dit maklik om bedreigings en aanvaller se gereedskap op te spoor of te voorkom dat hulle probeer om enigiets van hulle uit te voer (_bv._ nie toelaat dat onbevoorregte gebruikers uitvoerbare lêers oral plaas nie).
+在 Linux 中，为了运行一个程序，它必须作为一个文件存在，必须通过文件系统层次以某种方式可访问（这就是 `execve()` 的工作原理）。这个文件可以存储在磁盘上或在内存中（tmpfs, memfd），但你需要一个文件路径。这使得控制在 Linux 系统上运行的内容变得非常简单，容易检测威胁和攻击者的工具，或者防止他们尝试执行任何他们的程序（例如，不允许无权限用户在任何地方放置可执行文件）。
 
-Maar hierdie tegniek is hier om dit alles te verander. As jy nie die proses wat jy wil begin nie kan begin nie... **dan kaap jy een wat reeds bestaan**.
+但这个技术将改变这一切。如果你无法启动你想要的进程... **那么你就劫持一个已经存在的进程**。
 
-Hierdie tegniek maak dit moontlik om **gewone beskermingstegnieke soos slegs-lees, noexec, lêernaam-witlysing, has-witlysing...** te omseil.
+这个技术允许你 **绕过常见的保护技术，如只读、noexec、文件名白名单、哈希白名单...**
 
-## Afhanklikhede
+## 依赖关系
 
-Die finale skrip hang af van die volgende gereedskap om te werk, hulle moet toeganklik wees in die sisteem wat jy aanval (standaard sal jy almal oral vind):
+最终脚本依赖于以下工具才能工作，它们需要在你攻击的系统中可访问（默认情况下，你会在任何地方找到它们）：
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,74 +39,74 @@ wc
 tr
 base64
 ```
-## Die tegniek
+## 技术
 
-Indien jy in staat is om arbitrair die geheue van 'n proses te wysig, kan jy dit oorneem. Dit kan gebruik word om 'n reeds bestaande proses te kap en dit met 'n ander program te vervang. Ons kan dit bereik deur die `ptrace()` stelseloproep te gebruik (wat vereis dat jy die vermoë het om stelseloproepe uit te voer of om gdb beskikbaar te hê op die stelsel) of, meer interessant, deur te skryf na `/proc/$pid/mem`.
+如果您能够任意修改进程的内存，那么您就可以接管它。这可以用来劫持一个已经存在的进程并用另一个程序替换它。我们可以通过使用 `ptrace()` 系统调用（这要求您能够执行系统调用或在系统上有 gdb 可用）来实现这一点，或者更有趣的是，写入 `/proc/$pid/mem`。
 
-Die lêer `/proc/$pid/mem` is 'n een-tot-een kartering van die hele adresruimte van 'n proses (_bv._ van `0x0000000000000000` tot `0x7ffffffffffff000` in x86-64). Dit beteken dat lees vanaf of skryf na hierdie lêer by 'n skuif `x` dieselfde is as lees vanaf of die inhoud by die virtuele adres `x` wysig.
+文件 `/proc/$pid/mem` 是进程整个地址空间的一对一映射（_例如_ 从 `0x0000000000000000` 到 `0x7ffffffffffff000` 在 x86-64 中）。这意味着在偏移量 `x` 处读取或写入此文件与在虚拟地址 `x` 处读取或修改内容是相同的。
 
-Nou het ons vier basiese probleme om te hanteer:
+现在，我们面临四个基本问题：
 
-* In die algemeen kan slegs die root en die program-eienaar van die lêer dit wysig.
-* ASLR.
-* As ons probeer om te lees of te skryf na 'n adres wat nie gekarteer is in die adresruimte van die program nie, sal ons 'n I/O-fout kry.
+* 通常，只有 root 和文件的程序所有者可以修改它。
+* ASLR。
+* 如果我们尝试读取或写入未映射在程序地址空间中的地址，我们将得到 I/O 错误。
 
-Hierdie probleme het oplossings wat, alhoewel hulle nie perfek is nie, goed is:
+这些问题有解决方案，尽管它们并不完美，但效果不错：
 
-* Die meeste skilinterpreteerders maak die skepping van lêerbeskrywers moontlik wat dan deur kinderprosesse geërf sal word. Ons kan 'n fd skep wat na die `mem`-lêer van die skil wys met skryfregte... sodat kinderprosesse wat daardie fd gebruik, in staat sal wees om die skil se geheue te wysig.
-* ASLR is nie eers 'n probleem nie, ons kan die skil se `maps`-lêer of enige ander van die procfs ondersoek om inligting oor die adresruimte van die proses te verkry.
-* Dus moet ons oor die lêer `lseek()` beweeg. Vanuit die skil kan dit nie gedoen word tensy deur die berugte `dd` te gebruik nie.
+* 大多数 shell 解释器允许创建文件描述符，这些描述符将被子进程继承。我们可以创建一个指向 shell 的 `mem` 文件的 fd，并赋予写权限……因此使用该 fd 的子进程将能够修改 shell 的内存。
+* ASLR 甚至不是问题，我们可以检查 shell 的 `maps` 文件或 procfs 中的任何其他文件，以获取有关进程地址空间的信息。
+* 所以我们需要在文件上使用 `lseek()`。从 shell 中，这不能完成，除非使用臭名昭著的 `dd`。
 
-### Meer inligting
+### 更详细地
 
-Die stappe is relatief maklik en vereis geen soort van kundigheid om hulle te verstaan nie:
+这些步骤相对简单，不需要任何专业知识来理解：
 
-* Ontleed die binêre lêer wat ons wil hardloop en die laaier om uit te vind watter karterings hulle benodig. Skep dan 'n "skil"kode wat, breed gesproke, dieselfde stappe sal uitvoer as wat die kernel doen met elke oproep na `execve()`:
-* Skep genoemde karterings.
-* Lees die binêre lêers daarin.
-* Stel toestemmings op.
-* Inisieer uiteindelik die stok met die argumente vir die program en plaas die hulplêer (benodig deur die laaier).
-* Spring in die laaier en laat dit die res doen (laai biblioteke wat deur die program benodig word).
-* Kry van die `stelseloproep`-lêer die adres waarna die proses sal terugkeer na die stelseloproep wat dit uitvoer.
-* Skryf daardie plek oor, wat uitvoerbaar sal wees, met ons skilkode (deur `mem` kan ons onskryfbare bladsye wysig).
-* Gee die program wat ons wil hardloop aan die stdin van die proses (sal deur genoemde "skil"kode `lees()` word).
-* Op hierdie punt is dit aan die laaier om die nodige biblioteke vir ons program te laai en daarin te spring.
+* 解析我们想要运行的二进制文件和加载器，以找出它们需要什么映射。然后制作一个“shell”代码，广义上讲，执行内核在每次调用 `execve()` 时所做的相同步骤：
+* 创建上述映射。
+* 将二进制文件读入其中。
+* 设置权限。
+* 最后用程序的参数初始化堆栈，并放置辅助向量（加载器所需）。
+* 跳转到加载器，让它完成其余工作（加载程序所需的库）。
+* 从 `syscall` 文件中获取进程在执行的系统调用后将返回的地址。
+* 用我们的 shellcode（通过 `mem` 我们可以修改不可写页面）覆盖该可执行位置。
+* 将我们想要运行的程序传递给进程的 stdin（将被上述“shell”代码 `read()`）。
+* 此时，加载器将负责加载我们程序所需的库并跳转到它。
 
-**Kyk na die instrument op** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**查看工具在** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-Daar is verskeie alternatiewe vir `dd`, een waarvan, `tail`, tans die verstekprogram is wat gebruik word om deur die `mem`-lêer te `lseek()` (wat die enigste doel was vir die gebruik van `dd`). Genoemde alternatiewe is:
+有几种替代 `dd` 的方法，其中之一 `tail`，目前是用于通过 `mem` 文件进行 `lseek()` 的默认程序（这就是使用 `dd` 的唯一目的）。这些替代方案是：
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-Deur die veranderlike `SEEKER` in te stel, kan jy die gebruikte soeker verander, _bv._:
+设置变量 `SEEKER` 可以更改使用的搜索器，例如：
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Indien jy 'n ander geldige soeker vind wat nie geïmplementeer is in die skrips nie, kan jy dit steeds gebruik deur die `SEEKER_ARGS` veranderlike in te stel:
+如果您找到另一个在脚本中未实现的有效查找器，您仍然可以通过设置 `SEEKER_ARGS` 变量来使用它：
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Blok dit, EDRs.
+Block this, EDRs.
 
-## Verwysings
+## References
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 {% hint style="success" %}
-Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
