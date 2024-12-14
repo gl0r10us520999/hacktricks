@@ -1,8 +1,8 @@
 # macOS Yükleyici İstismarı
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -17,19 +17,19 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grt
 
 ## Pkg Temel Bilgiler
 
-macOS **yükleyici paketi** (aynı zamanda `.pkg` dosyası olarak da bilinir), macOS tarafından **yazılım dağıtımı** için kullanılan bir dosya formatıdır. Bu dosyalar, bir yazılım parçasının doğru bir şekilde yüklenmesi ve çalışması için gereken her şeyi içeren bir **kutunun** içindeymiş gibi davranır.
+Bir macOS **yükleyici paketi** (aynı zamanda `.pkg` dosyası olarak da bilinir), macOS tarafından **yazılım dağıtımı** için kullanılan bir dosya formatıdır. Bu dosyalar, bir yazılım parçasının doğru bir şekilde yüklenmesi ve çalışması için gereken her şeyi içeren bir **kutu gibidir**.
 
-Paket dosyası, hedef bilgisayara yüklenecek **dosya ve dizinlerin hiyerarşisini** tutan bir arşivdir. Ayrıca, yapılandırma dosyalarını ayarlamak veya yazılımın eski sürümlerini temizlemek gibi yüklemeden önce ve sonra görevleri yerine getirmek için **scriptler** de içerebilir.
+Paket dosyası, hedef bilgisayara yüklenecek **dosya ve dizinlerin hiyerarşisini** tutan bir arşivdir. Ayrıca, yapılandırma dosyalarını ayarlamak veya yazılımın eski sürümlerini temizlemek gibi yüklemeden önce ve sonra görevleri yerine getirmek için **betikler** de içerebilir.
 
 ### Hiyerarşi
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Dağıtım (xml)**: Özelleştirmeler (başlık, karşılama metni…) ve script/yükleme kontrolleri
-* **Paket Bilgisi (xml)**: Bilgi, yükleme gereksinimleri, yükleme yeri, çalıştırılacak scriptlerin yolları
+* **Dağıtım (xml)**: Özelleştirmeler (başlık, karşılama metni…) ve betik/yükleme kontrolleri
+* **Paket Bilgisi (xml)**: Bilgi, yükleme gereksinimleri, yükleme yeri, çalıştırılacak betiklerin yolları
 * **Malzeme listesi (bom)**: Yüklenmesi, güncellenmesi veya kaldırılması gereken dosyaların listesi ve dosya izinleri
 * **Yük (CPIO arşivi gzip sıkıştırılmış)**: Paket Bilgisi'nden `install-location`'da yüklenecek dosyalar
-* **Scriptler (CPIO arşivi gzip sıkıştırılmış)**: Yükleme öncesi ve sonrası scriptler ve yürütme için geçici bir dizine çıkarılan daha fazla kaynak.
+* **Betikler (CPIO arşivi gzip sıkıştırılmış)**: Yükleme öncesi ve sonrası betikler ve yürütme için geçici bir dizine çıkarılan daha fazla kaynak.
 
 ### Sıkıştırmayı Aç
 ```bash
@@ -75,7 +75,7 @@ Eğer bir ön veya sonrası yükleme betiği örneğin **`/var/tmp/Installerutil
 
 ### AuthorizationExecuteWithPrivileges
 
-Bu, birkaç yükleyici ve güncelleyici tarafından **root olarak bir şey yürütmek için** çağrılan bir [kamusal işlevdir](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg). Bu işlev, **yürütülecek dosyanın** **yolunu** parametre olarak kabul eder, ancak eğer bir saldırgan bu dosyayı **değiştirebilirse**, root ile yürütmesini **istismar edebilir** ve **ayrıcalıkları artırabilir**.
+Bu, birkaç yükleyici ve güncelleyici tarafından **root olarak bir şey yürütmek için** çağrılan bir [kamusal işlevdir](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg). Bu işlev, **yürütülecek dosyanın** **yolu** parametre olarak alır, ancak bir saldırgan bu dosyayı **değiştirebilirse**, root ile yürütmesini **istismar edebilir** ve **ayrıcalıkları artırabilir**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -93,7 +93,7 @@ Bunun bir örneği **CVE-2021-26089**'dur; bu, root olarak yürütme elde etmek 
 
 ### Boş Yük
 
-Gerçek bir yük olmadan, sadece **kötü amaçlı yazılım** içeren **ön ve sonrası yükleme betikleri** ile bir **`.pkg`** dosyası oluşturmak mümkündür.
+Gerçek bir yük olmadan sadece **kötü amaçlı yazılım** içeren **ön ve sonrası yükleme betikleri** ile bir **`.pkg`** dosyası oluşturmak mümkündür.
 
 ### Dağıtım xml'inde JS
 
@@ -172,8 +172,8 @@ productbuild --distribution dist.xml --package-path myapp.pkg final-installer.pk
 * [https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages](https://redteamrecipe.com/macos-red-teaming?utm\_source=pocket\_shared#heading-exploiting-installer-packages)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking Öğrenin ve Pratik Yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking Öğrenin ve Pratik Yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

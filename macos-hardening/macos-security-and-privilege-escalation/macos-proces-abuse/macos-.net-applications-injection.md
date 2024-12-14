@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -61,7 +61,7 @@ write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-`out` borusundaki bir okuma işlemi, hata ayıklama oturumu kurulumunun başarıyla tamamlandığını veya başarısız olduğunu doğrular:
+`out` borusundaki bir okuma işlemi, hata ayıklama oturumu kurulumunun başarıyla veya başarısız bir şekilde gerçekleştiğini doğrular:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
@@ -105,11 +105,11 @@ vmmap -pages 35829 | grep "rwx/rwx"
 ```
 Bir işlev işaretçisini geçersiz kılmak için bir yer bulmak gereklidir ve .NET Core'da bu, **Dynamic Function Table (DFT)** hedeflenerek yapılabilir. Bu tablo, [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) dosyasında detaylandırılmıştır ve çalışma zamanı tarafından JIT derleme yardımcı işlevleri için kullanılır.
 
-x64 sistemler için, `_hlpDynamicFuncTable` sembolüne bir referans bulmak için imza avcılığı kullanılabilir `libcorclr.dll` içinde.
+x64 sistemler için, imza avcılığı, `libcorclr.dll` dosyasında `_hlpDynamicFuncTable` sembolüne bir referans bulmak için kullanılabilir.
 
-`MT_GetDCB` hata ayıklayıcı işlevi, `libcorclr.dll`'nin işlem belleğindeki konumunu gösteren bir yardımcı işlevin adresi olan `m_helperRemoteStartAddr` dahil olmak üzere yararlı bilgiler sağlar. Bu adres daha sonra DFT'yi aramak ve bir işlev işaretçisini shellcode'un adresi ile geçersiz kılmak için kullanılır.
+`MT_GetDCB` hata ayıklayıcı işlevi, `libcorclr.dll`'nin işlem belleğindeki konumunu gösteren bir yardımcı işlevin adresi olan `m_helperRemoteStartAddr` dahil olmak üzere yararlı bilgiler sağlar. Bu adres, DFT'yi aramak ve bir işlev işaretçisini shellcode'un adresi ile geçersiz kılmak için kullanılır.
 
-PowerShell'e enjeksiyon için tam POC kodu [buradan](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6) erişilebilir.
+PowerShell'e enjeksiyon için tam POC kodu [burada](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6) erişilebilir.
 
 ## Referanslar
 

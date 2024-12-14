@@ -36,7 +36,7 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 
 * **Standart Kullanıcı:** En temel kullanıcıdır. Bu kullanıcı, yazılım yüklemeye veya diğer gelişmiş görevleri gerçekleştirmeye çalışırken bir yönetici kullanıcısından izin alması gerekir. Kendi başına bunu yapamaz.
 * **Yönetici Kullanıcı**: Çoğu zaman standart kullanıcı olarak çalışan, ancak yazılım yüklemek ve diğer idari görevleri gerçekleştirmek gibi root işlemleri yapmasına da izin verilen bir kullanıcıdır. Yönetici grubuna ait tüm kullanıcılara **sudoers dosyası aracılığıyla root erişimi verilir**.
-* **Root**: Root, neredeyse her türlü işlemi gerçekleştirmesine izin verilen bir kullanıcıdır (Sistem Bütünlüğü Koruması gibi korumalar tarafından sınırlamalar vardır).
+* **Root**: Neredeyse her türlü işlemi gerçekleştirmesine izin verilen bir kullanıcıdır (Sistem Bütünlüğü Koruması gibi korumalar tarafından sınırlamalar vardır).
 * Örneğin, root `/System` dizinine bir dosya yerleştiremez.
 
 ## Harici Hesaplar

@@ -17,7 +17,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 
 ## DYLD\_INSERT\_LIBRARIES Temel örnek
 
-**Enjekte edilecek kütüphane** bir shell çalıştırmak için:
+**Bir shell çalıştırmak için enjekte edilecek kütüphane:**
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Son olarak, bunu **ele geçirilmiş konuma** kopyalayın:
+Son olarak, bunu **ele geçirilen konuma** kopyalayın:
 
 {% code overflow="wrap" %}
 ```bash

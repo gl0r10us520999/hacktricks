@@ -1,8 +1,8 @@
 # macOS Ağ Hizmetleri ve Protokoller
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -37,7 +37,7 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD), macOS için özel olarak tasarlanmış [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) 'nin geliştirilmiş bir versiyonudur ve ek özellikler sunar. ARD'deki dikkate değer bir zayıflık, kontrol ekranı şifresi için kimlik doğrulama yöntemidir; bu yöntem yalnızca şifrenin ilk 8 karakterini kullanır, bu da onu [brute force saldırılarına](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) karşı savunmasız hale getirir. Hydra veya [GoRedShell](https://github.com/ahhh/GoRedShell/) gibi araçlarla, varsayılan hız sınırlamaları olmadığı için bu durum söz konusudur.
+Apple Remote Desktop (ARD), macOS için özel olarak tasarlanmış [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) 'nin geliştirilmiş bir versiyonudur ve ek özellikler sunar. ARD'deki dikkat çekici bir zayıflık, kontrol ekranı şifresi için kimlik doğrulama yöntemidir; bu yöntem yalnızca şifrenin ilk 8 karakterini kullanır, bu da onu [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) gibi Hydra veya [GoRedShell](https://github.com/ahhh/GoRedShell/) gibi araçlarla saldırılara karşı savunmasız hale getirir, çünkü varsayılan hız sınırlamaları yoktur.
 
 Zayıf noktaları olan örnekler, **nmap**'in `vnc-info` betiği kullanılarak tanımlanabilir. `VNC Authentication (2)`'yi destekleyen hizmetler, 8 karakterli şifre kısaltması nedeniyle brute force saldırılarına özellikle açıktır.
 
@@ -45,24 +45,24 @@ ARD'yi ayrıcalık yükseltme, GUI erişimi veya kullanıcı izleme gibi çeşit
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD, gözlem, paylaşılan kontrol ve tam kontrol dahil olmak üzere çok yönlü kontrol seviyeleri sağlar ve oturumlar kullanıcı şifre değişikliklerinden sonra bile devam eder. Yönetici kullanıcılar için kök olarak çalıştırarak doğrudan Unix komutları göndermeye olanak tanır. Görev zamanlama ve Uzaktan Spotlight araması, birden fazla makinede hassas dosyalar için uzaktan, düşük etkili aramalar yapmayı kolaylaştıran dikkate değer özelliklerdir.
+ARD, gözlem, paylaşılan kontrol ve tam kontrol dahil olmak üzere çok yönlü kontrol seviyeleri sağlar ve oturumlar kullanıcı şifre değişikliklerinden sonra bile devam eder. Yönetici kullanıcılar için kök olarak çalıştırarak Unix komutlarını doğrudan göndermeye olanak tanır. Görev zamanlama ve Uzaktan Spotlight arama, birden fazla makinede hassas dosyalar için uzaktan, düşük etkili aramalar yapmayı kolaylaştıran dikkate değer özelliklerdir.
 
 ## Bonjour Protokolü
 
-Apple tarafından tasarlanan Bonjour, **aynı ağdaki cihazların birbirlerinin sunduğu hizmetleri tespit etmesine olanak tanır**. Rendezvous, **Sıfır Konfigürasyon** veya Zeroconf olarak da bilinen bu teknoloji, bir cihazın bir TCP/IP ağına katılmasını, **otomatik olarak bir IP adresi seçmesini** ve hizmetlerini diğer ağ cihazlarına yayınlamasını sağlar.
+Apple tarafından tasarlanan Bonjour, **aynı ağdaki cihazların birbirlerinin sunduğu hizmetleri tespit etmesine** olanak tanır. Rendezvous, **Sıfır Konfigürasyon** veya Zeroconf olarak da bilinen bu teknoloji, bir cihazın bir TCP/IP ağına katılmasını, **otomatik olarak bir IP adresi seçmesini** ve hizmetlerini diğer ağ cihazlarına yayınlamasını sağlar.
 
 Bonjour tarafından sağlanan Sıfır Konfigürasyon Ağı, cihazların:
-* **Bir DHCP sunucusu yokken bile otomatik olarak bir IP adresi almasını** sağlar.
-* **İsimden adrese çeviri** yapmasını, bir DNS sunucusuna ihtiyaç duymadan gerçekleştirir.
+* **Otomatik olarak bir IP Adresi elde etmesini** sağlar, DHCP sunucusu yoksa bile.
+* **isimden-adrese çeviri** yapmasını, DNS sunucusu gerektirmeden gerçekleştirir.
 * Ağda mevcut olan **hizmetleri keşfetmesini** sağlar.
 
-Bonjour kullanan cihazlar, kendilerine **169.254/16 aralığından bir IP adresi atar** ve ağdaki benzersizliğini doğrular. Mac'ler, bu alt ağ için bir yönlendirme tablosu girişi tutar; bu, `netstat -rn | grep 169` komutuyla doğrulanabilir.
+Bonjour kullanan cihazlar, kendilerine **169.254/16 aralığından bir IP adresi** atayacak ve ağdaki benzersizliğini doğrulayacaktır. Mac'ler, bu alt ağ için bir yönlendirme tablosu girişi tutar ve bu, `netstat -rn | grep 169` komutuyla doğrulanabilir.
 
 DNS için Bonjour, **Multicast DNS (mDNS) protokolünü** kullanır. mDNS, **port 5353/UDP** üzerinden çalışır ve **standart DNS sorgularını** kullanarak **multicast adresi 224.0.0.251**'yi hedef alır. Bu yaklaşım, ağdaki tüm dinleyen cihazların sorguları almasını ve yanıt vermesini sağlar, böylece kayıtlarını güncelleyebilirler.
 
-Ağa katıldığında, her cihaz kendine genellikle **.local** ile biten bir isim seçer; bu isim, ana bilgisayardan türetilmiş veya rastgele oluşturulmuş olabilir.
+Ağa katıldığında, her cihaz kendine bir isim seçer, genellikle **.local** ile biter ve bu isim ana bilgisayardan türetilmiş veya rastgele oluşturulmuş olabilir.
 
-Ağ içindeki hizmet keşfi, **DNS Hizmet Keşfi (DNS-SD)** ile kolaylaştırılır. DNS SRV kayıtlarının formatını kullanan DNS-SD, birden fazla hizmetin listelenmesini sağlamak için **DNS PTR kayıtlarını** kullanır. Belirli bir hizmet arayan bir istemci, `<Service>.<Domain>` için bir PTR kaydı talep eder ve eğer hizmet birden fazla ana bilgisayardan mevcutsa, `<Instance>.<Service>.<Domain>` formatında PTR kayıtları listesi alır.
+Ağ içindeki hizmet keşfi, **DNS Hizmet Keşfi (DNS-SD)** ile kolaylaştırılır. DNS SRV kayıtlarının formatını kullanan DNS-SD, birden fazla hizmetin listelenmesini sağlamak için **DNS PTR kayıtlarını** kullanır. Belirli bir hizmet arayan bir istemci, `<Service>.<Domain>` için bir PTR kaydı talep eder ve eğer hizmet birden fazla ana bilgisayardan mevcutsa, `<Instance>.<Service>.<Domain>` formatında bir dizi PTR kaydı alır.
 
 `dns-sd` aracı, **ağ hizmetlerini keşfetmek ve tanıtmak için** kullanılabilir. İşte kullanımına dair bazı örnekler:
 
@@ -90,7 +90,7 @@ Bir hizmet başladığında, varlığını alt ağdaki tüm cihazlara çoklu yay
 
 Daha kullanıcı dostu bir arayüz için, Apple App Store'da bulunan **Discovery - DNS-SD Browser** uygulaması, yerel ağınızdaki sunulan hizmetleri görselleştirebilir.
 
-Alternatif olarak, `python-zeroconf` kütüphanesini kullanarak hizmetleri taramak ve keşfetmek için özel betikler yazılabilir. [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) betiği, `_http._tcp.local.` hizmetleri için bir hizmet tarayıcısı oluşturmayı ve eklenen veya kaldırılan hizmetleri yazdırmayı göstermektedir:
+Alternatif olarak, `python-zeroconf` kütüphanesini kullanarak hizmetleri taramak ve keşfetmek için özel betikler yazılabilir. [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) betiği, `_http._tcp.local.` hizmetleri için bir hizmet tarayıcısı oluşturmayı gösterir ve eklenen veya kaldırılan hizmetleri yazdırır:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
@@ -118,13 +118,13 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 ```
 ## Referanslar
 
-* [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**Mac Hacker'ın El Kitabı**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -27,7 +27,7 @@ puts `whoami`
 ```
 {% endcode %}
 
-Herhangi bir yere aşağıdaki gibi bir ruby script oluşturun:
+Herhangi bir yerde aşağıdaki gibi bir ruby betiği oluşturun:
 
 {% code title="hello.rb" %}
 ```ruby
@@ -35,11 +35,11 @@ puts 'Hello, World!'
 ```
 {% endcode %}
 
-Arbitrary bir ruby betiğinin bunu yüklemesini sağlayın:
+Ardından, keyfi bir ruby betiğinin bunu yüklemesini sağlayın:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb
 ```
-Eğlenceli bir gerçek, **`--disable-rubyopt`** parametresi ile bile çalışıyor:
+Eğlenceli bir gerçek, bu **`--disable-rubyopt`** parametresiyle bile çalışıyor:
 ```bash
 RUBYOPT="-I/tmp -rinject" ruby hello.rb --disable-rubyopt
 ```

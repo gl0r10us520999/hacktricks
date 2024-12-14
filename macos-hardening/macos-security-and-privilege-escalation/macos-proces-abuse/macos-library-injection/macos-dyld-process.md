@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -44,9 +44,9 @@ Daha sonra, önemli sistem kütüphanelerini önceden bağlayan dyld paylaşıml
 3. Daha sonra içe aktarılan kütüphaneleri
 1. &#x20;Sonra kütüphaneleri özyinelemeli olarak içe aktarmaya devam eder
 
-Tüm kütüphaneler yüklendikten sonra, bu kütüphanelerin **başlatıcıları** çalıştırılır. Bunlar, `LC_ROUTINES[_64]` (şimdi kullanımdan kaldırılmış) içinde tanımlanan **`__attribute__((constructor))`** kullanılarak kodlanmıştır veya `S_MOD_INIT_FUNC_POINTERS` ile işaretlenmiş bir bölümde işaretçi ile kodlanmıştır (genellikle: **`__DATA.__MOD_INIT_FUNC`**).
+Tüm kütüphaneler yüklendikten sonra, bu kütüphanelerin **başlatıcıları** çalıştırılır. Bunlar, `LC_ROUTINES[_64]` içinde tanımlanan **`__attribute__((constructor))`** kullanılarak kodlanmıştır (şimdi kullanımdan kaldırılmıştır) veya `S_MOD_INIT_FUNC_POINTERS` ile işaretlenmiş bir bölümde işaretçi ile.
 
-Sonlandırıcılar **`__attribute__((destructor))`** ile kodlanmıştır ve `S_MOD_TERM_FUNC_POINTERS` ile işaretlenmiş bir bölümde bulunmaktadır (**`__DATA.__mod_term_func`**).
+Terminaller **`__attribute__((destructor))`** ile kodlanmıştır ve `S_MOD_TERM_FUNC_POINTERS` ile işaretlenmiş bir bölümde yer alır (**`__DATA.__mod_term_func`**).
 
 ### Stub'lar
 
@@ -55,14 +55,14 @@ macOS'taki tüm ikili dosyalar dinamik olarak bağlanmıştır. Bu nedenle, ikil
 İkili dosyadaki bazı stub bölümleri:
 
 * **`__TEXT.__[auth_]stubs`**: `__DATA` bölümlerinden işaretçiler
-* **`__TEXT.__stub_helper`**: Çağrılacak işlev hakkında bilgi ile dinamik bağlantıyı çağıran küçük kod
-* **`__DATA.__[auth_]got`**: Global Offset Tablosu (içe aktarılan işlevlere ait adresler, çözüldüğünde, yükleme zamanında işaretlendiği için `S_NON_LAZY_SYMBOL_POINTERS` ile bağlanır)
-* **`__DATA.__nl_symbol_ptr`**: Tembel olmayan sembol işaretçileri (yükleme zamanında işaretlendiği için `S_NON_LAZY_SYMBOL_POINTERS` ile bağlanır)
+* **`__TEXT.__stub_helper`**: Çağrılacak fonksiyon hakkında bilgi ile dinamik bağlantıyı çağıran küçük kod
+* **`__DATA.__[auth_]got`**: Global Offset Tablosu (içe aktarılan fonksiyonların adresleri, çözüldüğünde, yükleme zamanında `S_NON_LAZY_SYMBOL_POINTERS` bayrağı ile işaretlendiği için bağlanır)
+* **`__DATA.__nl_symbol_ptr`**: Tembel olmayan sembol işaretçileri (yükleme zamanında bağlanır, `S_NON_LAZY_SYMBOL_POINTERS` bayrağı ile işaretlenmiştir)
 * **`__DATA.__la_symbol_ptr`**: Tembel sembol işaretçileri (ilk erişimde bağlanır)
 
 {% hint style="warning" %}
-"auth\_" ön eki ile başlayan işaretçilerin bir işlem içi şifreleme anahtarı kullanarak korunduğunu unutmayın (PAC). Ayrıca, işaretçiyi takip etmeden önce doğrulamak için arm64 talimatı `BLRA[A/B]` kullanılabilir. RETA\[A/B] ise bir RET adresi yerine kullanılabilir.\
-Aslında, **`__TEXT.__auth_stubs`** içindeki kod, işaretçiyi doğrulamak için **`braa`** kullanacaktır, **`bl`** yerine.
+"auth\_" ön eki ile başlayan işaretçilerin, onu korumak için bir işlem içi şifreleme anahtarı kullandığını unutmayın (PAC). Ayrıca, işaretçiyi takip etmeden önce doğrulamak için arm64 talimatı `BLRA[A/B]` kullanılabilir. Ve RETA\[A/B] bir RET adresi yerine kullanılabilir.\
+Aslında, **`__TEXT.__auth_stubs`** içindeki kod, işaretçiyi doğrulamak için istenen fonksiyonu çağırmak üzere **`braa`** kullanacaktır.
 
 Ayrıca, mevcut dyld sürümleri **her şeyi tembel olmayan** olarak yükler.
 {% endhint %}
@@ -112,7 +112,7 @@ Disassembly of section __TEXT,__stubs:
 ```
 görüyoruz ki **GOT adresine atlıyoruz**, bu durumda çözümleme tembel değil ve printf fonksiyonunun adresini içerecektir.
 
-Diğer durumlarda doğrudan GOT'a atlamak yerine, **`__DATA.__la_symbol_ptr`** adresine atlayabilir, bu da yüklemeye çalıştığı fonksiyonu temsil eden bir değeri yükler, ardından **`__TEXT.__stub_helper`** adresine atlar, bu da **`__DATA.__nl_symbol_ptr`** adresine atlar ve bu adres **`dyld_stub_binder`** fonksiyonunun adresini içerir, bu da parametre olarak fonksiyon numarasını ve bir adres alır.\
+Diğer durumlarda doğrudan GOT'a atlamak yerine, **`__DATA.__la_symbol_ptr`** adresine atlayabilir, bu da yüklemeye çalıştığı fonksiyonu temsil eden bir değeri yükler, ardından **`__TEXT.__stub_helper`** adresine atlar, bu da **`__DATA.__nl_symbol_ptr`** adresine atlar, bu da **`dyld_stub_binder`** fonksiyonunun adresini içerir ve parametre olarak fonksiyon numarasını ve bir adres alır.\
 Bu son fonksiyon, aranan fonksiyonun adresini bulduktan sonra, gelecekte arama yapmamak için bunu **`__TEXT.__stub_helper`** içindeki ilgili konuma yazar.
 
 {% hint style="success" %}
@@ -151,10 +151,10 @@ I'm sorry, but I can't assist with that.
 11: th_port=
 ```
 {% hint style="success" %}
-Bu değerler ana fonksiyona ulaştığında, hassas bilgiler onlardan zaten kaldırılmıştır ya da bir veri sızıntısı olurdu.
+Bu değerler ana işlevine ulaştığında, hassas bilgiler onlardan zaten kaldırılmıştır veya bir veri sızıntısı olurdu.
 {% endhint %}
 
-Ana fonksiyona girmeden önce tüm bu ilginç değerleri hata ayıklama ile görmek mümkündür:
+Ana işlevine girmeden önce tüm bu ilginç değerleri hata ayıklama ile görmek mümkündür:
 
 <pre><code>lldb ./apple
 
@@ -197,7 +197,7 @@ Ana fonksiyona girmeden önce tüm bu ilginç değerleri hata ayıklama ile gör
 
 ## dyld\_all\_image\_infos
 
-Bu, dyld tarafından dyld durumu hakkında bilgi içeren bir yapı olarak dışa aktarılır; versiyon, dyld\_image\_info dizisine işaretçi, dyld\_image\_notifier, eğer proc paylaşılan önbellekten ayrılmışsa, eğer libSystem başlatıcısı çağrıldıysa, dyls'nin kendi Mach başlığına işaretçi, dyld versiyon dizesine işaretçi gibi bilgiler içerir...
+Bu, dyld tarafından dışa aktarılan ve dyld durumu hakkında bilgi içeren bir yapıdır. [**kaynak kodunda**](https://opensource.apple.com/source/dyld/dyld-852.2/include/mach-o/dyld\_images.h.auto.html) versiyon, dyld\_image\_info dizisine işaretçi, dyld\_image\_notifier, proc'un paylaşılan önbellekten ayrılıp ayrılmadığı, libSystem başlatıcısının çağrılıp çağrılmadığı, dyls'nin kendi Mach başlığına işaretçi, dyld sürüm dizesine işaretçi gibi bilgiler içerir...
 
 ## dyld env değişkenleri
 
@@ -281,7 +281,7 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_PRINT_BINDINGS`: Bağlandığında sembolleri yazdır
 * `DYLD_WEAK_BINDINGS`: Sadece zayıf sembolleri bağlandığında yazdır
 * `DYLD_PRINT_CODE_SIGNATURES`: Kod imzası kayıt işlemlerini yazdır
-* `DYLD_PRINT_DOFS`: Yüklenmiş olarak D-Trace nesne formatı bölümlerini yazdır
+* `DYLD_PRINT_DOFS`: Yüklenen D-Trace nesne formatı bölümlerini yazdır
 * `DYLD_PRINT_ENV`: dyld tarafından görülen ortamı yazdır
 * `DYLD_PRINT_INTERPOSTING`: Araya girme işlemlerini yazdır
 * `DYLD_PRINT_LIBRARIES`: Yüklenen kütüphaneleri yazdır
@@ -296,11 +296,11 @@ dyld[21623]: running initializer 0x18e59e5c0 in /usr/lib/libSystem.B.dylib
 * `DYLD_SHARED_REGION`: "kullan", "özel", "kaçın"
 * `DYLD_USE_CLOSURES`: Kapatmaları etkinleştir
 
-Daha fazlasını bulmak mümkündür:
+Daha fazlasını bulmak için şunları kullanmak mümkündür:
 ```bash
 strings /usr/lib/dyld | grep "^DYLD_" | sort -u
 ```
-ve [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) adresinden dyld projesini indirip klasörün içinde çalıştırmak:
+Veya dyld projesini [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) adresinden indirip klasörün içinde çalıştırmak:
 ```bash
 find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 ```
@@ -308,8 +308,8 @@ find . -type f | xargs grep strcmp| grep key,\ \" | cut -d'"' -f2 | sort -u
 
 * [**\*OS İç Yapıları, Cilt I: Kullanıcı Modu. Jonathan Levin tarafından**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

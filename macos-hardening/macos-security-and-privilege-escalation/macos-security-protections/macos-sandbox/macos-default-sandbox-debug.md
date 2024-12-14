@@ -93,7 +93,7 @@ EOF
 ```
 {% endtab %}
 
-{% tab title="sandbox + downloads" %}
+{% tab title="sandbox + indirmeler" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -111,7 +111,7 @@ EOF
 {% endtab %}
 {% endtabs %}
 
-4. Uygulamayı imzalayın (anahtar zincirinde bir sertifika oluşturmanız gerekiyor)
+4. Uygulamayı imzalayın (anahtarlıkta bir sertifika oluşturmanız gerekiyor)
 ```bash
 codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
 ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp

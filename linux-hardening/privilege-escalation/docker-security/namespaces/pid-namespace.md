@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 PID (Process IDentifier) namespace, Linux çekirdeğinde, bir grup sürecin kendi benzersiz PID'lerine sahip olmasını sağlayarak süreç izolasyonu sağlayan bir özelliktir. Bu, süreç izolasyonunun güvenlik ve kaynak yönetimi için hayati olduğu konteynerleştirmede özellikle yararlıdır.
 
-Yeni bir PID namespace oluşturulduğunda, o namespace içindeki ilk süreç PID 1 ile atanır. Bu süreç, yeni namespace'in "init" süreci haline gelir ve namespace içindeki diğer süreçleri yönetmekten sorumludur. Namespace içinde oluşturulan her bir sonraki süreç, o namespace içinde benzersiz bir PID alır ve bu PID'ler diğer namespace'lerdeki PID'lerden bağımsızdır.
+Yeni bir PID namespace oluşturulduğunda, o namespace içindeki ilk süreç PID 1 ile atanır. Bu süreç, yeni namespace'in "init" süreci haline gelir ve namespace içindeki diğer süreçleri yönetmekten sorumludur. Namespace içinde oluşturulan her bir sonraki süreç, o namespace içinde benzersiz bir PID alacak ve bu PID'ler diğer namespace'lerdeki PID'lerden bağımsız olacaktır.
 
 Bir PID namespace içindeki bir süreç açısından, yalnızca aynı namespace içindeki diğer süreçleri görebilir. Diğer namespace'lerdeki süreçlerden haberdar değildir ve geleneksel süreç yönetim araçları (örneğin, `kill`, `wait`, vb.) kullanarak onlarla etkileşimde bulunamaz. Bu, süreçlerin birbirine müdahale etmesini önlemeye yardımcı olan bir izolasyon seviyesi sağlar.
 
@@ -51,17 +51,17 @@ sudo unshare -pf --mount-proc /bin/bash
 - Yeni ad alanındaki `/bin/bash`'in ilk çocuk süreci PID 1 olur. Bu süreç sona erdiğinde, başka süreç yoksa ad alanının temizlenmesini tetikler, çünkü PID 1, yetim süreçleri benimseme özel rolüne sahiptir. Linux çekirdeği, o ad alanında PID tahsisini devre dışı bırakır.
 
 2. **Sonuç**:
-- Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine yol açar. Bu, yeni bir süreç oluştururken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine neden olur ve "Bellek tahsis edilemiyor" hatasını üretir.
+- Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine yol açar. Bu, yeni bir süreç oluşturulurken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine neden olur ve "Bellek tahsis edilemiyor" hatasını üretir.
 
 3. **Çözüm**:
 - Sorun, `unshare` ile `-f` seçeneğini kullanarak çözülebilir. Bu seçenek, `unshare`'in yeni PID ad alanını oluşturduktan sonra yeni bir süreç fork etmesini sağlar.
 - `%unshare -fp /bin/bash%` komutunu çalıştırmak, `unshare` komutunun kendisinin yeni ad alanında PID 1 olmasını garanti eder. `/bin/bash` ve onun çocuk süreçleri, bu yeni ad alanında güvenli bir şekilde yer alır, PID 1'in erken çıkışını önler ve normal PID tahsisine izin verir.
 
-`unshare`'in `-f` bayrağı ile çalıştırılmasını sağlayarak, yeni PID ad alanının doğru bir şekilde korunmasını sağlarsınız, böylece `/bin/bash` ve alt süreçleri bellek tahsis hatası ile karşılaşmadan çalışabilir.
+`unshare`'in `-f` bayrağı ile çalıştırılmasını sağlayarak, yeni PID ad alanının doğru bir şekilde korunması sağlanır ve `/bin/bash` ile alt süreçlerinin bellek tahsis hatası ile karşılaşmadan çalışmasına olanak tanınır.
 
 </details>
 
-Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresini kullanarak monte ederek, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerini doğru ve izole bir şekilde görmesini** sağlarsınız.
+Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresini kullanarak monte ettiğinizde, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerini doğru ve izole bir şekilde görmesini** sağlarsınız.
 
 #### Docker
 ```bash

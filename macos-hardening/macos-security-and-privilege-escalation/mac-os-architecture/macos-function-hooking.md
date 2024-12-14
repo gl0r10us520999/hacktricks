@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Function Interposing
 
-Bir **dylib** oluşturun ve **`__interpose`** bölümüne (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüme) **orijinal** ve **değiştirilmiş** fonksiyonlara atıfta bulunan **fonksiyon işaretçileri** çiftleri ekleyin.
+Bir **dylib** oluşturun ve **`__interpose`** bölümüne (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüme) **orijinal** ve **değiştirilmiş** fonksiyonlara atıfta bulunan **fonksiyon işaretçileri** içeren demetler ekleyin.
 
 Ardından, **`DYLD_INSERT_LIBRARIES`** ile dylib'i **enjekte** edin (interposing, ana uygulama yüklenmeden önce gerçekleşmelidir). Açıkça, [**`DYLD_INSERT_LIBRARIES`** kullanımına uygulanan **kısıtlamalar** burada da geçerlidir](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
@@ -100,7 +100,7 @@ ObjectiveC'de bir metod şu şekilde çağrılır: **`[myClassInstance nameOfThe
 
 Nesne **`someObject`**, metod **`@selector(method1p1:p2:)`** ve argümanlar **value1**, **value2**'dir.
 
-Nesne yapıları takip edilerek, **isimlerin** ve metod koduna ait **işaretçilerin** bulunduğu bir **metodlar dizisine** ulaşmak mümkündür.
+Nesne yapıları takip edilerek, **metodların** **isimlerinin** ve **metod koduna** işaretçilerin **bulunduğu** bir **metodlar dizisine** ulaşmak mümkündür.
 
 {% hint style="danger" %}
 Metodlar ve sınıflar isimlerine göre erişildiğinden, bu bilginin ikili dosyada saklandığını unutmayın, bu nedenle `otool -ov </path/bin>` veya [`class-dump </path/bin>`](https://github.com/nygard/class-dump) ile geri alınması mümkündür.
@@ -234,7 +234,7 @@ Aşağıdaki teknik bu kısıtlamaya sahip değildir.
 
 Önceki format garip çünkü bir metodun uygulamasını diğerinin üzerine değiştiriyorsunuz. **`method_setImplementation`** fonksiyonunu kullanarak bir **metodun uygulamasını diğerinin** üzerine **değiştirebilirsiniz**.
 
-Sadece, **orijinal olanın uygulama adresini saklamayı** unutmayın, eğer onu yeni uygulamadan çağıracaksanız, çünkü daha sonra o adresi bulmak çok daha karmaşık olacaktır.
+Sadece, **orijinal olanın uygulama adresini saklamayı** unutmayın, eğer onu yeni uygulamadan çağıracaksanız, üzerine yazmadan önce çünkü daha sonra o adresi bulmak çok daha karmaşık olacaktır.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -296,7 +296,7 @@ Ancak, her iki seçenek de **korumasız** ikili/dizilerle **sınırlıdır**. S�
 
 Ancak, bir fonksiyon hooklama saldırısı çok spesifiktir, bir saldırgan bunu **bir süreçten hassas bilgileri çalmak için** yapar (aksi takdirde sadece bir süreç enjeksiyonu saldırısı yapardınız). Ve bu hassas bilgiler, MacPass gibi kullanıcı tarafından indirilen uygulamalarda bulunabilir.
 
-Bu nedenle, saldırgan vektörü ya bir zafiyet bulmak ya da uygulamanın imzasını kaldırmak, uygulamanın Info.plist dosyasına **`DYLD_INSERT_LIBRARIES`** env değişkenini ekleyerek bir şeyler enjekte etmek olacaktır:
+Bu nedenle, saldırgan vektörü ya bir zayıflık bulmak ya da uygulamanın imzasını kaldırmak, uygulamanın Info.plist dosyasına **`DYLD_INSERT_LIBRARIES`** env değişkenini eklemek olacaktır.
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -312,7 +312,7 @@ ve ardından **yeniden kaydet** uygulamayı:
 ```
 {% endcode %}
 
-O kütüphaneye bilgileri dışarı aktarmak için hooking kodunu ekleyin: Parolalar, mesajlar...
+O kütüphaneye bilgileri dışa aktarmak için hooking kodunu ekleyin: Parolalar, mesajlar...
 
 {% hint style="danger" %}
 Yeni macOS sürümlerinde, eğer uygulama ikili dosyasının **imzasını kaldırırsanız** ve daha önce çalıştırılmışsa, macOS **uygulamayı bir daha çalıştırmayacaktır**.
@@ -367,7 +367,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

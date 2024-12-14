@@ -21,7 +21,7 @@ Bir konteyneri yetkili olarak çalıştırdığınızda devre dışı bıraktı�
 
 ### Mount /dev
 
-Yetkili bir konteynerde, tüm **cihazlar `/dev/` içinde erişilebilir**. Bu nedenle, **diskin** ana makineye **mount edilmesiyle** **kaçabilirsiniz**. 
+Yetkili bir konteynerde, tüm **cihazlar `/dev/` içinde erişilebilir**. Bu nedenle, **diskin** ana makineden **mount edilmesiyle** **kaçabilirsiniz**.
 
 {% tabs %}
 {% tab title="Varsayılan konteyner içinde" %}
@@ -133,14 +133,14 @@ Bir konteyner için mevcut yetenekleri `--privileged` modunda çalışmadan `--c
 
 ### Seccomp
 
-**Seccomp**, bir konteynerin çağırabileceği **syscall'ları** **sınırlamak** için faydalıdır. Docker konteynerleri çalıştırıldığında varsayılan bir seccomp profili etkinleştirilir, ancak ayrıcalıklı modda devre dışı bırakılır. Seccomp hakkında daha fazla bilgi edinin:
+**Seccomp**, bir konteynerin çağırabileceği **syscall'ları** **sınırlamak** için faydalıdır. Docker konteynerleri çalıştırıldığında varsayılan olarak bir seccomp profili etkinleştirilir, ancak ayrıcalıklı modda devre dışı bırakılır. Seccomp hakkında daha fazla bilgi edinin:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="Varsayılan konteyner içinde" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -177,7 +177,7 @@ Ayrıca, **Kubernetes** kümesinde Docker (veya diğer CRI'ler) kullanıldığı
 ```
 ### SELinux
 
-`--privileged` bayrağı ile bir konteyner çalıştırmak **SELinux etiketlerini** devre dışı bırakır ve konteyner motorunun etiketini, genellikle `unconfined`, miras almasına neden olur; bu da konteyner motoruna benzer şekilde tam erişim sağlar. Rootless modda `container_runtime_t` kullanılırken, root modda `spc_t` uygulanır.
+`--privileged` bayrağı ile bir konteyner çalıştırmak **SELinux etiketlerini** devre dışı bırakır, bu da konteyner motorunun etiketini, genellikle `unconfined`, miras almasına neden olur ve konteyner motoruna benzer şekilde tam erişim sağlar. Rootless modda `container_runtime_t` kullanılırken, root modda `spc_t` uygulanır.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -218,23 +218,23 @@ PID   USER     TIME  COMMAND
 
 ### Kullanıcı ad alanı
 
-**Varsayılan olarak, konteyner motorları kullanıcı ad alanlarını kullanmaz, yalnızca rootless konteynerler için gereklidir**, bu da dosya sistemi montajı ve birden fazla UID kullanımı için gereklidir. Rootless konteynerler için temel olan kullanıcı ad alanları devre dışı bırakılamaz ve ayrıcalıkları kısıtlayarak güvenliği önemli ölçüde artırır.
+**Varsayılan olarak, konteyner motorları kullanıcı ad alanlarını kullanmaz, yalnızca root'suz konteynerler için gereklidir**, bu da dosya sistemi montajı ve birden fazla UID kullanımı için gereklidir. Root'suz konteynerler için hayati öneme sahip olan kullanıcı ad alanları devre dışı bırakılamaz ve ayrıcalıkları kısıtlayarak güvenliği önemli ölçüde artırır.
 
 ## Referanslar
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

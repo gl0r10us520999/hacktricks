@@ -17,19 +17,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Apple Scripts
 
-Bu, **uzaktan süreçlerle etkileşimde bulunan** görev otomasyonu için kullanılan bir betik dilidir. **Diğer süreçlerden bazı eylemleri gerçekleştirmesini istemek** oldukça kolay hale getirir. **Kötü amaçlı yazılımlar**, bu özellikleri kullanarak diğer süreçler tarafından dışa aktarılan işlevleri kötüye kullanabilir.\
-Örneğin, bir kötü amaçlı yazılım **tarayıcıda açılan sayfalara rastgele JS kodu enjekte edebilir**. Veya **kullanıcıdan istenen bazı izinleri otomatik olarak tıklayabilir**;
+Uzaktan süreçlerle etkileşim için kullanılan bir betik dilidir. Diğer süreçlerin bazı eylemleri gerçekleştirmesi için **talep etmek** oldukça kolay hale getirir. **Kötü amaçlı yazılımlar** bu özellikleri, diğer süreçler tarafından dışa aktarılan işlevleri kötüye kullanmak için istismar edebilir.\
+Örneğin, bir kötü amaçlı yazılım **tarayıcıda açılan sayfalara rastgele JS kodu enjekte edebilir**. Veya kullanıcıdan istenen bazı izinleri **otomatik olarak tıklayabilir**;
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
 end tell
 ```
 Burada bazı örnekler var: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-Kötü amaçlı yazılımlar hakkında daha fazla bilgi için [**buradan**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/) ulaşabilirsiniz.
+Kötü amaçlı yazılımlar hakkında daha fazla bilgi için [**buraya**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/) bakın.
 
 Apple script'leri kolayca "**derlenebilir**". Bu sürümler `osadecompile` ile kolayca "**açılabilir**".
 
-Ancak, bu script'ler **"Sadece okunur"** olarak da **dışa aktarılabilir** ( "Dışa Aktar..." seçeneği aracılığıyla):
+Ancak, bu script'ler ayrıca **"Sadece okunur"** olarak da **dışa aktarılabilir** ( "Dışa Aktar..." seçeneği aracılığıyla):
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```
@@ -38,7 +38,7 @@ mal.scpt: AppleScript compiled
 ```
 ve bu durumda içerik `osadecompile` ile bile decompile edilemez
 
-Ancak, bu tür yürütülebilir dosyaları anlamak için kullanılabilecek bazı araçlar hala mevcuttur, [**daha fazla bilgi için bu araştırmayı okuyun**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) aracı ve [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) aracı, scriptin nasıl çalıştığını anlamak için çok faydalı olacaktır.
+Ancak, bu tür yürütülebilir dosyaları anlamak için kullanılabilecek bazı araçlar hala vardır, [**daha fazla bilgi için bu araştırmayı okuyun**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) aracı ve [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) aracı, scriptin nasıl çalıştığını anlamak için çok faydalı olacaktır.
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

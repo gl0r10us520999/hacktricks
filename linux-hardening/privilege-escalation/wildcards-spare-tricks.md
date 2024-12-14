@@ -46,12 +46,12 @@ Interesting rsync option from manual:
 ```bash
 touch "-e sh shell.sh"
 ```
-Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _attack)_ kullanılarak istismar edilebilir.\
-Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930) adresine bakın.
+You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _attack)_\
+Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## 7z
 
-**7z** içinde `--` kullanarak `*`'dan önce (not: `--` sonraki girdinin parametre olarak işlenemeyeceği anlamına gelir, bu durumda sadece dosya yolları) rastgele bir hatanın bir dosyayı okumasına neden olabilirsiniz, bu nedenle aşağıdaki gibi bir komut root tarafından çalıştırılıyorsa:
+**7z** içinde `--` kullanarak `*`'dan önce (not: `--` sonraki girdinin parametre olarak işlenemeyeceği anlamına gelir, bu durumda sadece dosya yolları) rastgele bir hataya neden olarak bir dosyanın okunmasını sağlayabilirsiniz, bu nedenle aşağıdaki gibi bir komut root tarafından çalıştırılıyorsa:
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
@@ -61,9 +61,9 @@ cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Sonra, **7z** çalıştırıldığında, `root.txt` dosyasını sıkıştırması gereken dosyaların listesini içeren bir dosya olarak ele alacaktır (bu, `@root.txt` varlığının gösterdiği şeydir) ve 7z `root.txt` dosyasını okuduğunda `/file/you/want/to/read` dosyasını okuyacak ve **bu dosyanın içeriği bir dosya listesi olmadığından, bir hata verecektir** içeriği göstererek.
+Sonra, **7z** çalıştırıldığında, `root.txt` dosyasını sıkıştırması gereken dosyaların listesini içeren bir dosya olarak ele alacaktır (bu, `@root.txt` varlığının gösterdiği şeydir) ve 7z `root.txt` okuduğunda `/file/you/want/to/read` dosyasını okuyacak ve **bu dosyanın içeriği bir dosya listesi olmadığından, bir hata verecektir** içeriği göstererek.
 
-_HackTheBox'tan CTF kutusunun Yazılımlarında daha fazla bilgi._
+_Daha fazla bilgi için HackTheBox'tan CTF kutusunun Yazılımlarında._ 
 
 ## Zip
 
@@ -80,8 +80,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek.
 
 </details>
 {% endhint %}

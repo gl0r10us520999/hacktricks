@@ -21,7 +21,7 @@ Mach-o ikili dosyaları, ikili dosya içindeki imzaların **offset** ve **boyutu
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="431"><figcaption></figcaption></figure>
 
-Kod İmzasının sihirli başlığı **`0xFADE0CC0`**'dır. Ardından, bunları içeren superBlob'un uzunluğu ve blob sayısı gibi bilgiler vardır.\
+Kod İmzasının sihirli başlığı **`0xFADE0CC0`**'dır. Ardından, bunları içeren süperBlob'un uzunluğu ve blob sayısı gibi bilgiler vardır.\
 Bu bilgiyi [kaynak kodda burada](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L276) bulmak mümkündür:
 ```c
 /*
@@ -51,14 +51,14 @@ char data[];
 } CS_GenericBlob
 __attribute__ ((aligned(1)));
 ```
-Common blobs contained are Code Directory, Requirements and Entitlements and a Cryptographic Message Syntax (CMS).\
+Yaygın olarak bulunan blob'lar, Kod Dizini, Gereksinimler ve Yetkiler ile Kriptografik Mesaj Sözleşmesi (CMS) içerir.\
 Ayrıca, blob'larda kodlanan verilerin **Big Endian** formatında kodlandığını not edin.
 
 Ayrıca, imzaların ikili dosyalardan ayrılabileceği ve `/var/db/DetachedSignatures` dizininde saklanabileceği (iOS tarafından kullanılır) unutulmamalıdır.
 
-## Code Directory Blob
+## Kod Dizini Blob'u
 
-[Code Directory Blob'un kod içindeki beyanını](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104) bulmak mümkündür:
+[Kod Dizini Blob'unun kod içindeki beyanını](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L104) bulmak mümkündür:
 ```c
 typedef struct __CodeDirectory {
 uint32_t magic;                                 /* magic number (CSMAGIC_CODEDIRECTORY) */
@@ -118,8 +118,8 @@ Not edin ki, bu yapının farklı versiyonları vardır ve eski olanlar daha az 
 
 ## Kod İmzalama Sayfaları
 
-Tam ikili dosyanın hash'lenmesi verimsiz olurdu ve yalnızca bellekte kısmen yüklendiğinde işe yaramazdı. Bu nedenle, kod imzası aslında her ikili sayfanın ayrı ayrı hash'lenmesiyle oluşturulan bir hash'ler hash'idir.\
-Aslında, önceki **Kod Dizini** kodunda **sayfa boyutunun belirtildiğini** görebilirsiniz. Ayrıca, ikilinin boyutu bir sayfa boyutunun katı değilse, **CodeLimit** alanı imzanın sonunun nerede olduğunu belirtir.
+Tam ikili dosyanın hash'lenmesi verimsiz olurdu ve yalnızca bellekte kısmen yüklüyse işe yaramazdı. Bu nedenle, kod imzası aslında her ikili sayfanın ayrı ayrı hash'lendiği bir hash'ler hash'idir.\
+Aslında, önceki **Kod Dizini** kodunda **sayfa boyutunun belirtildiğini** görebilirsiniz. Ayrıca, ikilinin boyutu bir sayfa boyutunun katı değilse, **CodeLimit** alanı imzanın nerede sona erdiğini belirtir.
 ```bash
 # Get all hashes of /bin/ps
 codesign -d -vvvvvv /bin/ps
@@ -157,13 +157,13 @@ openssl sha256 /tmp/*.page.*
 ```
 ## Yetki Blob'u
 
-Uygulamaların tüm yetkilerin tanımlandığı bir **yetki blob'u** içerebileceğini unutmayın. Ayrıca, bazı iOS ikili dosyaları, yetkilerini özel slot -7'de (özel slot -5 yerine) belirtebilir.
+Uygulamaların tüm yetkilerin tanımlandığı bir **yetki blob'u** içerebileceğini unutmayın. Ayrıca, bazı iOS ikili dosyaları, yetkilerini özel slot -7'de (slot -5 yerine) belirtebilir.
 
 ## Özel Slotlar
 
 MacOS uygulamaları, ikili dosya içinde çalıştırmak için ihtiyaç duydukları her şeye sahip değildir, aynı zamanda **harici kaynaklar** (genellikle uygulamaların **paketinde**) kullanırlar. Bu nedenle, ikili dosya içinde bazı ilginç harici kaynakların hash'lerini içeren bazı slotlar bulunmaktadır.
 
-Aslında, Kod Dizini yapılarında **`nSpecialSlots`** adında, özel slotların sayısını belirten bir parametre görmek mümkündür. Özel slot 0 yoktur ve en yaygın olanlar (-1'den -6'ya kadar) şunlardır:
+Aslında, Kod Dizini yapılarında **`nSpecialSlots`** adında, özel slotların sayısını belirten bir parametre görmek mümkündür. Özel slot 0 yoktur ve en yaygın olanları (-1'den -6'ya kadar) şunlardır:
 
 * `info.plist`'in hash'i (veya `__TEXT.__info__plist` içindeki).
 * Gereksinimlerin hash'i
@@ -175,7 +175,7 @@ Aslında, Kod Dizini yapılarında **`nSpecialSlots`** adında, özel slotların
 
 ## Kod İmzalama Bayrakları
 
-Her süreç, çekirdek tarafından başlatılan ve bazıları **kod imzası** tarafından geçersiz kılınabilen bir bitmask ile ilişkilidir. Kod imzalamada dahil edilebilecek bu bayraklar [kodda tanımlanmıştır](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
+Her süreç, çekirdek tarafından başlatılan ve bazıları **kod imzası** ile geçersiz kılınabilen bir bitmask ile ilişkilidir. Kod imzalamada dahil edilebilecek bu bayraklar [kodda tanımlanmıştır](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/osfmk/kern/cs_blobs.h#L36):
 ```c
 /* code signing attributes of a process */
 #define CS_VALID                    0x00000001  /* dynamically valid */
@@ -220,15 +220,15 @@ CS_RESTRICT | CS_ENFORCEMENT | CS_REQUIRE_LV | CS_RUNTIME | CS_LINKER_SIGNED)
 
 #define CS_ENTITLEMENT_FLAGS        (CS_GET_TASK_ALLOW | CS_INSTALLER | CS_DATAVAULT_CONTROLLER | CS_NVRAM_UNRESTRICTED)
 ```
-Not edin ki [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) fonksiyonu, yürütme başladığında `CS_EXEC_*` bayraklarını dinamik olarak ekleyebilir.
+Not edin ki [**exec\_mach\_imgact**](https://github.com/apple-oss-distributions/xnu/blob/94d3b452840153a99b38a3a9659680b2a006908e/bsd/kern/kern_exec.c#L1420) fonksiyonu, yürütme başlatıldığında `CS_EXEC_*` bayraklarını dinamik olarak ekleyebilir.
 
 ## Kod İmzası Gereksinimleri
 
 Her uygulama, yürütülebilmesi için **karşılaması gereken** bazı **gereksinimler** saklar. Eğer **uygulama, uygulama tarafından karşılanmayan gereksinimler içeriyorsa**, yürütülmeyecektir (muhtemelen değiştirilmiştir).
 
-Bir ikili dosyanın gereksinimleri, **özel bir dilbilgisi** kullanır; bu, **ifadelerin** bir akışıdır ve `0xfade0c00` sihirli değeri kullanılarak bloblar olarak kodlanır; **hash'i özel bir kod slotunda** saklanır.
+Bir ikili dosyanın gereksinimleri, **özel bir dilbilgisi** kullanır; bu, **ifadelerden** oluşan bir akıştır ve `0xfade0c00` sihirli değeri kullanılarak blob'lar olarak kodlanır; **hash'i özel bir kod slotunda** saklanır.
 
-Bir ikili dosyanın gereksinimleri şu komutla görülebilir: 
+Bir ikili dosyanın gereksinimleri, şu komutla görülebilir: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -246,7 +246,7 @@ designated => identifier "org.whispersystems.signal-desktop" and anchor apple ge
 Bu imzaların sertifika bilgileri, TeamID, kimlikler, yetkilendirmeler ve birçok diğer verileri kontrol edebileceğini unutmayın.
 {% endhint %}
 
-Ayrıca, `csreq` aracı kullanarak bazı derlenmiş gereksinimler oluşturmak mümkündür:
+Ayrıca, `csreq` aracını kullanarak bazı derlenmiş gereksinimler oluşturmak mümkündür:
 
 {% code overflow="wrap" %}
 ```bash
@@ -376,8 +376,8 @@ bool csb_csm_managed;
 * [**\*OS İç Yapıları Cilt III**](https://newosxbook.com/home.html)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

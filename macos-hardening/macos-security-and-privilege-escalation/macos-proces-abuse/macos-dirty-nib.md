@@ -9,13 +9,13 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-**Teknik hakkında daha fazla detay için orijinal gönderiyi kontrol edin:** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) ve [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) **.** İşte bir özet:
+**Teknik hakkında daha fazla bilgi için orijinal gönderiyi kontrol edin:** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/) ve [**https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/**](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) **gönderisini.** İşte bir özet:
 
 ### Nib dosyaları nedir
 
@@ -30,7 +30,7 @@ Ana Nib dosyası, uygulamanın `Info.plist` dosyasında **`NSMainNibFile`** değ
 1. **Başlangıç Ayarı**:
 * XCode kullanarak yeni bir NIB dosyası oluşturun.
 * Arayüze bir Nesne ekleyin, sınıfını `NSAppleScript` olarak ayarlayın.
-* Başlangıç `source` özelliğini Kullanıcı Tanımlı Çalışma Zamanı Özellikleri aracılığıyla yapılandırın.
+* Kullanıcı Tanımlı Çalışma Zamanı Özellikleri aracılığıyla başlangıç `source` özelliğini yapılandırın.
 2. **Kod Yürütme Aleti**:
 * Kurulum, AppleScript'in talep üzerine çalıştırılmasını sağlar.
 * `Apple Script` nesnesini etkinleştirmek için bir düğme entegre edin, özellikle `executeAndReturnError:` seçicisini tetikleyin.
@@ -59,16 +59,16 @@ display dialog theDialogText
 
 ### Kod Örneği: Kötü Amaçlı .xib Dosyası
 
-* Rastgele kod yürütmeyi gösteren [**kötü amaçlı bir .xib dosyası örneğine**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) erişin ve gözden geçirin.
+* Rastgele kod yürütmeyi gösteren [**kötü amaçlı bir .xib dosyası örneğini**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) erişin ve inceleyin.
 
 ### Diğer Örnek
 
-[https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) adresinde kirli bir nib oluşturma üzerine bir eğitim bulabilirsiniz.&#x20;
+[https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/](https://sector7.computest.nl/post/2024-04-bringing-process-injection-into-view-exploiting-all-macos-apps-using-nib-files/) gönderisinde kirli nib oluşturma hakkında bir eğitim bulabilirsiniz.&#x20;
 
 ### Başlatma Kısıtlamalarını Ele Alma
 
 * Başlatma Kısıtlamaları, uygulama yürütmesini beklenmedik yerlerden (örneğin, `/tmp`) engeller.
-* NIB dosyası enjeksiyonu için hedeflenebilecek Başlatma Kısıtlamaları ile korunmayan uygulamaları tanımlamak mümkündür.
+* Başlatma Kısıtlamaları ile korunmayan uygulamaları tanımlamak ve NIB dosyası enjeksiyonu için hedeflemek mümkündür.
 
 ### Ek macOS Koruma Önlemleri
 
@@ -90,7 +90,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

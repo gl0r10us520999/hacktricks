@@ -1,8 +1,8 @@
 # macOS Yetki Yükseltme
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -25,7 +25,7 @@ Eğer TCC yetki yükseltme ile ilgili bilgi arıyorsanız, buraya gidin:
 
 ## Linux Privesc
 
-Lütfen **Linux/Unix üzerinde etkili olan yetki yükseltme ipuçlarının çoğunun MacOS** makinelerini de etkileyeceğini unutmayın. Bu yüzden:
+Lütfen **Linux/Unix üzerinde yetki yükseltme ile ilgili olan çoğu ipucunun MacOS** makinelerini de etkileyeceğini unutmayın. Bu yüzden:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
@@ -52,7 +52,7 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Not edin ki terminal kullanan bir kullanıcının **Homebrew yüklü olma olasılığı yüksektir**. Bu nedenle **`/opt/homebrew/bin`** içindeki ikili dosyaları ele geçirmek mümkündür.
+Not edin ki terminal kullanan bir kullanıcının **Homebrew yüklü olma olasılığı** yüksektir. Bu nedenle **`/opt/homebrew/bin`** içindeki ikili dosyaları ele geçirmek mümkündür.
 
 ### Dock Taklit Etme
 
@@ -62,7 +62,7 @@ Bazı **sosyal mühendislik** teknikleri kullanarak dock içinde **örneğin Goo
 {% tab title="Chrome Taklidi" %}
 Bazı öneriler:
 
-* Dock'ta bir Chrome olup olmadığını kontrol edin, eğer varsa o girişi **kaldırın** ve Dock dizisinde aynı konuma **sahte** **Chrome girişini ekleyin**.&#x20;
+* Dock'ta bir Chrome olup olmadığını kontrol edin, eğer varsa o girişi **kaldırın** ve Dock dizisinde aynı konuma **sahte** **Chrome girişini ekleyin.**&#x20;
 ```bash
 #!/bin/sh
 
@@ -138,8 +138,8 @@ killall Dock
 Bazı öneriler:
 
 * **Finder'ı Dock'tan kaldıramazsınız**, bu yüzden eğer Dock'a ekleyecekseniz, sahte Finder'ı gerçek Finder'ın hemen yanına koyabilirsiniz. Bunun için **sahte Finder girişini Dock dizisinin başına eklemeniz gerekir**.
-* Diğer bir seçenek, Dock'a yerleştirmemek ve sadece açmaktır; "Finder, Finder'ı kontrol etmesi için izin istiyor" o kadar da garip değil.
-* Şifre sormadan **root'a yükselmek** için başka bir seçenek, Finder'ın gerçekten bir ayrıcalıklı işlem gerçekleştirmek için şifre sormasını sağlamaktır:
+* Diğer bir seçenek, Dock'a yerleştirmemek ve sadece açmaktır; "Finder, Finder'ı kontrol etmek için izin istiyor" o kadar da garip değil.
+* Şifre sormadan **root'a yükselmek** için başka bir seçenek, Finder'ın gerçekten bir ayrıcalıklı işlem gerçekleştirmek için şifre istemesini sağlamaktır:
 * Finder'dan **`/etc/pam.d`** dizinine yeni bir **`sudo`** dosyası kopyalamasını isteyin (Şifre isteyen istem, "Finder sudo'yu kopyalamak istiyor" diye belirtecektir)
 * Finder'dan yeni bir **Yetkilendirme Eklentisi** kopyalamasını isteyin (Dosya adını kontrol edebilirsiniz, böylece şifre isteyen istem "Finder Finder.bundle'ı kopyalamak istiyor" diye belirtecektir)
 ```bash
@@ -243,11 +243,11 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Daha ayrıntılı bir açıklama [**orijinal raporda**](https://theevilbit.github.io/posts/cve\_2020\_9771/)** bulunabilir.**
+Daha ayrıntılı bir açıklama [**orijinal raporda bulunabilir**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
 ## Hassas Bilgiler
 
-Bu, ayrıcalıkları artırmak için faydalı olabilir:
+Bu, ayrıcalıkları artırmak için yararlı olabilir:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
@@ -262,7 +262,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

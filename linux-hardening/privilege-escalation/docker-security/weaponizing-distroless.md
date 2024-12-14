@@ -9,7 +9,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -17,7 +17,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Distroless Nedir
 
-Distroless konteyner, **belirli bir uygulamayı çalıştırmak için gerekli olan bağımlılıkları** içeren, gereksiz yazılım veya araçlar olmadan oluşturulmuş bir konteyner türüdür. Bu konteynerler, **hafif** ve **güvenli** olmaları için tasarlanmıştır ve gereksiz bileşenleri kaldırarak **saldırı yüzeyini minimize etmeyi** amaçlar.
+Distroless bir konteyner, **belirli bir uygulamayı çalıştırmak için gerekli olan bağımlılıkları** içeren bir konteyner türüdür; gereksiz yazılım veya araçlar içermez. Bu konteynerler, **hafif** ve **güvenli** olmaları için tasarlanmıştır ve gereksiz bileşenleri kaldırarak **saldırı yüzeyini minimize etmeyi** hedefler.
 
 Distroless konteynerler genellikle **güvenlik ve güvenilirliğin ön planda olduğu üretim ortamlarında** kullanılır.
 
@@ -28,11 +28,11 @@ Distroless konteynerler genellikle **güvenlik ve güvenilirliğin ön planda ol
 
 ## Distroless'ı Silahlandırma
 
-Distroless konteyneri silahlandırmanın amacı, **distroless'in getirdiği sınırlamalara** (sistemde yaygın ikili dosyaların eksikliği) ve ayrıca konteynerlerde yaygın olarak bulunan **salt okunur** veya **çalıştırılamaz** gibi korumalara rağmen **rastgele ikili dosyaları ve yükleri çalıştırabilmektir**.
+Distroless bir konteyneri silahlandırmanın amacı, **distroless** tarafından getirilen **sınırlamalara** (sistemde yaygın ikili dosyaların eksikliği) rağmen **rastgele ikili dosyaları ve yükleri çalıştırabilmektir**; ayrıca `/dev/shm`'de bulunan **salt okunur** veya **çalıştırılamaz** gibi korumalara karşı da geçerli olmaktır.
 
 ### Bellek Üzerinden
 
-2023'ün bir noktasında geliyor...
+2023'ün bir noktasında gelecek...
 
 ### Mevcut ikili dosyalar aracılığıyla
 
@@ -50,7 +50,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

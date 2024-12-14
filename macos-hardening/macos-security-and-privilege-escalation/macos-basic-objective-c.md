@@ -9,7 +9,7 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -99,7 +99,7 @@ Sınıf yöntemleri, örnek yöntemleriyle kullanılan **eksi işareti** (-) yer
 ```
 ### Setter & Getter
 
-Özellikleri **ayarlamak** ve **almak** için, bunu **nokta notasyonu** ile veya bir **metodu çağırıyormuş** gibi yapabilirsiniz:
+Özellikleri **ayarlamak** ve **almak** için, bunu **nokta notasyonu** ile veya sanki bir **metodu çağırıyormuş** gibi yapabilirsiniz:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -122,7 +122,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 Protokoller, yöntem bildirimlerinden oluşan bir settir (özellik olmadan). Bir protokolü uygulayan bir sınıf, bildirilen yöntemleri uygular.
 
-İki tür yöntem vardır: **zorunlu** ve **isteğe bağlı**. **Varsayılan olarak** bir yöntem **zorunludur** (ancak bunu **`@required`** etiketiyle de belirtebilirsiniz). Bir yöntemin isteğe bağlı olduğunu belirtmek için **`@optional`** kullanın.
+İki tür yöntem vardır: **zorunlu** ve **isteğe bağlı**. **Varsayılan** olarak bir yöntem **zorunludur** (ancak bunu **`@required`** etiketiyle de belirtebilirsiniz). Bir yöntemin isteğe bağlı olduğunu belirtmek için **`@optional`** kullanın.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -195,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Temel sınıflar **değişmezdir**, bu nedenle mevcut bir dizeye bir dize eklemek için **yeni bir NSString oluşturulması gerekir**.
+Temel sınıflar **değişmezdir**, bu nedenle mevcut bir dizeye eklemek için **yeni bir NSString oluşturulması gerekir**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -214,11 +214,7 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Numara
-
-{% code overflow="wrap" %}
 ```objectivec
 // character literals.
 NSNumber *theLetterZ = @'Z'; // equivalent to [NSNumber numberWithChar:'Z']
@@ -291,7 +287,7 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 
 ### Blocks
 
-Blocks, **nesne gibi davranan fonksiyonlardır** bu nedenle fonksiyonlara geçirilebilir veya **dizilerde** ya da **sözlüklerde** **saklanabilirler**. Ayrıca, **değerler verildiğinde bir değeri temsil edebilirler** bu nedenle lambdalara benzer.
+Blocks, **nesne gibi davranan fonksiyonlardır** bu nedenle fonksiyonlara geçirilebilir veya **dizilerde** ya da **sözlüklerde** **saklanabilirler**. Ayrıca, **değer verilirse bir değeri temsil edebilirler** bu nedenle lambdalara benzerler.
 
 {% code overflow="wrap" %}
 ```objectivec

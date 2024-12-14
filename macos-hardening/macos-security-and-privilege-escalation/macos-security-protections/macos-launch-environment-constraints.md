@@ -1,8 +1,8 @@
-# macOS Başlatma/Ortam Kısıtlamaları & Güvenilir Önbellek
+# macOS Başlatma/Ortam Kısıtlamaları & Güven Cache'i
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -17,16 +17,16 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Temel Bilgiler
 
-macOS'taki başlatma kısıtlamaları, **bir sürecin nasıl, kim tarafından ve nereden başlatılacağını düzenleyerek güvenliği artırmak** amacıyla tanıtılmıştır. macOS Ventura'da başlatılan bu kısıtlamalar, **her sistem ikili dosyasını belirli kısıtlama kategorilerine** ayıran bir çerçeve sağlar; bu kategoriler, sistem ikili dosyalarını ve bunların ilgili hash'lerini içeren **güvenilir önbellek** içinde tanımlanmıştır. Bu kısıtlamalar, sistemdeki her yürütülebilir ikili dosyayı kapsar ve **belirli bir ikili dosyanın başlatılması için gereksinimleri** belirleyen bir dizi **kural** içerir. Kurallar, bir ikilinin karşılaması gereken kendi kısıtlamalarını, ebeveyn sürecinin karşılaması gereken ebeveyn kısıtlamalarını ve diğer ilgili varlıkların uyması gereken sorumlu kısıtlamaları kapsar.
+macOS'taki başlatma kısıtlamaları, **bir sürecin nasıl, kim tarafından ve nereden başlatılacağını düzenleyerek güvenliği artırmak** amacıyla tanıtılmıştır. macOS Ventura'da başlatılan bu kısıtlamalar, **her sistem ikili dosyasını farklı kısıtlama kategorilerine** ayıran bir çerçeve sağlar; bu kategoriler, sistem ikili dosyalarını ve bunların ilgili hash'lerini içeren **güven cache'inde** tanımlanmıştır. Bu kısıtlamalar, sistemdeki her yürütülebilir ikili dosyayı kapsar ve **belirli bir ikili dosyanın başlatılması için gereksinimleri** belirleyen bir dizi **kural** içerir. Kurallar, bir ikilinin karşılaması gereken kendi kısıtlamalarını, ebeveyn sürecinin karşılaması gereken ebeveyn kısıtlamalarını ve diğer ilgili varlıkların uyması gereken sorumlu kısıtlamaları kapsar.
 
 Mekanizma, macOS Sonoma'dan itibaren **Ortam Kısıtlamaları** aracılığıyla üçüncü taraf uygulamalara da uzanır ve geliştiricilerin uygulamalarını korumalarına olanak tanır; bu, bir **dizi anahtar ve değer belirleyerek ortam kısıtlamaları** tanımlamayı içerir.
 
-**Başlatma ortamı ve kütüphane kısıtlamalarını**, ya **`launchd` özellik listesi dosyalarında** ya da kod imzalamada kullandığınız **ayrı özellik listesi** dosyalarında kaydedilen kısıtlama sözlüklerinde tanımlarsınız.
+**Başlatma ortamı ve kütüphane kısıtlamalarını**, ya **`launchd` özellik listesi dosyalarında** ya da kod imzalamada kullandığınız **ayrı özellik listesi** dosyalarında tanımlarsınız.
 
 4 tür kısıtlama vardır:
 
-* **Kendi Kısıtlamaları**: **çalışan** ikili dosyaya uygulanan kısıtlamalar.
-* **Ebeveyn Süreci**: **sürecin ebeveynine** uygulanan kısıtlamalar (örneğin **`launchd`** bir XP hizmetini çalıştırıyorsa)
+* **Kendi Kısıtlamaları**: **çalışan** ikiliye uygulanan kısıtlamalar.
+* **Ebeveyn Süreci**: **sürecin ebeveynine** uygulanan kısıtlamalar (örneğin **`launchd`** bir XP hizmeti çalıştırıyorsa)
 * **Sorumlu Kısıtlamalar**: **hizmeti çağıran sürece** uygulanan kısıtlamalar bir XPC iletişimi içinde
 * **Kütüphane yükleme kısıtlamaları**: Yüklenebilecek kodu seçici olarak tanımlamak için kütüphane yükleme kısıtlamalarını kullanın
 
@@ -41,7 +41,7 @@ Bir LC, **gerçekler** ve **mantıksal işlemler** (ve, veya..) ile oluşturulmu
 [**Bir LC'nin kullanabileceği gerçekler belgelenmiştir**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Örneğin:
 
 * is-init-proc: Yürütülebilir dosyanın işletim sisteminin başlatma süreci (`launchd`) olup olmadığını belirten bir Boolean değeri.
-* is-sip-protected: Yürütülebilir dosyanın Sistem Bütünlüğü Koruması (SIP) tarafından korunup korunmadığını belirten bir Boolean değeri.
+* is-sip-protected: Yürütülebilir dosyanın Sistem Bütünlüğü Koruması (SIP) tarafından korunan bir dosya olup olmadığını belirten bir Boolean değeri.
 * `on-authorized-authapfs-volume:` İşletim sisteminin yürütülebilir dosyayı yetkilendirilmiş, kimlik doğrulaması yapılmış bir APFS hacminden yükleyip yüklemediğini belirten bir Boolean değeri.
 * `on-authorized-authapfs-volume`: İşletim sisteminin yürütülebilir dosyayı yetkilendirilmiş, kimlik doğrulaması yapılmış bir APFS hacminden yükleyip yüklemediğini belirten bir Boolean değeri.
 * Cryptexes hacmi
@@ -49,10 +49,10 @@ Bir LC, **gerçekler** ve **mantıksal işlemler** (ve, veya..) ile oluşturulmu
 * /System içinde...
 * ...
 
-Bir Apple ikili dosyası imzalandığında, bu dosya **güvenilir önbellek** içinde bir LC kategorisine **atanır**.
+Bir Apple ikili dosyası imzalandığında, bu **onu güven cache'inde bir LC kategorisine atar**.
 
-* **iOS 16 LC kategorileri** [**tersine çevrilmiş ve burada belgelenmiştir**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Mevcut **LC kategorileri (macOS 14** - Somona) tersine çevrilmiş ve [**açıklamaları burada bulunabilir**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC kategorileri** [**tersine çevrildi ve burada belgelenmiştir**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Mevcut **LC kategorileri (macOS 14** - Somona) tersine çevrildi ve [**açıklamaları burada bulunabilir**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
 Örneğin Kategori 1 şudur:
 ```
@@ -61,13 +61,13 @@ Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-t
 Parent Constraint: is-init-proc
 ```
 * `(on-authorized-authapfs-volume || on-system-volume)`: Sistem veya Cryptexes hacminde olmalıdır.
-* `launch-type == 1`: Bir sistem servisi olmalıdır (plist in LaunchDaemons).
+* `launch-type == 1`: Bir sistem hizmeti olmalıdır (plist in LaunchDaemons).
 * `validation-category == 1`: Bir işletim sistemi yürütülebilir dosyası.
 * `is-init-proc`: Launchd
 
 ### LC Kategorilerini Tersine Çevirme
 
-Bununla ilgili daha fazla bilgiye [**buradan ulaşabilirsiniz**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ama temelde, **AMFI (AppleMobileFileIntegrity)** içinde tanımlanmıştır, bu yüzden **KEXT**'i almak için Kernel Geliştirme Kitini indirmeniz gerekir. **`kConstraintCategory`** ile başlayan semboller **ilginç** olanlardır. Bunları çıkardığınızda, [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) veya python-asn1 kütüphanesi ve `dump.py` scripti ile çözmeniz gereken DER (ASN.1) kodlu bir akış elde edeceksiniz, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) daha anlaşılır bir dize verecektir.
+Bununla ilgili daha fazla bilgiye [**buradan ulaşabilirsiniz**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ama temelde, **AMFI (AppleMobileFileIntegrity)** içinde tanımlanmıştır, bu yüzden **KEXT**'i almak için Kernel Geliştirme Kitini indirmeniz gerekir. **`kConstraintCategory`** ile başlayan semboller **ilginç** olanlardır. Bunları çıkardığınızda, [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) veya python-asn1 kütüphanesi ve `dump.py` scripti ile çözmeniz gereken DER (ASN.1) kodlu bir akış elde edeceksiniz, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) size daha anlaşılır bir dize verecektir.
 
 ## Ortam Kısıtlamaları
 
@@ -79,7 +79,7 @@ codesign -d -vvvv app.app
 ```
 ## Güven Cache'leri
 
-**macOS**'ta birkaç güven cache'i vardır:
+**macOS**'ta birkaç güven cache'i bulunmaktadır:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
@@ -157,24 +157,24 @@ Bu verilerden, **`0`** değerine sahip **başlatma kısıtlamaları olan** uygul
 
 ## Saldırı Azaltmaları
 
-Başlatma Kısıtlamaları, **sürecin beklenmedik koşullarda çalıştırılmayacağından emin olarak** birkaç eski saldırıyı azaltmış olur: Örneğin, beklenmedik yerlerden veya beklenmedik bir ana süreç tarafından çağrılmaktan (sadece launchd'nin başlatması gerekiyorsa).
+Başlatma Kısıtlamaları, **sürecin beklenmedik koşullarda çalıştırılmayacağından emin olarak** birkaç eski saldırıyı azaltır: Örneğin, beklenmedik yerlerden veya beklenmedik bir ana süreç tarafından çağrılmaktan (sadece launchd'nin başlatması gerekiyorsa).
 
-Ayrıca, Başlatma Kısıtlamaları **aşağı yönlü saldırıları da azaltır.**
+Ayrıca, Başlatma Kısıtlamaları **gerileme saldırılarını da azaltır.**
 
 Ancak, **yaygın XPC** kötüye kullanımlarını, **Electron** kod enjeksiyonlarını veya **dylib enjeksiyonlarını** kütüphane doğrulaması olmadan azaltmaz (yükleyebilecek takım kimlikleri bilinmiyorsa).
 
 ### XPC Daemon Koruması
 
-Sonoma sürümünde, dikkat çekici bir nokta, daemon XPC hizmetinin **sorumluluk yapılandırmasıdır**. XPC hizmeti, bağlanan istemcinin sorumlu olmasının aksine, kendisinden sorumludur. Bu, geri bildirim raporu FB13206884'te belgelenmiştir. Bu yapı, XPC hizmeti ile belirli etkileşimlere izin verdiği için hatalı görünebilir:
+Sonoma sürümünde, dikkat çekici bir nokta, daemon XPC hizmetinin **sorumluluk yapılandırmasıdır**. XPC hizmeti kendisinden sorumludur, bağlanan istemcinin sorumlu olmasının aksine. Bu, geri bildirim raporu FB13206884'te belgelenmiştir. Bu yapılandırma hatalı görünebilir, çünkü XPC hizmeti ile belirli etkileşimlere izin verir:
 
-- **XPC Hizmetini Başlatma**: Bir hata olarak varsayılırsa, bu yapı, saldırgan kod aracılığıyla XPC hizmetinin başlatılmasına izin vermez.
+- **XPC Hizmetini Başlatma**: Bir hata olarak varsayıldığında, bu yapılandırma, XPC hizmetini saldırgan kod aracılığıyla başlatmaya izin vermez.
 - **Aktif Bir Hizmete Bağlanma**: Eğer XPC hizmeti zaten çalışıyorsa (muhtemelen orijinal uygulaması tarafından etkinleştirilmişse), ona bağlanmak için hiçbir engel yoktur.
 
-XPC hizmetine kısıtlamalar uygulamak, **potansiyel saldırılar için pencereyi daraltarak** faydalı olabilir, ancak temel endişeyi ele almaz. XPC hizmetinin güvenliğini sağlamak, esasen **bağlanan istemcinin etkili bir şekilde doğrulanmasını** gerektirir. Bu, hizmetin güvenliğini güçlendirmenin tek yoludur. Ayrıca, bahsedilen sorumluluk yapılandırmasının şu anda çalıştığını belirtmekte fayda var; bu, tasarlanan tasarımla uyumlu olmayabilir.
+XPC hizmetinde kısıtlamalar uygulamak, **potansiyel saldırılar için pencereyi daraltarak** faydalı olabilir, ancak temel endişeyi ele almaz. XPC hizmetinin güvenliğini sağlamak, esasen **bağlanan istemcinin etkili bir şekilde doğrulanmasını** gerektirir. Bu, hizmetin güvenliğini güçlendirmenin tek yoludur. Ayrıca, bahsedilen sorumluluk yapılandırmasının şu anda çalıştığını belirtmekte fayda var; bu, tasarlanan amaçla uyumlu olmayabilir.
 
 ### Electron Koruması
 
-Uygulamanın **LaunchService tarafından açılması gerektiği** durumunda (ebeveyn kısıtlamalarında). Bu, **`open`** kullanılarak (çevre değişkenlerini ayarlayabilir) veya **Launch Services API** kullanılarak (çevre değişkenleri belirtilebilir) gerçekleştirilebilir.
+Uygulamanın **LaunchService tarafından açılması gerektiği** gereksinimi olsa bile (ebeveyn kısıtlamalarında). Bu, **`open`** kullanılarak (çevre değişkenlerini ayarlayabilir) veya **Launch Services API** kullanılarak (çevre değişkenleri belirtilebilir) gerçekleştirilebilir.
 
 ## Referanslar
 

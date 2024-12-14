@@ -33,11 +33,11 @@ GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt
 * [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Her bir süreç tarafından yapılan her bağlantıyı izleyecektir. Moduna bağlı olarak (sessiz izin verilen bağlantılar, sessiz reddedilen bağlantılar ve uyarı) her yeni bağlantı kurulduğunda **size bir uyarı gösterecektir**. Ayrıca bu bilgileri görmek için çok güzel bir GUI'ye sahiptir.
 * [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See güvenlik duvarı. Bu, şüpheli bağlantılar için sizi uyaran temel bir güvenlik duvarıdır (bir GUI'si var ama Little Snitch'in GUI'si kadar şık değil).
 
-## Persistence detection
+## Süreklilik tespiti
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): **Kötü amaçlı yazılımların kalıcı olabileceği** çeşitli yerlerde arama yapan Objective-See uygulaması (tek seferlik bir araç, izleme hizmeti değil).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Kalıcılık oluşturan süreçleri izleyerek KnockKnock gibi çalışır.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): **kötü amaçlı yazılımın kalıcı olabileceği** çeşitli yerlerde arama yapan Objective-See uygulaması (tek seferlik bir araç, izleme hizmeti değil).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Süreklilik oluşturan süreçleri izleyerek KnockKnock gibi çalışır.
 
-## Keyloggers detection
+## Keylogger tespiti
 
 * [**ReiKey**](https://objective-see.org/products/reikey.html): Klavye "olay tapları" kuran **keylogger'ları** bulmak için Objective-See uygulaması.

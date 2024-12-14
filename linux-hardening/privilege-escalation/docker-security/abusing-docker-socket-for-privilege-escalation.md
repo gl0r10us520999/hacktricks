@@ -24,7 +24,7 @@ Bazen sadece **docker soketine erişiminiz** olur ve bunu **yetki yükseltmek** 
 ### Mount Üzerinden
 
 Farklı **dosya sistemi** parçalarını kök olarak çalışan bir konteynerde **mount** edebilir ve bunlara **erişebilirsiniz**.\
-Ayrıca konteyner içinde **yetki yükseltmek için bir mount'u istismar edebilirsiniz**.
+Ayrıca konteyner içinde **yetki yükseltmek için bir mount'ı istismar edebilirsiniz**.
 
 * **`-v /:/host`** -> Ana bilgisayar dosya sistemini konteynerde mount edin, böylece **ana bilgisayar dosya sistemini okuyabilirsiniz.**
 * Ana bilgisayarda **bulunduğunuz hissini** yaşamak istiyorsanız ama konteynerde iseniz, şunları kullanarak diğer savunma mekanizmalarını devre dışı bırakabilirsiniz:
@@ -37,12 +37,12 @@ Ayrıca konteyner içinde **yetki yükseltmek için bir mount'u istismar edebili
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Bu, önceki yönteme benzer, ancak burada **cihaz diskini mount ediyoruz**. Ardından, konteyner içinde `mount /dev/sda1 /mnt` komutunu çalıştırın ve **/mnt**'de **ana bilgisayar dosya sistemine** erişebilirsiniz.
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Bu, önceki yönteme benzer, ancak burada **cihaz diskini mount ediyoruz**. Ardından, konteyner içinde `mount /dev/sda1 /mnt` komutunu çalıştırın ve **/mnt**'de **ana bilgisayar dosya sistemine** **erişebilirsiniz**.
 * Mount etmek için `</dev/sda1>` cihazını bulmak için ana bilgisayarda `fdisk -l` komutunu çalıştırın.
-* **`-v /tmp:/host`** -> Herhangi bir nedenle sadece ana bilgisayardan bazı dizinleri **mount edebiliyorsanız** ve ana bilgisayarda erişiminiz varsa. Mount edin ve mount edilen dizinde **suid** ile bir **`/bin/bash`** oluşturun, böylece **ana bilgisayardan çalıştırabilir ve root'a yükselebilirsiniz**.
+* **`-v /tmp:/host`** -> Eğer bir nedenle sadece ana bilgisayardan bazı dizinleri **mount edebiliyorsanız** ve ana bilgisayarda erişiminiz varsa. Mount edin ve mount edilen dizinde **suid** ile bir **`/bin/bash`** oluşturun, böylece **ana bilgisayardan çalıştırabilir ve root'a yükselebilirsiniz**.
 
 {% hint style="info" %}
-Belirli bir nedenle `/tmp` dizinini mount edemeyebilirsiniz, ancak **farklı bir yazılabilir dizini** mount edebilirsiniz. Yazılabilir dizinleri bulmak için: `find / -writable -type d 2>/dev/null` komutunu kullanabilirsiniz.
+Belirli bir nedenle `/tmp` dizinini mount edemeyebilirsiniz, ancak **farklı yazılabilir bir dizini** mount edebilirsiniz. Yazılabilir dizinleri bulmak için: `find / -writable -type d 2>/dev/null` komutunu kullanabilirsiniz.
 
 **Unutmayın ki, bir linux makinesindeki tüm dizinler suid bitini desteklemeyecektir!** Hangi dizinlerin suid bitini desteklediğini kontrol etmek için `mount | grep -v "nosuid"` komutunu çalıştırın. Örneğin genellikle `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` ve `/var/lib/lxcfs` suid bitini desteklemez.
 
@@ -51,8 +51,8 @@ Ayrıca, eğer **`/etc`** veya **konfigürasyon dosyalarını içeren** başka b
 
 ### Konteynerden Kaçış
 
-* **`--privileged`** -> Bu bayrak ile [konteynerden tüm izolasyonu kaldırırsınız](docker-privileged.md#what-affects). [Köktan yetkili konteynerlerden kaçış tekniklerini](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape) kontrol edin.
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> [yetki yükseltmek için yetenekleri istismar etmek](../linux-capabilities.md), **bu yeteneği konteynere verin** ve istismarın çalışmasını engelleyebilecek diğer koruma yöntemlerini devre dışı bırakın.
+* **`--privileged`** -> Bu bayrak ile [konteynerden tüm izolasyonu kaldırırsınız](docker-privileged.md#what-affects). [Kök olarak ayrıcalıklı konteynerlerden kaçış tekniklerini](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape) kontrol edin.
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> [yetenekleri istismar ederek yetki yükseltmek](../linux-capabilities.md) için, **bu yeteneği konteynere verin** ve istismarın çalışmasını engelleyebilecek diğer koruma yöntemlerini devre dışı bırakın.
 
 ### Curl
 

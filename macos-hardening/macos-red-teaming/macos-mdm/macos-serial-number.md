@@ -1,8 +1,8 @@
 # macOS Seri Numarası
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -28,11 +28,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 ## Temel Bilgiler
 
-2010 sonrası Apple cihazları, her biri belirli bilgileri ileten **12 alfanümerik karakterden** oluşan seri numaralarına sahiptir:
+2010 sonrası Apple cihazları, her segmentin belirli bilgileri ilettiği **12 alfanümerik karakterden** oluşan seri numaralarına sahiptir:
 
-- **İlk 3 Karakter**: **üretim yerini** gösterir.
+- **İlk 3 Karakter**: **üretim yeri**ni gösterir.
 - **Karakterler 4 & 5**: **üretim yılı ve haftasını** belirtir.
-- **Karakterler 6'dan 8'e**: Her cihaz için **benzersiz bir tanımlayıcı** olarak hizmet eder.
+- **Karakterler 6'dan 8'e**: Her cihaz için **benzersiz tanımlayıcı** olarak hizmet eder.
 - **Son 4 Karakter**: **model numarasını** belirtir.
 
 Örneğin, seri numarası **C02L13ECF8J2** bu yapıyı takip eder.
@@ -52,14 +52,14 @@ Belirli kodlar, belirli fabrikaları temsil eder:
 - **RM**: Yenilenmiş cihazlar.
 
 ### **Üretim Yılı (4. Karakter)**
-Bu karakter 'C' (2010'un ilk yarısını temsil eder) ile 'Z' (2019'un ikinci yarısı) arasında değişir; farklı harfler farklı yarı yıl dönemlerini gösterir.
+Bu karakter 'C' (2010'un ilk yarısını temsil eder) ile 'Z' (2019'un ikinci yarısını temsil eder) arasında değişir; farklı harfler farklı yarı yıl dönemlerini gösterir.
 
 ### **Üretim Haftası (5. Karakter)**
 1-9 rakamları 1-9 haftalarına karşılık gelir. C-Y harfleri (sesli harfler ve 'S' hariç) 10-27 haftalarını temsil eder. Yılın ikinci yarısı için bu sayıya 26 eklenir.
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

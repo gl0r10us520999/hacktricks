@@ -36,7 +36,7 @@ UTS (UNIX Zaman Paylaşım Sistemi) ad alanı, iki sistem tanımlayıcısının 
 ### Nasıl çalışır:
 
 1. Yeni bir UTS ad alanı oluşturulduğunda, **ebeveyn ad alanından hostname ve NIS alan adının bir kopyasıyla başlar**. Bu, oluşturulduğunda yeni ad alanının **ebeveyniyle aynı tanımlayıcıları paylaştığı** anlamına gelir. Ancak, ad alanı içindeki hostname veya NIS alan adı üzerindeki sonraki değişiklikler diğer ad alanlarını etkilemeyecektir.
-2. UTS ad alanı içindeki süreçler, sırasıyla `sethostname()` ve `setdomainname()` sistem çağrılarını kullanarak **hostname ve NIS alan adını değiştirebilir**. Bu değişiklikler ad alanına özgüdür ve diğer ad alanlarını veya ana sistemini etkilemez.
+2. UTS ad alanı içindeki süreçler, sırasıyla `sethostname()` ve `setdomainname()` sistem çağrılarını kullanarak **hostname ve NIS alan adını değiştirebilir**. Bu değişiklikler ad alanına özgüdür ve diğer ad alanlarını veya ana sistemi etkilemez.
 3. Süreçler, `setns()` sistem çağrısını kullanarak ad alanları arasında geçiş yapabilir veya `CLONE_NEWUTS` bayrağı ile `unshare()` veya `clone()` sistem çağrılarını kullanarak yeni ad alanları oluşturabilir. Bir süreç yeni bir ad alanına geçtiğinde veya bir tane oluşturduğunda, o ad alanıyla ilişkili hostname ve NIS alan adını kullanmaya başlayacaktır.
 
 ## Laboratuvar:
@@ -56,12 +56,12 @@ Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile mont
 `unshare` komutu `-f` seçeneği olmadan çalıştırıldığında, Linux'un yeni PID (Process ID) ad alanlarını nasıl yönettiği nedeniyle bir hata ile karşılaşılır. Anahtar detaylar ve çözüm aşağıda özetlenmiştir:
 
 1. **Sorun Açıklaması**:
-- Linux çekirdeği, bir sürecin `unshare` sistem çağrısını kullanarak yeni ad alanları oluşturmasına izin verir. Ancak, yeni bir PID ad alanı oluşturma işlemini başlatan süreç (bu süreç "unshare" süreci olarak adlandırılır) yeni ad alanına girmez; yalnızca onun çocuk süreçleri girer.
+- Linux çekirdeği, bir sürecin `unshare` sistem çağrısını kullanarak yeni ad alanları oluşturmasına izin verir. Ancak, yeni bir PID ad alanı oluşturma işlemini başlatan süreç (bu süreç "unshare" süreci olarak adlandırılır) yeni ad alanına girmemektedir; yalnızca onun çocuk süreçleri girmektedir.
 - `%unshare -p /bin/bash%` komutu, `/bin/bash`'i `unshare` ile aynı süreçte başlatır. Sonuç olarak, `/bin/bash` ve onun çocuk süreçleri orijinal PID ad alanındadır.
-- Yeni ad alanındaki `/bin/bash`'in ilk çocuk süreci PID 1 olur. Bu süreç sona erdiğinde, başka süreç yoksa ad alanının temizlenmesini tetikler, çünkü PID 1, yetim süreçleri benimseme özel rolüne sahiptir. Linux çekirdeği, o ad alanında PID tahsisini devre dışı bırakır.
+- Yeni ad alanındaki `/bin/bash`'in ilk çocuk süreci PID 1 olur. Bu süreç sona erdiğinde, başka süreç yoksa ad alanının temizlenmesini tetikler, çünkü PID 1, yetim süreçleri benimseme özel rolüne sahiptir. Linux çekirdeği, o ad alanında PID tahsisini devre dışı bırakacaktır.
 
 2. **Sonuç**:
-- Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine yol açar. Bu, yeni bir süreç oluşturulurken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine neden olur ve "Bellek tahsis edilemiyor" hatasını üretir.
+- Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine yol açar. Bu, yeni bir süreç oluştururken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine neden olur ve "Bellek tahsis edilemiyor" hatasını üretir.
 
 3. **Çözüm**:
 - Sorun, `unshare` ile `-f` seçeneğini kullanarak çözülebilir. Bu seçenek, `unshare`'in yeni PID ad alanını oluşturduktan sonra yeni bir süreç fork etmesini sağlar.

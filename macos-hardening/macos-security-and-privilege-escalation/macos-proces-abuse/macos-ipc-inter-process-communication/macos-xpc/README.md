@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Temel Bilgiler
 
-XPC, macOS tarafından kullanılan XNU (çekirdek) arasındaki İletişim için bir çerçevedir ve macOS ve iOS'ta **işlemler arası iletişim** sağlar. XPC, sistemdeki farklı işlemler arasında **güvenli, asenkron yöntem çağrıları yapma** mekanizması sunar. Bu, her bir **bileşenin** işini yapmak için **gereken izinlerle** çalıştığı **ayrılmış ayrıcalıklarla uygulamalar** oluşturulmasına olanak tanıyarak, tehlikeye atılmış bir işlemin potansiyel zararını sınırlamaktadır.
+XPC, macOS tarafından kullanılan XNU (çekirdek) arasındaki İletişim için bir çerçevedir ve macOS ve iOS'ta **işlemler arası iletişim** sağlar. XPC, sistemdeki farklı işlemler arasında **güvenli, asenkron yöntem çağrıları yapma** mekanizması sunar. Bu, her bir **bileşenin** yalnızca işini yapmak için ihtiyaç duyduğu **izinlerle** çalıştığı **ayrılmış ayrıcalıklarla uygulamaların** oluşturulmasına olanak tanıyarak, tehlikeye atılmış bir işlemin potansiyel zararını sınırlamaktadır.
 
 XPC, aynı sistemde çalışan farklı programların veri göndermesi ve alması için bir dizi yöntem olan İşlemler Arası İletişim (IPC) biçimini kullanır.
 
@@ -39,7 +39,7 @@ XPC hizmetleri, gerektiğinde **launchd** tarafından **başlatılır** ve tüm 
 
 ## Sistem Genelinde XPC hizmetleri
 
-Sistem genelindeki XPC hizmetleri tüm kullanıcılar tarafından erişilebilir. Bu hizmetler, ya launchd ya da Mach türünde olup, **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** veya **`/Library/LaunchAgents`** gibi belirli dizinlerde bulunan plist dosyalarında **tanımlanmalıdır**.
+Sistem genelindeki XPC hizmetleri tüm kullanıcılar tarafından erişilebilir. Bu hizmetler, ya launchd ya da Mach türünde, belirli dizinlerde bulunan plist dosyalarında **tanımlanmalıdır**; örneğin **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** veya **`/Library/LaunchAgents`**.
 
 Bu plist dosyalarında, hizmetin adıyla birlikte **`MachServices`** adında bir anahtar ve ikili dosyanın yolunu içeren **`Program`** adında bir anahtar bulunacaktır:
 ```xml
@@ -86,7 +86,7 @@ Ayrıca, `xpc_copy_description(object)` fonksiyonu, hata ayıklama amaçları i�
 Bu nesnelerin ayrıca `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize` gibi çağrılacak bazı yöntemleri vardır...
 
 `xpc_object_t` nesneleri, `xpc_<objetType>_create` fonksiyonu çağrılarak oluşturulur; bu, içsel olarak `_xpc_base_create(Class, Size)` fonksiyonunu çağırır ve burada nesnenin sınıf türü (bir `XPC_TYPE_*` türü) ve boyutu belirtilir (metadata için ekstra 40B eklenir). Bu, nesnenin verilerinin 40B'lik bir ofsetten başlayacağı anlamına gelir.\
-Bu nedenle, `xpc_<objectType>_t`, `xpc_object_t`'nin bir alt sınıfı gibi bir şeydir ve bu da `os_object_t*`'nin bir alt sınıfı olacaktır.
+Bu nedenle, `xpc_<objectType>_t`, `xpc_object_t`'nin bir alt sınıfı olan bir türdür ve bu da `os_object_t*`'nin bir alt sınıfı olacaktır.
 
 {% hint style="warning" %}
 Anahtarın türünü ve gerçek değerini almak veya ayarlamak için `xpc_dictionary_[get/set]_<objectType>` kullananın geliştirici olması gerektiğini unutmayın.
@@ -95,11 +95,11 @@ Anahtarın türünü ve gerçek değerini almak veya ayarlamak için `xpc_dictio
 * **`xpc_pipe`**
 
 Bir **`xpc_pipe`**, işlemlerin iletişim kurmak için kullanabileceği bir FIFO borusudur (iletişim Mach mesajlarını kullanır).\
-Bir XPC sunucusu oluşturmak için `xpc_pipe_create()` veya belirli bir Mach portu kullanarak oluşturmak için `xpc_pipe_create_from_port()` çağrısı yapılabilir. Ardından, mesajları almak için `xpc_pipe_receive` ve `xpc_pipe_try_receive` çağrılabilir.
+Bir XPC sunucusu oluşturmak için `xpc_pipe_create()` veya belirli bir Mach portu kullanarak oluşturmak için `xpc_pipe_create_from_port()` çağrısı yapılabilir. Ardından, mesajları almak için `xpc_pipe_receive` ve `xpc_pipe_try_receive` çağrıları yapılabilir.
 
-**`xpc_pipe`** nesnesinin, kullanılan iki Mach portu ve adı (varsa) hakkında bilgileri içeren bir **`xpc_object_t`** olduğunu unutmayın. Örneğin, plist'inde `/System/Library/LaunchDaemons/com.apple.secinitd.plist` bulunan `secinitd` daemon'u, `com.apple.secinitd` adında bir boru yapılandırır.
+**`xpc_pipe`** nesnesinin, kullanılan iki Mach portu ve adı (varsa) hakkında bilgileri içeren bir **`xpc_object_t`** olduğunu unutmayın. Örneğin, `secinitd` daemon'u plist'inde `/System/Library/LaunchDaemons/com.apple.secinitd.plist` boruyu `com.apple.secinitd` olarak yapılandırır.
 
-Bir **`xpc_pipe`** örneği, Mach portlarını paylaşmayı mümkün kılan **`launchd`** tarafından oluşturulan **bootstrap pipe**'dır.
+Bir **`xpc_pipe`** örneği, **`launchd`** tarafından oluşturulan **bootstrap pipe**'dır ve Mach portlarının paylaşılmasını mümkün kılar.
 
 * **`NSXPC*`**
 
@@ -130,7 +130,7 @@ XPC kütüphanesi, `xpc_ktrace_pid0` ve `xpc_ktrace_pid1` çağrılarıyla eylem
 
 ## XPC Olay Mesajları
 
-Uygulamalar, böyle olaylar gerçekleştiğinde **talep üzerine başlatılmalarını** sağlayan farklı olay **mesajlarına** **abone** olabilirler. Bu hizmetlerin **kurulumu**, **önceki dosyalarla aynı dizinlerde** bulunan **launchd plist dosyalarında** yapılır ve ekstra bir **`LaunchEvent`** anahtarı içerir.
+Uygulamalar, böyle olaylar gerçekleştiğinde **isteğe bağlı olarak başlatılmalarını** sağlayan farklı olay **mesajlarına** **abone** olabilirler. Bu hizmetlerin **kurulumu**, **önceki dosyalarla aynı dizinlerde** bulunan **launchd plist dosyalarında** yapılır ve ekstra bir **`LaunchEvent`** anahtarı içerir.
 
 ### XPC Bağlantı Süreci Kontrolü
 
@@ -480,8 +480,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

@@ -18,11 +18,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Temel Bilgiler
 
-IPC (Inter-Process Communication) namespace, mesaj kuyrukları, paylaşılan bellek segmentleri ve semaforlar gibi Sistem V IPC nesnelerinin **izolasyonunu** sağlayan bir Linux çekirdek özelliğidir. Bu izolasyon, **farklı IPC namespace'lerinde bulunan süreçlerin birbirlerinin IPC nesnelerine doğrudan erişememesini veya bunları değiştirememesini** sağlar ve süreç grupları arasında ek bir güvenlik ve gizlilik katmanı sunar.
+IPC (Inter-Process Communication) namespace, mesaj kuyrukları, paylaşılan bellek segmentleri ve semaforlar gibi System V IPC nesnelerinin **izolasyonunu** sağlayan bir Linux çekirdek özelliğidir. Bu izolasyon, **farklı IPC namespace'lerinde bulunan süreçlerin birbirlerinin IPC nesnelerine doğrudan erişememesini veya bunları değiştirememesini** sağlar ve süreç grupları arasında ek bir güvenlik ve gizlilik katmanı sunar.
 
 ### Nasıl çalışır:
 
-1. Yeni bir IPC namespace oluşturulduğunda, **tamamen izole bir Sistem V IPC nesne seti** ile başlar. Bu, yeni IPC namespace'inde çalışan süreçlerin varsayılan olarak diğer namespace'lerdeki veya ana sistemdeki IPC nesnelerine erişemeyeceği veya bunlarla etkileşime giremeyeceği anlamına gelir.
+1. Yeni bir IPC namespace oluşturulduğunda, **tamamen izole bir System V IPC nesne seti** ile başlar. Bu, yeni IPC namespace'inde çalışan süreçlerin varsayılan olarak diğer namespace'lerdeki veya ana sistemdeki IPC nesnelerine erişemeyeceği veya müdahale edemeyeceği anlamına gelir.
 2. Bir namespace içinde oluşturulan IPC nesneleri, **yalnızca o namespace içindeki süreçler tarafından görünür ve erişilebilir**. Her IPC nesnesi, kendi namespace'inde benzersiz bir anahtar ile tanımlanır. Anahtar farklı namespace'lerde aynı olabilir, ancak nesneler kendileri izole edilmiştir ve namespace'ler arasında erişilemez.
 3. Süreçler, `setns()` sistem çağrısını kullanarak namespace'ler arasında geçiş yapabilir veya `CLONE_NEWIPC` bayrağı ile `unshare()` veya `clone()` sistem çağrılarını kullanarak yeni namespace'ler oluşturabilir. Bir süreç yeni bir namespace'e geçtiğinde veya bir tane oluşturduğunda, o namespace ile ilişkili IPC nesnelerini kullanmaya başlayacaktır.
 
@@ -34,7 +34,7 @@ IPC (Inter-Process Communication) namespace, mesaj kuyrukları, paylaşılan bel
 ```bash
 sudo unshare -i [--mount-proc] /bin/bash
 ```
-Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile monte ederek, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerine doğru ve izole bir görünüm** sağladığınızı garanti edersiniz.
+Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile monte ederek, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerine doğru ve izole bir bakış** sağladığınızı garanti edersiniz.
 
 <details>
 

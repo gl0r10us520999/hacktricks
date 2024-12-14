@@ -1,8 +1,8 @@
 # lxd/lxc Grubu - Yetki Yükseltme
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -21,7 +21,7 @@ _Eğer_ **lxd** _veya_ **lxc** _grubuna ait iseniz, root olabilirsiniz._
 
 ### Yöntem 1
 
-Bu dağıtım oluşturucusunu makinenize kurabilirsiniz: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder) (github talimatlarını takip edin):
+Bu dağıtım oluşturucusunu makinenize kurabilirsiniz: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(github talimatlarını takip edin):
 ```bash
 sudo su
 # Install requirements
@@ -63,7 +63,7 @@ lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=t
 ```
 {% hint style="danger" %}
 Eğer bu hatayı bulursanız _**Hata: Depo havuzu bulunamadı. Lütfen yeni bir depo havuzu oluşturun**_\
-**`lxd init`** komutunu çalıştırın ve **önceki** komut grubunu **tekrar** edin
+**`lxd init`** komutunu çalıştırın ve **önceki** komut grubunu **tekrarlayın**
 {% endhint %}
 
 Sonunda konteyneri çalıştırabilir ve root alabilirsiniz:
@@ -103,7 +103,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grt
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

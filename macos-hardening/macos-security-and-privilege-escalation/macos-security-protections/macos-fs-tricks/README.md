@@ -23,27 +23,27 @@ Bir **dizindeki** izinler:
 * **yazma** - dizindeki **dosyaları silip/yazabilirsiniz** ve **boş klasörleri** silebilirsiniz.
 * Ancak **boş olmayan klasörleri** silip/değiştiremezsiniz, yazma izinleriniz yoksa.
 * Bir klasörün adını **değiştiremezsiniz**, eğer ona sahip değilseniz.
-* **çalıştırma** - dizinde **geçiş yapmanıza izin verilir** - bu hakka sahip değilseniz, içindeki dosyalara veya alt dizinlere erişemezsiniz.
+* **çalıştırma** - dizinde **gezinmenize izin verilir** - bu hakka sahip değilseniz, içindeki dosyalara veya alt dizinlere erişemezsiniz.
 
 ### Tehlikeli Kombinasyonlar
 
-**Root tarafından sahip olunan bir dosya/klasörü nasıl üzerine yazılır**, ancak:
+**Root tarafından sahip olunan bir dosya/klasörü nasıl geçersiz kılabilirsiniz**, ancak:
 
-* Yolda bir ana **dizin sahibi** kullanıcıdır
-* Yolda bir ana **dizin sahibi** **kullanıcı grubu** **yazma erişimine** sahiptir
+* Yolda bir üst **dizin sahibi** kullanıcıdır
+* Yolda bir üst **dizin sahibi** **kullanıcı grubu** **yazma erişimine** sahiptir
 * Bir kullanıcı **grubu** **dosyaya** **yazma** erişimine sahiptir
 
 Önceki kombinasyonlardan herhangi biriyle, bir saldırgan **beklenen yola** bir **simetrik/sert bağlantı** **enjekte** edebilir ve ayrıcalıklı bir yazma elde edebilir.
 
 ### Klasör root R+X Özel durumu
 
-**Sadece root'un R+X erişimine sahip olduğu** bir **dizide** dosyalar varsa, bunlar **başka hiç kimseye erişilebilir değildir**. Bu nedenle, bir kullanıcının okuyabileceği bir dosyayı, bu **kısıtlama** nedeniyle okunamayan bir klasörden **farklı birine** **taşıma** izni veren bir güvenlik açığı, bu dosyaları okumak için kötüye kullanılabilir.
+**Sadece root'un R+X erişimine sahip olduğu** bir **dizide** dosyalar varsa, bunlar **başka kimseye erişilemez**. Bu nedenle, bu klasörden **farklı birine** **kullanıcı tarafından okunabilir** bir dosyayı **taşıma** izni veren bir zafiyet, bu dosyaları okumak için kötüye kullanılabilir.
 
 Örnek: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Sembolik Bağlantı / Sert Bağlantı
 
-Eğer ayrıcalıklı bir işlem, **düşük ayrıcalıklı bir kullanıcı** tarafından **kontrol edilebilecek** veya daha düşük ayrıcalıklı bir kullanıcı tarafından **önceden oluşturulmuş** bir **dosyaya** veri yazıyorsa, kullanıcı sadece onu bir Sembolik veya Sert bağlantı aracılığıyla **başka bir dosyaya** **işaret edebilir** ve ayrıcalıklı işlem o dosyaya yazacaktır.
+Eğer ayrıcalıklı bir işlem, **düşük ayrıcalıklı bir kullanıcı** tarafından **kontrol edilebilecek** veya daha önce düşük ayrıcalıklı bir kullanıcı tarafından **oluşturulmuş** bir **dosyaya** veri yazıyorsa. Kullanıcı, sadece bir Sembolik veya Sert bağlantı aracılığıyla onu **başka bir dosyaya** **işaret edebilir** ve ayrıcalıklı işlem o dosyaya yazacaktır.
 
 Bir saldırganın **ayrıcalıkları artırmak için keyfi bir yazmayı nasıl kötüye kullanabileceğini** kontrol edin.
 
@@ -65,7 +65,7 @@ Bir saldırganın **ayrıcalıkları artırmak için keyfi bir yazmayı nasıl k
 ```
 ## Keyfi FD
 
-Eğer bir **işlemi yüksek ayrıcalıklarla bir dosya veya klasör açmaya zorlayabilirseniz**, **`crontab`**'i kullanarak `/etc/sudoers.d` içindeki bir dosyayı **`EDITOR=exploit.py`** ile açabilirsiniz, böylece `exploit.py` `/etc/sudoers` içindeki dosyaya FD alacak ve bunu kötüye kullanacaktır.
+Eğer bir **işlemi yüksek ayrıcalıklarla bir dosya veya klasör açmaya zorlayabilirseniz**, **`crontab`**'i kullanarak **`EDITOR=exploit.py`** ile `/etc/sudoers.d` içindeki bir dosyayı açabilirsiniz, böylece `exploit.py` `/etc/sudoers` içindeki dosyaya FD alacak ve bunu kötüye kullanacaktır.
 
 Örneğin: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -125,7 +125,7 @@ ls -le /tmp/test
 
 **AppleDouble** dosya formatı, bir dosyayı ACE'leri ile birlikte kopyalar.
 
-[**kaynak kodda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) görülebilir ki, xattr içinde saklanan ACL metin temsili **`com.apple.acl.text`** olarak adlandırılır ve bu, sıkıştırılmamış dosyada ACL olarak ayarlanacaktır. Yani, bir uygulamayı ACL ile birlikte **AppleDouble** dosya formatında bir zip dosyasına sıkıştırdıysanız ve bu ACL diğer xattr'ların yazılmasını engelliyorsa... karantina xattr'ı uygulamaya ayarlanmamıştı:
+[**kaynak kodda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) **`com.apple.acl.text`** adlı xattr içinde saklanan ACL metin temsilinin, sıkıştırılmamış dosyada ACL olarak ayarlanacağını görebiliriz. Yani, bir uygulamayı ACL'nin diğer xattr'ların yazılmasını engellediği **AppleDouble** dosya formatında bir zip dosyasına sıkıştırdıysanız... karantina xattr uygulamaya ayarlanmamıştı:
 
 Daha fazla bilgi için [**orijinal raporu**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kontrol edin.
 
@@ -157,7 +157,7 @@ Gerçekten gerekli değil ama yine de burada bırakıyorum:
 
 ## Kod İmzalarını Atlatma
 
-Paketler, **paket** içindeki her bir **dosyanın** **hash'ini** içeren **`_CodeSignature/CodeResources`** dosyasını içerir. CodeResources'ın hash'inin de **çalıştırılabilir dosyaya** **gömülü** olduğunu unutmayın, bu yüzden bununla da oynayamayız.
+Bundle'lar, **bundle** içindeki her bir **dosyanın** **hash**'ini içeren **`_CodeSignature/CodeResources`** dosyasını içerir. CodeResources'ın hash'inin de **çalıştırılabilir dosyaya** gömülü olduğunu unutmayın, bu yüzden bununla da oynayamayız.
 
 Ancak, imzasının kontrol edilmeyeceği bazı dosyalar vardır, bunlar plist'te omit anahtarına sahiptir, örneğin:
 ```xml
@@ -213,7 +213,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 
 ## DMG'leri Bağla
 
-Bir kullanıcı, mevcut bazı klasörlerin üzerine bile oluşturulmuş özel bir dmg'yi bağlayabilir. Özel içerikle özel bir dmg paketi oluşturmanın yolu budur:
+Bir kullanıcı, mevcut bazı klasörlerin üzerine bile oluşturulmuş özel bir dmg'yi bağlayabilir. Özel içerikle bir özel dmg paketi oluşturmanın yolu budur:
 
 {% code overflow="wrap" %}
 ```bash
@@ -238,7 +238,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Genellikle macOS, `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisi ile diskleri monte eder (bu servis `/usr/libexec/diskarbitrationd` tarafından sağlanır). LaunchDaemons plist dosyasına `-d` parametresi eklenip yeniden başlatıldığında, `/var/log/diskarbitrationd.log` dosyasına günlükler kaydedilecektir.\
+Genellikle macOS, diski `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisi ile bağlar (bu servis `/usr/libexec/diskarbitrationd` tarafından sağlanır). LaunchDaemons plist dosyasına `-d` parametresi eklenip yeniden başlatıldığında, `/var/log/diskarbitrationd.log` dosyasına günlükler kaydedilecektir.\
 Ancak, `com.apple.driver.DiskImages` kext'i ile doğrudan iletişim kurmak için `hdik` ve `hdiutil` gibi araçlar kullanılabilir.
 
 ## Keyfi Yazmalar
@@ -247,11 +247,11 @@ Ancak, `com.apple.driver.DiskImages` kext'i ile doğrudan iletişim kurmak için
 
 Eğer betiğiniz bir **shell script** olarak yorumlanabiliyorsa, her gün tetiklenecek olan **`/etc/periodic/daily/999.local`** shell betiğini üzerine yazabilirsiniz.
 
-Bu betiğin bir yürütmesini **şu şekilde** **taklit** edebilirsiniz: **`sudo periodic daily`**
+Bu betiğin bir yürütmesini **`sudo periodic daily`** ile **sahte** yapabilirsiniz.
 
 ### Daemonlar
 
-Keyfi bir **LaunchDaemon** yazın, örneğin **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** ve keyfi bir betik yürüten bir plist ile oluşturun:
+Keyfi bir **LaunchDaemon** yazın, örneğin **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** ile, keyfi bir betiği yürüten bir plist ile:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -394,19 +394,19 @@ return 0;
 
 **macOS korunan tanımlayıcılar**, kullanıcı uygulamalarındaki **dosya tanımlayıcı işlemlerinin** güvenliğini ve güvenilirliğini artırmak için macOS'ta tanıtılan bir güvenlik özelliğidir. Bu korunan tanımlayıcılar, dosya tanımlayıcılarıyla belirli kısıtlamalar veya "korumalar" ilişkilendirme yolu sağlar ve bu kısıtlamalar çekirdek tarafından uygulanır.
 
-Bu özellik, **yetkisiz dosya erişimi** veya **yarış koşulları** gibi belirli güvenlik açıklarının önlenmesi için özellikle faydalıdır. Bu güvenlik açıkları, örneğin bir iş parçacığı bir dosya tanımına erişirken **başka bir savunmasız iş parçacığına erişim vermesi** veya bir dosya tanımlayıcısının **savunmasız bir çocuk süreç tarafından devralınması** durumunda ortaya çıkar. Bu işlevsellikle ilgili bazı fonksiyonlar şunlardır:
+Bu özellik, **yetkisiz dosya erişimi** veya **yarış koşulları** gibi belirli güvenlik açıklarının önlenmesi için özellikle yararlıdır. Bu güvenlik açıkları, örneğin bir iş parçacığı bir dosya tanımına eriştiğinde **başka bir savunmasız iş parçacığına erişim vermesi** veya bir dosya tanımlayıcısının **savunmasız bir çocuk süreç tarafından devralınması** durumunda ortaya çıkar. Bu işlevsellikle ilgili bazı fonksiyonlar şunlardır:
 
 * `guarded_open_np`: Bir koruma ile FD açar
 * `guarded_close_np`: Kapatır
-* `change_fdguard_np`: Bir tanımlayıcı üzerindeki koruma bayraklarını değiştirir (koruma kaldırma dahil)
+* `change_fdguard_np`: Bir tanımlayıcı üzerindeki koruma bayraklarını değiştirir (koruma korumasını kaldırma dahil)
 
 ## Referanslar
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

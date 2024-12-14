@@ -1,16 +1,16 @@
 # macOS TCC Payloads
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Desktop`'i `/tmp/desktop`'e kopyala.
+`$HOME/Desktop`'ı `/tmp/desktop`'a kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -106,7 +106,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/`Documents'ı `/tmp/documents`'a kopyala.
+`$HOME/`Belgeleri `/tmp/documents`'a kopyala.
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -120,7 +120,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Downloads` dizinini `/tmp/downloads` dizinine kopyala.
+`$HOME/Downloads` klasörünü `/tmp/downloads` klasörüne kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -267,7 +267,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`$HOME/Library/Calendars`'ı `/tmp/calendars`'a kopyalayın.
+`$HOME/Library/Calendars` dizinini `/tmp/calendars` dizinine kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -302,7 +302,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Library/Calendars`'ı `/tmp/calendars`'a kopyala.
+`$HOME/Library/Calendars`'ı `/tmp/calendars`'a kopyalayın.
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -395,7 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - Kontrol" %}
-Programın kameraya erişimi olup olmadığını kontrol edin.
+Programın kameraya erişimi olup olmadığını kontrol et.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -441,7 +441,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Kaydet" %}
+{% tab title="ObjetiveC - Kayıt" %}
 5 saniye ses kaydedin ve `/tmp/recording.m4a` dosyasına kaydedin
 ```objectivec
 #import <Foundation/Foundation.h>

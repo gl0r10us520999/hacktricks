@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Temel Bilgiler
 
-I/O Kit, XNU çekirdeğinde açık kaynaklı, nesne yönelimli **cihaz sürücüsü çerçevesidir** ve **dinamik olarak yüklenen cihaz sürücülerini** yönetir. Farklı donanımları destekleyerek çekirdeğe modüler kod eklenmesine olanak tanır.
+I/O Kit, XNU çekirdeğinde **dinamik olarak yüklenen cihaz sürücülerini** yöneten açık kaynaklı, nesne yönelimli bir **cihaz sürücü çerçevesidir**. Farklı donanımları destekleyerek çekirdeğe modüler kod eklenmesine olanak tanır.
 
 IOKit sürücüleri esasen **çekirdekten fonksiyonlar dışa aktarır**. Bu fonksiyon parametre **tipleri** **önceden tanımlıdır** ve doğrulanır. Ayrıca, XPC'ye benzer şekilde, IOKit sadece **Mach mesajlarının** üstünde başka bir katmandır.
 
@@ -25,7 +25,7 @@ IOKit sürücüleri esasen **çekirdekten fonksiyonlar dışa aktarır**. Bu fon
 
 Ancak, **hiçbir IOKit sürücüsü** açık kaynak değildir. Yine de, zaman zaman bir sürücü sürümü, hata ayıklamayı kolaylaştıran sembollerle birlikte gelebilir. [**Firmware'den sürücü uzantılarını nasıl alacağınızı buradan kontrol edin**](./#ipsw)**.**
 
-**C++** ile yazılmıştır. Demangled C++ sembollerini almak için:
+**C++** ile yazılmıştır. Demangled C++ sembollerini şu şekilde alabilirsiniz:
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -41,14 +41,14 @@ IOKit **açık fonksiyonlar** bir istemcinin bir fonksiyonu çağırmaya çalı�
 
 ## Sürücüler
 
-macOS'ta şunlarda bulunurlar:
+macOS'ta şu konumlarda bulunurlar:
 
 * **`/System/Library/Extensions`**
 * OS X işletim sistemine entegre edilmiş KEXT dosyaları.
 * **`/Library/Extensions`**
 * Üçüncü taraf yazılımlar tarafından yüklenen KEXT dosyaları.
 
-iOS'ta şunlarda bulunurlar:
+iOS'ta şu konumlarda bulunurlar:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -98,18 +98,18 @@ IORegistryExplorer'da, "düzlemler" IORegistry'deki farklı nesneler arasındaki
 
 1. **IOService Düzlemi**: Bu, sürücüleri ve nubs'ları (sürücüler arasındaki iletişim kanalları) temsil eden hizmet nesnelerini görüntüleyen en genel düzlemdir. Bu nesneler arasındaki sağlayıcı-müşteri ilişkilerini gösterir.
 2. **IODeviceTree Düzlemi**: Bu düzlem, cihazların sisteme bağlı olduğu fiziksel bağlantıları temsil eder. Genellikle USB veya PCI gibi bus'lar aracılığıyla bağlı cihazların hiyerarşisini görselleştirmek için kullanılır.
-3. **IOPower Düzlemi**: Güç yönetimi açısından nesneleri ve bunların ilişkilerini görüntüler. Diğerlerinin güç durumunu etkileyen nesneleri gösterebilir, güçle ilgili sorunları gidermek için yararlıdır.
+3. **IOPower Düzlemi**: Güç yönetimi açısından nesneleri ve ilişkilerini görüntüler. Diğerlerinin güç durumunu etkileyen nesneleri gösterebilir, güçle ilgili sorunları gidermek için faydalıdır.
 4. **IOUSB Düzlemi**: Özellikle USB cihazları ve bunların ilişkilerine odaklanır, USB hub'larının ve bağlı cihazların hiyerarşisini gösterir.
-5. **IOAudio Düzlemi**: Bu düzlem, ses cihazlarını ve bunların sistem içindeki ilişkilerini temsil etmek içindir.
+5. **IOAudio Düzlemi**: Bu düzlem, ses cihazlarını ve bunların sistem içindeki ilişkilerini temsil etmek için kullanılır.
 6. ...
 
 ## Sürücü İletişim Kodu Örneği
 
 Aşağıdaki kod, IOKit hizmetine `"YourServiceNameHere"` bağlanır ve seçici 0 içindeki fonksiyonu çağırır. Bunun için:
 
-* Öncelikle **`IOServiceMatching`** ve **`IOServiceGetMatchingServices`** çağrılarak hizmet alınır.
-* Ardından **`IOServiceOpen`** çağrılarak bir bağlantı kurulur.
-* Son olarak, seçici 0'ı belirterek **`IOConnectCallScalarMethod`** ile bir fonksiyon çağrılır (seçici, çağırmak istediğiniz fonksiyona atanan numaradır).
+* Öncelikle **`IOServiceMatching`** ve **`IOServiceGetMatchingServices`** çağrıları yaparak hizmeti alır.
+* Ardından **`IOServiceOpen`** çağrısını yaparak bir bağlantı kurar.
+* Ve nihayetinde, çağırmak istediğiniz fonksiyona atanan numara olan seçici 0'ı belirterek **`IOConnectCallScalarMethod`** ile bir fonksiyon çağırır.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -176,7 +176,7 @@ Bunları örneğin bir [**firmware image (ipsw)**](./#ipsw) üzerinden elde edeb
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-O korkunç çağrı demagled, şunları ifade eder: 
+O korkunç çağrı demagled şu anlama geliyor:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -222,7 +222,7 @@ değişiklikten sonra:
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ve şimdi orada **7 elemanlı bir dizi** olduğunu biliyoruz (son decompile edilmiş kodu kontrol edin), 7 elemanlı bir dizi oluşturmak için tıklayın:
+Ve şimdi orada **7 elemanlı bir dizi** olduğunu biliyoruz (son decompile edilmiş koda bakın), 7 elemanlı bir dizi oluşturmak için tıklayın:
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -231,7 +231,7 @@ Dizi oluşturulduktan sonra, tüm dışa aktarılan fonksiyonları görebilirsin
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Hatırlarsanız, kullanıcı alanından bir **dışa aktarılan** fonksiyonu **çağırmak** için fonksiyonun adını değil, **seçici numarasını** çağırmamız gerekiyor. Burada seçici **0** fonksiyonu **`initializeDecoder`**, seçici **1** **`startDecoder`**, seçici **2** **`initializeEncoder`** olduğunu görebilirsiniz...
+Hatırlarsanız, kullanıcı alanından bir **dışa aktarılan** fonksiyonu **çağırmak** için fonksiyonun adını değil, **seçici numarasını** çağırmamız gerekiyor. Burada seçici **0** fonksiyonu **`initializeDecoder`**, seçici **1** **`startDecoder`**, seçici **2** **`initializeEncoder`**...
 {% endhint %}
 
 {% hint style="success" %}
@@ -243,8 +243,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

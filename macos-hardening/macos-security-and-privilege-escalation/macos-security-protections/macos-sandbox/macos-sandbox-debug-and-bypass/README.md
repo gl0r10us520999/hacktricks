@@ -24,14 +24,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Derleyici, ikili dosyaya `/usr/lib/libSystem.B.dylib` bağlantısını yapacaktır.
 
-Daha sonra, **`libSystem.B`**, **`xpc_pipe_routine`** uygulamanın yetkilerini **`securityd`**'ye gönderene kadar birkaç başka fonksiyonu çağıracaktır. Securityd, sürecin Sandbox içinde karantinaya alınması gerekip gerekmediğini kontrol eder ve eğer öyleyse, karantinaya alınacaktır.\
+Daha sonra, **`libSystem.B`**, **`xpc_pipe_routine`** uygulamanın yetkilerini **`securityd`**'ye gönderene kadar birkaç başka fonksiyonu çağıracaktır. Securityd, sürecin Sandbox içinde karantinaya alınıp alınmayacağını kontrol eder ve eğer öyleyse, karantinaya alınacaktır.\
 Son olarak, sandbox, **`__sandbox_ms`** çağrısıyla etkinleştirilecek ve bu da **`__mac_syscall`**'ı çağıracaktır.
 
 ## Olası Bypass'ler
 
 ### Karantina niteliğini atlama
 
-**Sandbox'lı süreçler tarafından oluşturulan dosyalar**, sandbox kaçışını önlemek için **karantina niteliği** eklenir. Ancak, eğer bir sandboxlı uygulama içinde **karantina niteliği olmayan bir `.app` klasörü oluşturmayı başarırsanız**, uygulama paketinin ikili dosyasını **`/bin/bash`**'e yönlendirebilir ve **plist** içinde bazı çevre değişkenleri ekleyerek **`open`**'i kötüye kullanarak **yeni uygulamayı sandbox dışı başlatabilirsiniz**.
+**Sandbox'lı süreçler tarafından oluşturulan dosyalar**, sandbox kaçışını önlemek için **karantina niteliği** eklenir. Ancak, eğer bir sandbox'lı uygulama içinde **karantina niteliği olmayan bir `.app` klasörü oluşturmayı başarırsanız**, uygulama paketinin ikili dosyasını **`/bin/bash`**'e yönlendirebilir ve **plist** içinde bazı çevre değişkenleri ekleyerek **`open`**'i kötüye kullanarak **yeni uygulamayı sandbox'sız başlatabilirsiniz**.
 
 Bu, [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**'te yapılan şeydir.**
 
@@ -56,9 +56,9 @@ Bir uygulama **sandbox'lı olacak şekilde tasarlanmışsa** (`com.apple.securit
 
 ### Otomatik Başlatma Konumlarını Kötüye Kullanma
 
-Eğer bir sandbox'lı süreç, **sonrasında bir sandbox dışı uygulamanın ikili dosyasını çalıştıracağı** bir yere **yazabiliyorsa**, sadece oraya ikili dosyayı yerleştirerek **kaçabilir**. Bu tür konumların iyi bir örneği `~/Library/LaunchAgents` veya `/System/Library/LaunchDaemons`'dır.
+Eğer bir sandbox'lı süreç, **sonrasında bir sandbox'sız uygulamanın ikili dosyasını çalıştıracağı** bir yere **yazabiliyorsa**, ikili dosyayı oraya yerleştirerek **kaçabilir**. Bu tür konumların iyi bir örneği `~/Library/LaunchAgents` veya `/System/Library/LaunchDaemons`'dır.
 
-Bunun için belki de **2 adım** gerekebilir: Daha **izinli bir sandbox** (`file-read*`, `file-write*`) ile bir sürecin kodunuzu çalıştırmasını sağlamak ve bu kodun aslında **sandbox dışı çalıştırılacak** bir yere yazmasını sağlamak.
+Bunun için belki de **2 adım** gerekebilir: Daha **izinli bir sandbox** (`file-read*`, `file-write*`) ile bir sürecin kodunuzu çalıştırmasını sağlamak ve bu kodun aslında **sandbox'sız çalıştırılacağı** bir yere yazmasını sağlamak.
 
 **Otomatik Başlatma konumları** hakkında bu sayfayı kontrol edin:
 
@@ -83,7 +83,7 @@ Eğer o sandbox sürecinden, daha az kısıtlayıcı sandbox'larda (veya hiç) �
 
 ### Shell kodları
 
-**Shell kodlarının** ARM64'te bile `libSystem.dylib`'de bağlanması gerektiğini unutmayın:
+Not edin ki **shell kodları** ARM64'te `libSystem.dylib`'de bağlantı kurmak zorundadır:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
@@ -102,7 +102,7 @@ Not edin ki bazı **hareketler** bir uygulama belirli bir **yetkiye** sahipse **
 ```
 ### Interposting Bypass
 
-Daha fazla bilgi için **Interposting** hakkında kontrol edin:
+Daha fazla bilgi için **Interposting** hakkında bakın:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
@@ -317,7 +317,7 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Sandbox atlatılsa bile TCC** kullanıcıdan sürecin masaüstünden dosya okumak isteyip istemediğini soracaktır.
+**Sandbox atlatılsa bile TCC** kullanıcıdan sürecin masaüstünden dosyaları okumak isteyip istemediğini soracaktır.
 {% endhint %}
 
 ## Referanslar

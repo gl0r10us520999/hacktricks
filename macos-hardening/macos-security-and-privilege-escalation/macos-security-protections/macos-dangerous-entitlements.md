@@ -1,8 +1,8 @@
 # macOS Tehlikeli Yetkiler & TCC izinleri
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -35,11 +35,11 @@ Bu yetki, **çekirdek hariç** herhangi bir süreç için **görev portunu** alm
 
 ### `com.apple.security.get-task-allow`
 
-Bu yetki, **`com.apple.security.cs.debugger`** yetkisine sahip diğer süreçlerin, bu yetkiye sahip ikili tarafından çalıştırılan sürecin görev portunu almasına ve **kod enjekte etmesine** izin verir. Daha fazla bilgi için [**bunu kontrol edin**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Bu yetki, **`com.apple.security.cs.debugger`** yetkisine sahip diğer süreçlerin, bu yetkiye sahip ikili dosya tarafından çalıştırılan sürecin görev portunu almasına ve **kod enjekte etmesine** izin verir. Daha fazla bilgi için [**bunu kontrol edin**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Debugging Tool Yetkisine sahip uygulamalar, `Get Task Allow` yetkisi `true` olarak ayarlanmış imzasız ve üçüncü taraf uygulamalar için geçerli bir görev portu almak üzere `task_for_pid()` çağrısı yapabilir. Ancak, debugging tool yetkisi ile bile, bir debugger **`Get Task Allow` yetkisine sahip olmayan** süreçlerin görev portlarını **alamaz** ve bu nedenle Sistem Bütünlüğü Koruması tarafından korunur. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Debugging Tool Yetkisine sahip uygulamalar, `Get Task Allow` yetkisi `true` olarak ayarlanmış imzasız ve üçüncü taraf uygulamalar için geçerli bir görev portu almak üzere `task_for_pid()` çağrısı yapabilir. Ancak, debugging tool yetkisi ile bile, bir debugger **`Get Task Allow` yetkisine** sahip olmayan süreçlerin görev portlarını **alamaz** ve bu nedenle Sistem Bütünlüğü Koruması tarafından korunur. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
@@ -80,11 +80,11 @@ TODO: Bunun neye izin verdiğini bilmiyorum
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: [**bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **bu, bir yeniden başlatmadan sonra SSV korumalı içerikleri güncellemek için kullanılabileceği** belirtiliyor. Bunu nasıl yaptığını biliyorsanız bir PR gönderin lütfen!
+TODO: [**bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **bu,** bir yeniden başlatmadan sonra SSV korumalı içerikleri güncellemek için kullanılabileceği belirtiliyor. Bunu nasıl yaptığını biliyorsanız bir PR gönderin lütfen!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: [**bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **bu, bir yeniden başlatmadan sonra SSV korumalı içerikleri güncellemek için kullanılabileceği** belirtiliyor. Bunu nasıl yaptığını biliyorsanız bir PR gönderin lütfen!
+TODO: [**bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **bu,** bir yeniden başlatmadan sonra SSV korumalı içerikleri güncellemek için kullanılabileceği belirtiliyor. Bunu nasıl yaptığını biliyorsanız bir PR gönderin lütfen!
 
 ### `keychain-access-groups`
 
@@ -101,11 +101,11 @@ Bu yetki, uygulamanın erişim sağladığı **anahtar zinciri** gruplarını li
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-**Tam Disk Erişimi** izinleri verir, sahip olabileceğiniz TCC'nin en yüksek izinlerinden biridir.
+**Tam Disk Erişimi** izinlerini verir, sahip olabileceğiniz TCC'nin en yüksek izinlerinden biridir.
 
 ### **`kTCCServiceAppleEvents`**
 
-Uygulamanın, genellikle **görevleri otomatikleştirmek** için kullanılan diğer uygulamalara olaylar göndermesine izin verir. Diğer uygulamaları kontrol ederek, bu diğer uygulamalara verilen izinleri kötüye kullanabilir.
+Uygulamanın, **görevleri otomatikleştirmek** için yaygın olarak kullanılan diğer uygulamalara olaylar göndermesine izin verir. Diğer uygulamaları kontrol ederek, bu diğer uygulamalara verilen izinleri kötüye kullanabilir.
 
 Kullanıcıdan şifresini istemelerini sağlamak gibi: 
 
@@ -115,23 +115,23 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Ya da **keyfi eylemler** gerçekleştirmelerine izin verir.
+Veya **keyfi eylemler** gerçekleştirmelerini sağlamak.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Kullanıcıların TCC veritabanını **yazmalarına** izin verir.
+Diğer izinlerin yanı sıra, **kullanıcıların TCC veritabanını yazmalarına** izin verir.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Kullanıcının ana dizin yolunu değiştiren **`NFSHomeDirectory`** niteliğini **değiştirmeye** izin verir ve böylece **TCC'yi atlatmaya** olanak tanır.
+Bir kullanıcının ev dizin yolu değiştiren **`NFSHomeDirectory`** niteliğini **değiştirmeye** izin verir ve böylece **TCC'yi atlatmayı** sağlar.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Uygulama paketinin içindeki dosyaları değiştirmeye izin verir (app.app içinde), bu varsayılan olarak **yasaktır**.
+Uygulama paketinin içindeki dosyaları (app.app içinde) değiştirmeye izin verir, bu varsayılan olarak **yasaktır**.
 
 <figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
-Bu erişime sahip olanları kontrol etmek mümkündür _Sistem Ayarları_ > _Gizlilik ve Güvenlik_ > _Uygulama Yönetimi_.
+Bu erişime sahip olanları kontrol etmek mümkündür _Sistem Ayarları_ > _Gizlilik ve Güvenlik_ > _Uygulama Yönetimi._
 
 ### `kTCCServiceAccessibility`
 
@@ -141,19 +141,19 @@ Süreç, **macOS erişilebilirlik özelliklerini** **istismar edebilecektir**, b
 
 ### `com.apple.security.cs.allow-jit`
 
-Bu yetki, `mmap()` sistem fonksiyonuna `MAP_JIT` bayrağını geçirerek **yazılabilir ve çalıştırılabilir bellek oluşturulmasına** izin verir. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Bu yetki, `mmap()` sistem fonksiyonuna `MAP_JIT` bayrağını geçirerek **yazılabilir ve çalıştırılabilir bellek oluşturmayı** sağlar. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
 Bu yetki, **C kodunu geçersiz kılmaya veya yamanmaya** izin verir, uzun süredir kullanılmayan **`NSCreateObjectFileImageFromMemory`** (temelde güvensizdir) veya **DVDPlayback** çerçevesini kullanabilir. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Bu yetkiyi dahil etmek, uygulamanızı bellek-güvensiz kod dillerindeki yaygın güvenlik açıklarına maruz bırakır. Uygulamanızın bu istisnaya ihtiyacı olup olmadığını dikkatlice değerlendirin.
+Bu yetkiyi dahil etmek, uygulamanızı bellek-güvenli olmayan kod dillerindeki yaygın güvenlik açıklarına maruz bırakır. Uygulamanızın bu istisnaya ihtiyacı olup olmadığını dikkatlice değerlendirin.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Bu yetki, disk üzerindeki kendi çalıştırılabilir dosyalarının bölümlerini **değiştirmeye** izin verir. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Bu yetki, **diskteki kendi çalıştırılabilir dosyalarının bölümlerini değiştirmeye** izin verir. Daha fazla bilgi için [**bunu kontrol edin**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
 Çalıştırılabilir Bellek Koruma Yetkisini Devre Dışı Bırakmak, uygulamanızdan temel bir güvenlik korumasını kaldıran aşırı bir yetkidir ve bir saldırganın uygulamanızın çalıştırılabilir kodunu tespit edilmeden yeniden yazmasını mümkün kılar. Mümkünse daha dar yetkileri tercih edin.
@@ -176,20 +176,20 @@ Bu blog yazısına göre, bu TCC izni genellikle şu şekilde bulunur:
 [Array]
 [String] kTCCServiceAll
 ```
-Allow the process to **tüm TCC izinlerini istemesine** izin verin.
+İşlemin **tüm TCC izinlerini istemesine** izin verin.
 
 ### **`kTCCServicePostEvent`**
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

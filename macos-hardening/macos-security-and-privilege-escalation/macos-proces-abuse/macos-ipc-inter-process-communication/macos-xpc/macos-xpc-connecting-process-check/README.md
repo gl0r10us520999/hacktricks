@@ -1,8 +1,8 @@
 # macOS XPC Bağlantı Süreci Kontrolü
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -19,21 +19,21 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 Bir XPC hizmetine bağlantı kurulduğunda, sunucu bağlantının izinli olup olmadığını kontrol eder. Genellikle gerçekleştireceği kontroller şunlardır:
 
-1. Bağlanan **sürecin Apple imzalı** bir sertifika ile imzalanıp imzalanmadığını kontrol edin (sadece Apple tarafından verilir).
-* Eğer bu **doğrulanmazsa**, bir saldırgan **herhangi bir diğer kontrolle eşleşen sahte bir sertifika** oluşturabilir.
-2. Bağlanan sürecin **kuruluşun sertifikasıyla** imzalanıp imzalanmadığını kontrol edin (takım ID doğrulaması).
+1. Bağlanan **sürecin Apple imzalı** bir sertifika ile imzalanıp imzalanmadığını kontrol et.
+* Eğer bu **doğrulanmazsa**, bir saldırgan **herhangi bir diğer kontrolle eşleşecek sahte bir sertifika** oluşturabilir.
+2. Bağlanan sürecin **kuruluşun sertifikasıyla** imzalanıp imzalanmadığını kontrol et (takım ID doğrulaması).
 * Eğer bu **doğrulanmazsa**, Apple'dan alınan **herhangi bir geliştirici sertifikası** imzalamak için kullanılabilir ve hizmete bağlanabilir.
-3. Bağlanan sürecin **uygun bir paket kimliğine** sahip olup olmadığını kontrol edin.
+3. Bağlanan sürecin **uygun bir paket kimliğine** sahip olup olmadığını kontrol et.
 * Eğer bu **doğrulanmazsa**, **aynı kuruluş tarafından imzalanmış** herhangi bir araç XPC hizmeti ile etkileşimde bulunmak için kullanılabilir.
-4. (4 veya 5) Bağlanan sürecin **uygun bir yazılım sürüm numarasına** sahip olup olmadığını kontrol edin.
+4. (4 veya 5) Bağlanan sürecin **uygun bir yazılım sürüm numarasına** sahip olup olmadığını kontrol et.
 * Eğer bu **doğrulanmazsa**, eski, güvensiz istemciler, süreç enjeksiyonuna karşı savunmasız olarak XPC hizmetine bağlanmak için kullanılabilir.
-5. (4 veya 5) Bağlanan sürecin tehlikeli yetkilere sahip olmadan **sertleştirilmiş çalışma zamanı** olup olmadığını kontrol edin (örneğin, rastgele kütüphaneleri yüklemeye veya DYLD ortam değişkenlerini kullanmaya izin verenler gibi).
+5. (4 veya 5) Bağlanan sürecin tehlikeli yetkilere sahip olmadan **sertleştirilmiş çalışma zamanı** olup olmadığını kontrol et (örneğin, rastgele kütüphaneleri yüklemeye veya DYLD ortam değişkenlerini kullanmaya izin verenler gibi).
 1. Eğer bu **doğrulanmazsa**, istemci **kod enjeksiyonuna karşı savunmasız** olabilir.
-6. Bağlanan sürecin hizmete bağlanmasına izin veren bir **yetkiye** sahip olup olmadığını kontrol edin. Bu, Apple ikili dosyaları için geçerlidir.
-7. **Doğrulama**, bağlanan **istemcinin denetim belirtecine** **dayanmalıdır** ve bunun yerine süreç ID'sine (**PID**) dayanmalıdır, çünkü bu, **PID yeniden kullanım saldırılarını** önler.
-* Geliştiriciler **denetim belirteci** API çağrısını nadiren kullanır çünkü bu **özel** bir çağrıdır, bu nedenle Apple istediği zaman **değiştirebilir**. Ayrıca, özel API kullanımı Mac App Store uygulamalarında yasaklanmıştır.
+6. Bağlanan sürecin hizmete bağlanmasına izin veren bir **yetkiye** sahip olup olmadığını kontrol et. Bu, Apple ikili dosyaları için geçerlidir.
+7. **Doğrulama**, bağlanan **istemcinin denetim belirtecine** **dayanmalıdır** ve süreç ID'sine (**PID**) **değil** çünkü ilki **PID yeniden kullanım saldırılarını** önler.
+* Geliştiriciler **denetim belirteci** API çağrısını nadiren kullanır çünkü bu **özel**dir, bu nedenle Apple istediği zaman **değiştirebilir**. Ayrıca, özel API kullanımı Mac App Store uygulamalarında yasaklanmıştır.
 * **`processIdentifier`** yöntemi kullanılıyorsa, savunmasız olabilir.
-* **`xpc_dictionary_get_audit_token`** yerine **`xpc_connection_get_audit_token`** kullanılmalıdır, çünkü sonuncusu belirli durumlarda [savunmasız olabilir](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+* **`xpc_dictionary_get_audit_token`** yerine **`xpc_connection_get_audit_token`** kullanılmalıdır, çünkü sonuncusu [belirli durumlarda savunmasız olabilir](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
 ### İletişim Saldırıları
 
@@ -112,15 +112,15 @@ return Yes; // Accept connection
 {% endcode %}
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

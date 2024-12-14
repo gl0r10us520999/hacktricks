@@ -17,11 +17,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Introduction to x64**
 
-x64, ayrıca x86-64 olarak bilinir, esas olarak masaüstü ve sunucu bilgisayarlarında kullanılan 64-bit bir işlemci mimarisidir. Intel tarafından üretilen x86 mimarisinden türetilmiş ve daha sonra AMD tarafından AMD64 adıyla benimsenmiştir; günümüzde kişisel bilgisayarlar ve sunucularda yaygın olarak kullanılan mimaridir.
+x64, ayrıca x86-64 olarak bilinir, esas olarak masaüstü ve sunucu bilgisayarlarında kullanılan 64-bit bir işlemci mimarisidir. Intel tarafından üretilen x86 mimarisinden türetilmiş ve daha sonra AMD tarafından AMD64 adıyla benimsenmiştir; günümüzde kişisel bilgisayarlarda ve sunucularda yaygın olarak kullanılan mimaridir.
 
 ### **Registers**
 
-x64, x86 mimarisini genişleterek **16 genel amaçlı kayıt** sunar: `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, ve `r8` ile `r15`. Her biri **64-bit** (8-byte) bir değeri saklayabilir. Bu kayıtlar ayrıca uyumluluk ve belirli görevler için 32-bit, 16-bit ve 8-bit alt kayıtlar içerir.
+x64, x86 mimarisini genişleterek **16 genel amaçlı kayıt** sunar; bunlar `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi` ve `r8` ile `r15` olarak etiketlenmiştir. Her biri **64-bit** (8-byte) bir değeri saklayabilir. Bu kayıtlar ayrıca uyumluluk ve belirli görevler için 32-bit, 16-bit ve 8-bit alt kayıtlar içerir.
 
 1. **`rax`** - Geleneksel olarak **fonksiyonlardan dönen değerler** için kullanılır.
 2. **`rbx`** - Genellikle bellek işlemleri için bir **temel kayıt** olarak kullanılır.
@@ -30,7 +30,7 @@ x64, x86 mimarisini genişleterek **16 genel amaçlı kayıt** sunar: `rax`, `rb
 5. **`rbp`** - Yığın çerçevesi için **temel işaretçi**.
 6. **`rsp`** - **Yığın işaretçisi**, yığının en üstünü takip eder.
 7. **`rsi`** ve **`rdi`** - Dize/bellek işlemlerinde **kaynak** ve **hedef** indeksleri için kullanılır.
-8. **`r8`** ile **`r15`** - x64'te tanıtılan ek genel amaçlı kayıtlar.
+8. **`r8`** ile **`r15`** - x64'te tanıtılan ek genel amaçlı kayıtlardır.
 
 ### **Calling Convention**
 
@@ -39,7 +39,7 @@ x64 çağrı konvansiyonu işletim sistemlerine göre değişir. Örneğin:
 * **Windows**: İlk **dört parametre** **`rcx`**, **`rdx`**, **`r8`** ve **`r9`** kayıtlarında geçilir. Diğer parametreler yığına itilir. Dönen değer **`rax`** içindedir.
 * **System V (genellikle UNIX benzeri sistemlerde kullanılır)**: İlk **altı tamsayı veya işaretçi parametre** **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** ve **`r9`** kayıtlarında geçilir. Dönen değer de **`rax`** içindedir.
 
-Fonksiyonun altıdan fazla girişi varsa, **geri kalan yığında geçilecektir**. **RSP**, yığın işaretçisi, **16 byte hizalanmış** olmalıdır; bu, işaret ettiği adresin herhangi bir çağrıdan önce 16'ya tam bölünebilir olması gerektiği anlamına gelir. Bu, genellikle bir fonksiyon çağrısı yapmadan önce RSP'nin düzgün bir şekilde hizalanmasını sağlamamız gerektiği anlamına gelir. Ancak pratikte, sistem çağrıları bu gereklilik karşılanmasa bile birçok kez çalışır.
+Fonksiyonun altıdan fazla girişi varsa, **geri kalan yığında geçilecektir**. **RSP**, yığın işaretçisi, **16 byte hizalanmış** olmalıdır; bu, işaret ettiği adresin herhangi bir çağrıdan önce 16'ya tam bölünebilir olması gerektiği anlamına gelir. Bu, genellikle bir fonksiyon çağrısı yapmadan önce RSP'nin düzgün bir şekilde hizalandığından emin olmamız gerektiği anlamına gelir. Ancak pratikte, sistem çağrıları bu gereklilik karşılanmadığında bile birçok kez çalışır.
 
 ### Calling Convention in Swift
 
@@ -53,11 +53,11 @@ x64 talimatları, önceki x86 talimatlarıyla uyumluluğu koruyarak ve yenilerin
 * Örnek: `mov rax, rbx` — `rbx`'teki değeri `rax`'e taşır.
 * **`push`** ve **`pop`**: Değerleri **yığına** itme veya yığından alma.
 * Örnek: `push rax` — `rax`'teki değeri yığına iter.
-* Örnek: `pop rax` — Yığının en üstündeki değeri `rax`'e alır.
+* Örnek: `pop rax` — Yığından en üstteki değeri `rax`'e alır.
 * **`add`** ve **`sub`**: **Toplama** ve **çıkarma** işlemleri.
 * Örnek: `add rax, rcx` — `rax` ve `rcx`'teki değerleri toplar ve sonucu `rax`'te saklar.
 * **`mul`** ve **`div`**: **Çarpma** ve **bölme** işlemleri. Not: Bunların operand kullanımıyla ilgili belirli davranışları vardır.
-* **`call`** ve **`ret`**: **Fonksiyonları çağırmak** ve **dönmek** için kullanılır.
+* **`call`** ve **`ret`**: **Fonksiyonları çağırmak** ve **geri dönmek** için kullanılır.
 * **`int`**: Yazılım **kesintisi** tetiklemek için kullanılır. Örneğin, `int 0x80` 32-bit x86 Linux'ta sistem çağrıları için kullanılmıştır.
 * **`cmp`**: İki değeri **karşılaştırır** ve sonuca göre CPU'nun bayraklarını ayarlar.
 * Örnek: `cmp rax, rdx` — `rax`'ı `rdx` ile karşılaştırır.
@@ -69,12 +69,12 @@ x64 talimatları, önceki x86 talimatlarıyla uyumluluğu koruyarak ve yenilerin
 ### **Function Prologue**
 
 1. **Eski temel işaretçiyi it**: `push rbp` (çağıranın temel işaretçisini kaydeder)
-2. **Mevcut yığın işaretçisini temel işaretçiye aktar**: `mov rbp, rsp` (mevcut fonksiyon için yeni temel işaretçiyi ayarlar)
+2. **Mevcut yığın işaretçisini temel işaretçiye taşı**: `mov rbp, rsp` (mevcut fonksiyon için yeni temel işaretçiyi ayarlar)
 3. **Yerel değişkenler için yığında alan ayır**: `sub rsp, <size>` (burada `<size>`, gereken byte sayısıdır)
 
 ### **Function Epilogue**
 
-1. **Mevcut temel işaretçiyi yığın işaretçisine aktar**: `mov rsp, rbp` (yerel değişkenleri serbest bırak)
+1. **Mevcut temel işaretçiyi yığın işaretçisine taşı**: `mov rsp, rbp` (yerel değişkenleri serbest bırak)
 2. **Eski temel işaretçiyi yığından al**: `pop rbp` (çağıranın temel işaretçisini geri yükler)
 3. **Dön**: `ret` (kontrolü çağırana geri verir)
 
@@ -108,13 +108,13 @@ Sonra, her syscall numarasını [**bu URL'de**](https://opensource.apple.com/sou
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Bu nedenle, **Unix/BSD sınıfından** `open` syscall'ını (**5**) çağırmak için bunu eklemeniz gerekir: `0x2000000`
+Bu nedenle, **Unix/BSD sınıfından** `open` syscall'ını (**5**) çağırmak için şunu eklemeniz gerekir: `0x2000000`
 
 Yani, open'ı çağırmak için syscall numarası `0x2000005` olacaktır.
 
 ### Shellcodlar
 
-Derlemek için:
+Derlemek için: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -301,7 +301,7 @@ touch_command:  db "touch /tmp/lalala", 0
 ```
 #### Bind shell
 
-**port 4444**'te [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) adresinden Bind shell
+**port 4444**'te [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) adresinden bind shell
 ```armasm
 section .text
 global _main
@@ -441,8 +441,8 @@ mov  al, 0x3b
 syscall
 ```
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -17,17 +17,17 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ## **Yetkilendirme DB**
 
-`/var/db/auth.db` konumunda bulunan veritabanı, hassas işlemleri gerçekleştirmek için izinleri saklamak amacıyla kullanılan bir veritabanıdır. Bu işlemler tamamen **kullanıcı alanında** gerçekleştirilir ve genellikle belirli bir eylemi gerçekleştirmek için **çağıran istemcinin yetkilendirilip yetkilendirilmediğini** kontrol etmesi gereken **XPC hizmetleri** tarafından kullanılır.
+`/var/db/auth.db` konumunda bulunan veritabanı, hassas işlemleri gerçekleştirmek için izinleri saklamak amacıyla kullanılan bir veritabanıdır. Bu işlemler tamamen **kullanıcı alanında** gerçekleştirilir ve genellikle bu veritabanını kontrol etmesi gereken **XPC hizmetleri** tarafından kullanılır.
 
 Başlangıçta bu veritabanı, `/System/Library/Security/authorization.plist` içeriğinden oluşturulur. Daha sonra bazı hizmetler, bu veritabanına diğer izinleri eklemek veya mevcut verileri değiştirmek için ekleme yapabilir.
 
 Kurallar, veritabanındaki `rules` tablosunda saklanır ve aşağıdaki sütunları içerir:
 
 * **id**: Her kural için benzersiz bir tanımlayıcı, otomatik olarak artan ve birincil anahtar olarak hizmet eder.
-* **name**: Yetkilendirme sisteminde kuralı tanımlamak ve referans vermek için kullanılan kuralın benzersiz adı.
+* **name**: Yetkilendirme sisteminde kuralı tanımlamak ve referans almak için kullanılan benzersiz kural adı.
 * **type**: Kuralın türünü belirtir, yetkilendirme mantığını tanımlamak için 1 veya 2 değerleriyle sınırlıdır.
 * **class**: Kuralı belirli bir sınıfa kategorize eder, pozitif bir tam sayı olmasını sağlar.
-* "allow" izin vermek için, "deny" reddetmek için, "user" eğer grup özelliği erişime izin veren bir grup gösteriyorsa, "rule" bir dizide yerine getirilmesi gereken bir kuralı belirtir, "evaluate-mechanisms" ardından `/System/Library/CoreServices/SecurityAgentPlugins/` veya /Library/Security//SecurityAgentPlugins içindeki bir paket adını veya yerleşik olanları içeren bir `mechanisms` dizisi gelir.
+* "allow" izin vermek için, "deny" reddetmek için, "user" eğer grup özelliği erişime izin veren bir grup gösteriyorsa, "rule" bir dizide yerine getirilmesi gereken bir kuralı belirtir, "evaluate-mechanisms" ardından `/System/Library/CoreServices/SecurityAgentPlugins/` veya /Library/Security//SecurityAgentPlugins içindeki bir paket adını içeren `mechanisms` dizisi gelir.
 * **group**: Grup tabanlı yetkilendirme için kural ile ilişkili kullanıcı grubunu belirtir.
 * **kofn**: Toplam sayıdan kaç alt kuralın karşılanması gerektiğini belirleyen "k-of-n" parametresini temsil eder.
 * **timeout**: Kural tarafından verilen yetkilendirmenin süresinin dolmadan önceki süreyi tanımlar.
@@ -86,7 +86,7 @@ Ayrıca [https://www.dssw.co.uk/reference/authorization-rights/authenticate-admi
 ```
 ## Authd
 
-Bu, istemcilerin hassas eylemleri gerçekleştirmesi için yetkilendirme taleplerini alacak bir daemon'dur. `XPCServices/` klasörü içinde tanımlanmış bir XPC servisi olarak çalışır ve günlüklerini `/var/log/authd.log` dosyasına yazar.
+Bu, istemcilerin hassas eylemleri gerçekleştirmesi için yetkilendirme taleplerini alacak bir daemon'dur. `XPCServices/` klasörü içinde tanımlanan bir XPC servisi olarak çalışır ve günlüklerini `/var/log/authd.log` dosyasına yazar.
 
 Ayrıca, güvenlik aracını kullanarak birçok `Security.framework` API'sini test etmek mümkündür. Örneğin, `AuthorizationExecuteWithPrivileges` çalıştırarak: `security execute-with-privileges /bin/ls`
 

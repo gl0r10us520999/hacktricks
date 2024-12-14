@@ -1,8 +1,8 @@
 # macOS PID Yeniden Kullanımı
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -10,21 +10,21 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ## PID Yeniden Kullanımı
 
-Bir macOS **XPC servisi**, çağrılan süreci **PID**'ye göre kontrol ediyorsa ve **denetim belirteci** yerine, PID yeniden kullanma saldırısına karşı savunmasızdır. Bu saldırı, bir **yarış durumu** temelinde olup, bir **sömürü** **XPC** servisine **mesajlar gönderecek** ve hemen ardından **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** ile **izin verilen** ikiliyi çalıştıracaktır.
+Bir macOS **XPC servisi**, çağrılan süreci **PID**'ye göre kontrol ediyorsa ve **denetim belirteci**'ne göre değilse, PID yeniden kullanma saldırısına karşı savunmasızdır. Bu saldırı, bir **yarış durumu** temelinde olup, bir **sömürü** **XPC** servisine **mesajlar gönderecek** ve hemen ardından **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** ile **izin verilen** ikiliyi çalıştıracaktır.
 
 Bu fonksiyon, **izin verilen ikilinin PID'sini almasını** sağlayacak, ancak **kötü niyetli XPC mesajı** daha önce gönderilmiş olacaktır. Dolayısıyla, eğer **XPC** servisi **PID**'yi **göndereni kimlik doğrulamak için kullanıyorsa** ve **`posix_spawn`**'dan sonra kontrol ediyorsa, bunun **yetkili** bir süreçten geldiğini düşünecektir.
 
 ### Sömürü örneği
 
 Eğer **`shouldAcceptNewConnection`** fonksiyonunu veya onun tarafından çağrılan ve **`processIdentifier`**'ı çağıran bir fonksiyonu bulursanız ve **`auditToken`**'ı çağırmıyorsa, bu büyük olasılıkla **sürecin PID'sini** doğruladığı anlamına gelir.\
-Örneğin, bu resimde (referanstan alınmıştır):
+Örneğin, bu resimde (referanstan alınmıştır) olduğu gibi:
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
@@ -34,7 +34,7 @@ Sömürü örneğini kontrol edin (yine, referanstan alınmıştır) ve sömür�
 * **Her fork**, mesajı gönderdikten hemen sonra **`posix_spawn`**'ı çalıştırırken **yükü** XPC servisine **gönderecektir**.
 
 {% hint style="danger" %}
-Sömürünün çalışması için ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ayarını yapmak veya sömürü içine koymak önemlidir:
+Sömürünün çalışması için ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ayarını yapmak veya sömürünün içine koymak önemlidir:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -153,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Bu örnek, **PID yarış koşulunu istismar edecek çocukları başlatmak için ham **`fork`** kullanır** ve ardından **bir Hard link aracılığıyla başka bir yarış koşulunu istismar eder:**
+Bu örnek, **PID yarış koşulunu** istismar etmek için **çocuk süreçleri başlatmak** ve ardından **bir Hard link aracılığıyla başka bir yarış koşulunu** istismar etmek için ham **`fork`** kullanır:
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -299,16 +299,16 @@ return 0;
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

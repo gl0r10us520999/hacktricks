@@ -27,7 +27,7 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Env değişkeni **`_JAVA_OPTIONS`** bir java derlenmiş uygulamasının yürütülmesinde rastgele java parametreleri enjekte etmek için kullanılabilir:
+Env değişkeni **`_JAVA_OPTIONS`** bir java derlenmiş uygulamasının yürütülmesinde keyfi java parametrelerini enjekte etmek için kullanılabilir:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
@@ -96,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Ajansı, uygulamadan **farklı bir Java sürümü** ile oluşturmak, hem ajansın hem de uygulamanın çalışmasını çökertilebilir.
+Ajansı, uygulamadan **farklı bir Java versiyonu** ile oluşturmak, hem ajansın hem de uygulamanın çalışmasını çökertilebilir.
 {% endhint %}
 
 Ajansın nerede olabileceği:
@@ -146,9 +146,9 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 Bu dosya, Java çalıştırıldığında **Java parametrelerinin** belirtilmesini destekler. Java parametrelerini değiştirmek ve **sürecin rastgele komutlar çalıştırmasını sağlamak** için önceki hilelerden bazılarını kullanabilirsiniz.\
 Ayrıca, bu dosya `include` dizini ile **başka dosyaları da içerebilir**, böylece dahil edilen bir dosyayı da değiştirebilirsiniz.
 
-Dahası, bazı Java uygulamaları **birden fazla `vmoptions`** dosyasını **yükleyecektir**.
+Dahası, bazı Java uygulamaları **birden fazla `vmoptions`** dosyasını yükleyecektir.
 
-Android Studio gibi bazı uygulamalar, bu dosyaları nerede aradıklarını **çıktılarında belirtir**, şöyle:
+Android Studio gibi bazı uygulamalar, bu dosyaları nerede aradıklarını **çıktılarında belirtir**, örneğin:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -159,7 +159,7 @@ Android Studio gibi bazı uygulamalar, bu dosyaları nerede aradıklarını **ç
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Eğer yapmıyorsanız, bunu kolayca kontrol edebilirsiniz:
+Eğer yapmazlarsa, bunu kolayca kontrol edebilirsiniz:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -167,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Not edin ki bu örnekte Android Studio'nun **`/Applications/Android Studio.app.vmoptions`** dosyasını yüklemeye çalışması oldukça ilginçtir; bu, **`admin` grubundaki** herhangi bir kullanıcının yazma erişimine sahip olduğu bir yerdir.
+Not edin ki bu örnekte Android Studio'nun **`/Applications/Android Studio.app.vmoptions`** dosyasını yüklemeye çalışması oldukça ilginçtir; bu, **`admin`** grubundaki herhangi bir kullanıcının yazma erişimine sahip olduğu bir yerdir.

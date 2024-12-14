@@ -1,25 +1,25 @@
-# Bellek içindeki nesneler
+# Bellekteki Nesneler
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* Hacking püf noktalarını paylaşarak PR'ler göndererek [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ## CFRuntimeClass
 
-CF\* nesneleri CoreFoundation'dan gelir ve `CFString`, `CFNumber` veya `CFAllocatior` gibi 50'den fazla nesne sınıfı sağlar.
+CF\* nesneleri, `CFString`, `CFNumber` veya `CFAllocator` gibi 50'den fazla nesne sınıfı sağlayan CoreFoundation'dan gelir.
 
-Tüm bu sınıflar, `CFRuntimeClass` sınıfının örnekleridir ve çağrıldığında `__CFRuntimeClassTable`'a bir dizin döndürür. CFRuntimeClass, [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html)'de tanımlanmıştır.
+Tüm bu sınıflar, çağrıldığında `__CFRuntimeClassTable`'a bir indeks döndüren `CFRuntimeClass` sınıfının örnekleridir. CFRuntimeClass, [**CFRuntime.h**](https://opensource.apple.com/source/CF/CF-1153.18/CFRuntime.h.auto.html) dosyasında tanımlanmıştır:
 ```objectivec
 // Some comments were added to the original code
 
@@ -68,40 +68,40 @@ uintptr_t requiredAlignment; // Or in _kCFRuntimeRequiresAlignment in the .versi
 ```
 ## Objective-C
 
-### Kullanılan Bellek Bölümleri
+### Bellek bölümleri kullanıldı
 
-ObjectiveC çalışma zamanı tarafından kullanılan verilerin çoğu yürütme sırasında değişeceğinden, bellekte **\_\_DATA** segmentinden bazı bölümleri kullanır:
+ObjectiveC çalışma zamanı tarafından kullanılan verilerin çoğu yürütme sırasında değişecektir, bu nedenle bellekteki **\_\_DATA** segmentinden bazı bölümleri kullanır:
 
-- **`__objc_msgrefs`** (`message_ref_t`): Mesaj referansları
-- **`__objc_ivar`** (`ivar`): Örnek değişkenler
-- **`__objc_data`** (`...`): Değiştirilebilir veri
-- **`__objc_classrefs`** (`Class`): Sınıf referansları
-- **`__objc_superrefs`** (`Class`): Üst sınıf referansları
-- **`__objc_protorefs`** (`protocol_t *`): Protokol referansları
-- **`__objc_selrefs`** (`SEL`): Seçici referansları
-- **`__objc_const`** (`...`): Sınıf `r/o` verileri ve diğer (umuyoruz ki) sabit veriler
-- **`__objc_imageinfo`** (`version, flags`): Görüntü yükleme sırasında kullanılır: Şu anda `0` sürüm; Bayraklar önoptimize edilmiş GC desteğini belirtir, vb.
-- **`__objc_protolist`** (`protocol_t *`): Protokol listesi
-- **`__objc_nlcatlist`** (`category_t`): Bu ikili dosyada tanımlanan Tembel Olmayan Kategorilere işaretçi
-- **`__objc_catlist`**** (`category_t`): Bu ikili dosyada tanımlanan Kategorilere işaretçi
-- **`__objc_nlclslist`** (`classref_t`): Bu ikili dosyada tanımlanan Tembel Olmayan Objective-C sınıflarına işaretçi
-- **`__objc_classlist`** (`classref_t`): Bu ikili dosyada tanımlanan tüm Objective-C sınıflarına işaretçiler
+* **`__objc_msgrefs`** (`message_ref_t`): Mesaj referansları
+* **`__objc_ivar`** (`ivar`): Örnek değişkenleri
+* **`__objc_data`** (`...`): Değişken veri
+* **`__objc_classrefs`** (`Class`): Sınıf referansları
+* **`__objc_superrefs`** (`Class`): Üst sınıf referansları
+* **`__objc_protorefs`** (`protocol_t *`): Protokol referansları
+* **`__objc_selrefs`** (`SEL`): Seçici referansları
+* **`__objc_const`** (`...`): Sınıf `r/o` verisi ve diğer (umarım) sabit veriler
+* **`__objc_imageinfo`** (`version, flags`): Görüntü yükleme sırasında kullanılır: Mevcut sürüm `0`; Bayraklar önceden optimize edilmiş GC desteğini belirtir, vb.
+* **`__objc_protolist`** (`protocol_t *`): Protokol listesi
+* **`__objc_nlcatlist`** (`category_t`): Bu ikili dosyada tanımlanan Tembel Olmayan Kategorilere işaretçi
+* **`__objc_catlist`** (`category_t`): Bu ikili dosyada tanımlanan Kategorilere işaretçi
+* **`__objc_nlclslist`** (`classref_t`): Bu ikili dosyada tanımlanan Tembel Olmayan Objective-C sınıflarına işaretçi
+* **`__objc_classlist`** (`classref_t`): Bu ikili dosyada tanımlanan tüm Objective-C sınıflarına işaretçiler
 
-Ayrıca, sabit değerleri saklamak için **`__TEXT`** segmentinde birkaç bölüm daha kullanır:
+Ayrıca, bu bölümde yazmanın mümkün olmadığı sabit değerleri depolamak için **`__TEXT`** segmentinde birkaç bölüm kullanır:
 
-- **`__objc_methname`** (C-String): Yöntem adları
-- **`__objc_classname`** (C-String): Sınıf adları
-- **`__objc_methtype`** (C-String): Yöntem tipleri
+* **`__objc_methname`** (C-String): Metot adları
+* **`__objc_classname`** (C-String): Sınıf adları
+* **`__objc_methtype`** (C-String): Metot türleri
 
 ### Tür Kodlaması
 
-Objective-C, basit ve karmaşık tiplerin seçici ve değişken tiplerini kodlamak için bazı karıştırma kullanır:
+Objective-C, basit ve karmaşık türlerin seçici ve değişken türlerini kodlamak için bazı karıştırmalar kullanır:
 
-- İlkel tipler, tipin ilk harfini kullanır `i` için `int`, `c` için `char`, `l` için `long`... ve büyük harf kullanır işaretli ise (`L` için `unsigned Long`).
-- Diğer veri tipleri, harfleri kullanılan veya özel olanlar, diğer harfler veya semboller kullanır, örneğin `q` için `long long`, `b` için `bit alanları`, `B` için `booleanlar`, `#` için `sınıflar`, `@` için `id`, `*` için `char işaretçileri`, `^` için genel `işaretçiler` ve `?` için `tanımsız`.
-- Diziler, yapılar ve birlikler `[`, `{` ve `(` kullanır
+* Temel türler, türün ilk harfini kullanır `i` için `int`, `c` için `char`, `l` için `long`... ve işaretsizse büyük harf kullanır (`L` için `unsigned Long`).
+* Harfleri kullanılan veya özel olan diğer veri türleri, `long long` için `q`, `bitfields` için `b`, `booleans` için `B`, `classes` için `#`, `id` için `@`, `char pointers` için `*`, `generic pointers` için `^` ve `undefined` için `?` gibi diğer harfler veya semboller kullanır.
+* Diziler, yapılar ve birleşimler `[`, `{` ve `(` kullanır.
 
-#### Örnek Yöntem Bildirimi
+#### Örnek Metot Bildirimi
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -116,24 +116,24 @@ Seçici `processString:withOptions:andError:` olacaktır.
 * `id` `@` olarak kodlanır
 * `char *` `*` olarak kodlanır
 
-Yöntemin tam tür kodlaması:
+Yöntem için tam tür kodlaması:
 ```less
 @24@0:8@16*20^@24
 ```
-#### Detaylı Açıklama
+#### Detaylı Analiz
 
-1. **Dönüş Türü (`NSString *`)**: `@` olarak kodlanmış, uzunluğu 24
-2. **`self` (nesne örneği)**: `@` olarak kodlanmış, ofset 0'da
-3. **`_cmd` (seçici)**: `:` olarak kodlanmış, ofset 8'de
-4. **İlk argüman (`char * input`)**: `*` olarak kodlanmış, ofset 16'da
-5. **İkinci argüman (`NSDictionary * options`)**: `@` olarak kodlanmış, ofset 20'de
-6. **Üçüncü argüman (`NSError ** error`)**: `^@` olarak kodlanmış, ofset 24'te
+1. **Dönüş Tipi (`NSString *`)**: `@` ile kodlanmış, uzunluk 24
+2. **`self` (nesne örneği)**: `@` ile kodlanmış, ofset 0
+3. **`_cmd` (seçici)**: `:` ile kodlanmış, ofset 8
+4. **İlk argüman (`char * input`)**: `*` ile kodlanmış, ofset 16
+5. **İkinci argüman (`NSDictionary * options`)**: `@` ile kodlanmış, ofset 20
+6. **Üçüncü argüman (`NSError ** error`)**: `^@` ile kodlanmış, ofset 24
 
-**Seçici + kodlama ile yöntemi yeniden oluşturabilirsiniz.**
+**Seçici ile birlikte kodlama, metodu yeniden oluşturmanıza olanak tanır.**
 
 ### **Sınıflar**
 
-Objective-C'deki sınıflar, özellikler, yöntem işaretçileri olan bir yapıdır. `objc_class` yapısını [**kaynak kodunda**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) bulmak mümkündür:
+Objective-C'deki sınıflar, özellikler, yöntem işaretçileri ile bir yapıdadır... `objc_class` yapısını [**kaynak kodda**](https://opensource.apple.com/source/objc4/objc4-756.2/runtime/objc-runtime-new.h.auto.html) bulmak mümkündür:
 ```objectivec
 struct objc_class : objc_object {
 // Class ISA;
@@ -154,7 +154,7 @@ data()->setFlags(set);
 }
 [...]
 ```
-Bu sınıf, sınıf hakkında bazı bilgileri göstermek için isa alanının bazı bitlerini kullanır.
+Bu sınıf, sınıf hakkında bazı bilgileri belirtmek için isa alanının bazı bitlerini kullanır.
 
-Daha sonra, struct, sınıfın adını, temel yöntemleri, özellikleri ve örnek değişkenleri gibi sınıfın özelliklerini içeren diske kaydedilmiş `class_ro_t` yapısına bir işaretçi içerir.\
-Çalışma zamanında, değiştirilebilen yöntemler, protokoller, özellikler gibi işaretçiler içeren ek bir yapı olan `class_rw_t` kullanılır...
+Daha sonra, yapı, sınıfın adı, temel yöntemleri, özellikleri ve örnek değişkenleri gibi sınıfın niteliklerini içeren disk üzerinde saklanan `class_ro_t` yapısına bir işaretçi içerir.\
+Çalışma zamanında, yöntemler, protokoller, özellikler gibi değiştirilebilen işaretçileri içeren ek bir yapı `class_rw_t` kullanılır...

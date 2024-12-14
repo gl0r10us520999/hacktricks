@@ -34,7 +34,7 @@ AppArmor profilleri için iki çalışma modu vardır:
 ### Profillerin Yolu
 
 AppArmor profilleri genellikle _**/etc/apparmor.d/**_ dizininde saklanır.\
-`sudo aa-status` komutunu kullanarak bazı profiller tarafından kısıtlanan ikili dosyaları listeleyebilirsiniz. Listelenen her ikili dosyanın yolundaki "/" karakterini bir nokta ile değiştirdiğinizde, belirtilen klasördeki apparmor profilinin adını elde edersiniz.
+`sudo aa-status` komutunu kullanarak bazı profiller tarafından kısıtlanan ikili dosyaları listeleyebilirsiniz. Listelenen her ikili dosyanın yolundaki "/" karakterini bir nokta ile değiştirirseniz, belirtilen klasördeki AppArmor profilinin adını elde edersiniz.
 
 Örneğin, _/usr/bin/man_ için bir **apparmor** profili _/etc/apparmor.d/usr.bin.man_ konumunda bulunacaktır.
 
@@ -50,23 +50,23 @@ aa-mergeprof  #used to merge the policies
 ```
 ## Profil Oluşturma
 
-* Etkilenen çalıştırılabilir dosyayı belirtmek için, **mutlak yollar ve joker karakterler** (dosya globbing için) dosyaları belirtmekte kullanılabilir.
+* Etkilenen çalıştırılabilir dosyayı belirtmek için **mutlak yollar ve joker karakterler** (dosya globbing için) kullanılabilir.
 * İkili dosyanın **dosyalar** üzerindeki erişimini belirtmek için aşağıdaki **erişim kontrolleri** kullanılabilir:
 * **r** (okuma)
 * **w** (yazma)
 * **m** (bellek haritası olarak çalıştırılabilir)
 * **k** (dosya kilitleme)
 * **l** (sert bağlantılar oluşturma)
-* **ix** (yeni programın miras aldığı politika ile başka bir programı çalıştırmak için)
-* **Px** (ortamı temizledikten sonra başka bir profil altında çalıştırmak için)
-* **Cx** (ortamı temizledikten sonra bir çocuk profil altında çalıştırmak için)
-* **Ux** (ortamı temizledikten sonra kısıtlanmamış olarak çalıştırmak için)
+* **ix** (yeni programın politika miras alarak başka bir programı çalıştırması için)
+* **Px** (ortamı temizledikten sonra başka bir profil altında çalıştırma)
+* **Cx** (ortamı temizledikten sonra bir çocuk profil altında çalıştırma)
+* **Ux** (ortamı temizledikten sonra kısıtlanmamış olarak çalıştırma)
 * **Değişkenler** profillerde tanımlanabilir ve profil dışından manipüle edilebilir. Örneğin: @{PROC} ve @{HOME} (profil dosyasına #include \<tunables/global> ekleyin)
 * **İzin verme kurallarını geçersiz kılmak için yasaklama kuralları desteklenmektedir**.
 
 ### aa-genprof
 
-Profil oluşturmaya başlamak için apparmor size yardımcı olabilir. **Apparmor'un bir ikilinin gerçekleştirdiği eylemleri incelemesi ve ardından hangi eylemleri izin vermek veya yasaklamak istediğinize karar vermenize olanak tanıması mümkündür**.\
+Profil oluşturmaya başlamak için apparmor size yardımcı olabilir. **Apparmor'un bir ikili dosya tarafından gerçekleştirilen eylemleri incelemesi ve ardından hangi eylemleri izin vermek veya yasaklamak istediğinize karar vermenize olanak tanıması mümkündür**.\
 Sadece şunu çalıştırmanız yeterlidir:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -75,15 +75,15 @@ Sonra, farklı bir konsolda ikili dosyanın genellikle gerçekleştireceği tüm
 ```bash
 /path/to/binary -a dosomething
 ```
-Sonra, ilk konsolda "**s**" tuşuna basın ve ardından kaydedilen eylemlerde neyi yok saymak, neyi izin vermek veya ne yapmak istediğinizi belirtin. İşlemi bitirdiğinizde "**f**" tuşuna basın ve yeni profil _/etc/apparmor.d/path.to.binary_ içinde oluşturulacaktır.
+Sonra, ilk konsolda "**s**" tuşuna basın ve ardından kaydedilen eylemlerde neyi yok saymak, neyi izin vermek veya ne yapmak istediğinizi belirtin. İşlemi tamamladığınızda "**f**" tuşuna basın ve yeni profil _/etc/apparmor.d/path.to.binary_ içinde oluşturulacaktır.
 
 {% hint style="info" %}
-Ok tuşlarını kullanarak neyi izin vermek/yasaklamak/neyse seçebilirsiniz.
+Ok tuşlarını kullanarak neyi izin vermek/yasaklamak/veya ne yapmak istediğinizi seçebilirsiniz.
 {% endhint %}
 
 ### aa-easyprof
 
-Bir ikili dosyanın apparmor profilinin bir şablonunu da oluşturabilirsiniz:
+Ayrıca, bir ikili dosyanın apparmor profilinin bir şablonunu oluşturabilirsiniz:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -109,7 +109,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Varsayılan olarak oluşturulan bir profilde hiçbir şeye izin verilmediğini unutmayın, bu nedenle her şey reddedilir. Örneğin, `/etc/passwd` dosyasının okunmasına izin vermek için `/etc/passwd r,` gibi satırlar eklemeniz gerekecek.
+Varsayılan olarak oluşturulan bir profilde hiçbir şeye izin verilmediğini unutmayın, bu nedenle her şey reddedilir. Örneğin, ikili dosyanın `/etc/passwd` okumasına izin vermek için `/etc/passwd r,` gibi satırlar eklemeniz gerekecek.
 {% endhint %}
 
 Daha sonra yeni profili **uygulayabilirsiniz**.
@@ -184,16 +184,16 @@ Varsayılan olarak **Apparmor docker-default profili** [https://github.com/moby/
 * Tüm **ağ** erişimi
 * **Hiçbir yetenek** tanımlanmamıştır (Ancak, bazı yetenekler temel temel kuralları içermekten gelecektir, yani #include \<abstractions/base>)
 * Herhangi bir **/proc** dosyasına **yazma** **izin verilmez**
-* Diğer **alt dizinler**/**dosyalar** için /**proc** ve /**sys** okuma/yazma/kilit/link/çalıştırma erişimi **reddedilir**
+* Diğer **alt dizinler**/**dosyalar** için /**proc** ve /**sys** **okuma/yazma/kilit/link/çalıştırma** erişimi **reddedilir**
 * **Mount** **izin verilmez**
-* **Ptrace** yalnızca **aynı apparmor profili** tarafından kısıtlanmış bir süreçte çalıştırılabilir
+* **Ptrace**, yalnızca **aynı apparmor profili** tarafından kısıtlanmış bir süreçte çalıştırılabilir
 
 Bir **docker konteyneri çalıştırdığınızda** aşağıdaki çıktıyı görmelisiniz:
 ```bash
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Not edin ki **apparmor, varsayılan olarak konteynere verilen yetenek ayrıcalıklarını bile engelleyecektir**. Örneğin, **SYS\_ADMIN yeteneği verilse bile /proc içine yazma iznini engelleyebilecektir** çünkü varsayılan olarak docker apparmor profili bu erişimi reddeder:
+Not edin ki **apparmor varsayılan olarak konteynere verilen yetenek ayrıcalıklarını bile engelleyecektir**. Örneğin, **SYS\_ADMIN yeteneği verilse bile /proc içine yazma iznini engelleyebilecektir** çünkü varsayılan olarak docker apparmor profili bu erişimi reddeder:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -203,16 +203,16 @@ AppArmor kısıtlamalarını aşmak için **apparmor'ı devre dışı bırakmal�
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
-Not edin ki varsayılan olarak **AppArmor**, **SYS\_ADMIN** yetkisi ile bile konteynerin içinden klasörleri **monte etmesini** **yasaklayacaktır**.
+Not edin ki varsayılan olarak **AppArmor**, konteynerin içinden klasörleri monte etmesini **yasaklayacaktır**; bu, SYS\_ADMIN yetkisi ile bile geçerlidir.
 
-Not edin ki docker konteynerine **yetkiler** **ekleyebilir/çıkarabilirsiniz** (bu hala **AppArmor** ve **Seccomp** gibi koruma yöntemleri tarafından kısıtlanacaktır):
+Not edin ki docker konteynerine **yetkiler** ekleyebilir/çıkarabilirsiniz (bu, **AppArmor** ve **Seccomp** gibi koruma yöntemleri tarafından hala kısıtlanacaktır):
 
-* `--cap-add=SYS_ADMIN` `SYS_ADMIN` yetkisini ver
-* `--cap-add=ALL` tüm yetkileri ver
-* `--cap-drop=ALL --cap-add=SYS_PTRACE` tüm yetkileri kaldır ve sadece `SYS_PTRACE` ver
+* `--cap-add=SYS_ADMIN` `SYS_ADMIN` yetkisini verir
+* `--cap-add=ALL` tüm yetkileri verir
+* `--cap-drop=ALL --cap-add=SYS_PTRACE` tüm yetkileri kaldırır ve yalnızca `SYS_PTRACE` yetkisini verir
 
 {% hint style="info" %}
-Genellikle, bir **docker** konteynerinin içinde **yetkili bir yetki** bulduğunuzda **ama** **sömürü** kısmının **çalışmadığını** **bulursanız**, bu docker'ın **apparmor'unun bunu engelliyor olmasından** kaynaklanacaktır.
+Genellikle, bir **docker** konteynerinin **içinde** bir **ayrıcalıklı yetki** bulduğunuzda **ama** bazı kısımlarının **sömürüsü çalışmıyorsa**, bunun nedeni docker'ın **apparmor'un bunu engelliyor olmasıdır**.
 {% endhint %}
 
 ### Örnek
@@ -257,7 +257,7 @@ In the weird case you can **apparmor docker profilini değiştirebilir ve yenide
 
 ### AppArmor Shebang Bypass
 
-[**bu hata**](https://bugs.launchpad.net/apparmor/+bug/1911431) ile, **belirli kaynaklarla perl'in çalıştırılmasını engelliyorsanız bile**, eğer sadece ilk satırda **`#!/usr/bin/perl`** belirten bir shell script oluşturursanız ve dosyayı doğrudan **çalıştırırsanız**, istediğiniz her şeyi çalıştırabileceğinizi görebilirsiniz. Örnek:
+[**bu hata**](https://bugs.launchpad.net/apparmor/+bug/1911431) ile **belirli kaynaklarla perl'in çalıştırılmasını engelleseniz bile**, eğer sadece ilk satırda **`#!/usr/bin/perl`** belirten bir shell script oluşturursanız ve dosyayı doğrudan **çalıştırırsanız**, istediğiniz her şeyi çalıştırabileceksiniz. Örnek:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -276,7 +276,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

@@ -23,7 +23,7 @@ Deneyimli hackerlar ve bug bounty avcıları ile iletişim kurmak için [**Hacke
 Hacking'in heyecanı ve zorluklarına dalan içeriklerle etkileşimde bulunun
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızla değişen hacking dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
+Gerçek zamanlı haberler ve içgörülerle hızlı tempolu hacking dünyasında güncel kalın
 
 **Son Duyurular**\
 Yeni başlayan bug bounty'ler ve kritik platform güncellemeleri hakkında bilgi sahibi olun
@@ -96,10 +96,10 @@ Bu aşağıdaki durumlarda gerçekleşebilir:
 
 * Kullanıcı tarafından zaten oluşturulmuş bir dosya kullanıldı (kullanıcıya ait)
 * Kullanıcı tarafından bir grup nedeniyle yazılabilir bir dosya kullanıldı
-* Kullanıcı tarafından oluşturulabilecek bir dosya içeren bir dizin içinde dosya kullanıldı
-* Root tarafından sahip olunan ancak kullanıcıya bir grup nedeniyle yazma erişimi olan bir dizin içinde dosya kullanıldı (kullanıcı dosyayı oluşturabilir)
+* Kullanıcı tarafından oluşturulabilecek bir dosya, kullanıcının sahibi olduğu bir dizin içinde
+* Kullanıcı tarafından oluşturulabilecek bir dosya, root'un sahibi olduğu bir dizin içinde ancak kullanıcı bir grup nedeniyle buna yazma erişimine sahip
 
-**root** tarafından **kullanılacak bir dosya** oluşturabilmek, bir kullanıcının **içeriğinden yararlanmasına** veya hatta başka bir yere işaret eden **sembolik/sert bağlantılar** oluşturmasına olanak tanır.
+**root** tarafından **kullanılacak bir dosya** oluşturabilmek, bir kullanıcının **içeriğinden faydalanmasına** veya hatta başka bir yere işaret etmek için **sembolik bağlantılar/sert bağlantılar** oluşturmasına olanak tanır.
 
 Bu tür güvenlik açıkları için **kırılgan `.pkg` yükleyicilerini kontrol etmeyi** unutmayın:
 
@@ -109,7 +109,7 @@ Bu tür güvenlik açıkları için **kırılgan `.pkg` yükleyicilerini kontrol
 
 ### Dosya Uzantısı ve URL şeması uygulama işleyicileri
 
-Dosya uzantılarıyla kaydedilen garip uygulamalar kötüye kullanılabilir ve belirli protokolleri açmak için farklı uygulamalar kaydedilebilir
+Dosya uzantılarıyla kaydedilen garip uygulamalar kötüye kullanılabilir ve farklı uygulamalar belirli protokolleri açmak için kaydedilebilir
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
@@ -119,9 +119,9 @@ Dosya uzantılarıyla kaydedilen garip uygulamalar kötüye kullanılabilir ve b
 
 macOS'ta **uygulamalar ve ikili dosyalar**, diğerlerinden daha ayrıcalıklı olmalarını sağlayan klasörlere veya ayarlara erişim iznine sahip olabilir.
 
-Bu nedenle, bir macOS makinesini başarılı bir şekilde ele geçirmek isteyen bir saldırgan, **TCC ayrıcalıklarını yükseltmek** (veya ihtiyaçlarına bağlı olarak **SIP'yi atlamak**) zorundadır.
+Bu nedenle, bir macOS makinesini başarılı bir şekilde tehlikeye atmak isteyen bir saldırgan, **TCC ayrıcalıklarını yükseltmek** (veya ihtiyaçlarına bağlı olarak **SIP'yi atlamak**) zorundadır.
 
-Bu ayrıcalıklar genellikle uygulamanın imzalandığı **yetkiler** şeklinde verilir veya uygulama bazı erişimler talep edebilir ve **kullanıcı onayladıktan** sonra **TCC veritabanlarında** bulunabilir. Bir sürecin bu ayrıcalıkları elde etmenin bir diğer yolu, bu **ayrıcalıklara** sahip bir sürecin **çocuğu** olmaktır, çünkü genellikle **miras alınır**.
+Bu ayrıcalıklar genellikle uygulamanın imzalandığı **yetkilendirmeler** şeklinde verilir veya uygulama bazı erişimler talep edebilir ve **kullanıcı onayladıktan** sonra **TCC veritabanlarında** bulunabilir. Bir süreç bu ayrıcalıkları, bu **ayrıcalıklara** sahip bir sürecin **çocuğu** olarak da elde edebilir, çünkü genellikle **miras alınır**.
 
 Farklı yolları bulmak için bu bağlantılara göz atın [**TCC'de yetki yükseltme**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**TCC'yi atlamak**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) ve geçmişte [**SIP'nin nasıl atlandığı**](macos-security-protections/macos-sip.md#sip-bypasses).
 
@@ -153,7 +153,7 @@ Deneyimli hackerlar ve bug bounty avcıları ile iletişim kurmak için [**Hacke
 Hacking'in heyecanı ve zorluklarına dalan içeriklerle etkileşimde bulunun
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızla değişen hacking dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
+Gerçek zamanlı haberler ve içgörülerle hızlı tempolu hacking dünyasında güncel kalın
 
 **Son Duyurular**\
 Yeni başlayan bug bounty'ler ve kritik platform güncellemeleri hakkında bilgi sahibi olun

@@ -1,24 +1,24 @@
-# Kök Dizinine Dosya Yazma
+# Root'a Rastgele Dosya Yazma
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
 ### /etc/ld.so.preload
 
-Bu dosya, **`LD_PRELOAD`** ortam değişkeni gibi davranır ancak aynı zamanda **SUID ikili dosyalarında** da çalışır.\
-Oluşturabilir veya değiştirebilirseniz, her yürütülen ikili dosya ile yüklenecek bir **kütüphane yolunu ekleyebilirsiniz**.
+Bu dosya **`LD_PRELOAD`** ortam değişkeni gibi davranır ama aynı zamanda **SUID ikili dosyalarında** da çalışır.\
+Eğer bunu oluşturabiliyorsanız veya değiştirebiliyorsanız, her çalıştırılan ikili dosya ile yüklenecek bir **kütüphane yolu ekleyebilirsiniz**.
 
 Örneğin: `echo "/tmp/pe.so" > /etc/ld.so.preload`
 ```c
@@ -35,11 +35,11 @@ system("/bin/bash");
 //cd /tmp
 //gcc -fPIC -shared -o pe.so pe.c -nostartfiles
 ```
-### Git kancaları
+### Git hooks
 
-[**Git kancaları**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), bir taahhüt oluşturulduğunda, birleştirme yapıldığında gibi bir git deposundaki çeşitli olaylarda çalıştırılan **betiklerdir**. Dolayısıyla, bir **ayrıcalıklı betik veya kullanıcı** bu eylemleri sıkça gerçekleştiriyorsa ve `.git` klasörüne **yazma izni** varsa, bu **ayrıcalık yükseltmesi** için kullanılabilir.
+[**Git hooks**](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) çeşitli **olaylar** sırasında bir git deposunda **çalıştırılan** **betiklerdir**; örneğin bir commit oluşturulduğunda, bir birleştirme... Yani eğer bir **ayrılmış betik veya kullanıcı** bu işlemleri sıkça gerçekleştiriyorsa ve **`.git` klasörüne yazma** imkanı varsa, bu **privesc** için kullanılabilir.
 
-Örneğin, bir yeni taahhüt oluşturulduğunda her zaman çalıştırılan bir betik oluşturmak mümkündür:
+Örneğin, bir git deposunda **`.git/hooks`** içinde her yeni commit oluşturulduğunda her zaman çalıştırılacak bir **betik** **oluşturmak** mümkündür:
 
 {% code overflow="wrap" %}
 ```bash
@@ -48,29 +48,29 @@ chmod +x pre-commit
 ```
 {% endcode %}
 
-### Cron ve Zaman Dosyaları
+### Cron & Time dosyaları
 
 TODO
 
-### Servis ve Soket Dosyaları
+### Servis & Socket dosyaları
 
 TODO
 
 ### binfmt\_misc
 
-`/proc/sys/fs/binfmt_misc` konumunda bulunan dosya, hangi ikili dosyanın hangi tür dosyaları çalıştırması gerektiğini gösterir. TODO: Bu dosyayı kötüye kullanmak için gereksinimleri kontrol edin ve yaygın bir dosya türü açıldığında bir ters shell çalıştırmak için bunu nasıl kullanabilirsiniz.
+`/proc/sys/fs/binfmt_misc` konumundaki dosya, hangi ikili dosyanın hangi tür dosyaları çalıştırması gerektiğini gösterir. TODO: yaygın bir dosya türü açıldığında bir rev shell çalıştırmak için bunu kötüye kullanma gereksinimlerini kontrol et.
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
