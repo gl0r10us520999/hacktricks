@@ -23,7 +23,7 @@
 * [https://github.com/yarox24/attack\_monitor](https://github.com/yarox24/attack\_monitor)
 * [https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/](https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/)
 * [https://github.com/ION28/BLUESPAWN](https://github.com/ION28/BLUESPAWN)
-* [https://github.com/PaperMtn/lil-pwny](https://github.com/PaperMtn/lil-pwny) : Ελέγξτε τις αποκαλυφθείσες διευθύνσεις
+* [https://github.com/PaperMtn/lil-pwny](https://github.com/PaperMtn/lil-pwny) : Ελέγξτε τις αποκαλυφθείσες λογαριασμούς
 * [https://github.com/rabobank-cdc/DeTTECT](https://github.com/rabobank-cdc/DeTTECT)
 
 # OSINT
@@ -65,7 +65,7 @@
 * [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension για να αποφύγετε δεκάδες επαναλαμβανόμενες καρτέλες
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Απόκτηση πόρων
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
-* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Web BugBounty checklist
+* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Λίστα ελέγχου Web BugBounty
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Ελέγξτε μια λίστα τομέων κατά της Ανοιχτής Ανακατεύθυνσης
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Πρόσθετο Burp, ανάλυση εκτός σύνδεσης για την ανακάλυψη τομέων, υποτομέων και IP
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Λίστα διαφόρων εργαλείων
@@ -79,16 +79,16 @@
 * [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Πλευρικές κινήσεις
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL bins
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Επιμονή
-* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Τεχνικές Εγχύσεως Διεργασιών Windows
+* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Τεχνικές Ενέσεων Διαδικασιών Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Σενάρια Red Team
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : βρείτε παραβιάσεις ασφαλείας στις πολιτικές ομάδας Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : βρείτε παραβιάσεις ασφαλείας στις ρυθμίσεις Active Directory Group Policy.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Obfuscation Securestring
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Spoofing PID Γονέα
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Κρυπτογράφηση payloads Powershell
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
 * [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Σειρά καταγραφών σχετικά με τα Windows Internals
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Παρακολούθηση ποιος άνοιξε ένα έγγραφο
-* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Cheat Sheet Active Directory
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Παρακολουθήστε ποιος άνοιξε ένα έγγραφο
+* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Λίστα ελέγχου Active Directory
 
 # Firmware
 
@@ -119,9 +119,8 @@ Post-crema:
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Στατική ανάλυση κώδικα
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit που στέλνει αργά μια ατελείωτη διαφήμιση.
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit που στέλνει αργά μια ατελείωτη σημαία.
 * AWS και εργαλεία Cloud: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
-* IFS (Interplanetary File System) για phishing: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
 * Υπηρεσίες περιστροφής IP: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
 * Linux rootkit: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : Online IDE

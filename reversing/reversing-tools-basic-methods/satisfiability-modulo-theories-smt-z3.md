@@ -18,9 +18,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Ορισμένα κείμενα και παραδείγματα προέρχονται από [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Basic Operations
+# Βασικές Λειτουργίες
 
-## Booleans/And/Or/Not
+## Boolean/Και/Ή/Όχι
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -88,7 +88,7 @@ print(simplify(a == b)) #This is False
 ```
 ## Υπογεγραμμένοι/Μη Υπογεγραμμένοι Αριθμοί
 
-Το Z3 παρέχει ειδικές υπογεγραμμένες εκδόσεις αριθμητικών λειτουργιών όπου έχει σημασία αν το **bit-vector αντιμετωπίζεται ως υπογεγραμμένο ή μη υπογεγραμμένο**. Στο Z3Py, οι τελεστές **<, <=, >, >=, /, % και >>** αντιστοιχούν στις **υπογεγραμμένες** εκδόσεις. Οι αντίστοιχοι **μη υπογεγραμμένοι** τελεστές είναι **ULT, ULE, UGT, UGE, UDiv, URem και LShR.**
+Z3 παρέχει ειδικές υπογεγραμμένες εκδόσεις αριθμητικών λειτουργιών όπου έχει σημασία αν το **bit-vector θεωρείται υπογεγραμμένο ή μη υπογεγραμμένο**. Στο Z3Py, οι τελεστές **<, <=, >, >=, /, % και >>** αντιστοιχούν στις **υπογεγραμμένες** εκδόσεις. Οι αντίστοιχοι **μη υπογεγραμμένοι** τελεστές είναι **ULT, ULE, UGT, UGE, UDiv, URem και LShR.**
 ```python
 from z3 import *
 

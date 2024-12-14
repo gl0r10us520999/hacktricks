@@ -1,4 +1,4 @@
-# Ανάλυση Android
+# Android Forensics
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -17,7 +17,7 @@
 
 ## Κλειδωμένη Σ συσκευή
 
-Για να ξεκινήσετε την εξαγωγή δεδομένων από μια συσκευή Android, πρέπει να είναι ξεκλειδωμένη. Αν είναι κλειδωμένη μπορείτε να:
+Για να ξεκινήσετε την εξαγωγή δεδομένων από μια συσκευή Android, πρέπει να είναι ξεκλειδωμένη. Αν είναι κλειδωμένη, μπορείτε να:
 
 * Ελέγξετε αν η συσκευή έχει ενεργοποιημένη την αποσφαλμάτωση μέσω USB.
 * Ελέγξετε για μια πιθανή [smudge attack](https://www.usenix.org/legacy/event/woot10/tech/full_papers/Aviv.pdf)

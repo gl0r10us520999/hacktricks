@@ -27,7 +27,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Ανακτά αρχεία με βάση τις κεφαλίδες και τις υποσέλιδές τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
+Ανακτά αρχεία με βάση τις κεφαλίδες και τις υποσέλιδές τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω του `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -104,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg για PNG και BMP Αρχεία**
 
-zsteg ειδικεύεται στην αποκάλυψη κρυφών δεδομένων σε αρχεία PNG και BMP. Η εγκατάσταση γίνεται μέσω `gem install zsteg`, με την [πηγή του στο GitHub](https://github.com/zed-0xff/zsteg).
+zsteg ειδικεύεται στην αποκάλυψη κρυφών δεδομένων σε αρχεία PNG και BMP. Η εγκατάσταση γίνεται μέσω `gem install zsteg`, με την [πηγή στο GitHub](https://github.com/zed-0xff/zsteg).
 
 **Εντολές:**
 
@@ -182,7 +182,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 
 ### **DTMF Tones - Dial Tones**
 
-Η ανίχνευση τόνων DTMF σε αρχεία ήχου μπορεί να επιτευχθεί μέσω διαδικτυακών εργαλείων όπως [αυτόν τον ανιχνευτή DTMF](https://unframework.github.io/dtmf-detect/) και [DialABC](http://dialabc.com/sound/detect/index.html).
+Η ανίχνευση τόνων DTMF σε αρχεία ήχου μπορεί να επιτευχθεί μέσω διαδικτυακών εργαλείων όπως [αυτός ο ανιχνευτής DTMF](https://unframework.github.io/dtmf-detect/) και [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Other Techniques**
 
@@ -197,7 +197,7 @@ math.sqrt(2500) #50
 
 ### **Μετάφραση Μπράιγ**
 
-Για τη μετάφραση Μπράιγ, ο [Μεταφραστής Μπράιγ Branah](https://www.branah.com/braille-translator) είναι μια εξαιρετική πηγή.
+Για τη μετάφραση Μπράιγ, ο [Branah Braille Translator](https://www.branah.com/braille-translator) είναι μια εξαιρετική πηγή.
 
 ## **Αναφορές**
 

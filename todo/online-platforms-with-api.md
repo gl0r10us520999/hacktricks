@@ -59,7 +59,7 @@
 
 ## [mywot](https://www.mywot.com/)
 
-Βασισμένο σε απόψεις και άλλες μετρήσεις, ελέγχει αν ένα domain σχετίζεται με ύποπτες/κακόβουλες πληροφορίες.
+Βασισμένο σε απόψεις και άλλες μετρήσεις, ελέγξτε αν ένα domain σχετίζεται με ύποπτες/κακόβουλες πληροφορίες.
 
 ## [ipinfo](https://ipinfo.io/)
 
@@ -104,7 +104,7 @@
 
 ## [Dehashed](https://www.dehashed.com/data)
 
-Βρείτε διαρρεύσαντα credentials emails και ακόμη και domains.\
+Βρείτε διαρρεύσες διαπιστευτήρια emails και ακόμη και domains.\
 Εμπορικό;
 
 ## [psbdmp](https://psbdmp.ws/)
@@ -113,7 +113,7 @@
 
 ## [emailrep.io](https://emailrep.io/key)
 
-Αποκτήστε φήμη για ένα email. Εμπορικό;
+Αποκτήστε φήμη ενός email. Εμπορικό;
 
 ## [ghostproject](https://ghostproject.fr/)
 
@@ -129,9 +129,9 @@
 
 ### [IP2Location.io](https://www.ip2location.io/)
 
-Ανιχνεύει γεωγραφική θέση IP, κέντρο δεδομένων, ASN και ακόμη και πληροφορίες VPN. Προσφέρει δωρεάν 30K ερωτήσεις ανά μήνα.
+Ανιχνεύει γεωγραφική τοποθεσία IP, κέντρο δεδομένων, ASN και ακόμη και πληροφορίες VPN. Προσφέρει δωρεάν 30K ερωτήσεις ανά μήνα.
 
-[https://dnsdumpster.com/](https://dnsdumpster.com/)(σε εμπορικό εργαλείο;)
+[https://dnsdumpster.com/](https://dnsdumpster.com/) (σε εμπορικό εργαλείο;)
 
 [https://www.netcraft.com/](https://www.netcraft.com/) (σε εμπορικό εργαλείο;)
 

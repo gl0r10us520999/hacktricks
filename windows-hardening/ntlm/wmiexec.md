@@ -15,17 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## How It Works Explained
+## Πώς Λειτουργεί
 
-Οι διαδικασίες μπορούν να ανοιχτούν σε υπολογιστές όπου το όνομα χρήστη και είτε ο κωδικός πρόσβασης είτε το hash είναι γνωστά μέσω της χρήσης WMI. Οι εντολές εκτελούνται χρησιμοποιώντας WMI από το Wmiexec, παρέχοντας μια ημι-διαδραστική εμπειρία shell.
+Διεργασίες μπορούν να ανοιχτούν σε υπολογιστές όπου το όνομα χρήστη και είτε ο κωδικός πρόσβασης είτε το hash είναι γνωστά μέσω της χρήσης WMI. Οι εντολές εκτελούνται χρησιμοποιώντας WMI από το Wmiexec, παρέχοντας μια ημι-διαδραστική εμπειρία shell.
 
-**dcomexec.py:** Χρησιμοποιώντας διαφορετικά DCOM endpoints, αυτό το script προσφέρει μια ημι-διαδραστική shell παρόμοια με το wmiexec.py, εκμεταλλευόμενο συγκεκριμένα το αντικείμενο ShellBrowserWindow DCOM. Αυτή τη στιγμή υποστηρίζει τα αντικείμενα MMC20. Application, Shell Windows και Shell Browser Window. (source: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Χρησιμοποιώντας διαφορετικά DCOM endpoints, αυτό το script προσφέρει μια ημι-διαδραστική shell παρόμοια με το wmiexec.py, εκμεταλλευόμενο συγκεκριμένα το αντικείμενο ShellBrowserWindow DCOM. Αυτή τη στιγμή υποστηρίζει τα αντικείμενα MMC20. Application, Shell Windows και Shell Browser Window. (πηγή: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
-## WMI Fundamentals
+## Βασικές Αρχές WMI
 
 ### Namespace
 
-Δομημένο σε μια ιεραρχία τύπου καταλόγου, το κορυφαίο επίπεδο του WMI είναι το \root, κάτω από το οποίο οργανώνονται πρόσθετοι κατάλογοι, που αναφέρονται ως namespaces.
+Δομημένο σε ιεραρχία τύπου καταλόγου, το κορυφαίο επίπεδο του WMI είναι το \root, κάτω από το οποίο οργανώνονται πρόσθετοι κατάλογοι, που αναφέρονται ως namespaces.
 Εντολές για να καταγράψετε namespaces:
 ```bash
 # Retrieval of Root namespaces
@@ -44,7 +44,7 @@ gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Classes**
 
-Η γνώση ενός ονόματος κλάσης WMI, όπως το win32\_process, και του ονόματος χώρου στο οποίο βρίσκεται είναι κρίσιμη για οποιαδήποτε WMI λειτουργία.  
+Η γνώση ενός ονόματος κλάσης WMI, όπως το win32\_process, και του ονόματος χώρου στο οποίο βρίσκεται είναι κρίσιμη για οποιαδήποτε λειτουργία WMI.  
 Εντολές για να καταγράψετε τις κλάσεις που αρχίζουν με `win32`:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
@@ -58,7 +58,7 @@ Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpCompute
 ```
 ### Μέθοδοι
 
-Οι μέθοδοι, οι οποίες είναι μία ή περισσότερες εκτελέσιμες συναρτήσεις των κλάσεων WMI, μπορούν να εκτελούνται.
+Μέθοδοι, οι οποίες είναι μία ή περισσότερες εκτελέσιμες λειτουργίες των κλάσεων WMI, μπορούν να εκτελούνται.
 ```bash
 # Class loading, method listing, and execution
 $c = [wmiclass]"win32_share"
@@ -108,7 +108,7 @@ wmic sysaccount list /format:list
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Αυτή η διαδικασία απεικονίζει την ικανότητα του WMI για απομακρυσμένη εκτέλεση και αρίθμηση συστημάτων, επισημαίνοντας τη χρησιμότητά του τόσο για τη διαχείριση συστημάτων όσο και για το pentesting.
+Αυτή η διαδικασία απεικονίζει την ικανότητα του WMI για απομακρυσμένη εκτέλεση και αναγνώριση συστήματος, υπογραμμίζοντας τη χρησιμότητά του τόσο για τη διαχείριση συστημάτων όσο και για το pentesting.
 
 ## Αναφορές
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)

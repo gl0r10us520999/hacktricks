@@ -17,45 +17,45 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Intro <a href="#3f17" id="3f17"></a>
 
-**Check the original post for [all the information about this technique](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
+**Check the original post for [όλες τις πληροφορίες σχετικά με αυτή την τεχνική](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).**
 
-Ως **σύνοψη**: αν μπορείτε να γράψετε στην ιδιότητα **msDS-KeyCredentialLink** ενός χρήστη/υπολογιστή, μπορείτε να ανακτήσετε το **NT hash αυτού του αντικειμένου**.
+As **summary**: αν μπορείτε να γράψετε στην **msDS-KeyCredentialLink** ιδιότητα ενός χρήστη/υπολογιστή, μπορείτε να ανακτήσετε το **NT hash αυτού του αντικειμένου**.
 
-Στην ανάρτηση, περιγράφεται μια μέθοδος για τη ρύθμιση **δημόσιων-ιδιωτικών κλειδιών πιστοποίησης** για την απόκτηση ενός μοναδικού **Service Ticket** που περιλαμβάνει το NTLM hash του στόχου. Αυτή η διαδικασία περιλαμβάνει το κρυπτογραφημένο NTLM_SUPPLEMENTAL_CREDENTIAL εντός του Privilege Attribute Certificate (PAC), το οποίο μπορεί να αποκρυπτογραφηθεί.
+In the post, a method is outlined for setting up **public-private key authentication credentials** to acquire a unique **Service Ticket** that includes the target's NTLM hash. This process involves the encrypted NTLM_SUPPLEMENTAL_CREDENTIAL within the Privilege Attribute Certificate (PAC), which can be decrypted.
 
 ### Requirements
 
-Για να εφαρμοστεί αυτή η τεχνική, πρέπει να πληρούνται ορισμένες προϋποθέσεις:
+To apply this technique, certain conditions must be met:
 - Απαιτείται τουλάχιστον ένας Windows Server 2016 Domain Controller.
 - Ο Domain Controller πρέπει να έχει εγκατεστημένο ένα ψηφιακό πιστοποιητικό αυθεντικοποίησης διακομιστή.
-- Η Active Directory πρέπει να είναι στο Windows Server 2016 Functional Level.
-- Απαιτείται ένας λογαριασμός με εκχωρημένα δικαιώματα για να τροποποιήσει την ιδιότητα msDS-KeyCredentialLink του αντικειμένου στόχου.
+- Το Active Directory πρέπει να είναι στο Windows Server 2016 Functional Level.
+- Απαιτείται ένας λογαριασμός με εξουσιοδοτημένα δικαιώματα για να τροποποιήσει την ιδιότητα msDS-KeyCredentialLink του αντικειμένου στόχου.
 
 ## Abuse
 
-Η κατάχρηση του Key Trust για αντικείμενα υπολογιστών περιλαμβάνει βήματα πέρα από την απόκτηση ενός Ticket Granting Ticket (TGT) και του NTLM hash. Οι επιλογές περιλαμβάνουν:
+The abuse of Key Trust for computer objects encompasses steps beyond obtaining a Ticket Granting Ticket (TGT) and the NTLM hash. The options include:
 1. Δημιουργία ενός **RC4 silver ticket** για να ενεργεί ως προνομιούχοι χρήστες στον προοριζόμενο υπολογιστή.
 2. Χρήση του TGT με **S4U2Self** για την προσποίηση **προνομιούχων χρηστών**, απαιτώντας τροποποιήσεις στο Service Ticket για να προστεθεί μια κατηγορία υπηρεσίας στο όνομα της υπηρεσίας.
 
-Ένα σημαντικό πλεονέκτημα της κατάχρησης του Key Trust είναι ο περιορισμός της στην ιδιωτική κλειδαριά που δημιουργείται από τον επιτιθέμενο, αποφεύγοντας την εκχώρηση σε δυνητικά ευάλωτους λογαριασμούς και μη απαιτώντας τη δημιουργία ενός λογαριασμού υπολογιστή, που θα μπορούσε να είναι δύσκολο να αφαιρεθεί.
+A significant advantage of Key Trust abuse is its limitation to the attacker-generated private key, avoiding delegation to potentially vulnerable accounts and not requiring the creation of a computer account, which could be challenging to remove.
 
 ## Tools
 
 ### [**Whisker**](https://github.com/eladshamir/Whisker)
 
-Βασίζεται στο DSInternals παρέχοντας μια διεπαφή C# για αυτήν την επίθεση. Το Whisker και το Python αντίστοιχό του, **pyWhisker**, επιτρέπουν την επεξεργασία της ιδιότητας `msDS-KeyCredentialLink` για την απόκτηση ελέγχου στους λογαριασμούς Active Directory. Αυτά τα εργαλεία υποστηρίζουν διάφορες λειτουργίες όπως η προσθήκη, η καταχώριση, η αφαίρεση και η εκκαθάριση κλειδιών πιστοποίησης από το αντικείμενο στόχου.
+It's based on DSInternals providing a C# interface for this attack. Whisker and its Python counterpart, **pyWhisker**, enable manipulation of the `msDS-KeyCredentialLink` attribute to gain control over Active Directory accounts. These tools support various operations like adding, listing, removing, and clearing key credentials from the target object.
 
-Οι λειτουργίες του **Whisker** περιλαμβάνουν:
-- **Add**: Δημιουργεί ένα ζεύγος κλειδιών και προσθέτει μια κλειδαριά πιστοποίησης.
-- **List**: Εμφανίζει όλες τις καταχωρίσεις κλειδιών πιστοποίησης.
-- **Remove**: Διαγράφει μια συγκεκριμένη κλειδαριά πιστοποίησης.
-- **Clear**: Διαγράφει όλες τις κλειδαριές πιστοποίησης, ενδεχομένως διαταράσσοντας τη νόμιμη χρήση WHfB.
+**Whisker** functions include:
+- **Add**: Δημιουργεί ένα ζεύγος κλειδιών και προσθέτει μια πιστοποίηση κλειδιού.
+- **List**: Εμφανίζει όλες τις καταχωρίσεις πιστοποίησης κλειδιού.
+- **Remove**: Διαγράφει μια συγκεκριμένη πιστοποίηση κλειδιού.
+- **Clear**: Διαγράφει όλες τις πιστοποιήσεις κλειδιού, ενδεχομένως διαταράσσοντας τη νόμιμη χρήση WHfB.
 ```shell
 Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1
 ```
 ### [pyWhisker](https://github.com/ShutdownRepo/pywhisker)
 
-Επεκτείνει τη λειτουργικότητα του Whisker σε **συστήματα βασισμένα σε UNIX**, αξιοποιώντας το Impacket και το PyDSInternals για ολοκληρωμένες δυνατότητες εκμετάλλευσης, συμπεριλαμβανομένων των λιστών, προσθήκης και αφαίρεσης KeyCredentials, καθώς και εισαγωγής και εξαγωγής τους σε μορφή JSON.
+Επεκτείνει τη λειτουργικότητα του Whisker σε **συστήματα βασισμένα σε UNIX**, αξιοποιώντας το Impacket και το PyDSInternals για ολοκληρωμένες δυνατότητες εκμετάλλευσης, συμπεριλαμβανομένης της καταγραφής, προσθήκης και αφαίρεσης KeyCredentials, καθώς και της εισαγωγής και εξαγωγής τους σε μορφή JSON.
 ```shell
 python3 pywhisker.py -d "domain.local" -u "user1" -p "complexpassword" --target "user2" --action "list"
 ```

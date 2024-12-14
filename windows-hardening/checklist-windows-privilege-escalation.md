@@ -21,20 +21,20 @@
 
 * [ ] Αποκτήστε [**Πληροφορίες συστήματος**](windows-local-privilege-escalation/#system-info)
 * [ ] Αναζητήστε **εκμεταλλεύσεις πυρήνα** [**χρησιμοποιώντας scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Χρησιμοποιήστε **Google για αναζήτηση** εκμεταλλεύσεων πυρήνα
-* [ ] Χρησιμοποιήστε **searchsploit για αναζήτηση** εκμεταλλεύσεων πυρήνα
+* [ ] Χρησιμοποιήστε **Google για αναζήτηση** εκμεταλλεύσεων **πυρήνα**
+* [ ] Χρησιμοποιήστε **searchsploit για αναζήτηση** εκμεταλλεύσεων **πυρήνα**
 * [ ] Ενδιαφέρουσες πληροφορίες σε [**μεταβλητές περιβάλλοντος**](windows-local-privilege-escalation/#environment)?
 * [ ] Κωδικοί πρόσβασης στην [**ιστορία PowerShell**](windows-local-privilege-escalation/#powershell-history)?
 * [ ] Ενδιαφέρουσες πληροφορίες στις [**ρυθμίσεις Internet**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Δίσκοι**](windows-local-privilege-escalation/#drives)?
+* [ ] [**Μονάδες δίσκου**](windows-local-privilege-escalation/#drives)?
 * [ ] [**Εκμετάλλευση WSUS**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Καταγραφή/Αναγνώριση AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Ελέγξτε τις [**ρυθμίσεις ελέγχου**](windows-local-privilege-escalation/#audit-settings) και [**WEF**](windows-local-privilege-escalation/#wef)
+* [ ] Ελέγξτε τις ρυθμίσεις [**Audit** ](windows-local-privilege-escalation/#audit-settings)και [**WEF** ](windows-local-privilege-escalation/#wef)
 * [ ] Ελέγξτε το [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Ελέγξτε αν είναι ενεργό το [**WDigest**](windows-local-privilege-escalation/#wdigest)
+* [ ] Ελέγξτε αν είναι ενεργό το [**WDigest** ](windows-local-privilege-escalation/#wdigest)
 * [ ] [**Προστασία LSA**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Cached Credentials**](windows-local-privilege-escalation/#cached-credentials)?
@@ -42,25 +42,25 @@
 * [ ] [**Πολιτική AppLocker**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**Δικαιώματα Χρήστη**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Ελέγξτε τα [**τρέχοντα**] δικαιώματα **χρήστη**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Ελέγξτε τα [**τρέχοντα** δικαιώματα **χρήστη**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Είστε [**μέλος κάποιας προνομιούχου ομάδας**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Ελέγξτε αν έχετε [κάποια από αυτά τα tokens ενεργοποιημένα](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Συνεδρίες Χρηστών**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Ελέγξτε[ **τους φακέλους χρηστών**](windows-local-privilege-escalation/#home-folders) (πρόσβαση?)
+* [ ] Ελέγξτε[ **τα σπίτια των χρηστών**](windows-local-privilege-escalation/#home-folders) (πρόσβαση?)
 * [ ] Ελέγξτε την [**Πολιτική Κωδικών Πρόσβασης**](windows-local-privilege-escalation/#password-policy)
 * [ ] Τι υπάρχει [**μέσα στο Πρόχειρο**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Δίκτυο](windows-local-privilege-escalation/#network)
 
-* [ ] Ελέγξτε τις [**τρέχουσες**] **πληροφορίες δικτύου**](windows-local-privilege-escalation/#network)
+* [ ] Ελέγξτε τις [**τρέχουσες** **πληροφορίες δικτύου**](windows-local-privilege-escalation/#network)
 * [ ] Ελέγξτε τις **κρυφές τοπικές υπηρεσίες** που περιορίζονται από το εξωτερικό
 
 ### [Διεργασίες σε Εκτέλεση](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Δικαιώματα [**αρχείων και φακέλων**](windows-local-privilege-escalation/#file-and-folder-permissions) των διεργασιών
+* [ ] Δικαιώματα [**αρχείων και φακέλων**](windows-local-privilege-escalation/#file-and-folder-permissions) των δυαδικών αρχείων διεργασιών
 * [ ] [**Εξόρυξη Κωδικών Πρόσβασης από Μνήμη**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**Ανασφαλείς εφαρμογές GUI**](windows-local-privilege-escalation/#insecure-gui-apps)
-* [ ] Κλέψτε διαπιστευτήρια με **ενδιαφέρουσες διεργασίες** μέσω `ProcDump.exe` ? (firefox, chrome, κ.λπ ...)
+* [ ] Κλέψτε διαπιστευτήρια με **ενδιαφέρουσες διεργασίες** μέσω του `ProcDump.exe` ? (firefox, chrome, κ.λπ ...)
 
 ### [Υπηρεσίες](windows-local-privilege-escalation/#services)
 
@@ -84,35 +84,35 @@
 ### [Δίκτυο](windows-local-privilege-escalation/#network)
 
 * [ ] Αναγνωρίστε το δίκτυο (κοινές χρήσεις, διεπαφές, διαδρομές, γείτονες, ...)
-* [ ] Δώστε προσοχή στις υπηρεσίες δικτύου που ακούνε στο localhost (127.0.0.1)
+* [ ] Δώστε ιδιαίτερη προσοχή στις υπηρεσίες δικτύου που ακούνε στο localhost (127.0.0.1)
 
 ### [Διαπιστευτήρια Windows](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Διαπιστευτήρια Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)
+* [ ] [**Διαπιστευτήρια Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)
 * [ ] [**Διαπιστευτήρια Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) που θα μπορούσατε να χρησιμοποιήσετε?
 * [ ] Ενδιαφέροντα [**DPAPI διαπιστευτήρια**](windows-local-privilege-escalation/#dpapi)?
 * [ ] Κωδικοί πρόσβασης αποθηκευμένων [**Wifi δικτύων**](windows-local-privilege-escalation/#wifi)?
 * [ ] Ενδιαφέρουσες πληροφορίες σε [**αποθηκευμένες συνδέσεις RDP**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Κωδικοί πρόσβασης σε [**πρόσφατα εκτελούμενες εντολές**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] Κωδικοί πρόσβασης [**Διαχειριστή Διαπιστευτηρίων Απομακρυσμένης Επιφάνειας Εργασίας**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
-* [ ] Υπάρχει [**AppCmd.exe**](windows-local-privilege-escalation/#appcmd-exe); Διαπιστευτήρια?
+* [ ] [**Διαπιστευτήρια Διαχειριστή Απομακρυσμένης Επιφάνειας Εργασίας**](windows-local-privilege-escalation/#remote-desktop-credential-manager) κωδικοί πρόσβασης?
+* [ ] [**AppCmd.exe** υπάρχει](windows-local-privilege-escalation/#appcmd-exe)? Διαπιστευτήρια?
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
 
 ### [Αρχεία και Μητρώο (Διαπιστευτήρια)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Διαπιστευτήρια**](windows-local-privilege-escalation/#putty-creds) **και** [**κλειδιά SSH**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **και** [**κλειδιά SSH**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**Κλειδιά SSH στο μητρώο**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Κωδικοί πρόσβασης σε [**αυτοματοποιημένα αρχεία**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Υπάρχει κάποια [**αντίγραφα SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)?
+* [ ] Κωδικοί πρόσβασης σε [**αρχείο χωρίς παρακολούθηση**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] Οποιοδήποτε [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) αντίγραφο ασφαλείας?
 * [ ] [**Διαπιστευτήρια Cloud**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] Υπάρχει το αρχείο [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)?
+* [ ] [**Αρχείο McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)?
 * [ ] [**Cached GPP Password**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Κωδικός πρόσβασης στο [**αρχείο ρύθμισης IIS Web**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Κωδικός πρόσβασης στο [**αρχείο ρυθμίσεων IIS Web**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Ενδιαφέρουσες πληροφορίες σε [**αρχεία καταγραφής**](windows-local-privilege-escalation/#logs)?
 * [ ] Θέλετε να [**ζητήσετε διαπιστευτήρια**](windows-local-privilege-escalation/#ask-for-credentials) από τον χρήστη?
 * [ ] Ενδιαφέροντα [**αρχεία μέσα στον Κάδο Ανακύκλωσης**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Άλλο [**μητρώο που περιέχει διαπιστευτήρια**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Μέσα σε [**Δεδομένα Περιηγητή**](windows-local-privilege-escalation/#browsers-history) (dbs, ιστορικό, σελιδοδείκτες, ...)?
+* [ ] Μέσα σε [**δεδομένα περιηγητή**](windows-local-privilege-escalation/#browsers-history) (dbs, ιστορικό, σελιδοδείκτες, ...)?
 * [ ] [**Γενική αναζήτηση κωδικών πρόσβασης**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) σε αρχεία και μητρώο
 * [ ] [**Εργαλεία**](windows-local-privilege-escalation/#tools-that-search-for-passwords) για αυτόματη αναζήτηση κωδικών πρόσβασης
 

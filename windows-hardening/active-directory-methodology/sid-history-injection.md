@@ -70,7 +70,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-Για περισσότερες πληροφορίες σχετικά με τα διαμάντια εισιτήρια, ελέγξτε:
+Για περισσότερες πληροφορίες σχετικά με τα διαμάντι εισιτήρια, ελέγξτε:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -84,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Αναβάθμιση σε DA του root ή Enterprise admin χρησιμοποιώντας το KRBTGT hash του παραβιασμένου τομέα:
+Αναβάθμιση σε DA του root ή Enterprise admin χρησιμοποιώντας το hash KRBTGT του παραβιασμένου τομέα:
 
 {% code overflow="wrap" %}
 ```bash
@@ -100,7 +100,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-Με τις αποκτηθείσες άδειες από την επίθεση μπορείτε να εκτελέσετε, για παράδειγμα, μια επίθεση DCSync στο νέο τομέα:
+Με τις αποκτηθείσες άδειες από την επίθεση μπορείτε να εκτελέσετε για παράδειγμα μια επίθεση DCSync στο νέο τομέα:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
@@ -137,7 +137,7 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 Αυτό είναι ένα σενάριο Impacket που θα **αυτοματοποιήσει την αναβάθμιση από το παιδικό στο γονικό domain**. Το σενάριο χρειάζεται:
 
 * Στόχο domain controller
-* Διαπιστευτήρια για έναν διαχειριστή στο παιδικό domain
+* Διαπιστευτήρια για έναν διαχειριστή χρήστη στο παιδικό domain
 
 Η ροή είναι:
 

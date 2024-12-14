@@ -1,16 +1,16 @@
 # SeImpersonate from High To System
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -157,7 +157,7 @@ return 0;
 
 ### Σφάλμα
 
-Σε ορισμένες περιπτώσεις, μπορεί να προσπαθήσετε να προσποιηθείτε τον System και να μην λειτουργήσει, εμφανίζοντας μια έξοδο όπως η παρακάτω:
+Σε ορισμένες περιπτώσεις, μπορεί να προσπαθήσετε να προσποιηθείτε το Σύστημα και να μην λειτουργήσει, εμφανίζοντας μια έξοδο όπως η παρακάτω:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -169,7 +169,7 @@ return 0;
 [-] CreateProcessWithTokenW Error: 1326
 ```
 Αυτό σημαίνει ότι ακόμη και αν εκτελείτε σε επίπεδο Υψηλής Ακεραιότητας **δεν έχετε αρκετές άδειες**.\
-Ας ελέγξουμε τις τρέχουσες άδειες Διαχειριστή για τις διαδικασίες `svchost.exe` με **processes explorer** (ή μπορείτε επίσης να χρησιμοποιήσετε το process hacker):
+Ας ελέγξουμε τις τρέχουσες άδειες Διαχειριστή πάνω στις διαδικασίες `svchost.exe` με **processes explorer** (ή μπορείτε επίσης να χρησιμοποιήσετε το process hacker):
 
 1. Επιλέξτε μια διαδικασία του `svchost.exe`
 2. Δεξί Κλικ --> Ιδιότητες
@@ -180,13 +180,13 @@ return 0;
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Η προηγούμενη εικόνα περιέχει όλα τα προνόμια που έχουν οι "Διαχειριστές" πάνω στη επιλεγμένη διαδικασία (όπως μπορείτε να δείτε στην περίπτωση του `svchost.exe`, έχουν μόνο προνόμια "Ερώτησης")
+Η προηγούμενη εικόνα περιέχει όλα τα προνόμια που έχουν οι "Διαχειριστές" πάνω στη επιλεγμένη διαδικασία (όπως μπορείτε να δείτε στην περίπτωση του `svchost.exe` έχουν μόνο προνόμια "Ερώτησης")
 
 Δείτε τα προνόμια που έχουν οι "Διαχειριστές" πάνω στο `winlogon.exe`:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Μέσα σε αυτή τη διαδικασία, οι "Διαχειριστές" μπορούν να "Διαβάσουν Μνήμη" και "Διαβάσουν Άδειες", που πιθανώς επιτρέπει στους Διαχειριστές να προσποιηθούν το διακριτικό που χρησιμοποιείται από αυτή τη διαδικασία.
+Μέσα σε αυτή τη διαδικασία οι "Διαχειριστές" μπορούν να "Διαβάσουν Μνήμη" και "Διαβάσουν Άδειες" που πιθανώς επιτρέπει στους Διαχειριστές να προσποιηθούν το διακριτικό που χρησιμοποιείται από αυτή τη διαδικασία.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

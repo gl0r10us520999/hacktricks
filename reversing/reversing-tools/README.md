@@ -63,7 +63,7 @@ File.AppendAllText(path, "Κωδικός πρόσβασης: " + password + "\n"
 
 ## **Αποσφαλμάτωση DLLs**
 ### Χρησιμοποιώντας IDA
-- **Rundll32** φορτώνεται από συγκεκριμένες διαδρομές για 64-bit και 32-bit εκδόσεις.
+- **Rundll32** φορτώνεται από συγκεκριμένες διαδρομές για τις εκδόσεις 64-bit και 32-bit.
 - **Windbg** επιλέγεται ως ο αποσφαλματωτής με την επιλογή να ανασταλεί η φόρτωση/εκφόρτωση βιβλιοθήκης ενεργοποιημένη.
 - Οι παράμετροι εκτέλεσης περιλαμβάνουν τη διαδρομή DLL και το όνομα της συνάρτησης. Αυτή η ρύθμιση σταματά την εκτέλεση κατά την φόρτωση κάθε DLL.
 
@@ -82,7 +82,7 @@ File.AppendAllText(path, "Κωδικός πρόσβασης: " + password + "\n"
 - **Blobrunner** και **jmp2it** είναι εργαλεία για την κατανομή shellcodes στη μνήμη και την αποσφαλμάτωσή τους με την Ida ή το x64dbg.
 - Blobrunner [εκδόσεις](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
 - jmp2it [συγκεντρωμένη έκδοση](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** προσφέρει GUI-based προσομοίωση και επιθεώρηση shellcode, επισημαίνοντας τις διαφορές στη διαχείριση shellcode ως αρχείο σε σχέση με άμεσο shellcode.
+- **Cutter** προσφέρει προσομοίωση και επιθεώρηση shellcode με GUI, επισημαίνοντας τις διαφορές στη διαχείριση shellcode ως αρχείο σε σχέση με το άμεσο shellcode.
 
 ### Αποκατάσταση και Ανάλυση
 - **scdbg** παρέχει πληροφορίες σχετικά με τις λειτουργίες shellcode και τις δυνατότητες αποκατάστασης.
@@ -98,9 +98,9 @@ scdbg.exe -f shellcode /foff 0x0000004D # Εκτέλεση από μετατόπ
 - **CyberChef** για αποσυναρμολόγηση shellcode: [Συνταγή CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
-- Ένας obfuscator που αντικαθιστά όλες τις εντολές με `mov`.
+- Ένας αποσυμπιεστής που αντικαθιστά όλες τις εντολές με `mov`.
 - Χρήσιμοι πόροι περιλαμβάνουν μια [εξήγηση στο YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) και [PDF διαφάνειες](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
-- **demovfuscator** μπορεί να αντιστρέψει την obfuscation του movfuscator, απαιτώντας εξαρτήσεις όπως `libcapstone-dev` και `libz3-dev`, και εγκαθιστώντας το [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
+- **demovfuscator** μπορεί να αντιστρέψει την αποσυμπίεση του movfuscator, απαιτώντας εξαρτήσεις όπως `libcapstone-dev` και `libz3-dev`, και την εγκατάσταση του [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 
 ## **Delphi**
 - Για τα δυαδικά αρχεία Delphi, συνιστάται το [IDR](https://github.com/crypto2011/IDR).

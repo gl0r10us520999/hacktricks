@@ -48,11 +48,11 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
 {% endcode %}
 
-{% code title="Χρησιμοποιώντας Linux" %}
+{% code title="Χρησιμοποιώντας το Linux" %}
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-#### Αίτημα AS\_REP μηνύματος
+#### Αίτημα μηνύματος AS\_REP
 
 {% code title="Using Linux" %}
 ```bash
@@ -81,7 +81,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Επιμονή
 
-Αναγκάστε το **preauth** να μην απαιτείται για έναν χρήστη όπου έχετε δικαιώματα **GenericAll** (ή δικαιώματα για να γράφετε ιδιότητες):
+Αναγκάστε **preauth** να μην απαιτείται για έναν χρήστη όπου έχετε **GenericAll** δικαιώματα (ή δικαιώματα για να γράψετε ιδιότητες):
 
 {% code title="Using Windows" %}
 ```bash
@@ -117,18 +117,18 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Συμμετάσχετε στον [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς bug bounty!
+Συμμετάσχετε στον [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server για να επικοινωνήσετε με έμπειρους hackers και hunters bug bounty!
 
-**Ενημερώσεις Χάκινγκ**\
+**Ενημερώσεις για hacking**\
 Ασχοληθείτε με περιεχόμενο που εμβαθύνει στην αδρεναλίνη και τις προκλήσεις του hacking
 
-**Νέα Χάκινγκ σε Πραγματικό Χρόνο**\
+**Νέα Hack σε Πραγματικό Χρόνο**\
 Μείνετε ενημερωμένοι με τον ταχύτατο κόσμο του hacking μέσω ειδήσεων και πληροφοριών σε πραγματικό χρόνο
 
 **Τελευταίες Ανακοινώσεις**\
-Μείνετε ενημερωμένοι με τις πιο πρόσφατες εκκινήσεις bug bounties και κρίσιμες ενημερώσεις πλατφορμών
+Μείνετε ενημερωμένοι με τις πιο πρόσφατες bug bounties που ξεκινούν και κρίσιμες ενημερώσεις πλατφόρμας
 
-**Συμμετάσχετε μαζί μας στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) και ξεκινήστε να συνεργάζεστε με κορυφαίους χάκερ σήμερα!
+**Συμμετάσχετε μαζί μας στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) και ξεκινήστε να συνεργάζεστε με κορυφαίους hackers σήμερα!
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -136,7 +136,7 @@ ASRepCatcher listen
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Συμμετάσχετε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**

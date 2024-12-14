@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-Όλα τα εκτελέσιμα αρχεία που βρίσκονται στους **φακέλους Εκκίνησης θα εκτελούνται κατά την εκκίνηση**. Οι κοινές φάκελοι εκκίνησης είναι αυτοί που αναφέρονται στη συνέχεια, αλλά ο φάκελος εκκίνησης υποδεικνύεται στο μητρώο. [Διαβάστε αυτό για να μάθετε πού.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Όλα τα δυαδικά αρχεία που βρίσκονται στους **φακέλους Εκκίνησης θα εκτελούνται κατά την εκκίνηση**. Οι κοινές φάκελοι εκκίνησης είναι αυτοί που αναφέρονται στη συνέχεια, αλλά ο φάκελος εκκίνησης υποδεικνύεται στο μητρώο. [Διαβάστε αυτό για να μάθετε πού.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -97,11 +97,11 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Exploit 1**: Αν μπορείτε να γράψετε μέσα σε οποιοδήποτε από τα αναφερόμενα μητρώα μέσα στο **HKLM**, μπορείτε να κλιμακώσετε τα προνόμια όταν συνδεθεί ένας διαφορετικός χρήστης.
+**Εκμετάλλευση 1**: Αν μπορείτε να γράψετε μέσα σε οποιαδήποτε από τις αναφερόμενες καταχωρήσεις στο **HKLM**, μπορείτε να κλιμακώσετε τα δικαιώματα όταν συνδεθεί ένας διαφορετικός χρήστης.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2**: Αν μπορείτε να αντικαταστήσετε οποιοδήποτε από τα δυαδικά αρχεία που αναφέρονται σε οποιοδήποτε από τα μητρώα μέσα στο **HKLM**, μπορείτε να τροποποιήσετε αυτό το δυαδικό αρχείο με μια πίσω πόρτα όταν συνδεθεί ένας διαφορετικός χρήστης και να κλιμακώσετε τα προνόμια.
+**Εκμετάλλευση 2**: Αν μπορείτε να αντικαταστήσετε οποιοδήποτε από τα δυαδικά αρχεία που αναφέρονται σε οποιαδήποτε από τις καταχωρήσεις στο **HKLM**, μπορείτε να τροποποιήσετε αυτό το δυαδικό αρχείο με μια πίσω πόρτα όταν συνδεθεί ένας διαφορετικός χρήστης και να κλιμακώσετε τα δικαιώματα.
 {% endhint %}
 ```bash
 #CMD
@@ -165,7 +165,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Οι συντομεύσεις που τοποθετούνται στον φάκελο **Startup** θα ενεργοποιούν αυτόματα υπηρεσίες ή εφαρμογές κατά τη διάρκεια της σύνδεσης του χρήστη ή της επανεκκίνησης του συστήματος. Η τοποθεσία του φακέλου **Startup** ορίζεται στο μητρώο τόσο για το **Local Machine** όσο και για το **Current User**. Αυτό σημαίνει ότι οποιαδήποτε συντόμευση προστεθεί σε αυτές τις καθορισμένες τοποθεσίες **Startup** θα διασφαλίσει ότι η συνδεδεμένη υπηρεσία ή πρόγραμμα θα ξεκινήσει μετά τη διαδικασία σύνδεσης ή επανεκκίνησης, καθιστώντας το μια απλή μέθοδο για τον προγραμματισμό προγραμμάτων να εκτελούνται αυτόματα.
+Οι συντομεύσεις που τοποθετούνται στον φάκελο **Startup** θα ενεργοποιούν αυτόματα υπηρεσίες ή εφαρμογές κατά τη διάρκεια της σύνδεσης του χρήστη ή της επανεκκίνησης του συστήματος. Η τοποθεσία του φακέλου **Startup** ορίζεται στο μητρώο τόσο για το **Local Machine** όσο και για το **Current User**. Αυτό σημαίνει ότι οποιαδήποτε συντόμευση προστεθεί σε αυτές τις καθορισμένες τοποθεσίες **Startup** θα διασφαλίσει ότι η συνδεδεμένη υπηρεσία ή πρόγραμμα θα ξεκινήσει μετά τη διαδικασία σύνδεσης ή επανεκκίνησης, καθιστώντας το μια απλή μέθοδο προγραμματισμού προγραμμάτων για αυτόματη εκτέλεση.
 
 {% hint style="info" %}
 Εάν μπορείτε να αντικαταστήσετε οποιοδήποτε \[User] Shell Folder κάτω από το **HKLM**, θα μπορείτε να το κατευθύνετε σε έναν φάκελο που ελέγχετε και να τοποθετήσετε μια backdoor που θα εκτελείται κάθε φορά που ένας χρήστης συνδέεται στο σύστημα, κλιμακώνοντας τα δικαιώματα.
@@ -210,7 +210,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 ```
 ### AlternateShell
 
-### Αλλαγή της Γραμμής Εντολών Ασφαλούς Λειτουργίας
+### Αλλαγή της Γραμμής Εντολών σε Ασφαλή Λειτουργία
 
 Στο Μητρώο των Windows κάτω από `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, υπάρχει μια τιμή **`AlternateShell`** που είναι ρυθμισμένη από προεπιλογή σε `cmd.exe`. Αυτό σημαίνει ότι όταν επιλέγετε "Ασφαλής Λειτουργία με Γραμμή Εντολών" κατά την εκκίνηση (πατώντας F8), χρησιμοποιείται το `cmd.exe`. Ωστόσο, είναι δυνατόν να ρυθμίσετε τον υπολογιστή σας να ξεκινά αυτόματα σε αυτή τη λειτουργία χωρίς να χρειάζεται να πατήσετε F8 και να την επιλέξετε χειροκίνητα.
 
@@ -222,7 +222,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 4. Αποθηκεύστε τις αλλαγές στο `boot.ini`.
 5. Επαναφέρετε τα αρχικά χαρακτηριστικά του αρχείου: `attrib c:\boot.ini +r +s +h`
 
-* **Εκμετάλλευση 1:** Η αλλαγή της καταχώρισης μητρώου **AlternateShell** επιτρέπει την προσαρμοσμένη ρύθμιση της γραμμής εντολών, ενδεχομένως για μη εξουσιοδοτημένη πρόσβαση.
+* **Εκμετάλλευση 1:** Η αλλαγή της καταχώρησης μητρώου **AlternateShell** επιτρέπει την προσαρμοσμένη ρύθμιση της γραμμής εντολών, ενδεχομένως για μη εξουσιοδοτημένη πρόσβαση.
 * **Εκμετάλλευση 2 (Δικαιώματα Εγγραφής PATH):** Η ύπαρξη δικαιωμάτων εγγραφής σε οποιοδήποτε μέρος της μεταβλητής συστήματος **PATH**, ειδικά πριν από το `C:\Windows\system32`, σας επιτρέπει να εκτελέσετε ένα προσαρμοσμένο `cmd.exe`, το οποίο θα μπορούσε να είναι μια πίσω πόρτα αν το σύστημα ξεκινήσει σε Ασφαλή Λειτουργία.
 * **Εκμετάλλευση 3 (Δικαιώματα Εγγραφής PATH και boot.ini):** Η πρόσβαση εγγραφής στο `boot.ini` επιτρέπει την αυτόματη εκκίνηση σε Ασφαλή Λειτουργία, διευκολύνοντας τη μη εξουσιοδοτημένη πρόσβαση κατά την επόμενη επανεκκίνηση.
 
@@ -231,28 +231,28 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Installed Component
+### Εγκατεστημένο Συστατικό
 
-Active Setup είναι μια δυνατότητα στα Windows που **ξεκινά πριν το περιβάλλον επιφάνειας εργασίας φορτωθεί πλήρως**. Δίνει προτεραιότητα στην εκτέλεση ορισμένων εντολών, οι οποίες πρέπει να ολοκληρωθούν πριν προχωρήσει η σύνδεση του χρήστη. Αυτή η διαδικασία συμβαίνει ακόμη και πριν ενεργοποιηθούν άλλες καταχωρίσεις εκκίνησης, όπως αυτές στις ενότητες μητρώου Run ή RunOnce.
+Το Active Setup είναι μια δυνατότητα στα Windows που **ξεκινά πριν το περιβάλλον επιφάνειας εργασίας φορτωθεί πλήρως**. Δίνει προτεραιότητα στην εκτέλεση ορισμένων εντολών, οι οποίες πρέπει να ολοκληρωθούν πριν προχωρήσει η σύνδεση του χρήστη. Αυτή η διαδικασία συμβαίνει ακόμη και πριν ενεργοποιηθούν άλλες καταχωρίσεις εκκίνησης, όπως αυτές στις ενότητες μητρώου Run ή RunOnce.
 
-Active Setup διαχειρίζεται μέσω των παρακάτω κλειδιών μητρώου:
+Το Active Setup διαχειρίζεται μέσω των παρακάτω κλειδιών μητρώου:
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Μέσα σε αυτά τα κλειδιά, υπάρχουν διάφορα υποκλειδιά, το καθένα που αντιστοιχεί σε ένα συγκεκριμένο συστατικό. Οι τιμές κλειδιών που είναι ιδιαίτερα ενδιαφέρουσες περιλαμβάνουν:
+Μέσα σε αυτά τα κλειδιά, υπάρχουν διάφορα υποκλειδιά, το καθένα από τα οποία αντιστοιχεί σε ένα συγκεκριμένο συστατικό. Οι τιμές κλειδιών που έχουν ιδιαίτερο ενδιαφέρον περιλαμβάνουν:
 
 * **IsInstalled:**
 * `0` υποδεικνύει ότι η εντολή του συστατικού δεν θα εκτελεστεί.
-* `1` σημαίνει ότι η εντολή θα εκτελεστεί μία φορά για κάθε χρήστη, που είναι η προεπιλεγμένη συμπεριφορά αν η τιμή `IsInstalled` λείπει.
+* `1` σημαίνει ότι η εντολή θα εκτελείται μία φορά για κάθε χρήστη, που είναι η προεπιλεγμένη συμπεριφορά αν η τιμή `IsInstalled` λείπει.
 * **StubPath:** Ορίζει την εντολή που θα εκτελείται από το Active Setup. Μπορεί να είναι οποιαδήποτε έγκυρη γραμμή εντολών, όπως η εκκίνηση του `notepad`.
 
-**Security Insights:**
+**Ασφαλιστικές Γνώσεις:**
 
 * Η τροποποίηση ή η εγγραφή σε ένα κλειδί όπου **`IsInstalled`** είναι ρυθμισμένο σε `"1"` με μια συγκεκριμένη **`StubPath`** μπορεί να οδηγήσει σε μη εξουσιοδοτημένη εκτέλεση εντολών, ενδεχομένως για κλιμάκωση προνομίων.
-* Η αλλαγή του δυαδικού αρχείου που αναφέρεται σε οποιαδήποτε τιμή **`StubPath`** θα μπορούσε επίσης να επιτύχει κλιμάκωση προνομίων, εφόσον υπάρχουν επαρκή δικαιώματα.
+* Η τροποποίηση του δυαδικού αρχείου που αναφέρεται σε οποιαδήποτε τιμή **`StubPath`** θα μπορούσε επίσης να επιτύχει κλιμάκωση προνομίων, εφόσον υπάρχουν επαρκή δικαιώματα.
 
 Για να ελέγξετε τις ρυθμίσεις **`StubPath`** σε διάφορα συστατικά του Active Setup, μπορούν να χρησιμοποιηθούν οι παρακάτω εντολές:
 ```bash
@@ -265,7 +265,7 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 
 ### Overview of Browser Helper Objects (BHOs)
 
-Τα Browser Helper Objects (BHOs) είναι DLL modules που προσθέτουν επιπλέον δυνατότητες στον Internet Explorer της Microsoft. Φορτώνονται στον Internet Explorer και τον Windows Explorer σε κάθε εκκίνηση. Ωστόσο, η εκτέλεσή τους μπορεί να αποκλειστεί ρυθμίζοντας το **NoExplorer** key σε 1, αποτρέποντάς τα από το να φορτωθούν με τις περιπτώσεις του Windows Explorer.
+Τα Browser Helper Objects (BHOs) είναι DLL modules που προσθέτουν επιπλέον δυνατότητες στον Internet Explorer της Microsoft. Φορτώνονται στον Internet Explorer και τον Windows Explorer σε κάθε εκκίνηση. Ωστόσο, η εκτέλεσή τους μπορεί να αποκλειστεί ρυθμίζοντας το κλειδί **NoExplorer** σε 1, αποτρέποντάς τα από το να φορτωθούν με τις περιπτώσεις του Windows Explorer.
 
 Τα BHOs είναι συμβατά με τα Windows 10 μέσω του Internet Explorer 11 αλλά δεν υποστηρίζονται στο Microsoft Edge, τον προεπιλεγμένο περιηγητή σε νεότερες εκδόσεις των Windows.
 
@@ -274,7 +274,7 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Κάθε BHO εκπροσωπείται από το **CLSID** του στο μητρώο, που λειτουργεί ως μοναδικός αναγνωριστικός αριθμός. Λεπτομερείς πληροφορίες σχετικά με κάθε CLSID μπορούν να βρεθούν κάτω από το `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
+Κάθε BHO εκπροσωπείται από το **CLSID** του στο μητρώο, που λειτουργεί ως μοναδικός αναγνωριστικός αριθμός. Λεπτομερείς πληροφορίες σχετικά με κάθε CLSID μπορούν να βρεθούν κάτω από `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
 
 Για την αναζήτηση BHOs στο μητρώο, μπορούν να χρησιμοποιηθούν οι παρακάτω εντολές:
 ```bash
@@ -298,7 +298,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Dr
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-### Άνοιγμα Εντολής
+### Open Command
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
@@ -315,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Σημειώστε ότι όλοι οι ιστότοποι όπου μπορείτε να βρείτε autoruns είναι **ήδη αναζητημένοι από**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Ωστόσο, για μια **πιο ολοκληρωμένη λίστα με τα αυτόματα εκτελούμενα** αρχεία μπορείτε να χρησιμοποιήσετε [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)από τα systinternals:
+Σημειώστε ότι όλοι οι ιστότοποι όπου μπορείτε να βρείτε autoruns έχουν **ήδη ερευνηθεί από** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Ωστόσο, για μια **πιο ολοκληρωμένη λίστα με τα αυτόματα εκτελούμενα** αρχεία μπορείτε να χρησιμοποιήσετε [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) από τα systinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -332,21 +332,21 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Tip για bug bounty**: **εγγραφείτε** στο **Intigriti**, μια premium **πλατφόρμα bug bounty που δημιουργήθηκε από hackers, για hackers**! Ελάτε μαζί μας στο [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) σήμερα, και αρχίστε να κερδίζετε βραβεία έως **$100,000**!
+**Bug bounty tip**: **εγγραφείτε** για **Intigriti**, μια premium **πλατφόρμα bug bounty που δημιουργήθηκε από hackers, για hackers**! Ελάτε μαζί μας στο [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) σήμερα, και αρχίστε να κερδίζετε βραβεία έως **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Ελάτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

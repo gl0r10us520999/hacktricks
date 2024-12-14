@@ -35,7 +35,7 @@ Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-Το αρχείο `.pfx` μπορεί στη συνέχεια να μεταφορτωθεί σε ένα στοχοθετημένο σύστημα και να χρησιμοποιηθεί με ένα εργαλείο που ονομάζεται [**Rubeus**](https://github.com/GhostPack/Rubeus) για να ζητήσει ένα Ticket Granting Ticket (TGT) για τον χρήστη, επεκτείνοντας την πρόσβαση του επιτιθέμενου για όσο διάστημα το πιστοποιητικό είναι **έγκυρο** (συνήθως ένα έτος):
+Το αρχείο `.pfx` μπορεί στη συνέχεια να μεταφορτωθεί σε ένα στοχοθετημένο σύστημα και να χρησιμοποιηθεί με ένα εργαλείο που ονομάζεται [**Rubeus**](https://github.com/GhostPack/Rubeus) για να ζητήσει ένα Ticket Granting Ticket (TGT) για τον χρήστη, επεκτείνοντας την πρόσβαση του επιτιθέμενου για όσο διάστημα το πιστοποιητικό είναι **έγκυρο** (τυπικά ένα έτος):
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
@@ -47,25 +47,10 @@ Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
-This access enables the attacker to authenticate to **Kerberos** as the machine account and utilize **S4U2Self** to obtain Kerberos service tickets for any service on the host, effectively granting the attacker persistent access to the machine.
+Αυτή η πρόσβαση επιτρέπει στον επιτιθέμενο να πιστοποιηθεί στο **Kerberos** ως ο λογαριασμός μηχανής και να χρησιμοποιήσει το **S4U2Self** για να αποκτήσει υπηρεσιακά εισιτήρια Kerberos για οποιαδήποτε υπηρεσία στον υπολογιστή, παρέχοντας ουσιαστικά στον επιτιθέμενο μόνιμη πρόσβαση στη μηχανή.
 
-## **Extending Persistence Through Certificate Renewal - PERSIST3**
+## **Επέκταση της Μόνιμης Πρόσβασης Μέσω Ανανέωσης Πιστοποιητικών - PERSIST3**
 
-Η τελική μέθοδος που συζητείται περιλαμβάνει την εκμετάλλευση της **ισχύος** και των **περιόδων ανανέωσης** των προτύπων πιστοποιητικών. Με την **ανανεώση** ενός πιστοποιητικού πριν από την λήξη του, ένας επιτιθέμενος μπορεί να διατηρήσει την αυθεντικοποίηση στο Active Directory χωρίς την ανάγκη για επιπλέον εγγραφές εισιτηρίων, οι οποίες θα μπορούσαν να αφήσουν ίχνη στον διακομιστή Αρχής Πιστοποίησης (CA).
+Η τελική μέθοδος που συζητείται περιλαμβάνει την εκμετάλλευση της **ισχύος** και των **περιόδων ανανέωσης** των προτύπων πιστοποιητικών. Με την **ανανεώση** ενός πιστοποιητικού πριν από την λήξη του, ένας επιτιθέμενος μπορεί να διατηρήσει την πιστοποίηση στο Active Directory χωρίς την ανάγκη για επιπλέον εγγραφές εισιτηρίων, οι οποίες θα μπορούσαν να αφήσουν ίχνη στον διακομιστή Αρχής Πιστοποίησης (CA).
 
-Αυτή η προσέγγιση επιτρέπει μια μέθοδο **εκτεταμένης επιμονής**, ελαχιστοποιώντας τον κίνδυνο ανίχνευσης μέσω λιγότερων αλληλεπιδράσεων με τον διακομιστή CA και αποφεύγοντας τη δημιουργία αντικειμένων που θα μπορούσαν να ειδοποιήσουν τους διαχειριστές για την εισβολή.
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+Αυτή η προσέγγιση επιτρέπει μια μέθοδο **επεκταμένης μόνιμης πρόσβασης**, ελαχιστοποιώντας τον κίνδυνο ανίχνευσης μέσω λιγότερων αλληλεπιδράσεων με τον διακομιστή CA και αποφεύγοντας τη δημιουργία αντικειμένων που θα μπορούσαν να ειδοποιήσουν τους διαχειριστές για την εισβολή.

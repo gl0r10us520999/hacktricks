@@ -17,7 +17,7 @@
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -31,7 +31,7 @@
 
 * Η **επίθεση DCSync προσομοιώνει τη συμπεριφορά ενός Domain Controller και ζητά από άλλους Domain Controllers να αναπαράγουν πληροφορίες** χρησιμοποιώντας το Directory Replication Service Remote Protocol (MS-DRSR). Δεδομένου ότι το MS-DRSR είναι μια έγκυρη και απαραίτητη λειτουργία του Active Directory, δεν μπορεί να απενεργοποιηθεί ή να απενεργοποιηθεί.
 * Από προεπιλογή, μόνο οι ομάδες **Domain Admins, Enterprise Admins, Administrators και Domain Controllers** έχουν τα απαιτούμενα προνόμια.
-* Εάν οποιοιδήποτε κωδικοί πρόσβασης λογαριασμών αποθηκεύονται με αναστρέψιμη κρυπτογράφηση, μια επιλογή είναι διαθέσιμη στο Mimikatz για να επιστρέψει τον κωδικό πρόσβασης σε καθαρό κείμενο.
+* Εάν οποιοιδήποτε κωδικοί πρόσβασης λογαριασμών αποθηκεύονται με αναστρέψιμη κρυπτογράφηση, υπάρχει μια επιλογή στο Mimikatz για να επιστρέψει τον κωδικό πρόσβασης σε καθαρό κείμενο.
 
 ### Enumeration
 
@@ -72,7 +72,7 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 ```
 ### Mitigation
 
-* Security Event ID 4662 (Η πολιτική ελέγχου για το αντικείμενο πρέπει να είναι ενεργοποιημένη) – Μια λειτουργία εκτελέστηκε σε ένα αντικείμενο
+* Security Event ID 4662 (Η πολιτική ελέγχου για το αντικείμενο πρέπει να είναι ενεργοποιημένη) – Μια ενέργεια πραγματοποιήθηκε σε ένα αντικείμενο
 * Security Event ID 5136 (Η πολιτική ελέγχου για το αντικείμενο πρέπει να είναι ενεργοποιημένη) – Ένα αντικείμενο υπηρεσίας καταλόγου τροποποιήθηκε
 * Security Event ID 4670 (Η πολιτική ελέγχου για το αντικείμενο πρέπει να είναι ενεργοποιημένη) – Οι άδειες σε ένα αντικείμενο άλλαξαν
 * AD ACL Scanner - Δημιουργήστε και συγκρίνετε αναφορές ACL. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)

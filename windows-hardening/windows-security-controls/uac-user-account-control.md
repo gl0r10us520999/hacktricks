@@ -17,14 +17,14 @@
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τη βοήθεια των **πιο προηγμένων** εργαλείων της κοινότητας.\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[Ο Έλεγχος Λογαριασμού Χρήστη (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) είναι μια δυνατότητα που επιτρέπει μια **προτροπή συγκατάθεσης για ανυψωμένες δραστηριότητες**. Οι εφαρμογές έχουν διαφορετικά επίπεδα `integrity`, και ένα πρόγραμμα με **υψηλό επίπεδο** μπορεί να εκτελεί εργασίες που **θα μπορούσαν ενδεχομένως να θέσουν σε κίνδυνο το σύστημα**. Όταν είναι ενεργοποιημένος ο UAC, οι εφαρμογές και οι εργασίες εκτελούνται πάντα **υπό το πλαίσιο ασφαλείας ενός λογαριασμού μη διαχειριστή** εκτός αν ένας διαχειριστής εξουσιοδοτήσει ρητά αυτές τις εφαρμογές/εργασίες να έχουν πρόσβαση επιπέδου διαχειριστή στο σύστημα για να εκτελούνται. Είναι μια δυνατότητα ευκολίας που προστατεύει τους διαχειριστές από ακούσιες αλλαγές αλλά δεν θεωρείται όριο ασφαλείας.
+[Ο Έλεγχος Λογαριασμού Χρήστη (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) είναι μια δυνατότητα που επιτρέπει μια **προτροπή συγκατάθεσης για ανυψωμένες δραστηριότητες**. Οι εφαρμογές έχουν διαφορετικά επίπεδα `integrity`, και ένα πρόγραμμα με **υψηλό επίπεδο** μπορεί να εκτελεί εργασίες που **θα μπορούσαν ενδεχομένως να θέσουν σε κίνδυνο το σύστημα**. Όταν είναι ενεργοποιημένο το UAC, οι εφαρμογές και οι εργασίες εκτελούνται πάντα **υπό το πλαίσιο ασφαλείας ενός λογαριασμού μη διαχειριστή** εκτός αν ένας διαχειριστής εξουσιοδοτήσει ρητά αυτές τις εφαρμογές/εργασίες να έχουν πρόσβαση επιπέδου διαχειριστή στο σύστημα για να εκτελούνται. Είναι μια δυνατότητα ευκολίας που προστατεύει τους διαχειριστές από ακούσιες αλλαγές αλλά δεν θεωρείται όριο ασφαλείας.
 
 Για περισσότερες πληροφορίες σχετικά με τα επίπεδα ακεραιότητας:
 
@@ -32,34 +32,34 @@
 [integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Όταν είναι σε εφαρμογή ο UAC, σε έναν χρήστη διαχειριστή δίνονται 2 διαπιστευτήρια: ένα κλειδί τυπικού χρήστη, για να εκτελεί κανονικές ενέργειες ως κανονικό επίπεδο, και ένα με τα δικαιώματα διαχειριστή.
+Όταν είναι σε εφαρμογή το UAC, σε έναν χρήστη διαχειριστή δίνονται 2 διακριτικά: ένα τυπικό κλειδί χρήστη, για να εκτελεί κανονικές ενέργειες ως κανονικό επίπεδο, και ένα με τα προνόμια διαχειριστή.
 
-Αυτή [η σελίδα](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) συζητά πώς λειτουργεί ο UAC σε βάθος και περιλαμβάνει τη διαδικασία σύνδεσης, την εμπειρία χρήστη και την αρχιτεκτονική του UAC. Οι διαχειριστές μπορούν να χρησιμοποιήσουν πολιτικές ασφαλείας για να ρυθμίσουν πώς λειτουργεί ο UAC ειδικά για την οργάνωσή τους σε τοπικό επίπεδο (χρησιμοποιώντας το secpol.msc), ή να ρυθμιστεί και να προωθηθεί μέσω Αντικειμένων Πολιτικής Ομάδας (GPO) σε περιβάλλον τομέα Active Directory. Οι διάφορες ρυθμίσεις συζητούνται λεπτομερώς [εδώ](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Υπάρχουν 10 ρυθμίσεις Πολιτικής Ομάδας που μπορούν να ρυθμιστούν για τον UAC. Ο παρακάτω πίνακας παρέχει επιπλέον λεπτομέρειες:
+Αυτή [η σελίδα](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) συζητά πώς λειτουργεί το UAC σε βάθος και περιλαμβάνει τη διαδικασία σύνδεσης, την εμπειρία χρήστη και την αρχιτεκτονική UAC. Οι διαχειριστές μπορούν να χρησιμοποιήσουν πολιτικές ασφαλείας για να ρυθμίσουν πώς λειτουργεί το UAC ειδικά για την οργάνωσή τους σε τοπικό επίπεδο (χρησιμοποιώντας secpol.msc), ή να ρυθμιστεί και να προωθηθεί μέσω Αντικειμένων Πολιτικής Ομάδας (GPO) σε περιβάλλον τομέα Active Directory. Οι διάφορες ρυθμίσεις συζητούνται λεπτομερώς [εδώ](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Υπάρχουν 10 ρυθμίσεις Πολιτικής Ομάδας που μπορούν να ρυθμιστούν για το UAC. Ο παρακάτω πίνακας παρέχει επιπλέον λεπτομέρειες:
 
 | Ρύθμιση Πολιτικής Ομάδας                                                                                                                                                                                                                                                                                                                                                           | Κλειδί Μητρώου                | Προεπιλεγμένη Ρύθμιση                                              |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
 | [Έλεγχος Λογαριασμού Χρήστη: Λειτουργία Έγκρισης Διαχειριστή για τον ενσωματωμένο λογαριασμό διαχειριστή](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Απενεργοποιημένο                                                     |
 | [Έλεγχος Λογαριασμού Χρήστη: Επιτρέψτε στις εφαρμογές UIAccess να ζητούν ανύψωση χωρίς να χρησιμοποιούν την ασφαλή επιφάνεια εργασίας](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Απενεργοποιημένο                                                     |
-| [Έλεγχος Λογαριασμού Χρήστη: Συμπεριφορά της προτροπής ανύψωσης για διαχειριστές στη Λειτουργία Έγκρισης Διαχειριστή](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Προτροπή για συγκατάθεση για μη Windows δυαδικά                  |
-| [Έλεγχος Λογαριασμού Χρήστη: Συμπεριφορά της προτροπής ανύψωσης για τυπικούς χρήστες](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Προτροπή για διαπιστευτήρια στην ασφαλή επιφάνεια εργασίας                 |
-| [Έλεγχος Λογαριασμού Χρήστη: Ανίχνευση εγκαταστάσεων εφαρμογών και προτροπή για ανύψωση](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Ενεργοποιημένο (προεπιλογή για οικιακούς χρήστες) Απενεργοποιημένο (προεπιλογή για επιχειρήσεις) |
+| [Έλεγχος Λογαριασμού Χρήστη: Συμπεριφορά της προτροπής ανύψωσης για διαχειριστές στη Λειτουργία Έγκρισης Διαχειριστή](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Ζητήστε συγκατάθεση για μη Windows δυαδικά                  |
+| [Έλεγχος Λογαριασμού Χρήστη: Συμπεριφορά της προτροπής ανύψωσης για τυπικούς χρήστες](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Ζητήστε διαπιστευτήρια στην ασφαλή επιφάνεια εργασίας                 |
+| [Έλεγχος Λογαριασμού Χρήστη: Ανίχνευση εγκαταστάσεων εφαρμογών και προτροπή για ανύψωση](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Ενεργοποιημένο (προεπιλογή για οικιακή χρήση) Απενεργοποιημένο (προεπιλογή για επιχείρηση) |
 | [Έλεγχος Λογαριασμού Χρήστη: Μόνο ανύψωση εκτελέσιμων που είναι υπογεγραμμένα και επικυρωμένα](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Απενεργοποιημένο                                                     |
 | [Έλεγχος Λογαριασμού Χρήστη: Μόνο ανύψωση εφαρμογών UIAccess που είναι εγκατεστημένες σε ασφαλείς τοποθεσίες](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Ενεργοποιημένο                                                      |
-| [Έλεγχος Λογαριασμού Χρήστη: Εκτέλεση όλων των διαχειριστών στη Λειτουργία Έγκρισης Διαχειριστή](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Ενεργοποιημένο                                                      |
-| [Έλεγχος Λογαριασμού Χρήστη: Μετάβαση στην ασφαλή επιφάνεια εργασίας κατά την προτροπή για ανύψωση](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Ενεργοποιημένο                                                      |
-| [Έλεγχος Λογαριασμού Χρήστη: Εικονικοποίηση αποτυχιών εγγραφής αρχείων και μητρώου σε τοποθεσίες ανά χρήστη](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Ενεργοποιημένο                                                      |
+| [Έλεγχος Λογαριασμού Χρήστη: Εκτελέστε όλους τους διαχειριστές στη Λειτουργία Έγκρισης Διαχειριστή](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Ενεργοποιημένο                                                      |
+| [Έλεγχος Λογαριασμού Χρήστη: Μεταβείτε στην ασφαλή επιφάνεια εργασίας όταν ζητάτε ανύψωση](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Ενεργοποιημένο                                                      |
+| [Έλεγχος Λογαριασμού Χρήστη: Εικονικοποιήστε τις αποτυχίες εγγραφής αρχείων και μητρώου σε τοποθεσίες ανά χρήστη](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Ενεργοποιημένο                                                      |
 
 ### Θεωρία Παράκαμψης UAC
 
 Ορισμένα προγράμματα είναι **αυτοανυψωμένα αυτόματα** εάν ο **χρήστης ανήκει** στην **ομάδα διαχειριστών**. Αυτά τα δυαδικά έχουν μέσα στα _**Manifests**_ την επιλογή _**autoElevate**_ με τιμή _**True**_. Το δυαδικό πρέπει επίσης να είναι **υπογεγραμμένο από τη Microsoft**.
 
-Έτσι, για να **παρακαμφθεί** ο **UAC** (ανύψωση από **μεσαίο** επίπεδο ακεραιότητας **σε υψηλό**) ορισμένοι επιτιθέμενοι χρησιμοποιούν αυτού του είδους τα δυαδικά για να **εκτελέσουν αυθαίρετο κώδικα** επειδή θα εκτελούνται από μια **Διαδικασία Υψηλού επιπέδου ακεραιότητας**.
+Στη συνέχεια, για να **παρακάμψουν** το **UAC** (ανύψωση από **μεσαίο** επίπεδο ακεραιότητας **σε υψηλό**) ορισμένοι επιτιθέμενοι χρησιμοποιούν αυτούς τους τύπους δυαδικών για να **εκτελέσουν αυθαίρετο κώδικα** επειδή θα εκτελούνται από μια **Διαδικασία Υψηλού επιπέδου ακεραιότητας**.
 
 Μπορείτε να **ελέγξετε** το _**Manifest**_ ενός δυαδικού χρησιμοποιώντας το εργαλείο _**sigcheck.exe**_ από το Sysinternals. Και μπορείτε να **δείτε** το **επίπεδο ακεραιότητας** των διαδικασιών χρησιμοποιώντας το _Process Explorer_ ή το _Process Monitor_ (του Sysinternals).
 
 ### Έλεγχος UAC
 
-Για να επιβεβαιώσετε αν είναι ενεργοποιημένος ο UAC, κάντε:
+Για να επιβεβαιώσετε αν είναι ενεργοποιημένο το UAC, κάντε:
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
 
@@ -83,15 +83,15 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 * αν **`5`**(**προεπιλογή**) θα ζητήσει από τον διαχειριστή να επιβεβαιώσει την εκτέλεση μη Windows δυαδικών αρχείων με υψηλά δικαιώματα
 
 Στη συνέχεια, πρέπει να ρίξετε μια ματιά στην τιμή του **`LocalAccountTokenFilterPolicy`**\
-Αν η τιμή είναι **`0`**, τότε, μόνο ο χρήστης **RID 500** (**ενσωματωμένος Διαχειριστής**) μπορεί να εκτελεί **διοικητικά καθήκοντα χωρίς UAC**, και αν είναι `1`, **όλοι οι λογαριασμοί μέσα στην ομάδα "Administrators"** μπορούν να τα εκτελούν.
+Αν η τιμή είναι **`0`**, τότε, μόνο ο χρήστης **RID 500** (**ενσωματωμένος διαχειριστής**) μπορεί να εκτελεί **διοικητικά καθήκοντα χωρίς UAC**, και αν είναι `1`, **όλοι οι λογαριασμοί μέσα στην ομάδα "Administrators"** μπορούν να τα εκτελούν.
 
-Και, τελικά, ρίξτε μια ματιά στην τιμή του κλειδιού **`FilterAdministratorToken`**\
-Αν **`0`**(προεπιλογή), ο **ενσωματωμένος λογαριασμός Διαχειριστή μπορεί** να εκτελεί απομακρυσμένα διοικητικά καθήκοντα και αν **`1`** ο ενσωματωμένος λογαριασμός Διαχειριστή **δεν μπορεί** να εκτελεί απομακρυσμένα διοικητικά καθήκοντα, εκτός αν το `LocalAccountTokenFilterPolicy` είναι ρυθμισμένο σε `1`.
+Και, τέλος, ρίξτε μια ματιά στην τιμή του κλειδιού **`FilterAdministratorToken`**\
+Αν **`0`**(προεπιλογή), ο **ενσωματωμένος λογαριασμός διαχειριστή μπορεί** να εκτελεί απομακρυσμένα διοικητικά καθήκοντα και αν **`1`** ο ενσωματωμένος λογαριασμός διαχειριστή **δεν μπορεί** να εκτελεί απομακρυσμένα διοικητικά καθήκοντα, εκτός αν το `LocalAccountTokenFilterPolicy` είναι ρυθμισμένο σε `1`.
 
 #### Περίληψη
 
 * Αν `EnableLUA=0` ή **δεν υπάρχει**, **κανένα UAC για κανέναν**
-* Αν `EnableLua=1` και **`LocalAccountTokenFilterPolicy=1`, Κανένα UAC για κανέναν**
+* Αν `EnableLua=1` και **`LocalAccountTokenFilterPolicy=1` , Κανένα UAC για κανέναν**
 * Αν `EnableLua=1` και **`LocalAccountTokenFilterPolicy=0` και `FilterAdministratorToken=0`, Κανένα UAC για RID 500 (Ενσωματωμένος Διαχειριστής)**
 * Αν `EnableLua=1` και **`LocalAccountTokenFilterPolicy=0` και `FilterAdministratorToken=1`, UAC για όλους**
 
@@ -105,7 +105,7 @@ whoami /groups | findstr Level
 ## UAC bypass
 
 {% hint style="info" %}
-Σημειώστε ότι αν έχετε γραφική πρόσβαση στο θύμα, η παράκαμψη UAC είναι απλή καθώς μπορείτε απλά να κάνετε κλικ στο "Ναι" όταν εμφανιστεί το παράθυρο προτροπής UAC
+Σημειώστε ότι αν έχετε γραφική πρόσβαση στο θύμα, η παράκαμψη UAC είναι απλή καθώς μπορείτε απλά να κάνετε κλικ στο "Ναι" όταν εμφανιστεί το παράθυρο προτροπής UAS
 {% endhint %}
 
 Η παράκαμψη UAC είναι απαραίτητη στην εξής κατάσταση: **η UAC είναι ενεργοποιημένη, η διαδικασία σας εκτελείται σε μέσο επίπεδο ακεραιότητας και ο χρήστης σας ανήκει στην ομάδα διαχειριστών**.
@@ -161,8 +161,8 @@ runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.w
 
 ### UAC bypass exploits
 
-[**UACME**](https://github.com/hfiref0x/UACME) που είναι μια **συλλογή** αρκετών UAC bypass exploits. Σημειώστε ότι θα χρειαστεί να **compile UACME χρησιμοποιώντας το visual studio ή το msbuild**. Η συλλογή θα δημιουργήσει αρκετά executables (όπως `Source\Akagi\outout\x64\Debug\Akagi.exe`), θα χρειαστεί να γνωρίζετε **ποιο χρειάζεστε.**\
-Πρέπει να **είστε προσεκτικοί** γιατί μερικά bypass θα **προκαλέσουν κάποια άλλα προγράμματα** που θα **ειδοποιήσουν** τον **χρήστη** ότι κάτι συμβαίνει.
+[**UACME** ](https://github.com/hfiref0x/UACME) που είναι μια **συλλογή** αρκετών UAC bypass exploits. Σημειώστε ότι θα χρειαστεί να **compile UACME χρησιμοποιώντας το visual studio ή το msbuild**. Η συλλογή θα δημιουργήσει αρκετά executables (όπως `Source\Akagi\outout\x64\Debug\Akagi.exe`), θα χρειαστεί να γνωρίζετε **ποιο χρειάζεστε.**\
+Πρέπει να **είστε προσεκτικοί** γιατί μερικά bypass θα **προκαλέσουν άλλες εφαρμογές** που θα **ειδοποιήσουν** τον **χρήστη** ότι κάτι συμβαίνει.
 
 Το UACME έχει την **έκδοση build από την οποία κάθε τεχνική άρχισε να λειτουργεί**. Μπορείτε να αναζητήσετε μια τεχνική που επηρεάζει τις εκδόσεις σας:
 ```
@@ -176,9 +176,9 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 
 #### More UAC bypass
 
-**Όλες** οι τεχνικές που χρησιμοποιούνται εδώ για να παρακάμψουν το AUC **απαιτούν** μια **πλήρη διαδραστική κονσόλα** με το θύμα (μια κοινή κονσόλα nc.exe δεν είναι αρκετή).
+**Όλες** οι τεχνικές που χρησιμοποιούνται εδώ για να παρακάμψουν το AUC **απαιτούν** μια **πλήρη διαδραστική κονσόλα** με το θύμα (μια κοινή nc.exe κονσόλα δεν είναι αρκετή).
 
-Μπορείτε να αποκτήσετε πρόσβαση χρησιμοποιώντας μια **μέτρηση**. Μεταναστεύστε σε μια **διαδικασία** που έχει την τιμή **Session** ίση με **1**:
+Μπορείτε να αποκτήσετε πρόσβαση χρησιμοποιώντας μια **meterpreter** συνεδρία. Μεταναστεύστε σε μια **διαδικασία** που έχει την τιμή **Session** ίση με **1**:
 
 ![](<../../.gitbook/assets/image (96).png>)
 
@@ -188,7 +188,7 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 
 Αν έχετε πρόσβαση σε μια **GUI μπορείτε απλά να αποδεχθείτε την προτροπή UAC** όταν την λάβετε, δεν χρειάζεστε πραγματικά μια παράκαμψη. Έτσι, η απόκτηση πρόσβασης σε μια GUI θα σας επιτρέψει να παρακάμψετε το UAC.
 
-Επιπλέον, αν αποκτήσετε μια συνεδρία GUI που κάποιος χρησιμοποιούσε (πιθανώς μέσω RDP) υπάρχουν **ορισμένα εργαλεία που θα εκτελούνται ως διαχειριστής** από όπου θα μπορούσατε να **τρέξετε** μια **cmd** για παράδειγμα **ως διαχειριστής** απευθείας χωρίς να σας ζητηθεί ξανά από το UAC όπως [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Αυτό μπορεί να είναι λίγο πιο **αθόρυβο**.
+Επιπλέον, αν αποκτήσετε μια GUI συνεδρία που κάποιος χρησιμοποιούσε (πιθανώς μέσω RDP) υπάρχουν **ορισμένα εργαλεία που θα εκτελούνται ως διαχειριστής** από όπου θα μπορούσατε να **τρέξετε** μια **cmd** για παράδειγμα **ως διαχειριστής** απευθείας χωρίς να σας ζητηθεί ξανά από το UAC όπως [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Αυτό μπορεί να είναι λίγο πιο **αθόρυβο**.
 
 ### Θορυβώδης brute-force UAC bypass
 
@@ -198,16 +198,16 @@ Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) 
 
 Αν ρίξετε μια ματιά στο **UACME** θα παρατηρήσετε ότι **οι περισσότερες παρακάμψεις UAC εκμεταλλεύονται μια ευπάθεια Dll Hijacking** (κυρίως γράφοντας το κακόβουλο dll στο _C:\Windows\System32_). [Διαβάστε αυτό για να μάθετε πώς να βρείτε μια ευπάθεια Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking.md).
 
-1. Βρείτε ένα δυαδικό που θα **αυτοανυψώνεται** (ελέγξτε ότι όταν εκτελείται τρέχει σε υψηλό επίπεδο ακεραιότητας).
+1. Βρείτε ένα δυαδικό αρχείο που θα **αυτοανυψώνεται** (ελέγξτε ότι όταν εκτελείται τρέχει σε υψηλό επίπεδο ακεραιότητας).
 2. Με το procmon βρείτε γεγονότα "**NAME NOT FOUND**" που μπορεί να είναι ευάλωτα σε **DLL Hijacking**.
 3. Πιθανώς θα χρειαστεί να **γράψετε** το DLL μέσα σε κάποιες **προστατευμένες διαδρομές** (όπως C:\Windows\System32) όπου δεν έχετε δικαιώματα εγγραφής. Μπορείτε να παρακάμψετε αυτό χρησιμοποιώντας:
    1. **wusa.exe**: Windows 7,8 και 8.1. Επιτρέπει την εξαγωγή του περιεχομένου ενός CAB αρχείου μέσα σε προστατευμένες διαδρομές (επειδή αυτό το εργαλείο εκτελείται από υψηλό επίπεδο ακεραιότητας).
    2. **IFileOperation**: Windows 10.
-4. Ετοιμάστε ένα **σενάριο** για να αντιγράψετε το DLL μέσα στην προστατευμένη διαδρομή και να εκτελέσετε το ευάλωτο και αυτοανυψωμένο δυαδικό.
+4. Ετοιμάστε ένα **σενάριο** για να αντιγράψετε το DLL μέσα στην προστατευμένη διαδρομή και να εκτελέσετε το ευάλωτο και αυτοανυψωμένο δυαδικό αρχείο.
 
 ### Μια άλλη τεχνική UAC bypass
 
-Αποτελείται από την παρακολούθηση αν ένα **αυτοανυψωμένο δυαδικό** προσπαθεί να **διαβάσει** από το **μητρώο** το **όνομα/διαδρομή** ενός **δυαδικού** ή **εντολής** που θα **εκτελεστεί** (αυτό είναι πιο ενδιαφέρον αν το δυαδικό αναζητά αυτές τις πληροφορίες μέσα στο **HKCU**).
+Αποτελείται από την παρακολούθηση αν ένα **autoElevated binary** προσπαθεί να **διαβάσει** από το **μητρώο** το **όνομα/διαδρομή** ενός **δυαδικού** ή **εντολής** που θα **εκτελείται** (αυτό είναι πιο ενδιαφέρον αν το δυαδικό αναζητά αυτές τις πληροφορίες μέσα στο **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 

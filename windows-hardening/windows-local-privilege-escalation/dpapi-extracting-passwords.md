@@ -9,7 +9,7 @@
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -68,7 +68,7 @@ dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
 ## Master Keys
 
-Οι κλειδιά DPAPI που χρησιμοποιούνται για την κρυπτογράφηση των RSA κλειδιών του χρήστη αποθηκεύονται στον φάκελο `%APPDATA%\Microsoft\Protect\{SID}`, όπου {SID} είναι ο [**Security Identifier**](https://en.wikipedia.org/wiki/Security\_Identifier) **αυτού του χρήστη**. **Το κλειδί DPAPI αποθηκεύεται στο ίδιο αρχείο με το κύριο κλειδί που προστατεύει τα ιδιωτικά κλειδιά των χρηστών**. Συνήθως είναι 64 bytes τυχαίων δεδομένων. (Σημειώστε ότι αυτός ο φάκελος είναι προστατευμένος, οπότε δεν μπορείτε να τον καταχωρίσετε χρησιμοποιώντας `dir` από το cmd, αλλά μπορείτε να τον καταχωρίσετε από το PS).
+Οι κωδικοί DPAPI που χρησιμοποιούνται για την κρυπτογράφηση των RSA κλειδιών του χρήστη αποθηκεύονται στον φάκελο `%APPDATA%\Microsoft\Protect\{SID}`, όπου {SID} είναι ο [**Αναγνωριστής Ασφαλείας**](https://en.wikipedia.org/wiki/Security\_Identifier) **του συγκεκριμένου χρήστη**. **Ο κωδικός DPAPI αποθηκεύεται στο ίδιο αρχείο με τον κύριο κωδικό που προστατεύει τα ιδιωτικά κλειδιά των χρηστών**. Συνήθως είναι 64 bytes τυχαίων δεδομένων. (Σημειώστε ότι αυτός ο φάκελος είναι προστατευμένος, οπότε δεν μπορείτε να τον καταχωρίσετε χρησιμοποιώντας `dir` από το cmd, αλλά μπορείτε να τον καταχωρίσετε από το PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -77,7 +77,7 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\
 Get-ChildItem -Hidden C:\Users\USER\AppData\Roaming\Microsoft\Protect\{SID}
 Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 ```
-Αυτό είναι πώς θα φαίνονται μια σειρά από Master Keys ενός χρήστη:
+Αυτό είναι πώς φαίνονται μια σειρά από Master Keys ενός χρήστη:
 
 ![](<../../.gitbook/assets/image (1121).png>)
 
@@ -97,7 +97,7 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 
 `python3 hekatomb.py -hashes :ed0052e5a66b1c8e942cc9481a50d56 DOMAIN.local/administrator@10.0.0.1 -debug -dnstcp`
 
-Με τη λίστα υπολογιστών που εξήχθη από το LDAP μπορείτε να βρείτε κάθε υποδίκτυο ακόμη και αν δεν τα γνωρίζατε!
+Με τη λίστα υπολογιστών που εξήχθη από το LDAP μπορείτε να βρείτε κάθε υποδίκτυο ακόμα και αν δεν τα γνωρίζατε!
 
 "Επειδή τα δικαιώματα Domain Admin δεν είναι αρκετά. Χακάρετε τα όλα."
 
@@ -125,7 +125,7 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στην [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

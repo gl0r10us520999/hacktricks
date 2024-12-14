@@ -38,9 +38,9 @@ Software:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek είναι ένας decompiler που **decompiles και εξετάζει πολλαπλές μορφές**, συμπεριλαμβανομένων των **βιβλιοθηκών** (.dll), **αρχείων μεταδεδομένων Windows** (.winmd) και **εκτελέσιμων** (.exe). Μόλις αποσυμπιεστεί, μια assembly μπορεί να αποθηκευτεί ως έργο Visual Studio (.csproj).
+Το dotPeek είναι ένας αποσυμπιεστής που **αποσυμπιέζει και εξετάζει πολλαπλές μορφές**, συμπεριλαμβανομένων των **βιβλιοθηκών** (.dll), **αρχείων μεταδεδομένων Windows** (.winmd) και **εκτελέσιμων** (.exe). Αφού αποσυμπιεστεί, μια συναρμολόγηση μπορεί να αποθηκευτεί ως έργο Visual Studio (.csproj).
 
-Το πλεονέκτημα εδώ είναι ότι αν ένας χαμένος κώδικας απαιτεί αποκατάσταση από μια κληρονομημένη assembly, αυτή η ενέργεια μπορεί να εξοικονομήσει χρόνο. Επιπλέον, το dotPeek παρέχει βολική πλοήγηση σε όλο τον αποσυμπιεσμένο κώδικα, καθιστώντας το ένα από τα τέλεια εργαλεία για **ανάλυση αλγορίθμων Xamarin.**
+Το πλεονέκτημα εδώ είναι ότι αν ένας χαμένος κωδικός πηγής απαιτεί αποκατάσταση από μια κληρονομική συναρμολόγηση, αυτή η ενέργεια μπορεί να εξοικονομήσει χρόνο. Επιπλέον, το dotPeek παρέχει βολική πλοήγηση σε όλο τον αποσυμπιεσμένο κώδικα, καθιστώντας το ένα από τα τέλεια εργαλεία για **ανάλυση αλγορίθμων Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -49,14 +49,14 @@ dotPeek είναι ένας decompiler που **decompiles και εξετάζε
 * Παρέχει μια εικόνα για το πώς ρέει τα δεδομένα μέσω μιας βιβλιοθήκης ή συστατικού
 * Παρέχει πληροφορίες για την υλοποίηση και τη χρήση γλωσσών και πλαισίων .NET
 * Βρίσκει μη τεκμηριωμένη και μη εκτεθειμένη λειτουργικότητα για να αξιοποιήσει περισσότερα από τις APIs και τις τεχνολογίες που χρησιμοποιούνται.
-* Βρίσκει εξαρτήσεις και διαφορετικές assemblies
-* Εντοπίζει την ακριβή τοποθεσία σφαλμάτων στον κώδικά σας, σε τρίτα μέρη και βιβλιοθήκες.
+* Βρίσκει εξαρτήσεις και διαφορετικές συναρμολογήσεις
+* Εντοπίζει την ακριβή τοποθεσία σφαλμάτων στον κώδικά σας, σε τρίτα μέρη και σε βιβλιοθήκες.
 * Αποσφαλματώνει την πηγή όλου του κώδικα .NET με τον οποίο εργάζεστε.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Μπορείτε να το έχετε σε οποιοδήποτε λειτουργικό σύστημα (μπορείτε να το εγκαταστήσετε απευθείας από το VSCode, δεν χρειάζεται να κατεβάσετε το git. Κάντε κλικ στο **Extensions** και **search ILSpy**).\
-Αν χρειάζεστε να **decompile**, **modify** και **recompile** ξανά μπορείτε να χρησιμοποιήσετε [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ή ένα ενεργά συντηρούμενο fork του, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Δεξί Κλικ -> Τροποποίηση Μεθόδου** για να αλλάξετε κάτι μέσα σε μια συνάρτηση).
+Αν χρειάζεστε να **αποσυμπιέσετε**, **τροποποιήσετε** και **ανασυγκροτήσετε** ξανά μπορείτε να χρησιμοποιήσετε [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ή ένα ενεργά συντηρούμενο fork του, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Δεξί Κλικ -> Τροποποίηση Μεθόδου** για να αλλάξετε κάτι μέσα σε μια συνάρτηση).
 
 ### DNSpy Logging
 
@@ -91,7 +91,7 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Αυτό είναι απαραίτητο γιατί αν δεν το κάνετε αυτό, κατά τη διάρκεια της **runtime** θα εφαρμοστούν πολλές **optimisations** στον κώδικα και μπορεί να είναι δυνατόν ότι κατά την αποσφαλμάτωση μια **break-point δεν θα χτυπηθεί** ή κάποιες **μεταβλητές δεν θα υπάρχουν**.
+Αυτό είναι απαραίτητο γιατί αν δεν το κάνετε αυτό, κατά τη διάρκεια της **runtime** θα εφαρμοστούν πολλές **optimisations** στον κώδικα και μπορεί να είναι δυνατόν ότι κατά την αποσφαλμάτωση μια **break-point δεν θα χτυπηθεί** ή κάποιες **variables δεν θα υπάρχουν**.
 
 Στη συνέχεια, αν η εφαρμογή .NET σας εκτελείται από **IIS** μπορείτε να την **restart** με:
 ```
@@ -163,7 +163,7 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) είναι ένα εργαλείο front-end/αντίστροφης μηχανικής για τον GNU Project Debugger (GDB), επικεντρωμένο σε παιχνίδια. Ωστόσο, μπορεί να χρησιμοποιηθεί για οποιοδήποτε σχετικό με την αντίστροφη μηχανική.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) είναι ένα εργαλείο front-end/αντίστροφης μηχανικής για το GNU Project Debugger (GDB), επικεντρωμένο σε παιχνίδια. Ωστόσο, μπορεί να χρησιμοποιηθεί για οποιοδήποτε σχετικό με την αντίστροφη μηχανική.
 
 [**Decompiler Explorer**](https://dogbolt.org/) είναι ένα διαδικτυακό front-end για αρκετούς decompilers. Αυτή η διαδικτυακή υπηρεσία σας επιτρέπει να συγκρίνετε την έξοδο διαφορετικών decompilers σε μικρές εκτελέσιμες.
 
@@ -178,8 +178,8 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) θα **κατανείμει** το **shellcode** μέσα σε έναν χώρο μνήμης, θα **υποδείξει** τη **διεύθυνση μνήμης** όπου το shellcode κατανέμεται και θα **σταματήσει** την εκτέλεση.\
 Στη συνέχεια, πρέπει να **συνδέσετε έναν debugger** (Ida ή x64dbg) στη διαδικασία και να βάλετε ένα **breakpoint στη υποδεικνυόμενη διεύθυνση μνήμης** και να **συνεχίσετε** την εκτέλεση. Με αυτόν τον τρόπο θα κάνετε debugging το shellcode.
 
-Η σελίδα releases στο github περιέχει zip αρχεία που περιέχουν τις εκτελέσιμες εκδόσεις: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Μπορείτε να βρείτε μια ελαφρώς τροποποιημένη έκδοση του Blobrunner στον παρακάτω σύνδεσμο. Για να το συντάξετε απλά **δημιουργήστε ένα έργο C/C++ στο Visual Studio Code, αντιγράψτε και επικολλήστε τον κώδικα και κατασκευάστε το**.
+Η σελίδα κυκλοφορίας στο github περιέχει zip με τις εκδόσεις που έχουν κατασκευαστεί: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Μπορείτε να βρείτε μια ελαφρώς τροποποιημένη έκδοση του Blobrunner στον παρακάτω σύνδεσμο. Για να το κατασκευάσετε απλά **δημιουργήστε ένα έργο C/C++ στο Visual Studio Code, αντιγράψτε και επικολλήστε τον κώδικα και κατασκευάστε το**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -187,17 +187,17 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 
 ### Debugging a shellcode with jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) είναι πολύ παρόμοιο με το blobrunner. Θα **κατανείμει** το **shellcode** μέσα σε έναν χώρο μνήμης και θα ξεκινήσει έναν **αιώνιο βρόχο**. Στη συνέχεια, πρέπει να **συνδέσετε τον debugger** στη διαδικασία, **πατήστε start, περιμένετε 2-5 δευτερόλεπτα και πατήστε stop** και θα βρεθείτε μέσα στον **αιώνιο βρόχο**. Πηδήξτε στην επόμενη εντολή του αιώνιου βρόχου καθώς θα είναι μια κλήση στο shellcode, και τελικά θα βρείτε τον εαυτό σας να εκτελεί το shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)είναι πολύ παρόμοιο με το blobrunner. Θα **κατανείμει** το **shellcode** μέσα σε έναν χώρο μνήμης και θα ξεκινήσει έναν **αιώνιο βρόχο**. Στη συνέχεια, πρέπει να **συνδέσετε τον debugger** στη διαδικασία, **πατήστε start περιμένετε 2-5 δευτερόλεπτα και πατήστε stop** και θα βρεθείτε μέσα στον **αιώνιο βρόχο**. Πηδήξτε στην επόμενη εντολή του αιώνιου βρόχου καθώς θα είναι μια κλήση στο shellcode, και τελικά θα βρείτε τον εαυτό σας να εκτελεί το shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-Μπορείτε να κατεβάσετε μια εκτελέσιμη έκδοση του [jmp2it στη σελίδα releases](https://github.com/adamkramer/jmp2it/releases/).
+Μπορείτε να κατεβάσετε μια εκτελέσιμη έκδοση του [jmp2it στη σελίδα κυκλοφορίας](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Debugging shellcode using Cutter
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) είναι το GUI του radare. Χρησιμοποιώντας το cutter μπορείτε να προσομοιώσετε το shellcode και να το επιθεωρήσετε δυναμικά.
 
-Σημειώστε ότι το Cutter σας επιτρέπει να "Ανοίξετε Αρχείο" και "Ανοίξετε Shellcode". Στην περίπτωσή μου, όταν άνοιξα το shellcode ως αρχείο, το αποσυμπίεσε σωστά, αλλά όταν το άνοιξα ως shellcode δεν το έκανε:
+Σημειώστε ότι το Cutter σας επιτρέπει να "Ανοίξετε Αρχείο" και "Ανοίξετε Shellcode". Στην περίπτωσή μου, όταν άνοιξα το shellcode ως αρχείο το αποσυμπίεσε σωστά, αλλά όταν το άνοιξα ως shellcode δεν το έκανε:
 
 ![](<../../.gitbook/assets/image (562).png>)
 
@@ -207,7 +207,7 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-Μπορείτε να δείτε τη στοίβα για παράδειγμα μέσα σε μια εξαγωγή hex:
+Μπορείτε να δείτε τη στοίβα για παράδειγμα μέσα σε μια εκτύπωση hex:
 
 ![](<../../.gitbook/assets/image (186).png>)
 
@@ -223,11 +223,11 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg διαθέτει επίσης έναν γραφικό εκκινητή όπου μπορείτε να επιλέξετε τις επιλογές που θέλετε και να εκτελέσετε τον shellcode
+scDbg διαθέτει επίσης έναν γραφικό εκκινητή όπου μπορείτε να επιλέξετε τις επιλογές που θέλετε και να εκτελέσετε τον shellcode.
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-Η επιλογή **Create Dump** θα αποθηκεύσει τον τελικό shellcode αν γίνει οποιαδήποτε αλλαγή στον shellcode δυναμικά στη μνήμη (χρήσιμο για να κατεβάσετε τον αποκωδικοποιημένο shellcode). Η **start offset** μπορεί να είναι χρήσιμη για να ξεκινήσει ο shellcode σε μια συγκεκριμένη θέση. Η επιλογή **Debug Shell** είναι χρήσιμη για να κάνετε αποσφαλμάτωση του shellcode χρησιμοποιώντας το τερματικό scDbg (ωστόσο, θεωρώ ότι οποιαδήποτε από τις επιλογές που εξηγήθηκαν προηγουμένως είναι καλύτερη για αυτό το θέμα καθώς θα μπορείτε να χρησιμοποιήσετε το Ida ή το x64dbg).
+Η επιλογή **Create Dump** θα αποθηκεύσει τον τελικό shellcode αν γίνει οποιαδήποτε αλλαγή στον shellcode δυναμικά στη μνήμη (χρήσιμο για να κατεβάσετε τον αποκωδικοποιημένο shellcode). Η **start offset** μπορεί να είναι χρήσιμη για να ξεκινήσετε τον shellcode σε μια συγκεκριμένη θέση. Η επιλογή **Debug Shell** είναι χρήσιμη για να κάνετε αποσφαλμάτωση του shellcode χρησιμοποιώντας το τερματικό scDbg (ωστόσο, θεωρώ ότι οποιαδήποτε από τις επιλογές που εξηγήθηκαν προηγουμένως είναι καλύτερη για αυτό το θέμα καθώς θα μπορείτε να χρησιμοποιήσετε το Ida ή το x64dbg).
 
 ### Αποσυναρμολόγηση χρησιμοποιώντας το CyberChef
 
@@ -240,12 +240,12 @@ scDbg διαθέτει επίσης έναν γραφικό εκκινητή ό�
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Αν έχετε τύχη, ο [demovfuscator](https://github.com/kirschju/demovfuscator) θα απο-ομπλουκάρει το δυαδικό. Έχει αρκετές εξαρτήσεις
+Αν έχετε τύχη, ο [demovfuscator](https://github.com/kirschju/demovfuscator) θα απο-ομπλουκάρει το δυαδικό. Έχει αρκετές εξαρτήσεις.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
-And [install keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
+And [εγκαταστήστε το keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
 If you are playing a **CTF, αυτή η λύση για να βρείτε τη σημαία** θα μπορούσε να είναι πολύ χρήσιμη: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
@@ -255,7 +255,7 @@ If you are playing a **CTF, αυτή η λύση για να βρείτε τη �
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
-Σε αυτή την περίπτωση το δυαδικό αρχείο ονομάζεται authenticator, οπότε είναι αρκετά προφανές ότι αυτή είναι η ενδιαφέρουσα κύρια συνάρτηση.\
+Σε αυτή την περίπτωση το δυαδικό αρχείο ονομάζεται authenticator, οπότε είναι προφανές ότι αυτή είναι η ενδιαφέρουσα κύρια συνάρτηση.\
 Έχοντας το **όνομα** των **συναρτήσεων** που καλούνται, αναζητήστε τις στο **Διαδίκτυο** για να μάθετε για τις **εισόδους** και **εξόδους** τους.
 
 ## **Delphi**
@@ -280,7 +280,7 @@ If you are playing a **CTF, αυτή η λύση για να βρείτε τη �
 
 ## Compiled Python
 
-Σε αυτή τη σελίδα μπορείτε να βρείτε πώς να αποκτήσετε τον κώδικα python από ένα ELF/EXE δυαδικό αρχείο που έχει μεταγλωττιστεί σε python:
+Σε αυτή τη σελίδα μπορείτε να βρείτε πώς να αποκτήσετε τον κώδικα python από ένα δυαδικό αρχείο python που έχει μεταγλωττιστεί ELF/EXE:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -299,7 +299,7 @@ If you are playing a **CTF, αυτή η λύση για να βρείτε τη �
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Όταν πατηθούν, κάθε **κουμπί έχει μια τιμή** για να το αναγνωρίσει:
+Όταν πατηθεί, κάθε **κουμπί έχει μια τιμή** για να το αναγνωρίσει:
 ```
 A = 1
 B = 2
@@ -351,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Ο τελευταίος έλεγχος αν **`uVar4`** είναι στα **τελευταία Κλειδιά** και δεν είναι το τρέχον κλειδί, που ονομάζεται επίσης απελευθέρωση ενός κουμπιού (το τρέχον κλειδί αποθηκεύεται στο **`uVar1`**).
+Ο τελευταίος έλεγχος αν **`uVar4`** είναι στα **τελευταία Κλειδιά** και δεν είναι το τρέχον κλειδί, που επίσης ονομάζεται απελευθέρωση ενός κουμπιού (το τρέχον κλειδί αποθηκεύεται στο **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -384,7 +384,7 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * Πρώτα, συγκρίνεται με την **τιμή 4** (**SELECT** κουμπί): Στην πρόκληση αυτό το κουμπί καθαρίζει την οθόνη
 * Στη συνέχεια, συγκρίνεται με την **τιμή 8** (**START** κουμπί): Στην πρόκληση αυτό ελέγχει αν ο κώδικας είναι έγκυρος για να πάρει τη σημαία.
 * Σε αυτή την περίπτωση, η μεταβλητή **`DAT_030000d8`** συγκρίνεται με 0xf3 και αν η τιμή είναι η ίδια εκτελείται κάποιος κώδικας.
-* Σε οποιαδήποτε άλλη περίπτωση, ελέγχεται κάποια cont (`DAT_030000d4`). Είναι μια cont γιατί προσθέτει 1 αμέσως μετά την είσοδο στον κώδικα.\
+* Σε οποιαδήποτε άλλη περίπτωση, ελέγχεται κάποια μεταβλητή (cont) (`DAT_030000d4`). Είναι μια cont γιατί προσθέτει 1 αμέσως μετά την είσοδο στον κώδικα.\
 **Α**ν είναι λιγότερο από 8, γίνεται κάτι που περιλαμβάνει **προσθήκη** τιμών σε \*\*`DAT_030000d8` \*\* (βασικά προσθέτει τις τιμές των πατημένων πλήκτρων σε αυτή τη μεταβλητή όσο η cont είναι λιγότερη από 8).
 
 Έτσι, σε αυτή την πρόκληση, γνωρίζοντας τις τιμές των κουμπιών, έπρεπε να **πατήσετε έναν συνδυασμό με μήκος μικρότερο από 8 ώστε η προκύπτουσα προσθήκη να είναι 0xf3.**
@@ -398,7 +398,7 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ## Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Αποσυμπίεση δυαδικών)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Αποκωδικοποίηση δυαδικών)
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
