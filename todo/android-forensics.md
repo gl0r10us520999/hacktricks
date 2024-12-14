@@ -1,38 +1,38 @@
-# Android Forensics
+# Android 取证
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Gelslote Toestel
+## 锁定设备
 
-Om data van 'n Android-toestel te begin onttrek, moet dit ontgrendel wees. As dit gesluit is, kan jy:
+要开始从 Android 设备提取数据，设备必须解锁。如果设备被锁定，您可以：
 
-* Kyk of die toestel debugging via USB geaktiveer is.
-* Kyk vir 'n moontlike [smudge attack](https://www.usenix.org/legacy/event/woot10/tech/full\_papers/Aviv.pdf)
-* Probeer met [Brute-force](https://www.cultofmac.com/316532/this-brute-force-device-can-crack-any-iphones-pin-code/)
+* 检查设备是否已通过 USB 激活调试。
+* 检查可能的 [污迹攻击](https://www.usenix.org/legacy/event/woot10/tech/full_papers/Aviv.pdf)
+* 尝试 [暴力破解](https://www.cultofmac.com/316532/this-brute-force-device-can-crack-any-iphones-pin-code/)
 
-## Data Verkryging
+## 数据获取
 
-Skep 'n [android rugsteun met adb](../mobile-pentesting/android-app-pentesting/adb-commands.md#backup) en onttrek dit met [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/): `java -jar abe.jar unpack file.backup file.tar`
+使用 adb 创建 [android 备份](../mobile-pentesting/android-app-pentesting/adb-commands.md#backup) 并使用 [Android 备份提取器](https://sourceforge.net/projects/adbextractor/) 提取：`java -jar abe.jar unpack file.backup file.tar`
 
-### As root toegang of fisiese verbinding met JTAG-koppelvlak
+### 如果有 root 访问或物理连接到 JTAG 接口
 
-* `cat /proc/partitions` (soek die pad na die flitsgeheue, gewoonlik is die eerste inskrywing _mmcblk0_ en kom ooreen met die hele flitsgeheue).
-* `df /data` (Ontdek die blokgrootte van die stelsel).
-* dd if=/dev/block/mmcblk0 of=/sdcard/blk0.img bs=4096 (voer dit uit met die inligting wat van die blokgrootte versamel is).
+* `cat /proc/partitions`（搜索闪存的路径，通常第一个条目是 _mmcblk0_，对应整个闪存）。
+* `df /data`（发现系统的块大小）。
+* dd if=/dev/block/mmcblk0 of=/sdcard/blk0.img bs=4096（使用从块大小收集的信息执行）。
 
-### Geheue
+### 内存
 
-Gebruik Linux Memory Extractor (LiME) om die RAM-inligting te onttrek. Dit is 'n kernuitbreiding wat via adb gelaai moet word.
+使用 Linux 内存提取器 (LiME) 提取 RAM 信息。它是一个应该通过 adb 加载的内核扩展。

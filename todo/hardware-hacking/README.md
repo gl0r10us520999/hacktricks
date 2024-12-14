@@ -1,78 +1,63 @@
-# Hardeware Hacking
+# 硬件黑客
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## JTAG
 
-JTAG maak dit moontlik om 'n grens skandering uit te voer. Die grens skandering analiseer sekere stroombane, insluitend ingebedde grens-skandeercelle en registers vir elke pen.
+JTAG 允许执行边界扫描。边界扫描分析某些电路，包括每个引脚的嵌入式边界扫描单元和寄存器。
 
-Die JTAG-standaard definieer **spesifieke opdragte vir die uitvoering van grens skanderings**, insluitend die volgende:
+JTAG 标准定义了 **进行边界扫描的特定命令**，包括以下内容：
 
-* **BYPASS** laat jou toe om 'n spesifieke skyf te toets sonder die oorhoofse koste van die deurgee van ander skywe.
-* **SAMPLE/PRELOAD** neem 'n monster van die data wat die toestel binnekom en verlaat wanneer dit in sy normale funksioneringsmodus is.
-* **EXTEST** stel en lees penstate.
+* **BYPASS** 允许您测试特定芯片，而无需通过其他芯片的开销。
+* **SAMPLE/PRELOAD** 在设备正常工作模式下获取进入和离开设备的数据样本。
+* **EXTEST** 设置和读取引脚状态。
 
-Dit kan ook ander opdragte ondersteun soos:
+它还可以支持其他命令，例如：
 
-* **IDCODE** vir die identifisering van 'n toestel
-* **INTEST** vir die interne toetsing van die toestel
+* **IDCODE** 用于识别设备
+* **INTEST** 用于设备的内部测试
 
-Jy mag hierdie instruksies teëkom wanneer jy 'n hulpmiddel soos die JTAGulator gebruik.
+当您使用像 JTAGulator 这样的工具时，可能会遇到这些指令。
 
-### Die Toets Toegang Poort
+### 测试访问端口
 
-Grens skanderings sluit toetse van die vier-draad **Toets Toegang Poort (TAP)** in, 'n algemene doelpoort wat **toegang tot die JTAG toetsondersteuning** funksies wat in 'n komponent ingebou is, bied. TAP gebruik die volgende vyf seine:
+边界扫描包括四线 **测试访问端口 (TAP)** 的测试，这是一个通用端口，提供 **访问 JTAG 测试支持** 功能。TAP 使用以下五个信号：
 
-* Toets klok invoer (**TCK**) Die TCK is die **klok** wat definieer hoe gereeld die TAP-beheerder 'n enkele aksie sal neem (met ander woorde, na die volgende toestand in die toestandmasjien spring).
-* Toets modus kies (**TMS**) invoer TMS beheer die **eindige toestandmasjien**. Op elke klop van die klok, kontroleer die toestel se JTAG TAP-beheerder die spanning op die TMS-pen. As die spanning onder 'n sekere drempel is, word die sein as laag beskou en as 0 geïnterpreteer, terwyl, as die spanning bo 'n sekere drempel is, die sein as hoog beskou word en as 1 geïnterpreteer word.
-* Toets data invoer (**TDI**) TDI is die pen wat **data in die skyf deur die skandeercelle stuur**. Elke verskaffer is verantwoordelik vir die definisie van die kommunikasieprotokol oor hierdie pen, omdat JTAG dit nie definieer nie.
-* Toets data uitvoer (**TDO**) TDO is die pen wat **data uit die skyf stuur**.
-* Toets reset (**TRST**) invoer Die opsionele TRST reset die eindige toestandmasjien **na 'n bekende goeie toestand**. Alternatiewelik, as die TMS vir vyf agtereenvolgende kloksiklusse op 1 gehou word, roep dit 'n reset op, op dieselfde manier as wat die TRST-pen sou doen, wat die rede is waarom TRST opsioneel is.
+* 测试时钟输入 (**TCK**) TCK 是定义 TAP 控制器将执行单个操作的频率的 **时钟**（换句话说，跳转到状态机中的下一个状态）。
+* 测试模式选择 (**TMS**) 输入 TMS 控制 **有限状态机**。在每个时钟周期，设备的 JTAG TAP 控制器检查 TMS 引脚上的电压。如果电压低于某个阈值，则信号被视为低并解释为 0，而如果电压高于某个阈值，则信号被视为高并解释为 1。
+* 测试数据输入 (**TDI**) TDI 是通过扫描单元将 **数据发送到芯片** 的引脚。每个供应商负责定义通过此引脚的通信协议，因为 JTAG 并未定义此内容。
+* 测试数据输出 (**TDO**) TDO 是将 **数据从芯片发送出去** 的引脚。
+* 测试复位 (**TRST**) 输入 可选的 TRST 将有限状态机 **重置为已知良好状态**。或者，如果 TMS 在连续五个时钟周期内保持为 1，则会调用复位，方式与 TRST 引脚相同，这就是 TRST 是可选的原因。
 
-Soms sal jy in staat wees om daardie penne op die PCB gemerk te vind. In ander gevalle mag jy moet **hulle vind**.
+有时您可以在 PCB 上找到标记的引脚。在其他情况下，您可能需要 **找到它们**。
 
-### Identifisering van JTAG penne
+### 识别 JTAG 引脚
 
-Die vinnigste maar duurste manier om JTAG-poorte te detecteer, is deur die gebruik van die **JTAGulator**, 'n toestel wat spesifiek vir hierdie doel geskep is (alhoewel dit **ook UART pinouts kan opspoor**).
+检测 JTAG 端口的最快但最昂贵的方法是使用 **JTAGulator**，这是一种专门为此目的创建的设备（尽管它也可以 **检测 UART 引脚**）。
 
-Dit het **24 kanale** wat jy aan die bord se penne kan koppel. Dan voer dit 'n **BF-aanval** van al die moontlike kombinasies uit deur **IDCODE** en **BYPASS** grens skandeeropdragte te stuur. As dit 'n antwoord ontvang, vertoon dit die kanaal wat ooreenstem met elke JTAG sein.
+它有 **24 个通道**，您可以将其连接到电路板引脚。然后，它执行所有可能组合的 **BF 攻击**，发送 **IDCODE** 和 **BYPASS** 边界扫描命令。如果收到响应，它会显示每个 JTAG 信号对应的通道。
 
-'n Goedkoper maar baie stadiger manier om JTAG pinouts te identifiseer, is deur die [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) op 'n Arduino-ondersteunde mikrobeheerder te laai.
+识别 JTAG 引脚的更便宜但速度较慢的方法是使用 [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) 加载在 Arduino 兼容的微控制器上。
 
-Met **JTAGenum** sal jy eers die **penne van die proef toestel** wat jy vir die enumerasie gaan gebruik, moet **definieer**. Jy sal die toestel se penuitdiagram moet verwys, en dan hierdie penne met die toetspunte op jou teiken toestel verbind.
+使用 **JTAGenum**，您首先需要 **定义您将用于枚举的探测设备的引脚**。您需要参考设备的引脚图，然后将这些引脚与目标设备上的测试点连接。
 
-'n **Derde manier** om JTAG penne te identifiseer, is deur die **PCB te inspekteer** vir een van die pinouts. In sommige gevalle mag PCB's gerieflik die **Tag-Connect-interface** bied, wat 'n duidelike aanduiding is dat die bord ook 'n JTAG-connector het. Jy kan sien hoe daardie interface lyk by [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Boonop kan die inspeksie van die **datasheets van die chipsets op die PCB** pinuitdiagramme onthul wat na JTAG interfaces dui.
+识别 JTAG 引脚的 **第三种方法** 是通过 **检查 PCB** 中的引脚图。在某些情况下，PCB 可能方便地提供 **Tag-Connect 接口**，这清楚地表明该电路板也具有 JTAG 连接器。您可以在 [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/) 查看该接口的外观。此外，检查 PCB 上芯片组的 **数据手册** 可能会揭示指向 JTAG 接口的引脚图。
 
 ## SDW
 
-SWD is 'n ARM-spesifieke protokol wat ontwerp is vir foutopsporing.
+SWD 是一种专为调试设计的 ARM 特定协议。
 
-Die SWD-interface vereis **twee penne**: 'n bidireksionele **SWDIO** sein, wat die ekwivalent is van JTAG se **TDI en TDO penne en 'n klok**, en **SWCLK**, wat die ekwivalent is van **TCK** in JTAG. Baie toestelle ondersteun die **Serial Wire of JTAG Debug Port (SWJ-DP)**, 'n gekombineerde JTAG en SWD-interface wat jou in staat stel om óf 'n SWD óf JTAG-sonde aan die teiken te koppel.
-
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+SWD 接口需要 **两个引脚**：一个双向的 **SWDIO** 信号，相当于 JTAG 的 **TDI 和 TDO 引脚**，以及一个时钟 **SWCLK**，相当于 JTAG 中的 **TCK**。许多设备支持 **串行线或 JTAG 调试端口 (SWJ-DP)**，这是一个结合了 JTAG 和 SWD 接口的接口，使您能够将 SWD 或 JTAG 探头连接到目标。

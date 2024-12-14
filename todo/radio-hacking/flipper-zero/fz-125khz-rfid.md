@@ -1,16 +1,16 @@
 # FZ - 125kHz RFID
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -19,52 +19,52 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 {% embed url="https://websec.nl/" %}
 
-## Intro
+## 介绍
 
-Vir meer inligting oor hoe 125kHz etikette werk, kyk:
+有关 125kHz 标签工作原理的更多信息，请查看：
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Aksies
+## 操作
 
-Vir meer inligting oor hierdie tipes etikette [**lees hierdie inleiding**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
+有关这些类型标签的更多信息 [**请阅读此介绍**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz)。
 
-### Lees
+### 读取
 
-Probeer om die **kaartinligting** te **lees**. Dan kan dit **emuleer** word.
+尝试 **读取** 卡片信息。然后可以 **模拟** 它们。
 
 {% hint style="warning" %}
-Let daarop dat sommige interkoms probeer om hulself te beskerm teen sleutelduplisering deur 'n skryfopdrag te stuur voordat hulle lees. As die skryf suksesvol is, word daardie etiket as vals beskou. Wanneer Flipper RFID emuleer, is daar geen manier vir die leser om dit van die oorspronklike een te onderskei nie, so sulke probleme ontstaan nie.
+请注意，一些对讲机通过在读取之前发送写入命令来保护自己免受密钥复制。如果写入成功，则该标签被视为假标签。当 Flipper 模拟 RFID 时，读卡器无法将其与原始标签区分，因此不会出现此类问题。
 {% endhint %}
 
-### Voeg Handmatig By
+### 手动添加
 
-Jy kan **vals kaarte in Flipper Zero skep deur die data** wat jy handmatig invoer, en dit dan emuleer.
+您可以在 Flipper Zero 中创建 **假卡，指明您手动输入的数据**，然后模拟它。
 
-#### ID's op kaarte
+#### 卡片上的 ID
 
-Soms, wanneer jy 'n kaart kry, sal jy die ID (of deel daarvan) op die kaart sigbaar vind.
+有时，当您获得一张卡时，您会发现卡片上可见的 ID（或部分 ID）。
 
 * **EM Marin**
 
-Byvoorbeeld, in hierdie EM-Marin kaart is dit moontlik om die **laaste 3 van 5 bytes in duidelik** te **lees**.\
-Die ander 2 kan brute-forced word as jy dit nie van die kaart kan lees nie.
+例如，在这张 EM-Marin 卡中，物理卡上可以 **清晰地读取最后 3 个字节中的 5 个字节**。\
+如果您无法从卡片上读取其他 2 个字节，可以通过暴力破解来获取。
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Dieselfde gebeur in hierdie HID kaart waar slegs 2 van die 3 bytes op die kaart gedruk kan word.
+在这张 HID 卡中也是如此，只有 3 个字节中的 2 个可以在卡片上找到。
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
-### Emuleer/Skryf
+### 模拟/写入
 
-Na **kopieer** 'n kaart of **invoer** die ID **handmatig** is dit moontlik om dit met Flipper Zero te **emuleer** of dit in 'n werklike kaart te **skryf**.
+在 **复制** 一张卡或 **手动输入** ID 后，可以使用 Flipper Zero **模拟** 它或 **将其写入** 一张真实卡片。
 
-## Verwysings
+## 参考
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
@@ -73,16 +73,16 @@ Na **kopieer** 'n kaart of **invoer** die ID **handmatig** is dit moontlik om di
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

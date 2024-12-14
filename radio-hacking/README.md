@@ -1,3 +1,1 @@
-# Radio Hak
-
-Hierdie gids bevat tegnieke en inligting oor die hak van radio kommunikasie.
+# 无线电黑客技术

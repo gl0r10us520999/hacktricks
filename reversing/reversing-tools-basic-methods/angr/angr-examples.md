@@ -1,27 +1,27 @@
-# Angr - Voorbeelde
+# Angr - 示例
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 {% hint style="info" %}
-As die program `scanf` gebruik om **verskeie waardes gelyktydig van stdin** te kry, moet jy 'n toestand genereer wat begin na die **`scanf`**.
+如果程序使用 `scanf` 从 stdin **一次获取多个值**，您需要生成一个在 **`scanf`** 之后开始的状态。
 {% endhint %}
 
-Kodes geneem van [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+代码来自 [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
-### Invoer om adres te bereik (wat die adres aandui)
+### 输入以到达地址（指示地址）
 ```python
 import angr
 import sys
@@ -54,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Invoer om adres te bereik (aanduiding van afdrukke)
+### 输入以到达地址（指示打印）
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -89,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Registriewaarde
+### 注册表值
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -153,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Stapelwaarde
+### 堆栈值
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -215,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-In hierdie scenario is die invoer geneem met `scanf("%u %u")` en die waarde `"1 1"` is gegee, so die waardes **`0x00000001`** van die stapel kom van die **gebruikersinvoer**. Jy kan sien hoe hierdie waardes begin in `$ebp - 8`. Daarom het ons in die kode **8 bytes van `$esp` afgetrek (soos in daardie oomblik `$ebp` en `$esp` dieselfde waarde gehad het)** en toe het ons die BVS gepush.
+在这个场景中，输入是通过 `scanf("%u %u")` 获取的，给定的值是 `"1 1"`，因此栈中的值 **`0x00000001`** 来自 **用户输入**。你可以看到这些值从 `$ebp - 8` 开始。因此，在代码中我们 **从 `$esp` 中减去了 8 字节（因为那时 `$ebp` 和 `$esp` 的值是相同的）**，然后我们推送了 BVS。
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Statiese Geheue waardes (Globale veranderlikes)
+### 静态内存值（全局变量）
 ```python
 import angr
 import claripy
@@ -280,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Dinamiese Geheue Waardes (Malloc)
+### 动态内存值 (Malloc)
 ```python
 import angr
 import claripy
@@ -339,7 +339,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Lêersimulering
+### 文件模拟
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -395,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
+请注意，符号文件也可能包含与符号数据合并的常量数据：
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,11 +418,11 @@ Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg 
 ```
 {% endhint %}
 
-### Toepassing van Beperkings
+### 应用约束
 
 {% hint style="info" %}
-Soms kos eenvoudige menslike operasies soos om 2 woorde van lengte 16 **karakter vir karakter** (lus) te vergelyk, **baie** vir **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
-Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die werklike moeilike deel reeds gedoen is) en **daardie beperkings handmatig in te stel**.
+有时简单的人类操作，比如逐个字符比较两个长度为16的单词（循环），对**angr**的**成本**非常高，因为它需要**指数**生成分支，因为每个if生成1个分支：`2^16`\
+因此，**让angr回到之前的点**（在那个地方真正困难的部分已经完成）并**手动设置这些约束**会更容易。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -495,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-In sommige scenario's kan jy **veritesting** aktiveer, wat soortgelyke status sal saamvoeg, om nuttelose takke te bespaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+在某些情况下，您可以激活 **veritesting**，这将合并相似的状态，以节省无用的分支并找到解决方案： `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Nog iets wat jy in hierdie scenario's kan doen, is om die **funksie te hook wat angr iets gee wat dit makliker kan verstaan**.
+在这些情况下，您还可以做的另一件事是 **hook 函数，给 angr 一些它可以更容易理解的东西**。
 {% endhint %}
 
-### Simulasie Bestuurders
+### 模拟管理器
 
-Sommige simulasie bestuurders kan nuttiger wees as ander. In die vorige voorbeeld was daar 'n probleem aangesien baie nuttige takke geskep is. Hier sal die **veritesting** tegniek daardie saamvoeg en 'n oplossing vind.\
-Hierdie simulasie bestuurder kan ook geaktiveer word met: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+一些模拟管理器可能比其他的更有用。在前面的例子中，存在一个问题，因为创建了很多有用的分支。在这里，**veritesting** 技术将合并这些分支并找到解决方案。\
+此模拟管理器也可以通过以下方式激活： `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -543,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking/Bypassing een oproep na 'n funksie
+### Hooking/Bypassing 一次对函数的调用
 ```python
 # This level performs the following computations:
 #
@@ -695,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Simuleer scanf met verskeie parametre
+### 使用多个参数模拟 scanf
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -757,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Statiese Binaries
+### 静态二进制文件
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -825,16 +825,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

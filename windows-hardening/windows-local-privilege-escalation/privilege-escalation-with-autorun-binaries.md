@@ -1,36 +1,36 @@
 # Privilege Escalation with Autoruns
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien bounties tot **$100,000**!
+**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
-**Wmic** kan gebruik word om programme op **opstart** te loop. Sien watter binaries geprogrammeer is om opstart te loop met:
+**Wmic** 可以用来在 **启动时** 运行程序。查看哪些二进制文件被编程为在启动时运行：
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## Geskeduleerde Take
+## 定时任务
 
-**Take** kan geskeduleer word om met **sekere frekwensie** te loop. Sien watter binêre geskeduleer is om te loop met:
+**任务**可以按**特定频率**安排运行。查看哪些二进制文件被安排运行：
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-Alle die binêre lêers wat in die **Startup-mappe geleë is, gaan by opstart uitgevoer word**. Die algemene opstartmappe is diegene wat hieronder gelys is, maar die opstartmap word in die register aangedui. [Lees dit om te leer waar.](privilege-escalation-with-autorun-binaries.md#startup-path)
+所有位于 **启动文件夹中的二进制文件将在启动时执行**。常见的启动文件夹如下所列，但启动文件夹在注册表中指示。[阅读此以了解在哪里。](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -52,15 +52,15 @@ dir /b "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul
 Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
 Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ```
-## Registry
+## 注册表
 
 {% hint style="info" %}
-[Nota van hier](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): Die **Wow6432Node** registrasie-invoer dui aan dat jy 'n 64-bis Windows weergawe gebruik. Die bedryfstelsel gebruik hierdie sleutel om 'n aparte weergawe van HKEY\_LOCAL\_MACHINE\SOFTWARE vir 32-bis toepassings wat op 64-bis Windows weergawes loop, te vertoon.
+[此处的说明](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f)：**Wow6432Node** 注册表项表示您正在运行 64 位 Windows 版本。操作系统使用此键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY\_LOCAL\_MACHINE\SOFTWARE 的单独视图。
 {% endhint %}
 
-### Runs
+### 运行
 
-**Algemeen bekend** AutoRun registrasie:
+**常见的** AutoRun 注册表：
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -74,9 +74,9 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Registrasie sleutels bekend as **Run** en **RunOnce** is ontwerp om outomaties programme uit te voer elke keer wanneer 'n gebruiker in die stelsel aanmeld. Die opdraglyn wat as 'n sleutel se datavalue toegeken word, is beperk tot 260 karakters of minder.
+被称为 **Run** 和 **RunOnce** 的注册表项旨在每次用户登录系统时自动执行程序。分配为键的数据值的命令行限制为 260 个字符或更少。
 
-**Diens runs** (kan outomatiese opstart van dienste tydens opstart beheer):
+**服务运行**（可以控制启动时服务的自动启动）：
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -87,21 +87,21 @@ Registrasie sleutels bekend as **Run** en **RunOnce** is ontwerp om outomaties p
 * `HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
 * `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunServices`
 
-**RunOnceEx:**
+**RunOnceEx：**
 
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Op Windows Vista en later weergawes, word die **Run** en **RunOnce** registrasie sleutels nie outomaties gegenereer nie. Invoere in hierdie sleutels kan of direkte programme begin of hulle as afhanklikhede spesifiseer. Byvoorbeeld, om 'n DLL-lêer by aanmelding te laai, kan 'n mens die **RunOnceEx** registrasie sleutel saam met 'n "Depend" sleutel gebruik. Dit word demonstreer deur 'n registrasie-invoer toe te voeg om "C:\temp\evil.dll" tydens die stelsels opstart uit te voer:
+在 Windows Vista 及更高版本中，**Run** 和 **RunOnce** 注册表项不会自动生成。这些键中的条目可以直接启动程序或将其指定为依赖项。例如，要在登录时加载 DLL 文件，可以使用 **RunOnceEx** 注册表项以及一个 "Depend" 键。这通过添加一个注册表项来演示在系统启动时执行 "C:\temp\evil.dll"：
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Exploit 1**: As jy binne enige van die genoemde register in **HKLM** kan skryf, kan jy privaathede verhoog wanneer 'n ander gebruiker aanmeld.
+**利用 1**：如果您可以在 **HKLM** 中的任何提到的注册表项内写入，则可以在不同用户登录时提升权限。
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2**: As jy enige van die binêre wat op enige van die register in **HKLM** aangedui is, kan oorskryf, kan jy daardie binêre met 'n backdoor wysig wanneer 'n ander gebruiker aanmeld en privaathede verhoog.
+**利用 2**：如果您可以覆盖 **HKLM** 中任何注册表项上指示的任何二进制文件，则可以在不同用户登录时用后门修改该二进制文件并提升权限。
 {% endhint %}
 ```bash
 #CMD
@@ -158,17 +158,17 @@ Get-ItemProperty -Path 'Registry::HKLM\Software\Wow6432Node\Microsoft\Windows\Ru
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\RunOnceEx'
 Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\RunOnceEx'
 ```
-### Startup Path
+### 启动路径
 
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Kortpaaie wat in die **Startup** gids geplaas word, sal outomaties dienste of toepassings aktiveer om te begin tydens gebruikersaanmelding of stelselhervatting. Die ligging van die **Startup** gids is in die register gedefinieer vir beide die **Local Machine** en **Current User** skope. Dit beteken enige kortpad wat by hierdie gespesifiseerde **Startup** plekke gevoeg word, sal verseker dat die gekoppelde diens of program begin na die aanmeld- of herlaai-proses, wat dit 'n eenvoudige metode maak om programme outomaties te skeduleer.
+放置在**启动**文件夹中的快捷方式将在用户登录或系统重启时自动触发服务或应用程序启动。**启动**文件夹的位置在注册表中为**本地计算机**和**当前用户**范围定义。这意味着添加到这些指定**启动**位置的任何快捷方式都将确保链接的服务或程序在登录或重启过程后启动，使其成为调度程序自动运行的简单方法。
 
 {% hint style="info" %}
-As jy enige \[User] Shell Folder onder **HKLM** kan oorskryf, sal jy in staat wees om dit na 'n gids wat deur jou beheer word, te wys en 'n backdoor te plaas wat uitgevoer sal word wanneer 'n gebruiker in die stelsel aanmeld, wat privilige verhoog.
+如果您可以覆盖**HKLM**下的任何\[User] Shell Folder，您将能够将其指向您控制的文件夹，并放置一个后门，该后门将在用户登录系统时执行，从而提升权限。
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -181,11 +181,11 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-### Winlogon Sleutels
+### Winlogon 键
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Tipies is die **Userinit** sleutel op **userinit.exe** gestel. As hierdie sleutel egter gewysig word, sal die gespesifiseerde uitvoerbare lêer ook deur **Winlogon** begin word wanneer die gebruiker aanmeld. Op soortgelyke wyse is die **Shell** sleutel bedoel om na **explorer.exe** te verwys, wat die standaard skulp is vir Windows.
+通常，**Userinit** 键设置为 **userinit.exe**。然而，如果此键被修改，指定的可执行文件将在用户登录时由 **Winlogon** 启动。同样，**Shell** 键旨在指向 **explorer.exe**，这是 Windows 的默认外壳。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -193,15 +193,15 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-As jy die registriewaarde of die binêre kan oorskryf, sal jy in staat wees om voorregte te verhoog.
+如果您可以覆盖注册表值或二进制文件，您将能够提升权限。
 {% endhint %}
 
-### Beleid Instellings
+### 策略设置
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 
-Kontroleer **Run** sleutel.
+检查 **Run** 键。
 ```bash
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
@@ -210,85 +210,85 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 ```
 ### AlternateShell
 
-### Verandering van die Veilige Modus Opdragprompt
+### 更改安全模式命令提示符
 
-In die Windows-register onder `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, is daar 'n **`AlternateShell`** waarde wat standaard op `cmd.exe` gestel is. Dit beteken wanneer jy "Veilige Modus met Opdragprompt" tydens opstart (deur F8 te druk) kies, word `cmd.exe` gebruik. Maar, dit is moontlik om jou rekenaar op te stel om outomaties in hierdie modus te begin sonder om F8 te druk en dit handmatig te kies.
+在 Windows 注册表的 `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` 下，默认设置有一个 **`AlternateShell`** 值为 `cmd.exe`。这意味着当你在启动时选择“带命令提示符的安全模式”（通过按 F8），将使用 `cmd.exe`。但是，可以设置计算机在不需要按 F8 和手动选择的情况下自动以此模式启动。
 
-Stappe om 'n opstartopsie te skep vir outomatiese begin in "Veilige Modus met Opdragprompt":
+创建自动在“带命令提示符的安全模式”中启动的启动选项的步骤：
 
-1. Verander eienskappe van die `boot.ini` lêer om lees-alleen, stelsels, en versteekte vlae te verwyder: `attrib c:\boot.ini -r -s -h`
-2. Maak `boot.ini` oop vir redigering.
-3. Voeg 'n lyn soos: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)` in.
-4. Stoor veranderinge aan `boot.ini`.
-5. Herstel die oorspronklike lêereienskap: `attrib c:\boot.ini +r +s +h`
+1. 更改 `boot.ini` 文件的属性以移除只读、系统和隐藏标志： `attrib c:\boot.ini -r -s -h`
+2. 打开 `boot.ini` 进行编辑。
+3. 插入一行，如： `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+4. 保存对 `boot.ini` 的更改。
+5. 重新应用原始文件属性： `attrib c:\boot.ini +r +s +h`
 
-* **Exploit 1:** Die verandering van die **AlternateShell** register sleutel laat 'n pasgemaakte opdragskulp opstelling toe, moontlik vir ongeoorloofde toegang.
-* **Exploit 2 (PATH Skryf Toestemmings):** Om skryftoestemmings te hê na enige deel van die stelsel **PATH** veranderlike, veral voor `C:\Windows\system32`, laat jou toe om 'n pasgemaakte `cmd.exe` uit te voer, wat 'n agterdeur kan wees as die stelsel in Veilige Modus begin.
-* **Exploit 3 (PATH en boot.ini Skryf Toestemmings):** Skryf toegang tot `boot.ini` stel outomatiese Veilige Modus opstart in staat, wat ongeoorloofde toegang op die volgende herbegin vergemaklik.
+* **Exploit 1:** 更改 **AlternateShell** 注册表键允许自定义命令 shell 设置，可能用于未经授权的访问。
+* **Exploit 2 (PATH 写权限):** 对系统 **PATH** 变量的任何部分具有写权限，特别是在 `C:\Windows\system32` 之前，可以执行自定义的 `cmd.exe`，如果系统在安全模式下启动，这可能是一个后门。
+* **Exploit 3 (PATH 和 boot.ini 写权限):** 对 `boot.ini` 的写访问权限使得自动安全模式启动成为可能，从而在下次重启时促进未经授权的访问。
 
-Om die huidige **AlternateShell** instelling te kontroleer, gebruik hierdie opdragte:
+要检查当前的 **AlternateShell** 设置，请使用以下命令：
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Gemonteerde Komponent
+### 已安装组件
 
-Active Setup is 'n kenmerk in Windows wat **begin voordat die desktopomgewing ten volle gelaai is**. Dit prioritiseer die uitvoering van sekere opdragte, wat moet voltooi voordat die gebruiker se aanmelding voortgaan. Hierdie proses vind plaas selfs voordat ander opstartinge, soos dié in die Run of RunOnce registries, geaktiveer word.
+Active Setup 是 Windows 中的一个功能，它**在桌面环境完全加载之前启动**。它优先执行某些命令，这些命令必须在用户登录之前完成。这个过程甚至在其他启动项（如 Run 或 RunOnce 注册表部分）被触发之前就会发生。
 
-Active Setup word bestuur deur die volgende registriesleutels:
+Active Setup 通过以下注册表键进行管理：
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Binne hierdie sleutels bestaan verskeie subsleutels, elk wat ooreenstem met 'n spesifieke komponent. Sleutelwaardes van besondere belang sluit in:
+在这些键中，存在各种子键，每个子键对应一个特定组件。特别关注的键值包括：
 
 * **IsInstalled:**
-* `0` dui aan dat die komponent se opdrag nie sal uitvoer nie.
-* `1` beteken die opdrag sal een keer vir elke gebruiker uitvoer, wat die standaardgedrag is as die `IsInstalled` waarde ontbreek.
-* **StubPath:** Definieer die opdrag wat deur Active Setup uitgevoer moet word. Dit kan enige geldige opdraglyn wees, soos om `notepad` te begin.
+* `0` 表示该组件的命令将不会执行。
+* `1` 表示命令将为每个用户执行一次，如果缺少 `IsInstalled` 值，则这是默认行为。
+* **StubPath:** 定义 Active Setup 要执行的命令。它可以是任何有效的命令行，例如启动 `notepad`。
 
-**Sekuriteitsinsigte:**
+**安全洞察：**
 
-* Om 'n sleutel te wysig of na 'n sleutel te skryf waar **`IsInstalled`** op `"1"` gestel is met 'n spesifieke **`StubPath`** kan lei tot ongeoorloofde opdraguitvoering, moontlik vir privilige-escalasie.
-* Om die binêre lêer wat in enige **`StubPath`** waarde verwys, te verander kan ook privilige-escalasie bereik, gegewe voldoende regte.
+* 修改或写入 **`IsInstalled`** 设置为 `"1"` 的键，并指定 **`StubPath`** 可能导致未经授权的命令执行，从而可能导致权限提升。
+* 更改任何 **`StubPath`** 值中引用的二进制文件也可能实现权限提升，前提是具有足够的权限。
 
-Om die **`StubPath`** konfigurasies oor Active Setup komponente te inspekteer, kan hierdie opdragte gebruik word:
+要检查 Active Setup 组件中的 **`StubPath`** 配置，可以使用以下命令：
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-### Browser Helper Objects
+### 浏览器助手对象
 
-### Oorsig van Browser Helper Objects (BHOs)
+### 浏览器助手对象 (BHO) 概述
 
-Browser Helper Objects (BHOs) is DLL-modules wat ekstra funksies by Microsoft se Internet Explorer voeg. Hulle laai in Internet Explorer en Windows Explorer by elke begin. Tog kan hul uitvoering geblokkeer word deur die **NoExplorer** sleutel op 1 te stel, wat voorkom dat hulle saam met Windows Explorer-instansies laai.
+浏览器助手对象 (BHO) 是 DLL 模块，为微软的 Internet Explorer 添加额外功能。它们在每次启动时加载到 Internet Explorer 和 Windows Explorer 中。然而，通过将 **NoExplorer** 键设置为 1，可以阻止它们的执行，从而防止它们与 Windows Explorer 实例一起加载。
 
-BHOs is versoenbaar met Windows 10 via Internet Explorer 11, maar word nie ondersteun in Microsoft Edge, die standaardblaaier in nuwer weergawes van Windows nie.
+BHO 通过 Internet Explorer 11 与 Windows 10 兼容，但在较新版本的 Windows 中的默认浏览器 Microsoft Edge 中不受支持。
 
-Om BHOs wat op 'n stelsel geregistreer is te verken, kan jy die volgende registrasiesleutels inspekteer:
+要探索系统上注册的 BHO，可以检查以下注册表键：
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Elke BHO word verteenwoordig deur sy **CLSID** in die registrasie, wat as 'n unieke identifiseerder dien. Gedetailleerde inligting oor elke CLSID kan onder `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` gevind word.
+每个 BHO 在注册表中由其 **CLSID** 表示，作为唯一标识符。有关每个 CLSID 的详细信息可以在 `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` 下找到。
 
-Vir die opvra van BHOs in die registrasie, kan hierdie opdragte gebruik word:
+要在注册表中查询 BHO，可以使用以下命令：
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-### Internet Explorer Uitbreidings
+### Internet Explorer 扩展
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Let daarop dat die registrasie 1 nuwe registrasie per elke dll sal bevat en dit sal verteenwoordig word deur die **CLSID**. Jy kan die CLSID-inligting vind in `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+注意，注册表将为每个 dll 包含 1 个新的注册表项，并由 **CLSID** 表示。您可以在 `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` 中找到 CLSID 信息。
 
-### Lettertipe bestuurders
+### 字体驱动程序
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -298,7 +298,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Dr
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-### Open Command
+### 打开命令
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
@@ -308,22 +308,22 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command" /v ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Classes\htmlfile\shell\open\command' -Name ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command' -Name ""
 ```
-### Beeldlêer Uitvoeringsopsies
+### 图像文件执行选项
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-Let daarop dat al die webwerwe waar jy autoruns kan vind **reeds deur**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe) gesoek is. egter, vir 'n **meer omvattende lys van outomaties uitgevoerde** lêers kan jy [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) van sysinternals gebruik:
+请注意，您可以找到 autoruns 的所有站点 **已经被**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe) **搜索过**。然而，对于 **更全面的自动执行** 文件列表，您可以使用来自 Sysinternals 的 [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
-## Meer
+## 更多
 
-**Vind meer Autoruns soos registries in** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
+**在** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2) **中查找更多类似的自动运行注册表。**
 
-## Verwysings
+## 参考文献
 
 * [https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref](https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref)
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
@@ -332,21 +332,21 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin om bounties tot **$100,000** te verdien!
+**漏洞赏金提示**：**注册** **Intigriti**，一个由黑客为黑客创建的高级**漏洞赏金平台**！今天就加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的赏金！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客攻击： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

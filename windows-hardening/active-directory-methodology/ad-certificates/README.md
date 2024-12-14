@@ -1,117 +1,117 @@
 # AD Certificates
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Introduction
+## 介绍
 
-### Components of a Certificate
+### 证书的组成部分
 
-- Die **Onderwerp** van die sertifikaat dui sy eienaar aan.
-- 'n **Publieke Sleutel** word gekoppel aan 'n privaat besit sleutel om die sertifikaat aan sy regmatige eienaar te verbind.
-- Die **Geldigheidsperiode**, gedefinieer deur **NotBefore** en **NotAfter** datums, merk die sertifikaat se effektiewe duur.
-- 'n unieke **Serienommer**, verskaf deur die Sertifikaatowerheid (CA), identifiseer elke sertifikaat.
-- Die **Uitgewer** verwys na die CA wat die sertifikaat uitgereik het.
-- **SubjectAlternativeName** laat vir addisionele name vir die onderwerp, wat identifikasiefleksibiliteit verbeter.
-- **Basiese Beperkings** identifiseer of die sertifikaat vir 'n CA of 'n eindentiteit is en definieer gebruiksbeperkings.
-- **Verlengde Sleutelgebruik (EKUs)** delineer die sertifikaat se spesifieke doele, soos kodeondertekening of e-posversleuteling, deur middel van Objektidentifiseerders (OIDs).
-- Die **Handtekening Algoritme** spesifiseer die metode vir die ondertekening van die sertifikaat.
-- Die **Handtekening**, geskep met die uitgewer se privaat sleutel, waarborg die sertifikaat se egtheid.
+- 证书的 **主题** 表示其所有者。
+- **公钥** 与私有密钥配对，将证书与其合法所有者关联。
+- **有效期** 由 **NotBefore** 和 **NotAfter** 日期定义，标记证书的有效持续时间。
+- 由证书颁发机构 (CA) 提供的唯一 **序列号** 标识每个证书。
+- **颁发者** 指的是颁发证书的 CA。
+- **SubjectAlternativeName** 允许为主题提供额外名称，增强识别灵活性。
+- **基本约束** 确定证书是用于 CA 还是终端实体，并定义使用限制。
+- **扩展密钥用途 (EKUs)** 通过对象标识符 (OIDs) 划定证书的特定用途，如代码签名或电子邮件加密。
+- **签名算法** 指定签署证书的方法。
+- **签名** 由颁发者的私钥创建，保证证书的真实性。
 
-### Special Considerations
+### 特殊考虑
 
-- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na verskeie identiteite, wat noodsaaklik is vir bedieners met verskeie domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en sodoende identiteitsdiefstal veroorsaak.
+- **主题备用名称 (SANs)** 扩展证书的适用性到多个身份，对于具有多个域的服务器至关重要。安全的颁发流程对于避免攻击者操纵 SAN 规范而导致的冒充风险至关重要。
 
-### Certificate Authorities (CAs) in Active Directory (AD)
+### Active Directory (AD) 中的证书颁发机构 (CAs)
 
-AD CS erken CA sertifikate in 'n AD-woud deur middel van aangewese houers, elk wat unieke rolle dien:
+AD CS 通过指定的容器在 AD 林中承认 CA 证书，每个容器承担独特角色：
 
-- Die **Sertifiseringsowerhede** houer bevat vertroude wortel CA sertifikate.
-- Die **Inskrywingsdienste** houer bevat Enterprise CA's en hul sertifikaat sjablone.
-- Die **NTAuthCertificates** objek sluit CA sertifikate in wat gemagtig is vir AD-outehentisering.
-- Die **AIA (Authority Information Access)** houer fasiliteer sertifikaatkettingvalidasie met tussenliggende en kruis CA sertifikate.
+- **Certification Authorities** 容器保存受信任的根 CA 证书。
+- **Enrolment Services** 容器详细说明企业 CA 及其证书模板。
+- **NTAuthCertificates** 对象包括被授权用于 AD 认证的 CA 证书。
+- **AIA (Authority Information Access)** 容器通过中间和交叉 CA 证书促进证书链验证。
 
-### Certificate Acquisition: Client Certificate Request Flow
+### 证书获取：客户端证书请求流程
 
-1. Die versoekproses begin met kliënte wat 'n Enterprise CA vind.
-2. 'n CSR word geskep, wat 'n publieke sleutel en ander besonderhede bevat, na die generering van 'n publieke-privaat sleutel paar.
-3. Die CA evalueer die CSR teenoor beskikbare sertifikaat sjablone, en stel die sertifikaat uit op grond van die sjabloon se toestemmings.
-4. Na goedkeuring, onderteken die CA die sertifikaat met sy privaat sleutel en keer dit terug na die kliënt.
+1. 请求过程从客户端查找企业 CA 开始。
+2. 在生成公私钥对后，创建包含公钥和其他详细信息的 CSR。
+3. CA 根据可用证书模板评估 CSR，并根据模板的权限颁发证书。
+4. 经批准后，CA 用其私钥签署证书并将其返回给客户端。
 
-### Certificate Templates
+### 证书模板
 
-Gedefinieer binne AD, skets hierdie sjablone die instellings en toestemmings vir die uitreiking van sertifikate, insluitend toegelate EKUs en inskrywings- of wysigingsregte, wat krities is vir die bestuur van toegang tot sertifikaatdienste.
+在 AD 中定义，这些模板概述了颁发证书的设置和权限，包括允许的 EKUs 和注册或修改权限，对于管理证书服务的访问至关重要。
 
-## Certificate Enrollment
+## 证书注册
 
-Die inskrywingsproses vir sertifikate word geinitieer deur 'n administrateur wat **'n sertifikaat sjabloon skep**, wat dan **gepubliseer** word deur 'n Enterprise Sertifikaatowerheid (CA). Dit maak die sjabloon beskikbaar vir kliëntinskrywing, 'n stap wat bereik word deur die sjabloon se naam by die `certificatetemplates` veld van 'n Active Directory objek te voeg.
+证书的注册过程由管理员 **创建证书模板** 开始，然后由企业证书颁发机构 (CA) **发布**。这使得模板可用于客户端注册，此步骤通过将模板名称添加到 Active Directory 对象的 `certificatetemplates` 字段来实现。
 
-Vir 'n kliënt om 'n sertifikaat aan te vra, moet **inskrywingsregte** toegeken word. Hierdie regte word gedefinieer deur sekuriteitsbeskrywings op die sertifikaat sjabloon en die Enterprise CA self. Toestemmings moet in beide plekke toegeken word vir 'n versoek om suksesvol te wees.
+为了让客户端请求证书，必须授予 **注册权限**。这些权限由证书模板和企业 CA 本身的安全描述符定义。必须在两个位置授予权限，才能成功请求。
 
-### Template Enrollment Rights
+### 模板注册权限
 
-Hierdie regte word gespesifiseer deur middel van Toegang Beheer Inskrywings (ACEs), wat toestemmings soos:
-- **Sertifikaat-Inskrywing** en **Sertifikaat-AutoInskrywing** regte, elk geassosieer met spesifieke GUIDs.
-- **VerlengdeRegte**, wat alle verlengde toestemmings toelaat.
-- **VolleBeheer/GemiddeldAlles**, wat volledige beheer oor die sjabloon bied.
+这些权限通过访问控制条目 (ACEs) 指定，详细说明权限，如：
+- **Certificate-Enrollment** 和 **Certificate-AutoEnrollment** 权限，每个权限与特定 GUID 相关联。
+- **ExtendedRights**，允许所有扩展权限。
+- **FullControl/GenericAll**，提供对模板的完全控制。
 
-### Enterprise CA Enrollment Rights
+### 企业 CA 注册权限
 
-Die CA se regte word uiteengesit in sy sekuriteitsbeskrywing, toeganklik via die Sertifikaatowerheid bestuurskonsol. Sommige instellings laat selfs laag-geprivilegieerde gebruikers afstandstoegang toe, wat 'n sekuriteitskwessie kan wees.
+CA 的权限在其安全描述符中列出，可以通过证书颁发机构管理控制台访问。有些设置甚至允许低权限用户远程访问，这可能是一个安全隐患。
 
-### Additional Issuance Controls
+### 额外的颁发控制
 
-Sekere kontroles mag van toepassing wees, soos:
-- **Bestuurder Goedkeuring**: Plaas versoeke in 'n hangende toestand totdat dit deur 'n sertifikaatbestuurder goedgekeur word.
-- **Inskrywingsagente en Gemagtigde Handtekeninge**: Spesifiseer die aantal vereiste handtekeninge op 'n CSR en die nodige Aansoekbeleid OIDs.
+某些控制可能适用，例如：
+- **经理批准**：将请求置于待处理状态，直到由证书经理批准。
+- **注册代理和授权签名**：指定 CSR 上所需的签名数量和必要的应用程序策略 OIDs。
 
-### Methods to Request Certificates
+### 请求证书的方法
 
-Sertifikate kan aangevra word deur:
-1. **Windows Kliënt Sertifikaat Inskrywing Protokol** (MS-WCCE), met DCOM interfaces.
-2. **ICertPassage Afstand Protokol** (MS-ICPR), deur middel van benoemde pype of TCP/IP.
-3. Die **sertifikaat inskrywings web koppelvlak**, met die Sertifikaatowerheid Web Inskrywing rol geïnstalleer.
-4. Die **Sertifikaat Inskrywingsdiens** (CES), in samewerking met die Sertifikaat Inskrywing Beleid (CEP) diens.
-5. Die **Netwerk Toestel Inskrywing Diens** (NDES) vir netwerk toestelle, met die gebruik van die Eenvoudige Sertifikaat Inskrywing Protokol (SCEP).
+可以通过以下方式请求证书：
+1. **Windows 客户端证书注册协议** (MS-WCCE)，使用 DCOM 接口。
+2. **ICertPassage 远程协议** (MS-ICPR)，通过命名管道或 TCP/IP。
+3. **证书注册 Web 界面**，安装了证书颁发机构 Web 注册角色。
+4. **证书注册服务** (CES)，与证书注册策略 (CEP) 服务结合使用。
+5. **网络设备注册服务** (NDES) 用于网络设备，使用简单证书注册协议 (SCEP)。
 
-Windows gebruikers kan ook sertifikate aan vra via die GUI (`certmgr.msc` of `certlm.msc`) of opdraglyn gereedskap (`certreq.exe` of PowerShell se `Get-Certificate` opdrag).
+Windows 用户还可以通过 GUI (`certmgr.msc` 或 `certlm.msc`) 或命令行工具 (`certreq.exe` 或 PowerShell 的 `Get-Certificate` 命令) 请求证书。
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Sertifikaat Verifikasie
+## 证书认证
 
-Active Directory (AD) ondersteun sertifikaat verifikasie, hoofsaaklik deur gebruik te maak van **Kerberos** en **Secure Channel (Schannel)** protokolle.
+Active Directory (AD) 支持证书认证，主要利用 **Kerberos** 和 **安全通道 (Schannel)** 协议。
 
-### Kerberos Verifikasie Proses
+### Kerberos 认证过程
 
-In die Kerberos verifikasie proses, word 'n gebruiker se versoek vir 'n Ticket Granting Ticket (TGT) onderteken met die **privaat sleutel** van die gebruiker se sertifikaat. Hierdie versoek ondergaan verskeie validerings deur die domeinbeheerder, insluitend die sertifikaat se **geldigheid**, **pad**, en **herroepingstatus**. Validerings sluit ook in om te verifieer dat die sertifikaat van 'n vertroude bron kom en om die uitreiker se teenwoordigheid in die **NTAUTH sertifikaat stoor** te bevestig. Suksesvolle validerings lei tot die uitreiking van 'n TGT. Die **`NTAuthCertificates`** objek in AD, gevind by:
+在 Kerberos 认证过程中，用户请求票证授予票证 (TGT) 的请求使用用户证书的 **私钥** 进行签名。该请求经过域控制器的多个验证，包括证书的 **有效性**、**路径** 和 **撤销状态**。验证还包括确认证书来自受信任的来源，并确认发行者在 **NTAUTH 证书存储** 中的存在。成功的验证将导致 TGT 的发放。AD 中的 **`NTAuthCertificates`** 对象位于：
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-is sentraal tot die vestiging van vertroue vir sertifikaatverifikasie.
+is central to establishing trust for certificate authentication.
 
-### Veilige Kanaal (Schannel) Verifikasie
+### Secure Channel (Schannel) Authentication
 
-Schannel fasiliteer veilige TLS/SSL verbindings, waar tydens 'n handdruk, die kliënt 'n sertifikaat aanbied wat, indien suksesvol geverifieer, toegang magtig. Die toewysing van 'n sertifikaat aan 'n AD-rekening kan die Kerberos se **S4U2Self** funksie of die sertifikaat se **Subject Alternative Name (SAN)** insluit, onder andere metodes.
+Schannel 促进安全的 TLS/SSL 连接，在握手过程中，客户端提供一个证书，如果成功验证，则授权访问。将证书映射到 AD 账户可能涉及 Kerberos 的 **S4U2Self** 函数或证书的 **Subject Alternative Name (SAN)**，以及其他方法。
 
-### AD Sertifikaat Dienste Enumerasie
+### AD Certificate Services Enumeration
 
-AD se sertifikaatdienste kan deur LDAP navrae gelys word, wat inligting oor **Enterprise Certificate Authorities (CAs)** en hul konfigurasies onthul. Dit is toeganklik vir enige domein-geverifieerde gebruiker sonder spesiale voorregte. Gereedskap soos **[Certify](https://github.com/GhostPack/Certify)** en **[Certipy](https://github.com/ly4k/Certipy)** word gebruik vir enumerasie en kwesbaarheidsevaluering in AD CS omgewings.
+AD 的证书服务可以通过 LDAP 查询进行枚举，揭示有关 **Enterprise Certificate Authorities (CAs)** 及其配置的信息。这对任何经过域身份验证的用户都是可访问的，无需特殊权限。工具如 **[Certify](https://github.com/GhostPack/Certify)** 和 **[Certipy](https://github.com/ly4k/Certipy)** 用于在 AD CS 环境中进行枚举和漏洞评估。
 
-Opdragte om hierdie gereedskap te gebruik sluit in:
+Commands for using these tools include:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -125,22 +125,22 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-## Verwysings
+## 参考文献
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

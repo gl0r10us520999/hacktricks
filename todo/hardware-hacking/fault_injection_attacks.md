@@ -1,5 +1,5 @@
-# Foutinspuutaanvalle
+# Fault Injection Attacks
 
-Foutinspuutaanvalle sluit in die invoer van eksterne steurings in elektroniese stroombane om sy gedrag te beïnvloed, wat kan lei tot die bekendmaking van inligting of selfs die omseil van sekere beperkings in die stroombaan. Hierdie aanvalle skep baie moontlikhede vir die aanval van elektroniese stroombane. Hierdie aanval word ook verwys as die foutiewe werking van elektroniese stroombane.
+故障注入攻击包括在电子电路中引入外部干扰，以影响其行为，从而泄露信息或甚至绕过电路中的某些限制。这种攻击为攻击电子电路打开了许多可能性。这种攻击也被称为电子电路的故障。
 
-Daar is baie metodes en mediums om 'n fout in 'n elektroniese stroombaan in te spuit.
+有很多方法和媒介可以向电子电路注入故障。

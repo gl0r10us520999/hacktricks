@@ -1,31 +1,31 @@
-# Die Modbus-Protokol
+# Modbus协议
 
-## Inleiding tot die Modbus-Protokol
+## Modbus协议简介
 
-Die Modbus-protokol is 'n wyd gebruikte protokol in Industriële Outomatisering en Beheerstelsels. Modbus maak kommunikasie moontlik tussen verskeie toestelle soos programmeerbare logika-beheerders (PLC's), sensors, aktuators, en ander industriële toestelle. Die begrip van die Modbus-protokol is noodsaaklik aangesien dit die mees gebruikte kommunikasieprotokol in die ICS is en 'n groot potensiële aanvalsoppervlak vir snuif en selfs inspuiting van bevele in PLC's het.
+Modbus协议是工业自动化和控制系统中广泛使用的协议。Modbus允许可编程逻辑控制器（PLC）、传感器、执行器和其他工业设备之间的通信。理解Modbus协议至关重要，因为这是ICS中使用最广泛的通信协议，并且具有大量潜在的攻击面，可以进行嗅探甚至向PLC注入命令。
 
-Hier word konsepte puntsgewys gestel wat konteks van die protokol en sy aard van werking bied. Die grootste uitdaging in ICS-stelselsekuriteit is die koste van implementering en opgradering. Hierdie protokolle en standaarde is in die vroeë 80's en 90's ontwerp en word steeds wyd gebruik. Aangesien 'n bedryf baie toestelle en verbindinge het, is dit baie moeilik om toestelle op te gradeer, wat hackers 'n voordeel bied om met verouderde protokolle te werk. Aanvalle op Modbus is soos prakties onvermydelik aangesien dit sonder opgradering gebruik gaan word en sy werking krities vir die bedryf is.
+在这里，概念以要点形式陈述，提供协议及其操作性质的背景。ICS系统安全的最大挑战是实施和升级的成本。这些协议和标准是在80年代和90年代早期设计的，至今仍被广泛使用。由于一个行业有很多设备和连接，升级设备非常困难，这使得黑客在处理过时协议时占据了优势。对Modbus的攻击几乎是不可避免的，因为它将在没有升级的情况下使用，而其操作对行业至关重要。
 
-## Die Klient-Bedienaar-argitektuur
+## 客户端-服务器架构
 
-Modbus-protokol word tipies gebruik as in Klient-Bedienaar-argitektuur waar 'n meester-toestel (klient) kommunikasie met een of meer slawe-toestelle (bedieners) inisieer. Dit word ook verwys as Meester-Slaaf-argitektuur, wat wyd gebruik word in elektronika en IoT met SPI, I2C, ens.
+Modbus协议通常在客户端-服务器架构中使用，其中主设备（客户端）与一个或多个从设备（服务器）发起通信。这也被称为主从架构，广泛用于电子和物联网中，如SPI、I2C等。
 
-## Seriële en Ethernet-weergawes
+## 串行和以太网版本
 
-Modbus-protokol is ontwerp vir beide, Seriële Kommunikasie sowel as Ethernet Kommunikasie. Die Seriële Kommunikasie word wyd gebruik in erfenisstelsels terwyl moderne toestelle Ethernet ondersteun wat hoë datakoerse bied en meer geskik is vir moderne industriële netwerke.
+Modbus协议设计用于串行通信和以太网通信。串行通信在遗留系统中广泛使用，而现代设备支持以太网，提供更高的数据传输速率，更适合现代工业网络。
 
-## Data Voorstelling
+## 数据表示
 
-Data word in die Modbus-protokol oorgedra as ASCII of Binêr, alhoewel die binêre formaat gebruik word weens sy verenigbaarheid met ouer toestelle.
+数据在Modbus协议中以ASCII或二进制形式传输，尽管由于与旧设备的兼容性，通常使用二进制格式。
 
-## Funksiekodes
+## 功能代码
 
-ModBus-protokol werk met die oordrag van spesifieke funksiekodes wat gebruik word om die PLC's en verskeie beheertoestelle te bedryf. Hierdie gedeelte is belangrik om te verstaan aangesien herhaalaanvalle gedoen kan word deur funksiekodes te heruitsend. Erfenis-toestelle ondersteun geen enkele versleuteling na data-oordrag nie en het gewoonlik lang drade wat hulle verbind, wat lei tot manipulasie van hierdie drade en vaslegging/inspuiting van data.
+ModBus协议通过传输特定的功能代码来操作PLC和各种控制设备。这部分内容很重要，因为重放攻击可以通过重新传输功能代码来实现。遗留设备不支持任何数据传输加密，通常有长电缆连接，这导致这些电缆被篡改并捕获/注入数据。
 
-## Adressering van Modbus
+## Modbus的寻址
 
-Elke toestel in die netwerk het 'n unieke adres wat noodsaaklik is vir kommunikasie tussen toestelle. Protokolle soos Modbus RTU, Modbus TCP, ens. word gebruik om adressering te implementeer en dien as 'n vervoerlaag vir die data-oordrag. Die data wat oorgedra word, is in die Modbus-protokolformaat wat die boodskap bevat.
+网络中的每个设备都有一些唯一的地址，这对于设备之间的通信至关重要。像Modbus RTU、Modbus TCP等协议用于实现寻址，并作为数据传输的传输层。传输的数据是Modbus协议格式，包含消息。
 
-Verder implementeer Modbus ook foutkontroles om die integriteit van die oorgedraaide data te verseker. Maar meeste van alles is Modbus 'n Oop Standaard en enigiemand kan dit in hul toestelle implementeer. Dit het hierdie protokol gemaak om 'n globale standaard te word en dit is wydverspreid in die industriële outomatiseringsbedryf.
+此外，Modbus还实现了错误检查，以确保传输数据的完整性。但最重要的是，Modbus是一个开放标准，任何人都可以在其设备中实现。这使得该协议成为全球标准，并在工业自动化行业中广泛应用。
 
-Dankzij sy grootskaalse gebruik en gebrek aan opgraderings, bied die aanval op Modbus 'n beduidende voordeel met sy aanvalsoppervlak. ICS is hoogs afhanklik van kommunikasie tussen toestelle en enige aanvalle wat op hulle uitgevoer word, kan gevaarlik wees vir die werking van die industriële stelsels. Aanvalle soos herhaling, data-inspuiting, data-snuif en lek, Diensweier, data-vervalsing, ens. kan uitgevoer word as die medium van oordrag deur die aanvaller geïdentifiseer word.
+由于其大规模使用和缺乏升级，攻击Modbus提供了显著的优势，具有广泛的攻击面。ICS高度依赖设备之间的通信，任何对它们的攻击都可能对工业系统的操作造成危险。如果攻击者识别出传输媒介，可以进行重放、数据注入、数据嗅探和泄露、拒绝服务、数据伪造等攻击。

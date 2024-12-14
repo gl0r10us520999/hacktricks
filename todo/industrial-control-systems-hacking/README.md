@@ -1,15 +1,15 @@
-# Industriële Beheerstelsels Hack
+# 工业控制系统黑客技术
 
-## Oor hierdie Afdeling
+## 关于本节
 
-Hierdie afdeling bevat alles oor Industriële Beheerstelsels, insluitende konsepte sowel as metodologieë om hulle te hack met verskeie veiligheidskwessies wat in hulle voorkom.
+本节包含有关工业控制系统的所有内容，包括概念以及黑客攻击它们的方法论，以及存在的各种安全问题。
 
-Industriële Beheerstelsels is oral teenwoordig, aangesien nywerhede noodsaaklik is vir die ekonomiese ontwikkeling van 'n nasie. Maar hierdie IBS'e is moeilik om op te dateer en daar word minder vordering in hierdie veld gemaak. Daarom is dit algemeen om veiligheidsgebreke hier te vind. Die meeste van die protokolle en standaarde wat hier gebruik word, is in die 90's ontwikkel en het baie minder vermoëns in vergelyking met huidige aanvalscenario's.
+工业控制系统无处不在，因为工业对国家的经济发展至关重要。但这些ICS难以更新，并且在该领域的进展较少。因此，发现安全漏洞在这里是很常见的。这里使用的大多数协议和标准是在90年代开发的，与当前的攻击场景相比，能力要低得多。
 
-Dit het belangrik geword om hierdie stelsels te beveilig, aangesien dit baie kan kos en selfs lewens in die ergste geval. Om Industriële Beheerstelsels se veiligheid te verstaan, is dit nodig om die interne werking daarvan te ken.
+保护这些系统变得至关重要，因为破坏它们可能会造成巨大的经济损失，甚至在最坏的情况下危及生命。要理解工业控制系统的安全性，了解它们的内部结构是必要的。
 
-Aangesien Industriële Beheerstelsels geïnstalleer word volgens vasgestelde standaarde, sal kennis van elke komponent help om elke ander meganisme in die beheerstelsel met mekaar te verbind. Die installasie van hierdie toestelle soos PLC's en SCADA-stelsels verskil in verskeie nywerhede, dus is inligtingversameling krities.
+由于工业控制系统是按照设定标准安装的，了解每个组件将有助于将控制系统中的其他机制互连。这些设备（如PLC和SCADA系统）的安装在各个行业中有所不同，因此信息收集至关重要。
 
-Industriële Beheerstelsels kan soms ingewikkeld wees en vereis dus baie geduld om enigiets te doen. Dit gaan alles oor ondersoek en verkenning voordat aanvalle beplan word en enige exploits ontwikkel word.
+工业控制系统有时可能会很复杂，因此在进行任何操作时需要大量的耐心。在计划攻击和开发任何漏洞之前，所有的工作都是关于探测和侦察。
 
-Hierdie tegnieke kan ook gebruik word om teen aanvalle te beskerm en vir blou spanne vir industriële beheerstelsels.
+这些技术也可以用于保护工业控制系统免受攻击以及进行蓝队防御。

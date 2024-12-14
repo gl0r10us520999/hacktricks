@@ -1,33 +1,33 @@
-# Misbruik van Tokens
+# Abusing Tokens
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## Tokens
 
-As jy **nie weet wat Windows Toegangstokens is nie**, lees hierdie bladsy voordat jy voortgaan:
+如果你**不知道 Windows 访问令牌是什么**，请在继续之前阅读此页面：
 
 {% content-ref url="../access-tokens.md" %}
 [access-tokens.md](../access-tokens.md)
 {% endcontent-ref %}
 
-**Miskien kan jy bevoegdhede verhoog deur die tokens wat jy reeds het, te misbruik**
+**也许你可以通过滥用你已经拥有的令牌来提升权限**
 
 ### SeImpersonatePrivilege
 
-Dit is 'n bevoegdheid wat deur enige proses gehou word wat die impersonasie (maar nie die skepping) van enige token toelaat, mits 'n handvatsel daarvoor verkry kan word. 'n Bevoorregte token kan van 'n Windows diens (DCOM) verkry word deur dit te dwing om NTLM-verifikasie teen 'n exploit uit te voer, wat dan die uitvoering van 'n proses met SYSTEM bevoegdhede moontlik maak. Hierdie kwesbaarheid kan benut word met verskeie gereedskap, soos [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (wat vereis dat winrm gedeaktiveer moet wees), [SweetPotato](https://github.com/CCob/SweetPotato), [EfsPotato](https://github.com/zcgonvh/EfsPotato), [DCOMPotato](https://github.com/zcgonvh/DCOMPotato) en [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+此权限由任何进程持有，允许对任何令牌进行 impersonation（但不允许创建），前提是可以获得其句柄。可以通过诱使 Windows 服务（DCOM）对一个漏洞执行 NTLM 认证来获取特权令牌，从而启用以 SYSTEM 权限执行进程。可以使用各种工具利用此漏洞，例如 [juicy-potato](https://github.com/ohpe/juicy-potato)、[RogueWinRM](https://github.com/antonioCoco/RogueWinRM)（需要禁用 winrm）、[SweetPotato](https://github.com/CCob/SweetPotato)、[EfsPotato](https://github.com/zcgonvh/EfsPotato)、[DCOMPotato](https://github.com/zcgonvh/DCOMPotato) 和 [PrintSpoofer](https://github.com/itm4n/PrintSpoofer)。
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -39,23 +39,23 @@ Dit is 'n bevoegdheid wat deur enige proses gehou word wat die impersonasie (maa
 
 ### SeAssignPrimaryPrivilege
 
-Dit is baie soortgelyk aan **SeImpersonatePrivilege**, dit sal die **dieselfde metode** gebruik om 'n bevoorregte token te verkry.\
-Dan laat hierdie bevoegdheid **toe om 'n primêre token** aan 'n nuwe/gesuspendeerde proses toe te ken. Met die bevoorregte impersonasie token kan jy 'n primêre token aflei (DuplicateTokenEx).\
-Met die token kan jy 'n **nuwe proses** skep met 'CreateProcessAsUser' of 'n proses gesuspend en **die token stel** (in die algemeen kan jy nie die primêre token van 'n lopende proses verander nie).
+它与 **SeImpersonatePrivilege** 非常相似，将使用 **相同的方法** 来获取特权令牌。\
+然后，此权限允许 **将主令牌分配** 给一个新的/挂起的进程。使用特权 impersonation 令牌可以派生出主令牌（DuplicateTokenEx）。\
+使用该令牌，可以通过 'CreateProcessAsUser' 创建一个 **新进程** 或创建一个挂起的进程并 **设置令牌**（通常，无法修改正在运行的进程的主令牌）。
 
 ### SeTcbPrivilege
 
-As jy hierdie token geaktiveer het, kan jy **KERB\_S4U\_LOGON** gebruik om 'n **impersonasie token** vir enige ander gebruiker te verkry sonder om die akrediteer te ken, **voeg 'n arbitrêre groep** (admins) by die token, stel die **integriteitsvlak** van die token op "**medium**", en ken hierdie token toe aan die **huidige draad** (SetThreadToken).
+如果你启用了此令牌，可以使用 **KERB\_S4U\_LOGON** 为任何其他用户获取 **impersonation 令牌**，而无需知道凭据，**向令牌添加任意组**（管理员），将令牌的 **完整性级别** 设置为 "**中等**"，并将此令牌分配给 **当前线程**（SetThreadToken）。
 
 ### SeBackupPrivilege
 
-Die stelsel word gedwing om **alle lees toegang** beheer aan enige lêer (beperk tot lees operasies) deur hierdie bevoegdheid te verleen. Dit word gebruik vir **die lees van die wagwoord hashes van plaaslike Administrateur** rekeninge uit die register, waarna gereedskap soos "**psexec**" of "**wmiexec**" met die hash gebruik kan word (Pass-the-Hash tegniek). Hierdie tegniek faal egter onder twee toestande: wanneer die Plaaslike Administrateur rekening gedeaktiveer is, of wanneer 'n beleid in plek is wat administratiewe regte van Plaaslike Administrateurs wat afstand doen, verwyder.\
-Jy kan **hierdie bevoegdheid misbruik** met:
+此权限使系统能够 **授予对任何文件的所有读取访问** 控制（仅限于读取操作）。它用于 **从注册表中读取本地管理员** 账户的密码哈希，随后可以使用像 "**psexec**" 或 "**wmiexec**" 这样的工具与哈希一起使用（Pass-the-Hash 技术）。然而，在以下两种情况下，此技术会失败：当本地管理员账户被禁用，或当有政策限制本地管理员远程连接的管理权限时。\
+你可以通过以下方式 **滥用此权限**：
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
-* volg **IppSec** in [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* Of soos verduidelik in die **verhoogde bevoegdhede met Backup Operators** afdeling van:
+* 关注 **IppSec** 在 [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
+* 或如 **备份操作员提升权限** 部分所述：
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -63,30 +63,30 @@ Jy kan **hierdie bevoegdheid misbruik** met:
 
 ### SeRestorePrivilege
 
-Toestemming vir **skrywe toegang** tot enige stelsellêer, ongeag die lêer se Toegang Beheer Lys (ACL), word deur hierdie bevoegdheid verskaf. Dit bied talle moontlikhede vir verhoogde bevoegdhede, insluitend die vermoë om **dienste te wysig**, DLL Hijacking uit te voer, en **debuggers** via Beeldlêer Uitvoering Opsies in te stel onder verskeie ander tegnieke.
+此权限提供对任何系统文件的 **写访问** 权限，无论文件的访问控制列表（ACL）如何。它为提升权限打开了许多可能性，包括 **修改服务**、执行 DLL 劫持，以及通过图像文件执行选项设置 **调试器** 等多种技术。
 
 ### SeCreateTokenPrivilege
 
-SeCreateTokenPrivilege is 'n kragtige toestemming, veral nuttig wanneer 'n gebruiker die vermoë het om tokens te impersonate, maar ook in die afwesigheid van SeImpersonatePrivilege. Hierdie vermoë hang af van die vermoë om 'n token te impersonate wat dieselfde gebruiker verteenwoordig en wie se integriteitsvlak nie hoër is as dié van die huidige proses nie.
+SeCreateTokenPrivilege 是一个强大的权限，特别是在用户拥有 impersonate 令牌的能力时，但在没有 SeImpersonatePrivilege 的情况下也很有用。此能力依赖于能够 impersonate 代表同一用户的令牌，并且其完整性级别不超过当前进程的完整性级别。
 
-**Belangrike Punten:**
-- **Impersonasie sonder SeImpersonatePrivilege:** Dit is moontlik om SeCreateTokenPrivilege vir EoP te benut deur tokens onder spesifieke toestande te impersonate.
-- **Toestande vir Token Impersonasie:** Succesvolle impersonasie vereis dat die teiken token aan dieselfde gebruiker behoort en 'n integriteitsvlak het wat minder of gelyk is aan die integriteitsvlak van die proses wat impersonasie probeer.
-- **Skepping en Wysiging van Impersonasie Tokens:** Gebruikers kan 'n impersonasie token skep en dit verbeter deur 'n bevoorregte groep se SID (Veiligheidsidentifiseerder) by te voeg.
+**关键点：**
+- **在没有 SeImpersonatePrivilege 的情况下进行 impersonation：** 可以在特定条件下利用 SeCreateTokenPrivilege 进行 EoP，通过 impersonate 令牌。
+- **令牌 impersonation 的条件：** 成功的 impersonation 要求目标令牌属于同一用户，并且其完整性级别小于或等于尝试 impersonation 的进程的完整性级别。
+- **创建和修改 impersonation 令牌：** 用户可以创建一个 impersonation 令牌，并通过添加特权组的 SID（安全标识符）来增强它。
 
 ### SeLoadDriverPrivilege
 
-Hierdie bevoegdheid laat toe om **toestel bestuurders te laai en te verwyder** met die skepping van 'n register inskrywing met spesifieke waardes vir `ImagePath` en `Type`. Aangesien direkte skrywe toegang tot `HKLM` (HKEY_LOCAL_MACHINE) beperk is, moet `HKCU` (HKEY_CURRENT_USER) eerder gebruik word. Om egter `HKCU` vir die kern herkenbaar te maak vir bestuurder konfigurasie, moet 'n spesifieke pad gevolg word.
+此权限允许 **加载和卸载设备驱动程序**，通过创建具有特定值的注册表项 `ImagePath` 和 `Type`。由于对 `HKLM`（HKEY_LOCAL_MACHINE）的直接写访问受到限制，因此必须使用 `HKCU`（HKEY_CURRENT_USER）。然而，为了使 `HKCU` 对内核可识别以进行驱动程序配置，必须遵循特定路径。
 
-Hierdie pad is `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, waar `<RID>` die Relatiewe Identifiseerder van die huidige gebruiker is. Binne `HKCU` moet hierdie hele pad geskep word, en twee waardes moet gestel word:
-- `ImagePath`, wat die pad na die binêre is wat uitgevoer moet word
-- `Type`, met 'n waarde van `SERVICE_KERNEL_DRIVER` (`0x00000001`).
+此路径为 `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`，其中 `<RID>` 是当前用户的相对标识符。在 `HKCU` 中，必须创建整个路径，并设置两个值：
+- `ImagePath`，即要执行的二进制文件的路径
+- `Type`，值为 `SERVICE_KERNEL_DRIVER`（`0x00000001`）。
 
-**Stappe om te Volg:**
-1. Toegang tot `HKCU` eerder as `HKLM` weens beperkte skrywe toegang.
-2. Skep die pad `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` binne `HKCU`, waar `<RID>` die huidige gebruiker se Relatiewe Identifiseerder verteenwoordig.
-3. Stel die `ImagePath` op die binêre se uitvoeringspad.
-4. Ken die `Type` toe as `SERVICE_KERNEL_DRIVER` (`0x00000001`).
+**遵循的步骤：**
+1. 由于写访问受限，访问 `HKCU` 而不是 `HKLM`。
+2. 在 `HKCU` 中创建路径 `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`，其中 `<RID>` 代表当前用户的相对标识符。
+3. 将 `ImagePath` 设置为二进制文件的执行路径。
+4. 将 `Type` 设置为 `SERVICE_KERNEL_DRIVER`（`0x00000001`）。
 ```python
 # Example Python code to set the registry values
 import winreg as reg
@@ -98,11 +98,11 @@ reg.SetValueEx(key, "ImagePath", 0, reg.REG_SZ, "path_to_binary")
 reg.SetValueEx(key, "Type", 0, reg.REG_DWORD, 0x00000001)
 reg.CloseKey(key)
 ```
-Meer maniere om hierdie voorreg te misbruik in [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
+更多滥用此权限的方法请参见 [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
 
 ### SeTakeOwnershipPrivilege
 
-Dit is soortgelyk aan **SeRestorePrivilege**. Die primêre funksie laat 'n proses toe om **eienaarskap van 'n objek aan te neem**, wat die vereiste vir eksplisiete diskresionêre toegang omseil deur die verskaffing van WRITE_OWNER toegangregte. Die proses behels eers die verkryging van eienaarskap van die beoogde registriesleutel vir skryfdoeleindes, en dan die verandering van die DACL om skryfoperasies moontlik te maak.
+这与 **SeRestorePrivilege** 类似。其主要功能允许一个进程 **假定对象的所有权**，绕过通过提供 WRITE_OWNER 访问权限的明确自由裁量访问要求。该过程首先确保获得所需注册表项的所有权以进行写入，然后更改 DACL 以启用写入操作。
 ```bash
 takeown /f 'C:\some\file.txt' #Now the file is owned by you
 icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
@@ -120,13 +120,13 @@ c:\inetpub\wwwwroot\web.config
 ```
 ### SeDebugPrivilege
 
-Hierdie voorreg stel die **ontleding van ander prosesse** in staat, insluitend om in die geheue te lees en te skryf. Verskeie strategieë vir geheue-inspuiting, wat in staat is om die meeste antivirus- en gasheer-inbraakvoorkomingsoplossings te ontwyk, kan met hierdie voorreg toegepas word.
+此权限允许**调试其他进程**，包括读取和写入内存。可以利用此权限采用各种内存注入策略，能够规避大多数杀毒软件和主机入侵防御解决方案。
 
-#### Dump geheue
+#### Dump memory
 
-Jy kan [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) van die [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) gebruik om die **geheue van 'n proses** te **vang**. Spesifiek kan dit van toepassing wees op die **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))** proses, wat verantwoordelik is vir die stoor van gebruikersakkrediteer nadat 'n gebruiker suksesvol in 'n stelsel aangemeld het.
+您可以使用[ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump)来自[SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)来**捕获进程的内存**。具体来说，这可以应用于**本地安全授权子系统服务（[LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service)）**进程，该进程负责在用户成功登录系统后存储用户凭据。
 
-Jy kan dan hierdie dump in mimikatz laai om wagwoorde te verkry:
+然后，您可以在mimikatz中加载此转储以获取密码：
 ```
 mimikatz.exe
 mimikatz # log
@@ -135,7 +135,7 @@ mimikatz # sekurlsa::logonpasswords
 ```
 #### RCE
 
-As jy 'n `NT SYSTEM` shell wil kry, kan jy gebruik maak van:
+如果你想获得一个 `NT SYSTEM` shell，你可以使用：
 
 * ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
 * ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
@@ -146,58 +146,58 @@ import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<c
 ```
 ### SeManageVolumePrivilege
 
-Die `SeManageVolumePrivilege` is 'n Windows gebruikersreg wat gebruikers toelaat om skyfvolume te bestuur, insluitend die skep en verwyder daarvan. Alhoewel dit bedoel is vir administrateurs, kan dit, indien aan nie-admin gebruikers toegeken, uitgebuit word vir privilige-escalasie.
+`SeManageVolumePrivilege` 是一个 Windows 用户权限，允许用户管理磁盘卷，包括创建和删除它们。虽然该权限是为管理员设计的，但如果授予非管理员用户，则可能被利用进行权限提升。
 
-Dit is moontlik om hierdie privilige te benut om volumes te manipuleer, wat lei tot volle volume toegang. Die [SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) kan gebruik word om volle toegang aan alle gebruikers vir C:\ te gee.
+可以利用此权限来操纵卷，从而获得对卷的完全访问权限。可以使用 [SeManageVolumeExploit](https://github.com/CsEnox/SeManageVolumeExploit) 为所有用户提供 C:\ 的完全访问权限。
 
-Boonop beskryf die proses uiteengesit in [hierdie Medium-artikel](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) die gebruik van DLL-hijacking in samewerking met `SeManageVolumePrivilege` om privilige te eskaleer. Deur 'n payload DLL `C:\Windows\System32\wbem\tzres.dll` te plaas en `systeminfo` aan te roep, word die dll uitgevoer.
+此外，[这篇 Medium 文章](https://medium.com/@raphaeltzy13/exploiting-semanagevolumeprivilege-with-dll-hijacking-windows-privilege-escalation-1a4f28372d37) 中概述的过程描述了如何结合使用 DLL 劫持和 `SeManageVolumePrivilege` 来提升权限。通过放置有效负载 DLL `C:\Windows\System32\wbem\tzres.dll` 并调用 `systeminfo`，该 DLL 被执行。
 
-## Kontroleer privilige
+## Check privileges
 ```
 whoami /priv
 ```
-Die **tokens wat as Gedeaktiveer verskyn** kan geaktiveer word, jy kan eintlik _Geaktiveerde_ en _Gedeaktiveerde_ tokens misbruik.
+**显示为禁用的令牌**可以被启用，您实际上可以利用_启用_和_禁用_令牌。
 
-### Aktiveer Alle die tokens
+### 启用所有令牌
 
-As jy tokens het wat gedeaktiveer is, kan jy die skrip [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) gebruik om al die tokens te aktiveer:
+如果您有禁用的令牌，可以使用脚本[**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1)来启用所有令牌：
 ```powershell
 .\EnableAllTokenPrivs.ps1
 whoami /priv
 ```
-Of die **script** ingebed in hierdie [**plasing**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
+或在这个 [**帖子**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/) 中嵌入的 **脚本**。
 
-## Tabel
+## 表格
 
-Volledige token bevoegdhede cheatsheet by [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), opsomming hieronder sal slegs direkte maniere lys om die bevoegdheid te benut om 'n admin-sessie te verkry of sensitiewe lêers te lees.
+完整的令牌权限备忘单在 [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)，下面的摘要将仅列出直接利用该权限以获得管理员会话或读取敏感文件的方法。
 
-| Bevoegdheid                | Impak       | Gereedskap              | Uitvoeringspad                                                                                                                                                                                                                                                                                                                                     | Opmerkings                                                                                                                                                                                                                                                                                                                        |
-| -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Admin**_ | 3de party gereedskap    | _"Dit sal 'n gebruiker toelaat om tokens na te boots en privesc na nt stelsel te gebruik met gereedskap soos potato.exe, rottenpotato.exe en juicypotato.exe"_                                                                                                                                                                              | Dankie [Aurélien Chalot](https://twitter.com/Defte\_) vir die opdatering. Ek sal probeer om dit binnekort in iets meer resep-agtig te herformuleer.                                                                                                                                                                            |
-| **`SeBackup`**             | **Dreig**   | _**Ingeboude opdragte**_ | Lees sensitiewe lêers met `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Mag meer interessant wees as jy %WINDIR%\MEMORY.DMP kan lees<br><br>- <code>SeBackupPrivilege</code> (en robocopy) is nie nuttig wanneer dit kom by oop lêers nie.<br><br>- Robocopy vereis beide SeBackup en SeRestore om met /b parameter te werk.</p>                                                                      |
-| **`SeCreateToken`**        | _**Admin**_ | 3de party gereedskap    | Skep arbitrêre token insluitend plaaslike admin regte met `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
-| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Dupliseer die `lsass.exe` token.                                                                                                                                                                                                                                                                                                                   | Skrip om te vind by [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
-| **`SeLoadDriver`**         | _**Admin**_ | 3de party gereedskap    | <p>1. Laai 'n foutiewe kern bestuurder soos <code>szkg64.sys</code><br>2. Benut die bestuurder kwesbaarheid<br><br>Alternatiewelik kan die bevoegdheid gebruik word om sekuriteitsverwante bestuurders te ontlaai met <code>ftlMC</code> ingeboude opdrag. d.w.z.: <code>fltMC sysmondrv</code></p>                                   | <p>1. Die <code>szkg64</code> kwesbaarheid is gelys as <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Die <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">benuttingskode</a> is geskep deur <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
-| **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Begin PowerShell/ISE met die SeRestore bevoegdheid teenwoordig.<br>2. Aktiveer die bevoegdheid met <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Hernoem utilman.exe na utilman.old<br>4. Hernoem cmd.exe na utilman.exe<br>5. Vergrendel die konsole en druk Win+U</p> | <p>Die aanval mag deur sommige AV sagteware opgespoor word.</p><p>Alternatiewe metode berus op die vervanging van diens binêre lêers wat in "Program Files" gestoor is met dieselfde bevoegdheid</p>                                                                                                                                                            |
-| **`SeTakeOwnership`**      | _**Admin**_ | _**Ingeboude opdragte**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Hernoem cmd.exe na utilman.exe<br>4. Vergrendel die konsole en druk Win+U</p>                                                                                                                                       | <p>Die aanval mag deur sommige AV sagteware opgespoor word.</p><p>Alternatiewe metode berus op die vervanging van diens binêre lêers wat in "Program Files" gestoor is met dieselfde bevoegdheid.</p>                                                                                                                                                           |
-| **`SeTcb`**                | _**Admin**_ | 3de party gereedskap    | <p>Manipuleer tokens om plaaslike admin regte ingesluit te hê. Mag SeImpersonate vereis.</p><p>Om geverifieer te word.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
+| 权限                      | 影响        | 工具                    | 执行路径                                                                                                                                                                                                                                                                                                                                     | 备注                                                                                                                                                                                                                                                                                                                        |
+| ------------------------ | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`SeAssignPrimaryToken`** | _**管理员**_ | 第三方工具              | _"这将允许用户模拟令牌并使用工具如 potato.exe、rottenpotato.exe 和 juicypotato.exe 提升到 nt 系统"_                                                                                                                                                                                                      | 感谢 [Aurélien Chalot](https://twitter.com/Defte\_) 的更新。我会尽快尝试将其重新表述为更像食谱的内容。                                                                                                                                                                                        |
+| **`SeBackup`**             | **威胁**    | _**内置命令**_         | 使用 `robocopy /b` 读取敏感文件                                                                                                                                                                                                                                                                                                             | <p>- 如果可以读取 %WINDIR%\MEMORY.DMP，可能会更有趣<br><br>- <code>SeBackupPrivilege</code>（和 robocopy）在处理打开的文件时没有帮助。<br><br>- Robocopy 需要同时具有 SeBackup 和 SeRestore 才能使用 /b 参数。</p>                                                                      |
+| **`SeCreateToken`**        | _**管理员**_ | 第三方工具              | 使用 `NtCreateToken` 创建任意令牌，包括本地管理员权限。                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
+| **`SeDebug`**              | _**管理员**_ | **PowerShell**          | 复制 `lsass.exe` 令牌。                                                                                                                                                                                                                                                                                                                   | 脚本可以在 [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1) 找到                                                                                                                                                                                                         |
+| **`SeLoadDriver`**         | _**管理员**_ | 第三方工具              | <p>1. 加载有缺陷的内核驱动程序，如 <code>szkg64.sys</code><br>2. 利用驱动程序漏洞<br><br>或者，该权限可用于卸载与安全相关的驱动程序，使用 <code>ftlMC</code> 内置命令。即：<code>fltMC sysmondrv</code></p>                                                                           | <p>1. <code>szkg64</code> 漏洞被列为 <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">利用代码</a> 是由 <a href="https://twitter.com/parvezghh">Parvez Anwar</a> 创建的</p> |
+| **`SeRestore`**            | _**管理员**_ | **PowerShell**          | <p>1. 启动 PowerShell/ISE，并具有 SeRestore 权限。<br>2. 使用 <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a> 启用该权限。<br>3. 将 utilman.exe 重命名为 utilman.old<br>4. 将 cmd.exe 重命名为 utilman.exe<br>5. 锁定控制台并按 Win+U</p> | <p>攻击可能会被某些 AV 软件检测到。</p><p>替代方法依赖于使用相同权限替换存储在 "Program Files" 中的服务二进制文件</p>                                                                                                                                                            |
+| **`SeTakeOwnership`**      | _**管理员**_ | _**内置命令**_         | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. 将 cmd.exe 重命名为 utilman.exe<br>4. 锁定控制台并按 Win+U</p>                                                                                                                                       | <p>攻击可能会被某些 AV 软件检测到。</p><p>替代方法依赖于使用相同权限替换存储在 "Program Files" 中的服务二进制文件。</p>                                                                                                                                                           |
+| **`SeTcb`**                | _**管理员**_ | 第三方工具              | <p>操纵令牌以包含本地管理员权限。可能需要 SeImpersonate。</p><p>待验证。</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
 
-## Verwysing
+## 参考
 
-* Kyk na hierdie tabel wat Windows tokens definieer: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Kyk na [**hierdie papier**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) oor privesc met tokens.
+* 查看定义 Windows 令牌的此表： [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
+* 查看关于使用令牌进行 privesc 的 [**这篇论文**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt)。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

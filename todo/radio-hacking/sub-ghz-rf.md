@@ -1,99 +1,99 @@
 # Sub-GHz RF
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Garage Deure
+## 车库门
 
-Garage deur oopmakers werk tipies op frekwensies in die 300-190 MHz reeks, met die mees algemene frekwensies wat 300 MHz, 310 MHz, 315 MHz, en 390 MHz is. Hierdie frekwensie reeks word algemeen gebruik vir garage deur oopmakers omdat dit minder oorvol is as ander frekwensie bande en minder geneig is om interferensie van ander toestelle te ervaar.
+车库门开启器通常在 300-190 MHz 范围内工作，最常见的频率为 300 MHz、310 MHz、315 MHz 和 390 MHz。这个频率范围通常用于车库门开启器，因为它比其他频段更不拥挤，并且不太可能受到其他设备的干扰。
 
-## Motor Deure
+## 汽车门
 
-Meeste motor sleutelfobbe werk op **315 MHz of 433 MHz**. Dit is albei radiofrekwensies, en hulle word in 'n verskeidenheid van verskillende toepassings gebruik. Die hoof verskil tussen die twee frekwensies is dat 433 MHz 'n langer reeks het as 315 MHz. Dit beteken dat 433 MHz beter is vir toepassings wat 'n langer reeks vereis, soos afstandsleutel toegang.\
-In Europa word 433.92MHz algemeen gebruik en in die VSA en Japan is dit die 315MHz.
+大多数汽车钥匙遥控器工作在 **315 MHz 或 433 MHz**。这两者都是无线电频率，广泛用于各种不同的应用。两个频率之间的主要区别是 433 MHz 的范围比 315 MHz 更长。这意味着 433 MHz 更适合需要更长范围的应用，例如远程无钥匙进入。\
+在欧洲，常用 433.92MHz，而在美国和日本则是 315MHz。
 
-## **Brute-force Aanval**
+## **暴力攻击**
 
 <figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
 
-As jy in plaas van om elke kode 5 keer te stuur (gestuur soos dit om seker te maak die ontvanger dit ontvang) net een keer stuur, word die tyd verminder tot 6 minute:
+如果不发送每个代码 5 次（这样发送是为了确保接收器接收到），而只发送一次，时间将减少到 6 分钟：
 
 <figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
 
-en as jy die **2 ms wag** periode tussen seine verwyder kan jy die **tyd tot 3 minute verminder.**
+如果你 **去掉信号之间的 2 毫秒等待**，你可以 **将时间减少到 3 分钟。**
 
-Boonop, deur die De Bruijn Sequentie te gebruik (‘n manier om die aantal bits wat nodig is om al die potensiële binêre nommers te stuur te verminder) word hierdie **tyd net tot 8 sekondes verminder**:
+此外，通过使用 De Bruijn 序列（减少发送所有潜在二进制数字所需的位数的方法），这个 **时间仅减少到 8 秒**：
 
 <figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
 
-'n Voorbeeld van hierdie aanval is geïmplementeer in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+此攻击的示例已在 [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) 中实现。
 
-Die vereiste van **'n preamble sal die De Bruijn Sequentie** optimalisering vermy en **rolkodes sal hierdie aanval voorkom** (onder die aanname dat die kode lank genoeg is om nie gebruteforceer te kan word nie).
+要求 **前导码将避免 De Bruijn 序列** 优化，而 **滚动代码将防止此攻击**（假设代码足够长，不易被暴力破解）。
 
-## Sub-GHz Aanval
+## Sub-GHz 攻击
 
-Om hierdie seine met Flipper Zero aan te val, kyk:
+要攻击这些信号，请查看 Flipper Zero：
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Rolkode Beskerming
+## 滚动代码保护
 
-Outomatiese garage deur oopmakers gebruik tipies 'n draadlose afstandbeheer om die garage deur te open en toe te maak. Die afstandbeheer **stuur 'n radiofrekwensie (RF) sein** na die garage deur oopmaker, wat die motor aktiveer om die deur te open of toe te maak.
+自动车库门开启器通常使用无线遥控器来打开和关闭车库门。遥控器 **发送无线电频率 (RF) 信号** 到车库门开启器，激活电机以打开或关闭门。
 
-Dit is moontlik vir iemand om 'n toestel bekend as 'n kodegrypper te gebruik om die RF sein te onderskep en dit vir later gebruik op te neem. Dit staan bekend as 'n **herhalingsaanval**. Om hierdie tipe aanval te voorkom, gebruik baie moderne garage deur oopmakers 'n meer veilige versleuteling metode bekend as 'n **rolkode** stelsel.
+有人可能会使用称为代码抓取器的设备来拦截 RF 信号并记录以备后用。这被称为 **重放攻击**。为了防止这种类型的攻击，许多现代车库门开启器使用一种更安全的加密方法，称为 **滚动代码** 系统。
 
-Die **RF sein word tipies oorgedra met 'n rolkode**, wat beteken dat die kode met elke gebruik verander. Dit maak dit **moeilik** vir iemand om die sein te **onderskep** en dit te **gebruik** om **ongemagtigde** toegang tot die garage te verkry.
+**RF 信号通常使用滚动代码进行传输**，这意味着每次使用时代码都会变化。这使得 **拦截** 信号并 **利用** 它获得 **未授权** 访问车库变得 **困难**。
 
-In 'n rolkode stelsel het die afstandbeheer en die garage deur oopmaker 'n **gedeelde algoritme** wat **'n nuwe kode genereer** elke keer wanneer die afstandbeheer gebruik word. Die garage deur oopmaker sal slegs op die **korrekte kode** reageer, wat dit baie moeiliker maak vir iemand om ongemagtigde toegang tot die garage te verkry net deur 'n kode te vang.
+在滚动代码系统中，遥控器和车库门开启器有一个 **共享算法**，每次使用遥控器时 **生成一个新代码**。车库门开启器只会对 **正确代码** 作出响应，这使得仅通过捕获代码就获得未授权访问车库变得更加困难。
 
-### **Missing Link Aanval**
+### **缺失链接攻击**
 
-Basies, jy luister vir die knoppie en **vang die sein terwyl die afstandbeheer buite bereik** van die toestel (sê die motor of garage). Jy beweeg dan na die toestel en **gebruik die gevange kode om dit te open**.
+基本上，你监听按钮并 **在遥控器超出设备范围时捕获信号**（比如汽车或车库）。然后你移动到设备并 **使用捕获的代码打开它**。
 
-### Volledige Link Jamming Aanval
+### 完整链接干扰攻击
 
-'n Aanvaller kan die **sein naby die voertuig of ontvanger** blokkeer sodat die **ontvanger nie eintlik die kode kan ‘hoor’ nie**, en sodra dit gebeur kan jy eenvoudig die kode **vang en herhaal** wanneer jy opgehou het om te blokkeer.
+攻击者可以 **在车辆或接收器附近干扰信号**，使得 **接收器无法真正“听到”代码**，一旦发生这种情况，你可以简单地 **捕获并重放** 代码，当你停止干扰时。
 
-Die slagoffer sal op 'n stadium die **sleutels gebruik om die motor te sluit**, maar dan sal die aanval **genoeg "sluit deur" kodes** opgeneem het wat hoopvol weer gestuur kan word om die deur te open (‘n **verandering van frekwensie mag nodig wees** aangesien daar motors is wat dieselfde kodes gebruik om te open en toe te maak maar na beide opdragte in verskillende frekwensies luister).
+受害者在某个时刻会使用 **钥匙锁定汽车**，但攻击者将 **记录足够的“关门”代码**，希望能够重新发送以打开门（可能需要 **更改频率**，因为有些汽车使用相同的代码来打开和关闭，但在不同频率下监听两个命令）。
 
 {% hint style="warning" %}
-**Jamming werk**, maar dit is opmerklik aangesien as die **persoon wat die motor sluit eenvoudig die deure toets** om te verseker dat hulle gesluit is, hulle sal opgemerk dat die motor ontgrendel is. Boonop, as hulle bewus was van sulke aanvalle, kan hulle selfs luister na die feit dat die deure nooit die slot **klank** gemaak het nie of die motors **ligte** nooit geflits het toe hulle die ‘sluit’ knoppie gedruk het.
+**干扰有效**，但很明显，因为如果 **锁车的人简单地测试车门** 以确保它们被锁定，他们会注意到汽车未锁。此外，如果他们意识到这种攻击，他们甚至可以听到车门在按下“锁定”按钮时从未发出锁定 **声音** 或汽车 **灯光** 在按下“锁定”按钮时从未闪烁。
 {% endhint %}
 
-### **Kode Grabbing Aanval (ook bekend as ‘RollJam’)**
+### **代码抓取攻击（又名‘RollJam’）**
 
-Dit is 'n meer **stealth Jamming tegniek**. Die aanvaller sal die sein blokkeer, sodat wanneer die slagoffer probeer om die deur te sluit dit nie sal werk nie, maar die aanvaller sal **hierdie kode opneem**. Dan sal die slagoffer **weer probeer om die motor te sluit** deur die knoppie te druk en die motor sal **hierdie tweede kode opneem**.\
-Onmiddellik daarna kan die **aanvaller die eerste kode stuur** en die **motor sal sluit** (die slagoffer sal dink die tweede druk het dit gesluit). Dan sal die aanvaller in staat wees om die **tweede gesteelde kode te stuur om** die motor te open (onder die aanname dat 'n **"sluit motor" kode ook gebruik kan word om dit te open**). 'n Verandering van frekwensie mag nodig wees (aangesien daar motors is wat dieselfde kodes gebruik om te open en toe te maak maar na beide opdragte in verskillende frekwensies luister).
+这是一种更 **隐蔽的干扰技术**。攻击者将干扰信号，因此当受害者尝试锁门时将无法工作，但攻击者会 **记录此代码**。然后，受害者将 **再次尝试锁定汽车**，按下按钮，汽车将 **记录第二个代码**。\
+紧接着，**攻击者可以发送第一个代码**，然后 **汽车将锁定**（受害者会认为第二次按下锁定了）。然后，攻击者将能够 **发送第二个被盗代码以打开** 汽车（假设 **“关车”代码也可以用来打开**）。可能需要更改频率（因为有些汽车使用相同的代码来打开和关闭，但在不同频率下监听两个命令）。
 
-Die aanvaller kan die motor ontvanger blokkeer en nie sy ontvanger nie, want as die motor ontvanger luister in byvoorbeeld 'n 1MHz breedband, sal die aanvaller nie die presiese frekwensie wat deur die afstandbeheer gebruik word blokkeer nie, maar **'n nabygeleë een in daardie spektrum** terwyl die **aanvaller se ontvanger in 'n kleiner reeks sal luister** waar hy die afstandbeheer sein kan luister **sonder die blokkeer sein**.
+攻击者可以 **干扰汽车接收器而不是他的接收器**，因为如果汽车接收器在例如 1MHz 宽带中监听，攻击者不会 **干扰** 遥控器使用的确切频率，而是 **在该频谱中的一个接近频率**，同时 **攻击者的接收器将在更小的范围内监听**，他可以在 **没有干扰信号** 的情况下监听遥控信号。
 
 {% hint style="warning" %}
-Ander implementasies gesien in spesifikasies toon dat die **rolkode 'n gedeelte** van die totale kode wat gestuur word is. Dit wil sê die kode wat gestuur word is 'n **24-bis sleutel** waar die eerste **12 die rolkode is**, die **tweede 8 die opdrag** (soos sluit of ontgrendel) en die laaste 4 is die **kontrole som**. Voertuie wat hierdie tipe implementeer is ook natuurlik kwesbaar aangesien die aanvaller eenvoudig die rolkode segment moet vervang om enige rolkode op beide frekwensies te kan **gebruik**.
+其他规格中的实现显示 **滚动代码是发送的总代码的一部分**。即发送的代码是 **24 位密钥**，其中前 **12 位是滚动代码**，**第二个 8 位是命令**（如锁定或解锁），最后 4 位是 **校验和**。实施这种类型的车辆也自然容易受到攻击，因为攻击者只需替换滚动代码段即可 **在两个频率上使用任何滚动代码**。
 {% endhint %}
 
 {% hint style="danger" %}
-Let daarop dat as die slagoffer 'n derde kode stuur terwyl die aanvaller die eerste een stuur, die eerste en tweede kode ongeldig sal wees.
+请注意，如果受害者在攻击者发送第一个代码时发送第三个代码，则第一个和第二个代码将失效。
 {% endhint %}
 
-### Alarm Klank Jamming Aanval
+### 报警声干扰攻击
 
-Toets teen 'n naverkoop rolkode stelsel wat op 'n motor geïnstalleer is, **die stuur van dieselfde kode twee keer** het onmiddellik die alarm en immobiliseerder geaktiveer wat 'n unieke **weiering van diens** geleentheid bied. Ironies was die middel om die **alarm** en immobiliseerder te **deaktiveer** om die **afstandsbeheer** te **druk**, wat 'n aanvaller die vermoë bied om **deurlopend 'n DoS aanval** uit te voer. Of meng hierdie aanval met die **vorige een om meer kodes te verkry** aangesien die slagoffer graag die aanval so gou as moontlik wil stop.
+在对安装在汽车上的后市场滚动代码系统进行测试时，**立即发送相同的代码两次** **激活了报警** 和防盗装置，提供了一个独特的 **拒绝服务** 机会。讽刺的是，**禁用报警** 和防盗装置的方法是 **按下** **遥控器**，这使攻击者能够 **持续执行 DoS 攻击**。或者将此攻击与 **前一个攻击结合以获取更多代码**，因为受害者希望尽快停止攻击。
 
-## Verwysings
+## 参考文献
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,16 +101,16 @@ Toets teen 'n naverkoop rolkode stelsel wat op 'n motor geïnstalleer is, **die 
 * [https://hackaday.io/project/164566-how-to-hack-a-car/details](https://hackaday.io/project/164566-how-to-hack-a-car/details)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

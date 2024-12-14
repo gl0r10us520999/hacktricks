@@ -1,27 +1,27 @@
 # Golden Ticket
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Golden ticket
 
-'n **Golden Ticket** aanval bestaan uit die **skepping van 'n legitieme Ticket Granting Ticket (TGT) wat enige gebruiker naboots** deur die gebruik van die **NTLM-hash van die Active Directory (AD) krbtgt rekening**. Hierdie tegniek is veral voordelig omdat dit **toegang tot enige diens of masjien** binne die domein as die nabootste gebruiker moontlik maak. Dit is belangrik om te onthou dat die **krbtgt rekening se geloofsbriewe nooit outomaties opgedateer word**.
+**Golden Ticket** 攻击是指通过使用 **Active Directory (AD) krbtgt 账户的 NTLM 哈希** 来 **创建一个合法的票据授权票据 (TGT)，以冒充任何用户**。这种技术特别有利，因为它 **使冒充的用户能够访问域内的任何服务或机器**。重要的是要记住，**krbtgt 账户的凭据不会自动更新**。
 
-Om die **NTLM-hash** van die krbtgt rekening te **verkry**, kan verskeie metodes gebruik word. Dit kan onttrek word uit die **Local Security Authority Subsystem Service (LSASS) proses** of die **NT Directory Services (NTDS.dit) lêer** wat op enige Domeinbeheerder (DC) binne die domein geleë is. Verder is **die uitvoering van 'n DCsync aanval** 'n ander strategie om hierdie NTLM-hash te verkry, wat uitgevoer kan word met behulp van gereedskap soos die **lsadump::dcsync module** in Mimikatz of die **secretsdump.py skrip** deur Impacket. Dit is belangrik om te beklemtoon dat om hierdie operasies uit te voer, **domein admin regte of 'n soortgelyke vlak van toegang gewoonlik vereis word**.
+要 **获取 krbtgt 账户的 NTLM 哈希**，可以采用多种方法。它可以从 **本地安全授权子系统服务 (LSASS) 进程** 或位于域内任何域控制器 (DC) 上的 **NT 目录服务 (NTDS.dit) 文件** 中提取。此外，**执行 DCsync 攻击** 是获取此 NTLM 哈希的另一种策略，可以使用 **Mimikatz 中的 lsadump::dcsync 模块** 或 **Impacket 的 secretsdump.py 脚本** 来执行。需要强调的是，进行这些操作通常需要 **域管理员权限或类似级别的访问权限**。
 
-Alhoewel die NTLM-hash as 'n lewensvatbare metode vir hierdie doel dien, word dit **sterk aanbeveel** om **kaartjies te vervals met die Advanced Encryption Standard (AES) Kerberos sleutels (AES128 en AES256)** vir operasionele sekuriteitsredes. 
+尽管 NTLM 哈希作为此目的的有效方法，但 **强烈建议** 为了操作安全，**使用高级加密标准 (AES) Kerberos 密钥 (AES128 和 AES256) 来伪造票据**。 
 
 {% code title="From Linux" %}
 ```bash
@@ -31,7 +31,7 @@ python psexec.py jurassic.park/stegosaurus@lab-wdc02.jurassic.park -k -no-pass
 ```
 {% endcode %}
 
-{% code title="Van Windows" %}
+{% code title="来自Windows" %}
 ```bash
 #mimikatz
 kerberos::golden /User:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1-5-21-1874506631-3219952063-538504511 /krbtgt:ff46a9d8bd66c6efd77603da26796f35 /id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt
@@ -43,49 +43,49 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**Sodra** jy die **goue kaart** ingespuit het, kan jy toegang verkry tot die gedeelde lêers **(C$)**, en dienste en WMI uitvoer, sodat jy **psexec** of **wmiexec** kan gebruik om 'n shell te verkry (dit lyk of jy nie 'n shell via winrm kan kry nie).
+**一旦**你注入了**金票**，你可以访问共享文件**(C$)**，并执行服务和WMI，因此你可以使用**psexec**或**wmiexec**来获取一个shell（看起来你无法通过winrm获取shell）。
 
-### Om algemene opsporings te omseil
+### 绕过常见检测
 
-Die mees algemene maniere om 'n goue kaart op te spoor, is deur **Kerberos-verkeer** op die draad te inspekteer.  Standaard **teken Mimikatz die TGT vir 10 jaar**, wat as anomaal sal uitstaan in daaropvolgende TGS versoeke wat daarmee gemaak word.
+检测金票的最常见方法是通过**检查网络上的Kerberos流量**。默认情况下，Mimikatz**将TGT签名为10年**，这在后续使用它发出的TGS请求中会显得异常。
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-Gebruik die `/startoffset`, `/endin` en `/renewmax` parameters om die beginoffset, duur en die maksimum hernuigings te beheer (alles in minute).
+使用`/startoffset`、`/endin`和`/renewmax`参数来控制开始偏移、持续时间和最大续订（均以分钟为单位）。
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-Helaas, die TGT se leeftyd word nie in 4769 se logs aangeteken nie, so jy sal hierdie inligting nie in die Windows gebeurtenislogs vind nie.  Wat jy egter kan korreleer, is **om 4769's te sien sonder 'n vorige 4768**. Dit is **nie moontlik om 'n TGS aan te vra sonder 'n TGT nie**, en as daar geen rekord van 'n TGT wat uitgereik is nie, kan ons aflei dat dit offline vervals is.
+不幸的是，TGT 的生命周期不会在 4769 中记录，因此您无法在 Windows 事件日志中找到此信息。然而，您可以关联的是 **看到 4769 而没有先前的 4768**。**没有 TGT 是无法请求 TGS 的**，如果没有 TGT 被发出的记录，我们可以推断它是离线伪造的。
 
-Om hierdie **deteksie te omseil**, kyk na die diamond tickets:
+为了 **绕过此检测**，请检查 diamond tickets：
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-### Versagting
+### 缓解措施
 
-* 4624: Rekening Aanmelding
-* 4672: Admin Aanmelding
+* 4624: 账户登录
+* 4672: 管理员登录
 * `Get-WinEvent -FilterHashtable @{Logname='Security';ID=4672} -MaxEvents 1 | Format-List –Property`
 
-Ander klein truuks wat verdedigers kan doen, is om **te waarsku oor 4769's vir sensitiewe gebruikers** soos die standaard domein administrateur rekening.
+防御者可以做的其他小技巧是 **对敏感用户的 4769 发出警报**，例如默认域管理员账户。
 
-## Verwysings
+## 参考文献
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

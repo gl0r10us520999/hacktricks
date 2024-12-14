@@ -1,10 +1,10 @@
 # LLM Training - Data Preparation
 
-**Dit is my notas van die baie aanbevole boek** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **met 'n paar ekstra inligting.**
+**这些是我从非常推荐的书籍** [**https://www.manning.com/books/build-a-large-language-model-from-scratch**](https://www.manning.com/books/build-a-large-language-model-from-scratch) **中整理的笔记，包含一些额外信息。**
 
 ## Basic Information
 
-Jy moet begin deur hierdie pos te lees vir 'n paar basiese konsepte wat jy moet weet oor:
+您应该先阅读这篇文章，以了解一些基本概念：
 
 {% content-ref url="0.-basic-llm-concepts.md" %}
 [0.-basic-llm-concepts.md](0.-basic-llm-concepts.md)
@@ -13,7 +13,7 @@ Jy moet begin deur hierdie pos te lees vir 'n paar basiese konsepte wat jy moet 
 ## 1. Tokenization
 
 {% hint style="success" %}
-Die doel van hierdie aanvanklike fase is baie eenvoudig: **Verdeel die invoer in tokens (ids) op 'n manier wat sin maak**.
+这个初始阶段的目标非常简单：**以某种合理的方式将输入划分为标记（ID）**。
 {% endhint %}
 
 {% content-ref url="1.-tokenizing.md" %}
@@ -23,7 +23,7 @@ Die doel van hierdie aanvanklike fase is baie eenvoudig: **Verdeel die invoer in
 ## 2. Data Sampling
 
 {% hint style="success" %}
-Die doel van hierdie tweede fase is baie eenvoudig: **Steek die invoerdata en berei dit voor vir die opleidingsfase deur gewoonlik die datastel in sinne van 'n spesifieke lengte te skei en ook die verwagte reaksie te genereer.**
+这个第二阶段的目标非常简单：**对输入数据进行采样，并为训练阶段准备数据，通常通过将数据集分隔为特定长度的句子，并生成预期的响应。**
 {% endhint %}
 
 {% content-ref url="2.-data-sampling.md" %}
@@ -33,10 +33,10 @@ Die doel van hierdie tweede fase is baie eenvoudig: **Steek die invoerdata en be
 ## 3. Token Embeddings
 
 {% hint style="success" %}
-Die doel van hierdie derde fase is baie eenvoudig: **Ken elkeen van die vorige tokens in die woordeskat 'n vektor van die gewenste dimensies toe om die model te train.** Elke woord in die woordeskat sal 'n punt in 'n ruimte van X dimensies wees.\
-Let daarop dat die posisie van elke woord in die ruimte aanvanklik net "ewekansig" geinitialiseer word en hierdie posisies is leerbare parameters (sal verbeter word tydens die opleiding).
+这个第三阶段的目标非常简单：**为词汇表中的每个标记分配一个所需维度的向量以训练模型。** 词汇表中的每个单词将在X维空间中有一个点。\
+请注意，最初每个单词在空间中的位置是“随机”初始化的，这些位置是可训练的参数（在训练过程中会得到改善）。
 
-Boonop, tydens die token embedding **word 'n ander laag van embeddings geskep** wat (in hierdie geval) die **absolute posisie van die woord in die opleidingssin** verteenwoordig. Op hierdie manier sal 'n woord in verskillende posisies in die sin 'n ander voorstelling (betekenis) hê.
+此外，在标记嵌入期间**创建了另一层嵌入**，它表示（在这种情况下）**单词在训练句子中的绝对位置**。这样，句子中不同位置的单词将具有不同的表示（含义）。
 {% endhint %}
 
 {% content-ref url="3.-token-embeddings.md" %}
@@ -46,8 +46,8 @@ Boonop, tydens die token embedding **word 'n ander laag van embeddings geskep** 
 ## 4. Attention Mechanisms
 
 {% hint style="success" %}
-Die doel van hierdie vierde fase is baie eenvoudig: **Pas 'n paar aandagmeganismes toe**. Hierdie gaan baie **herhaalde lae** wees wat die **verhouding van 'n woord in die woordeskat met sy bure in die huidige sin wat gebruik word om die LLM te train, vasvang**.\
-Daar word baie lae hiervoor gebruik, so baie leerbare parameters gaan hierdie inligting vasvang.
+这个第四阶段的目标非常简单：**应用一些注意机制**。这些将是许多**重复的层**，将**捕捉词汇表中单词与当前用于训练LLM的句子中其邻居的关系**。\
+为此使用了许多层，因此将有许多可训练的参数来捕捉这些信息。
 {% endhint %}
 
 {% content-ref url="4.-attention-mechanisms.md" %}
@@ -57,9 +57,9 @@ Daar word baie lae hiervoor gebruik, so baie leerbare parameters gaan hierdie in
 ## 5. LLM Architecture
 
 {% hint style="success" %}
-Die doel van hierdie vyfde fase is baie eenvoudig: **Ontwikkel die argitektuur van die volle LLM**. Sit alles saam, pas al die lae toe en skep al die funksies om teks te genereer of teks na IDs en terug te transformeer.
+这个第五阶段的目标非常简单：**开发完整LLM的架构**。将所有内容整合在一起，应用所有层，并创建所有生成文本或将文本转换为ID及其反向的函数。
 
-Hierdie argitektuur sal vir beide, opleiding en voorspellings van teks gebruik word nadat dit opgelei is.
+该架构将用于训练和预测文本。
 {% endhint %}
 
 {% content-ref url="5.-llm-architecture.md" %}
@@ -69,7 +69,7 @@ Hierdie argitektuur sal vir beide, opleiding en voorspellings van teks gebruik w
 ## 6. Pre-training & Loading models
 
 {% hint style="success" %}
-Die doel van hierdie sesde fase is baie eenvoudig: **Oplei die model van nuuts af**. Hiervoor sal die vorige LLM-argitektuur gebruik word met 'n paar lusse wat oor die datastelle gaan met behulp van die gedefinieerde verliesfunksies en optimizer om al die parameters van die model op te lei.
+这个第六阶段的目标非常简单：**从头开始训练模型**。为此，将使用之前的LLM架构，通过对数据集进行循环，使用定义的损失函数和优化器来训练模型的所有参数。
 {% endhint %}
 
 {% content-ref url="6.-pre-training-and-loading-models.md" %}
@@ -79,7 +79,7 @@ Die doel van hierdie sesde fase is baie eenvoudig: **Oplei die model van nuuts a
 ## 7.0. LoRA Improvements in fine-tuning
 
 {% hint style="success" %}
-Die gebruik van **LoRA verminder baie die berekening** wat nodig is om **fine tune** reeds opgelei modelle.
+使用**LoRA大大减少了**所需的**微调**已训练模型的计算量。
 {% endhint %}
 
 {% content-ref url="7.0.-lora-improvements-in-fine-tuning.md" %}
@@ -89,7 +89,7 @@ Die gebruik van **LoRA verminder baie die berekening** wat nodig is om **fine tu
 ## 7.1. Fine-Tuning for Classification
 
 {% hint style="success" %}
-Die doel van hierdie afdeling is om te wys hoe om 'n reeds vooropgeleide model te fine-tune sodat in plaas daarvan om nuwe teks te genereer, die LLM die **waarskynlikhede van die gegewe teks om in elkeen van die gegewe kategorieë gekategoriseer te word** (soos of 'n teks spam is of nie) sal gee.
+本节的目标是展示如何微调一个已经预训练的模型，以便LLM选择给定文本在每个给定类别中的**分类概率**（例如，文本是否为垃圾邮件）。
 {% endhint %}
 
 {% content-ref url="7.1.-fine-tuning-for-classification.md" %}
@@ -99,7 +99,7 @@ Die doel van hierdie afdeling is om te wys hoe om 'n reeds vooropgeleide model t
 ## 7.2. Fine-Tuning to follow instructions
 
 {% hint style="success" %}
-Die doel van hierdie afdeling is om te wys hoe om **'n reeds vooropgeleide model te fine-tune om instruksies te volg** eerder as net teks te genereer, byvoorbeeld, om op take te reageer as 'n chat bot.
+本节的目标是展示如何**微调一个已经预训练的模型以遵循指令**，而不仅仅是生成文本，例如，作为聊天机器人响应任务。
 {% endhint %}
 
 {% content-ref url="7.2.-fine-tuning-to-follow-instructions.md" %}

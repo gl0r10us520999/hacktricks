@@ -1,26 +1,26 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-Baie basies, hierdie hulpmiddel sal ons help om waardes vir veranderlikes te vind wat aan sekere voorwaardes moet voldoen, en om dit met die hand te bereken sal baie irriterend wees. Daarom kan jy vir Z3 die voorwaardes aandui waaraan die veranderlikes moet voldoen en dit sal 'n paar waardes vind (indien moontlik).
+非常基本地，这个工具将帮助我们找到需要满足某些条件的变量的值，手动计算这些值将非常麻烦。因此，您可以向 Z3 指示变量需要满足的条件，它将找到一些值（如果可能的话）。
 
-**Sommige teks en voorbeelde is onttrek van [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**一些文本和示例摘自 [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Basiese Operasies
+# 基本操作
 
-## Booleans/En/Of/Nie
+## 布尔值/与/或/非
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -35,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Ints/Simplify/Reals
+## 整数/简化/实数
 ```python
 from z3 import *
 
@@ -55,7 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Druk Model
+## 打印模型
 ```python
 from z3 import *
 
@@ -69,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Masjien Aritmetiek
+# 机器算术
 
-Moderne CPU's en hoofstroom programmeertale gebruik aritmetiek oor **vaste-grootte bit-vektore**. Masjien aritmetiek is beskikbaar in Z3Py as **Bit-Vektore**.
+现代CPU和主流编程语言使用**固定大小位向量**进行算术运算。机器算术在Z3Py中作为**位向量**可用。
 ```python
 from z3 import *
 
@@ -86,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Getekende/Ongetekende Getalle
+## 有符号/无符号数字
 
-Z3 bied spesiale getekende weergawes van wiskundige operasies waar dit 'n verskil maak of die **bit-vectore as getekend of ongetekend** behandel word. In Z3Py, die operateurs **<, <=, >, >=, /, % en >>** stem ooreen met die **getekende** weergawes. Die ooreenstemmende **ongetekende** operateurs is **ULT, ULE, UGT, UGE, UDiv, URem en LShR.**
+Z3 提供了特殊的有符号算术运算版本，在这里 **位向量是被视为有符号还是无符号** 是有区别的。在 Z3Py 中，运算符 **<, <=, >, >=, /, % 和 >>** 对应于 **有符号** 版本。相应的 **无符号** 运算符是 **ULT, ULE, UGT, UGE, UDiv, URem 和 LShR.**
 ```python
 from z3 import *
 
@@ -106,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Funksies
+## Functions
 
-**Geïnterpreteerde funksies** soos aritmetika waar die **funksie +** 'n **vaste standaardinterpretasie** het (dit voeg twee getalle by). **Nie-geïnterpreteerde funksies** en konstantes is **maksimaal buigsaam**; hulle laat **enige interpretasie** toe wat **konsekwent** is met die **beperkings** oor die funksie of konstante.
+**解释函数**，例如算术，其中 **函数 +** 具有 **固定的标准解释**（它将两个数字相加）。 **未解释函数** 和常量是 **最大灵活的**；它们允许与函数或常量的 **约束** 一致的 **任何解释**。
 
-Voorbeeld: f wat twee keer op x toegepas word, lei tot x weer, maar f wat een keer op x toegepas word, is anders as x.
+示例：将 f 应用两次于 x 结果再次得到 x，但将 f 应用一次于 x 则与 x 不同。
 ```python
 from z3 import *
 
@@ -129,9 +129,9 @@ s.add(f(x) == 4) #Find the value that generates 4 as response
 s.check()
 print(m.model())
 ```
-# Voorbeelde
+# 示例
 
-## Sudoku-oplosser
+## 数独求解器
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -181,22 +181,22 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## Verwysings
+## 参考文献
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

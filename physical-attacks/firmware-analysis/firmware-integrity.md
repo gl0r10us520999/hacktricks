@@ -1,60 +1,60 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Firmware Integriteit
+## 固件完整性
 
-Die **aangepaste firmware en/of gecompileerde binêre kan opgelaai word om integriteit of handtekening verifikasiefoute te benut**. Die volgende stappe kan gevolg word vir backdoor bind shell compilering:
+**自定义固件和/或编译的二进制文件可以被上传以利用完整性或签名验证缺陷**。可以按照以下步骤进行后门绑定 shell 编译：
 
-1. Die firmware kan onttrek word met firmware-mod-kit (FMK).
-2. Die teiken firmware argitektuur en endianness moet geïdentifiseer word.
-3. 'n Kruiskompiler kan gebou word met behulp van Buildroot of ander geskikte metodes vir die omgewing.
-4. Die backdoor kan gebou word met die kruiskompiler.
-5. Die backdoor kan na die onttrokken firmware /usr/bin gids gekopieer word.
-6. Die toepaslike QEMU binêre kan na die onttrokken firmware rootfs gekopieer word.
-7. Die backdoor kan geëmuleer word met behulp van chroot en QEMU.
-8. Die backdoor kan via netcat toeganklik gemaak word.
-9. Die QEMU binêre moet van die onttrokken firmware rootfs verwyder word.
-10. Die gewysigde firmware kan herverpak word met behulp van FMK.
-11. Die backdoored firmware kan getoets word deur dit te emuleer met firmware analise toolkit (FAT) en verbinding te maak met die teiken backdoor IP en poort met behulp van netcat.
+1. 可以使用 firmware-mod-kit (FMK) 提取固件。
+2. 应识别目标固件架构和字节序。
+3. 可以使用 Buildroot 或其他适合环境的方法构建交叉编译器。
+4. 可以使用交叉编译器构建后门。
+5. 可以将后门复制到提取的固件 /usr/bin 目录。
+6. 可以将适当的 QEMU 二进制文件复制到提取的固件 rootfs。
+7. 可以使用 chroot 和 QEMU 模拟后门。
+8. 可以通过 netcat 访问后门。
+9. 应从提取的固件 rootfs 中删除 QEMU 二进制文件。
+10. 可以使用 FMK 重新打包修改后的固件。
+11. 可以通过使用固件分析工具包 (FAT) 模拟后门固件，并使用 netcat 连接到目标后门 IP 和端口来测试后门固件。
 
-As 'n root shell reeds verkry is deur dinamiese analise, bootloader manipulasie, of hardeware sekuriteitstoetsing, kan voorafgecompileerde kwaadwillige binêre soos implante of omgekeerde shells uitgevoer word. Geoutomatiseerde payload/implant gereedskap soos die Metasploit raamwerk en 'msfvenom' kan benut word met die volgende stappe:
+如果已经通过动态分析、引导加载程序操作或硬件安全测试获得了 root shell，可以执行预编译的恶意二进制文件，如植入物或反向 shell。可以使用以下步骤利用自动化有效载荷/植入工具，如 Metasploit 框架和 'msfvenom'：
 
-1. Die teiken firmware argitektuur en endianness moet geïdentifiseer word.
-2. Msfvenom kan gebruik word om die teiken payload, aanvaller gasheer IP, luister poortnommer, lêertipe, argitektuur, platform, en die uitvoer lêer spesifiek aan te dui.
-3. Die payload kan na die gecompromitteerde toestel oorgedra word en verseker word dat dit uitvoeringsregte het.
-4. Metasploit kan voorberei word om inkomende versoeke te hanteer deur msfconsole te begin en die instellings volgens die payload te konfigureer.
-5. Die meterpreter omgekeerde shell kan op die gecompromitteerde toestel uitgevoer word.
-6. Meterpreter sessies kan gemonitor word soos hulle oopmaak.
-7. Post-exploitatie aktiwiteite kan uitgevoer word.
+1. 应识别目标固件架构和字节序。
+2. 可以使用 msfvenom 指定目标有效载荷、攻击者主机 IP、监听端口号、文件类型、架构、平台和输出文件。
+3. 可以将有效载荷传输到被攻陷的设备，并确保其具有执行权限。
+4. 可以通过启动 msfconsole 并根据有效载荷配置设置来准备 Metasploit 处理传入请求。
+5. 可以在被攻陷的设备上执行 meterpreter 反向 shell。
+6. 可以监控 meterpreter 会话的开启情况。
+7. 可以执行后期利用活动。
 
-As dit moontlik is, kan kwesbaarhede binne opstart skripte benut word om volgehoue toegang tot 'n toestel oor herlaai te verkry. Hierdie kwesbaarhede ontstaan wanneer opstart skripte verwys, [simbolies skakel](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), of afhanklik is van kode wat geleë is in onbetroubare gemonteerde plekke soos SD kaarte en flits volumes wat gebruik word om data buite wortel lêersisteme te stoor.
+如果可能，可以利用启动脚本中的漏洞在重启时获得对设备的持久访问。这些漏洞在启动脚本引用、[符号链接](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data)或依赖于位于不受信任的挂载位置（如用于存储根文件系统外数据的 SD 卡和闪存卷）中的代码时出现。
 
-## Verwysings
-* Vir verdere inligting kyk [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+## 参考文献
+* 有关更多信息，请查看 [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

@@ -1,50 +1,50 @@
-# Toets LLMs
+# Test LLMs
 
-## Voer en oplei modelle plaaslik
+## Run & train models locally
 
 ### [**Hugging Face Transformers**](https://github.com/huggingface/transformers)
 
-Hugging Face Transformers is een van die gewildste oopbron biblioteke vir die gebruik, opleiding en ontplooiing van LLMs soos GPT, BERT, en vele ander. Dit bied 'n omvattende ekosisteem wat vooraf-geleerde modelle, datastelle, en naatlose integrasie met die Hugging Face Hub vir fyn-afstemming en ontplooiing insluit.
+Hugging Face Transformers 是使用、训练和部署 LLM（如 GPT、BERT 等）最流行的开源库之一。它提供了一个全面的生态系统，包括预训练模型、数据集，以及与 Hugging Face Hub 的无缝集成，以便进行微调和部署。
 
 ### [**LangChain**](https://github.com/langchain-ai/langchain)
 
-LangChain is 'n raamwerk ontwerp vir die bou van toepassings met LLMs. Dit stel ontwikkelaars in staat om taalmodelle met eksterne databasisse, API's, en databronne te verbind. LangChain bied gereedskap vir gevorderde promptingenieurskap, bestuur van gesprekgeskiedenis, en integrasie van LLMs in komplekse werksvloei.
+LangChain 是一个旨在构建 LLM 应用程序的框架。它允许开发人员将语言模型与外部数据源、API 和数据库连接。LangChain 提供了用于高级提示工程、管理对话历史记录和将 LLM 集成到复杂工作流中的工具。
 
 ### [**LitGPT**](https://github.com/Lightning-AI/litgpt)
 
-LitGPT is 'n projek ontwikkel deur Lightning AI wat die Lightning-raamwerk benut om die opleiding, fyn-afstemming, en ontplooiing van GPT-gebaseerde modelle te fasiliteer. Dit integreer naatloos met ander Lightning AI gereedskap, wat geoptimaliseerde werksvloei bied vir die hantering van grootmaat taalmodelle met verbeterde prestasie en skaalbaarheid.
+LitGPT 是由 Lightning AI 开发的一个项目，利用 Lightning 框架来促进基于 GPT 模型的训练、微调和部署。它与其他 Lightning AI 工具无缝集成，提供优化的工作流程，以处理大规模语言模型，增强性能和可扩展性。
 
 ### [**LitServe**](https://github.com/Lightning-AI/LitServe)
 
-**Beskrywing:**\
-LitServe is 'n ontplooiingstoestel van Lightning AI ontwerp vir vinnige en doeltreffende ontplooiing van AI-modelle. Dit vereenvoudig die integrasie van LLMs in regte tyd toepassings deur geoptimaliseerde bedieningsvermoëns te bied.
+**描述：**\
+LitServe 是 Lightning AI 的一个部署工具，旨在快速高效地部署 AI 模型。它通过提供可扩展和优化的服务能力，简化了将 LLM 集成到实时应用程序中的过程。
 
 ### [**Axolotl**](https://github.com/axolotl-ai-cloud/axolotl)
 
-Axolotl is 'n wolk-gebaseerde platform ontwerp om die ontplooiing, skaal en bestuur van AI-modelle, insluitend LLMs, te stroomlyn. Dit bied funksies soos outomatiese skaal, monitering, en integrasie met verskeie wolkdienste, wat dit makliker maak om modelle in produksie-omgewings te ontplooi sonder uitgebreide infrastruktuur bestuur.
+Axolotl 是一个基于云的平台，旨在简化 AI 模型（包括 LLM）的部署、扩展和管理。它提供自动扩展、监控和与各种云服务集成等功能，使在生产环境中部署模型变得更加容易，而无需广泛的基础设施管理。
 
-## Probeer modelle aanlyn
+## Try models online
 
 ### [**Hugging Face**](https://huggingface.co/)
 
-**Hugging Face** is 'n toonaangewende platform en gemeenskap vir masjienleer, veral bekend vir sy werk in natuurlike taalverwerking (NLP). Dit bied gereedskap, biblioteke, en hulpbronne wat dit makliker maak om masjienleer modelle te ontwikkel, deel, en ontplooi.\
-Dit bied verskeie afdelings soos:
+**Hugging Face** 是一个领先的机器学习平台和社区，特别以其在自然语言处理（NLP）方面的工作而闻名。它提供工具、库和资源，使开发、共享和部署机器学习模型变得更加容易。\
+它提供几个部分，如：
 
-* **Modelle**: 'n Uitgebreide repository van **vooraf-geleerde masjienleer modelle** waar gebruikers kan blaai, aflaai, en modelle vir verskeie take soos teksgenerasie, vertaling, beeldherkenning, en meer kan integreer.
-* **Datastelle:** 'n Omvattende **versameling van datastelle** wat gebruik word vir die opleiding en evaluering van modelle. Dit fasiliteer maklike toegang tot diverse databronne, wat gebruikers in staat stel om data vir hul spesifieke masjienleer projekte te vind en te benut.
-* **Ruimtes:** 'n Platform vir die gasheer en deel van **interaktiewe masjienleer toepassings** en demo's. Dit stel ontwikkelaars in staat om hul modelle in aksie te **ten toon te stel**, gebruikersvriendelike koppelvlakke te skep, en saam te werk met ander deur live demo's te deel.
+* **Models**：一个庞大的 **预训练机器学习模型** 库，用户可以浏览、下载和集成用于文本生成、翻译、图像识别等各种任务的模型。
+* **Datasets：** 一个全面的 **数据集集合**，用于训练和评估模型。它便于访问多样的数据源，使用户能够找到并利用数据以满足其特定的机器学习项目。
+* **Spaces：** 一个用于托管和共享 **交互式机器学习应用程序** 和演示的平台。它允许开发人员 **展示** 他们的模型在实际中的应用，创建用户友好的界面，并通过共享实时演示与他人合作。
 
 ## [**TensorFlow Hub**](https://www.tensorflow.org/hub) **&** [**Kaggle**](https://www.kaggle.com/)
 
-**TensorFlow Hub** is 'n omvattende repository van herbruikbare masjienleer modules ontwikkel deur Google. Dit fokus op die fasilitering van die deel en ontplooiing van masjienleer modelle, veral dié wat met TensorFlow gebou is.
+**TensorFlow Hub** 是一个由 Google 开发的可重用机器学习模块的综合库。它专注于促进机器学习模型的共享和部署，特别是那些使用 TensorFlow 构建的模型。
 
-* **Modules:** 'n Uitgebreide versameling van vooraf-geleerde modelle en modelkomponente waar gebruikers kan blaai, aflaai, en modules vir take soos beeldklassifikasie, teksinbeding, en meer kan integreer.
-* **Tutorials:** Stap-vir-stap gidse en voorbeelde wat gebruikers help om te verstaan hoe om modelle te implementeer en fyn-af te stem met behulp van TensorFlow Hub.
-* **Dokumentasie:** Omvattende gidse en API verwysings wat ontwikkelaars help om die repository se hulpbronne effektief te benut.
+* **Modules：** 一个庞大的预训练模型和模型组件的集合，用户可以浏览、下载和集成用于图像分类、文本嵌入等任务的模块。
+* **Tutorials：** 逐步指南和示例，帮助用户理解如何使用 TensorFlow Hub 实现和微调模型。
+* **Documentation：** 综合指南和 API 参考，帮助开发人员有效利用库中的资源。
 
 ## [**Replicate**](https://replicate.com/home)
 
-**Replicate** is 'n platform wat ontwikkelaars toelaat om masjienleer modelle in die wolk te laat loop via 'n eenvoudige API. Dit fokus op die maak van ML modelle maklik toeganklik en ontplooibaar sonder die behoefte aan uitgebreide infrastruktuur opstelling.
+**Replicate** 是一个允许开发人员通过简单 API 在云中运行机器学习模型的平台。它专注于使 ML 模型易于访问和部署，而无需广泛的基础设施设置。
 
-* **Modelle:** 'n Repository van masjienleer modelle bygedra deur die gemeenskap wat gebruikers kan blaai, probeer, en modelle met minimale moeite in hul toepassings kan integreer.
-* **API Toegang:** Eenvoudige API's vir die uitvoering van modelle wat ontwikkelaars in staat stel om modelle moeiteloos binne hul eie toepassings te ontplooi en te skaal.
+* **Models：** 一个由社区贡献的机器学习模型库，用户可以浏览、尝试并将模型集成到他们的应用程序中，几乎不需要任何努力。
+* **API Access：** 简单的 API 用于运行模型，使开发人员能够轻松地在自己的应用程序中部署和扩展模型。

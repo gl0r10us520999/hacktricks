@@ -1,61 +1,45 @@
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+# 检查 GUI 应用程序内可能的操作
 
-<details>
+**常见对话框**是指**保存文件**、**打开文件**、选择字体、颜色等选项。大多数情况下，它们将**提供完整的资源管理器功能**。这意味着如果您可以访问这些选项，您将能够访问资源管理器功能：
 
-<summary>Ondersteun HackTricks</summary>
+* 关闭/另存为
+* 打开/使用打开
+* 打印
+* 导出/导入
+* 搜索
+* 扫描
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+您应该检查是否可以：
 
-</details>
-{% endhint %}
+* 修改或创建新文件
+* 创建符号链接
+* 访问受限区域
+* 执行其他应用程序
 
+## 命令执行
 
-# Kontroleer vir moontlike aksies binne die GUI-toepassing
-
-**Algemene Dialoë** is daardie opsies van **'n lêer stoor**, **'n lêer oopmaak**, 'n lettertipe kies, 'n kleur... Die meeste van hulle sal **'n volledige Explorer-funksionaliteit bied**. Dit beteken dat jy toegang tot Explorer-funksies sal hê as jy toegang tot hierdie opsies kan kry:
-
-* Sluit/Sluit as
-* Oop/Oop met
-* Druk
-* Eksporteer/Importeer
-* Soek
-* Skandeer
-
-Jy moet kyk of jy kan:
-
-* Lêers wysig of nuwe lêers skep
-* Simboliese skakels skep
-* Toegang tot beperkte areas kry
-* Ander toepassings uitvoer
-
-## Opdraguitvoering
-
-Miskien **kan jy 'n `Open with`** opsie gebruik om 'n tipe skulp oop te maak/uit te voer.
+也许**使用 `Open with` 选项**您可以打开/执行某种 shell。
 
 ### Windows
 
-Byvoorbeeld _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ vind meer binaries wat gebruik kan word om opdragte uit te voer (en onverwagte aksies uit te voer) hier: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+例如 _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ 在这里找到更多可以用来执行命令（并执行意外操作）的二进制文件：[https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
-_bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ 更多信息请见：[https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
-## Om padbeperkings te omseil
+## 绕过路径限制
 
-* **Omgewing veranderlikes**: Daar is baie omgewing veranderlikes wat na 'n sekere pad wys
-* **Ander protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
-* **Simboliese skakels**
-* **Skakels**: CTRL+N (oop nuwe sessie), CTRL+R (Voer Opdragte uit), CTRL+SHIFT+ESC (Taakbestuurder), Windows+E (oop explorer), CTRL-B, CTRL-I (Gunstelinge), CTRL-H (Gesiedenis), CTRL-L, CTRL-O (Lêer/Oop Dialoog), CTRL-P (Druk Dialoog), CTRL-S (Stoor As)
-* Versteekte Administratiewe menu: CTRL-ALT-F8, CTRL-ESC-F9
-* **Shell URIs**: _shell:Administratiewe Gereedskap, shell:DokumenteBiblioteek, shell:Biblioteke, shell:Gebruikersprofiele, shell:Persoonlik, shell:SoekHuisGids, shell:Stelsels, shell:NetwerkPlekkeGids, shell:StuurNa, shell:GebruikersProfiele, shell:Gemeenskaplike Administratiewe Gereedskap, shell:MyRekenaarGids, shell:InternetGids_
-* **UNC pades**: Pades om aan gedeelde vouers te koppel. Jy moet probeer om aan die C$ van die plaaslike masjien te koppel ("\\\127.0.0.1\c$\Windows\System32")
-* **Meer UNC pades:**
+* **环境变量**：有很多环境变量指向某个路径
+* **其他协议**：_about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
+* **符号链接**
+* **快捷方式**：CTRL+N（打开新会话），CTRL+R（执行命令），CTRL+SHIFT+ESC（任务管理器），Windows+E（打开资源管理器），CTRL-B，CTRL-I（收藏夹），CTRL-H（历史记录），CTRL-L，CTRL-O（文件/打开对话框），CTRL-P（打印对话框），CTRL-S（另存为）
+* 隐藏的管理菜单：CTRL-ALT-F8，CTRL-ESC-F9
+* **Shell URIs**：_shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **UNC 路径**：连接到共享文件夹的路径。您应该尝试连接到本地计算机的 C$（"\\\127.0.0.1\c$\Windows\System32"）
+* **更多 UNC 路径：**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -69,15 +53,15 @@ _bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.git
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Laai jou binaries af
+## 下载您的二进制文件
 
-Konsol: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registrie redigeerder: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+控制台：[https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
+资源管理器：[https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
+注册表编辑器：[https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
-## Toegang tot lêerstelsel vanaf die blaaier
+## 从浏览器访问文件系统
 
-| PAD                 | PAD               | PAD                | PAD                 |
+| PATH                | PATH              | PATH               | PATH                |
 | ------------------- | ----------------- | ------------------ | ------------------- |
 | File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
 | File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
@@ -87,218 +71,202 @@ Registrie redigeerder: [https://sourceforge.net/projects/uberregedit/](https://s
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-## Skakels
+## 快捷键
 
-* Plakkerige Sleutels – Druk SHIFT 5 keer
-* Muis Sleutels – SHIFT+ALT+NUMLOCK
-* Hoë Kontras – SHIFT+ALT+PRINTSCN
-* Wissel Sleutels – Hou NUMLOCK vir 5 sekondes
-* Filter Sleutels – Hou regte SHIFT vir 12 sekondes
-* WINDOWS+F1 – Windows Soek
-* WINDOWS+D – Wys Bureaublad
-* WINDOWS+E – Begin Windows Explorer
-* WINDOWS+R – Voer uit
-* WINDOWS+U – Toeganklikheidsentrum
-* WINDOWS+F – Soek
-* SHIFT+F10 – Konteksmenu
-* CTRL+SHIFT+ESC – Taakbestuurder
-* CTRL+ALT+DEL – Splash skerm op nuwer Windows weergawes
-* F1 – Hulp F3 – Soek
-* F6 – Adresbalk
-* F11 – Wissel volle skerm binne Internet Explorer
-* CTRL+H – Internet Explorer Gesiedenis
-* CTRL+T – Internet Explorer – Nuwe Tab
-* CTRL+N – Internet Explorer – Nuwe Bladsy
-* CTRL+O – Oop Lêer
-* CTRL+S – Stoor CTRL+N – Nuwe RDP / Citrix
+* 粘滞键 – 连续按 SHIFT 5 次
+* 鼠标键 – SHIFT+ALT+NUMLOCK
+* 高对比度 – SHIFT+ALT+PRINTSCN
+* 切换键 – 按住 NUMLOCK 5 秒
+* 过滤键 – 按住右 SHIFT 12 秒
+* WINDOWS+F1 – Windows 搜索
+* WINDOWS+D – 显示桌面
+* WINDOWS+E – 启动 Windows 资源管理器
+* WINDOWS+R – 运行
+* WINDOWS+U – 辅助功能中心
+* WINDOWS+F – 搜索
+* SHIFT+F10 – 上下文菜单
+* CTRL+SHIFT+ESC – 任务管理器
+* CTRL+ALT+DEL – 在较新 Windows 版本上的启动画面
+* F1 – 帮助 F3 – 搜索
+* F6 – 地址栏
+* F11 – 在 Internet Explorer 中切换全屏
+* CTRL+H – Internet Explorer 历史记录
+* CTRL+T – Internet Explorer – 新标签
+* CTRL+N – Internet Explorer – 新页面
+* CTRL+O – 打开文件
+* CTRL+S – 保存 CTRL+N – 新 RDP / Citrix
 
-## Veeg
+## 滑动操作
 
-* Veeg van die linkerkant na die regterkant om al die oop Windows te sien, die KIOSK-toepassing te minimaliseer en direk toegang tot die hele OS te kry;
-* Veeg van die regterkant na die linkerkant om die Aksie Sentrum te open, die KIOSK-toepassing te minimaliseer en direk toegang tot die hele OS te kry;
-* Veeg in vanaf die boonste rand om die titelbalk sigbaar te maak vir 'n toepassing wat in volle skermmodus oopgemaak is;
-* Veeg op vanaf die onderkant om die taakbalk in 'n volle skerm toepassing te wys.
+* 从左侧向右滑动以查看所有打开的窗口，最小化 KIOSK 应用程序并直接访问整个操作系统；
+* 从右侧向左滑动以打开操作中心，最小化 KIOSK 应用程序并直接访问整个操作系统；
+* 从顶部边缘向下滑动以使全屏模式下的应用程序的标题栏可见；
+* 从底部向上滑动以在全屏应用程序中显示任务栏。
 
-## Internet Explorer Truuks
+## Internet Explorer 技巧
 
-### 'Beeld Werkbalk'
+### '图像工具栏'
 
-Dit is 'n werkbalk wat aan die boonste linkerkant van die beeld verskyn wanneer dit geklik word. Jy sal in staat wees om te Stoor, Druk, Mailto, "My Beelde" in Explorer oop te maak. Die Kiosk moet Internet Explorer gebruik.
+这是一个在单击图像时出现在左上角的工具栏。您将能够保存、打印、发送邮件、在资源管理器中打开“我的图片”。Kiosk 需要使用 Internet Explorer。
 
-### Shell Protokol
+### Shell 协议
 
-Tik hierdie URL's in om 'n Explorer-weergave te verkry:
+输入这些 URL 以获取资源管理器视图：
 
-* `shell:Administratiewe Gereedskap`
-* `shell:DokumenteBiblioteek`
-* `shell:Biblioteke`
-* `shell:Gebruikersprofiele`
-* `shell:Persoonlik`
-* `shell:SoekHuisGids`
-* `shell:NetwerkPlekkeGids`
-* `shell:StuurNa`
-* `shell:GebruikersProfiele`
-* `shell:Gemeenskaplike Administratiewe Gereedskap`
-* `shell:MyRekenaarGids`
-* `shell:InternetGids`
-* `Shell:Profiel`
+* `shell:Administrative Tools`
+* `shell:DocumentsLibrary`
+* `shell:Libraries`
+* `shell:UserProfiles`
+* `shell:Personal`
+* `shell:SearchHomeFolder`
+* `shell:NetworkPlacesFolder`
+* `shell:SendTo`
+* `shell:UserProfiles`
+* `shell:Common Administrative Tools`
+* `shell:MyComputerFolder`
+* `shell:InternetFolder`
+* `Shell:Profile`
 * `Shell:ProgramFiles`
-* `Shell:Stelsel`
-* `Shell:BeheerPaneelGids`
+* `Shell:System`
+* `Shell:ControlPanelFolder`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Beheer Paneel
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Rekenaar
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> My Netwerk Plekke
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> 控制面板
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> 我的电脑
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> 我的网络位置
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-## Wys Lêer Uitbreidings
+## 显示文件扩展名
 
-Kyk na hierdie bladsy vir meer inligting: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+请查看此页面以获取更多信息：[https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Blaaiers truuks
+# 浏览器技巧
 
-Back-up iKat weergawes:
+备份 iKat 版本：
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Skep 'n algemene dialoog met JavaScript en toegang lêer verkenner: `document.write('<input/type=file>')`
-Bron: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
+使用 JavaScript 创建一个常见对话框并访问文件资源管理器：`document.write('<input/type=file>')`\
+来源：https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
 
-## Gebare en knoppies
+## 手势和按钮
 
-* Veeg op met vier (of vyf) vingers / Dubbel-tik die Tuis knoppie: Om die multitaskweergave te sien en die Toepassing te verander
+* 用四（或五）个手指向上滑动 / 双击 Home 按钮：查看多任务视图并更改应用程序
 
-* Veeg een kant of die ander met vier of vyf vingers: Ten einde na die volgende/laaste Toepassing te verander
+* 用四或五个手指向一侧滑动：以更改到下一个/上一个应用程序
 
-* Knyp die skerm met vyf vingers / Raak die Tuis knoppie aan / Veeg op met 1 vinger vanaf die onderkant van die skerm in 'n vinnige beweging na bo: Om toegang tot Tuis te verkry
+* 用五个手指捏合屏幕 / 按住 Home 按钮 / 用 1 个手指从屏幕底部快速向上滑动：访问主屏幕
 
-* Veeg een vinger vanaf die onderkant van die skerm net 1-2 duim (stadig): Die dok sal verskyn
+* 用 1 个手指从屏幕底部滑动 1-2 英寸（慢）：停靠栏将出现
 
-* Veeg af vanaf die boonste deel van die skerm met 1 vinger: Om jou kennisgewings te sien
+* 用 1 个手指从显示器顶部向下滑动：查看通知
 
-* Veeg af met 1 vinger in die boonste regterhoek van die skerm: Om die iPad Pro se kontrole sentrum te sien
+* 用 1 个手指从屏幕右上角向下滑动：查看 iPad Pro 的控制中心
 
-* Veeg 1 vinger vanaf die linkerkant van die skerm 1-2 duim: Om die Vandag se weergawe te sien
+* 用 1 个手指从屏幕左侧滑动 1-2 英寸：查看今日视图
 
-* Veeg vinnig 1 vinger vanaf die middel van die skerm na regs of links: Om na die volgende/laaste Toepassing te verander
+* 用 1 个手指从屏幕中心快速向右或向左滑动：更改到下一个/上一个应用程序
 
-* Druk en hou die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad +** Beweeg die Gly na **afskakel** skuif al die pad na regs: Om af te skakel
+* 按住右上角的开/关/睡眠按钮 + 将滑块移动到右侧以**关闭电源**：关闭电源
 
-* Druk die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad en die Tuis knoppie vir 'n paar sekondes**: Om 'n harde afskakeling te dwing
+* 按住右上角的开/关/睡眠按钮和 Home 按钮几秒钟：强制硬关机
 
-* Druk die Aan/**Af**/Slaap knoppie in die boonste regterhoek van die **iPad en die Tuis knoppie vinnig**: Om 'n skermskoot te neem wat in die onderste linkerhoek van die skerm sal verskyn. Druk albei knoppies gelyktydig baie kortliks, aangesien as jy hulle 'n paar sekondes hou, 'n harde afskakeling uitgevoer sal word.
+* 快速按住右上角的开/关/睡眠按钮和 Home 按钮：截屏，截屏将弹出在显示器左下角。两者同时按下非常短暂，如果按住几秒钟将执行硬关机。
 
-## Skakels
+## 快捷键
 
-Jy moet 'n iPad sleutelbord of 'n USB sleutelbord-adapter hê. Slegs skakels wat kan help om uit die toepassing te ontsnap, sal hier getoon word.
+您应该有一个 iPad 键盘或 USB 键盘适配器。这里只显示可能帮助逃离应用程序的快捷键。
 
-| Sleutel | Naam         |
+| Key | Name         |
 | --- | ------------ |
-| ⌘   | Opdrag      |
-| ⌥   | Opsie (Alt) |
+| ⌘   | Command      |
+| ⌥   | Option (Alt) |
 | ⇧   | Shift        |
-| ↩   | Terug        |
+| ↩   | Return       |
 | ⇥   | Tab          |
-| ^   | Beheer      |
-| ←   | Linker Pyl   |
-| →   | Regter Pyl  |
-| ↑   | Bo Pyl     |
-| ↓   | Onder Pyl   |
+| ^   | Control      |
+| ←   | Left Arrow   |
+| →   | Right Arrow  |
+| ↑   | Up Arrow     |
+| ↓   | Down Arrow   |
 
-### Stelselskakels
+### 系统快捷键
 
-Hierdie skakels is vir die visuele instellings en klankinstellings, afhangende van die gebruik van die iPad.
+这些快捷键用于视觉设置和声音设置，具体取决于 iPad 的使用。
 
-| Skakel | Aksie                                                                         |
+| Shortcut | Action                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
-| F1       | Dim Sscreen                                                                    |
-| F2       | Verhoog skerm                                                                |
-| F7       | Terug een liedjie                                                              |
-| F8       | Speel/pouse                                                                     |
-| F9       | Skuif liedjie                                                                  |
-| F10      | Stil                                                                           |
-| F11      | Verminder volume                                                                |
-| F12      | Verhoog volume                                                                |
-| ⌘ Space  | Wys 'n lys van beskikbare tale; om een te kies, tik weer die spasie. |
+| F1       | 调暗屏幕                                                                    |
+| F2       | 提高屏幕亮度                                                                |
+| F7       | 返回一首歌曲                                                                  |
+| F8       | 播放/暂停                                                                     |
+| F9       | 跳过歌曲                                                                      |
+| F10      | 静音                                                                           |
+| F11      | 降低音量                                                                    |
+| F12      | 增加音量                                                                    |
+| ⌘ Space  | 显示可用语言列表；要选择一种，请再次按空格键。 |
 
-### iPad navigasie
+### iPad 导航
 
-| Skakel                                           | Aksie                                                  |
+| Shortcut                                           | Action                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Gaan na Tuis                                            |
-| ⌘⇧H (Opdrag-Shift-H)                              | Gaan na Tuis                                            |
-| ⌘ (Spasie)                                        | Open Spotlight                                          |
-| ⌘⇥ (Opdrag-Tab)                                   | Lys laaste tien gebruikte toepassings                   |
-| ⌘\~                                                | Gaan na die laaste Toepassing                           |
-| ⌘⇧3 (Opdrag-Shift-3)                              | Skermskoot (hang in onderste linkerhoek om te stoor of daarop te handel) |
-| ⌘⇧4                                                | Skermskoot en open dit in die redigeerder              |
-| Druk en hou ⌘                                   | Lys van skakels beskikbaar vir die Toepassing           |
-| ⌘⌥D (Opdrag-Opsie/Alt-D)                         | Bring die dok op                                        |
-| ^⌥H (Beheer-Opsie-H)                             | Tuis knoppie                                           |
-| ^⌥H H (Beheer-Opsie-H-H)                         | Wys multitaskbalk                                      |
-| ^⌥I (Beheer-Opsie-i)                             | Item keuse                                             |
-| Escape                                             | Terug knoppie                                          |
-| → (Regter pyl)                                    | Volgende item                                           |
-| ← (Linker pyl)                                     | Vorige item                                           |
-| ↑↓ (Bo pyl, Onder pyl)                          | Terselfdertyd tik op die geselekte item                |
-| ⌥ ↓ (Opsie-Onder pyl)                            | Rol af                                                 |
-| ⌥↑ (Opsie-Bo pyl)                               | Rol op                                                 |
-| ⌥← of ⌥→ (Opsie-Linker pyl of Opsie-Regter pyl) | Rol links of regs                                      |
-| ^⌥S (Beheer-Opsie-S)                             | Skakel VoiceOver spraak aan of af                      |
-| ⌘⇧⇥ (Opdrag-Shift-Tab)                            | Wissel na die vorige toepassing                          |
-| ⌘⇥ (Opdrag-Tab)                                   | Wissel terug na die oorspronklike toepassing            |
-| ←+→, dan Opsie + ← of Opsie+→                   | Navigeer deur Dok                                      |
+| ⌘H                                                 | 返回主屏幕                                              |
+| ⌘⇧H (Command-Shift-H)                              | 返回主屏幕                                              |
+| ⌘ (Space)                                          | 打开 Spotlight                                          |
+| ⌘⇥ (Command-Tab)                                   | 列出最近使用的十个应用程序                             |
+| ⌘\~                                                | 返回上一个应用程序                                     |
+| ⌘⇧3 (Command-Shift-3)                              | 截屏（悬停在左下角以保存或操作）                       |
+| ⌘⇧4                                                | 截屏并在编辑器中打开                                   |
+| 按住 ⌘                                           | 列出该应用程序可用的快捷键                             |
+| ⌘⌥D (Command-Option/Alt-D)                         | 调出停靠栏                                            |
+| ^⌥H (Control-Option-H)                             | 主屏幕按钮                                             |
+| ^⌥H H (Control-Option-H-H)                         | 显示多任务栏                                          |
+| ^⌥I (Control-Option-i)                             | 项目选择器                                            |
+| Escape                                             | 返回按钮                                             |
+| → (右箭头)                                        | 下一个项目                                           |
+| ← (左箭头)                                        | 上一个项目                                           |
+| ↑↓ (上箭头，下箭头)                                | 同时点击选定项目                                     |
+| ⌥ ↓ (Option-Down arrow)                            | 向下滚动                                             |
+| ⌥↑ (Option-Up arrow)                               | 向上滚动                                             |
+| ⌥← 或 ⌥→ (Option-Left arrow 或 Option-Right arrow) | 向左或向右滚动                                      |
+| ^⌥S (Control-Option-S)                             | 开启或关闭 VoiceOver 语音                           |
+| ⌘⇧⇥ (Command-Shift-Tab)                            | 切换到上一个应用程序                                 |
+| ⌘⇥ (Command-Tab)                                   | 切换回原始应用程序                                   |
+| ←+→，然后 Option + ← 或 Option+→                   | 在 Dock 中导航                                       |
 
-### Safari skakels
+### Safari 快捷键
 
-| Skakel                | Aksie                                           |
-| --------------------- | ------------------------------------------------ |
-| ⌘L (Opdrag-L)          | Open Ligging                                    |
-| ⌘T                      | Open 'n nuwe tab                               |
-| ⌘W                      | Sluit die huidige tab                          |
-| ⌘R                      | Vernuw die huidige tab                          |
-| ⌘.                      | Stop laai van die huidige tab                   |
-| ^⇥                      | Wissel na die volgende tab                       |
-| ^⇧⇥ (Beheer-Shift-Tab) | Beweeg na die vorige tab                        |
-| ⌘L                      | Kies die teksinvoer/URL veld om dit te wysig   |
-| ⌘⇧T (Opdrag-Shift-T)   | Open laaste geslote tab (kan verskeie kere gebruik word) |
-| ⌘\[                     | Gaan terug een bladsy in jou blaai geskiedenis  |
-| ⌘]                      | Gaan vorentoe een bladsy in jou blaai geskiedenis |
-| ⌘⇧R                     | Aktiveer Leser Modus                             |
+| Shortcut                | Action                                           |
+| ----------------------- | ------------------------------------------------ |
+| ⌘L (Command-L)          | 打开位置                                        |
+| ⌘T                      | 打开新标签                                      |
+| ⌘W                      | 关闭当前标签                                    |
+| ⌘R                      | 刷新当前标签                                    |
+| ⌘.                      | 停止加载当前标签                                |
+| ^⇥                      | 切换到下一个标签                                |
+| ^⇧⇥ (Control-Shift-Tab) | 移动到上一个标签                                |
+| ⌘L                      | 选择文本输入/URL 字段以进行修改                |
+| ⌘⇧T (Command-Shift-T)   | 打开最后关闭的标签（可以多次使用）              |
+| ⌘\[                     | 在浏览历史中返回一页                            |
+| ⌘]                      | 在浏览历史中前进一页                            |
+| ⌘⇧R                     | 激活阅读模式                                    |
 
-### Pos skakels
+### 邮件快捷键
 
-| Skakel                   | Aksie                       |
-| ------------------------ | ---------------------------- |
-| ⌘L                       | Open Ligging                |
-| ⌘T                       | Open 'n nuwe tab           |
-| ⌘W                       | Sluit die huidige tab      |
-| ⌘R                       | Vernuw die huidige tab     |
-| ⌘.                       | Stop laai van die huidige tab |
-| ⌘⌥F (Opdrag-Opsie/Alt-F) | Soek in jou posbus         |
+| Shortcut                   | Action                       |
+| -------------------------- | ---------------------------- |
+| ⌘L                         | 打开位置                    |
+| ⌘T                         | 打开新标签                  |
+| ⌘W                         | 关闭当前标签                |
+| ⌘R                         | 刷新当前标签                |
+| ⌘.                         | 停止加载当前标签            |
+| ⌘⌥F (Command-Option/Alt-F) | 在您的邮箱中搜索            |
 
-# Verwysings
+# 参考文献
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
-
-
-{% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Ondersteun HackTricks</summary>
-
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}

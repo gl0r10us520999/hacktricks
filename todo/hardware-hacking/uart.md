@@ -1,93 +1,93 @@
 # UART
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-## Basiese Inligting
+## 基本信息
 
-UART is 'n seriële protokol, wat beteken dit oordra data tussen komponente een bit op 'n slag. In teenstelling hiermee, parallelle kommunikasieprotokolle oordra data gelyktydig deur verskeie kanale. Algemene seriële protokolle sluit RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, en USB in.
+UART 是一种串行协议，这意味着它一次传输一个比特的数据。相比之下，平行通信协议通过多个通道同时传输数据。常见的串行协议包括 RS-232、I2C、SPI、CAN、以太网、HDMI、PCI Express 和 USB。
 
-Oor die algemeen word die lyn hoog gehou (by 'n logiese 1 waarde) terwyl UART in die idle toestand is. Dan, om die begin van 'n data-oordrag aan te dui, stuur die transmitter 'n beginbit na die ontvanger, waartydens die sein laag gehou word (by 'n logiese 0 waarde). Volgende, stuur die transmitter vyf tot agt databits wat die werklike boodskap bevat, gevolg deur 'n opsionele pariteitsbit en een of twee stopbits (met 'n logiese 1 waarde), afhangende van die konfigurasie. Die pariteitsbit, wat gebruik word vir foutkontrole, word selde in die praktyk gesien. Die stopbit (of bits) dui die einde van die oordrag aan.
+通常，在 UART 处于空闲状态时，线路保持高电平（逻辑 1 值）。然后，为了表示数据传输的开始，发射器向接收器发送一个起始位，此时信号保持低电平（逻辑 0 值）。接下来，发射器发送五到八个数据位，包含实际消息，后面跟着一个可选的奇偶校验位和一个或两个停止位（逻辑 1 值），具体取决于配置。用于错误检查的奇偶校验位在实际中很少见。停止位（或位）表示传输结束。
 
-Ons noem die mees algemene konfigurasie 8N1: agt databits, geen pariteit, en een stopbit. Byvoorbeeld, as ons die karakter C, of 0x43 in ASCII, in 'n 8N1 UART konfigurasie wou stuur, sou ons die volgende bits stuur: 0 (die beginbit); 0, 1, 0, 0, 0, 0, 1, 1 (die waarde van 0x43 in binêr), en 0 (die stopbit).
+我们称最常见的配置为 8N1：八个数据位，无奇偶校验和一个停止位。例如，如果我们想在 8N1 UART 配置中发送字符 C，或 0x43 的 ASCII 码，我们将发送以下位：0（起始位）；0，1，0，0，0，0，1，1（0x43 的二进制值），和 0（停止位）。
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-Hardeware gereedskap om met UART te kommunikeer:
+与 UART 通信的硬件工具：
 
-* USB-naar-serieel adapter
-* Adapters met die CP2102 of PL2303 skyfies
-* Veeldoelige gereedskap soos: Bus Pirate, die Adafruit FT232H, die Shikra, of die Attify Badge
+* USB 转串口适配器
+* 带有 CP2102 或 PL2303 芯片的适配器
+* 多功能工具，如：Bus Pirate、Adafruit FT232H、Shikra 或 Attify Badge
 
-### Identifisering van UART Poorte
+### 识别 UART 端口
 
-UART het 4 poorte: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), en **GND**(Ground). Jy mag dalk 4 poorte vind met die **`TX`** en **`RX`** letters **geskryf** in die PCB. Maar as daar geen aanduiding is nie, mag jy dalk self moet probeer om hulle te vind met 'n **multimeter** of 'n **logika analiseerder**.
+UART 有 4 个端口：**TX**（发送）、**RX**（接收）、**Vcc**（电压）和 **GND**（接地）。你可能会在 PCB 上找到带有 **`TX`** 和 **`RX`** 字母的 4 个端口。但如果没有指示，你可能需要使用 **万用表** 或 **逻辑分析仪** 自行寻找它们。
 
-Met 'n **multimeter** en die toestel afgeskakel:
+使用 **万用表** 并关闭设备电源：
 
-* Om die **GND** pen te identifiseer, gebruik die **Continuity Test** modus, plaas die agterste draad in die grond en toets met die rooi een totdat jy 'n geluid van die multimeter hoor. Verskeie GND penne kan in die PCB gevind word, so jy mag dalk die een wat aan UART behoort gevind het of nie.
-* Om die **VCC poort** te identifiseer, stel die **DC voltage mode** in en stel dit op 20 V spanning. Swart probe op grond en rooi probe op die pen. Skakel die toestel aan. As die multimeter 'n konstante spanning van 3.3 V of 5 V meet, het jy die Vcc pen gevind. As jy ander spannings kry, probeer weer met ander poorte.
-* Om die **TX** **poort** te identifiseer, **DC voltage mode** tot 20 V spanning, swart probe op grond, en rooi probe op die pen, en skakel die toestel aan. As jy die spanning vir 'n paar sekondes sien fluktuëer en dan stabiliseer by die Vcc waarde, het jy waarskynlik die TX poort gevind. Dit is omdat dit, wanneer dit aangeskakel word, 'n paar foutopsporing data stuur.
-* Die **RX poort** sal die naaste een aan die ander 3 wees, dit het die laagste spanning fluktuasie en die laagste algehele waarde van al die UART penne.
+* 要识别 **GND** 引脚，使用 **连续性测试** 模式，将黑色引线放入接地，使用红色引线测试，直到你听到万用表发出声音。PCB 上可能会找到多个 GND 引脚，因此你可能找到的并不一定是属于 UART 的。
+* 要识别 **VCC 端口**，设置 **直流电压模式**，并将其设置为 20 V 电压。黑色探头接地，红色探头接引脚。打开设备电源。如果万用表测得恒定电压为 3.3 V 或 5 V，则你找到了 Vcc 引脚。如果测得其他电压，请尝试其他端口。
+* 要识别 **TX** **端口**，将 **直流电压模式** 设置为 20 V，黑色探头接地，红色探头接引脚，打开设备电源。如果你发现电压在几秒钟内波动，然后稳定在 Vcc 值，则你很可能找到了 TX 端口。这是因为在开机时，它会发送一些调试数据。
+* **RX 端口** 是与其他 3 个端口最接近的，它的电压波动最低，所有 UART 引脚中整体值最低。
 
-Jy kan die TX en RX poorte verwar en niks sal gebeur nie, maar as jy die GND en die VCC poort verwar, kan jy die kring kortsluit.
+你可以混淆 TX 和 RX 端口，没什么问题，但如果混淆 GND 和 VCC 端口，你可能会烧毁电路。
 
-In sommige teiken toestelle is die UART poort deur die vervaardiger gedeaktiveer deur RX of TX of selfs albei te deaktiveer. In daardie geval kan dit nuttig wees om die verbindings op die stroombaan na te spoor en 'n breekpunt te vind. 'n Sterk aanduiding dat daar geen UART-detektering is nie en dat die kring gebroke is, is om die toestel se waarborg te kontroleer. As die toestel met 'n waarborg gestuur is, laat die vervaardiger 'n paar foutopsporing interfaces (in hierdie geval, UART) agter, en moet dus die UART ontkoppel het en dit weer aansluit terwyl dit foutopsporing doen. Hierdie breekpunte kan verbind word deur te soldeer of met jumperdrade.
+在某些目标设备中，制造商通过禁用 RX 或 TX 或甚至两者来禁用 UART 端口。在这种情况下，追踪电路板中的连接并找到一些断点可能会有所帮助。确认没有检测到 UART 和电路断开的一个强烈提示是检查设备保修。如果设备附带某些保修，制造商会留下某些调试接口（在这种情况下是 UART），因此，必须断开 UART，并在调试时重新连接。这些断点引脚可以通过焊接或跳线连接。
 
-### Identifisering van die UART Baud Rate
+### 识别 UART 波特率
 
-Die maklikste manier om die korrekte baud rate te identifiseer, is om na die **TX pen se uitgang te kyk en die data te probeer lees**. As die data wat jy ontvang nie leesbaar is nie, skakel oor na die volgende moontlike baud rate totdat die data leesbaar word. Jy kan 'n USB-naar-serieel adapter of 'n veeldoelige toestel soos Bus Pirate gebruik om dit te doen, saam met 'n helper skrip, soos [baudrate.py](https://github.com/devttys0/baudrate/). Die mees algemene baud rates is 9600, 38400, 19200, 57600, en 115200.
+识别正确波特率的最简单方法是查看 **TX 引脚的输出并尝试读取数据**。如果你收到的数据不可读，请切换到下一个可能的波特率，直到数据变得可读。你可以使用 USB 转串口适配器或像 Bus Pirate 这样的多功能设备来做到这一点，并配合一个辅助脚本，例如 [baudrate.py](https://github.com/devttys0/baudrate/)。最常见的波特率为 9600、38400、19200、57600 和 115200。
 
 {% hint style="danger" %}
-Dit is belangrik om te noem dat jy in hierdie protokol die TX van een toestel aan die RX van die ander moet koppel!
+需要注意的是，在此协议中，你需要将一个设备的 TX 连接到另一个设备的 RX！
 {% endhint %}
 
-## CP210X UART na TTY Adapter
+## CP210X UART 到 TTY 适配器
 
-Die CP210X Chip word in baie prototipering borde soos NodeMCU (met esp8266) vir Seriële Kommunikasie gebruik. Hierdie adapters is relatief goedkoop en kan gebruik word om aan die UART interface van die teiken te koppel. Die toestel het 5 penne: 5V, GND, RXD, TXD, 3.3V. Maak seker om die spanning te koppel soos deur die teiken ondersteun om enige skade te vermy. Laastens koppel die RXD pen van die Adapter aan TXD van die teiken en TXD pen van die Adapter aan RXD van die teiken.
+CP210X 芯片广泛用于许多原型板，如 NodeMCU（带 esp8266）进行串行通信。这些适配器相对便宜，可以用于连接目标的 UART 接口。该设备有 5 个引脚：5V、GND、RXD、TXD、3.3V。确保将电压连接为目标所支持的，以避免任何损坏。最后，将适配器的 RXD 引脚连接到目标的 TXD，引脚连接适配器的 TXD 引脚到目标的 RXD。
 
-As die adapter nie gedetecteer word nie, maak seker dat die CP210X bestuurders in die gasheerstelsel geïnstalleer is. Sodra die adapter gedetecteer en gekoppel is, kan gereedskap soos picocom, minicom of screen gebruik word.
+如果适配器未被检测到，请确保主机系统中已安装 CP210X 驱动程序。一旦适配器被检测到并连接，可以使用 picocom、minicom 或 screen 等工具。
 
-Om die toestelle wat aan Linux/MacOS stelsels gekoppel is, te lys:
+要列出连接到 Linux/MacOS 系统的设备：
 ```
 ls /dev/
 ```
-Vir basiese interaksie met die UART-koppelvlak, gebruik die volgende opdrag:
+对于与UART接口的基本交互，请使用以下命令：
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-Vir minicom, gebruik die volgende opdrag om dit te konfigureer:
+对于minicom，使用以下命令进行配置：
 ```
 minicom -s
 ```
-Configureer die instellings soos baudrate en toestelnaam in die `Serial port setup` opsie.
+配置 `Serial port setup` 选项中的波特率和设备名称。
 
-Na konfigurasie, gebruik die opdrag `minicom` om die UART Console te begin.
+配置完成后，使用命令 `minicom` 启动 UART 控制台。
 
-## UART Via Arduino UNO R3 (Verwyderbare Atmel 328p Chip Borde)
+## 通过 Arduino UNO R3 的 UART（可拆卸的 Atmel 328p 芯片板）
 
-As UART Serial na USB-adapters nie beskikbaar is nie, kan Arduino UNO R3 gebruik word met 'n vinnige hack. Aangesien Arduino UNO R3 gewoonlik oral beskikbaar is, kan dit baie tyd bespaar.
+如果没有 UART 串行到 USB 适配器，可以使用 Arduino UNO R3 进行快速破解。由于 Arduino UNO R3 通常随处可用，这可以节省很多时间。
 
-Arduino UNO R3 het 'n USB na Serial-adapter wat op die bord self ingebou is. Om UART-verbinding te kry, trek eenvoudig die Atmel 328p mikrocontroller-skyf uit die bord. Hierdie hack werk op Arduino UNO R3 variasies wat die Atmel 328p nie op die bord gesoldeer het nie (SMD weergawe word daarin gebruik). Koppel die RX-pin van Arduino (Digitale Pin 0) aan die TX-pin van die UART-interface en die TX-pin van die Arduino (Digitale Pin 1) aan die RX-pin van die UART-interface.
+Arduino UNO R3 板上内置了 USB 到串行适配器。要获取 UART 连接，只需将 Atmel 328p 微控制器芯片从板上拔出。此破解适用于 Atmel 328p 未焊接在板上的 Arduino UNO R3 变体（使用的是 SMD 版本）。将 Arduino 的 RX 引脚（数字引脚 0）连接到 UART 接口的 TX 引脚，将 Arduino 的 TX 引脚（数字引脚 1）连接到 UART 接口的 RX 引脚。
 
-Laastens, dit word aanbeveel om Arduino IDE te gebruik om die Serial Console te kry. In die `tools` afdeling in die spyskaart, kies die `Serial Console` opsie en stel die baud rate in volgens die UART-interface.
+最后，建议使用 Arduino IDE 获取串行控制台。在菜单的 `tools` 部分，选择 `Serial Console` 选项，并根据 UART 接口设置波特率。
 
 ## Bus Pirate
 
-In hierdie scenario gaan ons die UART kommunikasie van die Arduino snuffel wat al die afdrukke van die program na die Serial Monitor stuur.
+在这种情况下，我们将嗅探 Arduino 的 UART 通信，该通信将程序的所有打印信息发送到串行监视器。
 ```bash
 # Check the modes
 UART>m
@@ -161,26 +161,41 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware with UART Console
 
-UART Console bied 'n uitstekende manier om met die onderliggende firmware in 'n runtime-omgewing te werk. Maar wanneer die UART Console-toegang slegs lees is, kan dit baie beperkings inhou. In baie ingebedde toestelle word die firmware in EEPROMs gestoor en in verwerkers met vlugtige geheue uitgevoer. Daarom word die firmware as lees-slegs gehou aangesien die oorspronklike firmware tydens vervaardiging binne die EEPROM self is en enige nuwe lêers sou verlore gaan weens vlugtige geheue. Daarom is dit 'n waardevolle poging om firmware te dump terwyl jy met ingebedde firmwares werk.
+UART Console 提供了一种在运行时环境中处理底层固件的好方法。但是，当 UART Console 访问是只读时，它可能会引入许多限制。在许多嵌入式设备中，固件存储在 EEPROM 中，并在具有易失性内存的处理器中执行。因此，固件保持只读状态，因为制造时的原始固件就在 EEPROM 内部，任何新文件都将由于易失性内存而丢失。因此，在处理嵌入式固件时，转储固件是一项有价值的工作。
 
-Daar is baie maniere om dit te doen en die SPI-afdeling dek metodes om firmware direk uit die EEPROM met verskeie toestelle te onttrek. Alhoewel, dit word aanbeveel om eers te probeer om firmware met UART te dump, aangesien dit riskant kan wees om firmware met fisiese toestelle en eksterne interaksies te dump.
+有很多方法可以做到这一点，SPI 部分涵盖了使用各种设备直接从 EEPROM 中提取固件的方法。尽管如此，建议首先尝试使用 UART 转储固件，因为使用物理设备和外部交互转储固件可能存在风险。
 
-Om firmware vanaf die UART Console te dump, vereis dit eers om toegang tot bootloaders te verkry. Baie gewilde verskaffers gebruik uboot (Universal Bootloader) as hul bootloader om Linux te laai. Daarom is dit nodig om toegang tot uboot te verkry.
+从 UART Console 转储固件首先需要获取对引导加载程序的访问权限。许多流行的供应商使用 uboot（通用引导加载程序）作为其引导加载程序来加载 Linux。因此，获取对 uboot 的访问权限是必要的。
 
-Om toegang tot die boot bootloader te verkry, koppel die UART-poort aan die rekenaar en gebruik enige van die Serial Console-gereedskap en hou die kragtoevoer na die toestel ontkoppel. Sodra die opstelling gereed is, druk die Enter-sleutel en hou dit in. Laastens, koppel die kragtoevoer aan die toestel en laat dit opstart.
+要访问引导加载程序，请将 UART 端口连接到计算机，并使用任何串行控制台工具，并保持设备的电源断开。一旦设置完成，按下 Enter 键并保持不放。最后，连接设备的电源并让其启动。
 
-Deur dit te doen, sal uboot onderbreek word van laai en 'n menu bied. Dit word aanbeveel om uboot-opdragte te verstaan en die helpmenu te gebruik om hulle te lys. Dit mag die `help`-opdrag wees. Aangesien verskillende verskaffers verskillende konfigurasies gebruik, is dit nodig om elkeen van hulle apart te verstaan.
+这样做将中断 uboot 的加载并提供一个菜单。建议了解 uboot 命令并使用帮助菜单列出它们。这可能是 `help` 命令。由于不同的供应商使用不同的配置，因此有必要分别理解每个配置。
 
-Gewoonlik is die opdrag om die firmware te dump:
+通常，转储固件的命令是：
 ```
 md
 ```
-wat staan vir "geheue dump". Dit sal die geheue (EEPROM Inhoud) op die skerm dump. Dit word aanbeveel om die Serial Console-uitset te log voordat jy die prosedure begin om die geheue dump te vang.
+这代表“内存转储”。这将把内存（EEPROM 内容）转储到屏幕上。建议在开始程序之前记录串行控制台输出，以捕获内存转储。
 
-Laastens, verwyder net al die onnodige data uit die loglêer en stoor die lêer as `filename.rom` en gebruik binwalk om die inhoud te onttrek:
+最后，只需从日志文件中剥离所有不必要的数据，并将文件存储为 `filename.rom`，然后使用 binwalk 提取内容：
 ```
 binwalk -e <filename.rom>
 ```
-Dit sal die moontlike inhoud van die EEPROM lys volgens die handtekeninge wat in die hex-lêer gevind is.
+这将根据在十六进制文件中找到的签名列出 EEPROM 的可能内容。
 
-Alhoewel, dit is nodig om op te let dat dit nie altyd die geval is dat die uboot ontgrendel is nie, selfs al word dit gebruik. As die Enter-sleutel niks doen nie, kyk vir ander sleutels soos die Spasie-sleutel, ens. As die bootloader vergrendel is en nie onderbreek word nie, sal hierdie metode nie werk nie. Om te kontroleer of uboot die bootloader vir die toestel is, kyk na die uitvoer op die UART-konsol terwyl die toestel opstart. Dit mag uboot noem terwyl dit opstart.
+尽管需要注意的是，即使正在使用 uboot，uboot 并不总是解锁的。如果 Enter 键没有任何反应，请检查其他键，如空格键等。如果引导加载程序被锁定且没有被中断，则此方法将无效。要检查 uboot 是否是设备的引导加载程序，请在设备启动时检查 UART 控制台上的输出。它可能在启动时提到 uboot。
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+
+</details>
+{% endhint %}

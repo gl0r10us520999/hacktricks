@@ -1,71 +1,71 @@
 # SPI
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Basiese Inligting
+## 基本信息
 
-SPI (Serial Peripheral Interface) is 'n Sinchroniese Seriële Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandkommunikasie tussen IC's (Geïntegreerde Stroombane). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat georkestreer word deur die Klok en Chip Kies Sein. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroverwerker) wat eksterne periferies soos EEPROM, sensors, beheertoestelle, ens. bestuur wat as die slawes beskou word.
+SPI（串行外设接口）是一种同步串行通信协议，用于嵌入式系统中 IC（集成电路）之间的短距离通信。SPI 通信协议利用主从架构，由时钟和芯片选择信号进行协调。主从架构由一个主设备（通常是微处理器）管理外部外设，如 EEPROM、传感器、控制设备等，这些外设被视为从设备。
 
-Meerdere slawes kan aan 'n meester gekoppel word, maar slawes kan nie met mekaar kommunikeer nie. Slawes word bestuur deur twee penne, klok en chip kies. Aangesien SPI 'n sinchroniese kommunikasieprotokol is, volg die invoer- en uitvoerpenne die klokseine. Die chip kies word deur die meester gebruik om 'n slaaf te kies en met hom te kommunikeer. Wanneer die chip kies hoog is, is die slaaf toestel nie gekies nie, terwyl wanneer dit laag is, die chip gekies is en die meester met die slaaf sal kommunikeer.
+多个从设备可以连接到一个主设备，但从设备之间不能相互通信。从设备由两个引脚管理，时钟和芯片选择。由于 SPI 是一种同步通信协议，输入和输出引脚遵循时钟信号。芯片选择由主设备用于选择一个从设备并与之交互。当芯片选择为高时，从设备未被选择，而当其为低时，芯片已被选择，主设备将与从设备进行交互。
 
-Die MOSI (Master Out, Slave In) en MISO (Master In, Slave Out) is verantwoordelik vir die stuur en ontvang van data. Data word na die slaaf toestel gestuur deur die MOSI pen terwyl die chip kies laag gehou word. Die invoerdata bevat instruksies, geheue adresse of data volgens die datasheet van die slaaf toestel verskaffer. Na 'n geldige invoer is die MISO pen verantwoordelik vir die oordrag van data na die meester. Die uitvoerdata word presies by die volgende klok siklus gestuur nadat die invoer eindig. Die MISO penne stuur data tot die data volledig oorgedra is of die meester die chip kies pen hoog stel (in daardie geval sal die slaaf stop om te stuur en die meester sal nie daarna luister nie).
+MOSI（主输出，从输入）和 MISO（主输入，从输出）负责数据的发送和接收。数据通过 MOSI 引脚发送到从设备，同时保持芯片选择为低。输入数据包含指令、内存地址或根据从设备供应商的数据表的数据。在有效输入后，MISO 引脚负责将数据传输到主设备。输出数据在输入结束后的下一个时钟周期发送。MISO 引脚在数据完全传输完毕之前会继续传输，或者主设备将芯片选择引脚设为高（在这种情况下，从设备将停止传输，主设备在下一个时钟周期后将不再接收）。
 
-## Dumping Firmware van EEPROMs
+## 从 EEPROM 中转储固件
 
-Dumping firmware kan nuttig wees om die firmware te analiseer en kwesbaarhede daarin te vind. Dikwels is die firmware nie op die internet beskikbaar nie of is dit irrelevant weens variasies van faktore soos modelnommer, weergawe, ens. Daarom kan dit nuttig wees om die firmware direk van die fisiese toestel te onttrek om spesifiek te wees terwyl jy op soek is na bedreigings.
+转储固件对于分析固件和发现其中的漏洞非常有用。很多时候，固件在互联网上不可用，或者由于型号、版本等因素的变化而无关紧要。因此，直接从物理设备提取固件可以在寻找威胁时提供特定的帮助。
 
-Om Serial Console te verkry kan nuttig wees, maar dikwels gebeur dit dat die lêers slegs leesbaar is. Dit beperk die analise weens verskeie redes. Byvoorbeeld, 'n hulpmiddel wat benodig word om pakkette te stuur en te ontvang, sal nie in die firmware wees nie. Dus is dit nie haalbaar om die binêre lêers te onttrek om hulle om te keer nie. Daarom kan dit baie nuttig wees om die hele firmware op die stelsel te dump en die binêre lêers vir analise te onttrek.
+获取串行控制台可能会有帮助，但很多时候文件是只读的。这限制了分析的进行，原因有很多。例如，发送和接收数据包所需的工具可能不在固件中。因此，提取二进制文件进行逆向工程并不可行。因此，将整个固件转储到系统中并提取二进制文件进行分析会非常有帮助。
 
-Ook, tydens rooi spanwerk en om fisiese toegang tot toestelle te verkry, kan die dumping van die firmware help om die lêers te wysig of kwaadwillige lêers in te spuit en dan weer in die geheue te flits wat nuttig kan wees om 'n agterdeur in die toestel te implanteer. Daarom is daar talle moontlikhede wat ontsluit kan word met firmware dumping.
+此外，在红队行动和获取设备的物理访问权限时，转储固件可以帮助修改文件或注入恶意文件，然后将其重新闪存到内存中，这可能有助于在设备中植入后门。因此，通过固件转储可以解锁许多可能性。
 
-### CH341A EEPROM Programmer en Leser
+### CH341A EEPROM 编程器和读取器
 
-Hierdie toestel is 'n goedkoop hulpmiddel om firmwares van EEPROMs te dump en ook om hulle weer te flits met firmware lêers. Dit was 'n gewilde keuse om met rekenaar BIOS skywe (wat net EEPROMs is) te werk. Hierdie toestel sluit oor USB aan en benodig minimale hulpmiddels om te begin. Ook, dit voltooi gewoonlik die taak vinnig, so dit kan nuttig wees in fisiese toestel toegang ook.
+该设备是一个廉价的工具，用于从 EEPROM 中转储固件，并使用固件文件重新闪存。这一直是处理计算机 BIOS 芯片（实际上就是 EEPROM）的热门选择。该设备通过 USB 连接，并需要最少的工具即可开始使用。此外，它通常能快速完成任务，因此在物理设备访问中也很有帮助。
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-Koppel die EEPROM geheue met die CH341a Programmer en steek die toestel in die rekenaar. Indien die toestel nie gedetecteer word nie, probeer om bestuurders in die rekenaar te installeer. Maak ook seker dat die EEPROM in die regte oriëntasie gekoppel is (gewoonlik, plaas die VCC Pen in omgekeerde oriëntasie teen die USB-konnektor) anders sal die sagteware nie in staat wees om die chip te detecteer nie. Verwys na die diagram indien nodig:
+将 EEPROM 存储器与 CH341A 编程器连接，并将设备插入计算机。如果设备未被检测到，请尝试在计算机上安装驱动程序。此外，请确保 EEPROM 以正确的方向连接（通常将 VCC 引脚反向放置到 USB 连接器），否则软件将无法检测到芯片。如有需要，请参考图示：
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
-Laastens, gebruik sagteware soos flashrom, G-Flash (GUI), ens. om die firmware te dump. G-Flash is 'n minimale GUI hulpmiddel wat vinnig is en die EEPROM outomaties detecteer. Dit kan nuttig wees as die firmware vinnig onttrek moet word, sonder om veel met die dokumentasie te knoei.
+最后，使用 flashrom、G-Flash（GUI）等软件转储固件。G-Flash 是一个快速的最小 GUI 工具，能够自动检测 EEPROM。这在需要快速提取固件时非常有用，而无需过多调整文档。
 
 ![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-Na die dumping van die firmware, kan die analise op die binêre lêers gedoen word. Hulpmiddels soos strings, hexdump, xxd, binwalk, ens. kan gebruik word om baie inligting oor die firmware sowel as die hele lêerstelsel te onttrek.
+转储固件后，可以对二进制文件进行分析。可以使用 strings、hexdump、xxd、binwalk 等工具提取有关固件以及整个文件系统的大量信息。
 
-Om die inhoud van die firmware te onttrek, kan binwalk gebruik word. Binwalk analiseer vir hex handtekeninge en identifiseer die lêers in die binêre lêer en is in staat om hulle te onttrek.
+要从固件中提取内容，可以使用 binwalk。Binwalk 分析十六进制签名并识别二进制文件中的文件，并能够提取它们。
 ```
 binwalk -e <filename>
 ```
-Die kan .bin of .rom wees volgens die gereedskap en konfigurasies wat gebruik word.
+可以是 .bin 或 .rom，具体取决于使用的工具和配置。
 
 {% hint style="danger" %}
-Let daarop dat firmware-ekstraksie 'n delikate proses is en baie geduld vereis. Enige verkeerde hantering kan moontlik die firmware korrupteer of selfs heeltemal uitvee en die toestel onbruikbaar maak. Dit word aanbeveel om die spesifieke toestel te bestudeer voordat jy probeer om die firmware te ekstrak.
+请注意，固件提取是一个精细的过程，需要大量的耐心。任何处理不当都可能导致固件损坏，甚至完全擦除，使设备无法使用。建议在尝试提取固件之前，先研究特定设备。
 {% endhint %}
 
 ### Bus Pirate + flashrom
 
 ![](<../../.gitbook/assets/image (910).png>)
 
-Let daarop dat selfs al dui die PINOUT van die Pirate Bus pinde aan vir **MOSI** en **MISO** om aan SPI te koppel, kan sommige SPIs pinde as DI en DO aandui. **MOSI -> DI, MISO -> DO**
+请注意，即使 Pirate Bus 的引脚图指示了连接到 SPI 的 **MOSI** 和 **MISO** 引脚，但某些 SPI 可能将引脚标记为 DI 和 DO。 **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flitsgeheue te dump deur iets soos te loop:
+在 Windows 或 Linux 上，您可以使用程序 [**`flashrom`**](https://www.flashrom.org/Flashrom) 来转储闪存的内容，运行类似以下命令：
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -75,16 +75,16 @@ In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org
 flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

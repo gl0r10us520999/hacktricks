@@ -1,68 +1,68 @@
-# Investment Terms
+# 投资术语
 
-## Spot
+## 现货
 
-Dit is die mees basiese manier om handel te dryf. Jy kan **die hoeveelheid van die bate en die prys** wat jy wil koop of verkoop, aandui, en wanneer daardie prys bereik word, word die transaksie gedoen.
+这是最基本的交易方式。您可以**指明资产的数量和您想要买入或卖出的价格**，一旦达到该价格，交易就会完成。
 
-Gewoonlik kan jy ook die **huidige markprys** gebruik om die transaksie so vinnig as moontlik teen die huidige prys uit te voer.
+通常，您还可以使用**当前市场价格**以尽快以当前价格进行交易。
 
-**Stop Loss - Limit**: Jy kan ook die hoeveelheid en die prys van die bates om te koop of te verkoop aandui terwyl jy ook 'n laer prys aandui om te koop of te verkoop in die geval dit bereik word (om verliese te stop).
+**止损 - 限制**：您还可以指明买入或卖出的资产数量和价格，同时指明一个较低的价格以便在达到时买入或卖出（以止损）。
 
-## Futures
+## 期货
 
-'n Toekoms is 'n kontrak waar 2 partye 'n ooreenkoms bereik om **iets in die toekoms teen 'n vaste prys te verkry**. Byvoorbeeld om 1 bitcoin in 6 maande vir 70.000$ te verkoop.
+期货是一种合同，其中两方达成协议**在未来以固定价格获取某物**。例如，在6个月内以70,000美元出售1个比特币。
 
-Dit is duidelik dat as die bitcoin waarde in 6 maande 80.000$ is, die verkoper geld verloor en die koper geld verdien. As die bitcoin waarde in 6 maande 60.000$ is, gebeur die teenoorgestelde.
+显然，如果到6个月时比特币的价值为80,000美元，卖方将亏损，而买方将获利。如果到6个月时比特币的价值为60,000美元，则情况正好相反。
 
-Dit is egter interessant vir byvoorbeeld besighede wat 'n produk genereer en die sekerheid nodig het dat hulle dit teen 'n prys kan verkoop om die koste te dek. Of besighede wat vasgestelde pryse in die toekoms vir iets wil verseker, selfs al is dit hoër.
+然而，这对例如正在生产产品并需要确保能够以支付成本的价格出售的企业来说是有趣的。或者希望确保未来某物的固定价格的企业，即使价格更高。
 
-Alhoewel dit in beurse gewoonlik gebruik word om 'n wins te probeer maak.
+尽管在交易所中，这通常用于尝试获利。
 
-* Let daarop dat 'n "Long position" beteken dat iemand wed dat 'n prys gaan styg
-* Terwyl 'n "short position" beteken dat iemand wed dat 'n prys gaan daal
+* 请注意，“多头头寸”意味着某人押注价格将上涨
+* 而“空头头寸”意味着某人押注价格将下跌
 
-### Hedging With Futures <a href="#mntl-sc-block_7-0" id="mntl-sc-block_7-0"></a>
+### 使用期货对冲 <a href="#mntl-sc-block_7-0" id="mntl-sc-block_7-0"></a>
 
-As 'n fondsbestuurder bang is dat sommige aandele gaan daal, kan hy 'n short position oor sommige bates soos bitcoins of S&P 500 futures kontrakte neem. Dit sou soortgelyk wees aan die aankoop of besit van sommige bates en die skep van 'n kontrak om dit teen 'n groter prys in die toekoms te verkoop.&#x20;
+如果基金经理担心某些股票会下跌，他可能会对一些资产（如比特币或标准普尔500期货合约）采取空头头寸。这类似于购买或持有一些资产并创建一个在未来以更高价格出售这些资产的合同。
 
-In die geval dat die prys daal, sal die fondsbestuurder voordele verdien omdat hy die bates teen 'n groter prys sal verkoop. As die prys van die bates styg, sal die bestuurder nie daardie voordeel verdien nie, maar hy sal steeds sy bates hou.
+如果价格下跌，基金经理将获利，因为他将以更高的价格出售资产。如果资产的价格上涨，经理将无法获得该收益，但他仍将保留他的资产。
 
-### Perpetual Futures
+### 永续期货
 
-**Dit is "futures" wat onbepaald sal duur** (sonder 'n einddatum vir die kontrak). Dit is baie algemeen om hulle byvoorbeeld in crypto beurse te vind waar jy in en uit futures kan gaan gebaseer op die prys van crypto's.
+**这些是“期货”，将无限期持续**（没有结束合同日期）。在加密货币交易所中，您可以根据加密货币的价格进出期货，这种情况非常常见。
 
-Let daarop dat in hierdie gevalle die voordele en verliese in werklike tyd kan wees, as die prys met 1% styg, wen jy 1%, as die prys met 1% daal, sal jy dit verloor.
+请注意，在这些情况下，收益和损失可以实时发生，如果价格上涨1%，您将赢得1%；如果价格下跌1%，您将损失1%。
 
-### Futures with Leverage
+### 带杠杆的期货
 
-**Leverage** stel jou in staat om 'n groter posisie in die mark te beheer met 'n kleiner bedrag geld. Dit stel jou basies in staat om "te wed" met baie meer geld as wat jy het, terwyl jy net die geld wat jy werklik het, riskeer.
+**杠杆**允许您用较少的资金控制市场中的更大头寸。它基本上允许您“下注”比您拥有的更多的钱，仅冒您实际拥有的资金的风险。
 
-Byvoorbeeld, as jy 'n toekomsposisie in die BTC/USDT met 100$ en 'n 50x leverage oopmaak, beteken dit dat as die prys met 1% styg, jy 1x50 = 50% van jou aanvanklike belegging (50$) sal wen. En daarom sal jy 150$ hê.\
-As die prys egter met 1% daal, sal jy 50% van jou fondse verloor (59$ in hierdie geval). En as die prys met 2% daal, sal jy al jou weddenskap verloor (2x50 = 100%).
+例如，如果您以100美元的50倍杠杆在BTC/USDT中开设期货头寸，这意味着如果价格上涨1%，您将赢得1x50 = 50%的初始投资（50美元）。因此，您将拥有150美元。\
+然而，如果价格下跌1%，您将损失50%的资金（在这种情况下为59美元）。如果价格下跌2%，您将失去所有的赌注（2x50 = 100%）。
 
-Daarom stel hefboom jou in staat om die bedrag geld wat jy wed, te beheer terwyl jy die winste en verliese verhoog.
+因此，杠杆允许您控制您下注的资金量，同时增加收益和损失。
 
-## Differences Futures & Options
+## 期货与期权的区别
 
-Die hoofverskil tussen futures en opsies is dat die kontrak opsioneel is vir die koper: Hy kan besluit om dit uit te voer of nie (gewoonlik sal hy dit net doen as hy daarby baat). Die verkoper moet verkoop as die koper die opsie wil gebruik.\
-Die koper sal egter 'n fooi aan die verkoper betaal om die opsie te open (sodat die verkoper, wat blykbaar meer risiko neem, 'n bietjie geld begin verdien).
+期货和期权之间的主要区别在于合同对买方是可选的：他可以决定是否执行（通常只有在他能从中获益时才会执行）。如果买方希望使用期权，卖方必须出售。\
+然而，买方将向卖方支付一些费用以开设期权（因此，表面上承担更多风险的卖方开始赚取一些钱）。
 
-### 1. **Obligation vs. Right:**
+### 1. **义务与权利：**
 
-* **Futures:** Wanneer jy 'n futures kontrak koop of verkoop, tree jy in 'n **bindende ooreenkoms** om 'n bate teen 'n spesifieke prys op 'n toekomstige datum te koop of te verkoop. Beide die koper en die verkoper is **verplig** om die kontrak by verstryking na te kom (tenzij die kontrak voor dit gesluit word).
-* **Options:** Met opsies het jy die **reg, maar nie die verpligting** om 'n bate te koop (in die geval van 'n **call option**) of te verkoop (in die geval van 'n **put option**) teen 'n spesifieke prys voor of op 'n sekere vervaldatum. Die **koper** het die opsie om uit te voer, terwyl die **verkoper** verplig is om die handel na te kom as die koper besluit om die opsie uit te oefen.
+* **期货：** 当您买入或卖出期货合同时，您正在进入一个**具有约束力的协议**，以在未来某个日期以特定价格买入或卖出资产。买方和卖方都**有义务**在到期时履行合同（除非合同在此之前关闭）。
+* **期权：** 在期权中，您有**权利，但没有义务**，在特定价格之前或在特定到期日以特定价格买入（在**看涨期权**的情况下）或卖出（在**看跌期权**的情况下）资产。**买方**有选择执行的权利，而**卖方**在买方决定行使期权时有义务完成交易。
 
-### 2. **Risk:**
+### 2. **风险：**
 
-* **Futures:** Beide die koper en die verkoper neem **onbeperkte risiko** aan omdat hulle verplig is om die kontrak te voltooi. Die risiko is die verskil tussen die ooreengekome prys en die markprys op die vervaldatum.
-* **Options:** Die koper se risiko is beperk tot die **premie** wat betaal is om die opsie te koop. As die mark nie in die guns van die opsiehouer beweeg nie, kan hulle eenvoudig die opsie laat verval. Die **verkoper** (skrywer) van die opsie het egter onbeperkte risiko as die mark aansienlik teen hulle beweeg.
+* **期货：** 买方和卖方都承担**无限风险**，因为他们有义务完成合同。风险是到期时约定价格与市场价格之间的差额。
+* **期权：** 买方的风险限于为购买期权支付的**权利金**。如果市场没有朝着期权持有者有利的方向移动，他们可以简单地让期权到期。然而，期权的**卖方**（写手）在市场大幅不利于他们时面临无限风险。
 
-### 3. **Cost:**
+### 3. **成本：**
 
-* **Futures:** Daar is geen vooraf koste behalwe die marge wat vereis word om die posisie te hou nie, aangesien die koper en verkoper albei verplig is om die handel te voltooi.
-* **Options:** Die koper moet 'n **opsie premie** vooraf betaal vir die reg om die opsie uit te oefen. Hierdie premie is basies die koste van die opsie.
+* **期货：** 除了持有头寸所需的保证金外，没有前期成本，因为买方和卖方都有义务完成交易。
+* **期权：** 买方必须为行使期权的权利提前支付**期权权利金**。这个权利金本质上是期权的成本。
 
-### 4. **Profit Potential:**
+### 4. **利润潜力：**
 
-* **Futures:** Die wins of verlies is gebaseer op die verskil tussen die markprys by verstryking en die ooreengekome prys in die kontrak.
-* **Options:** Die koper maak wins wanneer die mark gunstig beweeg bo die uitoefenprys deur meer as die betaalde premie. Die verkoper maak wins deur die premie te hou as die opsie nie uitgeoefen word nie.
+* **期货：** 利润或损失基于到期时市场价格与合同中约定价格之间的差额。
+* **期权：** 当市场向有利于期权持有者的方向移动超过支付的权利金时，买方获利。如果期权未被行使，卖方通过保留权利金获利。

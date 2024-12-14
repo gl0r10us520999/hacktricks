@@ -1,83 +1,83 @@
-# Fisiese Aanvalle
+# 物理攻击
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## BIOS Wagwoord Herstel en Stelselsekuriteit
+## BIOS 密码恢复和系统安全
 
-**Herstel van die BIOS** kan op verskeie maniere gedoen word. Meeste moederborde sluit 'n **batterij** in wat, wanneer dit vir ongeveer **30 minute** verwyder word, die BIOS-instellings, insluitend die wagwoord, sal herstel. Alternatiewelik kan 'n **jumper op die moederbord** aangepas word om hierdie instellings te herstel deur spesifieke penne te verbind.
+**重置 BIOS** 可以通过几种方式实现。大多数主板都包含一个 **电池**，当移除约 **30 分钟** 后，将重置 BIOS 设置，包括密码。或者，可以通过调整 **主板上的跳线** 来重置这些设置，方法是连接特定的引脚。
 
-Vir situasies waar hardeware-aanpassings nie moontlik of prakties is nie, bied **sagteware gereedskap** 'n oplossing. Om 'n stelsel vanaf 'n **Live CD/USB** met verspreidings soos **Kali Linux** te laat loop, bied toegang tot gereedskap soos **_killCmos_** en **_CmosPWD_**, wat kan help met BIOS wagwoord herstel.
+对于无法或不实用进行硬件调整的情况，**软件工具** 提供了解决方案。使用 **Kali Linux** 等发行版从 **Live CD/USB** 启动系统，可以访问像 **_killCmos_** 和 **_CmosPWD_** 这样的工具，帮助进行 BIOS 密码恢复。
 
-In gevalle waar die BIOS wagwoord onbekend is, sal dit gewoonlik 'n foutkode oplewer as dit verkeerd **drie keer** ingevoer word. Hierdie kode kan op webwerwe soos [https://bios-pw.org](https://bios-pw.org) gebruik word om moontlik 'n bruikbare wagwoord te verkry.
+在 BIOS 密码未知的情况下，错误输入 **三次** 通常会导致错误代码。可以在像 [https://bios-pw.org](https://bios-pw.org) 这样的网站上使用此代码来检索可用的密码。
 
-### UEFI Sekuriteit
+### UEFI 安全
 
-Vir moderne stelsels wat **UEFI** in plaas van tradisionele BIOS gebruik, kan die gereedskap **chipsec** gebruik word om UEFI-instellings te analiseer en te wysig, insluitend die deaktivering van **Secure Boot**. Dit kan met die volgende opdrag gedoen word:
+对于使用 **UEFI** 而非传统 BIOS 的现代系统，可以利用工具 **chipsec** 来分析和修改 UEFI 设置，包括禁用 **安全启动**。可以使用以下命令完成此操作：
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### RAM Analise en Koue Boot Aanvalle
+### RAM 分析和冷启动攻击
 
-RAM hou data kortliks na die kragonderbreking, gewoonlik vir **1 tot 2 minute**. Hierdie volharding kan tot **10 minute** verleng word deur koue stowwe, soos vloeibare stikstof, toe te pas. Gedurende hierdie verlengde tydperk kan 'n **geheue dump** geskep word met behulp van gereedskap soos **dd.exe** en **volatility** vir analise.
+在断电后，RAM 会短暂保留数据，通常为 **1 到 2 分钟**。通过施加冷物质，如液氮，可以将这种持续时间延长至 **10 分钟**。在此延长期间，可以使用像 **dd.exe** 和 **volatility** 这样的工具创建 **内存转储** 进行分析。
 
-### Direkte Geheue Toegang (DMA) Aanvalle
+### 直接内存访问 (DMA) 攻击
 
-**INCEPTION** is 'n gereedskap wat ontwerp is vir **fisiese geheue manipulasie** deur middel van DMA, wat versoenbaar is met interfaces soos **FireWire** en **Thunderbolt**. Dit maak dit moontlik om aanmeldprosedures te omseil deur geheue te patch om enige wagwoord te aanvaar. Dit is egter nie effektief teen **Windows 10** stelsels nie.
+**INCEPTION** 是一个旨在通过 DMA 进行 **物理内存操作** 的工具，兼容 **FireWire** 和 **Thunderbolt** 等接口。它允许通过修补内存以接受任何密码来绕过登录程序。然而，它对 **Windows 10** 系统无效。
 
-### Live CD/USB vir Stelseloegang
+### 使用 Live CD/USB 访问系统
 
-Om stelselbinaries soos **_sethc.exe_** of **_Utilman.exe_** met 'n kopie van **_cmd.exe_** te vervang, kan 'n opdragprompt met stelselsprivileges bied. Gereedskap soos **chntpw** kan gebruik word om die **SAM** lêer van 'n Windows-installasie te redigeer, wat wagwoordveranderinge moontlik maak.
+通过用 **_cmd.exe_** 替换系统二进制文件如 **_sethc.exe_** 或 **_Utilman.exe_**，可以提供具有系统权限的命令提示符。可以使用 **chntpw** 工具编辑 Windows 安装的 **SAM** 文件，从而允许更改密码。
 
-**Kon-Boot** is 'n gereedskap wat dit vergemaklik om in Windows-stelsels in te teken sonder om die wagwoord te ken deur tydelik die Windows-kern of UEFI te wysig. Meer inligting kan gevind word by [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot** 是一个工具，可以在不知道密码的情况下登录 Windows 系统，通过临时修改 Windows 内核或 UEFI。更多信息可以在 [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/) 找到。
 
-### Hantering van Windows Sekuriteitskenmerke
+### 处理 Windows 安全功能
 
-#### Boot en Herstel Snelkoppelinge
+#### 启动和恢复快捷键
 
-- **Supr**: Toegang tot BIOS-instellings.
-- **F8**: Gaan na Herstelmodus.
-- Deur **Shift** te druk na die Windows-banner kan outologon omseil.
+- **Supr**：访问 BIOS 设置。
+- **F8**：进入恢复模式。
+- 在 Windows 横幅后按 **Shift** 可以绕过自动登录。
 
-#### SLECHTE USB Toestelle
+#### BAD USB 设备
 
-Toestelle soos **Rubber Ducky** en **Teensyduino** dien as platforms om **slegte USB** toestelle te skep, wat in staat is om vooraf gedefinieerde payloads uit te voer wanneer dit aan 'n teikenrekenaar gekoppel word.
+像 **Rubber Ducky** 和 **Teensyduino** 这样的设备作为创建 **坏 USB** 设备的平台，能够在连接到目标计算机时执行预定义的有效载荷。
 
-#### Volume Skadu Kopie
+#### 卷影复制
 
-Administrateurprivileges stel die gebruiker in staat om kopieë van sensitiewe lêers, insluitend die **SAM** lêer, deur PowerShell te skep.
+管理员权限允许通过 PowerShell 创建敏感文件的副本，包括 **SAM** 文件。
 
-### Omseiling van BitLocker Enkripsie
+### 绕过 BitLocker 加密
 
-BitLocker enkripsie kan moontlik omseil word as die **herstelwagwoord** in 'n geheue dump lêer (**MEMORY.DMP**) gevind word. Gereedskap soos **Elcomsoft Forensic Disk Decryptor** of **Passware Kit Forensic** kan vir hierdie doel gebruik word.
+如果在内存转储文件 (**MEMORY.DMP**) 中找到 **恢复密码**，则可能绕过 BitLocker 加密。可以使用 **Elcomsoft Forensic Disk Decryptor** 或 **Passware Kit Forensic** 等工具实现此目的。
 
-### Sosiale Ingenieurswese vir Herstel Sleutel Byvoeging
+### 社会工程学用于恢复密钥添加
 
-'n Nuwe BitLocker herstel sleutel kan bygevoeg word deur sosiale ingenieurswese taktieke, wat 'n gebruiker oortuig om 'n opdrag uit te voer wat 'n nuwe herstel sleutel van nulles byvoeg, wat die ontsleuteling proses vereenvoudig.
+可以通过社会工程学策略添加新的 BitLocker 恢复密钥，说服用户执行一个命令，添加一个由零组成的新恢复密钥，从而简化解密过程。
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

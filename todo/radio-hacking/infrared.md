@@ -1,108 +1,108 @@
-# Infrared
+# 红外线
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## Hoe die Infrarooi Werk <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## 红外线的工作原理 <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**Infrarooi lig is onsigbaar vir mense**. IR golflengte is van **0.7 tot 1000 mikron**. Huishoudelike afstandsbedienings gebruik 'n IR sein vir datatransmissie en werk in die golflengte-reeks van 0.75..1.4 mikron. 'n Mikrocontroller in die afstandsbediening laat 'n infrarooi LED flikker met 'n spesifieke frekwensie, wat die digitale sein in 'n IR sein omskakel.
+**红外光对人类是不可见的**。红外波长范围为 **0.7 到 1000 微米**。家用遥控器使用红外信号进行数据传输，工作波长范围为 0.75..1.4 微米。遥控器中的微控制器使红外 LED 以特定频率闪烁，将数字信号转换为红外信号。
 
-Om IR seine te ontvang, word 'n **fotoreceiver** gebruik. Dit **omskakel IR lig in spanning pulsies**, wat reeds **digitale seine** is. Gewoonlik is daar 'n **donker ligfilter binne die ontvanger**, wat **slegs die gewenste golflengte deurlaat** en geraas uitsny.
+接收红外信号使用 **光接收器**。它 **将红外光转换为电压脉冲**，这些脉冲已经是 **数字信号**。通常，接收器内部有一个 **暗光滤波器**，只允许 **所需波长通过**，并过滤掉噪声。
 
-### Verskeidenheid van IR Protokolle <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### 红外协议的多样性 <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
-IR protokolle verskil in 3 faktore:
+红外协议在三个因素上有所不同：
 
-* bit kodering
-* datastruktuur
-* draerfrekwensie — dikwels in die reeks 36..38 kHz
+* 位编码
+* 数据结构
+* 载波频率 — 通常在 36..38 kHz 范围内
 
-#### Bit kodering maniere <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### 位编码方式 <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Pulsafstand Kodering**
+**1. 脉冲间距编码**
 
-Bits word gekodeer deur die duur van die spasie tussen pulsies te moduler. Die breedte van die puls self is konstant.
+通过调制脉冲之间的间隔持续时间来编码位。脉冲本身的宽度是恒定的。
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulsbreedte Kodering**
+**2. 脉冲宽度编码**
 
-Bits word gekodeer deur modulasie van die pulsbreedte. Die breedte van die spasie na die pulsuitbarsting is konstant.
+通过调制脉冲宽度来编码位。脉冲突发后的间隔宽度是恒定的。
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
-**3. Fase Kodering**
+**3. 相位编码**
 
-Dit is ook bekend as Manchester kodering. Die logiese waarde word gedefinieer deur die polariteit van die oorgang tussen pulsuitbarsting en spasie. "Spasie na pulsuitbarsting" dui logika "0" aan, "pulsuitbarsting na spasie" dui logika "1" aan.
+也称为曼彻斯特编码。逻辑值由脉冲突发和间隔之间的过渡极性定义。“间隔到脉冲突发”表示逻辑“0”，“脉冲突发到间隔”表示逻辑“1”。
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
-**4. Kombinasie van vorige en ander eksotiese**
+**4. 之前编码方式的组合和其他特殊编码**
 
 {% hint style="info" %}
-Daar is IR protokolle wat **probeer om universeel te word** vir verskeie tipes toestelle. Die bekendste is RC5 en NEC. Ongelukkig beteken die bekendste **nie die mees algemene** nie. In my omgewing het ek net twee NEC afstandsbedienings ontmoet en geen RC5 nie.
+有些红外协议 **试图成为多种设备的通用协议**。最著名的有 RC5 和 NEC。不幸的是，最著名的 **并不意味着最常见**。在我的环境中，我只遇到过两个 NEC 遥控器，而没有 RC5 遥控器。
 
-Fabrikante hou daarvan om hul eie unieke IR protokolle te gebruik, selfs binne dieselfde reeks toestelle (byvoorbeeld, TV-doosies). Daarom kan afstandsbedienings van verskillende maatskappye en soms van verskillende modelle van dieselfde maatskappy, nie met ander toestelle van dieselfde tipe werk nie.
+制造商喜欢使用自己独特的红外协议，即使在同一系列设备中（例如，电视盒）。因此，不同公司的遥控器，有时同一公司的不同型号，无法与同类型的其他设备配合使用。
 {% endhint %}
 
-### Verken 'n IR sein
+### 探索红外信号
 
-Die mees betroubare manier om te sien hoe die afstandsbediening se IR sein lyk, is om 'n oscilloskoop te gebruik. Dit demoduleer of keer nie die ontvangde sein om nie, dit word net "soos dit is" vertoon. Dit is nuttig vir toetsing en foutopsporing. Ek sal die verwagte sein op die voorbeeld van die NEC IR protokol wys.
+查看遥控器红外信号的最可靠方法是使用示波器。它不会解调或反转接收到的信号，而是“原样”显示。这对于测试和调试非常有用。我将以 NEC 红外协议为例展示预期信号。
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Gewoonlik is daar 'n preamble aan die begin van 'n gekodeerde pakket. Dit laat die ontvanger toe om die vlak van versterking en agtergrond te bepaal. Daar is ook protokolle sonder preamble, byvoorbeeld, Sharp.
+通常，编码数据包的开头有一个前导码。这使接收器能够确定增益和背景水平。也有没有前导码的协议，例如，夏普。
 
-Dan word data oorgedra. Die struktuur, preamble, en bit kodering metode word deur die spesifieke protokol bepaal.
+然后传输数据。结构、前导码和位编码方法由特定协议决定。
 
-**NEC IR protokol** bevat 'n kort opdrag en 'n herhalingskode, wat gestuur word terwyl die knoppie ingedruk word. Beide die opdrag en die herhalingskode het dieselfde preamble aan die begin.
+**NEC 红外协议**包含一个短命令和一个重复代码，在按下按钮时发送。命令和重复代码在开头都有相同的前导码。
 
-NEC **opdrag**, benewens die preamble, bestaan uit 'n adresbyte en 'n opdrag-nommer byte, waardeur die toestel verstaan wat gedoen moet word. Adres en opdrag-nommer bytes word gedupliseer met omgekeerde waardes, om die integriteit van die transmissie te kontroleer. Daar is 'n bykomende stopbit aan die einde van die opdrag.
+NEC **命令**除了前导码外，还由一个地址字节和一个命令编号字节组成，设备通过这些字节理解需要执行的操作。地址和命令编号字节用反向值进行重复，以检查传输的完整性。命令末尾有一个额外的停止位。
 
-Die **herhalingskode** het 'n "1" na die preamble, wat 'n stopbit is.
+**重复代码**在前导码后有一个“1”，这是一个停止位。
 
-Vir **logika "0" en "1"** gebruik NEC Pulsafstand Kodering: eerstens word 'n pulsuitbarsting oorgedra waarna daar 'n pouse is, waarvan die lengte die waarde van die bit bepaal.
+对于 **逻辑“0”和“1”**，NEC 使用脉冲间距编码：首先传输一个脉冲突发，然后是一个暂停，其长度设置位的值。
 
-### Lugversorgers
+### 空调
 
-In teenstelling met ander afstandsbedienings, **stuur lugversorgers nie net die kode van die ingedrukte knoppie nie**. Hulle **stuur ook al die inligting** wanneer 'n knoppie ingedruk word om te verseker dat die **lugversorgingsmasjien en die afstandsbediening gesinchroniseer is**.\
-Dit sal verhoed dat 'n masjien wat op 20ºC ingestel is, verhoog word na 21ºC met een afstandsbediening, en dan wanneer 'n ander afstandsbediening, wat steeds die temperatuur as 20ºC het, gebruik word om die temperatuur verder te verhoog, dit "verhoog" na 21ºC (en nie na 22ºC nie, dink dit is op 21ºC).
+与其他遥控器不同，**空调不仅仅传输按下按钮的代码**。它们还 **在按下按钮时传输所有信息**，以确保 **空调和遥控器同步**。\
+这将避免将设置为 20ºC 的机器用一个遥控器增加到 21ºC，然后当使用另一个仍将温度设置为 20ºC 的遥控器进一步增加温度时，它会“增加”到 21ºC（而不是 22ºC，认为它在 21ºC）。
 
-### Aanvalle
+### 攻击
 
-Jy kan Infrarooi aanval met Flipper Zero:
+您可以使用 Flipper Zero 攻击红外线：
 
 {% content-ref url="flipper-zero/fz-infrared.md" %}
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## Verwysings
+## 参考文献
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

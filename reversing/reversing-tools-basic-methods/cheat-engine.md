@@ -1,174 +1,189 @@
 # Cheat Engine
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is 'n nuttige program om te vind waar belangrike waardes in die geheue van 'n lopende speletjie gestoor word en om hulle te verander.\
-Wanneer jy dit aflaai en uitvoer, word jy **aanbied** met 'n **tutorial** oor hoe om die hulpmiddel te gebruik. As jy wil leer hoe om die hulpmiddel te gebruik, word dit sterk aanbeveel om dit te voltooi.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) 是一个有用的程序，可以找到在运行游戏的内存中保存的重要值的位置并进行更改。\
+当你下载并运行它时，你会**看到**一个**使用工具的教程**。如果你想学习如何使用这个工具，强烈建议你完成它。
 
-## Wat soek jy?
+## 你在搜索什么？
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Hierdie hulpmiddel is baie nuttig om te vind **waar 'n waarde** (gewoonlik 'n nommer) **in die geheue** van 'n program gestoor word.\
-**Gewoonlik word nommers** in **4bytes** vorm gestoor, maar jy kan hulle ook in **double** of **float** formate vind, of jy mag dalk iets **anders as 'n nommer** wil soek. Om hierdie rede moet jy seker wees dat jy **kies** wat jy wil **soek**:
+这个工具非常有用，可以找到**某个值**（通常是一个数字）**在程序内存中的存储位置**。\
+**通常数字**以**4字节**的形式存储，但你也可以找到**双精度**或**浮点**格式，或者你可能想寻找**不同于数字**的东西。因此，你需要确保你**选择**你想要**搜索的内容**：
 
 ![](<../../.gitbook/assets/image (324).png>)
 
-Jy kan ook **verskillende** tipes **soeke** aandui:
+你还可以指示**不同**类型的**搜索**：
 
 ![](<../../.gitbook/assets/image (311).png>)
 
-Jy kan ook die boks merk om **die speletjie te stop terwyl jy die geheue skandeer**:
+你还可以勾选框以**在扫描内存时停止游戏**：
 
 ![](<../../.gitbook/assets/image (1052).png>)
 
-### Hotkeys
+### 热键
 
-In _**Edit --> Settings --> Hotkeys**_ kan jy verskillende **hotkeys** vir verskillende doeleindes stel, soos **om die** **speletjie** te **stop** (wat baie nuttig is as jy op 'n stadium die geheue wil skandeer). Ander opsies is beskikbaar:
+在 _**编辑 --> 设置 --> 热键**_ 中，你可以为不同的目的设置不同的**热键**，例如**停止**游戏（如果你想在某个时候扫描内存，这非常有用）。还有其他选项可用：
 
 ![](<../../.gitbook/assets/image (864).png>)
 
-## Waarde verander
+## 修改值
 
-Sodra jy **gevind** het waar die **waarde** is wat jy **soek** (meer oor hierdie in die volgende stappe) kan jy dit **verander** deur dit dubbel te klik, en dan dubbel te klik op sy waarde:
+一旦你**找到**你在**寻找的值**的位置（更多内容在接下来的步骤中），你可以通过双击它来**修改它**，然后双击它的值：
 
 ![](<../../.gitbook/assets/image (563).png>)
 
-En uiteindelik **merk die vink** om die verandering in die geheue te laat plaasvind:
+最后**勾选复选框**以在内存中完成修改：
 
 ![](<../../.gitbook/assets/image (385).png>)
 
-Die **verandering** aan die **geheue** sal onmiddellik **toegepas** word (let daarop dat totdat die speletjie hierdie waarde weer gebruik, die waarde **nie in die speletjie opgedateer sal word**).
+对**内存**的**更改**将立即**应用**（请注意，直到游戏再次使用此值，该值**不会在游戏中更新**）。
 
-## Waarde soek
+## 搜索值
 
-So, ons gaan veronderstel dat daar 'n belangrike waarde is (soos die lewe van jou gebruiker) wat jy wil verbeter, en jy soek hierdie waarde in die geheue)
+所以，我们假设有一个重要的值（比如你用户的生命值）你想要提高，并且你正在内存中寻找这个值）
 
-### Deur 'n bekende verandering
+### 通过已知的变化
 
-Veronderstel jy soek die waarde 100, jy **voer 'n skandering uit** wat daardie waarde soek en jy vind baie ooreenkomste:
+假设你在寻找值100，你**执行扫描**以搜索该值，并且你发现了很多匹配项：
 
 ![](<../../.gitbook/assets/image (108).png>)
 
-Dan, jy doen iets sodat **die waarde verander**, en jy **stop** die speletjie en **voer** 'n **volgende skandering** uit:
+然后，你做一些事情使得**值发生变化**，你**停止**游戏并**执行**下一次扫描：
 
 ![](<../../.gitbook/assets/image (684).png>)
 
-Cheat Engine sal soek na die **waardes** wat **van 100 na die nuwe waarde gegaan het**. Geluk, jy **het gevind** die **adres** van die waarde waarna jy gesoek het, jy kan dit nou verander.\
-_**As jy steeds verskeie waardes het, doen iets om daardie waarde weer te verander, en voer nog 'n "volgende skandering" uit om die adresse te filter.**_
+Cheat Engine 将搜索**从100变为新值的值**。恭喜你，你**找到了**你在寻找的值的**地址**，现在你可以修改它。\
+如果你仍然有多个值，做一些事情再次修改该值，并执行另一次“下一次扫描”以过滤地址。
 
-### Onbekende Waarde, bekende verandering
+### 未知值，已知变化
 
-In die scenario waar jy **nie die waarde weet nie** maar jy weet **hoe om dit te laat verander** (en selfs die waarde van die verandering) kan jy jou nommer soek.
+在你**不知道值**但你知道**如何使其变化**（甚至变化的值）的情况下，你可以寻找你的数字。
 
-So, begin deur 'n skandering van die tipe "**Onbekende aanvanklike waarde**" uit te voer:
+所以，首先执行一种类型为“**未知初始值**”的扫描：
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Dan, laat die waarde verander, dui **hoe** die **waarde** **verander** het (in my geval is dit met 1 verminder) en voer 'n **volgende skandering** uit:
+然后，使值发生变化，指示**值**是**如何变化的**（在我的情况下，它减少了1）并执行**下一次扫描**：
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Jy sal **alle waardes wat op die geselekteerde manier gewysig is** voorgestel word:
+你将看到**所有以所选方式被修改的值**：
 
 ![](<../../.gitbook/assets/image (569).png>)
 
-Sodra jy jou waarde gevind het, kan jy dit verander.
+一旦你找到了你的值，你可以修改它。
 
-Let daarop dat daar 'n **groot aantal moontlike veranderinge** is en jy kan hierdie **stappe soveel keer as wat jy wil** doen om die resultate te filter:
+请注意，有很多可能的变化，你可以根据需要多次执行这些**步骤**以过滤结果：
 
 ![](<../../.gitbook/assets/image (574).png>)
 
-### Willekeurige Geheueadres - Vind die kode
+### 随机内存地址 - 查找代码
 
-Tot nou toe het ons geleer hoe om 'n adres te vind wat 'n waarde stoor, maar dit is hoogs waarskynlik dat in **verskillende uitvoerings van die speletjie daardie adres in verskillende plekke van die geheue is**. So kom ons vind uit hoe om daardie adres altyd te vind.
+到目前为止，我们学习了如何找到存储值的地址，但在**游戏的不同执行中，该地址很可能在内存中的不同位置**。所以让我们找出如何始终找到该地址。
 
-Gebruik sommige van die genoem truuks, vind die adres waar jou huidige speletjie die belangrike waarde stoor. Dan (stop die speletjie as jy wil) doen 'n **regsklik** op die gevonde **adres** en kies "**Vind uit wat hierdie adres benader**" of "**Vind uit wat na hierdie adres skryf**":
+使用一些提到的技巧，找到当前游戏存储重要值的地址。然后（如果你愿意，可以停止游戏）右键单击找到的**地址**并选择“**查找访问此地址的内容**”或“**查找写入此地址的内容**”：
 
 ![](<../../.gitbook/assets/image (1067).png>)
 
-Die **eerste opsie** is nuttig om te weet watter **dele** van die **kode** hierdie **adres** **gebruik** (wat nuttig is vir meer dinge soos **om te weet waar jy die kode** van die speletjie kan verander).\
-Die **tweede opsie** is meer **spesifiek**, en sal meer nuttig wees in hierdie geval aangesien ons belangstel om te weet **van waar hierdie waarde geskryf word**.
+**第一个选项**对于了解**代码**的**哪些部分**在**使用**此**地址**非常有用（这对于更多事情也很有用，比如**知道你可以在哪里修改游戏的代码**）。\
+**第二个选项**更**具体**，在这种情况下更有帮助，因为我们想知道**这个值是从哪里写入的**。
 
-Sodra jy een van daardie opsies gekies het, sal die **debugger** aan die program **gekoppel** word en 'n nuwe **leë venster** sal verskyn. Nou, **speel** die **speletjie** en **verander** daardie **waarde** (sonder om die speletjie te herbegin). Die **venster** moet **gevul** wees met die **adresse** wat die **waarde** **verander**:
+一旦你选择了其中一个选项，**调试器**将**附加**到程序，并且会出现一个新的**空窗口**。现在，**玩**游戏并**修改**该**值**（无需重新启动游戏）。**窗口**应该会**填充**正在**修改**该**值**的**地址**：
 
 ![](<../../.gitbook/assets/image (91).png>)
 
-Nou dat jy die adres gevind het wat die waarde verander, kan jy die **kode na jou goeddunke verander** (Cheat Engine laat jou toe om dit vinnig vir NOPs te verander):
+现在你找到了修改值的地址，你可以**随意修改代码**（Cheat Engine 允许你快速将其修改为 NOP）：
 
 ![](<../../.gitbook/assets/image (1057).png>)
 
-So, jy kan dit nou verander sodat die kode nie jou nommer beïnvloed nie, of altyd op 'n positiewe manier beïnvloed.
+因此，你现在可以修改它，使得代码不会影响你的数字，或者总是以积极的方式影响。
 
-### Willekeurige Geheueadres - Vind die pointer
+### 随机内存地址 - 查找指针
 
-Volg die vorige stappe, vind waar die waarde wat jy belangstel in is. Dan, gebruik "**Vind uit wat na hierdie adres skryf**" om uit te vind watter adres hierdie waarde skryf en dubbelklik daarop om die disassembly weergave te kry:
+按照之前的步骤，找到你感兴趣的值。然后，使用“**查找写入此地址的内容**”找出哪个地址写入此值，并双击它以获取反汇编视图：
 
 ![](<../../.gitbook/assets/image (1039).png>)
 
-Dan, voer 'n nuwe skandering uit **soek na die hex waarde tussen "\[]"** (die waarde van $edx in hierdie geval):
+然后，执行新的扫描**搜索“\[]”之间的十六进制值**（在这种情况下是$edx的值）：
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(_As verskeie verskyn, het jy gewoonlik die kleinste adres een nodig_)\
-Nou, het ons **die pointer gevind wat die waarde wat ons belangstel in sal verander**.
+（_如果出现多个，通常需要最小的地址_）\
+现在，我们已经**找到了将修改我们感兴趣的值的指针**。
 
-Klik op "**Voeg adres handmatig by**":
+点击“**手动添加地址**”：
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Nou, klik op die "Pointer" vink en voeg die gevonde adres in die teksvak (in hierdie scenario was die gevonde adres in die vorige beeld "Tutorial-i386.exe"+2426B0):
+现在，勾选“指针”复选框，并在文本框中添加找到的地址（在这种情况下，前一张图片中找到的地址是“Tutorial-i386.exe”+2426B0）：
 
 ![](<../../.gitbook/assets/image (392).png>)
 
-(Noteer hoe die eerste "Adres" outomaties ingevul word vanaf die pointer adres wat jy invoer)
+（注意第一个“地址”是从你输入的指针地址自动填充的）
 
-Klik OK en 'n nuwe pointer sal geskep word:
+点击确定，一个新的指针将被创建：
 
 ![](<../../.gitbook/assets/image (308).png>)
 
-Nou, elke keer as jy daardie waarde verander, **verander jy die belangrike waarde selfs al is die geheueadres waar die waarde is anders.**
+现在，每次你修改该值时，即使值所在的内存地址不同，你也在**修改重要值**。
 
-### Kode-inspuiting
+### 代码注入
 
-Kode-inspuiting is 'n tegniek waar jy 'n stuk kode in die teikenproses inspuit, en dan die uitvoering van kode herlei om deur jou eie geskryf kode te gaan (soos om jou punte te gee in plaas van om hulle af te trek).
+代码注入是一种技术，你将一段代码注入目标进程，然后重新路由代码的执行以通过你自己编写的代码（例如给你积分而不是扣除它们）。
 
-So, verbeel jou jy het die adres gevind wat 1 van die lewe van jou speler aftrek:
+所以，想象一下你找到了一个将1从玩家生命中减去的地址：
 
 ![](<../../.gitbook/assets/image (203).png>)
 
-Klik op Wys disassembler om die **disassemble kode** te kry.\
-Dan, klik **CTRL+a** om die Auto assemble venster aan te roep en kies _**Template --> Kode-inspuiting**_
+点击显示反汇编器以获取**反汇编代码**。\
+然后，点击**CTRL+a**以调用自动汇编窗口并选择 _**模板 --> 代码注入**_
 
 ![](<../../.gitbook/assets/image (902).png>)
 
-Vul die **adres van die instruksie wat jy wil verander** (dit word gewoonlik outomaties ingevul):
+填写**你想要修改的指令的地址**（这通常是自动填充的）：
 
 ![](<../../.gitbook/assets/image (744).png>)
 
-'n Sjabloon sal gegenereer word:
+将生成一个模板：
 
 ![](<../../.gitbook/assets/image (944).png>)
 
-So, voeg jou nuwe assembly kode in die "**newmem**" afdeling in en verwyder die oorspronklike kode uit die "**originalcode**" as jy nie wil hê dit moet uitgevoer word\*\*.\*\* In hierdie voorbeeld sal die ingespuite kode 2 punte byvoeg in plaas van om 1 af te trek:
+因此，将你的新汇编代码插入到“**newmem**”部分，并从“**originalcode**”中删除原始代码，如果你不想执行它\*\*.\*\* 在这个例子中，注入的代码将增加2点而不是减少1：
 
 ![](<../../.gitbook/assets/image (521).png>)
 
-**Klik op voer uit en so aan en jou kode behoort in die program ingespuit te wees wat die gedrag van die funksionaliteit verander!**
+**点击执行，你的代码应该被注入到程序中，改变功能的行为！**
 
-## **Verwysings**
+## **参考**
 
-* **Cheat Engine tutorial, voltooi dit om te leer hoe om met Cheat Engine te begin**
+* **Cheat Engine 教程，完成它以学习如何开始使用 Cheat Engine**
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
+
+</details>
+{% endhint %}

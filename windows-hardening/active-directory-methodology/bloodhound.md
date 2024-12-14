@@ -1,90 +1,90 @@
 # BloodHound & Other AD Enum Tools
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) is van die Sysinternal Suite:
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) 来自 Sysinternal Suite：
 
-> 'n Gevorderde Active Directory (AD) kyker en redigeerder. Jy kan AD Explorer gebruik om maklik deur 'n AD databasis te navigeer, gunsteling plekke te definieer, objek eienskappe en attribuut te sien sonder om dialoogvensters te open, regte te redigeer, 'n objek se skema te sien, en gesofistikeerde soektogte uit te voer wat jy kan stoor en weer uitvoer.
+> 一个高级的 Active Directory (AD) 查看器和编辑器。您可以使用 AD Explorer 轻松浏览 AD 数据库，定义收藏位置，查看对象属性和属性而无需打开对话框，编辑权限，查看对象的架构，并执行可以保存和重新执行的复杂搜索。
 
-### Snapshots
+### 快照
 
-AD Explorer kan snapshots van 'n AD skep sodat jy dit aflyn kan nagaan.\
-Dit kan gebruik word om kwesbaarhede aflyn te ontdek, of om verskillende toestande van die AD DB oor tyd te vergelyk.
+AD Explorer 可以创建 AD 的快照，以便您离线检查。\
+它可以用于离线发现漏洞，或比较 AD 数据库在不同时间的不同状态。
 
-Jy sal die gebruikersnaam, wagwoord, en rigting benodig om te verbind (enige AD gebruiker is benodig).
+您需要提供用户名、密码和连接方向（任何 AD 用户都是必需的）。
 
-Om 'n snapshot van AD te neem, gaan na `File` --> `Create Snapshot` en voer 'n naam vir die snapshot in.
+要创建 AD 的快照，请转到 `File` --> `Create Snapshot` 并输入快照的名称。
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) is 'n hulpmiddel wat verskeie artefakte uit 'n AD omgewing onttrek en kombineer. Die inligting kan in 'n **spesiaal geformateerde** Microsoft Excel **verslag** aangebied word wat opsommingsoorsigte met metrieke insluit om analise te fasiliteer en 'n holistiese prentjie van die huidige toestand van die teiken AD omgewing te bied.
+[**ADRecon**](https://github.com/adrecon/ADRecon) 是一个从 AD 环境中提取和组合各种工件的工具。信息可以以 **特别格式化** 的 Microsoft Excel **报告** 形式呈现，其中包括带有指标的摘要视图，以便于分析并提供目标 AD 环境当前状态的整体图景。
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
 ## BloodHound
 
-From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
+来自 [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-> BloodHound is 'n enkele bladsy Javascript-webtoepassing, gebou op [Linkurious](http://linkurio.us/), saamgestel met [Electron](http://electron.atom.io/), met 'n [Neo4j](https://neo4j.com/) databasis wat gevoed word deur 'n C# data-insamelaar.
+> BloodHound 是一个单页面的 Javascript 网络应用程序，建立在 [Linkurious](http://linkurio.us/) 之上，使用 [Electron](http://electron.atom.io/) 编译，并通过 C# 数据收集器提供 [Neo4j](https://neo4j.com/) 数据库。
 
-BloodHound gebruik grafteorie om die versteekte en dikwels onbedoelde verhoudings binne 'n Active Directory of Azure-omgewing te onthul. Aanvallers kan BloodHound gebruik om maklik hoogs komplekse aanvalspaaie te identifiseer wat andersins onmoontlik sou wees om vinnig te identifiseer. Verdedigers kan BloodHound gebruik om daardie selfde aanvalspaaie te identifiseer en te elimineer. Beide blou en rooi span kan BloodHound gebruik om maklik 'n dieper begrip van priviligeverhoudings in 'n Active Directory of Azure-omgewing te verkry.
+BloodHound 使用图论来揭示 Active Directory 或 Azure 环境中隐藏的、通常是无意的关系。攻击者可以使用 BloodHound 轻松识别高度复杂的攻击路径，这些路径在其他情况下将无法快速识别。防御者可以使用 BloodHound 识别并消除这些相同的攻击路径。蓝队和红队都可以使用 BloodHound 轻松深入了解 Active Directory 或 Azure 环境中的权限关系。
 
-So, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound)is 'n wonderlike hulpmiddel wat 'n domein outomaties kan opnoem, al die inligting kan stoor, moontlike privilige-eskalasiepaaie kan vind en al die inligting kan vertoon met behulp van grafieke.
+因此，[Bloodhound](https://github.com/BloodHoundAD/BloodHound) 是一个惊人的工具，可以自动枚举域，保存所有信息，查找可能的权限提升路径，并使用图形显示所有信息。
 
-Booldhound bestaan uit 2 hoofdele: **ingestors** en die **visualiseringstoepassing**.
+BloodHound 由两个主要部分组成：**ingestors** 和 **可视化应用程序**。
 
-Die **ingestors** word gebruik om **die domein op te noem en al die inligting te onttrek** in 'n formaat wat die visualiseringstoepassing sal verstaan.
+**ingestors** 用于 **枚举域并以可视化应用程序能够理解的格式提取所有信息**。
 
-Die **visualiseringstoepassing gebruik neo4j** om te wys hoe al die inligting verwant is en om verskillende maniere te wys om privilige in die domein te eskaleer.
+**可视化应用程序使用 neo4j** 来显示所有信息之间的关系，并展示在域中提升权限的不同方式。
 
-### Installasie
-Na die skepping van BloodHound CE, is die hele projek opgedateer vir gebruiksgemak met Docker. Die maklikste manier om te begin is om sy vooraf-gekonfigureerde Docker Compose-konfigurasie te gebruik.
+### 安装
+在创建 BloodHound CE 之后，整个项目进行了更新，以便于使用 Docker。开始的最简单方法是使用其预配置的 Docker Compose 配置。
 
-1. Installeer Docker Compose. Dit behoort ingesluit te wees met die [Docker Desktop](https://www.docker.com/products/docker-desktop/) installasie.
-2. Voer uit:
+1. 安装 Docker Compose。这应该包含在 [Docker Desktop](https://www.docker.com/products/docker-desktop/) 安装中。
+2. 运行：
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Vind die ewekansig gegenereerde wagwoord in die terminaluitvoer van Docker Compose.  
-4. In 'n blaaier, navigeer na http://localhost:8080/ui/login. Teken in met 'n gebruikersnaam van admin en die ewekansig gegenereerde wagwoord uit die logs.  
+3. 在 Docker Compose 的终端输出中找到随机生成的密码。  
+4. 在浏览器中，导航到 http://localhost:8080/ui/login。使用用户名 admin 和日志中的随机生成密码登录。  
 
-Na hierdie sal jy die ewekansig gegenereerde wagwoord moet verander en jy sal die nuwe koppelvlak gereed hê, waarvan jy direk die ingestors kan aflaai.  
+之后，您需要更改随机生成的密码，您将拥有新的界面，从中可以直接下载 ingestors。  
 
 ### SharpHound  
 
-Hulle het verskeie opsies, maar as jy SharpHound vanaf 'n rekenaar wat by die domein aangesluit is, wil uitvoer, met jou huidige gebruiker en al die inligting wil onttrek, kan jy doen:
+他们有几个选项，但如果您想从加入域的 PC 上运行 SharpHound，使用您当前的用户并提取所有信息，您可以这样做：
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
-> Jy kan meer lees oor **CollectionMethod** en lus sessie [hier](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
+> 您可以在[这里](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)阅读更多关于**CollectionMethod**和循环会话的信息。
 
-As jy SharpHound met verskillende geloofsbriewe wil uitvoer, kan jy 'n CMD netonly sessie skep en SharpHound van daar af uitvoer:
+如果您希望使用不同的凭据执行SharpHound，您可以创建一个CMD netonly会话并从那里运行SharpHound：
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-[**Leer meer oor Bloodhound in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
+[**了解更多关于 Bloodhound 的信息，请访问 ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) is 'n hulpmiddel om **kwesbaarhede** in Active Directory geassosieer met **Groep Beleid** te vind. \
-Jy moet **group3r** vanaf 'n gasheer binne die domein gebruik met **enige domein gebruiker**.
+[**Group3r**](https://github.com/Group3r/Group3r) 是一个用于查找与 **组策略** 相关的 Active Directory 中的 **漏洞** 的工具。\
+您需要使用 **任何域用户** 从域内的主机上 **运行 group3r**。
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -92,9 +92,9 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **evalueer die sekuriteitsposisie van 'n AD-omgewing** en bied 'n mooi **verslag** met grafieke.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **评估AD环境的安全态势**并提供一个漂亮的**报告**和图表。
 
-Om dit te laat loop, kan jy die binêre `PingCastle.exe` uitvoer en dit sal 'n **interaktiewe sessie** begin wat 'n menu van opsies aanbied. Die standaardopsie om te gebruik is **`healthcheck`** wat 'n basislyn **oorsig** van die **domein** sal vestig, en **misconfigurasies** en **kwesbaarhede** sal vind.&#x20;
+要运行它，可以执行二进制文件`PingCastle.exe`，它将启动一个**交互式会话**，呈现一个选项菜单。默认选项是**`healthcheck`**，它将建立一个**域**的基线**概述**，并查找**错误配置**和**漏洞**。&#x20;
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

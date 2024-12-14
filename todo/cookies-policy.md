@@ -1,45 +1,45 @@
-# Koekiesbeleid
+# Cookies Policy
 
-Laas opgedateer: 02/04/2023
+最后更新：02/04/2023
 
-### Inleiding
+### 介绍
 
-Hierdie Koekiesbeleid is van toepassing op die volgende webwerwe wat deur die HackTricks-span ("HackTricks", "ons", "ons" of "ons") besit en bedryf word:
+本Cookies政策适用于HackTricks团队（“HackTricks”，“我们”，“我们”或“我们的”）拥有和运营的以下网站：
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-Deur enige van hierdie webwerwe te gebruik, stem jy in tot die gebruik van koekies in ooreenstemming met hierdie Koekiesbeleid. As jy nie saamstem nie, moet jy asseblief koekies in jou blaaierinstellings deaktiveer of onthou om nie ons webwerwe te gebruik nie.
+通过使用这些网站中的任何一个，您同意根据本Cookies政策使用cookies。如果您不同意，请在浏览器设置中禁用cookies或避免使用我们的网站。
 
-### Wat is koekies?
+### 什么是cookies？
 
-Koekies is klein tekslêers wat op jou rekenaar of mobiele toestel gestoor word wanneer jy 'n webwerf besoek. Dit word wyd gebruik om webwerwe te laat werk, hul funksionaliteit te verbeter en 'n meer persoonlike gebruikerservaring te bied.
+Cookies是当您访问网站时存储在您的计算机或移动设备上的小文本文件。它们被广泛用于使网站正常工作、改善其功能并提供更个性化的用户体验。
 
-### Hoe gebruik ons koekies
+### 我们如何使用cookies
 
-Ons gebruik koekies op ons webwerwe vir die volgende doeleindes:
+我们在网站上使用cookies的目的如下：
 
-1. Essensiële koekies: Hierdie koekies is noodsaaklik vir die basiese funksionaliteit van ons webwerwe, soos die aktivering van gebruikersverifikasie, handhawing van sekuriteit en onthou van jou voorkeure.
-2. Prestasiekoekies: Hierdie koekies help ons om te verstaan hoe besoekers met ons webwerwe interaksie het deur inligting anoniem te versamel en te rapporteer. Dit stel ons in staat om ons webwerfprestasie en gebruikerservaring te verbeter.
-3. Funksionaliteitskoekies: Hierdie koekies stel ons webwerwe in staat om keuses wat jy maak, soos jou taal of streek, te onthou om 'n meer persoonlike ervaring te bied.
-4. Teiken-/advertensiekoekies: Hierdie koekies word gebruik om relevante advertensies en bemarkingskommunikasie te lewer gebaseer op jou belange, blaargeskiedenis en interaksies met ons webwerwe.
+1. 必需的cookies：这些cookies对于我们网站的基本功能是必要的，例如启用用户身份验证、维护安全性和记住您的偏好设置。
+2. 性能cookies：这些cookies帮助我们了解访客如何与我们的网站互动，通过匿名收集和报告信息。这使我们能够改善网站性能和用户体验。
+3. 功能性cookies：这些cookies使我们的网站能够记住您所做的选择，例如您的语言或地区，以提供更个性化的体验。
+4. 定向/广告cookies：这些cookies用于根据您的兴趣、浏览历史和与我们网站的互动提供相关广告和营销通讯。
 
-Verder word die bladsye book.hacktricks.xyz en cloud.hacktricks.xyz gehuisves in Gitbook. Jy kan meer inligting oor Gitbook se koekies vind by [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+此外，页面book.hacktricks.xyz和cloud.hacktricks.xyz托管在Gitbook上。您可以在[https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy)找到有关Gitbook cookies的更多信息。
 
-### Derdeparty-koekies
+### 第三方cookies
 
-Naas ons eie koekies kan ons ook derdeparty-koekies gebruik om webwerfgebruikstatistieke te rapporteer, advertensies te lewer en sosiale media-deelknoppies moontlik te maak. Die gebruik van derdeparty-koekies is onderhewig aan hul onderskeie privaatheidspolisse.
+除了我们自己的cookies，我们还可能使用第三方cookies来报告网站使用统计信息、投放广告和启用社交媒体分享按钮。第三方cookies的使用受其各自隐私政策的约束。
 
-Bestuur van koekies
+管理cookies
 
-Die meeste webblaaier laat jou toe om koekies te bestuur deur middel van hul instellings. Jy kan kies om koekies op jou toestel te blokkeer, te verwyder of die gebruik daarvan te beperk. Let egter daarop dat die deaktivering van koekies die funksionaliteit en prestasie van ons webwerwe kan beïnvloed.
+大多数网络浏览器允许您通过其设置管理cookies。您可以选择阻止、删除或限制设备上cookies的使用。然而，请注意，禁用cookies可能会影响我们网站的功能和性能。
 
-Veranderinge aan hierdie Koekiesbeleid
+本Cookies政策的变更
 
-Ons kan hierdie Koekiesbeleid van tyd tot tyd opdateer om veranderinge in ons praktyke of relevante wetgewing te weerspieël. Ons moedig jou aan om hierdie bladsy gereeld te hersien vir die nuutste inligting oor ons koekiepraktyke.
+我们可能会不时更新本Cookies政策，以反映我们做法或相关法律的变化。我们鼓励您定期查看此页面，以获取有关我们cookie做法的最新信息。
 
-### Kontak ons
+### 联系我们
 
-As jy enige vrae of bekommernisse het oor hierdie Koekiesbeleid, kontak ons asseblief by [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+如果您对本Cookies政策有任何疑问或担忧，请通过[support@hacktricks.xyz](mailto:support@hacktricks.xyz)与我们联系。

@@ -1,71 +1,71 @@
-# HackTricks Waardes & FAQ
+# HackTricks 值与常见问题解答
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## HackTricks Waardes
+## HackTricks 值
 
 {% hint style="success" %}
-Dit is die **waardes van die HackTricks Projek**:
+这些是 **HackTricks 项目的价值观**：
 
-* Gee **VRYE** toegang tot **OPVOEDKUNDIGE hacking** hulpbronne aan **AL** Internet.
-* Hacking gaan oor leer, en leer moet so vry as moontlik wees.
-* Die doel van hierdie boek is om as 'n omvattende **opvoedkundige hulpbron** te dien.
-* **Bêre** wonderlike **hacking** tegnieke wat die gemeenskap publiseer en gee die **ORIGINELE** **SKRYVERS** al die **krediete**.
-* **Ons wil nie die krediet van ander mense nie**, ons wil net cool truuks vir almal stoor.
-* Ons skryf ook **ons eie navorsings** in HackTricks.
-* In verskeie gevalle sal ons net **in HackTricks 'n opsomming van die belangrike dele** van die tegniek skryf en sal ons **die leser aanmoedig om die oorspronklike pos** te besoek vir meer besonderhede.
-* **ORGANISEER** al die hacking tegnieke in die boek sodat dit **MEER TOEGANKLIK** is.
-* Die HackTricks span het duisende ure gratis gewy **net om die inhoud te organiseer** sodat mense **vinniger kan leer**.
+* 为 **所有** 互联网用户提供 **免费** 的 **教育黑客** 资源。
+* 黑客是关于学习的，而学习应该尽可能免费。
+* 本书的目的是作为一个全面的 **教育资源**。
+* **存储** 社区发布的精彩 **黑客** 技巧，并给予 **原作者** 所有的 **荣誉**。
+* **我们不想要其他人的荣誉**，我们只想为大家存储酷炫的技巧。
+* 我们还在 HackTricks 中撰写 **我们自己的研究**。
+* 在某些情况下，我们将仅在 HackTricks 中写下技术的重要部分的 **摘要**，并 **鼓励读者访问原始帖子** 以获取更多细节。
+* **组织** 书中的所有黑客技术，使其 **更易获取**。
+* HackTricks 团队投入了数千小时的时间 **仅仅是为了组织内容**，以便人们可以 **更快学习**。
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
 
-## HackTricks faq
+## HackTricks 常见问题解答
 
 {% hint style="success" %}
-* **Baie dankie vir hierdie hulpbronne, hoe kan ek julle bedank?**
+* **非常感谢这些资源，我该如何感谢你们？**
 {% endhint %}
 
-Jy kan die HackTricks span publiek bedank vir die saamstel van al hierdie hulpbronne in 'n tweet wat [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) noem.\
-As jy veral dankbaar is, kan jy ook [**die projek hier borg**](https://github.com/sponsors/carlospolop).\
-En moenie vergeet om **'n ster in die Github projekte te gee nie!** (Vind die skakels hieronder).
+您可以在推特上公开感谢 HackTricks 团队将所有这些资源整理在一起，提及 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)。\
+如果您特别感激，您也可以 [**在这里赞助该项目**](https://github.com/sponsors/carlospolop)。\
+并且不要忘记 **在 GitHub 项目中给个星星！**（请在下面找到链接）。
 
 {% hint style="success" %}
-* **Hoe kan ek by die projek bydra?**
+* **我该如何为该项目做贡献？**
 {% endhint %}
 
-Jy kan **nuwe wenke en truuks met die gemeenskap deel of foute regmaak** wat jy in die boeke vind deur 'n **Pull Request** na die onderskeie Github bladsye te stuur:
+您可以 **与社区分享新的技巧和窍门或修复您在书中发现的错误**，通过向相应的 GitHub 页面发送 **Pull Request**：
 
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-Moet nie vergeet om **'n ster in die Github projekte te gee nie!**
+不要忘记 **在 GitHub 项目中给个星星！**
 
 {% hint style="success" %}
-* **Kan ek 'n paar inhoud van HackTricks kopieer en dit in my blog plaas?**
+* **我可以复制 HackTricks 的一些内容并放到我的博客中吗？**
 {% endhint %}
 
-Ja, jy kan, maar **moet nie vergeet om die spesifieke skakel(s)** waar die inhoud geneem is te noem nie.
+可以，但 **不要忘记提及具体的链接**，内容是从哪里获取的。
 
 {% hint style="success" %}
-* **Hoe kan ek 'n bladsy van HackTricks aanhaal?**
+* **我该如何引用 HackTricks 的页面？**
 {% endhint %}
 
-Solank as die skakel **van** die bladsy(e) waar jy die inligting geneem het verskyn, is dit genoeg.\
-As jy 'n bibtex nodig het, kan jy iets soos gebruik:
+只要您引用的页面的 **链接** 出现即可。\
+如果您需要 bibtex，可以使用类似的格式：
 ```latex
 @misc{hacktricks-bibtexing,
 author = {"HackTricks Team" or the Authors name of the specific page/trick},
@@ -75,97 +75,97 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
 {% hint style="warning" %}
-* **Kan ek al die HackTricks in my blog kopieer?**
+* **我可以在我的博客中复制所有HackTricks吗？**
 {% endhint %}
 
-**Ek verkies om nie**. Dit **gaan niemand bevoordeel nie** aangesien al die **inhoud reeds publiek beskikbaar is** in die amptelike HackTricks boeke gratis.
+**我不太希望这样做**。这对**任何人都没有好处**，因为所有的**内容已经在官方HackTricks书籍中免费公开**。
 
-As jy bang is dat dit gaan verdwyn, fork dit net in Github of laai dit af, soos ek gesê het, dit is reeds gratis.
+如果你担心它会消失，只需在Github上分叉或下载，如我所说，它已经是免费的。
 
 {% hint style="warning" %}
-* **Waarom het julle borge? Is HackTricks boeke vir kommersiële doeleindes?**
+* **你为什么有赞助商？HackTricks书籍是商业用途吗？**
 {% endhint %}
 
-Die eerste **HackTricks** **waarde** is om **GRATIS** hacking opvoedkundige hulpbronne aan **AL** die wêreld te bied. Die HackTricks span het **duisende ure** toegewy om hierdie inhoud aan te bied, weer, **GRATIS**.
+第一个**HackTricks** **价值**是为**全世界**提供**免费的**黑客教育资源。HackTricks团队已经**投入了数千小时**来提供这些内容，再次强调，都是**免费的**。
 
-As jy dink HackTricks boeke is gemaak vir **kommersiële doeleindes** is jy **HEELTEMAL VERKEERD**.
+如果你认为HackTricks书籍是为了**商业目的**而制作的，你是**完全错误的**。
 
-Ons het borge omdat, selfs al is al die inhoud **GRATIS**, ons wil **die gemeenskap die moontlikheid bied om ons werk te waardeer** as hulle wil. Daarom bied ons mense die opsie om aan HackTricks te skenk via [**Github sponsors**](https://github.com/sponsors/carlospolop), en **relevante kuberveiligheidsmaatskappye** om HackTricks te borg en om **'n paar advertensies** in die boek te hê, wat die **advertensies** altyd in plekke plaas waar hulle **sigbaar** is maar **nie die leer** proses steur as iemand op die inhoud fokus nie.
+我们有赞助商，因为即使所有内容都是免费的，我们希望**给社区提供欣赏我们工作的可能性**，如果他们愿意。因此，我们提供人们通过[**Github赞助**](https://github.com/sponsors/carlospolop)捐赠给HackTricks的选项，以及**相关的网络安全公司**赞助HackTricks并在书中**放置一些广告**，这些**广告**总是放在使其**可见**但**不干扰学习**过程的地方，如果有人专注于内容。
 
-Jy sal nie HackTricks vol irritante advertensies vind soos ander blogs met baie minder inhoud as HackTricks nie, omdat HackTricks nie gemaak is vir kommersiële doeleindes nie.
+你不会发现HackTricks充满了烦人的广告，就像其他内容远不如HackTricks的博客一样，因为HackTricks不是为了商业目的而制作的。
 
 {% hint style="danger" %}
-* **Wat moet ek doen as 'n HackTricks bladsy gebaseer is op my blogpos maar dit nie verwys word nie?**
+* **如果某个HackTricks页面基于我的博客文章但没有引用，我该怎么办？**
 {% endhint %}
 
-**Ons is baie jammer. Dit moes nie gebeur het nie**. Laat weet ons asseblief via Github issues, Twitter, Discord... die skakel van die HackTricks bladsy met die inhoud en die skakel van jou blog en **ons sal dit nagaan en dit ASAP byvoeg**.
+**我们非常抱歉。这不应该发生**。请通过Github问题、Twitter、Discord等告知我们HackTricks页面的链接和你的博客链接，**我们会检查并尽快添加**。
 
 {% hint style="danger" %}
-* **Wat moet ek doen as daar inhoud van my blog in HackTricks is en ek wil nie dit daar hê nie?**
+* **如果我的博客内容出现在HackTricks中，我不想让它在那里，我该怎么办？**
 {% endhint %}
 
-Let daarop dat om skakels na jou bladsy in HackTricks te hê:
+请注意，在HackTricks中有链接到你的页面：
 
-* Verbeter jou **SEO**
-* Die inhoud word **vertaal na meer as 15 tale** wat dit moontlik maak vir meer mense om toegang tot hierdie inhoud te hê
-* **HackTricks moedig** mense aan om **jou bladsy te besoek** (verskeie mense het vir ons genoem dat sedert 'n paar van hulle se bladsye in HackTricks is, hulle meer besoeke ontvang)
+* 改善你的**SEO**
+* 内容被**翻译成15种以上的语言**，使更多人能够访问这些内容
+* **HackTricks鼓励**人们**查看你的页面**（有几个人提到，自从他们的某个页面出现在HackTricks中，他们的访问量增加了）
 
-As jy egter steeds wil hê dat die inhoud van jou blog verwyder moet word uit HackTricks, laat weet ons asseblief en ons sal beslis **elke skakel na jou blog verwyder**, en enige inhoud gebaseer daarop.
+然而，如果你仍然希望从HackTricks中删除你博客的内容，请告诉我们，我们一定会**删除所有指向你博客的链接**，以及任何基于它的内容。
 
 {% hint style="danger" %}
-* **Wat moet ek doen as ek gekopieerde inhoud in HackTricks vind?**
+* **如果我在HackTricks中发现抄袭的内容，我该怎么办？**
 {% endhint %}
 
-Ons **gee altyd die oorspronklike outeurs al die krediet**. As jy 'n bladsy vind met gekopieerde inhoud sonder oorspronklike bron verwysing, laat weet ons en ons sal of **dit verwyder**, **die skakel voor die teks byvoeg**, of **dit herskryf met die skakel**.
+我们始终**给予原作者所有的信用**。如果你发现某个页面有抄袭的内容而没有引用原始来源，请告诉我们，我们将**删除它**、**在文本前添加链接**，或**重写并添加链接**。
 
 ## LICENSE
 
-Copyright © Alle regte voorbehou tensy anders vermeld.
+Copyright © 保留所有权利，除非另有说明。
 
-#### License Summary:
+#### 许可证摘要：
 
-* Attribution: Jy is vry om:
-* Deel — kopieer en versprei die materiaal in enige medium of formaat.
-* Pas aan — remix, transformeer, en bou voort op die materiaal.
+* 署名：你可以自由：
+* 分享 — 以任何媒介或格式复制和重新分发材料。
+* 改编 — 混合、转化和基于材料进行构建。
 
-#### Additional Terms:
+#### 附加条款：
 
-* Third-Party Content: Sommige dele van hierdie blog/boek mag inhoud van ander bronne insluit, soos uittreksels van ander blogs of publikasies. Die gebruik van sulke inhoud word gedoen onder die beginsels van billike gebruik of met eksplisiete toestemming van die onderskeie kopiereghouers. Verwys asseblief na die oorspronklike bronne vir spesifieke lisensiëringsinligting rakende derdeparty-inhoud.
-* Authorship: Die oorspronklike inhoud geskryf deur HackTricks is onderhewig aan die bepalings van hierdie lisensie. Jy word aangemoedig om hierdie werk aan die outeur toe te ken wanneer jy dit deel of aanpas.
+* 第三方内容：本博客/书籍的某些部分可能包含来自其他来源的内容，例如其他博客或出版物的摘录。使用此类内容是基于公平使用原则或获得相关版权持有者的明确许可。请参考原始来源以获取有关第三方内容的具体许可信息。
+* 作者：HackTricks创作的原始内容受此许可证条款的约束。鼓励你在分享或改编时将此作品归功于作者。
 
-#### Exemptions:
+#### 免责条款：
 
-* Commercial Use: Vir navrae rakende kommersiële gebruik van hierdie inhoud, kontak my asseblief.
+* 商业用途：有关此内容的商业用途的询问，请与我联系。
 
-Hierdie lisensie gee nie enige handelsmerk of handelsnaam regte in verband met die inhoud nie. Alle handelsmerke en handelsname wat in hierdie blog/boek verskyn, is die eiendom van hul onderskeie eienaars.
+本许可证不授予与内容相关的任何商标或品牌权利。本博客/书籍中出现的所有商标和品牌均为其各自所有者的财产。
 
-**Deur toegang te verkry tot of HackTricks te gebruik, stem jy in om die bepalings van hierdie lisensie na te kom. As jy nie met hierdie bepalings saamstem nie, asseblief, moenie toegang tot hierdie webwerf verkry nie.**
+**通过访问或使用HackTricks，你同意遵守本许可证的条款。如果你不同意这些条款，请不要访问本网站。**
 
-## **Disclaimer**
+## **免责声明**
 
 {% hint style="danger" %}
-Hierdie boek, 'HackTricks,' is bedoel vir opvoedkundige en informele doeleindes slegs. Die inhoud binne hierdie boek word op 'n 'soos dit is' basis verskaf, en die outeurs en uitgewers maak geen verteenwoordigings of waarborge van enige aard, uitdruklik of geïmpliseer, oor die volledigheid, akkuraatheid, betroubaarheid, geskiktheid, of beskikbaarheid van die inligting, produkte, dienste, of verwante grafika wat binne hierdie boek bevat is nie. Enige vertroue wat jy op sulke inligting plaas, is dus streng op jou eie risiko.
+本书《HackTricks》仅用于教育和信息目的。本书中的内容以“按现状”提供，作者和出版商不对本书中包含的信息、产品、服务或相关图形的完整性、准确性、可靠性、适用性或可用性作出任何明示或暗示的陈述或保证。因此，你对这些信息的任何依赖均严格自担风险。
 
-Die outeurs en uitgewers sal in geen geval aanspreeklik wees vir enige verlies of skade, insluitend sonder beperking, indirekte of gevolglike verlies of skade, of enige verlies of skade wat ontstaan uit verlies van data of wins wat ontstaan uit, of in verband met, die gebruik van hierdie boek.
+作者和出版商在任何情况下均不对任何损失或损害负责，包括但不限于间接或后果性损失或损害，或因使用本书而导致的数据或利润损失的任何损失或损害。
 
-Boonop is die tegnieke en wenke wat in hierdie boek beskryf word, slegs vir opvoedkundige en informele doeleindes, en moet nie vir enige onwettige of kwaadwillige aktiwiteite gebruik word nie. Die outeurs en uitgewers keur geen onwettige of onetiese aktiwiteite goed nie, en enige gebruik van die inligting wat binne hierdie boek bevat is, is op die gebruiker se eie risiko en diskresie.
+此外，本书中描述的技术和技巧仅供教育和信息目的，不应用于任何非法或恶意活动。作者和出版商不支持或纵容任何非法或不道德的活动，使用本书中包含的信息的任何行为均由用户自行承担风险和判断。
 
-Die gebruiker is slegs verantwoordelik vir enige aksies wat geneem word op grond van die inligting wat binne hierdie boek bevat is, en moet altyd professionele advies en hulp soek wanneer hy probeer om enige van die tegnieke of wenke wat hierin beskryf word, te implementeer.
+用户对基于本书中包含的信息采取的任何行动负全部责任，并应在尝试实施本书中描述的任何技术或技巧时始终寻求专业建议和帮助。
 
-Deur hierdie boek te gebruik, stem die gebruiker in om die outeurs en uitgewers van enige en alle aanspreeklikheid en verantwoordelikheid vir enige skade, verliese, of skade wat mag ontstaan uit die gebruik van hierdie boek of enige van die inligting wat daarin bevat is, vry te stel.
+通过使用本书，用户同意解除作者和出版商对因使用本书或其中任何信息而可能导致的任何损害、损失或伤害的责任和责任。
 {% endhint %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github库提交PR分享黑客技巧。
 
 </details>
 {% endhint %}

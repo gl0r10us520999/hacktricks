@@ -1,140 +1,140 @@
-# Checklist - Plaaslike Windows Privilege Escalation
+# 检查清单 - 本地 Windows 权限提升
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-### **Beste hulpmiddel om te soek na Windows plaaslike privilege escalatie vektore:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **查找 Windows 本地权限提升向量的最佳工具：** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [Stelselinligting](windows-local-privilege-escalation/#system-info)
+### [系统信息](windows-local-privilege-escalation/#system-info)
 
-* [ ] Verkry [**Stelselinligting**](windows-local-privilege-escalation/#system-info)
-* [ ] Soek na **kernel** [**exploits met behulp van skripte**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Gebruik **Google om te soek** na kernel **exploits**
-* [ ] Gebruik **searchsploit om te soek** na kernel **exploits**
-* [ ] Interessante inligting in [**env vars**](windows-local-privilege-escalation/#environment)?
-* [ ] Wagwoorde in [**PowerShell geskiedenis**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interessante inligting in [**Internet instellings**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Skyfies**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
-* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] 获取 [**系统信息**](windows-local-privilege-escalation/#system-info)
+* [ ] 使用脚本搜索 **内核** [**漏洞**](windows-local-privilege-escalation/#version-exploits)
+* [ ] 使用 **Google 搜索** 内核 **漏洞**
+* [ ] 使用 **searchsploit 搜索** 内核 **漏洞**
+* [ ] [**环境变量**](windows-local-privilege-escalation/#environment) 中的有趣信息？
+* [ ] [**PowerShell 历史**](windows-local-privilege-escalation/#powershell-history) 中的密码？
+* [ ] [**互联网设置**](windows-local-privilege-escalation/#internet-settings) 中的有趣信息？
+* [ ] [**驱动器**](windows-local-privilege-escalation/#drives)？
+* [ ] [**WSUS 漏洞**](windows-local-privilege-escalation/#wsus)？
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)？
 
-### [Logging/AV enumerasie](windows-local-privilege-escalation/#enumeration)
+### [日志/AV 枚举](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Kyk na [**Oudit** ](windows-local-privilege-escalation/#audit-settings)en [**WEF** ](windows-local-privilege-escalation/#wef)instellings
-* [ ] Kyk na [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Kyk of [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktief is
-* [ ] [**LSA Beskerming**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Gekapte Kredensiale**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Kyk of enige [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
-* [ ] [**AppLocker Beleid**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] 检查 [**审计**](windows-local-privilege-escalation/#audit-settings) 和 [**WEF**](windows-local-privilege-escalation/#wef) 设置
+* [ ] 检查 [**LAPS**](windows-local-privilege-escalation/#laps)
+* [ ] 检查 [**WDigest**](windows-local-privilege-escalation/#wdigest) 是否处于活动状态
+* [ ] [**LSA 保护**](windows-local-privilege-escalation/#lsa-protection)？
+* [ ] [**凭据保护**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**缓存凭据**](windows-local-privilege-escalation/#cached-credentials)？
+* [ ] 检查是否有任何 [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**AppLocker 策略**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)？
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
-* [ ] [**Gebruiker Privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Kyk [**huidige** gebruiker **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Is jy [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Kyk of jy [enige van hierdie tokens geaktiveer het](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Gebruikers Sessies**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Kyk[ **gebruikers huise**](windows-local-privilege-escalation/#home-folders) (toegang?)
-* [ ] Kyk na [**Wagwoord Beleid**](windows-local-privilege-escalation/#password-policy)
-* [ ] Wat is[ **binne die Klembord**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] [**用户权限**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] 检查 [**当前**] 用户 [**权限**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] 你是 [**任何特权组的成员**](windows-local-privilege-escalation/#privileged-groups)吗？
+* [ ] 检查你是否启用了 [这些令牌](windows-local-privilege-escalation/#token-manipulation)：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**用户会话**](windows-local-privilege-escalation/#logged-users-sessions)？
+* [ ] 检查 [**用户主目录**](windows-local-privilege-escalation/#home-folders)（访问？）
+* [ ] 检查 [**密码策略**](windows-local-privilege-escalation/#password-policy)
+* [ ] [**剪贴板**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard) 中有什么？
 
-### [Netwerk](windows-local-privilege-escalation/#network)
+### [网络](windows-local-privilege-escalation/#network)
 
-* [ ] Kyk **huidige** [**netwerk** **inligting**](windows-local-privilege-escalation/#network)
-* [ ] Kyk **versteekte plaaslike dienste** wat beperk is tot die buitekant
+* [ ] 检查 **当前** [**网络** **信息**](windows-local-privilege-escalation/#network)
+* [ ] 检查 **隐藏的本地服务** 是否限制外部访问
 
-### [Lopende Prosesse](windows-local-privilege-escalation/#running-processes)
+### [运行中的进程](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Prosesse binaries [**lêer en vouer toestemmings**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [ ] [**Geheue Wagwoord mynbou**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Onveilige GUI toepassings**](windows-local-privilege-escalation/#insecure-gui-apps)
-* [ ] Steel kredensiale met **interessante prosesse** via `ProcDump.exe` ? (firefox, chrome, ens ...)
+* [ ] 进程二进制文件 [**文件和文件夹权限**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] [**内存密码挖掘**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**不安全的 GUI 应用程序**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] 通过 `ProcDump.exe` 窃取 **有趣进程** 的凭据？（firefox, chrome 等 ...）
 
-### [Dienste](windows-local-privilege-escalation/#services)
+### [服务](windows-local-privilege-escalation/#services)
 
-* [ ] [Kan jy **enige diens** **wysig**?](windows-local-privilege-escalation/#permissions)
-* [ ] [Kan jy **wysig** die **binaire** wat deur enige **diens** **uitgevoer** word?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [ ] [Kan jy **wysig** die **register** van enige **diens**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Kan jy voordeel trek uit enige **ongekwote diens** binaire **pad**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [你能 **修改任何服务** 吗？](windows-local-privilege-escalation/#permissions)
+* [ ] [你能 **修改** 任何 **服务** 执行的 **二进制文件** 吗？](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [你能 **修改** 任何 **服务** 的 **注册表** 吗？](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] [你能利用任何 **未加引号的服务** 二进制 **路径** 吗？](windows-local-privilege-escalation/#unquoted-service-paths)
 
-### [**Toepassings**](windows-local-privilege-escalation/#applications)
+### [**应用程序**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Skryf** [**toestemmings op geïnstalleerde toepassings**](windows-local-privilege-escalation/#write-permissions)
-* [ ] [**Opstart Toepassings**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Kwetsbare** [**Drivers**](windows-local-privilege-escalation/#drivers)
+* [ ] **写入** [**已安装应用程序的权限**](windows-local-privilege-escalation/#write-permissions)
+* [ ] [**启动应用程序**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **易受攻击的** [**驱动程序**](windows-local-privilege-escalation/#drivers)
 
-### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
+### [DLL 劫持](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Kan jy **skryf in enige vouer binne PATH**?
-* [ ] Is daar enige bekende diens binaire wat **probeer om enige nie-bestaande DLL** te laai?
-* [ ] Kan jy **skryf** in enige **binaries vouer**?
+* [ ] 你能 **在 PATH 中的任何文件夹中写入** 吗？
+* [ ] 是否有任何已知的服务二进制文件 **尝试加载任何不存在的 DLL**？
+* [ ] 你能 **在任何二进制文件夹中写入** 吗？
 
-### [Netwerk](windows-local-privilege-escalation/#network)
+### [网络](windows-local-privilege-escalation/#network)
 
-* [ ] Enumereer die netwerk (deel, interfaces, roetes, bure, ...)
-* [ ] Neem 'n spesiale kyk na netwerkdienste wat op localhost (127.0.0.1) luister
+* [ ] 枚举网络（共享、接口、路由、邻居等...）
+* [ ] 特别关注在本地主机（127.0.0.1）上监听的网络服务
 
-### [Windows Kredensiale](windows-local-privilege-escalation/#windows-credentials)
+### [Windows 凭据](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)kredensiale
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) kredensiale wat jy kan gebruik?
-* [ ] Interessante [**DPAPI kredensiale**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Wagwoorde van gestoor [**Wifi netwerke**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interessante inligting in [**gestoor RDP Verbindinge**](windows-local-privilege-escalation/#saved-rdp-connections)?
-* [ ] Wagwoorde in [**onlangs uitgevoerde opdragte**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Afgeleë Desktop Kredensiale Bestuurder**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
-* [ ] [**AppCmd.exe** bestaan](windows-local-privilege-escalation/#appcmd-exe)? Kredensiale?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Syde Laai?
+* [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials) 凭据
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) 中的凭据你可以使用？
+* [ ] 有趣的 [**DPAPI 凭据**](windows-local-privilege-escalation/#dpapi)？
+* [ ] 保存的 [**Wifi 网络**](windows-local-privilege-escalation/#wifi) 的密码？
+* [ ] [**保存的 RDP 连接**](windows-local-privilege-escalation/#saved-rdp-connections) 中的有趣信息？
+* [ ] [**最近运行的命令**](windows-local-privilege-escalation/#recently-run-commands) 中的密码？
+* [ ] [**远程桌面凭据管理器**](windows-local-privilege-escalation/#remote-desktop-credential-manager) 密码？
+* [ ] [**AppCmd.exe** 是否存在](windows-local-privilege-escalation/#appcmd-exe)？凭据？
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)？DLL 侧加载？
 
-### [Lêers en Register (Kredensiale)](windows-local-privilege-escalation/#files-and-registry-credentials)
+### [文件和注册表（凭据）](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Kredensiale**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH sleutels in register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Wagwoorde in [**onbewaakte lêers**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Enige [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rugsteun?
-* [ ] [**Cloud kredensiale**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) lêer?
-* [ ] [**Gekapte GPP Wagwoord**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Wagwoord in [**IIS Web konfigurasie lêer**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interessante inligting in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Wil jy [**kredensiale vra**](windows-local-privilege-escalation/#ask-for-credentials) aan die gebruiker?
-* [ ] Interessante [**lêers binne die Herwinningsblik**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Ander [**register wat kredensiale bevat**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Binne [**Bladsy data**](windows-local-privilege-escalation/#browsers-history) (dbs, geskiedenis, boekmerke, ...)?
-* [ ] [**Generiese wagwoord soektog**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in lêers en register
-* [ ] [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties vir wagwoorde te soek
+* [ ] **Putty:** [**凭据**](windows-local-privilege-escalation/#putty-creds) **和** [**SSH 主机密钥**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**注册表中的 SSH 密钥**](windows-local-privilege-escalation/#ssh-keys-in-registry)？
+* [ ] [**无人值守文件**](windows-local-privilege-escalation/#unattended-files) 中的密码？
+* [ ] 有任何 [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) 备份吗？
+* [ ] [**云凭据**](windows-local-privilege-escalation/#cloud-credentials)？
+* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) 文件？
+* [ ] [**缓存的 GPP 密码**](windows-local-privilege-escalation/#cached-gpp-pasword)？
+* [ ] [**IIS Web 配置文件**](windows-local-privilege-escalation/#iis-web-config) 中的密码？
+* [ ] [**Web 日志**](windows-local-privilege-escalation/#logs) 中的有趣信息？
+* [ ] 你想要 [**向用户请求凭据**](windows-local-privilege-escalation/#ask-for-credentials) 吗？
+* [ ] [**回收站中的有趣文件**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)？
+* [ ] 其他 [**包含凭据的注册表**](windows-local-privilege-escalation/#inside-the-registry)？
+* [ ] [**浏览器数据**](windows-local-privilege-escalation/#browsers-history) 中的内容（数据库、历史记录、书签等）？
+* [ ] [**通用密码搜索**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) 在文件和注册表中
+* [ ] [**工具**](windows-local-privilege-escalation/#tools-that-search-for-passwords) 自动搜索密码
 
-### [Gelekte Hanteerders](windows-local-privilege-escalation/#leaked-handlers)
+### [泄露的处理程序](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Het jy toegang tot enige hanteerder van 'n proses wat deur die administrateur uitgevoer word?
+* [ ] 你是否可以访问由管理员运行的任何进程的处理程序？
 
-### [Pyp Kliënt Impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [管道客户端冒充](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Kyk of jy dit kan misbruik
+* [ ] 检查你是否可以利用它
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

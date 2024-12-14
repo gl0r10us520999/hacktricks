@@ -1,36 +1,36 @@
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 
-# Identifisering van gepakte binêre
+# 识别打包的二进制文件
 
-* **gebrek aan strings**: Dit is algemeen om te vind dat gepakte binêre amper geen string het nie
-* 'n Baie **onbenutte strings**: Ook, wanneer 'n malware 'n soort kommersiële pakker gebruik, is dit algemeen om baie strings sonder kruisverwysings te vind. Selfs al bestaan hierdie strings beteken dit nie dat die binêre nie gepak is nie.
-* Jy kan ook 'n paar gereedskap gebruik om te probeer uitvind watter pakker gebruik is om 'n binêre te pak:
+* **缺少字符串**：常见的情况是打包的二进制文件几乎没有任何字符串。
+* 很多 **未使用的字符串**：此外，当恶意软件使用某种商业打包工具时，常常会发现很多没有交叉引用的字符串。即使这些字符串存在，也并不意味着二进制文件没有被打包。
+* 你还可以使用一些工具来尝试找出用于打包二进制文件的打包工具：
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
 * [Language 2000](http://farrokhi.net/language/)
 
-# Basiese Aanbevelings
+# 基本建议
 
-* **Begin** om die gepakte binêre **van die onderkant in IDA te analiseer en beweeg op**. Unpackers verlaat wanneer die uitgepakte kode verlaat, so dit is onwaarskynlik dat die unpacker uitvoering aan die uitgepakte kode aan die begin oorgee.
-* Soek na **JMP's** of **CALLs** na **registers** of **gebiede** van **geheue**. Soek ook na **funksies wat argumente en 'n adres rigting druk en dan `retn` aanroep**, want die terugkeer van die funksie in daardie geval kan die adres wat net na die stapel gedruk is, aanroep voordat dit dit aanroep.
-* Plaas 'n **breekpunt** op `VirtualAlloc` aangesien dit ruimte in geheue toewys waar die program uitgepakte kode kan skryf. Die "loop na gebruikerskode" of gebruik F8 om **na waarde binne EAX te gaan** na die uitvoering van die funksie en "**volg daardie adres in dump**". Jy weet nooit of dit die gebied is waar die uitgepakte kode gestoor gaan word.
-* **`VirtualAlloc`** met die waarde "**40**" as 'n argument beteken Lees+Skryf+Voer uit (sommige kode wat uitvoering benodig gaan hier gekopieer word).
-* **Terwyl jy kode unpack**, is dit normaal om **verskeie oproepe** na **aritmetiese operasies** en funksies soos **`memcopy`** of **`Virtual`**`Alloc` te vind. As jy in 'n funksie is wat blykbaar net aritmetiese operasies uitvoer en dalk 'n paar `memcopy`, is die aanbeveling om te probeer **die einde van die funksie te vind** (miskien 'n JMP of oproep na 'n register) **of** ten minste die **oproep na die laaste funksie** en loop dan na dit, aangesien die kode nie interessant is nie.
-* Terwyl jy kode unpack, **let op** wanneer jy **geheuegebied verander** aangesien 'n verandering in geheuegebied die **begin van die unpacking kode** kan aandui. Jy kan maklik 'n geheuegebied dump met Process Hacker (proses --> eienskappe --> geheue).
-* Terwyl jy probeer om kode te unpack, is 'n goeie manier om **te weet of jy reeds met die uitgepakte kode werk** (sodat jy dit net kan dump) om **die strings van die binêre te kontroleer**. As jy op 'n sekere punt 'n sprong maak (miskien die geheuegebied verander) en jy opmerk dat **baie meer strings bygevoeg is**, dan kan jy weet **jy werk met die uitgepakte kode**.\
-As die pakker egter reeds 'n baie strings bevat, kan jy kyk hoeveel strings die woord "http" bevat en sien of hierdie getal toeneem.
-* Wanneer jy 'n uitvoerbare lêer van 'n geheuegebied dump, kan jy 'n paar koptekste regstel met [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
+* **从底部开始** 在 IDA 中分析打包的二进制文件 **并向上移动**。解包器在解包代码退出时退出，因此解包器不太可能在开始时将执行权传递给解包的代码。
+* 搜索 **JMP** 或 **CALL** 到 **寄存器** 或 **内存区域**。还要搜索 **推送参数和地址方向的函数，然后调用 `retn`**，因为在这种情况下，函数的返回可能会调用在调用之前刚推送到堆栈的地址。
+* 在 `VirtualAlloc` 上设置 **断点**，因为这会在内存中分配程序可以写入解包代码的空间。使用“运行到用户代码”或使用 F8 **获取执行函数后 EAX 中的值**，然后“**在转储中跟踪该地址**”。你永远不知道这是否是解包代码将要保存的区域。
+* **`VirtualAlloc`** 以值 "**40**" 作为参数意味着可读+可写+可执行（一些需要执行的代码将被复制到这里）。
+* **在解包** 代码时，通常会发现 **多个调用** 到 **算术操作** 和像 **`memcopy`** 或 **`Virtual`**`Alloc` 的函数。如果你发现自己在一个显然只执行算术操作的函数中，可能还有一些 `memcopy`，建议尝试 **找到函数的结束**（可能是 JMP 或调用某个寄存器） **或** 至少找到 **最后一个函数的调用**，然后运行到那里，因为代码并不有趣。
+* 在解包代码时 **注意** 每当你 **更改内存区域**，因为内存区域的变化可能表示 **解包代码的开始**。你可以使用 Process Hacker 轻松转储内存区域（进程 --> 属性 --> 内存）。
+* 在尝试解包代码时，知道你是否已经在处理解包代码的好方法（这样你可以直接转储它）是 **检查二进制文件的字符串**。如果在某个时刻你执行了跳转（可能更改了内存区域），并且你注意到 **添加了更多字符串**，那么你可以知道 **你正在处理解包的代码**。\
+然而，如果打包器已经包含了很多字符串，你可以查看包含“http”这个词的字符串数量，看看这个数字是否增加。
+* 当你从内存区域转储可执行文件时，可以使用 [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases) 修复一些头部信息。

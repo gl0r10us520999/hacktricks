@@ -3,192 +3,192 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-## **Toegangsbeheerlys (ACL)**
+## **访问控制列表 (ACL)**
 
-'n Toegangsbeheerlys (ACL) bestaan uit 'n geordende stel Toegangsbeheeringe (ACEs) wat die beskerming van 'n objek en sy eienskappe bepaal. In wese definieer 'n ACL watter aksies deur watter sekuriteitsbeginsels (gebruikers of groepe) toegelaat of geweier word op 'n gegewe objek.
+访问控制列表 (ACL) 由一组有序的访问控制条目 (ACE) 组成，这些条目规定了对象及其属性的保护。实质上，ACL 定义了哪些安全主体（用户或组）对给定对象的哪些操作是被允许或拒绝的。
 
-Daar is twee tipes ACLs:
+ACL 有两种类型：
 
-* **Diskresionêre Toegangsbeheerlys (DACL):** Spesifiseer watter gebruikers en groepe toegang tot 'n objek het of nie.
-* **Stelsels Toegangsbeheerlys (SACL):** Beheer die ouditering van toegangspogings tot 'n objek.
+* **自主访问控制列表 (DACL)：** 指定哪些用户和组可以或不能访问对象。
+* **系统访问控制列表 (SACL)：** 管理对对象的访问尝试的审计。
 
-Die proses om toegang tot 'n lêer te verkry behels dat die stelsel die objek se sekuriteitsbeskrywer teen die gebruiker se toegangstoken nagaan om te bepaal of toegang toegestaan moet word en die omvang van daardie toegang, gebaseer op die ACEs.
+访问文件的过程涉及系统检查对象的安全描述符与用户的访问令牌，以确定是否应授予访问权限以及访问的范围，基于 ACE。
 
-### **Belangrike Komponente**
+### **关键组件**
 
-* **DACL:** Bevat ACEs wat toegangstoestemmings aan gebruikers en groepe vir 'n objek toeken of weier. Dit is in wese die hoof ACL wat toegangregte bepaal.
-* **SACL:** Word gebruik vir die ouditering van toegang tot objek, waar ACEs die tipes toegang definieer wat in die Sekuriteitsgebeurtenislogboek geregistreer moet word. Dit kan van onskatbare waarde wees om ongeoorloofde toegangspogings te ontdek of toegangkwessies op te los.
+* **DACL：** 包含授予或拒绝用户和组对对象的访问权限的 ACE。它本质上是主要的 ACL，决定访问权限。
+* **SACL：** 用于审计对对象的访问，其中 ACE 定义了在安全事件日志中记录的访问类型。这对于检测未经授权的访问尝试或排除访问问题非常有价值。
 
-### **Stelselinteraksie met ACLs**
+### **系统与 ACL 的交互**
 
-Elke gebruikersessie is geassosieer met 'n toegangstoken wat sekuriteitsinligting bevat wat relevant is vir daardie sessie, insluitend gebruiker, groep identiteite, en voorregte. Hierdie token sluit ook 'n aanmeld SID in wat die sessie uniek identifiseer.
+每个用户会话都与一个访问令牌相关联，该令牌包含与该会话相关的安全信息，包括用户、组身份和特权。该令牌还包括一个唯一标识会话的登录 SID。
 
-Die Plaaslike Sekuriteitsowerheid (LSASS) verwerk toegang versoeke tot objek deur die DACL vir ACEs te ondersoek wat ooreenstem met die sekuriteitsbeginsel wat toegang probeer verkry. Toegang word onmiddellik toegestaan as daar geen relevante ACEs gevind word nie. Andersins vergelyk LSASS die ACEs teen die sekuriteitsbeginsel se SID in die toegangstoken om toegangsgeschiktheid te bepaal.
+本地安全机构 (LSASS) 通过检查 DACL 中与尝试访问的安全主体匹配的 ACE 来处理对对象的访问请求。如果未找到相关的 ACE，则立即授予访问权限。否则，LSASS 将 ACE 与访问令牌中的安全主体 SID 进行比较，以确定访问资格。
 
-### **Samegevatte Proses**
+### **总结过程**
 
-* **ACLs:** Definieer toegangstoestemmings deur DACLs en ouditreëls deur SACLs.
-* **Toegangstoken:** Bevat gebruiker, groep, en voorregte-inligting vir 'n sessie.
-* **Toegangbesluit:** Gemaak deur DACL ACEs met die toegangstoken te vergelyk; SACLs word gebruik vir ouditering.
+* **ACLs：** 通过 DACL 定义访问权限，通过 SACL 定义审计规则。
+* **访问令牌：** 包含会话的用户、组和特权信息。
+* **访问决策：** 通过将 DACL ACE 与访问令牌进行比较来做出；SACL 用于审计。
 
 ### ACEs
 
-Daar is **drie hoof tipes Toegangsbeheeringe (ACEs)**:
+有 **三种主要类型的访问控制条目 (ACE)**：
 
-* **Toegang Geweier ACE**: Hierdie ACE weier eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
-* **Toegang Toegelaat ACE**: Hierdie ACE grant eksplisiet toegang tot 'n objek vir gespesifiseerde gebruikers of groepe (in 'n DACL).
-* **Stelselaudit ACE**: Geplaas binne 'n Stelsels Toegangsbeheerlys (SACL), is hierdie ACE verantwoordelik vir die generering van ouditlogs by toegangspogings tot 'n objek deur gebruikers of groepe. Dit dokumenteer of toegang toegestaan of geweier is en die aard van die toegang.
+* **拒绝访问 ACE：** 此 ACE 明确拒绝指定用户或组对对象的访问（在 DACL 中）。
+* **允许访问 ACE：** 此 ACE 明确授予指定用户或组对对象的访问（在 DACL 中）。
+* **系统审计 ACE：** 位于系统访问控制列表 (SACL) 中，此 ACE 负责在用户或组尝试访问对象时生成审计日志。它记录访问是被允许还是被拒绝以及访问的性质。
 
-Elke ACE het **vier kritieke komponente**:
+每个 ACE 有 **四个关键组件**：
 
-1. Die **Sekuriteitsidentifiseerder (SID)** van die gebruiker of groep (of hul beginselnaam in 'n grafiese voorstelling).
-2. 'n **vlag** wat die ACE tipe identifiseer (toegang geweier, toegestaan, of stelselaudit).
-3. **Erfenisvlagte** wat bepaal of kindobjekte die ACE van hul ouer kan erf.
-4. 'n [**toegangsmasker**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), 'n 32-bis waarde wat die objek se toegepaste regte spesifiseer.
+1. 用户或组的 **安全标识符 (SID)**（或其在图形表示中的主体名称）。
+2. 一个 **标志**，标识 ACE 类型（拒绝访问、允许访问或系统审计）。
+3. **继承标志**，确定子对象是否可以从其父对象继承 ACE。
+4. 一个 [**访问掩码**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，一个 32 位值，指定对象的授予权限。
 
-Toegangsbepaling word uitgevoer deur elke ACE een vir een te ondersoek totdat:
+访问确定是通过依次检查每个 ACE 进行的，直到：
 
-* 'n **Toegang-Geweier ACE** eksplisiet die aangevraagde regte aan 'n trustee in die toegangstoken weier.
-* **Toegang-Toegelaat ACE(s)** eksplisiet al die aangevraagde regte aan 'n trustee in die toegangstoken grant.
-* Na die nagaan van alle ACEs, as enige aangevraagde regte **nie eksplisiet toegestaan is nie**, word toegang implisiet **geweier**.
+* 一个 **拒绝访问 ACE** 明确拒绝访问令牌中标识的受托人请求的权限。
+* **允许访问 ACE** 明确授予访问令牌中受托人所有请求的权限。
+* 检查所有 ACE 后，如果任何请求的权限 **未被明确允许**，则访问被隐式 **拒绝**。
 
-### Volgorde van ACEs
+### ACEs 的顺序
 
-Die manier waarop **ACEs** (reëls wat sê wie kan of nie kan toegang hê nie) in 'n lys genaamd **DACL** geplaas word, is baie belangrik. Dit is omdat sodra die stelsel toegang op grond van hierdie reëls gee of weier, dit ophou om na die res te kyk.
+**ACEs**（规则，说明谁可以或不能访问某物）在称为 **DACL** 的列表中的排列方式非常重要。这是因为一旦系统根据这些规则授予或拒绝访问，它就会停止查看其余的规则。
 
-Daar is 'n beste manier om hierdie ACEs te organiseer, en dit word **"kanonieke volgorde"** genoem. Hierdie metode help om te verseker dat alles glad en regverdig werk. Hier is hoe dit gaan vir stelsels soos **Windows 2000** en **Windows Server 2003**:
+有一种最佳的组织这些 ACE 的方式，称为 **“规范顺序。”** 这种方法有助于确保一切顺利和公平。以下是适用于 **Windows 2000** 和 **Windows Server 2003** 的顺序：
 
-* Eerstens, plaas al die reëls wat **spesifiek vir hierdie item** gemaak is voor diegene wat van elders kom, soos 'n ouer gids.
-* In daardie spesifieke reëls, plaas diegene wat sê **"nee" (weier)** voor diegene wat sê **"ja" (toelaat)**.
-* Vir die reëls wat van elders kom, begin met diegene van die **nabyste bron**, soos die ouer, en gaan dan terug van daar. Weer eens, plaas **"nee"** voor **"ja."**
+* 首先，将所有 **专门为此项** 制定的规则放在来自其他地方（如父文件夹）的规则之前。
+* 在这些特定规则中，将 **“否”（拒绝）** 的规则放在 **“是”（允许）** 的规则之前。
+* 对于来自其他地方的规则，从 **最近的来源** 开始，例如父级，然后向后排列。同样，将 **“否”** 放在 **“是”** 之前。
 
-Hierdie opstelling help op twee groot maniere:
+这种设置有两个主要好处：
 
-* Dit verseker dat as daar 'n spesifieke **"nee"** is, dit gerespekteer word, ongeag watter ander **"ja"** reëls daar is.
-* Dit laat die eienaar van 'n item die **laaste sê** hê oor wie binnekom, voordat enige reëls van ouer gidse of verder terug in werking tree.
+* 确保如果有特定的 **“否”**，无论其他 **“是”** 的规则是什么，都得到尊重。
+* 让项目的所有者在任何来自父文件夹或更远的规则生效之前，拥有 **最终决定权**。
 
-Deur dinge op hierdie manier te doen, kan die eienaar van 'n lêer of gids baie presies wees oor wie toegang kry, en verseker dat die regte mense kan inkom en die verkeerde nie.
+通过这种方式，文件或文件夹的所有者可以非常精确地控制谁可以访问，确保正确的人可以进入，而错误的人不能。
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
-So, hierdie **"kanonieke volgorde"** is alles oor om te verseker dat die toegang reëls duidelik en goed werk, spesifieke reëls eerste te plaas en alles op 'n slim manier te organiseer.
+因此，这种 **“规范顺序”** 旨在确保访问规则清晰且有效，优先考虑特定规则，并以智能的方式组织一切。
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### GUI Voorbeeld
+### GUI 示例
 
-[**Voorbeeld hier**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
+[**来自这里的示例**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 
-Dit is die klassieke sekuriteitstab van 'n gids wat die ACL, DACL en ACEs toon:
+这是一个文件夹的经典安全选项卡，显示了 ACL、DACL 和 ACE：
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
-As ons op die **Gevorderde knoppie** klik, sal ons meer opsies soos erfenis kry:
+如果我们点击 **高级按钮**，将获得更多选项，如继承：
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
 
-En as jy 'n Sekuriteitsbeginsel byvoeg of wysig:
+如果您添加或编辑安全主体：
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-En laastens het ons die SACL in die Ou ditering tab:
+最后，我们在审计选项卡中有 SACL：
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
-### Toegangsbeheer in 'n Vereenvoudigde Wyse Verduidelik
+### 以简化的方式解释访问控制
 
-Wanneer ons toegang tot hulpbronne bestuur, soos 'n gids, gebruik ons lyste en reëls bekend as Toegangsbeheerlyste (ACLs) en Toegangsbeheeringe (ACEs). Hierdie definieer wie toegang tot sekere data kan of nie kan hê nie.
+在管理对资源（如文件夹）的访问时，我们使用称为访问控制列表 (ACL) 和访问控制条目 (ACE) 的列表和规则。这些定义了谁可以或不能访问某些数据。
 
-#### Toegang tot 'n Spesifieke Groep Weier
+#### 拒绝特定组的访问
 
-Stel jou voor jy het 'n gids genaamd Kostes, en jy wil hê almal moet toegang hê behalwe vir 'n bemarking span. Deur die reëls korrek op te stel, kan ons verseker dat die bemarking span eksplisiet toegang geweier word voordat ons almal anders toelaat. Dit word gedoen deur die reël om toegang tot die bemarking span te weier voor die reël wat toegang aan almal toelaat.
+假设您有一个名为 Cost 的文件夹，您希望除了市场团队外，所有人都可以访问。通过正确设置规则，我们可以确保市场团队被明确拒绝访问，然后再允许其他所有人。这是通过将拒绝市场团队访问的规则放在允许所有人访问的规则之前来实现的。
 
-#### Toegang aan 'n Spesifieke Lid van 'n Geweerde Groep Toelaat
+#### 允许被拒绝组的特定成员访问
 
-Kom ons sê Bob, die bemarkingsdirekteur, het toegang tot die Kostes gids nodig, alhoewel die bemarking span oor die algemeen nie toegang moet hê nie. Ons kan 'n spesifieke reël (ACE) vir Bob byvoeg wat hom toegang grant, en dit voor die reël wat toegang aan die bemarking span weier plaas. Op hierdie manier kry Bob toegang ten spyte van die algemene beperking op sy span.
+假设市场总监 Bob 需要访问 Cost 文件夹，尽管市场团队通常不应访问。我们可以为 Bob 添加一个特定规则 (ACE)，授予他访问权限，并将其放在拒绝市场团队访问的规则之前。这样，尽管对他的团队有一般限制，Bob 仍然可以访问。
 
-#### Toegangsbeheeringe Verstaan
+#### 理解访问控制条目
 
-ACEs is die individuele reëls in 'n ACL. Hulle identifiseer gebruikers of groepe, spesifiseer watter toegang toegestaan of geweier word, en bepaal hoe hierdie reëls op sub-items van toepassing is (erfenis). Daar is twee hoof tipes ACEs:
+ACE 是 ACL 中的单个规则。它们识别用户或组，指定允许或拒绝的访问，并确定这些规则如何适用于子项（继承）。ACE 主要有两种类型：
 
-* **Generiese ACEs**: Hierdie geld breedweg, wat ofwel alle tipes objek beïnvloed of net tussen houers (soos gidse) en nie-houers (soos lêers) onderskei. Byvoorbeeld, 'n reël wat gebruikers toelaat om die inhoud van 'n gids te sien, maar nie toegang tot die lêers daarin te hê nie.
-* **Objek-Spesifieke ACEs**: Hierdie bied meer presiese beheer, wat toelaat dat reëls vir spesifieke tipes objek of selfs individuele eienskappe binne 'n objek gestel word. Byvoorbeeld, in 'n gids van gebruikers, kan 'n reël 'n gebruiker toelaat om hul telefoonnommer op te dateer, maar nie hul aanmeldure nie.
+* **通用 ACE：** 这些规则广泛适用，影响所有类型的对象，或仅区分容器（如文件夹）和非容器（如文件）。例如，允许用户查看文件夹内容但不访问其中的文件的规则。
+* **对象特定 ACE：** 这些提供更精确的控制，允许为特定类型的对象或对象内的单个属性设置规则。例如，在用户目录中，规则可能允许用户更新他们的电话号码，但不允许更新他们的登录时间。
 
-Elke ACE bevat belangrike inligting soos wie die reël van toepassing is (met 'n Sekuriteitsidentifiseerder of SID), wat die reël toelaat of weier (met 'n toegangsmasker), en hoe dit geërf word deur ander objek.
+每个 ACE 包含重要信息，例如规则适用的对象（使用安全标识符或 SID）、规则允许或拒绝的内容（使用访问掩码）以及如何被其他对象继承。
 
-#### Sleutelverskille Tussen ACE Tipes
+#### ACE 类型之间的关键区别
 
-* **Generiese ACEs** is geskik vir eenvoudige toegangsbeheer scenario's, waar dieselfde reël op alle aspekte van 'n objek of op alle objek binne 'n houer van toepassing is.
-* **Objek-Spesifieke ACEs** word gebruik vir meer komplekse scenario's, veral in omgewings soos Aktiewe Gids, waar jy dalk toegang tot spesifieke eienskappe van 'n objek anders moet beheer.
+* **通用 ACE** 适用于简单的访问控制场景，其中相同的规则适用于对象的所有方面或容器内的所有对象。
+* **对象特定 ACE** 用于更复杂的场景，特别是在 Active Directory 等环境中，您可能需要以不同的方式控制对对象特定属性的访问。
 
-In samevatting help ACLs en ACEs om presiese toegangsbeheer te definieer, wat verseker dat slegs die regte individue of groepe toegang tot sensitiewe inligting of hulpbronne het, met die vermoë om toegangregte tot die vlak van individuele eienskappe of objek tipes aan te pas.
+总之，ACL 和 ACE 有助于定义精确的访问控制，确保只有正确的个人或组可以访问敏感信息或资源，并能够将访问权限细化到单个属性或对象类型的级别。
 
-### Toegangsbeheeringe Lay-out
+### 访问控制条目布局
 
-| ACE Veld    | Beskrywing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ACE 字段   | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tipe        | Vlag wat die tipe ACE aandui. Windows 2000 en Windows Server 2003 ondersteun ses tipes ACE: Drie generiese ACE tipes wat aan alle beveiligbare objek geheg is. Drie objek-spesifieke ACE tipes wat vir Aktiewe Gids objek kan voorkom.                                                                                                                                                                                                                                                            |
-| Vlagte      | Stel van bitvlagte wat erfenis en ouditering beheer.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Grootte     | Aantal bytes geheue wat vir die ACE toegeken word.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Toegangsmasker | 32-bis waarde waarvan die bits ooreenstem met toegangregte vir die objek. Bits kan of aan of af gestel word, maar die instelling se betekenis hang af van die ACE tipe. Byvoorbeeld, as die bit wat ooreenstem met die reg om toestemmings te lees aangeskakel is, en die ACE tipe is Weier, weier die ACE die reg om die objek se toestemmings te lees. As dieselfde bit aangeskakel is, maar die ACE tipe is Toelaat, grant die ACE die reg om die objek se toestemmings te lees. Meer besonderhede van die Toegangsmasker verskyn in die volgende tabel. |
-| SID         | Identifiseer 'n gebruiker of groep wie se toegang deur hierdie ACE beheer of gemonitor word.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 类型        | 表示 ACE 类型的标志。Windows 2000 和 Windows Server 2003 支持六种类型的 ACE：三种通用 ACE 类型，附加到所有可安全对象。三种对象特定 ACE 类型，可以出现在 Active Directory 对象中。                                                                                                                                                                                                                                                                                                                            |
+| 标志       | 控制继承和审计的一组位标志。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 大小        | 为 ACE 分配的内存字节数。                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 访问掩码 | 32 位值，其位对应于对象的访问权限。位可以设置为开或关，但设置的含义取决于 ACE 类型。例如，如果对应于读取权限的位被打开，并且 ACE 类型为拒绝，则 ACE 拒绝读取对象的权限。如果同一位被打开，但 ACE 类型为允许，则 ACE 授予读取对象权限的权利。访问掩码的更多详细信息出现在下一个表中。 |
+| SID         | 标识由此 ACE 控制或监控访问的用户或组。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-### Toegangsmasker Lay-out
+### 访问掩码布局
 
-| Bit (Bereik) | Betekenis                            | Beskrywing/Voorbeeld                       |
+| 位（范围） | 含义                            | 描述/示例                       |
 | ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Objek Spesifieke Toegang Regte      | Lees data, Voer uit, Voeg data by           |
-| 16 - 22     | Standaard Toegang Regte             | Verwyder, Skryf ACL, Skryf Eienaar            |
-| 23          | Kan toegang tot sekuriteits ACL hê            |                                           |
-| 24 - 27     | Gereserveer                           |                                           |
-| 28          | Generies ALLES (Lees, Skryf, Voer uit) | Alles hieronder                          |
-| 29          | Generies Voer uit                    | Alle dinge wat nodig is om 'n program uit te voer |
-| 30          | Generies Skryf                      | Alle dinge wat nodig is om na 'n lêer te skryf   |
-| 31          | Generies Lees                       | Alle dinge wat nodig is om 'n lêer te lees       |
+| 0 - 15      | 对象特定访问权限      | 读取数据、执行、附加数据           |
+| 16 - 22     | 标准访问权限             | 删除、写入 ACL、写入所有者            |
+| 23          | 可以访问安全 ACL            |                                           |
+| 24 - 27     | 保留                           |                                           |
+| 28          | 通用所有（读取、写入、执行） | 下面的所有内容                          |
+| 29          | 通用执行                    | 执行程序所需的所有内容 |
+| 30          | 通用写入                      | 写入文件所需的所有内容   |
+| 31          | 通用读取                       | 读取文件所需的所有内容       |
 
-## Verwysings
+## 参考
 
 * [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
 * [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 * [https://www.coopware.in2.info/_ntfsacl_ht.htm](https://www.coopware.in2.info/_ntfsacl_ht.htm)
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -196,7 +196,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) om maklik te bou en **werkvloei te outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstoestelle.\
-Kry Toegang Vandag:
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
