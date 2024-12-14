@@ -1,4 +1,4 @@
-# Orodha - Kuinua Haki ya Linux
+# Orodha ya Ukaguzi - Kuinua Mamlaka ya Linux
 
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -10,44 +10,44 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../.gitbook/assets/grte.png" 
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na hackers wenye uzoefu na wawindaji wa bug bounty!
+Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa makosa!
 
-**Maoni ya Hacking**\
-Shiriki na maudhui yanayoangazia msisimko na changamoto za hacking
+**Maoni ya Udukuzi**\
+Shiriki na maudhui yanayoangazia msisimko na changamoto za udukuzi
 
-**Habari za Hack kwa Wakati Halisi**\
-Baki na habari za hivi punde katika ulimwengu wa hacking kupitia habari na maoni ya wakati halisi
+**Habari za Udukuzi za Wakati Halisi**\
+Endelea kuwa na habari kuhusu ulimwengu wa udukuzi kwa kupitia habari na maoni ya wakati halisi
 
 **Matangazo ya Hivi Punde**\
-Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za jukwaa
+Baki na habari kuhusu makosa mapya yanayoanzishwa na masasisho muhimu ya jukwaa
 
-**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na uanze kushirikiana na hackers bora leo!
+**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
-### **Zana bora ya kutafuta vigezo vya kuinua haki za ndani za Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Zana bora ya kutafuta vigezo vya kuinua mamlaka ya ndani ya Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 ### [Taarifa za Mfumo](privilege-escalation/#system-information)
 
 * [ ] Pata **taarifa za OS**
 * [ ] Angalia [**PATH**](privilege-escalation/#path), kuna **folda inayoweza kuandikwa**?
-* [ ] Angalia [**env variables**](privilege-escalation/#env-info), kuna maelezo nyeti yoyote?
+* [ ] Angalia [**mabadiliko ya mazingira**](privilege-escalation/#env-info), kuna maelezo nyeti?
 * [ ] Tafuta [**kernel exploits**](privilege-escalation/#kernel-exploits) **ukitumia scripts** (DirtyCow?)
 * [ ] **Angalia** kama [**toleo la sudo** lina udhaifu](privilege-escalation/#sudo-version)
 * [ ] [**Dmesg** uthibitisho wa saini umeshindwa](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Zaidi ya mfumo enum ([tarehe, takwimu za mfumo, taarifa za cpu, printers](privilege-escalation/#more-system-enumeration))
-* [ ] [**Tathmini zaidi ya ulinzi**](privilege-escalation/#enumerate-possible-defenses)
+* [ ] Zaidi ya mfumo wa enum ([tarehe, takwimu za mfumo, taarifa za cpu, printers](privilege-escalation/#more-system-enumeration))
+* [ ] [Tathmini zaidi ya ulinzi](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Diski](privilege-escalation/#drives)
 
 * [ ] **Orodhesha diski zilizowekwa**
 * [ ] **Kuna diski isiyowekwa?**
-* [ ] **Kuna creds katika fstab?**
+* [ ] **Kuna akreditif katika fstab?**
 
 ### [**Programu Zilizowekwa**](privilege-escalation/#installed-software)
 
@@ -57,7 +57,7 @@ Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za juk
 ### [Mchakato](privilege-escalation/#processes)
 
 * [ ] Je, kuna **programu isiyojulikana inayoendesha**?
-* [ ] Je, kuna programu inayoendesha na **haki zaidi kuliko inavyopaswa kuwa**?
+* [ ] Je, kuna programu inayoendesha kwa **mamlaka zaidi kuliko inavyopaswa kuwa**?
 * [ ] Tafuta **exploits za michakato inayoendesha** (hasa toleo linaloendesha).
 * [ ] Je, unaweza **kubadilisha binary** ya mchakato wowote unaoendesha?
 * [ ] **Fuatilia michakato** na angalia kama kuna mchakato wa kuvutia unaoendesha mara kwa mara.
@@ -68,7 +68,7 @@ Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za juk
 * [ ] Je, [**PATH**](privilege-escalation/#cron-path) inabadilishwa na cron fulani na unaweza **kuandika** ndani yake?
 * [ ] Kuna [**wildcard**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) katika kazi ya cron?
 * [ ] Baadhi ya [**script inayoweza kubadilishwa**](privilege-escalation/#cron-script-overwriting-and-symlink) inatekelezwa au iko ndani ya **folda inayoweza kubadilishwa**?
-* [ ] Je, umepata kuwa baadhi ya **script** zinaweza au zinafanywa [**kutekelezwa mara kwa mara**](privilege-escalation/#frequent-cron-jobs)? (kila dakika 1, 2 au 5)
+* [ ] Je, umegundua kuwa baadhi ya **script** zinaweza au zinafanywa [**kutekelezwa mara kwa mara**](privilege-escalation/#frequent-cron-jobs)? (kila dakika 1, 2 au 5)
 
 ### [Huduma](privilege-escalation/#services)
 
@@ -94,42 +94,42 @@ Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za juk
 
 * [ ] Tathmini mtandao ili kujua uko wapi
 * [ ] **Port zilizofunguliwa ambazo huwezi kufikia kabla** ya kupata shell ndani ya mashine?
-* [ ] Je, unaweza **kunusa trafiki** ukitumia `tcpdump`?
+* [ ] Je, unaweza **kusniff trafiki** ukitumia `tcpdump`?
 
 ### [Watumiaji](privilege-escalation/#users)
 
-* [ ] Orodha ya watumiaji/mikundi **kuhesabu**
+* [ ] Orodha ya watumiaji/makundi **ya jumla**
 * [ ] Je, una **UID kubwa sana**? Je, **mashine** ina **udhaifu**?
-* [ ] Je, unaweza [**kuinua haki kwa sababu ya kundi**](privilege-escalation/interesting-groups-linux-pe/) unalotegemea?
+* [ ] Je, unaweza [**kuinua mamlaka kwa sababu ya kundi**](privilege-escalation/interesting-groups-linux-pe/) unalotegemea?
 * [ ] **Data za Clipboard**?
 * [ ] Sera ya Nywila?
 * [ ] Jaribu **kutumia** kila **nywila inayojulikana** uliyogundua awali kuingia **na kila** **mtumiaji** anayeweza. Jaribu kuingia pia bila nywila.
 
 ### [PATH inayoweza kuandikwa](privilege-escalation/#writable-path-abuses)
 
-* [ ] Ikiwa una **haki za kuandika juu ya folda fulani katika PATH** unaweza kuwa na uwezo wa kuinua haki
+* [ ] Ikiwa una **mamlaka ya kuandika juu ya folda fulani katika PATH** unaweza kuwa na uwezo wa kuinua mamlaka
 
 ### [SUDO na amri za SUID](privilege-escalation/#sudo-and-suid)
 
 * [ ] Je, unaweza kutekeleza **amri yoyote na sudo**? Je, unaweza kuitumia KUSOMA, KUANDIKA au KUTEKELEZA chochote kama root? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Je, kuna **binary ya SUID inayoweza kutumika**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Je, [**amri za sudo** **zimepunguziliwa** na **path**? Je, unaweza **kuzidi** vizuizi](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] Je, [**amri za sudo** **zimepunguzika** na **path**? Je, unaweza **kuzidi** vizuizi](privilege-escalation/#sudo-execution-bypassing-paths)?
 * [ ] [**Sudo/SUID binary bila path iliyotajwa**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
 * [ ] [**SUID binary ikitaja path**](privilege-escalation/#suid-binary-with-command-path)? Pita
 * [ ] [**LD\_PRELOAD vuln**](privilege-escalation/#ld_preload)
 * [ ] [**Ukosefu wa maktaba ya .so katika binary ya SUID**](privilege-escalation/#suid-binary-so-injection) kutoka folda inayoweza kuandikwa?
-* [ ] [**Tokens za SUDO zinazopatikana**](privilege-escalation/#reusing-sudo-tokens)? [**Je, unaweza kuunda token ya SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
+* [ ] [**SUDO tokens zinazopatikana**](privilege-escalation/#reusing-sudo-tokens)? [**Je, unaweza kuunda token ya SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
 * [ ] Je, unaweza [**kusoma au kubadilisha faili za sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
 * [ ] Je, unaweza [**kubadilisha /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
-* [ ] [**Amri ya OpenBSD DOAS**](privilege-escalation/#doas)
+* [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) amri
 
 ### [Uwezo](privilege-escalation/#capabilities)
 
-* [ ] Je, binary yoyote ina **uwezo usiotarajiwa**?
+* [ ] Je, kuna binary yoyote yenye **uwezo usiotarajiwa**?
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Je, faili yoyote ina **ACL isiyotegemewa**?
+* [ ] Je, kuna faili yoyote yenye **ACL isiyotegemewa**?
 
 ### [Sessions za Shell Zilizofunguliwa](privilege-escalation/#open-shell-sessions)
 
@@ -154,7 +154,7 @@ Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za juk
 * [ ] **Faili za Mtandao** (nywila?)
 * [ ] **Nakala za Hifadhi**?
 * [ ] **Faili zinazojulikana ambazo zina nywila**: Tumia **Linpeas** na **LaZagne**
-* [ ] **Utafutaji wa Kawaida**
+* [ ] **Utafutaji wa Jumla**
 
 ### [**Faili Zinazoweza Kuandikwa**](privilege-escalation/#writable-files)
 
@@ -165,23 +165,23 @@ Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za juk
 
 ### [**Mbinu Nyingine**](privilege-escalation/#other-tricks)
 
-* [ ] Je, unaweza [**kudhulumu NFS ili kuinua haki**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] Je, unaweza [**kudhulumu NFS ili kuinua mamlaka**](privilege-escalation/#nfs-privilege-escalation)?
 * [ ] Je, unahitaji [**kutoroka kutoka shell yenye vizuizi**](privilege-escalation/#escaping-from-restricted-shells)?
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na hackers wenye uzoefu na wawindaji wa bug bounty!
+Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa makosa!
 
-**Maoni ya Hacking**\
-Shiriki na maudhui yanayoangazia msisimko na changamoto za hacking
+**Maoni ya Udukuzi**\
+Shiriki na maudhui yanayoangazia msisimko na changamoto za udukuzi
 
-**Habari za Hack kwa Wakati Halisi**\
-Baki na habari za hivi punde katika ulimwengu wa hacking kupitia habari na maoni ya wakati halisi
+**Habari za Udukuzi za Wakati Halisi**\
+Endelea kuwa na habari kuhusu ulimwengu wa udukuzi kwa kupitia habari na maoni ya wakati halisi
 
 **Matangazo ya Hivi Punde**\
-Baki na habari kuhusu bug bounties mpya zinazozinduliwa na sasisho muhimu za jukwaa
+Baki na habari kuhusu makosa mapya yanayoanzishwa na masasisho muhimu ya jukwaa
 
-**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na uanze kushirikiana na hackers bora leo!
+**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -193,7 +193,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../.gitbook/assets/grte.png" 
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

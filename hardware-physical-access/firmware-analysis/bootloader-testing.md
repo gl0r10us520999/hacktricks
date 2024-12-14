@@ -16,8 +16,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanzisha kifaa na bootloaders kama U-boot:
 
-1. **Fikia Shell ya Mfasiri wa Bootloader**:
-- Wakati wa kuanzisha, bonyeza "0", nafasi, au "mifumo ya uchawi" nyingine ili kufikia shell ya mfasiri wa bootloader.
+1. **Fikia Shell ya Mfasiri ya Bootloader**:
+- Wakati wa kuanzisha, bonyeza "0", nafasi, au "mifumo ya uchawi" nyingine zilizotambuliwa ili kufikia shell ya mfasiri ya bootloader.
 
 2. **Badilisha Hoja za Boot**:
 - Tekeleza amri zifuatazo kuongeza '`init=/bin/sh`' kwenye hoja za boot, kuruhusu utekelezaji wa amri ya shell:
@@ -46,10 +46,10 @@ Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanzisha kifaa na 
 - Thibitisha ikiwa vipengele vya debug kama vile logging ya kina, kupakia kernels zisizo na uhakika, au kuanzisha kutoka vyanzo visivyoaminika vimewezeshwa.
 
 6. **Uingiliaji wa Kihardware wa Tahadhari**:
-- Kuwa makini unapounganisha pini moja na ardhi na kuingiliana na SPI au NAND flash chips wakati wa mchakato wa kuanzisha kifaa, hasa kabla ya kernel kufunguka. Kagua karatasi ya data ya NAND flash chip kabla ya kufupisha pini.
+- Kuwa makini unapounganisha pini moja na ardhi na kuingiliana na SPI au NAND flash chips wakati wa mchakato wa kuanzisha kifaa, hasa kabla ya kernel kufungua. Kagua karatasi ya data ya NAND flash chip kabla ya kufupisha pini.
 
 7. **Sanidi Server ya DHCP ya Ulaghai**:
-- Sanidi server ya DHCP ya ulaghai yenye vigezo vya uharibifu ili kifaa kiweze kuyakubali wakati wa kuanzisha PXE. Tumia zana kama server ya DHCP ya msaada ya Metasploit (MSF). Badilisha parameter ya 'FILENAME' kwa amri za kuingiza kama `'a";/bin/sh;#'` ili kujaribu uthibitishaji wa ingizo kwa taratibu za kuanzisha kifaa.
+- Weka server ya DHCP ya ulaghai yenye vigezo vya uharibifu ili kifaa kiweze kuyakubali wakati wa kuanzisha PXE. Tumia zana kama server ya DHCP ya Metasploit (MSF). Badilisha parameter ya 'FILENAME' kwa amri za kuingiza kama `'a";/bin/sh;#'` ili kujaribu uthibitishaji wa ingizo kwa taratibu za kuanzisha kifaa.
 
 **Kumbuka**: Hatua zinazohusisha mwingiliano wa kimwili na pini za kifaa (*zilizowekwa alama na nyota) zinapaswa kuchukuliwa kwa tahadhari kubwa ili kuepuka kuharibu kifaa.
 

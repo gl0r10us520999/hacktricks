@@ -9,8 +9,8 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -57,7 +57,7 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-## Kuandika faili ili kupandisha mamlaka
+## Kuandika tena faili ili kupandisha mamlaka
 
 ### Faili za kawaida
 
@@ -66,7 +66,7 @@ return 0;
 * Ongeza mtumiaji kwenye sudoers katika _/etc/sudoers_
 * Tumia docker kupitia socket ya docker, kawaida katika _/run/docker.sock_ au _/var/run/docker.sock_
 
-### Kuandika maktaba
+### Kuandika tena maktaba
 
 Angalia maktaba inayotumiwa na binary fulani, katika kesi hii `/bin/su`:
 ```bash
@@ -89,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-The symbols `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` and `audit_fd` labda zinatoka kwenye maktaba ya libaudit.so.1. Kwa kuwa libaudit.so.1 itabadilishwa na maktaba ya pamoja yenye uharibifu, alama hizi zinapaswa kuwepo katika maktaba mpya ya pamoja, vinginevyo programu haitakuwa na uwezo wa kupata alama hiyo na itatoka.
+Ishara `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` na `audit_fd` huenda zinatoka kwenye maktaba ya libaudit.so.1. Kwa kuwa libaudit.so.1 itabadilishwa na maktaba ya pamoja yenye uharibifu, ishara hizi zinapaswa kuwepo kwenye maktaba mpya ya pamoja, vinginevyo programu haitakuwa na uwezo wa kupata ishara hiyo na itatoka.
 ```c
 #include<stdio.h>
 #include<stdlib.h>

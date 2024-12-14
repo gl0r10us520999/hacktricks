@@ -21,12 +21,12 @@ Hii inasaidia katika matukio kadhaa kutafuta **habari zilizovuja** au kwa mifumo
 
 * [**SourceGraph**](https://sourcegraph.com/search): Tafuta katika maelfu ya repos. Kuna toleo la bure na toleo la biashara (pamoja na siku 15 za bure). Inasaidia regexes.
 * [**Github Search**](https://github.com/search): Tafuta katika Github. Inasaidia regexes.
-* Labda pia ni muhimu kuangalia [**Github Code Search**](https://cs.github.com/).
+* Huenda pia ikawa na manufaa kuangalia pia [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Tafuta katika miradi ya Gitlab. Inasaidia regexes.
 * [**SearchCode**](https://searchcode.com/): Tafuta msimbo katika mamilioni ya miradi.
 
 {% hint style="warning" %}
-Unapofanya utafutaji wa habari zilizovuja katika repo na kukimbiza kitu kama `git log -p` usisahau kunaweza kuwa na **matawi mengine yenye commits nyingine** yanayoshikilia siri!
+Unapofanya utafutaji wa habari zilizovuja katika repo na kuendesha kitu kama `git log -p` usisahau kunaweza kuwa na **matawi mengine yenye commits nyingine** yanayoshikilia siri!
 {% endhint %}
 
 {% hint style="success" %}

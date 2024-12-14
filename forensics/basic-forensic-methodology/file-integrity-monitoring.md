@@ -1,34 +1,34 @@
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line"> [**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte) <img src="/.gitbook/assets/arte.png" alt="" data-size="line"> \
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line"> [**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Kiwango cha Msingi
+# Msingi
 
-Kiwango cha msingi kinajumuisha kuchukua picha ya sehemu fulani ya mfumo ili **kulinganisha na hali ya baadaye ili kubaini mabadiliko**.
+Msingi unajumuisha kuchukua picha ya sehemu fulani za mfumo ili **kuilinganisha na hali ya baadaye ili kuonyesha mabadiliko**.
 
-Kwa mfano, unaweza kuhesabu na kuhifadhi hash ya kila faili kwenye mfumo wa faili ili uweze kugundua ni faili zipi zilizobadilishwa.\
-Hii pia inaweza kufanywa na akaunti za watumiaji zilizoundwa, michakato inayoendeshwa, huduma zinazoendeshwa na chochote kingine ambacho hakitakiwi kubadilika sana, au kabisa.
+Kwa mfano, unaweza kuhesabu na kuhifadhi hash ya kila faili ya mfumo wa faili ili uweze kugundua ni faili zipi zilizobadilishwa.\
+Hii inaweza pia kufanywa na akaunti za watumiaji zilizoundwa, michakato inayoendelea, huduma zinazoendelea na chochote kingine ambacho hakipaswi kubadilika sana, au hata kidogo.
 
 ## Ufuatiliaji wa Uadilifu wa Faili
 
 Ufuatiliaji wa Uadilifu wa Faili (FIM) ni mbinu muhimu ya usalama inayolinda mazingira ya IT na data kwa kufuatilia mabadiliko katika faili. Inajumuisha hatua mbili muhimu:
 
-1. **Ulinganisho wa Kiwango cha Msingi:** Weka kiwango cha msingi kwa kutumia sifa za faili au checksums za kryptografiki (kama MD5 au SHA-2) kwa kulinganisha baadaye ili kugundua mabadiliko.
-2. **Arifa za Mabadiliko Halisi:** Pata arifa za papo hapo wakati faili zinapofikiwa au kuhaririwa, kawaida kupitia nyongeza za msingi wa OS.
+1. **Ulinganisho wa Msingi:** Kuanzisha msingi kwa kutumia sifa za faili au checksums za kijasusi (kama MD5 au SHA-2) kwa ulinganisho wa baadaye ili kugundua mabadiliko.
+2. **Arifa za Mabadiliko ya Wakati Halisi:** Pata arifa za papo hapo wakati faili zinapofikiwa au kubadilishwa, kawaida kupitia nyongeza za kernel za OS.
 
-## Vyombo
+## Zana
 
 * [https://github.com/topics/file-integrity-monitoring](https://github.com/topics/file-integrity-monitoring)
 * [https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software](https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software)
@@ -39,16 +39,16 @@ Ufuatiliaji wa Uadilifu wa Faili (FIM) ni mbinu muhimu ya usalama inayolinda maz
 
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line"> [**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte) <img src="/.gitbook/assets/arte.png" alt="" data-size="line"> \
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line"> [**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

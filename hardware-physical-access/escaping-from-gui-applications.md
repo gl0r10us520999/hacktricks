@@ -25,13 +25,13 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 | ------------- | -------------------------------------------------------------------- |
 | Kitufe cha nguvu  | Kuwa na kifaa kimezimwa na kuwashwa tena kunaweza kufichua skrini ya kuanzia      |
 | Kebuli ya nguvu   | Angalia ikiwa kifaa kinarejea nyuma wakati nguvu inakatwa kwa muda mfupi   |
-| Bandari za USB     | Unganisha kibodi ya kimwili yenye njia zaidi                        |
+| Bandari za USB     | Unganisha kibodi ya kimwili yenye njia nyingi za mkato                        |
 | Ethernet      | Skana ya mtandao au sniffing inaweza kuwezesha unyakuzi zaidi             |
 
 
 ## Angalia kwa hatua zinazowezekana ndani ya programu ya GUI
 
-**Maongezi ya Kawaida** ni zile chaguzi za **kuhifadhi faili**, **kufungua faili**, kuchagua fonti, rangi... Zaidi ya hayo, zitatoa **ufunctionality kamili ya Explorer**. Hii inamaanisha kwamba utaweza kufikia kazi za Explorer ikiwa utaweza kufikia chaguzi hizi:
+**Mazungumzo ya Kawaida** ni zile chaguzi za **kuhifadhi faili**, **kufungua faili**, kuchagua fonti, rangi... Zaidi ya hayo, zitatoa **ufunctionality kamili ya Explorer**. Hii inamaanisha kwamba utaweza kufikia kazi za Explorer ikiwa utaweza kufikia chaguzi hizi:
 
 * Funga/Funga kama
 * Fungua/Fungua na
@@ -44,12 +44,12 @@ Unapaswa kuangalia ikiwa unaweza:
 
 * Badilisha au kuunda faili mpya
 * Kuunda viungo vya alama
-* Pata ufikiaji wa maeneo yaliyopigwa marufuku
+* Pata ufikiaji wa maeneo yaliyokatazwa
 * Teua programu nyingine
 
 ### Utekelezaji wa Amri
 
-Labda **ukitumia chaguo la `Fungua na`** unaweza kufungua/kuendesha aina fulani ya shell.
+Labda **ukitumia chaguo la `Fungua na`** unaweza kufungua/kutekeleza aina fulani ya shell.
 
 #### Windows
 
@@ -66,7 +66,7 @@ _bash, sh, zsh..._ Zaidi hapa: [https://gtfobins.github.io/](https://gtfobins.gi
 * **Mabadiliko ya mazingira**: Kuna mabadiliko mengi ya mazingira yanayoelekeza kwenye njia fulani
 * **Protokali nyingine**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Viungo vya alama**
-* **Mifupisho**: CTRL+N (fungua kikao kipya), CTRL+R (Tekeleza Amri), CTRL+SHIFT+ESC (Meneja wa Kazi), Windows+E (fungua explorer), CTRL-B, CTRL-I (Mpendwa), CTRL-H (Historia), CTRL-L, CTRL-O (Faili/Fungua Maongezi), CTRL-P (Chapisha Maongezi), CTRL-S (Hifadhi Kama)
+* **Njia za mkato**: CTRL+N (fungua kikao kipya), CTRL+R (Tekeleza Amri), CTRL+SHIFT+ESC (Meneja wa Kazi), Windows+E (fungua explorer), CTRL-B, CTRL-I (Mipendekezo), CTRL-H (Historia), CTRL-L, CTRL-O (Faili/Fungua Mazungumzo), CTRL-P (Chapisha Mazungumzo), CTRL-S (Hifadhi Kama)
 * Menyu ya Usimamizi iliyofichwa: CTRL-ALT-F8, CTRL-ESC-F9
 * **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **Njia za UNC**: Njia za kuungana na folda zilizoshirikiwa. Unapaswa kujaribu kuungana na C$ ya mashine ya ndani ("\\\127.0.0.1\c$\Windows\System32")
@@ -102,17 +102,17 @@ Mhariri wa rejista: [https://sourceforge.net/projects/uberregedit/](https://sour
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-### Mifupisho
+### Njia za Mkato
 
 * Funguo za Sticky – Bonyeza SHIFT mara 5
 * Funguo za Panya – SHIFT+ALT+NUMLOCK
 * Mwangaza Mkali – SHIFT+ALT+PRINTSCN
-* Funguo za Kubadilisha – Shikilia NUMLOCK kwa sekunde 5
+* Funguo za Kubadili – Shikilia NUMLOCK kwa sekunde 5
 * Funguo za Filter – Shikilia SHIFT ya kulia kwa sekunde 12
 * WINDOWS+F1 – Utafutaji wa Windows
 * WINDOWS+D – Onyesha Desktop
 * WINDOWS+E – Anzisha Windows Explorer
-* WINDOWS+R – Endesha
+* WINDOWS+R – Kimbia
 * WINDOWS+U – Kituo cha Ufikiaji Rahisi
 * WINDOWS+F – Tafuta
 * SHIFT+F10 – Menyu ya Muktadha
@@ -122,7 +122,7 @@ Mhariri wa rejista: [https://sourceforge.net/projects/uberregedit/](https://sour
 * F6 – Bar ya Anwani
 * F11 – Badilisha skrini kamili ndani ya Internet Explorer
 * CTRL+H – Historia ya Internet Explorer
-* CTRL+T – Internet Explorer – Kichupo Kipya
+* CTRL+T – Internet Explorer – Tab Mpya
 * CTRL+N – Internet Explorer – Ukurasa Mpya
 * CTRL+O – Fungua Faili
 * CTRL+S – Hifadhi CTRL+N – RDP Mpya / Citrix
@@ -130,15 +130,15 @@ Mhariri wa rejista: [https://sourceforge.net/projects/uberregedit/](https://sour
 ### Swipe
 
 * Swipe kutoka upande wa kushoto kwenda kulia ili kuona Windows zote zilizo wazi, kupunguza programu ya KIOSK na kufikia mfumo mzima wa uendeshaji moja kwa moja;
-* Swipe kutoka upande wa kulia kwenda kushoto kufungua Kituo cha Hatua, kupunguza programu ya KIOSK na kufikia mfumo mzima wa uendeshaji moja kwa moja;
+* Swipe kutoka upande wa kulia kwenda kushoto kufungua Kituo cha Vitendo, kupunguza programu ya KIOSK na kufikia mfumo mzima wa uendeshaji moja kwa moja;
 * Swipe kutoka kwenye kingo ya juu ili kufanya bar ya kichwa ionekane kwa programu iliyofunguliwa kwa hali ya skrini kamili;
 * Swipe juu kutoka chini kuonyesha bar ya kazi katika programu ya skrini kamili.
 
-### Mbinu za Internet Explorer
+### Njia za Internet Explorer
 
-#### 'Kichombo cha Picha'
+#### 'Zana ya Picha'
 
-Ni kichombo kinachojitokeza juu-kushoto mwa picha wakati kinapobonyezwa. Utaweza Kuhifadhi, Chapisha, Mailto, Fungua "Picha Zangu" katika Explorer. Kiosk inapaswa kutumia Internet Explorer.
+Ni zana inayojitokeza juu-kushoto ya picha wakati inabonyezwa. Utaweza Kuhifadhi, Chapisha, Mailto, Fungua "Picha Zangu" katika Explorer. Kiosk inahitaji kutumia Internet Explorer.
 
 #### Protokali ya Shell
 
@@ -170,7 +170,7 @@ Andika hizi URLs ili kupata mtazamo wa Explorer:
 
 Angalia ukurasa huu kwa maelezo zaidi: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-## Mbinu za Kivinjari
+## Njia za kivinjari
 
 Backup iKat toleo:
 
@@ -187,18 +187,18 @@ Chanzo: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de1981
 * Swipe juu kwa vidole vinne (au vitano) / Bonyeza mara mbili kitufe cha Nyumbani: Ili kuona mtazamo wa multitask na kubadilisha Programu
 * Swipe kwa njia moja au nyingine kwa vidole vinne au vitano: Ili kubadilisha kwenda kwenye Programu inayofuata/ya mwisho
 * Pinch skrini kwa vidole vitano / Gusa kitufe cha Nyumbani / Swipe juu kwa kidole 1 kutoka chini ya skrini kwa haraka: Ili kufikia Nyumbani
-* Swipe kidole 1 kutoka chini ya skrini inchi 1-2 (polepole): Dock itaonekana
+* Swipe kidole kimoja kutoka chini ya skrini inchi 1-2 (polepole): Dock itaonekana
 * Swipe chini kutoka juu ya skrini kwa kidole 1: Ili kuona arifa zako
 * Swipe chini kwa kidole 1 kwenye kona ya juu-kulia ya skrini: Ili kuona kituo cha kudhibiti cha iPad Pro
 * Swipe kidole 1 kutoka kushoto mwa skrini inchi 1-2: Ili kuona mtazamo wa Leo
 * Swipe haraka kidole 1 kutoka katikati ya skrini kwenda kulia au kushoto: Ili kubadilisha kwenda kwenye Programu inayofuata/ya mwisho
 * Bonyeza na shikilia kitufe cha On/**Off**/Sleep kwenye kona ya juu-kulia ya **iPad +** Hamisha Slide ili **kuzimisha** slider yote kwenda kulia: Ili kuzima
 * Bonyeza kitufe cha On/**Off**/Sleep kwenye kona ya juu-kulia ya **iPad na kitufe cha Nyumbani kwa sekunde chache**: Ili kulazimisha kuzima kwa nguvu
-* Bonyeza kitufe cha On/**Off**/Sleep kwenye kona ya juu-kulia ya **iPad na kitufe cha Nyumbani haraka**: Ili kuchukua picha ya skrini ambayo itajitokeza chini kushoto ya skrini. Bonyeza vifungo vyote kwa wakati mmoja kwa muda mfupi kana kwamba unavyoshikilia kwa sekunde chache kuzima kwa nguvu kutafanyika.
+* Bonyeza kitufe cha On/**Off**/Sleep kwenye kona ya juu-kulia ya **iPad na kitufe cha Nyumbani haraka**: Ili kuchukua picha ya skrini ambayo itajitokeza kwenye upande wa chini kushoto wa skrini. Bonyeza vifungo vyote kwa wakati mmoja kwa muda mfupi kana kwamba unavyoshikilia kwa sekunde chache kuzima kwa nguvu kutafanyika.
 
-### Mifupisho
+### Njia za Mkato
 
-Unapaswa kuwa na kibodi ya iPad au adapta ya kibodi ya USB. Mifupisho pekee ambayo inaweza kusaidia kutoka kwenye programu itakuwa inayoonyeshwa hapa.
+Unapaswa kuwa na kibodi ya iPad au adapta ya kibodi ya USB. Ni njia za mkato pekee ambazo zinaweza kusaidia kutoka kwenye programu zitakazoonyeshwa hapa.
 
 | Funguo | Jina         |
 | --- | ------------ |
@@ -213,11 +213,11 @@ Unapaswa kuwa na kibodi ya iPad au adapta ya kibodi ya USB. Mifupisho pekee amba
 | ↑   | Arrow ya Juu     |
 | ↓   | Arrow ya Chini   |
 
-#### Mifupisho ya Mfumo
+#### Njia za mkato za mfumo
 
-Mifupisho hii ni kwa mipangilio ya kuona na mipangilio ya sauti, kulingana na matumizi ya iPad.
+Njia hizi za mkato ni za mipangilio ya kuona na mipangilio ya sauti, kulingana na matumizi ya iPad.
 
-| Mifupisho | Hatua                                                                         |
+| Njia ya mkato | Hatua                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Punguza Mwanga                                                                    |
 | F2       | Pandisha mwanga                                                                |
@@ -231,16 +231,16 @@ Mifupisho hii ni kwa mipangilio ya kuona na mipangilio ya sauti, kulingana na ma
 
 #### Usafiri wa iPad
 
-| Mifupisho                                           | Hatua                                                  |
+| Njia ya mkato                                           | Hatua                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | ⌘H                                                 | Nenda Nyumbani                                              |
 | ⌘⇧H (Amri-Shift-H)                              | Nenda Nyumbani                                              |
 | ⌘ (Space)                                          | Fungua Spotlight                                          |
 | ⌘⇥ (Amri-Tab)                                   | Orodha ya programu kumi zilizotumika hivi karibuni                                 |
 | ⌘\~                                                | Nenda kwenye Programu ya mwisho                                       |
-| ⌘⇧3 (Amri-Shift-3)                              | Picha ya skrini (inabaki chini kushoto kuhifadhi au kufanya kazi nayo) |
+| ⌘⇧3 (Amri-Shift-3)                              | Picha ya skrini (inashikilia chini kushoto kuhifadhi au kufanya kazi nayo) |
 | ⌘⇧4                                                | Picha ya skrini na ifungue kwenye mhariri                    |
-| Bonyeza na shikilia ⌘                                   | Orodha ya mifupisho inayopatikana kwa Programu                 |
+| Bonyeza na shikilia ⌘                                   | Orodha ya njia za mkato zinazopatikana kwa Programu                 |
 | ⌘⌥D (Amri-Chaguo/Alt-D)                         | Inaleta dock                                      |
 | ^⌥H (Udhibiti-Chaguo-H)                             | Kitufe cha Nyumbani                                             |
 | ^⌥H H (Udhibiti-Chaguo-H-H)                         | Onyesha bar ya multitask                                      |
@@ -252,37 +252,37 @@ Mifupisho hii ni kwa mipangilio ya kuona na mipangilio ya sauti, kulingana na ma
 | ⌥ ↓ (Chaguo-Arrow ya Chini)                            | Punguza chini                                             |
 | ⌥↑ (Chaguo-Arrow ya Juu)                               | Pandisha juu                                               |
 | ⌥← au ⌥→ (Chaguo-Arrow ya Kushoto au Chaguo-Arrow ya Kulia) | Punguza kushoto au kulia                                    |
-| ^⌥S (Udhibiti-Chaguo-S)                             | Zima sauti ya VoiceOver                         |
+| ^⌥S (Udhibiti-Chaguo-S)                             | Zima sauti ya VoiceOver au uanzishe                         |
 | ⌘⇧⇥ (Amri-Shift-Tab)                            | Badilisha kwenda kwenye programu ya awali                              |
 | ⌘⇥ (Amri-Tab)                                   | Badilisha kurudi kwenye programu ya awali                         |
 | ←+→, kisha Chaguo + ← au Chaguo+→                   | Tembea kupitia Dock                                   |
 
-#### Mifupisho ya Safari
+#### Njia za mkato za Safari
 
-| Mifupisho                | Hatua                                           |
+| Njia ya mkato                | Hatua                                           |
 | ----------------------- | ------------------------------------------------ |
 | ⌘L (Amri-L)          | Fungua Mahali                                    |
-| ⌘T                      | Fungua kichupo kipya                                   |
-| ⌘W                      | Funga kichupo cha sasa                            |
-| ⌘R                      | Refresh kichupo cha sasa                          |
-| ⌘.                      | Zima kupakia kichupo cha sasa                     |
-| ^⇥                      | Badilisha kwenda kwenye kichupo kinachofuata                           |
-| ^⇧⇥ (Udhibiti-Shift-Tab) | Hamisha kwenda kwenye kichupo cha awali                         |
+| ⌘T                      | Fungua tab mpya                                   |
+| ⌘W                      | Funga tab ya sasa                            |
+| ⌘R                      | Refresh tab ya sasa                          |
+| ⌘.                      | Zima kupakia tab ya sasa                     |
+| ^⇥                      | Badilisha kwenda kwenye tab inayofuata                           |
+| ^⇧⇥ (Udhibiti-Shift-Tab) | Hamisha kwenda kwenye tab ya awali                         |
 | ⌘L                      | Chagua uwanja wa kuingiza maandiko/URL ili kuibadilisha     |
-| ⌘⇧T (Amri-Shift-T)   | Fungua kichupo cha mwisho kilichofungwa (kinaweza kutumika mara kadhaa) |
+| ⌘⇧T (Amri-Shift-T)   | Fungua tab ya mwisho iliyofungwa (inaweza kutumika mara kadhaa) |
 | ⌘\[                     | Rudi ukurasa mmoja katika historia yako ya kuvinjari      |
 | ⌘]                      | Nenda mbele ukurasa mmoja katika historia yako ya kuvinjari   |
 | ⌘⇧R                     | Washa Modu ya Msomaji                             |
 
-#### Mifupisho ya Barua
+#### Njia za mkato za Barua
 
-| Mifupisho                   | Hatua                       |
+| Njia ya mkato                   | Hatua                       |
 | -------------------------- | ---------------------------- |
 | ⌘L                         | Fungua Mahali                |
-| ⌘T                         | Fungua kichupo kipya               |
-| ⌘W                         | Funga kichupo cha sasa        |
-| ⌘R                         | Refresh kichupo cha sasa      |
-| ⌘.                         | Zima kupakia kichupo cha sasa |
+| ⌘T                         | Fungua tab mpya               |
+| ⌘W                         | Funga tab ya sasa        |
+| ⌘R                         | Refresh tab ya sasa      |
+| ⌘.                         | Zima kupakia tab ya sasa |
 | ⌘⌥F (Amri-Chaguo/Alt-F) | Tafuta kwenye sanduku lako la barua       |
 
 ## Marejeleo

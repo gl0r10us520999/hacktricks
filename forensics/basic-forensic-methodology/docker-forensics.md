@@ -43,7 +43,7 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-Katika amri iliyopita, **C** inamaanisha **Ilibadilishwa** na **A,** **Iliyoongezwa**.\
+Katika amri iliyopita, **C** inamaanisha **Ilibadilishwa** na **A,** **Imeongezwa**.\
 Ikiwa utagundua kuwa faili ya kuvutia kama `/etc/shadow` ilibadilishwa, unaweza kuipakua kutoka kwenye kontena ili kuangalia shughuli za uhalifu kwa:
 ```bash
 docker cp wordpress:/etc/shadow.
@@ -58,9 +58,9 @@ Ikiwa unapata kwamba **faili fulani ya kushuku iliongezwa** unaweza kufikia kont
 ```bash
 docker exec -it wordpress bash
 ```
-## Images modifications
+## Mabadiliko ya picha
 
-Wakati unapata picha ya docker iliyosafirishwa (labda katika muundo wa `.tar`) unaweza kutumia [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) ili **kutoa muhtasari wa mabadiliko**:
+Unapopewa picha ya docker iliyosafirishwa (labda katika muundo wa `.tar`) unaweza kutumia [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) **kutoa muhtasari wa mabadiliko**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -73,7 +73,7 @@ tar -xf image.tar
 ```
 ### Basic Analysis
 
-Unaweza kupata **taarifa za msingi** kutoka kwa picha ukikimbia:
+Unaweza kupata **taarifa za msingi** kutoka kwa picha ukifanya:
 ```bash
 docker inspect <image>
 ```
@@ -97,10 +97,10 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Hii inakuwezesha **kuvinjari kupitia blobs tofauti za picha za docker** na kuangalia faili zipi zilirekebishwa/kuongezwa. **Nyekundu** inamaanisha kuongezwa na **njano** inamaanisha kurekebishwa. Tumia **tab** kuhamia kwenye mtazamo mwingine na **space** kufunga/kufungua folda.
+Hii inakuwezesha **kuvinjari kupitia blobs tofauti za picha za docker** na kuangalia faili zipi zilirekebishwa/zilizoongezwa. **Nyekundu** inamaanisha kuongezwa na **njano** inamaanisha kurekebishwa. Tumia **tab** kuhamia kwenye mtazamo mwingine na **space** kufunga/kufungua folda.
 
 Kwa die huwezi kufikia maudhui ya hatua tofauti za picha. Ili kufanya hivyo, utahitaji **kufungua kila safu na kuifikia**.\
-Unaweza kufungua safu zote kutoka kwa picha kutoka kwenye saraka ambapo picha ilifunguliwa kwa kutekeleza:
+Unaweza kufungua safu zote kutoka kwa picha kutoka kwenye saraka ambapo picha ilifunguliwa ukitekeleza:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
@@ -109,7 +109,7 @@ for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; don
 
 Kumbuka kwamba unapokimbia kontena la docker ndani ya mwenyeji **unaweza kuona michakato inayokimbia kwenye kontena kutoka kwa mwenyeji** kwa kukimbia tu `ps -ef`
 
-Hivyo (kama root) unaweza **kuchota kumbukumbu ya michakato** kutoka kwa mwenyeji na kutafuta **credentials** kama [**ilivyo katika mfano ufuatao**](../../linux-hardening/privilege-escalation/#process-memory).
+Hivyo (kama root) unaweza **kutoa kumbukumbu ya michakato** kutoka kwa mwenyeji na kutafuta **credentials** tu [**kama katika mfano ufuatao**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 

@@ -10,7 +10,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -23,7 +23,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 ## Uchambuzi wa Malware
 
-Hii **sio hatua ya kwanza kufanya mara tu unapo kuwa na picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa malware kwa uhuru ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... hivyo ni vizuri **kumbuka hatua hizi**:
+Hii **sio hatua ya kwanza kufanya mara tu unapo kuwa na picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa malware kwa uhuru ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... hivyo ni vizuri **kumbuka vitendo hivi**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -37,7 +37,7 @@ ikiwa umepatiwa **picha ya kisheria** ya kifaa unaweza kuanza **kuchambua sehemu
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Kulingana na OS zinazotumika na hata jukwaa, vitu vya kuvutia vinavyofaa kutafutwa vinapaswa kutafutwa:
+Kulingana na OS zinazotumika na hata jukwaa, vitu vya kuvutia tofauti vinapaswa kutafutwa:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -53,7 +53,7 @@ Kulingana na OS zinazotumika na hata jukwaa, vitu vya kuvutia vinavyofaa kutafut
 
 ## Ukaguzi wa Kina wa Aina Maalum za Faili na Programu
 
-Ikiwa una **faili** ambayo ni **ya kutatanisha**, basi **kulingana na aina ya faili na programu** iliyoiunda, mbinu kadhaa **zinaweza kuwa na manufaa**.\
+Ikiwa una **faili** ambayo ni **ya kutatanisha sana**, basi **kulingana na aina ya faili na programu** iliyoiunda, mbinu kadhaa **zinaweza kuwa na manufaa**.\
 Soma ukurasa ufuatao kujifunza mbinu za kuvutia:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -102,7 +102,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

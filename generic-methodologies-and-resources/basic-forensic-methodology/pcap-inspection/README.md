@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-Kumbuka kuhusu **PCAP** dhidi ya **PCAPNG**: kuna toleo mbili za muundo wa faili ya PCAP; **PCAPNG ni mpya na haikubaliwi na zana zote**. Unaweza kuhitaji kubadilisha faili kutoka PCAPNG hadi PCAP kwa kutumia Wireshark au zana nyingine inayofaa, ili kufanya kazi nayo katika zana nyingine.
+Kumbuka kuhusu **PCAP** dhidi ya **PCAPNG**: kuna toleo mbili za muundo wa faili ya PCAP; **PCAPNG ni mpya na haitegemewi na zana zote**. Unaweza kuhitaji kubadilisha faili kutoka PCAPNG hadi PCAP kwa kutumia Wireshark au zana nyingine inayofaa, ili kufanya kazi nayo katika zana nyingine.
 {% endhint %}
 
 ## Online tools for pcaps
@@ -39,7 +39,7 @@ Zana zifuatazo ni muhimu kutoa takwimu, faili, n.k.
 ### Wireshark
 
 {% hint style="info" %}
-**Ikiwa unataka kuchambua PCAP lazima ujue jinsi ya kutumia Wireshark**
+**Ikiwa unakusudia kuchambua PCAP lazima ujue jinsi ya kutumia Wireshark**
 {% endhint %}
 
 Unaweza kupata mbinu za Wireshark katika:
@@ -88,7 +88,7 @@ Hiki ni chombo kingine muhimu ambacho **kuchambua pakiti** na kupanga habari kwa
 * Toa hash za uthibitisho na uzivunje kwa kutumia Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
 * Jenga mchoro wa mtandao wa kuona (Vituo vya mtandao & watumiaji)
 * Toa maswali ya DNS
-* Rejesha kila kikao cha TCP & UDP
+* Rejesha vikao vyote vya TCP & UDP
 * Ukarabati wa Faili
 
 ### Capinfos
@@ -101,29 +101,29 @@ Ikiwa unatafuta **kitu** ndani ya pcap unaweza kutumia **ngrep**. Hapa kuna mfan
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Kukata
+### Carving
 
-Kutumia mbinu za kukata za kawaida kunaweza kuwa na manufaa kutoa faili na taarifa kutoka kwa pcap:
+Kutumia mbinu za kawaida za carving kunaweza kuwa na manufaa kutoa faili na taarifa kutoka kwa pcap:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Kukamata akidi
+### Capturing credentials
 
-Unaweza kutumia zana kama [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) kuchambua akidi kutoka kwa pcap au kiolesura cha moja kwa moja.
+Unaweza kutumia zana kama [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) kuchambua credentials kutoka kwa pcap au interface ya moja kwa moja.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la cybersecurity nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na cybersecurity katika kila taaluma.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Angalia Uvunjaji/Malware
+## Check Exploits/Malware
 
 ### Suricata
 
-**Sakinisha na weka mipangilio**
+**Install and setup**
 ```
 apt-get install suricata
 apt-get install oinkmaster
@@ -156,7 +156,7 @@ Angalia kama unaweza kupata alama yoyote ya malware inayojulikana:
 
 > [Zeek](https://docs.zeek.org/en/master/about.html) ni mchambuzi wa trafiki wa mtandao wa wazi na wa kupita. Wengi wa waendeshaji hutumia Zeek kama Msimamizi wa Usalama wa Mtandao (NSM) kusaidia uchunguzi wa shughuli za kushuku au zenye uharibifu. Zeek pia inasaidia aina mbalimbali za kazi za uchambuzi wa trafiki zaidi ya eneo la usalama, ikiwa ni pamoja na kipimo cha utendaji na kutatua matatizo.
 
-Kimsingi, kumbukumbu zinazoundwa na `zeek` si **pcaps**. Hivyo utahitaji kutumia **zana nyingine** kuchambua kumbukumbu ambapo **habari** kuhusu pcaps zipo.
+Kimsingi, kumbukumbu zinazoundwa na `zeek` si **pcaps**. Kwa hivyo utahitaji kutumia **vifaa vingine** kuchambua kumbukumbu ambapo **habari** kuhusu pcaps zipo.
 
 ### Taarifa za Munganisho
 ```bash

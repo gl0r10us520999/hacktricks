@@ -1,20 +1,20 @@
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Faili za PNG** zinathaminiwa sana katika **changamoto za CTF** kwa **kupunguza bila kupoteza data**, hivyo ni bora kwa kuficha data iliyofichwa. Zana kama **Wireshark** huwezesha uchambuzi wa faili za PNG kwa kuchambua data zao ndani ya pakiti za mtandao, kufunua habari iliyofichwa au tofauti.
+**Fail za PNG** zinaheshimiwa sana katika **changamoto za CTF** kwa sababu ya **kuhifadhi bila kupoteza**, na kuifanya kuwa bora kwa kuingiza data zilizofichwa. Zana kama **Wireshark** zinawezesha uchambuzi wa faili za PNG kwa kuchambua data zao ndani ya pakiti za mtandao, zikifunua taarifa zilizofichwa au kasoro.
 
-Kwa kuchunguza uadilifu wa faili za PNG na kurekebisha uharibifu, **pngcheck** ni zana muhimu, ikitoa utendaji wa mstari wa amri kuthibitisha na kutambua faili za PNG ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Wakati faili zinapita zaidi ya marekebisho ya kawaida, huduma za mtandaoni kama [PixRecovery ya OfficeRecovery](https://online.officerecovery.com/pixrecovery/) hutoa suluhisho la wavuti kwa **kurekebisha PNG zilizoharibika**, kusaidia katika kupona kwa data muhimu kwa washiriki wa CTF.
+Ili kuangalia uhalali wa faili za PNG na kurekebisha uharibifu, **pngcheck** ni zana muhimu, ikitoa kazi za mstari wa amri kuthibitisha na kugundua faili za PNG ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Wakati faili zimepitiliza marekebisho rahisi, huduma za mtandaoni kama [OfficeRecovery's PixRecovery](https://online.officerecovery.com/pixrecovery/) zinatoa suluhisho la mtandaoni kwa **kurekebisha PNG zilizoharibika**, kusaidia katika kuokoa data muhimu kwa washiriki wa CTF.
 
-Mbinu hizi zinaonyesha umuhimu wa njia kamili katika CTFs, kutumia mchanganyiko wa zana za uchambuzi na mbinu za marekebisho kugundua na kupona data iliyofichwa au kupotea.
+Mikakati hii inaonyesha umuhimu wa mbinu kamili katika CTFs, ikitumia mchanganyiko wa zana za uchambuzi na mbinu za ukarabati ili kufichua na kuokoa data zilizofichwa au kupotea.

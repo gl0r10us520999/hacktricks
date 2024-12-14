@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 # CBC - Cipher Block Chaining
 
-Katika hali ya CBC, **block iliyosimbwa ya awali inatumika kama IV** ili XOR na block inayofuata:
+Katika hali ya CBC, **block iliyosimbwa awali inatumika kama IV** ili XOR na block inayofuata:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
@@ -32,10 +32,10 @@ Tazama jinsi inavyohitajika kutumia **ufunguo wa usimbaji** na **IV**.
 
 # Message Padding
 
-Kadri usimbaji unavyofanywa katika **blocks za ukubwa** **uliowekwa**, **padding** mara nyingi inahitajika katika **block ya mwisho** kukamilisha urefu wake.\
-Mara nyingi **PKCS7** inatumika, ambayo inazalisha padding **ikirejelea** **idadi** ya **bytes** **zinazohitajika** kukamilisha block. Kwa mfano, ikiwa block ya mwisho inakosa bytes 3, padding itakuwa `\x03\x03\x03`.
+Kadri usimbaji unavyofanywa katika **block za ukubwa** **uliowekwa**, **padding** mara nyingi inahitajika katika **block ya mwisho** kukamilisha urefu wake.\
+Mara nyingi **PKCS7** inatumika, ambayo inazalisha padding **ikirejelea** **idadi** ya **bytes** **zinazohitajika** ili **kukamilisha** block. Kwa mfano, ikiwa block ya mwisho inakosa bytes 3, padding itakuwa `\x03\x03\x03`.
 
-Hebu tuangalie mifano zaidi na **blocks 2 za urefu wa 8bytes**:
+Hebu tuangalie mifano zaidi na **block 2 za urefu wa 8bytes**:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -48,7 +48,7 @@ Kumbuka jinsi katika mfano wa mwisho **block ya mwisho ilikuwa kamili hivyo nyin
 
 # Padding Oracle
 
-Wakati programu inafungua data iliyosimbwa, itaanza kwa kufungua data; kisha itatoa padding. Wakati wa kusafisha padding, ikiwa **padding isiyo sahihi inasababisha tabia inayoweza kugundulika**, una **udhaifu wa padding oracle**. Tabia inayoweza kugundulika inaweza kuwa **kosa**, **ukosefu wa matokeo**, au **jibu lenye mwendo polepole**.
+Wakati programu inafungua data iliyosimbwa, kwanza itafungua data; kisha itatoa padding. Wakati wa kusafisha padding, ikiwa **padding isiyo sahihi inasababisha tabia inayoweza kugundulika**, una **udhaifu wa padding oracle**. Tabia inayoweza kugundulika inaweza kuwa **kosa**, **ukosefu wa matokeo**, au **jibu lenye mwendo polepole**.
 
 Ikiwa unagundua tabia hii, unaweza **kufungua data iliyosimbwa** na hata **kusimbwa kwa maandiko yoyote**.
 
@@ -68,19 +68,19 @@ Unaweza pia **kutumia udhaifu huu kuandika data mpya. Kwa mfano, fikiria kwamba 
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ikiwa tovuti ina udhaifu, `padbuster` itajaribu moja kwa moja kubaini wakati kosa la padding linapotokea, lakini unaweza pia kuashiria ujumbe wa kosa hilo ukitumia parameter ya **-error**.
+Ikiwa tovuti ina udhaifu, `padbuster` itajaribu moja kwa moja kubaini wakati kosa la padding linapotokea, lakini unaweza pia kuonyesha ujumbe wa kosa hilo ukitumia parameter ya **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ## Nadharia
 
-Kwa **muhtasari**, unaweza kuanza kufichua data iliyofichwa kwa kukisia thamani sahihi ambazo zinaweza kutumika kuunda **padding tofauti**. Kisha, shambulio la padding oracle litaanza kufichua byte kutoka mwisho hadi mwanzo kwa kukisia ni ipi itakuwa thamani sahihi inayounda padding ya **1, 2, 3, n.k.**.
+Kwa **muhtasari**, unaweza kuanza kufungua data iliyosimbwa kwa kubashiri thamani sahihi ambazo zinaweza kutumika kuunda **padding tofauti**. Kisha, shambulio la padding oracle litaanza kufungua byte kutoka mwisho hadi mwanzo kwa kubashiri ni ipi itakuwa thamani sahihi inayounda padding ya **1, 2, 3, n.k.**.
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Fikiria una maandiko yaliyofichwa yanayochukua **blocks 2** yaliyoundwa na byte kutoka **E0 hadi E15**.\
-Ili **kufichua** **block** ya **mwisho** (**E8** hadi **E15**), block nzima inapita kupitia "block cipher decryption" ikizalisha **byte za kati I0 hadi I15**.\
-Hatimaye, kila byte ya kati inafanywa **XOR** na byte zilizofichwa za awali (E0 hadi E7). Hivyo:
+Fikiria una maandiko yaliyosimbwa yanayochukua **blocks 2** yaliyoundwa na byte kutoka **E0 hadi E15**.\
+Ili **kufungua** **block** ya **mwisho** (**E8** hadi **E15**), block nzima inapita kupitia "block cipher decryption" ikizalisha **byte za kati I0 hadi I15**.\
+Hatimaye, kila byte ya kati inafanywa **XOR** na byte zilizopita zilizofichwa (E0 hadi E7). Hivyo:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -90,21 +90,21 @@ Hatimaye, kila byte ya kati inafanywa **XOR** na byte zilizofichwa za awali (E0 
 
 Sasa, inawezekana **kubadilisha `E7` hadi `C15` iwe `0x01`**, ambayo pia itakuwa padding sahihi. Hivyo, katika kesi hii: `\x01 = I15 ^ E'7`
 
-Hivyo, kupata E'7, inawezekana **kuyakadiria I15**: `I15 = 0x01 ^ E'7`
+Hivyo, kupata E'7, inawezekana **kuhesabu I15**: `I15 = 0x01 ^ E'7`
 
-Ambayo inaturuhusu **kuyakadiria C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Ambayo inaturuhusu **kuhesabu C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Kujua **C15**, sasa inawezekana **kuyakadiria C14**, lakini wakati huu kwa kutumia brute-force padding `\x02\x02`.
+Kujua **C15**, sasa inawezekana **kuhesabu C14**, lakini wakati huu kwa kubashiri padding `\x02\x02`.
 
-Hii BF ni ngumu kama ile ya awali kwani inawezekana kuyakadiria `E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo inahitajika tu kupata **`E'14`** inayozalisha **`C14` inayolingana na `0x02`**.\
-Kisha, fanya hatua hizo hizo kufichua C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Hii BF ni ngumu kama ile ya awali kwani inawezekana kuhesabu `E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo inahitajika tu kupata **`E'14`** inayozalisha **`C14` inayolingana na `0x02`**.\
+Kisha, fanya hatua hizo hizo kufungua C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Fuata mnyororo huu hadi ufichue maandiko yote yaliyofichwa.**
+**Fuata mnyororo huu hadi ufungue maandiko yote yaliyosimbwa.**
 
 ## Ugunduzi wa udhaifu
 
 Jisajili na ujiandikishe na akaunti hii.\
-Ikiwa unafanya **kuingia mara nyingi** na kila wakati unapata **keki ile ile**, kuna uwezekano wa **kitu** **kosi** katika programu. **Keki inayotumwa nyuma inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa keki ni **daima** ile **ile**, kuna uwezekano itakuwa daima halali na hakuna **njia ya kuifuta**.
+Ikiwa unafanya **kuingia mara nyingi** na kila wakati unapata **keki ile ile**, kuna uwezekano **kuna kitu** **sijakamilika** katika programu. **Keki inayotumwa nyuma inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa keki ni **daima** ile **ile**, kuna uwezekano itakuwa halali kila wakati na hakuna **njia ya kuifuta**.
 
 Sasa, ikiwa unajaribu **kubadilisha** **keki**, unaweza kuona unapata **kosa** kutoka kwa programu.\
 Lakini ikiwa unafanya BF padding (ukitumia padbuster kwa mfano) unafanikiwa kupata keki nyingine halali kwa mtumiaji tofauti. Hali hii ina uwezekano mkubwa wa kuwa na udhaifu kwa padbuster.
@@ -119,8 +119,8 @@ Lakini ikiwa unafanya BF padding (ukitumia padbuster kwa mfano) unafanikiwa kupa
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -128,7 +128,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

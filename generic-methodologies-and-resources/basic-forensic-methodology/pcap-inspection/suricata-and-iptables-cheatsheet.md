@@ -23,7 +23,7 @@ Katika iptables, orodha za sheria zinazojulikana kama chains zinashughulikiwa kw
 
 - **Input Chain**: Inatumika kwa usimamizi wa tabia ya muunganisho unaoingia.
 - **Forward Chain**: Inatumika kwa kushughulikia muunganisho unaoingia ambao haujielekezi kwa mfumo wa ndani. Hii ni ya kawaida kwa vifaa vinavyofanya kazi kama route, ambapo data inayopokelewa inakusudiwa kupelekwa kwenye eneo lingine. Chain hii inahusiana hasa wakati mfumo unahusika katika routing, NATing, au shughuli zinazofanana.
-- **Output Chain**: Imejitolea kwa udhibiti wa muunganisho unaotoka.
+- **Output Chain**: Imejikita katika udhibiti wa muunganisho unaotoka.
 
 Chains hizi zinahakikisha usindikaji wa mpangilio wa trafiki ya mtandao, zikiruhusu kuwekwa kwa sheria za kina zinazodhibiti mtiririko wa data kuingia, kupitia, na kutoka kwenye mfumo.
 ```bash
@@ -140,15 +140,15 @@ systemctl daemon-reload
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Hatua halali ni**
+#### **Vitendo halali ni**
 
 * alert - tengeneza onyo
 * pass - simamisha ukaguzi zaidi wa pakiti
 * **drop** - angusha pakiti na tengeneza onyo
-* **reject** - tuma kosa la RST/ICMP lisilopatikana kwa mtumaji wa pakiti inayolingana.
+* **reject** - tuma RST/ICMP makosa yasiyoweza kufikiwa kwa mtumaji wa pakiti inayolingana.
 * rejectsrc - sawa na tu _reject_
-* rejectdst - tuma pakiti ya kosa la RST/ICMP kwa mpokeaji wa pakiti inayolingana.
-* rejectboth - tuma pakiti za kosa la RST/ICMP kwa pande zote za mazungumzo.
+* rejectdst - tuma RST/ICMP makosa ya pakiti kwa mpokeaji wa pakiti inayolingana.
+* rejectboth - tuma RST/ICMP makosa ya pakiti kwa pande zote za mazungumzo.
 
 #### **Protokali**
 
@@ -162,26 +162,26 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 
 Inasaidia anuwai za IP, kukanusha na orodha ya anwani:
 
-| Mfano                          | Maana                                   |
-| ------------------------------ | --------------------------------------- |
-| ! 1.1.1.1                      | Anwani yoyote ya IP isipokuwa 1.1.1.1   |
-| !\[1.1.1.1, 1.1.1.2]           | Anwani yoyote ya IP isipokuwa 1.1.1.1 na 1.1.1.2 |
-| $HOME\_NET                     | Mpangilio wako wa HOME\_NET katika yaml |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET na si HOME\_NET          |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 isipokuwa 10.0.0.5         |
+| Mfano                          | Maana                                    |
+| ------------------------------ | ---------------------------------------- |
+| ! 1.1.1.1                      | Anwani zote za IP isipokuwa 1.1.1.1      |
+| !\[1.1.1.1, 1.1.1.2]           | Anwani zote za IP isipokuwa 1.1.1.1 na 1.1.1.2 |
+| $HOME\_NET                     | Mpangilio wako wa HOME\_NET katika yaml  |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET na si HOME\_NET            |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 isipokuwa 10.0.0.5          |
 
 #### Bandari za Chanzo na Kielelezo
 
 Inasaidia anuwai za bandari, kukanusha na orodha za bandari
 
-| Mfano           | Maana                                 |
-| --------------- | ------------------------------------- |
-| any             | anwani yoyote                         |
-| \[80, 81, 82]   | bandari 80, 81 na 82                 |
-| \[80: 82]       | Anuwai kutoka 80 hadi 82              |
+| Mfano           | Maana                                  |
+| --------------- | -------------------------------------- |
+| any             | anwani yoyote                          |
+| \[80, 81, 82]   | bandari 80, 81 na 82                   |
+| \[80: 82]       | Anuwai kutoka 80 hadi 82                |
 | \[1024: ]       | Kuanzia 1024 hadi nambari ya bandari ya juu |
-| !80             | Bandari yoyote isipokuwa 80           |
-| \[80:100,!99]   | Anuwai kutoka 80 hadi 100 lakini 99 haijajumuishwa |
+| !80             | Bandari zote isipokuwa 80              |
+| \[80:100,!99]   | Anuwai kutoka 80 hadi 100 lakini 99 imeondolewa |
 | \[1:80,!\[2,4]] | Anuwai kutoka 1-80, isipokuwa bandari 2 na 4 |
 
 #### Mwelekeo

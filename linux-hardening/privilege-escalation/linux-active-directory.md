@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Mashine ya linux inaweza pia kuwepo ndani ya mazingira ya Active Directory.
 
-Mashine ya linux katika AD inaweza kuwa **ikiweka tiketi tofauti za CCACHE ndani ya faili. Tiketi hizi zinaweza kutumika na kutumiwa vibaya kama tiketi nyingine yoyote ya kerberos**. Ili kusoma tiketi hizi utahitaji kuwa mmiliki wa tiketi au **root** ndani ya mashine.
+Mashine ya linux katika AD inaweza kuwa **ikiweka tiketi tofauti za CCACHE ndani ya faili. Tiketi hizi zinaweza kutumika na kutumiwa vibaya kama tiketi nyingine za kerberos**. Ili kusoma tiketi hizi utahitaji kuwa mmiliki wa tiketi au **root** ndani ya mashine.
 
 ## Enumeration
 
-### AD enumeration from linux
+### AD enumeration kutoka linux
 
-Ikiwa una ufikiaji wa AD katika linux (au bash katika Windows) unaweza kujaribu [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) ili kuhesabu AD.
+Ikiwa una ufikiaji juu ya AD katika linux (au bash katika Windows) unaweza kujaribu [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) ili kuhesabu AD.
 
 Unaweza pia kuangalia ukurasa ufuatao kujifunza **njia nyingine za kuhesabu AD kutoka linux**:
 
@@ -35,27 +35,27 @@ Unaweza pia kuangalia ukurasa ufuatao kujifunza **njia nyingine za kuhesabu AD k
 
 ### FreeIPA
 
-FreeIPA ni **mbadala** wa chanzo wazi kwa Microsoft Windows **Active Directory**, hasa kwa mazingira ya **Unix**. Inachanganya **LDAP directory** kamili na Kituo cha Usambazaji wa Funguo za MIT **Kerberos** kwa usimamizi unaofanana na Active Directory. Inatumia Mfumo wa Vyeti wa Dogtag kwa usimamizi wa vyeti vya CA & RA, inasaidia **uthibitishaji wa hatua nyingi**, ikiwa ni pamoja na kadi za smart. SSSD imeunganishwa kwa michakato ya uthibitishaji wa Unix. Jifunze zaidi kuhusu hiyo katika:
+FreeIPA ni **mbadala** wa chanzo wazi kwa Microsoft Windows **Active Directory**, hasa kwa mazingira ya **Unix**. Inachanganya **directory ya LDAP** kamili na Kituo cha Usambazaji wa Funguo za MIT **Kerberos** kwa usimamizi unaofanana na Active Directory. Inatumia Mfumo wa **Cheti** wa Dogtag kwa usimamizi wa cheti za CA & RA, inasaidia **uthibitishaji wa hatua nyingi**, ikiwa ni pamoja na kadi za smart. SSSD imeunganishwa kwa michakato ya uthibitishaji wa Unix. Jifunze zaidi kuhusu hilo katika:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
 {% endcontent-ref %}
 
-## Playing with tickets
+## Kucheza na tiketi
 
 ### Pass The Ticket
 
-Katika ukurasa huu utapata maeneo tofauti ambapo unaweza **kupata tiketi za kerberos ndani ya mwenyeji wa linux**, katika ukurasa ufuatao unaweza kujifunza jinsi ya kubadilisha muundo wa tiketi hizi za CCache kuwa Kirbi (muundo unaohitajika kutumia katika Windows) na pia jinsi ya kufanya shambulio la PTT:
+Katika ukurasa huu utapata maeneo tofauti ambapo unaweza **kupata tiketi za kerberos ndani ya mwenyeji wa linux**, katika ukurasa ufuatao unaweza kujifunza jinsi ya kubadilisha muundo wa tiketi za CCache kuwa Kirbi (muundo unaohitajika kutumia katika Windows) na pia jinsi ya kufanya shambulio la PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
 {% endcontent-ref %}
 
-### CCACHE ticket reuse from /tmp
+### Urejeleaji wa tiketi za CCACHE kutoka /tmp
 
-Faili za CCACHE ni muundo wa binary kwa **kuhifadhi akidi za Kerberos** ambazo kawaida huhifadhiwa na ruhusa 600 katika `/tmp`. Faili hizi zinaweza kutambulika kwa **muundo wa jina lao, `krb5cc_%{uid}`,** inayohusiana na UID ya mtumiaji. Kwa uthibitishaji wa tiketi, **kigezo cha mazingira `KRB5CCNAME`** kinapaswa kuwekwa kwenye njia ya faili ya tiketi inayotakiwa, kuruhusu matumizi yake tena.
+Faili za CCACHE ni muundo wa binary kwa **kuhifadhi akidi za Kerberos** ambazo kawaida huhifadhiwa na ruhusa 600 katika `/tmp`. Faili hizi zinaweza kutambulika kwa **muundo wa jina lao, `krb5cc_%{uid}`,** inayohusiana na UID ya mtumiaji. Kwa uthibitishaji wa tiketi, **kigezo cha mazingira `KRB5CCNAME`** kinapaswa kuwekwa kwenye njia ya faili ya tiketi inayotakiwa, kuruhusu urejeleaji wake.
 
-Orodhesha tiketi ya sasa inayotumika kwa uthibitishaji kwa `env | grep KRB5CCNAME`. Muundo ni wa kubebeka na tiketi inaweza **kutumika tena kwa kuweka kigezo cha mazingira** kwa `export KRB5CCNAME=/tmp/ticket.ccache`. Muundo wa jina la tiketi ya Kerberos ni `krb5cc_%{uid}` ambapo uid ni UID ya mtumiaji.
+Orodhesha tiketi ya sasa inayotumika kwa uthibitishaji kwa `env | grep KRB5CCNAME`. Muundo ni wa kubebeka na tiketi inaweza **kurudiwa kwa kuweka kigezo cha mazingira** kwa `export KRB5CCNAME=/tmp/ticket.ccache`. Muundo wa jina la tiketi ya Kerberos ni `krb5cc_%{uid}` ambapo uid ni UID ya mtumiaji.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -134,7 +134,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../../.gitbook/assets/grte.pn
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

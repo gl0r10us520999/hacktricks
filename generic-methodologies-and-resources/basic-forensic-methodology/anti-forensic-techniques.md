@@ -10,7 +10,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -30,21 +30,21 @@ Zana hii **inabadilisha** taarifa za wakati ndani ya **`$STANDARD_INFORMATION`**
 
 ### Usnjrnl
 
-**USN Journal** (Journali ya Nambari ya Mfululizo wa Sasisho) ni kipengele cha NTFS (mfumo wa faili wa Windows NT) ambacho kinashughulikia mabadiliko ya kiasi. Zana ya [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) inaruhusu uchambuzi wa mabadiliko haya.
+**USN Journal** (Journali ya Nambari ya Mfululizo wa Sasisho) ni kipengele cha NTFS (mfumo wa faili wa Windows NT) kinachofuatilia mabadiliko ya kiasi. Zana ya [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) inaruhusu uchambuzi wa mabadiliko haya.
 
 ![](<../../.gitbook/assets/image (801).png>)
 
-Picha ya awali ni **matokeo** yanayoonyeshwa na **zana** ambapo inaonekana kwamba baadhi ya **mabadiliko yalifanywa** kwa faili.
+Picha ya awali ni **matokeo** yanayoonyeshwa na **zana** ambapo inaonekana kuwa baadhi ya **mabadiliko yalifanywa** kwa faili.
 
 ### $LogFile
 
-**Mabadiliko yote ya metadata kwa mfumo wa faili yanarekodiwa** katika mchakato unaojulikana kama [kuandika kabla ya kurekodi](https://en.wikipedia.org/wiki/Write-ahead_logging). Metadata iliyorekodiwa inahifadhiwa katika faili inayoitwa `**$LogFile**`, iliyoko katika saraka ya mzizi ya mfumo wa faili wa NTFS. Zana kama [LogFileParser](https://github.com/jschicht/LogFileParser) zinaweza kutumika kuchambua faili hii na kutambua mabadiliko.
+**Mabadiliko yote ya metadata kwa mfumo wa faili yanarekodiwa** katika mchakato unaojulikana kama [kuandika kabla ya kurekodi](https://en.wikipedia.org/wiki/Write-ahead\_logging). Metadata iliyorekodiwa inahifadhiwa katika faili inayoitwa `**$LogFile**`, iliyoko katika saraka ya mzizi ya mfumo wa faili wa NTFS. Zana kama [LogFileParser](https://github.com/jschicht/LogFileParser) zinaweza kutumika kuchambua faili hii na kutambua mabadiliko.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-Tena, katika matokeo ya zana inawezekana kuona kwamba **baadhi ya mabadiliko yalifanywa**.
+Tena, katika matokeo ya zana inawezekana kuona kuwa **baadhi ya mabadiliko yalifanywa**.
 
-Kwa kutumia zana hiyo hiyo inawezekana kutambua **ni wakati gani wakati ulipobadilishwa**:
+Kwa kutumia zana hiyo hiyo inawezekana kutambua **wakati gani wakati ulipobadilishwa**:
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
@@ -69,20 +69,20 @@ Zana hii inaweza kubadilisha sifa zote mbili `$STARNDAR_INFORMATION` na `$FILE_N
 
 NFTS inatumia klasta na ukubwa wa taarifa wa chini. Hii inamaanisha kwamba ikiwa faili inachukua na klasta na nusu, **nusu iliyobaki haitatumika kamwe** hadi faili itakapofutwa. Hivyo, inawezekana **kuficha data katika nafasi hii ya slack**.
 
-Kuna zana kama slacker zinazoruhusu kuficha data katika nafasi hii "iliyojificha". Hata hivyo, uchambuzi wa `$logfile` na `$usnjrnl` unaweza kuonyesha kwamba baadhi ya data iliongezwa:
+Kuna zana kama slacker zinazoruhusu kuficha data katika nafasi hii "iliyojificha". Hata hivyo, uchambuzi wa `$logfile` na `$usnjrnl` unaweza kuonyesha kuwa baadhi ya data iliongezwa:
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-Hivyo, inawezekana kurejesha nafasi ya slack kwa kutumia zana kama FTK Imager. Kumbuka kwamba aina hii ya zana inaweza kuhifadhi maudhui yaliyofichwa au hata yaliyosimbwa.
+Hivyo, inawezekana kurejesha nafasi ya slack kwa kutumia zana kama FTK Imager. Kumbuka kuwa aina hii ya zana inaweza kuhifadhi maudhui yaliyofichwa au hata yaliyosimbwa.
 
 ## UsbKill
 
 Hii ni zana ambayo it **izima kompyuta ikiwa mabadiliko yoyote katika USB** bandari yanagunduliwa.\
-Njia moja ya kugundua hii ingekuwa kukagua michakato inayoendelea na **kurejea kila script ya python inayotembea**.
+Njia moja ya kugundua hii ingekuwa kukagua michakato inayofanya kazi na **kureview kila script ya python inayofanya kazi**.
 
 ## Usambazaji wa Linux Hai
 
-Distro hizi zina **tekelezwa ndani ya kumbukumbu ya RAM**. Njia pekee ya kuzitambua ni **ikiwa mfumo wa faili wa NTFS umewekwa na ruhusa za kuandika**. Ikiwa umewekwa tu na ruhusa za kusoma haitakuwa rahisi kugundua uvamizi.
+Hizi distros zina **tekelezwa ndani ya kumbukumbu ya RAM**. Njia pekee ya kuzitambua ni **ikiwa mfumo wa faili wa NTFS umewekwa na ruhusa za kuandika**. Ikiwa umewekwa tu na ruhusa za kusoma haitakuwa rahisi kugundua uvamizi.
 
 ## Kufuta Salama
 
@@ -94,12 +94,12 @@ Inawezekana kuzima mbinu kadhaa za kurekodi za windows ili kufanya uchunguzi wa 
 
 ### Zima Wakati - UserAssist
 
-Hii ni funguo ya rejista inayoshikilia tarehe na saa wakati kila executable ilipokimbizwa na mtumiaji.
+Hii ni funguo ya rejista inayohifadhi tarehe na saa wakati kila executable ilipofanywa na mtumiaji.
 
 Kuzima UserAssist kunahitaji hatua mbili:
 
 1. Weka funguo mbili za rejista, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` na `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, zote kuwa sifuri ili kuashiria kwamba tunataka UserAssist izimwe.
-2. Futa subtrees zako za rejista ambazo zinaonekana kama `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+2. Futa subtrees zako za rejista ambazo zinafanana na `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ### Zima Wakati - Prefetch
 
@@ -113,17 +113,17 @@ Hii itahifadhi taarifa kuhusu programu zilizotekelezwa kwa lengo la kuboresha ut
 
 ### Zima Wakati - Wakati wa Mwisho wa Ufikiaji
 
-Wakati wowote folda inafunguliwa kutoka kiasi cha NTFS kwenye seva ya Windows NT, mfumo unachukua wakati wa **kupdate uwanja wa wakati kwenye kila folda iliyoorodheshwa**, inayoitwa wakati wa mwisho wa ufikiaji. Katika kiasi cha NTFS kinachotumiwa sana, hii inaweza kuathiri utendaji.
+Wakati wowote folda inafunguliwa kutoka kiasi cha NTFS kwenye seva ya Windows NT, mfumo unachukua wakati wa **kupdate uwanja wa wakati kwenye kila folda iliyoorodheshwa**, inayoitwa wakati wa mwisho wa ufikiaji. Kwenye kiasi cha NTFS kinachotumiwa sana, hii inaweza kuathiri utendaji.
 
 1. Fungua Mhariri wa Rejista (Regedit.exe).
 2. Tembelea `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
 3. Tafuta `NtfsDisableLastAccessUpdate`. Ikiwa haipo, ongeza hii DWORD na weka thamani yake kuwa 1, ambayo itazima mchakato.
-4. Funga Mhariri wa Rejista, na uanzishe upya seva.
+4. Funga Mhariri wa Rejista, na upya seva.
 
 ### Futa Historia ya USB
 
-Mingine yote ya **USB Device Entries** inahifadhiwa katika Rejista ya Windows Chini ya funguo ya **USBSTOR** ambayo ina funguo ndogo ambazo zinaundwa kila wakati unapoingiza Kifaa cha USB kwenye PC au Laptop yako. Unaweza kupata funguo hii hapa H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Kufuta hii** utafuta historia ya USB.\
-Unaweza pia kutumia zana [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) kuhakikisha umekifuta (na kufuta).
+Makala yote ya **USB Device Entries** huhifadhiwa katika Rejista ya Windows Chini ya funguo ya **USBSTOR** ambayo ina funguo ndogo zinazoundwa kila wakati unapoingiza Kifaa cha USB kwenye PC au Laptop yako. Unaweza kupata funguo hii hapa H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Kufuta hii** utafuta historia ya USB.\
+Unaweza pia kutumia zana [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) ili kuwa na uhakika umekifuta (na kufuta).
 
 Faili nyingine inayohifadhi taarifa kuhusu USB ni faili `setupapi.dev.log` ndani ya `C:\Windows\INF`. Hii pia inapaswa kufutwa.
 
@@ -132,19 +132,19 @@ Faili nyingine inayohifadhi taarifa kuhusu USB ni faili `setupapi.dev.log` ndani
 **Orodhesha** nakala za kivuli kwa `vssadmin list shadowstorage`\
 **Futa** kwa kuendesha `vssadmin delete shadow`
 
-Unaweza pia kuzifuta kupitia GUI ukifuatia hatua zilizopendekezwa katika [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+Unaweza pia kuzifuta kupitia GUI ukifuatilia hatua zilizopendekezwa katika [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Ili kuzima nakala za kivuli [hatua kutoka hapa](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Ili kuzima nakala za kivuli [hatua kutoka hapa](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
 
 1. Fungua programu za Huduma kwa kuandika "services" kwenye kisanduku cha kutafuta maandiko baada ya kubonyeza kitufe cha kuanzisha cha Windows.
 2. Kutoka kwenye orodha, pata "Volume Shadow Copy", chagua, kisha upate Mali kwa kubonyeza kulia.
-3. Chagua Zime kutoka kwenye orodha ya "Aina ya Kuanzisha", kisha thibitisha mabadiliko kwa kubonyeza Tumia na Sawa.
+3. Chagua Zima kutoka kwenye orodha ya "Aina ya Kuanzisha", kisha thibitisha mabadiliko kwa kubonyeza Tumia na Sawa.
 
 Pia inawezekana kubadilisha mipangilio ya faili zipi zitakazokopwa katika nakala ya kivuli katika rejista `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ### Andika tena faili zilizofutwa
 
-* Unaweza kutumia **zana ya Windows**: `cipher /w:C` Hii itamwambia cipher kuondoa data yoyote kutoka kwa nafasi isiyotumika ya diski inayopatikana ndani ya diski ya C.
+* Unaweza kutumia **zana ya Windows**: `cipher /w:C` Hii itamwambia cipher kuondoa data yoyote kutoka kwa nafasi isiyotumika ya diski ndani ya diski ya C.
 * Unaweza pia kutumia zana kama [**Eraser**](https://eraser.heidi.ie)
 
 ### Futa kumbukumbu za matukio ya Windows
@@ -173,7 +173,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

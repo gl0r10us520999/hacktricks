@@ -23,7 +23,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 ## Uchambuzi wa Malware
 
-Hii **sio hatua ya kwanza kufanya mara tu unapo kuwa na picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa malware kwa uhuru ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... hivyo ni vizuri **kumbuka hatua hizi**:
+Hii **sio hatua ya kwanza kufanya mara tu unapo kuwa na picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa malware kwa uhuru ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... hivyo ni vizuri **kumbuka vitendo hivi**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -37,7 +37,7 @@ ikiwa umepatiwa **picha ya kisheria** ya kifaa unaweza kuanza **kuchambua sehemu
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Kulingana na OSs zilizotumika na hata jukwaa, vitu vya kuvutia tofauti vinapaswa kutafutwa:
+Kulingana na OS zinazotumika na hata jukwaa, vitu vya kuvutia vinavyofaa kutafutwa vinapaswa kutafutwa:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -51,9 +51,9 @@ Kulingana na OSs zilizotumika na hata jukwaa, vitu vya kuvutia tofauti vinapaswa
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Ukaguzi wa Kina wa Aina Maalum za Faili na Programu
+## Ukaguzi wa kina wa aina maalum za faili na Programu
 
-Ikiwa una **faili** ambayo ni **ya kutatanisha**, basi **kulingana na aina ya faili na programu** iliyoiunda, mbinu kadhaa **zinaweza kuwa na manufaa**.\
+Ikiwa una **faili** ambayo ni **ya kutatanisha sana**, basi **kulingana na aina ya faili na programu** iliyoiunda, mbinu kadhaa **zinaweza kuwa na manufaa**.\
 Soma ukurasa ufuatao kujifunza mbinu za kuvutia:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -80,7 +80,7 @@ Nataka kutoa kumbukumbu maalum kwa ukurasa:
 
 ## **Mbinu za Anti-Kisheria**
 
-Kumbuka matumizi yanayowezekana ya mbinu za anti-kisheria:
+Kumbuka matumizi yanayoweza kuwa ya mbinu za anti-kisheria:
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)

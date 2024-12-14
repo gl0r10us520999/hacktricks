@@ -27,7 +27,7 @@ Anza **kutafuta** **malware** ndani ya pcap. Tumia **zana** zilizotajwa katika [
 
 ## [Volatility](volatility-cheatsheet.md)
 
-**Volatility ni mfumo mkuu wa wazi wa uchambuzi wa kumbukumbu**. Zana hii ya Python inachambua dumps kutoka vyanzo vya nje au VMware VMs, ikitambua data kama michakato na nywila kulingana na wasifu wa OS wa dump. Inaweza kupanuliwa kwa plugins, na kuifanya kuwa na matumizi mengi kwa uchunguzi wa forensiki.
+**Volatility ni mfumo mkuu wa wazi wa uchambuzi wa kumbukumbu**. Zana hii ya Python inachambua dumps kutoka vyanzo vya nje au VMware VMs, ikitambua data kama michakato na nywila kulingana na wasifu wa OS wa dump. Inaweza kupanuliwa kwa plugins, na kuifanya kuwa na matumizi mengi kwa uchunguzi wa forensics.
 
 [**Pata hapa cheatsheet**](volatility-cheatsheet.md)
 
@@ -41,7 +41,7 @@ Ikiwa una Visual Studio imewekwa, unaweza kufungua faili hii na kuunganisha taar
 
 ![](<../../../.gitbook/assets/image (263).png>)
 
-Unaweza pia kupakia makosa na kuona maagizo yaliyotolewa
+Pia unaweza kupakia makosa na kuona maagizo yaliyotafsiriwa
 
 ![](<../../../.gitbook/assets/image (142).png>)
 

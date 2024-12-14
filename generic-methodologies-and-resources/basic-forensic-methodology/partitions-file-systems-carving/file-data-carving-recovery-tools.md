@@ -25,7 +25,7 @@ Chombo kinachotumika sana katika uchunguzi kutoa faili kutoka kwa picha ni [**Au
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** ni chombo cha kuchambua faili za binary ili kupata maudhui yaliyojumuishwa. Inaweza kusakinishwa kupitia `apt` na chanzo chake kiko kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** ni chombo cha kuchambua faili za binary ili kupata maudhui yaliyofichwa. Inaweza kusakinishwa kupitia `apt` na chanzo chake kiko kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Amri muhimu**:
 ```bash
@@ -36,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Zana nyingine ya kawaida ya kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi ya foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta faili fulani, ondoa alama ya maoni. Ikiwa huondoi alama ya maoni, foremost itatafuta aina zake za faili zilizowekwa kama chaguo-msingi.
+Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi ya foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta faili fulani, ondoa alama ya maoni. Ikiwa huondoi alama ya maoni, foremost itatafuta aina zake za faili zilizowekwa kama chaguo-msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -44,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** ni chombo kingine ambacho kinaweza kutumika kupata na kutoa **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kuondoa maoni kutoka kwa faili la usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka ikatoe.
+**Scalpel** ni chombo kingine ambacho kinaweza kutumika kutafuta na kutoa **faili zilizojumuishwa ndani ya faili**. Katika kesi hii, utahitaji kuondoa maoni kutoka kwa faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka ikatoe.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -53,49 +53,49 @@ scalpel file.img -o output
 
 Chombo hiki kinapatikana ndani ya kali lakini unaweza kukipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Chombo hiki kinaweza kuskan picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, mails)** na zaidi **faili**. Unahitaji tu kufanya:
+Chombo hiki kinaweza kuskan picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, mails)** na zaidi **faili**. Unachohitaji kufanya ni:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **maelezo yote** ambayo chombo kimekusanya (nywila?), **chambua** **paket** (soma[ **Pcaps analysis**](../pcap-inspection/)), tafuta **domeni za ajabu** (domeni zinazohusiana na **malware** au **zisizokuwepo**).
+Navigate through **maelezo yote** that the tool has gathered (passwords?), **chambua** the **paket** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **domeni za ajabu** (domains related to **malware** or **zisizokuwepo**).
 
 ### PhotoRec
 
-Unaweza kuipata katika [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+You can find it in [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unazotaka PhotoRec itafute.
+It comes with GUI and CLI versions. You can select the **aina za faili** you want PhotoRec to search for.
 
 ![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Angalia [msimbo](https://code.google.com/archive/p/binvis/) na [ukurasa wa chombo](https://binvis.io/#/).
+Check the [code](https://code.google.com/archive/p/binvis/) and the [web page tool](https://binvis.io/#/).
 
-#### Vipengele vya BinVis
+#### Features of BinVis
 
-* Mtazamaji wa **muundo** wa kuona na wa kazi
-* Mchoro mwingi kwa maeneo tofauti ya kuzingatia
-* Kuangazia sehemu za sampuli
-* **Kuona stings na rasilimali**, katika PE au ELF executable mfano
-* Kupata **mifumo** ya uchambuzi wa kificho kwenye faili
-* **Kugundua** algorithimu za pakker au encoder
-* **Tambua** Steganography kwa mifumo
-* **Kuona** tofauti za binary
+* Visual and active **muonekano wa muundo**
+* Multiple plots for different focus points
+* Focusing on portions of a sample
+* **Kuona stings na rasilimali**, in PE or ELF executables e. g.
+* Getting **mifumo** for cryptanalysis on files
+* **Kugundua** packer or encoder algorithms
+* **Tambua** Steganography by patterns
+* **Visual** binary-diffing
 
-BinVis ni **nukta ya kuanzia nzuri ili kufahamiana na lengo lisilojulikana** katika hali ya black-boxing.
+BinVis is a great **nukta ya kuanzia kujifunza kuhusu lengo lisilojulikana** in a black-boxing scenario.
 
-## Zana Maalum za Data Carving
+## Specific Data Carving Tools
 
 ### FindAES
 
-Inatafuta funguo za AES kwa kutafuta ratiba zao za funguo. Inaweza kupata funguo za 128, 192, na 256 bit, kama zile zinazotumiwa na TrueCrypt na BitLocker.
+Searches for AES keys by searching for their key schedules. Able to find 128. 192, and 256 bit keys, such as those used by TrueCrypt and BitLocker.
 
-Pakua [hapa](https://sourceforge.net/projects/findaes/).
+Download [hapa](https://sourceforge.net/projects/findaes/).
 
-## Zana za Kusaidia
+## Complementary tools
 
-Unaweza kutumia [**viu** ](https://github.com/atanunq/viu)kuona picha kutoka kwenye terminal.\
-Unaweza kutumia chombo cha mistari ya amri za linux **pdftotext** kubadilisha pdf kuwa maandiko na kuisoma.
+You can use [**viu** ](https://github.com/atanunq/viu)to see images from the terminal.\
+You can use the linux command line tool **pdftotext** to transform a pdf into text and read it.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -105,9 +105,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) or the [**kikundi cha telegram**](https://t.me/peass) or **fuata** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

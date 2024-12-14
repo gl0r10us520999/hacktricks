@@ -1,4 +1,6 @@
-## Uthibitisho
-Tunathamini maarifa yako na tunakuhimiza kushiriki maudhui. Tafadhali hakikisha kuwa unapakia tu maudhui ambayo unamiliki au una idhini wazi ya kutumia kutoka kwa mwandishi asili. Heshima yako kwa haki miliki inakuza mazingira ya kuaminika na ya kisheria ya kushiriki kwa kila mtu.
+You can remove this content before sending the PR:
 
-Asante kwa kuchangia kwenye HackTricks!
+## Attribution
+Tunathamini maarifa yako na kukuhimiza kushiriki maudhui. Tafadhali hakikisha unachapisha tu maudhui ambayo unamiliki au ambayo una ruhusa ya kuyashiriki kutoka kwa mwandishi wa asili (kuongeza rejeleo kwa mwandishi katika maandiko yaliyoongezwa au mwishoni mwa ukurasa unaobadilisha au vyote viwili). Heshima yako kwa haki za mali ya akili inakuza mazingira ya kushiriki ambayo ni ya kuaminika na kisheria kwa kila mtu.
+
+Asante kwa kuchangia katika HackTricks!

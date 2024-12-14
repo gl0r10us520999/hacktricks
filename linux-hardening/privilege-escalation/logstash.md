@@ -66,6 +66,6 @@ codec => rubydebug
 }
 }
 ```
-Hapa, **interval** inatambulisha mzunguko wa utekelezaji kwa sekunde. Katika mfano uliopewa, amri ya **whoami** inatekelezwa kila sekunde 120, na matokeo yake yanaelekezwa kwenye **/tmp/output.log**.
+Hapa, **interval** inabainisha mara ya utekelezaji kwa sekunde. Katika mfano uliopewa, amri ya **whoami** inatekelezwa kila sekunde 120, na matokeo yake yanaelekezwa kwenye **/tmp/output.log**.
 
 Kwa **config.reload.automatic: true** katika **/etc/logstash/logstash.yml**, Logstash itagundua na kutekeleza kiotomatiki mipangilio mipya au iliyobadilishwa ya pipeline bila kuhitaji kuanzisha upya. Ikiwa hakuna wildcard, mabadiliko bado yanaweza kufanywa kwa mipangilio iliyopo, lakini tahadhari inashauriwa ili kuepuka usumbufu.

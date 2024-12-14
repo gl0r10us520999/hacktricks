@@ -31,29 +31,29 @@ Vyeti kwa kawaida vinatolewa na [mamlaka ya vyeti](https://en.wikipedia.org/wiki
 
 ## x509 Common Fields
 
-### **Sehemu za Kawaida katika Vyeti vya x509**
+### **Common Fields in x509 Certificates**
 
 Katika vyeti vya x509, sehemu kadhaa **zinacheza** majukumu muhimu katika kuhakikisha halali na usalama wa cheti. Hapa kuna muhtasari wa sehemu hizi:
 
 * **Nambari ya Toleo** inaashiria toleo la muundo wa x509.
 * **Nambari ya Mfululizo** inatambulisha cheti ndani ya mfumo wa Mamlaka ya Cheti (CA), hasa kwa ajili ya kufuatilia kufutwa.
-* Sehemu ya **Mada** inawakilisha mmiliki wa cheti, ambaye anaweza kuwa mashine, mtu binafsi, au shirika. Inajumuisha kitambulisho kilicho na maelezo kama:
+* Sehemu ya **Mada** inawakilisha mmiliki wa cheti, ambaye anaweza kuwa mashine, mtu binafsi, au shirika. Inajumuisha kitambulisho kilichoelezwa kwa undani kama:
 * **Jina la Kawaida (CN)**: Majina ya maeneo yanayofunikwa na cheti.
 * **Nchi (C)**, **Eneo (L)**, **Jimbo au Mkoa (ST, S, au P)**, **Shirika (O)**, na **Kitengo cha Shirika (OU)** vinatoa maelezo ya kijiografia na ya shirika.
-* **Jina Lililoainishwa (DN)** linajumuisha kitambulisho kamili cha mada.
+* **Jina Lililotambulika (DN)** linajumuisha kitambulisho kamili cha mada.
 * **Mtoaji** inaelezea nani alithibitisha na kusaini cheti, ikiwa ni pamoja na sehemu zinazofanana kama za Mada kwa CA.
-* **Muda wa Halali** umewekwa na alama za **Siyo Kabla** na **Siyo Baada**, kuhakikisha cheti hakitumiki kabla au baada ya tarehe fulani.
+* **Muda wa Halali** umewekwa alama na alama za **Siyo Kabla** na **Siyo Baada**, kuhakikisha cheti hakitumiki kabla au baada ya tarehe fulani.
 * Sehemu ya **Ufunguo wa Umma**, muhimu kwa usalama wa cheti, inaelezea algorithimu, ukubwa, na maelezo mengine ya kiufundi ya ufunguo wa umma.
-* **x509v3 extensions** zinaboresha kazi ya cheti, zikielezea **Matumizi ya Ufunguo**, **Matumizi ya Ufunguo wa Kupanua**, **Jina Alternatif la Mada**, na mali nyingine za kuboresha matumizi ya cheti.
+* **x509v3 extensions** zinaongeza kazi ya cheti, zikielezea **Matumizi ya Ufunguo**, **Matumizi ya Ufunguo wa Kupanua**, **Jina Alternatif la Mada**, na mali nyingine za kuboresha matumizi ya cheti.
 
-#### **Matumizi ya Ufunguo na Upanuzi**
+#### **Key Usage and Extensions**
 
 * **Matumizi ya Ufunguo** yanatambulisha matumizi ya cryptographic ya ufunguo wa umma, kama saini ya dijitali au ufunguo wa kuandika.
 * **Matumizi ya Ufunguo wa Kupanua** yanapunguza zaidi matumizi ya cheti, kwa mfano, kwa uthibitisho wa seva ya TLS.
-* **Jina Alternatif la Mada** na **Kikomo cha Msingi** vin定义 maelezo ya ziada ya majina ya mwenyeji yanayofunikwa na cheti na ikiwa ni cheti cha CA au cheti cha mwisho, mtawalia.
-* Vitambulisho kama **Kitambulisho cha Ufunguo wa Mada** na **Kitambulisho cha Ufunguo wa Mamlaka** vinahakikisha upekee na ufuatiliaji wa funguo.
-* **Upatikanaji wa Taarifa za Mamlaka** na **Nukuu za Usambazaji wa CRL** vinatoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
-* **CT Precertificate SCTs** vinatoa kumbukumbu za uwazi, muhimu kwa kuaminika kwa umma katika cheti.
+* **Jina Alternatif la Mada** na **Kikomo Msingi** zinaelezea majina mengine ya mwenyeji yanayofunikwa na cheti na ikiwa ni cheti cha CA au cheti cha mwisho, mtawalia.
+* Vitambulisho kama **Vitambulisho vya Ufunguo wa Mada** na **Vitambulisho vya Ufunguo wa Mamlaka** vinahakikisha upekee na ufuatiliaji wa ufunguo.
+* **Upatikanaji wa Taarifa za Mamlaka** na **Nukuu za Usambazaji wa CRL** zinatoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
+* **CT Precertificate SCTs** hutoa kumbukumbu za uwazi, muhimu kwa uaminifu wa umma katika cheti.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -89,7 +89,7 @@ Uwazi wa Cheti husaidia kupambana na vitisho vinavyohusiana na vyeti kwa kuhakik
 
 #### **Makaratasi ya Vyeti**
 
-Makaratasi ya vyeti ni rekodi za vyeti zinazoweza kukaguliwa hadharani, zinazoongezwa tu, zinazoshughulikiwa na huduma za mtandao. Makaratasi haya yanatoa uthibitisho wa kihesabu kwa ajili ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwenye makaratasahaya au kuyatafuta kwa ajili ya uthibitisho. Ingawa idadi halisi ya seva za makaratasi si ya kudumu, inatarajiwa kuwa chini ya elfu moja duniani kote. Seva hizi zinaweza kusimamiwa kwa uhuru na CAs, ISPs, au shirika lolote linalovutiwa.
+Makaratasi ya vyeti ni rekodi za vyeti zinazoweza kukaguliwa hadharani, zinazoongezwa tu, zinazoshughulikiwa na huduma za mtandao. Makaratasi haya yanatoa uthibitisho wa kifahari kwa ajili ya madhumuni ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwenye makaratasahaya au kuyatafuta kwa ajili ya uthibitisho. Ingawa idadi halisi ya seva za log siyo ya kudumu, inatarajiwa kuwa chini ya elfu moja duniani kote. Seva hizi zinaweza kusimamiwa kwa uhuru na CAs, ISPs, au shirika lolote linalovutiwa.
 
 #### **Utafutaji**
 
@@ -129,7 +129,7 @@ Mifumo tofauti inapatikana kwa ajili ya kuhifadhi vyeti, kila moja ikiwa na matu
 
 **Mabadiliko ya PEM** ni muhimu kwa ajili ya ulinganifu:
 
-* **x509 hadi PEM**
+* **x509 to PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
@@ -164,7 +164,7 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B to PFX** pia inahitaji amri mbili:
+* **P7B hadi PFX** pia inahitaji amri mbili:
 1. Geuza P7B kuwa CER
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
@@ -197,7 +197,7 @@ openssl asn1parse -genconf certificatename.tpl -outform PEM -out certificatename
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **za kisasa zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
@@ -212,7 +212,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

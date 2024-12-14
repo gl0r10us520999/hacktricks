@@ -60,20 +60,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Bitflipping
 
-Kuna **uwezekano kwamba moja ya baadhi ya bits zilizohifadhiwa au katika mawasiliano inaweza kubadilishwa kiotomatiki** kutokana na sababu mbalimbali kama vile miale ya jua, mionzi ya anga, au makosa ya vifaa.
+Kuna **uwezekano kwamba moja ya bits zilizohifadhiwa au katika mawasiliano inaweza kugeuzwa kiotomatiki** kutokana na sababu mbalimbali kama vile miale ya jua, mionzi ya anga, au makosa ya vifaa.
 
 Wakati dhana hii inatumika kwa maombi ya DNS, inawezekana kwamba **domeni iliyopokelewa na seva ya DNS** si sawa na domeni iliyotakiwa awali.
 
 Kwa mfano, mabadiliko ya bit moja katika jina la domeni "windows.com" yanaweza kubadilisha kuwa "windnws.com."
 
-Wavamizi wanaweza **kunufaika na hili kwa kujiandikisha kwa domeni nyingi zenye kubadilishwa bit** ambazo zinafanana na domeni ya mwathirika. Nia yao ni kuelekeza watumiaji halali kwenye miundombinu yao.
+Wavamizi wanaweza **kunufaika na hili kwa kujiandikisha kwa domeni nyingi zenye bit-flipping** ambazo zinafanana na domeni ya mwathirika. Nia yao ni kuelekeza watumiaji halali kwenye miundombinu yao.
 
 Kwa maelezo zaidi soma [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
 ### Buy a trusted domain
 
-Unaweza kutafuta katika [https://www.expireddomains.net/](https://www.expireddomains.net) kwa domeni iliyokwisha ambayo unaweza kutumia.\
-Ili kuhakikisha kwamba domeni iliyokwisha unayopanga kununua **ina SEO nzuri tayari** unaweza kutafuta jinsi inavyopangwa katika:
+Unaweza kutafuta katika [https://www.expireddomains.net/](https://www.expireddomains.net) kwa domeni iliyokwisha muda ambayo unaweza kutumia.\
+Ili kuhakikisha kwamba domeni iliyokwisha muda ambayo unataka kununua **ina SEO nzuri tayari** unaweza kutafuta jinsi inavyopangwa katika:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
@@ -86,7 +86,7 @@ Ili kuhakikisha kwamba domeni iliyokwisha unayopanga kununua **ina SEO nzuri tay
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Ili **kuweza kugundua zaidi** anwani halali za barua pepe au **kuhakiki zile** ulizozigundua tayari unaweza kuangalia kama unaweza kujaribu nguvu kwenye seva za smtp za mwathirika. [Jifunze jinsi ya kuangalia/kugundua anwani ya barua pepe hapa](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Ili **kuweza kugundua zaidi** anwani za barua pepe halali au **kuhakiki zile** ulizozigundua tayari unaweza kuangalia kama unaweza kujaribu nguvu kwenye seva za smtp za mwathirika. [Jifunze jinsi ya kuangalia/kugundua anwani ya barua pepe hapa](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
 Zaidi ya hayo, usisahau kwamba ikiwa watumiaji wanatumia **milango yoyote ya wavuti kuingia kwenye barua zao**, unaweza kuangalia kama inahatarishwa kwa **kujaribu nguvu jina la mtumiaji**, na kutumia udhaifu huo ikiwa inawezekana.
 
 ## Configuring GoPhish
@@ -96,7 +96,7 @@ Zaidi ya hayo, usisahau kwamba ikiwa watumiaji wanatumia **milango yoyote ya wav
 Unaweza kuipakua kutoka [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Pakua na uondoe ndani ya `/opt/gophish` na uendeshe `/opt/gophish/gophish`\
-Utapewa nenosiri kwa mtumiaji wa admin kwenye bandari 3333 katika matokeo. Hivyo, fikia bandari hiyo na tumia akidi hizo kubadilisha nenosiri la admin. Unaweza kuhitaji kuunganisha bandari hiyo kwa local:
+Utapewa nenosiri kwa mtumiaji wa admin kwenye bandari 3333 katika matokeo. Kwa hivyo, fikia bandari hiyo na tumia hizo taarifa kuhamasisha nenosiri la admin. Unaweza kuhitaji kuunganisha bandari hiyo kwa local:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
@@ -104,7 +104,7 @@ ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 
 **TLS certificate configuration**
 
-Kabla ya hatua hii unapaswa kuwa **umeshanunua jina la kikoa** unalotaka kutumia na lazima liwe **linaanika** kwenye **IP ya VPS** ambapo unafanya usanidi wa **gophish**.
+Kabla ya hatua hii unapaswa kuwa **umeshanunua jina la kikoa** unalotaka kutumia na lazima liwe **linapojielekeza** kwa **IP ya VPS** ambapo unafanya usanidi wa **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -137,7 +137,7 @@ Kisha ongeza domain kwenye faili zifuatazo:
 
 Hatimaye badilisha faili **`/etc/hostname`** na **`/etc/mailname`** kuwa jina la domain yako na **anzisha upya VPS yako.**
 
-Sasa, tengeneza **rekodi ya DNS A** ya `mail.<domain>` ikielekeza kwenye **anwani ya ip** ya VPS na rekodi ya **DNS MX** ikielekeza kwa `mail.<domain>`
+Sasa, tengeneza **DNS A record** ya `mail.<domain>` ikielekeza kwenye **ip address** ya VPS na **DNS MX** record ikielekeza kwenye `mail.<domain>`
 
 Sasa hebu tujaribu kutuma barua pepe:
 ```bash
@@ -174,7 +174,7 @@ Badilisha `/opt/gophish/config.json` kuwa ifuatayo (zingatia matumizi ya https):
 ```
 **Configure gophish service**
 
-Ili kuunda huduma ya gophish ili iweze kuanzishwa kiotomatiki na kusimamiwa kama huduma unaweza kuunda faili `/etc/init.d/gophish` yenye maudhui yafuatayo:
+Ili kuunda huduma ya gophish ili iweze kuanzishwa kiotomatiki na kusimamiwa kama huduma, unaweza kuunda faili `/etc/init.d/gophish` yenye maudhui yafuatayo:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -232,27 +232,27 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Kuunda seva ya barua na jina la kikoa
+## Kuunda seva ya barua na kikoa
 
 ### Subiri & kuwa halali
 
-Kadri jina la kikoa linavyozeeka ndivyo inavyokuwa vigumu kukamatwa kama spam. Hivyo unapaswa kusubiri muda mrefu iwezekanavyo (angalau wiki 1) kabla ya tathmini ya phishing. Zaidi ya hayo, ikiwa utaweka ukurasa kuhusu sekta yenye sifa, sifa iliyopatikana itakuwa bora.
+Kikoa kilichokuwa na umri mrefu kina uwezekano mdogo wa kukamatwa kama spam. Hivyo, unapaswa kusubiri muda mrefu iwezekanavyo (angalau wiki 1) kabla ya tathmini ya phishing. Zaidi ya hayo, ikiwa utaweka ukurasa kuhusu sekta yenye sifa nzuri, sifa iliyopatikana itakuwa bora.
 
-Kumbuka kwamba hata kama unapaswa kusubiri wiki moja unaweza kumaliza kuunda kila kitu sasa.
+Kumbuka kwamba hata kama unapaswa kusubiri wiki moja, unaweza kumaliza kuunda kila kitu sasa.
 
-### Kuunda Rekodi ya Reverse DNS (rDNS)
+### Sanidi Rekodi ya Reverse DNS (rDNS)
 
 Weka rekodi ya rDNS (PTR) inayotatua anwani ya IP ya VPS kwa jina la kikoa.
 
 ### Rekodi ya Sender Policy Framework (SPF)
 
-Lazima **uunde rekodi ya SPF kwa jina jipya la kikoa**. Ikiwa hujui ni nini rekodi ya SPF [**soma ukurasa huu**](../../network-services-pentesting/pentesting-smtp/#spf).
+Lazima **uunde rekodi ya SPF kwa kikoa kipya**. Ikiwa hujui ni nini rekodi ya SPF [**soma ukurasa huu**](../../network-services-pentesting/pentesting-smtp/#spf).
 
 Unaweza kutumia [https://www.spfwizard.net/](https://www.spfwizard.net) kuunda sera yako ya SPF (tumia IP ya mashine ya VPS)
 
 ![](<../../.gitbook/assets/image (1037).png>)
 
-Hii ni maudhui ambayo yanapaswa kuwekwa ndani ya rekodi ya TXT ndani ya kikoa:
+Hii ndiyo maudhui ambayo yanapaswa kuwekwa ndani ya rekodi ya TXT ndani ya kikoa:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
@@ -266,9 +266,9 @@ v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Lazima **uweke DKIM kwa jina jipya la kikoa**. Ikiwa hujui ni nini rekodi ya DMARC [**soma ukurasa huu**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Lazima **uwekeze DKIM kwa jina jipya la kikoa**. Ikiwa hujui nini maana ya rekodi ya DMARC [**soma ukurasa huu**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-Hii ni mafunzo yanayotegemea: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Mafunzo haya yanategemea: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
 Unahitaji kuunganisha thamani zote mbili za B64 ambazo funguo za DKIM zinazalisha:
@@ -318,11 +318,11 @@ Ukurasa [www.mail-tester.com](https://www.mail-tester.com) unaweza kuonyesha iki
 * Amua kutoka kwenye akaunti gani utaenda kutuma barua pepe za phishing. Mapendekezo: _noreply, support, servicedesk, salesforce..._
 * Unaweza kuacha jina la mtumiaji na nenosiri kuwa tupu, lakini hakikisha umeangalia Ignore Certificate Errors
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Inapendekezwa kutumia kazi ya "**Send Test Email**" ili kujaribu kwamba kila kitu kinafanya kazi.\
-Ningependekeza **kutuma barua pepe za majaribio kwa anwani za barua za 10min** ili kuepuka kuorodheshwa kwenye orodha ya wezi wakati wa kufanya majaribio.
+Ningependekeza **kutuma barua pepe za majaribio kwa anwani za barua za 10min** ili kuepuka kuorodheshwa kwenye orodha ya watu wasiohitajika wakati wa kufanya majaribio.
 {% endhint %}
 
 ### Kiolezo cha Barua Pepe
@@ -358,14 +358,14 @@ Note that **ili kuongeza uaminifu wa barua pepe**, inashauriwa kutumia saini kut
 ![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Kigezo cha Barua Pepe pia kinaruhusu **kuambatisha faili za kutuma**. Ikiwa ungependa pia kuiba changamoto za NTLM kwa kutumia faili/hati zilizoundwa kwa njia maalum [soma ukurasa huu](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Template ya Barua Pepe pia inaruhusu **kuambatisha faili za kutuma**. Ikiwa ungependa pia kuiba changamoto za NTLM kwa kutumia faili/hati zilizoundwa kwa njia maalum [soma ukurasa huu](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
 ### Ukurasa wa Kutua
 
 * Andika **jina**
 * **Andika msimbo wa HTML** wa ukurasa wa wavuti. Kumbuka kwamba unaweza **kuagiza** kurasa za wavuti.
-* Mark **Kamata Data Zilizowasilishwa** na **Kamata Nywila**
+* Mark **Kamata Data Iliyowasilishwa** na **Kamata Nywila**
 * Weka **mwelekeo**
 
 ![](<../../.gitbook/assets/image (826).png>)
@@ -376,19 +376,19 @@ Kumbuka kwamba ikiwa unahitaji **kutumia rasilimali za kudumu** kwa HTML (labda 
 {% endhint %}
 
 {% hint style="info" %}
-Kwa mwelekeo unaweza **kuwapeleka watumiaji kwenye ukurasa halali wa wavuti** wa mwathirika, au kuwapeleka kwenye _/static/migration.html_ kwa mfano, weka **wheel inayozunguka (**[**https://loading.io/**](https://loading.io)**) kwa sekunde 5 na kisha onyesha kwamba mchakato ulikuwa wa mafanikio**.
+Kwa mwelekeo unaweza **kuwapeleka watumiaji kwenye ukurasa halali wa wavuti** wa mwathirika, au kuwapeleka kwenye _/static/migration.html_ kwa mfano, weka **wheel inayozunguka** ([**https://loading.io/**](https://loading.io)**) kwa sekunde 5 na kisha onyesha kwamba mchakato ulikuwa na mafanikio**.
 {% endhint %}
 
 ### Watumiaji na Makundi
 
 * Weka jina
-* **Agiza data** (kumbuka kwamba ili kutumia kigezo kwa mfano unahitaji jina la kwanza, jina la mwisho na anwani ya barua pepe ya kila mtumiaji)
+* **Agiza data** (kumbuka kwamba ili kutumia template kwa mfano unahitaji jina la kwanza, jina la mwisho na anwani ya barua pepe ya kila mtumiaji)
 
 ![](<../../.gitbook/assets/image (163).png>)
 
 ### Kampeni
 
-Hatimaye, tengeneza kampeni ukichagua jina, kigezo cha barua pepe, ukurasa wa kutua, URL, wasifu wa kutuma na kundi. Kumbuka kwamba URL itakuwa kiungo kitakachotumwa kwa wahanga.
+Hatimaye, tengeneza kampeni ukichagua jina, template ya barua pepe, ukurasa wa kutua, URL, wasifu wa kutuma na kundi. Kumbuka kwamba URL itakuwa kiungo kitakachotumwa kwa wahanga.
 
 Kumbuka kwamba **Wasifu wa Kutuma unaruhusu kutuma barua pepe ya majaribio kuona jinsi barua pepe ya mwisho ya uvuvi itakavyokuwa**:
 
@@ -421,13 +421,13 @@ Angalia ukurasa ufuatao kwa mifano:
 
 ### Kupitia Proxy MitM
 
-Shambulio la awali ni la busara kwani unafanyia kazi tovuti halisi na kukusanya taarifa zilizowekwa na mtumiaji. Kwa bahati mbaya, ikiwa mtumiaji hakuweka nywila sahihi au ikiwa programu uliyofanya kazi nayo imewekwa na 2FA, **habari hii haitakuruhusu kujifanya kuwa mtumiaji aliyejipatia hila**.
+Shambulio la awali ni la busara kwani unajifanya kuwa tovuti halisi na kukusanya taarifa zilizowekwa na mtumiaji. Kwa bahati mbaya, ikiwa mtumiaji hakuweka nywila sahihi au ikiwa programu uliyofanya ni iliyowekwa na 2FA, **habari hii haitakuruhusu kujifanya kuwa mtumiaji aliyejipatia hila**.
 
 Hapa ndipo zana kama [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) na [**muraena**](https://github.com/muraenateam/muraena) zinakuwa na manufaa. Zana hii itakuruhusu kuunda shambulio kama la MitM. Kimsingi, shambulio linafanya kazi kwa njia ifuatayo:
 
 1. Unajifanya kuwa fomu ya kuingia ya ukurasa halisi wa wavuti.
 2. Mtumiaji **anatumia** **taarifa zake** kwenye ukurasa wako wa uongo na zana inatumia hizo kwenye ukurasa halisi wa wavuti, **ikikagua ikiwa taarifa hizo zinafanya kazi**.
-3. Ikiwa akaunti imewekwa na **2FA**, ukurasa wa MitM utauliza kwa hiyo na mara **mtumiaji anapoweka** hiyo zana itaituma kwenye ukurasa halisi wa wavuti.
+3. Ikiwa akaunti imewekwa na **2FA**, ukurasa wa MitM utauliza kwa hiyo na mara **mtumiaji anapoweka** hiyo zana itatuma kwa ukurasa halisi wa wavuti.
 4. Mara mtumiaji anapothibitishwa wewe (kama mshambuliaji) utakuwa **umechukua taarifa, 2FA, cookie na taarifa yoyote** ya kila mwingiliano wako wakati zana inafanya MitM.
 
 ### Kupitia VNC
@@ -437,22 +437,22 @@ Unaweza kufanya hivi na [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Kugundua kugunduliwa
 
-Bila shaka moja ya njia bora za kujua ikiwa umekamatwa ni **kutafuta domain yako ndani ya orodha za watu wasiokubalika**. Ikiwa inaonekana kwenye orodha, kwa namna fulani domain yako iligunduliwa kama ya mashaka.\
-Njia rahisi ya kuangalia ikiwa domain yako inaonekana katika orodha yoyote ya watu wasiokubalika ni kutumia [https://malwareworld.com/](https://malwareworld.com)
+Bila shaka moja ya njia bora za kujua ikiwa umekamatwa ni **kutafuta kikoa chako ndani ya orodha za watu wasiokubalika**. Ikiwa inajitokeza, kwa namna fulani kikoa chako kiligunduliwa kama cha mashaka.\
+Njia rahisi ya kuangalia ikiwa kikoa chako kinajitokeza katika orodha yoyote ya watu wasiokubalika ni kutumia [https://malwareworld.com/](https://malwareworld.com)
 
-Hata hivyo, kuna njia nyingine za kujua ikiwa mwathirika **anatafuta kwa makini shughuli za uvuvi za mashaka katika mazingira** kama ilivyoelezwa katika:
+Hata hivyo, kuna njia nyingine za kujua ikiwa mwathirika **anatafuta kwa nguvu shughuli za uvuvi za mashaka katika mazingira** kama ilivyoelezwa katika:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Unaweza **kununua domain yenye jina linalofanana sana** na domain ya mwathirika **na/au kuunda cheti** kwa **subdomain** ya domain inayodhibitiwa na wewe **ikiwemo** **neno muhimu** la domain ya mwathirika. Ikiwa **mwathirika** atafanya aina yoyote ya **DNS au mwingiliano wa HTTP** nao, utajua kwamba **anatafuta kwa makini** domain za mashaka na utahitaji kuwa na uangalifu mkubwa.
+Unaweza **kununua kikoa chenye jina linalofanana sana** na kikoa cha mwathirika **na/au kuunda cheti** kwa **subdomain** ya kikoa kinachodhibitiwa na wewe **kilichokuwa** na **neno muhimu** la kikoa cha mwathirika. Ikiwa **mwathirika** atafanya aina yoyote ya **DNS au mwingiliano wa HTTP** nao, utajua kwamba **anatafuta kwa nguvu** kikoa cha mashaka na itabidi uwe na uangalifu mkubwa.
 
 ### Kadiria uvuvi
 
-Tumia [**Phishious** ](https://github.com/Rices/Phishious)kadiria ikiwa barua pepe yako itamalizika kwenye folda ya spam au ikiwa itazuiwa au kufanikiwa.
+Tumia [**Phishious** ](https://github.com/Rices/Phishious)kadiria ikiwa barua pepe yako itakwenda kwenye folda ya spam au ikiwa itazuiwa au kufanikiwa.
 
-## Marejeo
+## Marejeleo
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
@@ -460,8 +460,8 @@ Tumia [**Phishious** ](https://github.com/Rices/Phishious)kadiria ikiwa barua pe
 * [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya Uvuvi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya Uvuvi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

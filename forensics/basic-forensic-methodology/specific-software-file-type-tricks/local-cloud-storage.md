@@ -10,7 +10,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -18,7 +18,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha kiotomatiki** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -28,10 +28,10 @@ Pata Ufikiaji Leo:
 Katika Windows, unaweza kupata folda ya OneDrive katika `\Users\<username>\AppData\Local\Microsoft\OneDrive`. Na ndani ya `logs\Personal` inawezekana kupata faili `SyncDiagnostics.log` ambayo ina data za kuvutia kuhusu faili zilizohusishwa:
 
 * Ukubwa kwa bytes
-* Tarehe ya kuunda
-* Tarehe ya kubadilisha
-* Idadi ya faili kwenye wingu
-* Idadi ya faili kwenye folda
+* Tarehe ya kuundwa
+* Tarehe ya mabadiliko
+* Idadi ya faili katika wingu
+* Idadi ya faili katika folda
 * **CID**: Kitambulisho cha kipekee cha mtumiaji wa OneDrive
 * Wakati wa kutengeneza ripoti
 * Ukubwa wa HD wa OS
@@ -43,7 +43,7 @@ Mara tu unapopata CID inashauriwa **kutafuta faili zinazohusisha kitambulisho hi
 Katika Windows, unaweza kupata folda kuu ya Google Drive katika `\Users\<username>\AppData\Local\Google\Drive\user_default`\
 Folda hii ina faili inayoitwa Sync\_log.log yenye taarifa kama anwani ya barua pepe ya akaunti, majina ya faili, alama za wakati, MD5 hashes za faili, n.k. Hata faili zilizofutwa zinaonekana katika faili hiyo ya logi na MD5 inayohusiana.
 
-Faili **`Cloud_graph\Cloud_graph.db`** ni database ya sqlite ambayo ina jedwali **`cloud_graph_entry`**. Katika jedwali hili unaweza kupata **jina** la **faili zilizohusishwa**, wakati wa kubadilisha, ukubwa, na MD5 checksum za faili.
+Faili **`Cloud_graph\Cloud_graph.db`** ni database ya sqlite ambayo ina jedwali **`cloud_graph_entry`**. Katika jedwali hili unaweza kupata **jina** la **faili zilizohusishwa**, wakati wa mabadiliko, ukubwa, na MD5 checksum za faili.
 
 Data za jedwali la database **`Sync_config.db`** zina anwani ya barua pepe ya akaunti, njia za folda zilizoshirikiwa na toleo la Google Drive.
 
@@ -85,7 +85,7 @@ Kisha unaweza kutumia chombo [**DataProtectionDecryptor**](https://nirsoft.net/u
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-Ikiwa kila kitu kinaenda kama inavyotarajiwa, chombo kitakuonyesha **funguo kuu** ambayo unahitaji **kutumia ili kurejesha ile ya awali**. Ili kurejesha ile ya awali, tumia tu [mapishi ya cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) ukitumia funguo kuu kama "passphrase" ndani ya mapishi.
+Ikiwa kila kitu kinaenda kama inavyotarajiwa, chombo kitakuonyesha **funguo kuu** ambayo unahitaji **kutumia ili kurejesha ile ya awali**. Ili kurejesha ile ya awali, tumia [mapishi ya cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) ukitumia funguo kuu kama "passphrase" ndani ya mapishi.
 
 Hex inayotokana ni funguo ya mwisho inayotumika kufungua databases ambazo zinaweza kufunguliwa na:
 ```bash
@@ -108,7 +108,7 @@ The **`filecache.db`** database contains information about all the files and fol
 
 Other tables inside this database contain more interesting information:
 
-* **block\_cache**: hash ya faili zote na folda za Dropbox
+* **block\_cache**: hash ya faili na folda zote za Dropbox
 * **block\_ref**: Inahusisha kitambulisho cha hash cha jedwali `block_cache` na kitambulisho cha faili katika jedwali `file_journal`
 * **mount\_table**: Shiriki folda za dropbox
 * **deleted\_fields**: Faili zilizofutwa za Dropbox

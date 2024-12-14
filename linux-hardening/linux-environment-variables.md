@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Global variables
 
-Vigezo vya kimataifa **vitakuwa** vinarithiwa na **mchakato wa watoto**.
+Vigezo vya kimataifa **vitapokelewa** na **mchakato wa watoto**.
 
 Unaweza kuunda kigezo cha kimataifa kwa ajili ya kikao chako cha sasa kwa kufanya:
 ```bash
@@ -50,23 +50,23 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – onyesho linalotumiwa na **X**. Kigezo hiki kawaida huwekwa kuwa **:0.0**, ambayo inamaanisha onyesho la kwanza kwenye kompyuta ya sasa.
+* **DISPLAY** – onyesho linalotumiwa na **X**. Kigezo hiki kawaida huwekwa kwenye **:0.0**, ambayo inamaanisha onyesho la kwanza kwenye kompyuta ya sasa.
 * **EDITOR** – mhariri wa maandiko anayependelea mtumiaji.
-* **HISTFILESIZE** – idadi ya juu ya mistari iliyomo katika faili ya historia.
-* **HISTSIZE** – Idadi ya mistari iliyoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kikao chake.
+* **HISTFILESIZE** – idadi ya juu ya mistari iliyomo kwenye faili ya historia.
+* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kikao chake.
 * **HOME** – saraka yako ya nyumbani.
 * **HOSTNAME** – jina la mwenyeji wa kompyuta.
 * **LANG** – lugha yako ya sasa.
-* **MAIL** – mahali ambapo mchanganyiko wa barua wa mtumiaji upo. Kawaida ni **/var/spool/mail/USER**.
+* **MAIL** – mahali ambapo mzunguko wa barua wa mtumiaji upo. Kawaida ni **/var/spool/mail/USER**.
 * **MANPATH** – orodha ya saraka za kutafuta kurasa za mwongozo.
 * **OSTYPE** – aina ya mfumo wa uendeshaji.
 * **PS1** – kiashiria cha chaguo-msingi katika bash.
-* **PATH** – huhifadhi njia ya saraka zote ambazo zina faili za binary unazotaka kutekeleza kwa kutaja tu jina la faili na si kwa njia ya uhusiano au ya moja kwa moja.
+* **PATH** – inahifadhi njia ya saraka zote ambazo zina faili za binary unazotaka kutekeleza kwa kutaja tu jina la faili na si kwa njia ya uhusiano au ya moja kwa moja.
 * **PWD** – saraka ya kazi ya sasa.
 * **SHELL** – njia ya shell ya amri ya sasa (kwa mfano, **/bin/bash**).
 * **TERM** – aina ya terminal ya sasa (kwa mfano, **xterm**).
 * **TZ** – eneo lako la muda.
-* **USER** – jina lako la mtumiaji la sasa.
+* **USER** – jina lako la mtumiaji wa sasa.
 
 ## Interesting variables for hacking
 
@@ -91,7 +91,7 @@ export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Mifumo itatumia vyeti vilivyoonyeshwa katika **hizi env variables**.
+Mchakato utaamini vyeti vilivyoonyeshwa katika **hizi env variables**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates

@@ -19,7 +19,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 ### **Binwalk**
 
-Zana ya kutafuta faili za binary kwa ajili ya faili na data zilizofichwa. Inapatikana kwa usakinishaji kupitia `apt` na chanzo chake kinapatikana kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
+Chombo cha kutafuta faili za binary kwa ajili ya faili na data zilizofichwa ndani. Kimewekwa kupitia `apt` na chanzo chake kinapatikana kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -39,7 +39,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Kama exiftool, kwa ajili ya kuangalia metadata. Inaweza kusakinishwa kupitia `apt`, chanzo kwenye [GitHub](https://github.com/Exiv2/exiv2), na ina [tovuti rasmi](http://www.exiv2.org/).
+Kama exiftool, kwa ajili ya kuangalia metadata. Inaweza kusakinishwa kupitia `apt`, chanzo kiko kwenye [GitHub](https://github.com/Exiv2/exiv2), na ina [tovuti rasmi](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -63,7 +63,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Comparison (cmp)**
 
-Inatumika kulinganisha faili iliyobadilishwa na toleo lake asilia lililopatikana mtandaoni.
+Inatumika kulinganisha faili iliyobadilishwa na toleo lake la asili lililopatikana mtandaoni.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -75,7 +75,7 @@ Makarakteri yasiyoonekana katika nafasi zinazonekana kuwa tupu yanaweza kuficha 
 
 ## **Kutoa Takwimu Kutoka kwa Picha**
 
-### **Kutambua Maelezo ya Picha kwa kutumia GraphicMagick**
+### **Kutambua Maelezo ya Picha kwa GraphicMagick**
 
 [GraphicMagick](https://imagemagick.org/script/download.php) inatumika kubaini aina za faili za picha na kutambua uwezekano wa uharibifu. Teua amri iliyo hapa chini ili kukagua picha:
 ```bash
@@ -87,7 +87,7 @@ Ili kujaribu kurekebisha picha iliyo haribika, kuongeza maoni ya metadata kunawe
 ```
 ### **Steghide kwa Kuficha Data**
 
-Steghide inarahisisha kuficha data ndani ya `JPEG, BMP, WAV, na AU` faili, ina uwezo wa kuingiza na kutoa data iliyosimbwa. Usanidi ni rahisi kutumia `apt`, na [kanuni yake ya chanzo inapatikana kwenye GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide inarahisisha kuficha data ndani ya `JPEG, BMP, WAV, na AU` faili, ina uwezo wa kuingiza na kutoa data iliyosimbwa. Usanidi ni rahisi kutumia `apt`, na [kanuni ya chanzo inapatikana kwenye GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Amri:**
 
@@ -113,13 +113,13 @@ zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usa
 
 ### **StegoVeritas na Stegsolve**
 
-**stegoVeritas** inakagua metadata, inafanya mabadiliko ya picha, na inatumia LSB brute forcing miongoni mwa vipengele vingine. Tumia `stegoveritas.py -h` kwa orodha kamili ya chaguzi na `stegoveritas.py stego.jpg` kutekeleza ukaguzi wote.
+**stegoVeritas** inakagua metadata, inatekeleza mabadiliko ya picha, na inatumia LSB brute forcing miongoni mwa vipengele vingine. Tumia `stegoveritas.py -h` kwa orodha kamili ya chaguzi na `stegoveritas.py stego.jpg` kutekeleza ukaguzi wote.
 
 **Stegsolve** inatumia filters mbalimbali za rangi kufichua maandiko au ujumbe uliofichwa ndani ya picha. Inapatikana kwenye [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT kwa Ugunduzi wa Maudhui ya Fichwa**
 
-Mbinu za Fast Fourier Transform (FFT) zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
+Fast Fourier Transform (FFT) mbinu zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -188,18 +188,18 @@ Kugundua sauti za DTMF katika faili za sauti kunaweza kufanywa kupitia zana za m
 
 ### **Binary Length SQRT - QR Code**
 
-Data za binary ambazo zina mraba kuwa nambari nzima zinaweza kuwakilisha QR code. Tumia kipande hiki kuangalia:
+Data za binary ambazo zina mraba kuwa nambari kamili zinaweza kuwakilisha QR code. Tumia kipande hiki kuangalia:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-Kwa ajili ya kubadilisha binary kuwa picha, angalia [dcode](https://www.dcode.fr/binary-image). Kusoma QR codes, tumia [hiki kipanga barcode mtandaoni](https://online-barcode-reader.inliteresearch.com/).
+Kwa kubadilisha binary kuwa picha, angalia [dcode](https://www.dcode.fr/binary-image). Kusoma QR codes, tumia [hiki kisoma barcode mtandaoni](https://online-barcode-reader.inliteresearch.com/).
 
 ### **Tafsiri ya Braille**
 
 Kwa kutafsiri Braille, [Branah Braille Translator](https://www.branah.com/braille-translator) ni rasilimali bora.
 
-## **Marejeleo**
+## **Marejeo**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
@@ -214,7 +214,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

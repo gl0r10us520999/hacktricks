@@ -1,36 +1,36 @@
-# Vifaa vya Kusoma vya Ndani ya Python
+# Python Internal Read Gadgets
 
 {% hint style="success" %}
-Jifunze na zoezi la Kuvamia AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Kuvamia GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Mazingira tofauti ya udhaifu kama [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) au [**Uchafuzi wa Darasa**](class-pollution-pythons-prototype-pollution.md) yanaweza kukuruhusu **kusoma data ya ndani ya python lakini haitakuruhusu kutekeleza nambari**. Hivyo, mchunguzi wa mtandao atahitaji kutumia vibali hivi vya kusoma ili **kupata mamlaka nyeti na kukuza udhaifu**.
+Ukatili tofauti kama [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) au [**Class Pollution**](class-pollution-pythons-prototype-pollution.md) zinaweza kukuruhusu **kusoma data za ndani za python lakini hazitakuruhusu kuendesha msimbo**. Hivyo, pentester atahitaji kutumia ruhusa hizi za kusoma ili **kupata mamlaka nyeti na kuongeza ukatili**.
 
-### Flask - Soma funguo ya siri
+### Flask - Read secret key
 
-Ukurasa mkuu wa programu ya Flask labda utakuwa na **`app`** kifaa cha jumla ambapo hii **siri imewekwa**.
+Ukurasa mkuu wa programu ya Flask huenda ukawa na **`app`** kitu cha kimataifa ambapo **siri hii imewekwa**.
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Katika kesi hii ni rahisi kupata ufikiaji wa kipengee hiki kwa kutumia kifaa chochote cha **kufikia vitu vya ulimwengu** kutoka kwenye [**Ukurasa wa Kupitisha Mchanga wa Python**](bypass-python-sandboxes/).
+Katika kesi hii, inawezekana kufikia kitu hiki kwa kutumia gadget yoyote ili **kufikia vitu vya kimataifa** kutoka kwenye [**ukurasa wa Bypass Python sandboxes**](bypass-python-sandboxes/).
 
-Katika kesi ambapo **uwazi upo kwenye faili tofauti ya python**, unahitaji kifaa cha kupita faili ili ufikie faili kuu ili **kupata kipengee cha ulimwengu `app.secret_key`** kubadilisha funguo ya siri ya Flask na kuweza [**kupandisha vyeo** ukiwa na funguo hii](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+Katika kesi ambapo **udhaifu uko kwenye faili tofauti la python**, unahitaji gadget ili kupita kwenye faili ili kufikia faili kuu ili **kufikia kitu cha kimataifa `app.secret_key`** kubadilisha funguo za siri za Flask na kuwa na uwezo wa [**kuinua mamlaka** ukijua funguo hii](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Mzigo kama huu [kutoka kwenye andiko hili](https://ctftime.org/writeup/36082):
+Payload kama hii [kutoka kwenye andiko hili](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -38,32 +38,32 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Tumia mzigo huu wa **kubadilisha `app.secret_key`** (jina katika programu yako linaweza kuwa tofauti) ili uweze kusaini vidakuzi vya flask vipya na vyenye mamlaka zaidi.
+Tumia payload hii ili **kubadilisha `app.secret_key`** (jina katika programu yako linaweza kuwa tofauti) ili uweze kusaini vidakuzi vya flask vipya na vya kibali zaidi.
 
-### Werkzeug - machine\_id na uuid ya node
+### Werkzeug - machine\_id na node uuid
 
-[Kutumia mzigo huu kutoka kwenye andiko hili](https://vozec.fr/writeups/tweedle-dum-dee/) utaweza kupata **machine\_id** na **uuid** ya node, ambayo ni **siri kuu** unayohitaji [**kuunda pin ya Werkzeug**](../../network-services-pentesting/pentesting-web/werkzeug.md) unayoweza kutumia kufikia konsoli ya python katika `/console` ikiwa **hali ya kurekebisha makosa imewezeshwa:**
+[**Kwa kutumia payload hizi kutoka kwa andiko hili**](https://vozec.fr/writeups/tweedle-dum-dee/) utaweza kufikia **machine\_id** na **uuid** node, ambazo ni **siri kuu** unazohitaji [**kuunda pin ya Werkzeug**](../../network-services-pentesting/pentesting-web/werkzeug.md) unaweza kutumia kufikia konso ya python katika `/console` ikiwa **mode ya debug imewezeshwa:**
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
 {% hint style="warning" %}
-Tafadhali kumbuka unaweza kupata **njia ya seva ya ndani kwa `app.py`** kwa kuzalisha **kosa** fulani kwenye ukurasa wa wavuti ambao utakupa **njia hiyo**.
+Kumbuka kwamba unaweza kupata **njia ya ndani ya seva kwa `app.py`** kwa kuzalisha **makosa** kwenye ukurasa wa wavuti ambayo itakupa **njia**.
 {% endhint %}
 
-Ikiwa udhaifu uko kwenye faili tofauti ya python, angalia hila ya awali ya Flask ya kupata vitu kutoka kwa faili kuu ya python.
+Ikiwa udhaifu uko katika faili tofauti la python, angalia hila ya Flask ya awali ili kufikia vitu kutoka kwa faili kuu la python.
 
 {% hint style="success" %}
-Jifunze & jifunze AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & jifunze GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

@@ -23,7 +23,7 @@ Kitengo cha **chini** cha diski ni **sehemu** (ambayo kawaida ina 512B). Hivyo, 
 ### MBR (master Boot Record)
 
 Imewekwa katika **sehemu ya kwanza ya diski baada ya 446B ya msimbo wa boot**. Sehemu hii ni muhimu kuonyesha kwa PC ni nini na kutoka wapi sehemu inapaswa kuunganishwa.\
-Inaruhusu hadi **sehemu 4** (kwa kiwango cha juu **1 tu** inaweza kuwa hai/**bootable**). Hata hivyo, ikiwa unahitaji sehemu zaidi unaweza kutumia **sehemu za kupanua**. **Byte ya mwisho** ya sehemu hii ya kwanza ni saini ya boot record **0x55AA**. Sehemu moja tu inaweza kuashiria kuwa hai.\
+Inaruhusu hadi **sehemu 4** (kwa kiwango cha juu **sehemu 1 tu** inaweza kuwa hai/**bootable**). Hata hivyo, ikiwa unahitaji sehemu zaidi unaweza kutumia **sehemu za kupanua**. **Byte ya mwisho** ya sehemu hii ya kwanza ni saini ya boot record **0x55AA**. Sehemu moja tu inaweza kuashiriawa kama hai.\
 MBR inaruhusu **max 2.2TB**.
 
 ![](<../../../.gitbook/assets/image (489).png>)
@@ -62,7 +62,7 @@ Kutoka **bytes 440 hadi 443** za MBR unaweza kupata **Saini ya Disk ya Windows**
 
 Ili kuunganisha MBR katika Linux unahitaji kwanza kupata offset ya mwanzo (unaweza kutumia `fdisk` na amri `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
 
 Na kisha tumia msimbo ufuatao
 ```bash
@@ -73,24 +73,24 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Anwani ya block ya kimantiki)**
 
-**Anwani ya block ya kimantiki** (**LBA**) ni mpango wa kawaida unaotumika kwa **kuelezea eneo la blocks** za data zilizohifadhiwa kwenye vifaa vya kuhifadhi kompyuta, kwa ujumla mifumo ya kuhifadhi ya sekondari kama vile diski ngumu. LBA ni mpango wa anwani rahisi wa mstari; **blocks zinapatikana kwa index ya nambari nzima**, block ya kwanza ikiwa LBA 0, ya pili LBA 1, na kadhalika.
+**Anwani ya block ya kimantiki** (**LBA**) ni mpango wa kawaida unaotumika kwa **kuelezea eneo la blocks** za data zilizohifadhiwa kwenye vifaa vya kuhifadhi kompyuta, kwa ujumla mifumo ya kuhifadhi sekondari kama vile diski ngumu. LBA ni mpango wa anwani rahisi wa mstari; **blocks zinapatikana kwa index ya nambari nzima**, block ya kwanza ikiwa LBA 0, ya pili LBA 1, na kadhalika.
 
 ### GPT (Jedwali la Partition la GUID)
 
-Jedwali la Partition la GUID, linalojulikana kama GPT, linapendekezwa kwa uwezo wake ulioimarishwa ikilinganishwa na MBR (Rekodi ya Boot Kuu). Inajulikana kwa **kitambulisho cha kipekee duniani** kwa partitions, GPT inajitokeza kwa njia kadhaa:
+Jedwali la Partition la GUID, linalojulikana kama GPT, linapendekezwa kwa uwezo wake ulioimarishwa ikilinganishwa na MBR (Rekodi ya Boot Kuu). Inajulikana kwa **kitambulisho chake cha kipekee duniani** kwa partitions, GPT inajitofautisha kwa njia kadhaa:
 
-* **Mahali na Ukubwa**: GPT na MBR zote huanza kwenye **sehemu 0**. Hata hivyo, GPT inafanya kazi kwa **64bits**, tofauti na MBR ambayo ni 32bits.
+* **Eneo na Ukubwa**: GPT na MBR zote huanza kwenye **sehemu 0**. Hata hivyo, GPT inafanya kazi kwa **64bits**, tofauti na MBR ambayo ni 32bits.
 * **Mipaka ya Partition**: GPT inasaidia hadi **partitions 128** kwenye mifumo ya Windows na inaruhusu hadi **9.4ZB** ya data.
 * **Majina ya Partition**: Inatoa uwezo wa kupewa majina partitions kwa hadi wahusika 36 wa Unicode.
 
 **Ustahimilivu wa Data na Urejeleaji**:
 
-* **Ukarabati**: Tofauti na MBR, GPT haitoi mipangilio na data ya boot mahali pamoja. Inarudia data hii kwenye diski, ikiongeza uadilifu wa data na ustahimilivu.
-* **Ukaguzi wa Ukarabati wa Mzunguko (CRC)**: GPT inatumia CRC kuhakikisha uadilifu wa data. Inachunguza kwa makini uharibifu wa data, na inapogundulika, GPT inajaribu kurejesha data iliyo haribika kutoka eneo lingine la diski.
+* **Ukarabati**: Tofauti na MBR, GPT haifungii partitioning na data ya boot mahali pamoja. Inarudia data hii kwenye diski, ikiongeza uadilifu wa data na ustahimilivu.
+* **Ukaguzi wa Ukarabati wa Mzunguko (CRC)**: GPT inatumia CRC kuhakikisha uadilifu wa data. Inachunguza kwa uangalifu uharibifu wa data, na inapogundulika, GPT inajaribu kurejesha data iliyoathirika kutoka eneo lingine la diski.
 
 **MBR ya Kulinda (LBA0)**:
 
-* GPT inahifadhi ulinganifu wa nyuma kupitia MBR ya kulinda. Kipengele hiki kinapatikana katika nafasi ya MBR ya zamani lakini kimeundwa kuzuia zana za zamani za MBR zisizoe GPT disks, hivyo kulinda uadilifu wa data kwenye disks zilizofomatiwa na GPT.
+* GPT inahifadhi ulinganifu wa nyuma kupitia MBR ya kulinda. Kipengele hiki kinapatikana katika nafasi ya MBR ya zamani lakini kimeundwa ili kuzuia zana za zamani za MBR zisifanye makosa ya kuandika upya diski za GPT, hivyo kulinda uadilifu wa data kwenye diski zilizofomatiwa kwa GPT.
 
 ![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (491).png>)
 
@@ -98,7 +98,7 @@ Jedwali la Partition la GUID, linalojulikana kama GPT, linapendekezwa kwa uwezo 
 
 [Kutoka Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-Katika mifumo ya uendeshaji inayounga mkono **boot ya GPT kupitia huduma za BIOS** badala ya EFI, sehemu ya kwanza inaweza pia kutumika kuhifadhi hatua ya kwanza ya **bootloader** code, lakini **imebadilishwa** kutambua **GPT** **partitions**. Bootloader katika MBR haipaswi kudhani ukubwa wa sehemu kuwa 512 bytes.
+Katika mifumo ya uendeshaji inayounga mkono **boot ya GPT kupitia huduma za BIOS** badala ya EFI, sehemu ya kwanza inaweza pia kutumika kuhifadhi hatua ya kwanza ya **bootloader** code, lakini **imebadilishwa** kutambua **GPT** **partitions**. Bootloader katika MBR haipaswi kudhani ukubwa wa sehemu ni bytes 512.
 
 **Kichwa cha jedwali la partition (LBA 1)**
 
@@ -110,15 +110,15 @@ Kichwa cha jedwali la partition kinaelezea blocks zinazoweza kutumika kwenye dis
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 (0x00)  | 8 bytes  | Sahihi ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h au 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8) kwenye mashine za little-endian) |
 | 8 (0x08)  | 4 bytes  | Toleo 1.0 (00h 00h 01h 00h) kwa UEFI 2.8                                                                                                                                     |
-| 12 (0x0C) | 4 bytes  | Ukubwa wa kichwa katika little endian (katika bytes, kawaida 5Ch 00h 00h 00h au 92 bytes)                                                                                                    |
+| 12 (0x0C) | 4 bytes  | Ukubwa wa kichwa katika little endian (katika bytes, kawaida 5Ch 00h 00h 00h au bytes 92)                                                                                                    |
 | 16 (0x10) | 4 bytes  | [CRC32](https://en.wikipedia.org/wiki/CRC32) ya kichwa (offset +0 hadi ukubwa wa kichwa) katika little endian, huku uwanja huu ukiwa na sifuri wakati wa hesabu                                |
 | 20 (0x14) | 4 bytes  | Imehifadhiwa; lazima iwe sifuri                                                                                                                                                          |
-| 24 (0x18) | 8 bytes  | LBA ya sasa (mahali pa nakala hii ya kichwa)                                                                                                                                      |
-| 32 (0x20) | 8 bytes  | LBA ya nakala (mahali pa nakala nyingine ya kichwa)                                                                                                                                  |
-| 40 (0x28) | 8 bytes  | LBA ya kwanza inayoweza kutumika kwa partitions (jedwali la partition la msingi LBA ya mwisho + 1)                                                                                                          |
-| 48 (0x30) | 8 bytes  | LBA ya mwisho inayoweza kutumika (jedwali la partition la sekondari LBA ya kwanza − 1)                                                                                                                       |
+| 24 (0x18) | 8 bytes  | LBA ya sasa (eneo la nakala hii ya kichwa)                                                                                                                                      |
+| 32 (0x20) | 8 bytes  | LBA ya nakala (eneo la nakala nyingine ya kichwa)                                                                                                                                  |
+| 40 (0x28) | 8 bytes  | LBA ya kwanza inayoweza kutumika kwa partitions (jedwali la partition kuu LBA ya mwisho + 1)                                                                                                          |
+| 48 (0x30) | 8 bytes  | LBA ya mwisho inayoweza kutumika (jedwali la partition sekondari LBA ya kwanza − 1)                                                                                                                       |
 | 56 (0x38) | 16 bytes | Disk GUID katika mchanganyiko wa endian                                                                                                                                                       |
-| 72 (0x48) | 8 bytes  | LBA ya kuanzia ya safu ya entries za partition (daima 2 katika nakala ya msingi)                                                                                                        |
+| 72 (0x48) | 8 bytes  | LBA ya kuanzia ya safu ya entries za partition (daima 2 katika nakala kuu)                                                                                                        |
 | 80 (0x50) | 4 bytes  | Idadi ya entries za partition katika safu                                                                                                                                            |
 | 84 (0x54) | 4 bytes  | Ukubwa wa entry moja ya partition (kawaida 80h au 128)                                                                                                                           |
 | 88 (0x58) | 4 bytes  | CRC32 ya safu ya entries za partition katika little endian                                                                                                                               |
@@ -127,20 +127,20 @@ Kichwa cha jedwali la partition kinaelezea blocks zinazoweza kutumika kwenye dis
 **Entries za Partition (LBA 2–33)**
 
 | Muundo wa entry ya partition ya GUID |          |                                                                                                                   |
-| ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Offset                               | Urefu    | Maudhui                                                                                                          |
-| 0 (0x00)                             | 16 bytes | [Aina ya partition GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mchanganyiko wa endian) |
-| 16 (0x10)                            | 16 bytes | GUID ya kipekee ya partition (mchanganyiko wa endian)                                                                              |
-| 32 (0x20)                            | 8 bytes  | LBA ya kwanza ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
-| 40 (0x28)                            | 8 bytes  | LBA ya mwisho (inajumuisha, kawaida ni odd)                                                                                 |
-| 48 (0x30)                            | 8 bytes  | Bendera za sifa (mfano, bit 60 inaashiria kusoma pekee)                                                                   |
-| 56 (0x38)                            | 72 bytes | Jina la partition (wahusika 36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE)                                   |
+| --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
+| Offset                      | Urefu    | Maudhui                                                                                                          |
+| 0 (0x00)                    | 16 bytes | [Aina ya partition GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mchanganyiko wa endian) |
+| 16 (0x10)                   | 16 bytes | GUID ya kipekee ya partition (mchanganyiko wa endian)                                                                              |
+| 32 (0x20)                   | 8 bytes  | LBA ya kwanza ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
+| 40 (0x28)                   | 8 bytes  | LBA ya mwisho (inajumuisha, kawaida ni odd)                                                                                 |
+| 48 (0x30)                   | 8 bytes  | Bendera za sifa (mfano, bit 60 inaashiria read-only)                                                                   |
+| 56 (0x38)                   | 72 bytes | Jina la partition (wahusika 36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE)                                   |
 
 **Aina za Partitions**
 
 ![](<../../../.gitbook/assets/image (492).png>)
 
-Aina zaidi za partition katika [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
+Aina zaidi za partitions katika [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 ### Kukagua
 
@@ -162,15 +162,15 @@ Ikiwa ilikuwa **jedwali la GPT badala ya MBR** inapaswa kuonekana sahihi _EFI PA
 
 ### FAT
 
-Mfumo wa faili wa **FAT (Jedwali la Usambazaji wa Faili)** umeundwa kuzunguka kipengele chake cha msingi, jedwali la usambazaji wa faili, lililopo kwenye mwanzo wa kiasi. Mfumo huu unalinda data kwa kudumisha **nakala mbili** za jedwali, kuhakikisha uadilifu wa data hata kama moja imeharibiwa. Jedwali, pamoja na folda ya mzizi, lazima iwe katika **mahali thabiti**, muhimu kwa mchakato wa kuanzisha mfumo.
+Mfumo wa faili wa **FAT (Jedwali la Usambazaji wa Faili)** umeundwa kuzunguka kipengele chake cha msingi, jedwali la usambazaji wa faili, kilichowekwa kwenye mwanzo wa volumu. Mfumo huu unalinda data kwa kudumisha **nakala mbili** za jedwali, kuhakikisha uadilifu wa data hata kama moja imeharibiwa. Jedwali, pamoja na folda ya mzizi, lazima iwe katika **mahali thabiti**, muhimu kwa mchakato wa kuanzisha mfumo.
 
 Kitengo cha msingi cha kuhifadhi cha mfumo wa faili ni **cluster, kawaida 512B**, kinachojumuisha sekta kadhaa. FAT imeendelea kupitia matoleo:
 
 * **FAT12**, inasaidia anwani za cluster za bit 12 na kushughulikia hadi clusters 4078 (4084 na UNIX).
-* **FAT16**, ikiongeza hadi anwani za bit 16, hivyo inaruhusu clusters hadi 65,517.
-* **FAT32**, ikipiga hatua zaidi na anwani za bit 32, ikiruhusu clusters 268,435,456 kwa kiasi.
+* **FAT16**, ikiongeza hadi anwani za bit 16, hivyo inaruhusu clusters 65,517.
+* **FAT32**, ikipiga hatua zaidi na anwani za bit 32, ikiruhusu clusters 268,435,456 kwa kila volumu.
 
-Kikwazo kikubwa katika matoleo ya FAT ni **ukubwa wa faili wa juu wa 4GB**, ulioanzishwa na uwanja wa bit 32 unaotumika kuhifadhi ukubwa wa faili.
+Kikwazo kikubwa katika matoleo ya FAT ni **ukubwa wa faili wa juu wa 4GB**, ulioanzishwa na uwanja wa bit 32 unaotumika kwa uhifadhi wa ukubwa wa faili.
 
 Vipengele muhimu vya saraka ya mzizi, hasa kwa FAT12 na FAT16, ni pamoja na:
 
@@ -202,9 +202,9 @@ Unaweza kutumia zana kama [**exiftool**](https://exiftool.org) na [**Metadiver**
 
 ### Faili Zilizofutwa Zilizorekodiwa
 
-Kama ilivyoonekana hapo awali kuna maeneo kadhaa ambapo faili bado imehifadhiwa baada ya "kufutwa". Hii ni kwa sababu kawaida kufutwa kwa faili kutoka mfumo wa faili kunaashiria tu kuwa imefutwa lakini data haiguswi. Hivyo, inawezekana kukagua rekodi za faili (kama MFT) na kupata faili zilizofutwa.
+Kama ilivyoonekana hapo awali kuna maeneo kadhaa ambapo faili bado imehifadhiwa baada ya "kufutwa". Hii ni kwa sababu kawaida kufutwa kwa faili kutoka mfumo wa faili kunaashiria tu kuwa imefutwa lakini data haijaguswa. Hivyo, inawezekana kukagua rekodi za faili (kama MFT) na kupata faili zilizofutwa.
 
-Pia, OS kawaida huhifadhi habari nyingi kuhusu mabadiliko ya mfumo wa faili na nakala za akiba, hivyo inawezekana kujaribu kuzitumia kurejesha faili au habari nyingi iwezekanavyo.
+Pia, OS kawaida huhifadhi habari nyingi kuhusu mabadiliko ya mfumo wa faili na nakala za akiba, hivyo inawezekana kujaribu kuzitumia kurejesha faili au habari nyingi kadri inavyowezekana.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -214,7 +214,7 @@ Pia, OS kawaida huhifadhi habari nyingi kuhusu mabadiliko ya mfumo wa faili na n
 
 **Kuchonga faili** ni mbinu inayojaribu **kupata faili katika wingi wa data**. Kuna njia 3 kuu ambazo zana kama hizi hufanya kazi: **Kulingana na vichwa na miguu ya aina za faili**, kulingana na **miundo** ya aina za faili na kulingana na **maudhui** yenyewe.
 
-Kumbuka kwamba mbinu hii **haiwezi kufanya kazi kurejesha faili zilizovunjika**. Ikiwa faili **haihifadhiwi katika sekta zinazofuatana**, basi mbinu hii haitakuwa na uwezo wa kuipata au angalau sehemu yake.
+Kumbuka kwamba mbinu hii **haiwezi kufanya kazi kurejesha faili zilizovunjika**. Ikiwa faili **haijahifadhiwa katika sekta zinazofuatana**, basi mbinu hii haitakuwa na uwezo wa kuipata au angalau sehemu yake.
 
 Kuna zana kadhaa ambazo unaweza kutumia kwa kuchonga faili zikionyesha aina za faili unazotaka kutafuta.
 
@@ -233,8 +233,8 @@ Kwa mfano, badala ya kutafuta faili kamili inayojumuisha URLs zilizorekodiwa, mb
 
 ### Kufuta Salama
 
-Kwa wazi, kuna njia za **"kufuta kwa usalama" faili na sehemu ya rekodi kuhusu hizo**. Kwa mfano, inawezekana **kuandika tena maudhui** ya faili kwa data ya junk mara kadhaa, na kisha **kuondoa** **rekodi** kutoka **$MFT** na **$LOGFILE** kuhusu faili hiyo, na **kuondoa Nakala za Kivuli za Kiasi**.\
-Unaweza kugundua kwamba hata ukifanya kitendo hicho kunaweza kuwa na **sehemu nyingine ambapo uwepo wa faili bado umeandikwa**, na hiyo ni kweli na sehemu ya kazi ya kitaalamu ya forensics ni kuzipata.
+Kwa wazi, kuna njia za **"kufuta salama" faili na sehemu ya rekodi kuhusu hizo**. Kwa mfano, inawezekana **kuandika upya maudhui** ya faili kwa data ya junk mara kadhaa, na kisha **kuondoa** **rekodi** kutoka **$MFT** na **$LOGFILE** kuhusu faili hiyo, na **kuondoa Nakala za Kivuli za Volumu**.\
+Unaweza kugundua kwamba hata ukifanya kitendo hicho kuna **sehemu nyingine ambapo uwepo wa faili bado umeandikwa**, na hiyo ni kweli na sehemu ya kazi ya kitaalamu ya forensics ni kuzipata.
 
 ## Marejeo
 
@@ -242,7 +242,7 @@ Unaweza kugundua kwamba hata ukifanya kitendo hicho kunaweza kuwa na **sehemu ny
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
-* **iHackLabs Imeidhinishwa ya Dijitali Forensics Windows**
+* **iHackLabs Imeidhinishwa ya Kidijitali ya Forensics Windows**
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

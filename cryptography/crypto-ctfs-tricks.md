@@ -1,21 +1,21 @@
-# Mbinu za Crypto CTFs
+# Crypto CTFs Tricks
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalamu wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalamu wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Databases za Hashes Mtandaoni
+## Online Hashes DBs
 
 * _**Tafuta kwenye Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
@@ -32,23 +32,23 @@ Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" dat
 ## Magic Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Magic)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Uchawi)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Wajumuishaji
+## Encoders
 
-Kwa kawaida data iliyohifadhiwa inaweza kuhifadhiwa kutumia rasilimali hizi 2:
+Mengi ya data iliyokodishwa yanaweza kufichuliwa kwa kutumia rasilimali hizi 2:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Wajumuishaji wa Badilishaji
+### Substitution Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - Nzuri sana!
 
-#### Wajumuishaji wa Caesar - ROTx
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
@@ -56,9 +56,9 @@ Kwa kawaida data iliyohifadhiwa inaweza kuhifadhiwa kutumia rasilimali hizi 2:
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Wajumuishaji wa Msingi wa Kodi
+### Base Encodings Autosolver
 
-Angalia misingi hii yote kwa: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Angalia hizi zote za msingi na: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -133,13 +133,13 @@ Angalia misingi hii yote kwa: [https://github.com/dhondta/python-codext](https:/
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Kufa: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dead: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Kufa: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -191,40 +191,40 @@ drnajapajrna
 
 ### A1Z26
 
-Barua hadi thamani zao za nambari
+Herufi kwa thamani yao ya nambari
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Ufungaji wa Chaguo la Affine
+### Affine Cipher Encode
 
-Barua hadi num `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni herufi) na matokeo kurudi kwa herufi
+Herufi kwa nambari `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni herufi) na matokeo kurudi kwa herufi
 ```
 krodfdudfrod
 ```
-### Msimbo wa SMS
+### SMS Code
 
-**Multitap** [badala ya herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazorudiwa zilizofafanuliwa na nambari ya ufunguo inayolingana kwenye kibodi ya simu ya mkononi (Hali hii hutumiwa wakati wa kuandika SMS).\
+**Multitap** [inabadilisha herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazojirudia zilizofafanuliwa na msimbo wa funguo unaolingana kwenye [keypad ya simu](https://www.dcode.fr/phone-keypad-cipher) (Hali hii inatumika wakati wa kuandika SMS).\
 Kwa mfano: 2=A, 22=B, 222=C, 3=D...\
-Unaweza kutambua msimbo huu kwa sababu utaona\*\* nambari kadhaa zikirudiwa\*\*.
+Unaweza kutambua msimbo huu kwa sababu utaona\*\* nambari kadhaa zinazojirudia\*\*.
 
-Unaweza kufichua msimbo huu hapa: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Unaweza kufungua msimbo huu katika: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
-### Msimbo wa Bacon
+### Bacon Code
 
-Badilisha kila herufi na 4 As au Bs (au 1s na 0s)
+Badilisha kila herufi kwa A 4 au B (au 1s na 0s)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Alama
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
-## Ufupishaji
+## Compression
 
-**Raw Deflate** na **Raw Inflate** (unaweza kupata zote katika Cyberchef) zinaweza kufupisha na kufunua data bila vichwa.
+**Raw Deflate** na **Raw Inflate** (unaweza kuzipata zote katika Cyberchef) zinaweza kubana na kufungua data bila vichwa.
 
-## Crypto Rahisi
+## Easy Crypto
 
 ### XOR - Autosolver
 
@@ -232,13 +232,13 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ### Bifid
 
-Neno la msingi linahitajika
+Neno la ufunguo linahitajika
 ```
 fgaargaamnlunesuneoa
 ```
 ### Vigenere
 
-Neno la msingi linahitajika
+Inahitajika neno la ufunguo
 ```
 wodsyoidrods
 ```
@@ -250,7 +250,7 @@ wodsyoidrods
 
 ### Fernet
 
-2 mizizi ya base64 (tokeni na ufunguo)
+2 mfuatano ya base64 (token na ufunguo)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -260,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Ugawaji wa Siri wa Samir
+### Samir Secret Sharing
 
-Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
+Siri inagawanywa katika sehemu X na ili kuirejesha unahitaji sehemu Y (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -270,28 +270,28 @@ Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Kuforce ya OpenSSL
+### OpenSSL brute-force
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
 
-## Zana
+## Tools
 
 * [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool)
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 {% hint style="success" %}
-Jifunze & zoezi AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & zoezi GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

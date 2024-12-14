@@ -1,31 +1,46 @@
-# Mbinu za ZIPs
+# ZIPs tricks
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Zana za amri** kwa ajili ya kusimamia **faili za zip** ni muhimu kwa kugundua, kurekebisha, na kuvunja faili za zip. Hapa kuna baadhi ya zana muhimu:
+**Zana za mistari wa amri** kwa usimamizi wa **zip files** ni muhimu kwa ajili ya kugundua, kurekebisha, na kuvunja zip files. Hapa kuna zana muhimu:
 
-- **`unzip`**: Inaonyesha kwa nini faili ya zip inaweza isifunguke.
-- **`zipdetails -v`**: Inatoa uchambuzi wa kina wa uga wa muundo wa faili ya zip.
-- **`zipinfo`**: Inaorodhesha maudhui ya faili ya zip bila kuzitoa.
-- **`zip -F input.zip --out output.zip`** na **`zip -FF input.zip --out output.zip`**: Jaribu kurekebisha faili za zip zilizoharibika.
-- **[fcrackzip](https://github.com/hyc/fcrackzip)**: Zana ya kuvunja nguvu ya nywila za zip, yenye ufanisi kwa nywila zenye herufi karibu 7.
+- **`unzip`**: Inaonyesha kwa nini zip file inaweza isifunguke.
+- **`zipdetails -v`**: Inatoa uchambuzi wa kina wa maeneo ya muundo wa zip file.
+- **`zipinfo`**: Inataja maudhui ya zip file bila kuyatoa.
+- **`zip -F input.zip --out output.zip`** na **`zip -FF input.zip --out output.zip`**: Jaribu kurekebisha zip files zilizoharibika.
+- **[fcrackzip](https://github.com/hyc/fcrackzip)**: Zana ya kuvunja nenosiri la zip kwa nguvu, inafanya kazi vizuri kwa nenosiri hadi karibu herufi 7.
 
-[Specifikesheni ya muundo wa faili ya Zip](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT) hutoa maelezo kamili kuhusu muundo na viwango vya faili za zip.
+[Maelezo ya muundo wa zip file](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT) inatoa maelezo ya kina kuhusu muundo na viwango vya zip files.
 
-Ni muhimu kutambua kwamba faili za zip zilizolindwa kwa nywila **hazifanyi faili za jina au ukubwa wa faili** ndani yake, kasoro ya usalama ambayo haishirikiwa na faili za RAR au 7z ambazo hulinda habari hii. Zaidi ya hayo, faili za zip zilizolindwa kwa njia ya ZipCrypto ya zamani ziko hatarini kwa **shambulio la maandishi wazi** ikiwa nakala isiyolindwa ya faili iliyosongeshwa ipo. Shambulio hili hutumia yaliyomo yanayojulikana kuvunja nywila ya zip, kasoro iliyoelezwa kwa undani katika [makala ya HackThis](https://www.hackthis.co.uk/articles/known-plaintext-attack-cracking-zip-files) na kufafanuliwa zaidi katika [karatasi hii ya kisayansi](https://www.cs.auckland.ac.nz/\~mike/zipattacks.pdf). Hata hivyo, faili za zip zilizolindwa na **AES-256** ziko salama dhidi ya shambulio hili la maandishi wazi, ikionyesha umuhimu wa kuchagua njia salama za kusimbua data nyeti.
+Ni muhimu kutambua kwamba zip files zilizo na nenosiri **hazifichi majina ya faili au ukubwa wa faili** ndani, kasoro ya usalama ambayo haipatikani kwa RAR au 7z files ambazo zinaficha taarifa hii. Zaidi ya hayo, zip files zilizofichwa kwa njia ya zamani ya ZipCrypto zinaweza kuathirika na **shambulio la maandiko wazi** ikiwa nakala isiyo na usalama ya faili iliyoshinikizwa inapatikana. Shambulio hili linatumia maudhui yanayojulikana kuvunja nenosiri la zip, udhaifu huu umeelezwa kwa kina katika [makala ya HackThis](https://www.hackthis.co.uk/articles/known-plaintext-attack-cracking-zip-files) na kufafanuliwa zaidi katika [karatasi hii ya kitaaluma](https://www.cs.auckland.ac.nz/\~mike/zipattacks.pdf). Hata hivyo, zip files zilizolindwa kwa **AES-256** encryption hazihusiki na shambulio hili la maandiko wazi, ikionyesha umuhimu wa kuchagua mbinu salama za encryption kwa data nyeti.
 
-## Marejeo
+## References
 * [https://michael-myers.github.io/blog/categories/ctf/](https://michael-myers.github.io/blog/categories/ctf/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

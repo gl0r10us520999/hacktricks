@@ -43,12 +43,12 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-Katika amri iliyopita, **C** inamaanisha **Ilibadilishwa** na **A,** **Imeongezwa**.\
-Ikiwa unapata faili ya kuvutia kama `/etc/shadow` ilibadilishwa, unaweza kuipakua kutoka kwenye kontena ili kuangalia shughuli za uhalifu kwa:
+Katika amri iliyopita, **C** inamaanisha **Ilibadilishwa** na **A,** **Iliyoongezwa**.\
+Ikiwa utagundua kuwa faili ya kuvutia kama `/etc/shadow` ilibadilishwa, unaweza kuipakua kutoka kwenye kontena ili kuangalia shughuli za uhalifu kwa:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-Unaweza pia **kuilinganisha na ile ya asili** ukikimbia kontena jipya na kutoa faili kutoka kwake:
+Unaweza pia **kuilinganisha na ile ya asili** kwa kuendesha kontena mpya na kutoa faili kutoka kwake:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
@@ -58,9 +58,9 @@ Ikiwa unapata kwamba **faili fulani ya kushangaza imeongezwa** unaweza kufikia k
 ```bash
 docker exec -it wordpress bash
 ```
-## Images modifications
+## Mabadiliko ya picha
 
-Wakati unapata picha ya docker iliyosafirishwa (labda katika muundo wa `.tar`) unaweza kutumia [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) ili **kutoa muhtasari wa mabadiliko**:
+Unapopewa picha ya docker iliyosafirishwa (labda katika muundo wa `.tar`) unaweza kutumia [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) ili **kutoa muhtasari wa mabadiliko**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -73,7 +73,7 @@ tar -xf image.tar
 ```
 ### Basic Analysis
 
-Unaweza kupata **taarifa za msingi** kutoka kwa picha ukikimbia:
+Unaweza kupata **taarifa za msingi** kutoka kwa picha inayotembea:
 ```bash
 docker inspect <image>
 ```
@@ -88,7 +88,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dive
 
-Ili kupata faili zilizoongezwa/zilizobadilishwa katika picha za docker unaweza pia kutumia [**dive**](https://github.com/wagoodman/dive) (ipakue kutoka [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) chombo:
+Ili kupata faili zilizoongezwa/zilizobadilishwa katika picha za docker unaweza pia kutumia [**dive**](https://github.com/wagoodman/dive) (pakua kutoka [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) chombo:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -97,19 +97,19 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Hii inakuwezesha **kuvinjari kupitia blobs tofauti za picha za docker** na kuangalia faili zipi zilirekebishwa/zimeongezwa. **Nyekundu** inamaanisha zimeongezwa na **njano** inamaanisha zimekuzwa. Tumia **tab** kuhamia kwenye mtazamo mwingine na **space** kufunga/kufungua folda.
+Hii inakuwezesha **kuvinjari kupitia blobs tofauti za picha za docker** na kuangalia faili zipi zilirekebishwa/zimeongezwa. **Nyekundu** inamaanisha zimeongezwa na **njano** inamaanisha zimebadilishwa. Tumia **tab** kuhamasisha kwenye mtazamo mwingine na **space** kufunga/kufungua folda.
 
 Kwa die huwezi kufikia maudhui ya hatua tofauti za picha. Ili kufanya hivyo, utahitaji **kufungua kila safu na kuifikia**.\
-Unaweza kufungua safu zote kutoka kwa picha kutoka kwenye saraka ambapo picha ilifunguliwa kwa kutekeleza:
+Unaweza kufungua safu zote kutoka kwa picha kutoka kwenye saraka ambapo picha ilifunguliwa ukitekeleza:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## Credentials from memory
+## Credentials kutoka kwa kumbukumbu
 
 Kumbuka kwamba unapokimbia kontena la docker ndani ya mwenyeji **unaweza kuona michakato inayokimbia kwenye kontena kutoka kwa mwenyeji** kwa kukimbia tu `ps -ef`
 
-Hivyo (kama root) unaweza **kuchota kumbukumbu ya michakato** kutoka kwa mwenyeji na kutafuta **credentials** kama [**ilivyo katika mfano ufuatao**](../../linux-hardening/privilege-escalation/#process-memory).
+Hivyo (kama root) unaweza **kutoa kumbukumbu ya michakato** kutoka kwa mwenyeji na kutafuta **credentials** tu [**kama katika mfano ufuatao**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 

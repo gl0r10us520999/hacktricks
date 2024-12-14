@@ -32,14 +32,14 @@ Here's a summary of the most common browser artifacts:
 * **Navigation History**: Inafuatilia ziara za mtumiaji kwenye tovuti, muhimu kwa kutambua ziara kwenye tovuti za uhalifu.
 * **Autocomplete Data**: Mapendekezo yanayotokana na utafutaji wa mara kwa mara, yanayotoa mwanga unapounganishwa na historia ya urambazaji.
 * **Bookmarks**: Tovuti zilizohifadhiwa na mtumiaji kwa ufikiaji wa haraka.
-* **Extensions and Add-ons**: Nyongeza au nyongeza za kivinjari zilizowekwa na mtumiaji.
+* **Extensions and Add-ons**: Nyongeza za kivinjari au nyongeza zilizowekwa na mtumiaji.
 * **Cache**: Huhifadhi maudhui ya wavuti (mfano, picha, faili za JavaScript) ili kuboresha nyakati za upakiaji wa tovuti, muhimu kwa uchambuzi wa forensics.
 * **Logins**: Akiba ya taarifa za kuingia.
 * **Favicons**: Ikoni zinazohusishwa na tovuti, zinazoonekana kwenye tab na alama, muhimu kwa taarifa za ziada kuhusu ziara za mtumiaji.
 * **Browser Sessions**: Taarifa zinazohusiana na vikao vya kivinjari vilivyo wazi.
 * **Downloads**: Rekodi za faili zilizopakuliwa kupitia kivinjari.
 * **Form Data**: Taarifa zilizoingizwa kwenye fomu za wavuti, zilizohifadhiwa kwa mapendekezo ya kujaza kiotomatiki baadaye.
-* **Thumbnails**: Picha za muonekano wa tovuti.
+* **Thumbnails**: Picha za awali za tovuti.
 * **Custom Dictionary.txt**: Maneno yaliyoongezwa na mtumiaji kwenye kamusi ya kivinjari.
 
 ## Firefox
@@ -62,7 +62,7 @@ Ndani ya kila saraka ya profaili, unaweza kupata faili kadhaa muhimu:
 * **persdict.dat**: Maneno ya kamusi ya kawaida.
 * **addons.json** na **extensions.sqlite**: Taarifa kuhusu nyongeza na nyongeza zilizowekwa.
 * **cookies.sqlite**: Hifadhi ya kuki, na [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) inapatikana kwa ukaguzi kwenye Windows.
-* **cache2/entries** au **startupCache**: Data za cache, zinazoweza kupatikana kupitia zana kama [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
+* **cache2/entries** au **startupCache**: Data za cache, zinazoweza kufikiwa kupitia zana kama [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Huhifadhi favicons.
 * **prefs.js**: Mipangilio na mapendeleo ya mtumiaji.
 * **downloads.sqlite**: Hifadhidata ya zamani ya upakuaji, sasa imeunganishwa kwenye places.sqlite.
@@ -70,10 +70,10 @@ Ndani ya kila saraka ya profaili, unaweza kupata faili kadhaa muhimu:
 * **logins.json**: Taarifa za kuingia zilizofichwa.
 * **key4.db** au **key3.db**: Huhifadhi funguo za usimbaji kwa ajili ya kulinda taarifa nyeti.
 
-Zaidi ya hayo, kuangalia mipangilio ya kivinjari ya kupambana na ulaghai kunaweza kufanywa kwa kutafuta `browser.safebrowsing` katika `prefs.js`, ikionyesha ikiwa vipengele vya kuvinjari salama vimewezeshwa au havijaanzishwa.
+Zaidi ya hayo, kuangalia mipangilio ya kivinjari ya kupambana na uhalifu wa mtandao kunaweza kufanywa kwa kutafuta `browser.safebrowsing` katika `prefs.js`, ikionyesha ikiwa vipengele vya kuvinjari salama vimewezeshwa au havijaanzishwa.
 
 Ili kujaribu kufichua nenosiri kuu, unaweza kutumia [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Kwa kutumia skripti ifuatayo na wito unaweza kubaini faili ya nenosiri ili kufanya brute force:
+Kwa kutumia script ifuatayo na wito unaweza kubaini faili ya nenosiri ili kufanya brute force:
 
 {% code title="brute.sh" %}
 ```bash
@@ -108,7 +108,7 @@ Ndani ya hizi saraka, data nyingi za mtumiaji zinaweza kupatikana katika folda z
 * **Favicons**: Inahifadhi favicons za tovuti.
 * **Login Data**: Inajumuisha taarifa za kuingia kama vile majina ya watumiaji na nywila.
 * **Current Session**/**Current Tabs**: Data kuhusu kikao cha sasa cha kuvinjari na tabo zilizo wazi.
-* **Last Session**/**Last Tabs**: Taarifa kuhusu tovuti zilizokuwa hai wakati wa kikao cha mwisho kabla Chrome haijafungwa.
+* **Last Session**/**Last Tabs**: Taarifa kuhusu tovuti zilizo hai wakati wa kikao cha mwisho kabla ya Chrome kufungwa.
 * **Extensions**: Saraka za nyongeza za kivinjari na addons.
 * **Thumbnails**: Inahifadhi thumbnails za tovuti.
 * **Preferences**: Faili yenye taarifa nyingi, ikiwa ni pamoja na mipangilio ya plugins, nyongeza, pop-ups, arifa, na zaidi.
@@ -120,19 +120,19 @@ Kama unavyoona katika sehemu zilizopita, Chrome na Firefox zote zinatumia **SQLi
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 inasimamia data zake na metadata katika maeneo mbalimbali, ikisaidia kutenganisha taarifa zilizohifadhiwa na maelezo yake yanayohusiana kwa urahisi wa ufikiaji na usimamizi.
+Internet Explorer 11 inasimamia data zake na metadata katika maeneo mbalimbali, ikisaidia kutenganisha taarifa zilizohifadhiwa na maelezo yanayohusiana kwa urahisi wa ufikiaji na usimamizi.
 
 ### Metadata Storage
 
-Metadata kwa Internet Explorer huhifadhiwa katika `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (ikiwa VX ni V01, V16, au V24). Pamoja na hii, faili ya `V01.log` inaweza kuonyesha tofauti za muda wa mabadiliko na `WebcacheVX.data`, ikionyesha hitaji la kurekebisha kwa kutumia `esentutl /r V01 /d`. Metadata hii, iliyohifadhiwa katika database ya ESE, inaweza kurejeshwa na kukaguliwa kwa kutumia zana kama photorec na [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), mtawalia. Ndani ya meza ya **Containers**, mtu anaweza kutambua meza maalum au vyombo ambavyo kila sehemu ya data imehifadhiwa, ikiwa ni pamoja na maelezo ya cache kwa zana nyingine za Microsoft kama Skype.
+Metadata kwa Internet Explorer huhifadhiwa katika `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (na VX ikiwa V01, V16, au V24). Pamoja na hii, faili ya `V01.log` inaweza kuonyesha tofauti za muda wa mabadiliko na `WebcacheVX.data`, ikionyesha hitaji la kurekebisha kwa kutumia `esentutl /r V01 /d`. Metadata hii, iliyohifadhiwa katika database ya ESE, inaweza kurejeshwa na kukaguliwa kwa kutumia zana kama photorec na [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), mtawalia. Ndani ya jedwali la **Containers**, mtu anaweza kubaini jedwali maalum au vyombo ambavyo kila sehemu ya data imehifadhiwa, ikiwa ni pamoja na maelezo ya cache kwa zana nyingine za Microsoft kama Skype.
 
 ### Cache Inspection
 
-Zana ya [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) inaruhusu ukaguzi wa cache, ikihitaji eneo la saraka ya uchimbaji wa data ya cache. Metadata ya cache inajumuisha jina la faili, saraka, idadi ya ufikiaji, asili ya URL, na alama za muda zinazoonyesha wakati wa uundaji wa cache, ufikiaji, mabadiliko, na muda wa kumalizika.
+Zana ya [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) inaruhusu ukaguzi wa cache, ikihitaji eneo la saraka ya uchimbaji wa data ya cache. Metadata ya cache inajumuisha jina la faili, saraka, idadi ya ufikiaji, asili ya URL, na alama za wakati zinazoashiria wakati wa uundaji wa cache, ufikiaji, mabadiliko, na muda wa kumalizika.
 
 ### Cookies Management
 
-Cookies zinaweza kuchunguzwa kwa kutumia [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), huku metadata ikijumuisha majina, URLs, idadi ya ufikiaji, na maelezo mbalimbali yanayohusiana na muda. Cookies za kudumu huhifadhiwa katika `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, huku cookies za kikao zikiwa katika kumbukumbu.
+Cookies zinaweza kuchunguzwa kwa kutumia [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), huku metadata ikijumuisha majina, URLs, idadi ya ufikiaji, na maelezo mbalimbali yanayohusiana na wakati. Cookies za kudumu huhifadhiwa katika `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, huku cookies za kikao zikiwa katika kumbukumbu.
 
 ### Download Details
 
@@ -160,14 +160,14 @@ Microsoft Edge huhifadhi data za mtumiaji katika `%userprofile%\Appdata\Local\Pa
 
 Data za Safari huhifadhiwa katika `/Users/$User/Library/Safari`. Faili muhimu ni:
 
-* **History.db**: Inashikilia meza za `history_visits` na `history_items` zikiwa na URLs na alama za wakati wa kutembelea. Tumia `sqlite3` kuuliza.
+* **History.db**: Inashikilia jedwali la `history_visits` na `history_items` zikiwa na URLs na alama za wakati wa kutembelea. Tumia `sqlite3` kuuliza.
 * **Downloads.plist**: Taarifa kuhusu faili zilizopakuliwa.
 * **Bookmarks.plist**: Inahifadhi URLs zilizowekwa alama.
 * **TopSites.plist**: Tovuti zinazotembelewa mara nyingi.
 * **Extensions.plist**: Orodha ya nyongeza za kivinjari cha Safari. Tumia `plutil` au `pluginkit` kupata.
 * **UserNotificationPermissions.plist**: Domains zilizoidhinishwa kutuma arifa. Tumia `plutil` kuchambua.
 * **LastSession.plist**: Tabo kutoka kikao cha mwisho. Tumia `plutil` kuchambua.
-* **Browser’s built-in anti-phishing**: Angalia kwa kutumia `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Jibu la 1 linaonyesha kipengele hiki kinafanya kazi.
+* **Browser’s built-in anti-phishing**: Angalia kwa kutumia `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Jibu la 1 linaashiria kipengele hiki kinafanya kazi.
 
 ## Opera
 
@@ -187,14 +187,14 @@ Njia hizi na amri ni muhimu kwa kufikia na kuelewa data za kuvinjari zilizohifad
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kwa kutumia zana za jamii zenye **maendeleo zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **za kisasa zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -202,7 +202,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

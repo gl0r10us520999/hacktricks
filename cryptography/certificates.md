@@ -25,34 +25,34 @@ Get Access Today:
 
 ## What is a Certificate
 
-**Cheti cha ufunguo wa umma** ni kitambulisho cha kidijitali kinachotumika katika cryptography kuthibitisha kwamba mtu anamiliki ufunguo wa umma. Inajumuisha maelezo ya ufunguo, kitambulisho cha mmiliki (mada), na saini ya kidijitali kutoka kwa mamlaka inayotegemewa (mtoaji). Ikiwa programu inategemea mtoaji na saini ni halali, mawasiliano salama na mmiliki wa ufunguo yanawezekana.
+A **public key certificate** ni kitambulisho cha kidijitali kinachotumika katika cryptography kuthibitisha kwamba mtu anamiliki funguo ya umma. Inajumuisha maelezo ya funguo, utambulisho wa mmiliki (mada), na saini ya kidijitali kutoka kwa mamlaka inayotegemewa (mtoaji). Ikiwa programu inategemea mtoaji na saini ni halali, mawasiliano salama na mmiliki wa funguo yanawezekana.
 
-Vyeti kwa kawaida vinatolewa na [mamlaka ya vyeti](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) katika muundo wa [miundombinu ya ufunguo wa umma](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Njia nyingine ni [mtandao wa kuaminiana](https://en.wikipedia.org/wiki/Web\_of\_trust), ambapo watumiaji wanathibitisha ufunguo wa kila mmoja moja kwa moja. Muundo wa kawaida wa vyeti ni [X.509](https://en.wikipedia.org/wiki/X.509), ambayo inaweza kubadilishwa kwa mahitaji maalum kama ilivyoelezwa katika RFC 5280.
+Vyeti kwa kawaida vinatolewa na [mamlaka ya vyeti](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) katika muundo wa [miundombinu ya funguo za umma](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Njia nyingine ni [mtandao wa kuaminiana](https://en.wikipedia.org/wiki/Web\_of\_trust), ambapo watumiaji wanathibitisha funguo za kila mmoja moja kwa moja. Muundo wa kawaida wa vyeti ni [X.509](https://en.wikipedia.org/wiki/X.509), ambayo inaweza kubadilishwa kwa mahitaji maalum kama ilivyoelezwa katika RFC 5280.
 
 ## x509 Common Fields
 
-### **Mifano ya Kawaida katika Vyeti vya x509**
+### **Common Fields in x509 Certificates**
 
 Katika vyeti vya x509, sehemu kadhaa **zinacheza** majukumu muhimu katika kuhakikisha halali na usalama wa cheti. Hapa kuna muhtasari wa sehemu hizi:
 
 * **Nambari ya Toleo** inaashiria toleo la muundo wa x509.
 * **Nambari ya Mfululizo** inatambulisha cheti ndani ya mfumo wa Mamlaka ya Cheti (CA), hasa kwa ajili ya kufuatilia kufutwa.
-* Sehemu ya **Mada** inawakilisha mmiliki wa cheti, ambaye anaweza kuwa mashine, mtu binafsi, au shirika. Inajumuisha kitambulisho kilichoelezwa kwa undani kama:
-* **Jina la Kawaida (CN)**: Majina ya domain yanayofunikwa na cheti.
+* Sehemu ya **Mada** inawakilisha mmiliki wa cheti, ambaye anaweza kuwa mashine, mtu binafsi, au shirika. Inajumuisha utambulisho wa kina kama:
+* **Jina la Kawaida (CN)**: Mikoa inayofunikwa na cheti.
 * **Nchi (C)**, **Eneo (L)**, **Jimbo au Mkoa (ST, S, au P)**, **Shirika (O)**, na **Kitengo cha Shirika (OU)** vinatoa maelezo ya kijiografia na ya shirika.
-* **Jina Lililoainishwa (DN)** linajumuisha kitambulisho kamili cha mada.
+* **Jina Lililoainishwa (DN)** linajumuisha utambulisho kamili wa mada.
 * **Mtoaji** inaelezea nani alithibitisha na kusaini cheti, ikiwa ni pamoja na sehemu zinazofanana kama za Mada kwa CA.
-* **Muda wa Halali** umewekwa na alama za **Siyo Kabla** na **Siyo Baada**, kuhakikisha cheti hakitumiki kabla au baada ya tarehe fulani.
-* Sehemu ya **Ufunguo wa Umma**, muhimu kwa usalama wa cheti, inaelezea algorithimu, ukubwa, na maelezo mengine ya kiufundi ya ufunguo wa umma.
-* **x509v3 extensions** zinaboresha kazi ya cheti, zikielezea **Matumizi ya Ufunguo**, **Matumizi ya Ufunguo wa Kupanua**, **Jina Alternatif la Mada**, na mali nyingine za kuboresha matumizi ya cheti.
+* **Muda wa Uhalali** umewekwa na alama za **Siyo Kabla** na **Siyo Baada**, kuhakikisha cheti hakitumiki kabla au baada ya tarehe fulani.
+* Sehemu ya **Funguo ya Umma**, muhimu kwa usalama wa cheti, inaelezea algorithimu, ukubwa, na maelezo mengine ya kiufundi ya funguo ya umma.
+* **x509v3 extensions** zinaboresha kazi ya cheti, zikielezea **Matumizi ya Funguo**, **Matumizi ya Funguo ya Kupanua**, **Jina Alternatif la Mada**, na mali nyingine za kuboresha matumizi ya cheti.
 
-#### **Matumizi ya Ufunguo na Mipanuzi**
+#### **Key Usage and Extensions**
 
-* **Matumizi ya Ufunguo** yanatambulisha matumizi ya cryptographic ya ufunguo wa umma, kama saini ya kidijitali au ufunguo wa kuandika.
-* **Matumizi ya Ufunguo wa Kupanua** yanapunguza zaidi matumizi ya cheti, kwa mfano, kwa uthibitisho wa seva ya TLS.
-* **Jina Alternatif la Mada** na **Kikomo cha Msingi** vin定义 majeshi mengine yanayofunikwa na cheti na ikiwa ni cheti cha CA au cheti cha mwisho, mtawalia.
-* Vitambulisho kama **Vitambulisho vya Ufunguo wa Mada** na **Vitambulisho vya Ufunguo wa Mamlaka** vinahakikisha upekee na ufuatiliaji wa funguo.
-* **Upatikanaji wa Taarifa za Mamlaka** na **Nukuu za Usambazaji wa CRL** vinatoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
+* **Matumizi ya Funguo** yanatambulisha matumizi ya cryptographic ya funguo ya umma, kama saini ya kidijitali au ufichaji wa funguo.
+* **Matumizi ya Funguo ya Kupanua** yanapunguza zaidi matumizi ya cheti, kwa mfano, kwa uthibitisho wa seva ya TLS.
+* **Jina Alternatif la Mada** na **Kikomo Msingi** zinaelezea majina mengine ya mwenyeji yanayofunikwa na cheti na ikiwa ni cheti cha CA au cheti cha mwisho, mtawalia.
+* Vitambulisho kama **Vitambulisho vya Funguo vya Mada** na **Vitambulisho vya Funguo vya Mamlaka** vinahakikisha upekee na ufuatiliaji wa funguo.
+* **Upatikanaji wa Taarifa za Mamlaka** na **Nukuu za Usambazaji wa CRL** zinatoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
 * **CT Precertificate SCTs** hutoa kumbukumbu za uwazi, muhimu kwa uaminifu wa umma katika cheti.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
@@ -77,7 +77,7 @@ print(f"Public Key: {public_key}")
 ```
 ### **Tofauti kati ya OCSP na CRL Distribution Points**
 
-**OCSP** (**RFC 2560**) inahusisha mteja na jibu wakifanya kazi pamoja ili kuangalia kama cheti cha funguo za umma kimeondolewa, bila kuhitaji kupakua **CRL** kamili. Njia hii ni bora zaidi kuliko **CRL** ya jadi, ambayo inatoa orodha ya nambari za serial za vyeti vilivyondolewa lakini inahitaji kupakua faili kubwa. CRLs zinaweza kujumuisha hadi ingizo 512. Maelezo zaidi yanapatikana [hapa](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) inahusisha mteja na mrespondia wakifanya kazi pamoja ili kuangalia kama cheti cha funguo za umma kimeondolewa, bila kuhitaji kupakua **CRL** kamili. Njia hii ni bora zaidi kuliko **CRL** ya jadi, ambayo inatoa orodha ya nambari za serial za vyeti vilivyondolewa lakini inahitaji kupakua faili kubwa. CRLs zinaweza kujumuisha hadi ingizo 512. Maelezo zaidi yanapatikana [hapa](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Nini maana ya Uwazi wa Cheti**
 
@@ -89,13 +89,13 @@ Uwazi wa Cheti husaidia kupambana na vitisho vinavyohusiana na vyeti kwa kuhakik
 
 #### **Makaratasi ya Vyeti**
 
-Makaratasi ya vyeti ni rekodi za vyeti zinazoweza kukaguliwa hadharani, zinazoongezwa tu, zinazoshughulikiwa na huduma za mtandao. Makaratasi haya yanatoa uthibitisho wa kifahari kwa ajili ya madhumuni ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwenye makaratasahaya au kuyatafuta kwa ajili ya uthibitisho. Ingawa idadi halisi ya seva za makaratasi si ya kudumu, inatarajiwa kuwa chini ya elfu moja duniani kote. Seva hizi zinaweza kusimamiwa kwa uhuru na CAs, ISPs, au shirika lolote linalovutiwa.
+Makaratasi ya vyeti ni rekodi za vyeti zinazoweza kukaguliwa hadharani, zinazoongezwa tu, zinazoshughulikiwa na huduma za mtandao. Makaratasi haya yanatoa uthibitisho wa kificho kwa ajili ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwenye makaratasahaya au kuyatafuta kwa ajili ya uthibitisho. Ingawa idadi halisi ya seva za log haijafanywa kuwa thabiti, inatarajiwa kuwa chini ya elfu moja duniani kote. Seva hizi zinaweza kusimamiwa kwa uhuru na CAs, ISPs, au chombo chochote kilichovutiwa.
 
 #### **Utafutaji**
 
 Ili kuchunguza makaratasahaya ya Uwazi wa Cheti kwa domain yoyote, tembelea [https://crt.sh/](https://crt.sh).
 
-Mifumo tofauti inapatikana kwa ajili ya kuhifadhi vyeti, kila moja ikiwa na matumizi yake na ulinganifu. Muhtasari huu unashughulikia mifumo kuu na kutoa mwongozo juu ya kubadilisha kati yao.
+Mifumo tofauti inapatikana kwa ajili ya kuhifadhi vyeti, kila moja ikiwa na matumizi yake na ulinganifu. Muhtasari huu unashughulikia mifumo mikuu na kutoa mwongozo juu ya kubadilisha kati yao.
 
 ## **Mifumo**
 
@@ -103,33 +103,33 @@ Mifumo tofauti inapatikana kwa ajili ya kuhifadhi vyeti, kila moja ikiwa na matu
 
 * Mfumo unaotumika zaidi kwa vyeti.
 * Unahitaji faili tofauti kwa vyeti na funguo za faragha, zilizowekwa katika Base64 ASCII.
-* Mipangilio ya kawaida: .cer, .crt, .pem, .key.
+* Upanuzi wa kawaida: .cer, .crt, .pem, .key.
 * Kimsingi hutumiwa na Apache na seva zinazofanana.
 
 ### **DER Format**
 
 * Mfumo wa binary wa vyeti.
-* Haina taarifa za "BEGIN/END CERTIFICATE" zinazopatikana katika faili za PEM.
-* Mipangilio ya kawaida: .cer, .der.
+* Huna taarifa za "BEGIN/END CERTIFICATE" zinazopatikana katika faili za PEM.
+* Upanuzi wa kawaida: .cer, .der.
 * Mara nyingi hutumiwa na majukwaa ya Java.
 
 ### **P7B/PKCS#7 Format**
 
-* Huhifadhiwa katika Base64 ASCII, ikiwa na mipangilio .p7b au .p7c.
+* Imehifadhiwa katika Base64 ASCII, ikiwa na upanuzi .p7b au .p7c.
 * Inajumuisha vyeti tu na vyeti vya mnyororo, ikiondoa funguo za faragha.
 * Inasaidiwa na Microsoft Windows na Java Tomcat.
 
 ### **PFX/P12/PKCS#12 Format**
 
 * Mfumo wa binary unaojumuisha vyeti vya seva, vyeti vya kati, na funguo za faragha katika faili moja.
-* Mipangilio: .pfx, .p12.
+* Upanuzi: .pfx, .p12.
 * Kimsingi hutumiwa kwenye Windows kwa ajili ya kuagiza na kuuza vyeti.
 
 ### **Kubadilisha Mifumo**
 
-**Kubadilisha PEM** ni muhimu kwa ajili ya ulinganifu:
+**Mabadiliko ya PEM** ni muhimu kwa ajili ya ulinganifu:
 
-* **x509 hadi PEM**
+* **x509 to PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
@@ -155,7 +155,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX to PKCS#8** inahusisha hatua mbili:
+* **PFX hadi PKCS#8** inahusisha hatua mbili:
 1. Geuza PFX kuwa PEM
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
@@ -164,7 +164,7 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B to PFX** pia inahitaji amri mbili:
+* **P7B hadi PFX** pia inahitaji amri mbili:
 1. Geuza P7B kuwa CER
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer

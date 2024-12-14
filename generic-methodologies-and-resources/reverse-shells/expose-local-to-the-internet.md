@@ -15,11 +15,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-**Lengo la ukurasa huu ni kupendekeza mbadala ambazo zinaruhusu KIASI CHA KUPUNGUZA kufichua bandari za TCP za ndani na wavuti za ndani (HTTP) kwa mtandao BILA kuhitaji kufunga chochote kwenye seva nyingine (tu kwenye ndani ikiwa inahitajika).**
+**Lengo la ukurasa huu ni kupendekeza mbadala ambazo zinaruhusu KIASI CHA ANGALAU kufichua bandari za TCP za ndani na wavuti za ndani (HTTP) kwa mtandao BILA kuhitaji kufunga chochote kwenye seva nyingine (tu kwenye ndani ikiwa inahitajika).**
 
 ## **Serveo**
 
-Kutoka [https://serveo.net/](https://serveo.net/), inaruhusu vipengele kadhaa vya http na uhamasishaji wa bandari **bila malipo**.
+Kutoka [https://serveo.net/](https://serveo.net/), inaruhusu vipengele kadhaa vya kuhamasisha http na bandari **bila malipo**.
 ```bash
 # Get a random port from serveo.net to expose local port 4444
 ssh -R 0:localhost:4444 serveo.net
@@ -93,7 +93,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="../../.gitbook/assets/grte.pn
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

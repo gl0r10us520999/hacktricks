@@ -17,12 +17,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-[From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Wakati inapoanzishwa na swichi `--inspect`, mchakato wa Node.js unasikiliza mteja wa ufuatiliaji. Kwa **kawaida**, itasikiliza kwenye mwenyeji na bandari **`127.0.0.1:9229`**. Kila mchakato pia umepewa **UUID** **maalum**.
+[From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Wakati inapoanzishwa na swichi `--inspect`, mchakato wa Node.js unasikiliza mteja wa ufuatiliaji. Kwa **kawaida**, itasikiliza kwenye mwenyeji na bandari **`127.0.0.1:9229`**. Kila mchakato pia umepewa **UUID** **ya kipekee**.
 
 Wateja wa mfuatiliaji lazima wajue na kubainisha anwani ya mwenyeji, bandari, na UUID ili kuungana. URL kamili itakuwa na muonekano kama `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
-Kwa sababu **mfuatiliaji ana ufikiaji kamili wa mazingira ya utekelezaji wa Node.js**, mhusika mbaya anayeweza kuungana na bandari hii anaweza kuwa na uwezo wa kutekeleza msimbo wowote kwa niaba ya mchakato wa Node.js (**kuinua hadhi inayoweza kutokea**).
+Kwa sababu **debugger ina ufikiaji kamili wa mazingira ya utekelezaji wa Node.js**, mhusika mbaya anayeweza kuungana na bandari hii anaweza kuwa na uwezo wa kutekeleza msimbo wowote kwa niaba ya mchakato wa Node.js (**kuinua hadhi inayoweza kutokea**).
 {% endhint %}
 
 Kuna njia kadhaa za kuanzisha mfuatiliaji:
@@ -41,9 +41,9 @@ Wakati unapoanza mchakato ulioangaliwa kitu kama hiki kitaonekana:
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-Mchakato unaotegemea **CEF** (**Chromium Embedded Framework**) kama unahitaji kutumia param: `--remote-debugging-port=9222` kufungua **debugger** (ulinzi wa SSRF unabaki kuwa sawa). Hata hivyo, wao **badala yake** ya kutoa kikao cha **NodeJS** **debug** kitawasiliana na kivinjari kwa kutumia [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), hii ni kiolesura cha kudhibiti kivinjari, lakini hakuna RCE ya moja kwa moja.
+Mchakato unaotegemea **CEF** (**Chromium Embedded Framework**) kama unahitaji kutumia param: `--remote-debugging-port=9222` kufungua **debugger** (ulinzi wa SSRF unabaki kuwa sawa). Hata hivyo, wao **badala yake** ya kutoa kikao cha **NodeJS** **debug** kitawasiliana na kivinjari kwa kutumia [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), hii ni interface ya kudhibiti kivinjari, lakini hakuna RCE ya moja kwa moja.
 
-Unapoanzisha kivinjari kilichosahihishwa kitu kama hiki kitaonekana:
+Unapoanzisha kivinjari kilichokuwa na **debug**, kitu kama hiki kitaonekana:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
@@ -63,16 +63,16 @@ kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Hii ni muhimu katika kontena kwa sababu **kuzima mchakato na kuanzisha mpya** na `--inspect` si **chaguo** kwa sababu **konteina** itakuwa **imeuawa** pamoja na mchakato.
+Hii ni muhimu katika kontena kwa sababu **kuzima mchakato na kuanzisha mpya** na `--inspect` **sio chaguo** kwa sababu **konteina** itakuwa **imeuawa** na mchakato.
 {% endhint %}
 
-### Unganisha na inspector/debugger
+### Unganisha na mkaguzi/mchambuzi
 
-Ili kuungana na **browa ya msingi wa Chromium**, URLs `chrome://inspect` au `edge://inspect` zinaweza kufikiwa kwa Chrome au Edge, mtawalia. Kwa kubonyeza kitufe cha Configure, inapaswa kuhakikisha kuwa **mwenyeji wa lengo na bandari** zimeorodheshwa kwa usahihi. Picha inaonyesha mfano wa Remote Code Execution (RCE):
+Ili kuungana na **browa ya msingi wa Chromium**, URLs `chrome://inspect` au `edge://inspect` zinaweza kufikiwa kwa Chrome au Edge, mtawalia. Kwa kubofya kitufe cha Sanidi, inapaswa kuhakikisha kuwa **mwenyeji wa lengo na bandari** zimeorodheshwa kwa usahihi. Picha inaonyesha mfano wa Utekelezaji wa Msimbo wa K remote (RCE):
 
 ![](<../../.gitbook/assets/image (674).png>)
 
-Kwa kutumia **command line** unaweza kuungana na debugger/inspector kwa:
+Kwa kutumia **mistari ya amri** unaweza kuungana na mkaguzi/mchambuzi kwa:
 ```bash
 node inspect <ip>:<port>
 node inspect 127.0.0.1:9229
@@ -95,7 +95,7 @@ Kumbuka kwamba **NodeJS RCE exploits hazitafanya kazi** ikiwa umeunganishwa na k
 ## RCE katika NodeJS Debugger/Inspector
 
 {% hint style="info" %}
-Ikiwa umekuja hapa kutafuta jinsi ya kupata [**RCE kutoka kwa XSS katika Electron tafadhali angalia ukurasa huu.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
+Ikiwa ulifika hapa ukitafuta jinsi ya kupata [**RCE kutoka kwa XSS katika Electron tafadhali angalia ukurasa huu.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
 Njia kadhaa za kawaida za kupata **RCE** unapoweza **kuunganisha** na Node **inspector** ni kutumia kitu kama (inaonekana kwamba hii **haitafanya kazi katika muunganisho wa Chrome DevTools protocol**):
@@ -112,17 +112,17 @@ In this section I will just list interesting things I find people have used to e
 
 ### Parameter Injection via Deep Links
 
-In the [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino security discovered that an application based on CEF **ilirekodi URI maalum** katika mfumo (workspaces://) ambayo ilipokea URI kamili na kisha **kuanzisha programu ya msingi ya CEF** na usanidi ambao ulikuwa unajengwa kwa sehemu kutoka URI hiyo.
+In the [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino security discovered that an application based on CEF **ilirekodi URI maalum** katika mfumo (workspaces://) ambayo ilipokea URI kamili na kisha **ikaanzisha programu ya msingi ya CEF** kwa usanidi ambao ulikuwa unajengwa kwa sehemu kutoka URI hiyo.
 
-Iligundulika kwamba vigezo vya URI vilikuwa vimepandishwa URL na kutumika kuanzisha programu ya msingi ya CEF, ikiruhusu mtumiaji **kuingiza** bendera **`--gpu-launcher`** katika **mstari wa amri** na kutekeleza mambo yasiyo ya kawaida.
+Iligundulika kwamba vigezo vya URI vilikuwa vimefichwa URL na kutumika kuanzisha programu ya msingi ya CEF, ikiruhusu mtumiaji **kuingiza** bendera **`--gpu-launcher`** katika **mstari wa amri** na kutekeleza mambo yasiyo ya kawaida.
 
 So, a payload like:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
-Itatekeleza calc.exe.
+Will execute a calc.exe.
 
-### Badilisha Faili
+### Overwrite Files
 
 Badilisha folda ambapo **faili zilizopakuliwa zitahifadhiwa** na upakue faili ili **kuandika upya** **kanuni ya chanzo** inayotumika mara kwa mara ya programu kwa **kanuni yako mbaya**.
 ```javascript
@@ -138,11 +138,11 @@ downloadPath: '/code/'
 ```
 ### Webdriver RCE na exfiltration
 
-Kulingana na chapisho hili: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) inawezekana kupata RCE na exfiltrate kurasa za ndani kutoka theriver.
+Kulingana na chapisho hili: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) inawezekana kupata RCE na kuhamasisha kurasa za ndani kutoka theriver.
 
 ### Baada ya Utekelezaji
 
-Katika mazingira halisi na **baada ya kuathiri** PC ya mtumiaji anaye tumia kivinjari kinachotegemea Chrome/Chromium unaweza kuzindua mchakato wa Chrome na **kuanzisha ufuatiliaji wa makosa na kupeleka bandari ya ufuatiliaji** ili uweze kuifikia. Kwa njia hii utaweza **kukagua kila kitu ambacho mwathirika anafanya na Chrome na kuiba taarifa nyeti**.
+Katika mazingira halisi na **baada ya kuathiri** PC ya mtumiaji anayetumia kivinjari kinachotegemea Chrome/Chromium unaweza kuzindua mchakato wa Chrome na **kuanzisha ufuatiliaji wa makosa na kuhamasisha bandari ya ufuatiliaji** ili uweze kuifikia. Kwa njia hii utaweza **kukagua kila kitu ambacho mwathirika anafanya na Chrome na kuiba taarifa nyeti**.
 
 Njia ya siri ni **kuondoa kila mchakato wa Chrome** na kisha kuita kitu kama
 ```bash
@@ -162,16 +162,16 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 * [https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/](https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

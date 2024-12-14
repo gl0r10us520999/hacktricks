@@ -23,7 +23,7 @@ Soma _ **/etc/exports** _ faili, ikiwa unapata directory ambayo imewekwa kama **
 
 **no\_root\_squash**: Chaguo hili kimsingi linampa mamlaka mtumiaji root kwenye mteja kufikia faili kwenye seva ya NFS kama root. Na hii inaweza kusababisha athari kubwa za usalama.
 
-**no\_all\_squash:** Hii ni sawa na chaguo la **no\_root\_squash** lakini inatumika kwa **watumiaji wasiokuwa root**. Fikiria, una shell kama mtumiaji nobody; umeangalia faili ya /etc/exports; chaguo la no\_all\_squash lipo; angalia faili ya /etc/passwd; fanya kama mtumiaji asiye root; tengeneza faili la suid kama mtumiaji huyo (kwa kuunganisha kwa kutumia nfs). Tekeleza suid kama mtumiaji nobody na kuwa mtumiaji tofauti.
+**no\_all\_squash:** Hii ni sawa na chaguo la **no\_root\_squash** lakini inatumika kwa **watumiaji wasiokuwa root**. Fikiria, una shell kama mtumiaji nobody; umeangalia faili ya /etc/exports; chaguo la no\_all\_squash lipo; angalia faili ya /etc/passwd; fanya kama mtumiaji asiye root; tengeneza faili ya suid kama mtumiaji huyo (kwa kuunganisha kwa kutumia nfs). Tekeleza suid kama mtumiaji nobody na kuwa mtumiaji tofauti.
 
 # Privilege Escalation
 
@@ -31,7 +31,7 @@ Soma _ **/etc/exports** _ faili, ikiwa unapata directory ambayo imewekwa kama **
 
 Ikiwa umepata udhaifu huu, unaweza kuutumia:
 
-* **Kuweka hiyo directory** kwenye mashine ya mteja, na **kama root kunakili** ndani ya folda iliyounganishwa **/bin/bash** binary na kumpa haki za **SUID**, na **kutekeleza kutoka kwa mashine** ya mwathirika hiyo bash binary.
+* **Kuweka hiyo directory** kwenye mashine ya mteja, na **kama root kunakili** ndani ya folda iliyounganishwa faili ya **/bin/bash** na kumpa haki za **SUID**, na **kutekeleza kutoka kwa mashine** ya mwathirika hiyo binary ya bash.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -62,9 +62,9 @@ cd <SHAREDD_FOLDER>
 
 {% hint style="info" %}
 Kumbuka kwamba ikiwa unaweza kuunda **tunnel kutoka kwa mashine yako hadi mashine ya mwathirika unaweza bado kutumia toleo la Remote kutekeleza kupanda kwa haki hii kwa kutunga bandari zinazohitajika**.\
-Trick ifuatayo ni katika kesi faili `/etc/exports` **inaonyesha IP**. Katika kesi hii **hutoweza kutumia** kwa njia yoyote **exploit ya mbali** na utahitaji **kudhulumu hila hii**.\
-Sharti lingine muhimu ili exploit ifanye kazi ni kwamba **export ndani ya `/etc/export`** **lazima litumie bendera `insecure`**.\
-\--_Sijui kama `/etc/export` inaonyesha anwani ya IP hila hii itafanya kazi_--
+Trick ifuatayo ni katika kesi faili `/etc/exports` **inaonyesha IP**. Katika kesi hii **hutoweza kutumia** kwa njia yoyote **exploit ya mbali** na utahitaji **kudhulumu trick hii**.\
+Sharti lingine muhimu ili exploit ifanye kazi ni kwamba **export ndani ya `/etc/export`** **lazima litumie bendera ya `insecure`**.\
+\--_Sijui kama `/etc/export` inaonyesha anwani ya IP trick hii itafanya kazi_--
 {% endhint %}
 
 ## Basic Information

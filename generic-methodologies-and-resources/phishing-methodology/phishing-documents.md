@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Microsoft Word inafanya uthibitisho wa data za faili kabla ya kufungua faili. Uthibitisho wa data unafanywa kwa njia ya utambuzi wa muundo wa data, dhidi ya kiwango cha OfficeOpenXML. Ikiwa hitilafu yoyote itatokea wakati wa utambuzi wa muundo wa data, faili inayochambuliwa haitafunguliwa.
 
-Kawaida, faili za Word zinazokuwa na macros hutumia kiambishi cha `.docm`. Hata hivyo, inawezekana kubadilisha jina la faili kwa kubadilisha kiambishi cha faili na bado kuhifadhi uwezo wao wa kutekeleza macros.\
+Kawaida, faili za Word zinazokuwa na macros hutumia kiambishi cha `.docm`. Hata hivyo, inawezekana kubadilisha jina la faili kwa kubadilisha kiambishi cha faili na bado kuweka uwezo wao wa kutekeleza macros.\
 Kwa mfano, faili ya RTF haisaidii macros, kwa muundo, lakini faili ya DOCM iliyobadilishwa jina kuwa RTF itashughulikiwa na Microsoft Word na itakuwa na uwezo wa kutekeleza macros.\
 Mifumo na mitambo sawa inatumika kwa programu zote za Microsoft Office Suite (Excel, PowerPoint n.k.).
 
@@ -42,7 +42,7 @@ Ni uwezekano kutumia macros kuendesha msimbo wa kawaida kutoka kwenye hati.
 
 #### Autoload functions
 
-Kadri zinavyokuwa za kawaida, ndivyo uwezekano wa AV kuzitambua unavyoongezeka.
+Kadri zinavyokuwa maarufu, ndivyo uwezekano wa AV kuzitambua unavyoongezeka.
 
 * AutoOpen()
 * Document\_Open()
@@ -77,26 +77,26 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Manually remove metadata
+#### Ondoa metadata kwa mikono
 
-Nenda kwa **File > Info > Inspect Document > Inspect Document**, ambayo itafungua Document Inspector. Bonyeza **Inspect** kisha **Remove All** kando ya **Document Properties and Personal Information**.
+Nenda kwenye **File > Info > Inspect Document > Inspect Document**, ambayo itafungua Document Inspector. Bonyeza **Inspect** kisha **Remove All** kando ya **Document Properties and Personal Information**.
 
 #### Doc Extension
 
 Unapomaliza, chagua **Save as type** dropdown, badilisha muundo kutoka **`.docx`** hadi **Word 97-2003 `.doc`**.\
-Fanya hivi kwa sababu huwezi **kuhifadhi macro's ndani ya `.docx`** na kuna **stigma** **kuhusu** muundo wa macro-enabled **`.docm`** (kwa mfano, ikoni ya thumbnail ina `!` kubwa na baadhi ya lango la wavuti/barua pepe linazizuia kabisa). Hivyo, muundo huu wa zamani wa **`.doc`** ni suluhisho bora.
+Fanya hivi kwa sababu huwezi **kuhifadhi macro's ndani ya `.docx`** na kuna **stigma** **kuhusu** muundo wa macro-enabled **`.docm`** (kwa mfano, ikoni ya thumbnail ina `!` kubwa na baadhi ya lango la wavuti/barua pepe linaweza kuzuia kabisa). Hivyo, muundo huu wa zamani wa **`.doc`** ni suluhisho bora.
 
-#### Malicious Macros Generators
+#### Watengenezaji wa Macros Mbaya
 
 * MacOS
 * [**macphish**](https://github.com/cldrn/macphish)
 * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## HTA Files
+## Faili za HTA
 
 HTA ni programu ya Windows ambayo **inaunganisha HTML na lugha za skripti (kama VBScript na JScript)**. Inaunda kiolesura cha mtumiaji na inatekelezwa kama programu "iliyokubaliwa kikamilifu", bila vizuizi vya mfano wa usalama wa kivinjari.
 
-HTA inatekelezwa kwa kutumia **`mshta.exe`**, ambayo kwa kawaida **imewekwa** pamoja na **Internet Explorer**, ikifanya **`mshta` kuwa tegemezi kwa IE**. Hivyo ikiwa imeondolewa, HTAs hazitaweza kutekelezwa.
+HTA inatekelezwa kwa kutumia **`mshta.exe`**, ambayo kwa kawaida **imewekwa** pamoja na **Internet Explorer**, ikifanya **`mshta` kuwa tegemezi la IE**. Hivyo ikiwa imeondolewa, HTAs hazitaweza kutekelezwa.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -153,7 +153,7 @@ self.close
 ```
 ## Kulazimisha Uthibitisho wa NTLM
 
-Kuna njia kadhaa za **kulazimisha uthibitisho wa NTLM "kijijini"**, kwa mfano, unaweza kuongeza **picha zisizoonekana** kwenye barua pepe au HTML ambazo mtumiaji atafikia (hata HTTP MitM?). Au tuma mwathirika **anwani ya faili** ambazo zita **anzisha** **uthibitisho** tu kwa **kufungua folda.**
+Kuna njia kadhaa za **kulazimisha uthibitisho wa NTLM "kijijini"**, kwa mfano, unaweza kuongeza **picha zisizoonekana** kwenye barua pepe au HTML ambayo mtumiaji atafikia (hata HTTP MitM?). Au tuma mwathirika **anwani ya faili** ambazo zitazindua **uthibitisho** tu kwa **kufungua folda.**
 
 **Angalia mawazo haya na mengine kwenye kurasa zifuatazo:**
 

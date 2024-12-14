@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Summary of the attack
 
-Fikiria seva ambayo inasaini baadhi ya data kwa kuunganisha siri na baadhi ya data ya wazi inayojulikana na kisha kuhashi data hiyo. Ikiwa unajua:
+Fikiria seva ambayo inasaini baadhi ya data kwa kuunganisha siri kwa baadhi ya data ya wazi inayojulikana na kisha kuhashi data hiyo. Ikiwa unajua:
 
 * **Urefu wa siri** (hii inaweza pia kufanywa kwa nguvu kutoka kwa anuwai ya urefu iliyotolewa)
 * **Data ya wazi**
@@ -38,8 +38,8 @@ Ikiwa mshambuliaji anataka kuongeza mfuatano "ongeza" anaweza:
 
 * Kuunda MD5 ya "A" 64
 * Kubadilisha hali ya hash iliyowekwa awali kuwa 6036708eba0d11f6ef52ad44e8b74d5b
-* Kuongeza mfuatano "ongeza"
-* Kumaliza hash na hash inayotokana itakuwa **halali kwa "siri" + "data" + "padding" + "ongeza"**
+* Ongeza mfuatano "ongeza"
+* Maliza hash na hash inayotokana itakuwa **halali kwa "siri" + "data" + "padding" + "ongeza"**
 
 ### **Tool**
 

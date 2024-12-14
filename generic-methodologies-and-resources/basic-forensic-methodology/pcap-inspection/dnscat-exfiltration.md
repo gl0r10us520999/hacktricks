@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 
 
-Ikiwa una pcap yenye data inay **exfiltrated na DNSCat** (bila kutumia usimbuaji), unaweza kupata maudhui yaliyotolewa.
+Ikiwa una pcap yenye data inayokuwa **imefichwa na DNSCat** (bila kutumia usimbuaji), unaweza kupata maudhui yaliyofichwa.
 
-Unahitaji tu kujua kwamba **bytes 9 za kwanza** si data halisi bali zinahusiana na **C\&C communication**:
+Unahitaji tu kujua kwamba **bytes 9 za kwanza** si data halisi bali zinahusiana na **mawasiliano ya C\&C**:
 ```python
 from scapy.all import rdpcap, DNSQR, DNSRR
 import struct

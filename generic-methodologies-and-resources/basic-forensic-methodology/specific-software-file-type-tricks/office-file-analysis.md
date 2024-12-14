@@ -10,7 +10,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -31,7 +31,7 @@ Ili kuchunguza muundo wa faili za OOXML, amri ya kufungua hati na muundo wa mato
 
 Kwa uchambuzi, **oletools** na **OfficeDissector** hutoa seti kamili za zana za kuchunguza hati za OLE na OOXML. Zana hizi husaidia katika kutambua na kuchambua macros zilizojumuishwa, ambazo mara nyingi hutumikia kama njia za usambazaji wa malware, kwa kawaida zinapakua na kutekeleza mzigo mbaya wa ziada. Uchambuzi wa macros za VBA unaweza kufanywa bila Microsoft Office kwa kutumia Libre Office, ambayo inaruhusu ufuatiliaji kwa kutumia alama za kuvunja na kutazama mabadiliko.
 
-Usakinishaji na matumizi ya **oletools** ni rahisi, huku amri zikitolewa kwa usakinishaji kupitia pip na kutoa macros kutoka kwa hati. Utendaji wa kiotomatiki wa macros unachochewa na kazi kama `AutoOpen`, `AutoExec`, au `Document_Open`.
+Usakinishaji na matumizi ya **oletools** ni rahisi, huku amri zikipewa kwa usakinishaji kupitia pip na kutoa macros kutoka kwa hati. Utekelezaji wa kiotomatiki wa macros unachochewa na kazi kama `AutoOpen`, `AutoExec`, au `Document_Open`.
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
@@ -39,7 +39,7 @@ olevba -c /path/to/document #Extract macros
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) kujenga na **kujiendesha** kazi kwa urahisi zenye nguvu za zana za jamii **za kisasa zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=office-file-analysis" %}
