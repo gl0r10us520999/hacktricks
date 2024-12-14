@@ -25,9 +25,9 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ### AD enumeration from linux
 
-Якщо у вас є доступ до AD в лінукс (або bash у Windows), ви можете спробувати [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) для перерахунку AD.
+Якщо у вас є доступ до AD в linux (або bash у Windows), ви можете спробувати [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) для перерахунку AD.
 
-Ви також можете перевірити наступну сторінку, щоб дізнатися **інші способи перерахунку AD з лінукс**:
+Ви також можете перевірити наступну сторінку, щоб дізнатися **інші способи перерахунку AD з linux**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -45,7 +45,7 @@ FreeIPA є відкритим **альтернативою** Microsoft Windows *
 
 ### Pass The Ticket
 
-На цій сторінці ви знайдете різні місця, де ви могли б **знайти квитки kerberos всередині хоста лінукс**, на наступній сторінці ви можете дізнатися, як перетворити ці формати квитків CCache на Kirbi (формат, який вам потрібно використовувати в Windows) і також як виконати атаку PTT:
+На цій сторінці ви знайдете різні місця, де ви могли б **знайти квитки kerberos всередині хоста linux**, на наступній сторінці ви можете дізнатися, як перетворити ці формати квитків CCache в Kirbi (формат, який вам потрібно використовувати в Windows) і також як виконати атаку PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
@@ -53,7 +53,7 @@ FreeIPA є відкритим **альтернативою** Microsoft Windows *
 
 ### CCACHE ticket reuse from /tmp
 
-Файли CCACHE є бінарними форматами для **зберігання облікових даних Kerberos**, зазвичай зберігаються з правами 600 у `/tmp`. Ці файли можна ідентифікувати за їх **форматом імені, `krb5cc_%{uid}`,** що відповідає UID користувача. Для перевірки квитка аутентифікації, **змінна середовища `KRB5CCNAME`** повинна бути встановлена на шлях до бажаного файлу квитка, що дозволяє його повторне використання.
+Файли CCACHE є бінарними форматами для **зберігання облікових даних Kerberos**, зазвичай зберігаються з правами 600 у `/tmp`. Ці файли можна ідентифікувати за їх **форматом імені, `krb5cc_%{uid}`,** що відповідає UID користувача. Для перевірки квитка аутентифікації **змінна середовища `KRB5CCNAME`** повинна бути встановлена на шлях до бажаного файлу квитка, що дозволяє його повторне використання.
 
 Перерахуйте поточний квиток, що використовується для аутентифікації, за допомогою `env | grep KRB5CCNAME`. Формат є портативним, і квиток може бути **повторно використаний, встановивши змінну середовища** за допомогою `export KRB5CCNAME=/tmp/ticket.ccache`. Формат імені квитка Kerberos - `krb5cc_%{uid}`, де uid - це UID користувача.
 ```bash
@@ -64,9 +64,9 @@ krb5cc_1000
 # Prepare to use it
 export KRB5CCNAME=/tmp/krb5cc_1000
 ```
-### CCACHE повторне використання квитків з keyring
+### CCACHE ticket reuse from keyring
 
-**Квитки Kerberos, збережені в пам'яті процесу, можуть бути витягнуті**, особливо коли захист ptrace на машині вимкнений (`/proc/sys/kernel/yama/ptrace_scope`). Корисний інструмент для цієї мети можна знайти за адресою [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), який полегшує витяг, інжектуючи в сесії та скидаючи квитки в `/tmp`.
+**Квитки Kerberos, збережені в пам'яті процесу, можуть бути витягнуті**, особливо коли захист ptrace на машині вимкнено (`/proc/sys/kernel/yama/ptrace_scope`). Корисний інструмент для цієї мети можна знайти за адресою [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), який полегшує витяг, інжектуючи в сесії та скидаючи квитки в `/tmp`.
 
 Щоб налаштувати та використовувати цей інструмент, слід виконати наведені нижче кроки:
 ```bash

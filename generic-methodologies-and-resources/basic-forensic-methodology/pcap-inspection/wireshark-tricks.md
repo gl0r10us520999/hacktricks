@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Tutorials
 
-Наступні навчальні посібники чудово підходять для вивчення деяких основних трюків:
+Наступні навчальні посібники чудові для вивчення деяких основних трюків:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -105,7 +105,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### From DHCP
 
-У сучасному Wireshark замість `bootp` вам потрібно шукати `DHCP`
+У поточному Wireshark замість `bootp` вам потрібно шукати `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -125,7 +125,7 @@ _edit>preference>protocol>ssl>_
 
 ### Decrypting https traffic with symmetric session keys
 
-Як Firefox, так і Chrome мають можливість записувати TLS сесійні ключі, які можна використовувати з Wireshark для розшифровки TLS трафіку. Це дозволяє проводити детальний аналіз захищених комунікацій. Більше деталей про те, як виконати це розшифрування, можна знайти в посібнику на [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Як Firefox, так і Chrome мають можливість записувати симетричні ключі сесії TLS, які можна використовувати з Wireshark для розшифровки трафіку TLS. Це дозволяє проводити детальний аналіз захищених комунікацій. Більше деталей про те, як виконати це розшифрування, можна знайти в посібнику на [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Щоб виявити це, шукайте в середовищі змінну `SSLKEYLOGFILE`
 

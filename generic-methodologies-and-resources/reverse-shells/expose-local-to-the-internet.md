@@ -29,7 +29,7 @@ ssh -R 80:localhost:3000 serveo.net
 ```
 ## SocketXP
 
-З [https://www.socketxp.com/download](https://www.socketxp.com/download) ви можете відкрити tcp та http:
+З [https://www.socketxp.com/download](https://www.socketxp.com/download) він дозволяє експонувати tcp та http:
 ```bash
 # Expose tcp port 22
 socketxp connect tcp://localhost:22
@@ -39,7 +39,7 @@ socketxp connect http://localhost:8080
 ```
 ## Ngrok
 
-З [https://ngrok.com/](https://ngrok.com/) він дозволяє відкривати http та tcp порти:
+З [https://ngrok.com/](https://ngrok.com/) він дозволяє відкрити http та tcp порти:
 ```bash
 # Expose web in 3000
 ngrok http 8000
@@ -59,7 +59,7 @@ ngrok tcp 9000
 ```
 ## LocalXpose
 
-З [https://localxpose.io/](https://localxpose.io/) це дозволяє кілька функцій http та переадресації портів **безкоштовно**.
+З [https://localxpose.io/](https://localxpose.io/) він дозволяє кілька функцій http та переадресації портів **безкоштовно**.
 ```bash
 # Expose web in port 8989
 loclx tunnel http -t 8989
@@ -69,7 +69,7 @@ loclx tunnel tcp --port 4545
 ```
 ## Expose
 
-З [https://expose.dev/](https://expose.dev/) можна відкрити http та tcp порти:
+З [https://expose.dev/](https://expose.dev/) це дозволяє відкрити http та tcp порти:
 ```bash
 # Expose web in 3000
 ./expose share http://localhost:3000
@@ -93,7 +93,7 @@ npx localtunnel --port 8000
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
 * **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>

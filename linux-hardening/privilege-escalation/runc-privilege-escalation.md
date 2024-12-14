@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Основна інформація
 
-If you want to learn more about **runc** check the following page:
+Якщо ви хочете дізнатися більше про **runc**, перегляньте наступну сторінку:
 
 {% content-ref url="../../network-services-pentesting/2375-pentesting-docker.md" %}
 [2375-pentesting-docker.md](../../network-services-pentesting/2375-pentesting-docker.md)
@@ -27,7 +27,7 @@ If you want to learn more about **runc** check the following page:
 
 ## PE
 
-If you find that `runc` is installed in the host you may be able to **run a container mounting the root / folder of the host**.
+Якщо ви виявите, що `runc` встановлено на хості, ви можете **запустити контейнер, змонтувавши кореневу / папку хоста**.
 ```bash
 runc -help #Get help and see if runc is intalled
 runc spec #This will create the config.json file in your current folder
@@ -52,7 +52,7 @@ mkdir rootfs
 runc run demo
 ```
 {% hint style="danger" %}
-Це не завжди буде працювати, оскільки за замовчуванням runc працює як root, тому запуск його як неправа користувача просто не може працювати (якщо у вас немає конфігурації без root). Зробити конфігурацію без root за замовчуванням зазвичай не є хорошою ідеєю, оскільки існує досить багато обмежень всередині контейнерів без root, які не застосовуються поза контейнерами без root.
+Це не завжди буде працювати, оскільки за замовчуванням runc працює як root, тому запуск його як неправа користувача просто не може працювати (якщо у вас немає конфігурації без root). Зробити конфігурацію без root за замовчуванням зазвичай не є хорошою ідеєю, оскільки існує чимало обмежень всередині контейнерів без root, які не застосовуються поза контейнерами без root.
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

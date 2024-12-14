@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ## Office Documents
 
-Microsoft Word виконує валідацію даних файлу перед його відкриттям. Валідація даних виконується у формі ідентифікації структури даних, відповідно до стандарту OfficeOpenXML. Якщо під час ідентифікації структури даних виникає помилка, файл, що аналізується, не буде відкритий.
+Microsoft Word виконує валідацію даних файлу перед його відкриттям. Валідація даних виконується у формі ідентифікації структури даних, відповідно до стандарту OfficeOpenXML. Якщо під час ідентифікації структури даних виникає помилка, файл, що аналізується, не буде відкрито.
 
 Зазвичай файли Word, що містять макроси, використовують розширення `.docm`. Однак можливо перейменувати файл, змінивши розширення файлу, і все ще зберегти їх можливості виконання макросів.\
 Наприклад, файл RTF за замовчуванням не підтримує макроси, але файл DOCM, перейменований в RTF, буде оброблений Microsoft Word і зможе виконувати макроси.\
@@ -83,8 +83,8 @@ proc.Create "powershell <beacon line generated>
 
 #### Розширення документа
 
-Коли закінчите, виберіть випадаюче меню **Save as type**, змініть формат з **`.docx`** на **Word 97-2003 `.doc`**.\
-Зробіть це, тому що ви **не можете зберігати макроси всередині `.docx`** і є **стигма** **навколо** розширення, що підтримує макроси **`.docm`** (наприклад, значок ескізу має величезний `!`, і деякі веб/електронні шлюзи блокують їх повністю). Тому це **спадкове розширення `.doc` є найкращим компромісом**.
+Коли закінчите, виберіть у спадному меню **Save as type**, змініть формат з **`.docx`** на **Word 97-2003 `.doc`**.\
+Зробіть це, тому що ви **не можете зберегти макроси всередині `.docx`** і є **стигма** **навколо** розширення, що підтримує макроси **`.docm`** (наприклад, значок ескізу має величезний `!`, і деякі веб/електронні шлюзи блокують їх повністю). Тому це **спадкове розширення `.doc` є найкращим компромісом**.
 
 #### Генератори шкідливих макросів
 
@@ -151,11 +151,11 @@ var_func
 self.close
 </script>
 ```
-## Примус NTLM аутентифікації
+## Примусова аутентифікація NTLM
 
 Існує кілька способів **примусити NTLM аутентифікацію "віддалено"**, наприклад, ви можете додати **невидимі зображення** до електронних листів або HTML, до яких отримувач отримуватиме доступ (навіть HTTP MitM?). Або надіслати жертві **адресу файлів**, які **запустять** **аутентифікацію** лише для **відкриття папки.**
 
-**Перевірте ці ідеї та інші на наступних сторінках:**
+**Перевірте ці ідеї та більше на наступних сторінках:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -165,16 +165,16 @@ self.close
 [places-to-steal-ntlm-creds.md](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-### NTLM Реле
+### Реле NTLM
 
-Не забувайте, що ви можете не лише вкрасти хеш або аутентифікацію, але й **виконувати атаки NTLM реле**:
+Не забувайте, що ви можете не лише вкрасти хеш або аутентифікацію, але й **виконувати атаки реле NTLM**:
 
-* [**Атаки NTLM реле**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM реле до сертифікатів)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**Атаки реле NTLM**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (реле NTLM до сертифікатів)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 {% hint style="success" %}
-Вчіться та практикуйте AWS Хакінг:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте GCP Хакінг: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте Hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

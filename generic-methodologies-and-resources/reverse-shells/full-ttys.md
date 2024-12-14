@@ -23,7 +23,7 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 ## Full TTY
 
-Зверніть увагу, що оболонка, яку ви встановлюєте в змінній `SHELL`, **повинна** бути **перелічена** в _**/etc/shells**_ або `Значення для змінної SHELL не знайдено у файлі /etc/shells. Цей інцидент було зафіксовано`. Також зверніть увагу, що наступні фрагменти коду працюють лише в bash. Якщо ви в zsh, змініть на bash перед отриманням оболонки, запустивши `bash`.
+Зверніть увагу, що оболонка, яку ви встановлюєте в змінній `SHELL`, **повинна** бути **перелічена** в _**/etc/shells**_ або `Значення для змінної SHELL не знайдено у файлі /etc/shells. Цей інцидент було зафіксовано`. Також зверніть увагу, що наступні фрагменти працюють лише в bash. Якщо ви в zsh, змініть на bash перед отриманням оболонки, запустивши `bash`.
 
 #### Python
 
@@ -99,7 +99,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Ціль Windows 10 (для попередніх версій, перевірте [проект readme](https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Ціль Windows 10 (для попередніх версій, перевірте [README проекту](https://github.com/Fahrj/reverse-ssh#features)):
 
 {% code overflow="wrap" %}
 ```bash
@@ -120,7 +120,7 @@ sftp -P 8888 127.0.0.1
 ```
 ## Penelope
 
-[Penelope](https://github.com/brightio/penelope) автоматично оновлює Linux reverse shells до TTY, обробляє розмір терміналу, веде журнали всього і багато іншого. Також вона забезпечує підтримку readline для Windows shells.
+[Penelope](https://github.com/brightio/penelope) автоматично оновлює Linux reverse shells до TTY, обробляє розмір терміналу, веде журнали всього і багато іншого. Також вона надає підтримку readline для Windows shells.
 
 ![penelope](https://github.com/user-attachments/assets/27ab4b3a-780c-4c07-a855-fd80a194c01e)
 

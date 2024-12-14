@@ -1,34 +1,34 @@
-# Внутрішні гаджети Python
+# Python Internal Read Gadgets
 
 {% hint style="success" %}
-Вивчайте та практикуйте хакінг AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Основна інформація
+## Basic Information
 
-Різні вразливості, такі як [**Рядки формату Python**](bypass-python-sandboxes/#python-format-string) або [**Забруднення класу**](class-pollution-pythons-prototype-pollution.md) можуть дозволити вам **читати внутрішні дані Python, але не дозволять виконувати код**. Тому пентестеру потрібно максимально використовувати ці дозволи на читання, щоб **отримати чутливі привілеї та ескалювати вразливість**.
+Різні вразливості, такі як [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) або [**Class Pollution**](class-pollution-pythons-prototype-pollution.md), можуть дозволити вам **читати внутрішні дані python, але не дозволять виконувати код**. Тому, пентестер повинен максимально використати ці дозволи на читання, щоб **отримати чутливі привілеї та ескалувати вразливість**.
 
 ### Flask - Читання секретного ключа
 
-На головній сторінці додатка Flask, ймовірно, буде **глобальний об'єкт `app`, де цей **секрет налаштований**.
+Головна сторінка додатку Flask, ймовірно, міститиме глобальний об'єкт **`app`**, де цей **секрет налаштовано**.
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-У цьому випадку можливий доступ до цього об'єкту, просто використовуючи будь-який гаджет для **доступу до глобальних об'єктів** зі сторінки [**Bypass Python sandboxes**](bypass-python-sandboxes/).
+У цьому випадку можливо отримати доступ до цього об'єкта, просто використовуючи будь-який гаджет для **доступу до глобальних об'єктів** з [**сторінки обходу пісочниць Python**](bypass-python-sandboxes/).
 
-У випадку, коли **вразливість знаходиться в іншому файлі Python**, вам потрібен гаджет для переходу між файлами, щоб отримати доступ до основного, щоб **отримати доступ до глобального об'єкту `app.secret_key`** для зміни секретного ключа Flask і мати можливість [**підвищення привілеїв** знавши цей ключ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+У випадку, коли **вразливість знаходиться в іншому файлі python**, вам потрібен гаджет для переходу між файлами, щоб дістатися до основного, щоб **отримати доступ до глобального об'єкта `app.secret_key`**, щоб змінити секретний ключ Flask і мати можливість [**ескалації привілеїв** знаючи цей ключ](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
 Пейлоад, подібний до цього [з цього опису](https://ctftime.org/writeup/36082):
 
@@ -38,32 +38,32 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Використовуйте цей вразливий код для **зміни `app.secret_key`** (назва в вашому додатку може бути іншою), щоб мати можливість підписувати нові та більш привілейовані куки flask.
+Використовуйте цей payload, щоб **змінити `app.secret_key`** (ім'я у вашому додатку може бути іншим), щоб мати можливість підписувати нові та більш привілейовані flask cookies.
 
 ### Werkzeug - machine\_id та node uuid
 
-[**Використовуючи цей вразливий код з цього опису**](https://vozec.fr/writeups/tweedle-dum-dee/), ви зможете отримати доступ до **machine\_id** та **uuid** вузла, які є **основними секретами**, необхідними для [**генерації піна Werkzeug**](../../network-services-pentesting/pentesting-web/werkzeug.md), який можна використовувати для доступу до консолі Python у `/console`, якщо **увімкнений режим налагодження:**
+[**Використовуючи ці payload з цього опису**](https://vozec.fr/writeups/tweedle-dum-dee/) ви зможете отримати доступ до **machine\_id** та **uuid** node, які є **основними секретами**, необхідними для [**генерації Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md), який ви можете використовувати для доступу до python консолі в `/console`, якщо **режим налагодження увімкнено:**
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
 {% hint style="warning" %}
-Зверніть увагу, що ви можете отримати **локальний шлях сервера до `app.py`**, спровокувавши деяку **помилку** на веб-сторінці, яка **поверне вам шлях**.
+Зверніть увагу, що ви можете отримати **локальний шлях сервера до `app.py`**, викликавши деяку **помилку** на веб-сторінці, яка **дасть вам шлях**.
 {% endhint %}
 
-Якщо вразливість знаходиться в іншому файлі Python, перевірте попередній трюк Flask для доступу до об'єктів з основного файлу Python.
+Якщо вразливість знаходиться в іншому файлі python, перевірте попередній трюк Flask для доступу до об'єктів з основного файлу python.
 
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

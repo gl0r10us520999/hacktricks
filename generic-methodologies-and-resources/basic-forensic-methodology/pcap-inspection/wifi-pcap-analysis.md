@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Check BSSIDs
 
-Коли ви отримуєте захоплення, основний трафік якого - Wifi, використовуючи WireShark, ви можете почати досліджувати всі SSID захоплення з _Wireless --> WLAN Traffic_:
+Коли ви отримуєте захоплення, основний трафік якого - Wifi, використовуючи WireShark, ви можете почати досліджувати всі SSID захоплення за допомогою _Wireless --> WLAN Traffic_:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 

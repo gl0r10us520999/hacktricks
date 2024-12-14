@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання AWS Red Team Expert (ARTE) від HackTricks**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання GCP Red Team Expert (GRTE) від HackTricks**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,17 +16,17 @@
 
 # Базовий рівень
 
-Базовий рівень полягає в створенні знімка певних частин системи для **порівняння з майбутнім станом для виявлення змін**.
+Базовий рівень складається з того, щоб зробити знімок певних частин системи, щоб **порівняти його з майбутнім станом для виявлення змін**.
 
-Наприклад, можна обчислити та зберегти хеш кожного файлу файлової системи, щоб виявити, які файли були змінені.\
-Це також можна зробити з створеними обліковими записами користувачів, запущеними процесами, запущеними службами та будь-чим іншим, що не повинно змінюватися або змінюватися мало.
+Наприклад, ви можете обчислити та зберегти хеш кожного файлу файлової системи, щоб мати можливість дізнатися, які файли були змінені.\
+Це також можна зробити з обліковими записами користувачів, процесами, що виконуються, службами, що працюють, та будь-якими іншими речами, які не повинні змінюватися значно або зовсім.
 
-## Моніторинг Цілісності Файлів
+## Моніторинг цілісності файлів
 
-Моніторинг цілісності файлів (FIM) - це критична техніка безпеки, яка захищає ІТ-середовища та дані, відстежуючи зміни в файлах. Вона включає два ключові кроки:
+Моніторинг цілісності файлів (FIM) є критично важливою технікою безпеки, яка захищає ІТ-середовища та дані, відстежуючи зміни у файлах. Це включає два ключові етапи:
 
-1. **Порівняння з базовим рівнем:** Встановлення базового рівня за допомогою атрибутів файлів або криптографічних контрольних сум (наприклад, MD5 або SHA-2) для майбутніх порівнянь для виявлення модифікацій.
-2. **Сповіщення про зміни в реальному часі:** Отримуйте миттєві сповіщення, коли файли доступні або змінені, зазвичай за допомогою розширень ядра ОС.
+1. **Порівняння базового рівня:** Встановіть базовий рівень, використовуючи атрибути файлів або криптографічні контрольні суми (як MD5 або SHA-2) для майбутніх порівнянь, щоб виявити модифікації.
+2. **Сповіщення про зміни в реальному часі:** Отримуйте миттєві сповіщення, коли файли відкриваються або змінюються, зазвичай через розширення ядра ОС.
 
 ## Інструменти
 
@@ -39,16 +39,16 @@
 
 
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання AWS Red Team Expert (ARTE) від HackTricks**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання GCP Red Team Expert (GRTE) від HackTricks**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

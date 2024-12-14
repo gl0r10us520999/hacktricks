@@ -1,20 +1,20 @@
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання AWS Red Team Expert (ARTE) від HackTricks**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання GCP Red Team Expert (GRTE) від HackTricks**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**PNG файли** високо цінуються в **завданнях CTF** за їх **безвтратну компресію**, що робить їх ідеальними для вбудовування прихованих даних. Інструменти, такі як **Wireshark**, дозволяють аналізувати PNG файли, розкладаючи їх дані в мережевих пакетах, розкриваючи вбудовану інформацію або аномалії.
+**Файли PNG** високо цінуються в **CTF викликах** за їх **безвтратне стиснення**, що робить їх ідеальними для вбудовування прихованих даних. Інструменти, такі як **Wireshark**, дозволяють аналізувати файли PNG, розкриваючи їх дані в мережевих пакетах, виявляючи вбудовану інформацію або аномалії.
 
-Для перевірки цілісності PNG файлів та відновлення пошкоджень, **pngcheck** є важливим інструментом, який пропонує функціонал командного рядка для перевірки та діагностики PNG файлів ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Коли файли виходять за межі простих виправлень, онлайн-сервіси, такі як [PixRecovery від OfficeRecovery](https://online.officerecovery.com/pixrecovery/), надають веб-рішення для **відновлення пошкоджених PNG**, допомагаючи відновити важливі дані для учасників CTF.
+Для перевірки цілісності файлів PNG та виправлення пошкоджень **pngcheck** є важливим інструментом, що пропонує функціональність командного рядка для валідації та діагностики файлів PNG ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Коли файли виходять за межі простих виправлень, онлайн-сервіси, такі як [OfficeRecovery's PixRecovery](https://online.officerecovery.com/pixrecovery/), надають веб-рішення для **виправлення пошкоджених PNG**, допомагаючи відновити важливі дані для учасників CTF.
 
-Ці стратегії підкреслюють важливість комплексного підходу в завданнях CTF, використовуючи комбінацію аналітичних інструментів та технік відновлення для виявлення та відновлення прихованих або втрачених даних.
+Ці стратегії підкреслюють важливість комплексного підходу в CTF, використовуючи поєднання аналітичних інструментів та технік ремонту для виявлення та відновлення прихованих або втрачених даних.

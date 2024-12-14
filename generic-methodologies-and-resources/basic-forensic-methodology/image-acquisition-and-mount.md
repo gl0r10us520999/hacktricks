@@ -61,7 +61,7 @@ ewfacquire /dev/sdb
 
 ### Several types
 
-В **Windows** ви можете спробувати використати безкоштовну версію Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)), щоб **монтувати форенсичний образ**.
+В **Windows** ви можете спробувати використати безкоштовну версію Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)), щоб **монтувати образ дляensics**.
 
 ### Raw
 ```bash
@@ -93,7 +93,7 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 ### Errors
 
-* **`cannot mount /dev/loop0 read-only`** в цьому випадку вам потрібно використовувати прапорці **`-o ro,norecovery`**
+* **`cannot mount /dev/loop0 read-only`** в цьому випадку вам потрібно використовувати прапори **`-o ro,norecovery`**
 * **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** в цьому випадку монтування не вдалося, оскільки зсув файлової системи відрізняється від зображення диска. Вам потрібно знайти розмір сектора та початковий сектор:
 ```bash
 fdisk -l disk.img
@@ -124,7 +124,7 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>

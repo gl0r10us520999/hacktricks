@@ -80,7 +80,7 @@ libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe472c54000)
 libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-У цьому випадку спробуємо видати себе за `/lib/x86_64-linux-gnu/libaudit.so.1`.\
+У цьому випадку спробуємо наслідувати `/lib/x86_64-linux-gnu/libaudit.so.1`.\
 Отже, перевірте функції цієї бібліотеки, які використовуються бінарним файлом **`su`**:
 ```bash
 objdump -T /bin/su | grep audit

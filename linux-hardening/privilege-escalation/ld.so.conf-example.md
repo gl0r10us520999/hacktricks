@@ -69,7 +69,7 @@ puts("Hi");
 
 ### Перевірте середовище
 
-Перевірте, що _libcustom.so_ завантажується з _/usr/lib_ і що ви можете **виконати** двійковий файл.
+Перевірте, що _libcustom.so_ **завантажується** з _/usr/lib_ і що ви можете **виконати** двійковий файл.
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -113,7 +113,7 @@ libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
 /lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-Як ви можете бачити, **він завантажується з `/home/ubuntu/lib`** і якщо будь-який користувач виконає його, буде виконано оболонку:
+Як ви можете бачити, він **завантажує його з `/home/ubuntu/lib`** і якщо будь-який користувач виконає його, буде виконано оболонку:
 ```c
 $ ./sharedvuln
 Welcome to my amazing application!
@@ -151,7 +151,7 @@ libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-**Як ви можете бачити, маючи привілеї sudo над `ldconfig`, ви можете експлуатувати ту ж вразливість.**
+**Як ви можете бачити, маючи привілеї sudo над `ldconfig`, ви можете експлуатувати ту ж уразливість.**
 
 {% hint style="info" %}
 {% hint style="success" %}

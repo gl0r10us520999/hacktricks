@@ -25,7 +25,7 @@
 
 Для отримання додаткової інформації перевірте [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Це лише короткий виклад:
 
-Microsoft створила багато форматів офісних документів, з яких два основні типи - це **OLE формати** (такі як RTF, DOC, XLS, PPT) та **Office Open XML (OOXML) формати** (такі як DOCX, XLSX, PPTX). Ці формати можуть містити макроси, що робить їх цілями для фішингу та шкідливого ПЗ. Файли OOXML структуровані як zip-контейнери, що дозволяє їх перевірку шляхом розпакування, виявляючи ієрархію файлів і папок та вміст XML файлів.
+Microsoft створила багато форматів офісних документів, з яких два основні типи - **OLE формати** (такі як RTF, DOC, XLS, PPT) та **Office Open XML (OOXML) формати** (такі як DOCX, XLSX, PPTX). Ці формати можуть містити макроси, що робить їх цілями для фішингу та шкідливого ПЗ. Файли OOXML структуровані як zip-контейнери, що дозволяє їх перевірку шляхом розпакування, виявляючи ієрархію файлів і папок та вміст XML-файлів.
 
 Для дослідження структур файлів OOXML наводиться команда для розпакування документа та структура виходу. Техніки приховування даних у цих файлах були задокументовані, що вказує на постійні інновації в приховуванні даних у CTF викликах.
 
@@ -39,14 +39,14 @@ olevba -c /path/to/document #Extract macros
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкого створення та **автоматизації робочих процесів**, що підтримуються **найсучаснішими** інструментами спільноти.\
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
 Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

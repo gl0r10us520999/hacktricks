@@ -18,7 +18,7 @@
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкого створення та **автоматизації робочих процесів**, підтримуваних найсучаснішими інструментами спільноти.\
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
 Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -76,10 +76,10 @@ Dropbox використовує **бази даних SQLite** для упра�
 
 Окрім цієї інформації, для розшифрування баз даних вам також знадобиться:
 
-* **зашифрований ключ DPAPI**: Ви можете знайти його в реєстрі всередині `NTUSER.DAT\Software\Dropbox\ks\client` (експортуйте ці дані у бінарному вигляді)
+* **Зашифрований ключ DPAPI**: Ви можете знайти його в реєстрі в `NTUSER.DAT\Software\Dropbox\ks\client` (експортуйте ці дані у двійковому вигляді)
 * **`SYSTEM`** та **`SECURITY`** хіви
-* **майстер-ключі DPAPI**: які можна знайти в `\Users\<username>\AppData\Roaming\Microsoft\Protect`
-* **ім'я користувача** та **пароль** користувача Windows
+* **Головні ключі DPAPI**: які можна знайти в `\Users\<username>\AppData\Roaming\Microsoft\Protect`
+* **Ім'я користувача** та **пароль** користувача Windows
 
 Тоді ви можете використовувати інструмент [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
@@ -99,7 +99,7 @@ The **`config.dbx`** база даних містить:
 * **Host\_id: Hash** використовується для аутентифікації в хмарі. Це можна скасувати лише з вебу.
 * **Root\_ns**: Ідентифікатор користувача
 
-The **`filecache.db`** база даних містить інформацію про всі файли та папки, синхронізовані з Dropbox. Таблиця `File_journal` є тією, що містить більше корисної інформації:
+База даних **`filecache.db`** містить інформацію про всі файли та папки, синхронізовані з Dropbox. Таблиця `File_journal` є тією, що містить найбільше корисної інформації:
 
 * **Server\_path**: Шлях, де файл знаходиться на сервері (цей шлях передує `host_id` клієнта).
 * **local\_sjid**: Версія файлу
@@ -109,7 +109,7 @@ The **`filecache.db`** база даних містить інформацію �
 Інші таблиці в цій базі даних містять більш цікаву інформацію:
 
 * **block\_cache**: хеш усіх файлів і папок Dropbox
-* **block\_ref**: Пов'язує хеш ID таблиці `block_cache` з ID файлу в таблиці `file_journal`
+* **block\_ref**: Зв'язує хеш ID таблиці `block_cache` з ID файлу в таблиці `file_journal`
 * **mount\_table**: Спільні папки Dropbox
 * **deleted\_fields**: Видалені файли Dropbox
 * **date\_added**
@@ -117,14 +117,14 @@ The **`filecache.db`** база даних містить інформацію �
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), щоб легко створювати та **автоматизувати робочі процеси**, підтримувані **найсучаснішими** інструментами спільноти.\
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкого створення та **автоматизації робочих процесів**, підтримуваних найсучаснішими інструментами спільноти.\
 Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -132,7 +132,7 @@ The **`filecache.db`** база даних містить інформацію �
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

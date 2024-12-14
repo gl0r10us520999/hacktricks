@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-Якщо у вас є pcap, що містить комунікацію через USB клавіатури, як на наступному зображенні:
+Якщо у вас є pcap, що містить комунікацію через USB клавіатури, як показано нижче:
 
 ![](<../../../.gitbook/assets/image (962).png>)
 
@@ -35,7 +35,7 @@ python3 usbkeyboard.py ./keystrokes.txt
 
 <details>
 
-<summary>Підтримати HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
