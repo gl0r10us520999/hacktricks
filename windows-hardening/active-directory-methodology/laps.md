@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Rešenje za lozinke lokalnog administratora (LAPS) je alat koji se koristi za upravljanje sistemom gde se **lozinke administratora**, koje su **jedinstvene, nasumične i često menjane**, primenjuju na računare povezane na domen. Ove lozinke se sigurno čuvaju unutar Active Directory-a i dostupne su samo korisnicima kojima je odobrena dozvola putem lista za kontrolu pristupa (ACL). Bezbednost prenosa lozinki od klijenta do servera obezbeđena je korišćenjem **Kerberos verzije 5** i **Naprednog standarda za enkripciju (AES)**.
+Rešenje za lozinke lokalnog administratora (LAPS) je alat koji se koristi za upravljanje sistemom gde se **lozinke administratora**, koje su **jedinstvene, nasumične i često menjane**, primenjuju na računare povezane sa domenom. Ove lozinke se sigurno čuvaju unutar Active Directory-a i dostupne su samo korisnicima kojima je odobrena dozvola putem lista za kontrolu pristupa (ACL). Bezbednost prenosa lozinki od klijenta do servera obezbeđena je korišćenjem **Kerberos verzije 5** i **Naprednog standarda za enkripciju (AES)**.
 
-U objektima računara domena, implementacija LAPS-a rezultira dodavanjem dva nova atributa: **`ms-mcs-AdmPwd`** i **`ms-mcs-AdmPwdExpirationTime`**. Ovi atributi čuvaju **lozinku administratora u običnom tekstu** i **njeno vreme isteka**, redom.
+U objektima računara domena, implementacija LAPS-a rezultira dodavanjem dva nova atributa: **`ms-mcs-AdmPwd`** i **`ms-mcs-AdmPwdExpirationTime`**. Ovi atributi čuvaju **lozinku administratora u običnom tekstu** i **vreme isteka**, redom.
 
 ### Check if activated
 ```bash
@@ -64,7 +64,7 @@ Find-AdmPwdExtendedRights -Identity Workstations | fl
 # Read the password
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
 ```
-**PowerView** se takođe može koristiti za otkrivanje **ko može da pročita lozinku i pročita je**:
+**PowerView** se takođe može koristiti da se sazna **ko može da pročita lozinku i pročita je**:
 ```powershell
 # Find the principals that have ReadPropery on ms-Mcs-AdmPwd
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
@@ -76,7 +76,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 
 The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) olakšava enumeraciju LAPS-a sa nekoliko funkcija.\
 Jedna od njih je parsiranje **`ExtendedRights`** za **sve računare sa omogućenim LAPS-om.** Ovo će prikazati **grupe** specifično **delegirane za čitanje LAPS lozinki**, koje su često korisnici u zaštićenim grupama.\
-**Nalog** koji je **pridružen računaru** u domeni dobija `All Extended Rights` nad tim hostom, a ovo pravo daje **nalogu** mogućnost da **čita lozinke**. Enumeracija može prikazati korisnički nalog koji može da čita LAPS lozinku na hostu. Ovo može pomoći da **ciljamo specifične AD korisnike** koji mogu čitati LAPS lozinke.
+**Nalog** koji je **pridružio računar** domeni dobija `All Extended Rights` nad tim hostom, a ovo pravo daje **nalogu** mogućnost da **čita lozinke**. Enumeracija može prikazati korisnički nalog koji može da čita LAPS lozinku na hostu. Ovo može pomoći da **ciljamo specifične AD korisnike** koji mogu čitati LAPS lozinke.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -115,7 +115,7 @@ Password: 2Z@Ae)7!{9#Cq
 python psexec.py Administrator@web.example.com
 Password: 2Z@Ae)7!{9#Cq
 ```
-## **LAPS Persistence**
+## **LAPS Persistencija**
 
 ### **Datum isteka**
 
@@ -129,12 +129,12 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Lozinka će se i dalje resetovati ako **admin** koristi **`Reset-AdmPwdPassword`** cmdlet; ili ako je **Ne dozvoljavajte vreme isteka lozinke duže od onog što zahteva politika** omogućeno u LAPS GPO.
+Lozinka će se i dalje resetovati ako **admin** koristi **`Reset-AdmPwdPassword`** cmdlet; ili ako je **Ne dozvoli vreme isteka lozinke duže od onog što zahteva politika** omogućeno u LAPS GPO.
 {% endhint %}
 
 ### Backdoor
 
-Izvorni kod za LAPS se može naći [ovde](https://github.com/GreyCorbel/admpwd), stoga je moguće staviti backdoor u kod (unutar `Get-AdmPwdPassword` metode u `Main/AdmPwd.PS/Main.cs`, na primer) koji će na neki način **ekstraktovati nove lozinke ili ih negde skladištiti**.
+Izvorni kod za LAPS se može naći [ovde](https://github.com/GreyCorbel/admpwd), stoga je moguće staviti backdoor u kod (unutar `Get-AdmPwdPassword` metode u `Main/AdmPwd.PS/Main.cs`, na primer) koji će na neki način **izvući nove lozinke ili ih negde sačuvati**.
 
 Zatim, samo kompajlirajte novi `AdmPwd.PS.dll` i otpremite ga na mašinu u `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (i promenite vreme modifikacije).
 

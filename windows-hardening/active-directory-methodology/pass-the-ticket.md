@@ -25,16 +25,16 @@ Get Access Today:
 
 ## Pass The Ticket (PTT)
 
-U metodi napada **Pass The Ticket (PTT)**, napadači **kradu autentifikacionu kartu korisnika** umesto njihove lozinke ili heš vrednosti. Ova ukradena karta se zatim koristi za **impostorstvo korisnika**, sticanje neovlašćenog pristupa resursima i uslugama unutar mreže.
+U metodi napada **Pass The Ticket (PTT)**, napadači **kradu autentifikacionu kartu korisnika** umesto njihove lozinke ili heš vrednosti. Ova ukradena karta se zatim koristi za **impostaciju korisnika**, sticanje neovlašćenog pristupa resursima i uslugama unutar mreže.
 
-**Read**:
+**Pročitajte**:
 
-* [Harvesting tickets from Windows](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
-* [Harvesting tickets from Linux](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
+* [Berba karata sa Windows-a](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
+* [Berba karata sa Linux-a](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
 
-### **Swaping Linux and Windows tickets between platforms**
+### **Zamena Linux i Windows karata između platformi**
 
-Alat [**ticket\_converter**](https://github.com/Zer1t0/ticket\_converter) konvertuje formate karata koristeći samo kartu samu i izlaznu datoteku.
+Alat [**ticket\_converter**](https://github.com/Zer1t0/ticket\_converter) konvertuje formate karata koristeći samo kartu i izlaznu datoteku.
 ```bash
 python ticket_converter.py velociraptor.ccache velociraptor.kirbi
 Converting ccache => kirbi
@@ -44,7 +44,7 @@ Converting kirbi => ccache
 ```
 U Windows-u [Kekeo](https://github.com/gentilkiwi/kekeo) može se koristiti.
 
-### Pass The Ticket Attack
+### Napad Pass The Ticket
 
 {% code title="Linux" %}
 ```bash
@@ -70,7 +70,7 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima** zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) da lako izgradite i **automatizujete radne tokove** pokretane od strane **najnaprednijih** alata zajednice.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pass-the-ticket" %}
@@ -81,7 +81,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

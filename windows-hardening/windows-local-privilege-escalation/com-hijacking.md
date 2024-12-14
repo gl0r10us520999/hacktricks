@@ -33,7 +33,7 @@ New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F
 
 Windows Tasks koriste prilagođene okidače za pozivanje COM objekata i pošto se izvršavaju putem Task Scheduler-a, lakše je predvideti kada će biti aktivirani.
 
-<pre class="language-powershell"><code class="lang-powershell"># Prikaži COM CLSID-ove
+<pre class="language-powershell"><code class="lang-powershell"># Prikaži COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)

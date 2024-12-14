@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## [Esolangs Wiki](https://esolangs.org/wiki/Main\_Page)
 
-Proverite tu viki stranicu da biste pronašli više esoteričnih jezika
+Proverite tu viki da biste pronašli više esoteričnih jezika
 
 ## Malbolge
 ```

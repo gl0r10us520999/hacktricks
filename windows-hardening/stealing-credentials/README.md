@@ -86,7 +86,7 @@ mimikatz # sekurlsa::logonPasswords
 
 Ovaj proces se automatski obavlja pomoću [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Napomena**: Neki **AV** mogu **otkriti** kao **maliciozno** korišćenje **procdump.exe za dump lsass.exe**, to je zato što **otkrivaju** string **"procdump.exe" i "lsass.exe"**. Tako da je **diskretnije** **proći** kao **argument** **PID** lsass.exe do procdump **umesto** imena **lsass.exe.**
+**Napomena**: Neki **AV** mogu **otkriti** kao **maliciozno** korišćenje **procdump.exe za dump lsass.exe**, to je zato što **otkrivaju** string **"procdump.exe" i "lsass.exe"**. Tako da je **diskretnije** **proći** kao **argument** **PID** lsass.exe do procdump **umesto** imena lsass.exe.
 
 ### Dumpovanje lsass sa **comsvcs.dll**
 
@@ -117,13 +117,13 @@ Get-Process -Name LSASS
 ```
 ## Dumpin lsass with PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) je alat za dumpovanje zaštićenih procesa koji podržava obfusciranje memorijskih dumpova i prenos na udaljene radne stanice bez smeštanja na disk.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) je alat za iskopavanje zaštićenih procesa koji podržava obfusciranje memorijskih iskopavanja i prenos na udaljene radne stanice bez smeštanja na disk.
 
 **Ključne funkcionalnosti**:
 
 1. Zaobilaženje PPL zaštite
-2. Obfusciranje memorijskih dump fajlova kako bi se izbegle mehanizme detekcije zasnovane na potpisima Defender-a
-3. Učitavanje memorijskog dump-a sa RAW i SMB metodama učitavanja bez smeštanja na disk (fileless dump)
+2. Obfusciranje datoteka memorijskog iskopavanja kako bi se izbegle mehanizme detekcije zasnovane na potpisima Defender-a
+3. Učitavanje memorijskog iskopavanja sa RAW i SMB metodama učitavanja bez smeštanja na disk (fileless dump)
 
 {% code overflow="wrap" %}
 ```bash
@@ -141,12 +141,12 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Izvuci NTDS.dit iz ciljanog DC
+### Извези NTDS.dit из циљног DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Izvuci NTDS.dit istoriju lozinki sa ciljanog DC
+### Izvuci NTDS.dit istoriju lozinki iz ciljnog DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
@@ -190,7 +190,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Ali isto to možete uraditi iz **Powershell**. Ovo je primer **kako kopirati SAM datoteku** (hard disk koji se koristi je "C:" i čuva se u C:\users\Public) ali možete to koristiti za kopiranje bilo koje zaštićene datoteke:
+Ali to možete učiniti i iz **Powershell**. Ovo je primer **kako kopirati SAM datoteku** (hard disk koji se koristi je "C:" i čuva se u C:\users\Public) ali to možete koristiti za kopiranje bilo koje zaštićene datoteke:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -205,29 +205,29 @@ Na kraju, takođe možete koristiti [**PS skriptu Invoke-NinjaCopy**](https://gi
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Credentials - NTDS.dit**
+## **Active Directory Kredencijali - NTDS.dit**
 
-Datoteka **NTDS.dit** je poznata kao srce **Active Directory**, koja sadrži ključne podatke o korisničkim objektima, grupama i njihovim članstvima. Tu se čuvaju **hash-ovi lozinki** za korisnike domena. Ova datoteka je **Extensible Storage Engine (ESE)** baza podataka i nalazi se na **_%SystemRoom%/NTDS/ntds.dit_**.
+Fajl **NTDS.dit** je poznat kao srce **Active Directory**, koje sadrži ključne podatke o korisničkim objektima, grupama i njihovim članstvima. Tu se čuvaju **hash-ovi lozinki** za korisnike domena. Ovaj fajl je **Extensible Storage Engine (ESE)** baza podataka i nalazi se na **_%SystemRoom%/NTDS/ntds.dit_**.
 
 Unutar ove baze podataka održavaju se tri glavne tabele:
 
 - **Data Table**: Ova tabela je zadužena za čuvanje detalja o objektima kao što su korisnici i grupe.
 - **Link Table**: Prati odnose, kao što su članstva u grupama.
-- **SD Table**: **Sigurnosni opisi** za svaki objekat se ovde čuvaju, osiguravajući sigurnost i kontrolu pristupa za pohranjene objekte.
+- **SD Table**: **Bezbednosni opisi** za svaki objekat se ovde čuvaju, obezbeđujući sigurnost i kontrolu pristupa za pohranjene objekte.
 
 Više informacija o ovome: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows koristi _Ntdsa.dll_ za interakciju sa tom datotekom i koristi ga _lsass.exe_. Tada, **deo** datoteke **NTDS.dit** može biti lociran **unutar `lsass`** memorije (možete pronaći poslednje pristupane podatke verovatno zbog poboljšanja performansi korišćenjem **cache**).
+Windows koristi _Ntdsa.dll_ za interakciju sa tim fajlom i koristi ga _lsass.exe_. Tada, **deo** fajla **NTDS.dit** može biti lociran **unutar `lsass`** memorije (možete pronaći poslednje pristupane podatke verovatno zbog poboljšanja performansi korišćenjem **cache**).
 
-#### Dešifrovanje hash-ova unutar NTDS.dit
+#### Dekriptovanje hash-ova unutar NTDS.dit
 
 Hash je šifrovan 3 puta:
 
-1. Dešifrujte Ključ za šifrovanje lozinke (**PEK**) koristeći **BOOTKEY** i **RC4**.
-2. Dešifrujte **hash** koristeći **PEK** i **RC4**.
-3. Dešifrujte **hash** koristeći **DES**.
+1. Dekriptujte Ključ za šifrovanje lozinke (**PEK**) koristeći **BOOTKEY** i **RC4**.
+2. Dekriptujte **hash** koristeći **PEK** i **RC4**.
+3. Dekriptujte **hash** koristeći **DES**.
 
-**PEK** ima **istu vrednost** u **svakom kontroleru domena**, ali je **šifrovan** unutar datoteke **NTDS.dit** koristeći **BOOTKEY** datoteke **SYSTEM kontrolera domena (različit između kontrolera domena)**. Zato da biste dobili kredencijale iz datoteke NTDS.dit **potrebni su vam datoteke NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ima **istu vrednost** u **svakom kontroloru domena**, ali je **šifrovan** unutar fajla **NTDS.dit** koristeći **BOOTKEY** iz **SYSTEM fajla kontrolora domena (različit je između kontrolora domena)**. Zato da biste dobili kredencijale iz NTDS.dit fajla **potrebni su vam fajlovi NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Kopiranje NTDS.dit koristeći Ntdsutil
 
@@ -235,7 +235,7 @@ Dostupno od Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Možete takođe koristiti trik sa [**volume shadow copy**](./#stealing-sam-and-system) da kopirate **ntds.dit** datoteku. Zapamtite da će vam takođe biti potrebna kopija **SYSTEM datoteke** (ponovo, [**izvucite je iz registra ili koristite trik sa volume shadow copy**](./#stealing-sam-and-system)).
+Možete takođe koristiti [**volume shadow copy**](./#stealing-sam-and-system) trik da kopirate **ntds.dit** datoteku. Zapamtite da će vam takođe biti potrebna kopija **SYSTEM datoteke** (ponovo, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trik).
 
 ### **Ekstrakcija hash-ova iz NTDS.dit**
 
@@ -243,7 +243,7 @@ Kada dobijete datoteke **NTDS.dit** i **SYSTEM**, možete koristiti alate kao š
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Možete takođe **automatski izvući** koristeći važećeg korisnika sa administratorskim pravima na domeni:
+Možete takođe **automatski ih izvući** koristeći važećeg korisnika sa administratorskim pravima na domeni:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
@@ -257,11 +257,11 @@ NTDS objekti mogu biti izvučeni u SQLite bazu podataka pomoću [ntdsdotsqlite](
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-The `SYSTEM` hive is optional but allow for secrets decryption (NT & LM hashes, supplemental credentials such as cleartext passwords, kerberos or trust keys, NT & LM password histories). Along with other information, the following data is extracted : user and machine accounts with their hashes, UAC flags, timestamp for last logon and password change, accounts description, names, UPN, SPN, groups and recursive memberships, organizational units tree and membership, trusted domains with trusts type, direction and attributes...
+The `SYSTEM` hive je opcionalan, ali omogućava dekripciju tajni (NT i LM heševi, dopunske kredencijale kao što su tekstualne lozinke, kerberos ili trust ključevi, NT i LM istorije lozinki). Uz druge informacije, sledeći podaci se izvode: korisnički i mašinski nalozi sa svojim heševima, UAC zastavice, vremenska oznaka za poslednju prijavu i promenu lozinke, opis naloga, imena, UPN, SPN, grupe i rekurzivna članstva, stablo organizacionih jedinica i članstvo, povereni domeni sa tipovima poverenja, pravcem i atributima...
 
 ## Lazagne
 
-Preuzmite binarni fajl [ovde](https://github.com/AlessandroZ/LaZagne/releases). možete koristiti ovaj binarni fajl za ekstrakciju kredencijala iz nekoliko softvera.
+Preuzmite binarni fajl [ovde](https://github.com/AlessandroZ/LaZagne/releases). Možete koristiti ovaj binarni fajl za ekstrakciju kredencijala iz nekoliko softvera.
 ```
 lazagne.exe all
 ```
@@ -280,7 +280,7 @@ fgdump.exe
 ```
 ### PwDump
 
-Izvuci akreditive iz SAM datoteke
+Izvucite akreditive iz SAM datoteke
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -290,21 +290,21 @@ type outpwdump
 
 Preuzmite ga sa: [ http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i jednostavno **izvršite ga** i lozinke će biti ekstraktovane.
 
-## Odbrane
+## Defenses
 
 [**Saznajte više o zaštiti kredencijala ovde.**](credentials-protections.md)
 
 {% hint style="success" %}
-Saznajte i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Saznajte i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

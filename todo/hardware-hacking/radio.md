@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -26,7 +26,7 @@ U podešavanjima (drugi dugme kartice) možete odabrati **SDR uređaj** ili **od
 
 ![](<../../.gitbook/assets/image (245).png>)
 
-U ponašanju GUI-a preporučuje se da omogućite nekoliko stvari ako vaš PC to podržava:
+U GUI ponašanju preporučuje se da omogućite nekoliko stvari ako vaš PC to podržava:
 
 ![](<../../.gitbook/assets/image (472).png>)
 
@@ -40,41 +40,41 @@ Ako primetite da vaš PC ne hvata signale, pokušajte da onemogućite OpenGL i s
 
 ![](<../../.gitbook/assets/image (960).png>)
 
-* **Tuner** u SigDigger-u pomaže da **uhvatite bolje signale** (ali može ih i pogoršati). Idealno je početi sa 0 i nastaviti **povećavati dok** ne pronađete da je **šum** koji se uvodi **veći** od **poboljšanja signala** koje vam je potrebno).
+* **Tuner** u SigDigger-u pomaže da **uhvatite bolje signale** (ali može ih i pogoršati). Idealno je početi sa 0 i **povećavati** dok ne pronađete da je **šum** koji se uvodi **veći** od **poboljšanja signala** koje vam je potrebno).
 
 ![](<../../.gitbook/assets/image (1099).png>)
 
 ### Sinhronizacija sa radio kanalom
 
-Sa [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinhronizujte se sa kanalom koji želite da čujete, konfigurišite opciju "Baseband audio preview", konfigurišite propusnost da dobijete sve informacije koje se šalju i zatim postavite Tuner na nivo pre nego što šum zaista počne da se povećava:
+Sa [**SigDigger** ](https://github.com/BatchDrake/SigDigger)sinhronizujte se sa kanalom koji želite da čujete, konfigurišite opciju "Baseband audio preview", konfigurišite propusnost da dobijete sve informacije koje se šalju i zatim postavite Tuner na nivo pre nego što šum počne da se povećava:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
 ## Zanimljivi trikovi
 
-* Kada uređaj šalje povremene informacije, obično je **prvi deo preambula** tako da **ne morate** da **brinete** ako **ne pronađete informacije** ili ako postoje neke greške.
+* Kada uređaj šalje povremene informacije, obično je **prvi deo preambula** tako da **ne morate** da **brinete** ako **ne pronađete informacije** ili ako postoje neki **greške**.
 * U okvirima informacija obično biste trebali **pronaći različite okvire dobro usklađene između njih**:
 
 ![](<../../.gitbook/assets/image (1076).png>)
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-* **Nakon oporavka bitova možda ćete morati da ih obradite na neki način**. Na primer, u Mančesterskoj kodifikaciji, uspon+pad će biti 1 ili 0, a pad+uspon će biti drugi. Tako da parovi 1 i 0 (usponi i padovi) će biti pravi 1 ili pravi 0.
-* Čak i ako signal koristi Mančestersku kodifikaciju (nemoguće je pronaći više od dva 0 ili 1 u nizu), možda ćete **pronaći nekoliko 1 ili 0 zajedno u preambuli**!
+* **Nakon oporavka bitova možda ćete morati da ih obradite na neki način**. Na primer, u Mančesterskoj kodifikaciji, uspon+pad će biti 1 ili 0, a pad+uspon će biti drugi. Tako da parovi 1s i 0s (usponi i padovi) će biti pravi 1 ili pravi 0.
+* Čak i ako signal koristi Mančestersku kodifikaciju (nemoguće je pronaći više od dva 0s ili 1s u nizu), možete **pronaći nekoliko 1s ili 0s zajedno u preambuli**!
 
 ### Otkriće tipa modulacije sa IQ
 
-Postoje 3 načina za skladištenje informacija u signalima: Modulacija **amplitudom**, **frekvencijom** ili **fazom**.\
-Ako proveravate signal, postoje različiti načini da pokušate da otkrijete šta se koristi za skladištenje informacija (pronađite više načina u nastavku), ali dobar način je da proverite IQ grafikon.
+Postoje 3 načina za skladištenje informacija u signalima: Modulacija **amplituda**, **frekvencija** ili **faza**.\
+Ako proveravate signal, postoje različiti načini da pokušate da otkrijete šta se koristi za skladištenje informacija (pronađite više načina ispod), ali dobar način je da proverite IQ grafikon.
 
 ![](<../../.gitbook/assets/image (788).png>)
 
 * **Detekcija AM**: Ako se na IQ grafikonu pojave, na primer, **2 kruga** (verovatno jedan na 0 i drugi na različitoj amplitudi), to može značiti da je ovo AM signal. To je zato što je na IQ grafikonu razdaljina između 0 i kruga amplituda signala, tako da je lako vizualizovati različite amplitude koje se koriste.
-* **Detekcija PM**: Kao na prethodnoj slici, ako pronađete male krugove koji nisu povezani između njih, to verovatno znači da se koristi fazna modulacija. To je zato što je na IQ grafikonu ugao između tačke i 0,0 faza signala, tako da to znači da se koriste 4 različite faze.
-* Imajte na umu da ako je informacija skrivena u činjenici da se faza menja, a ne u samoj fazi, nećete videti različite faze jasno diferencirane.
+* **Detekcija PM**: Kao na prethodnoj slici, ako pronađete male krugove koji nisu povezani između njih, to verovatno znači da se koristi fazna modulacija. To je zato što je na IQ grafikonu, ugao između tačke i 0,0 faza signala, tako da to znači da se koriste 4 različite faze.
+* Imajte na umu da ako su informacije skrivene u činjenici da se faza menja, a ne u samoj fazi, nećete videti različite faze jasno diferencirane.
 * **Detekcija FM**: IQ nema polje za identifikaciju frekvencija (razdaljina do centra je amplituda, a ugao je faza).\
 Stoga, da biste identifikovali FM, trebali biste **samo videti osnovni krug** na ovom grafikonu.\
-Štaviše, različita frekvencija se "predstavlja" na IQ grafikonu kao **brza akceleracija po krugu** (tako da u SysDigger-u, kada odaberete signal, IQ grafikon se popunjava, ako pronađete akceleraciju ili promenu pravca u kreiranom krugu, to može značiti da je ovo FM):
+Štaviše, različita frekvencija se "predstavlja" na IQ grafikonu kao **ubrzanje brzine oko kruga** (tako da u SysDigger-u, kada odaberete signal, IQ grafikon se popunjava, ako pronađete ubrzanje ili promenu pravca u kreiranom krugu, to može značiti da je ovo FM):
 
 ## AM Primer
 
@@ -94,15 +94,15 @@ I ovako izgleda deo simbola sa talasnom formom:
 
 #### Proveravanje histograma
 
-Možete **odabrati ceo signal** gde se informacije nalaze, odabrati **Amplitudni** režim i **Selekciju** i kliknuti na **Histogram**. Možete primetiti da se nalaze samo 2 jasna nivoa
+Možete **odabrati ceo signal** gde se informacije nalaze, odabrati **Amplituda** mod i **Selekciju** i kliknuti na **Histogram.** Možete primetiti da se nalaze samo 2 jasna nivoa
 
 ![](<../../.gitbook/assets/image (264).png>)
 
-Na primer, ako odaberete Frekvenciju umesto Amplitude u ovom AM signalu, pronaći ćete samo 1 frekvenciju (nema načina da je informacija modulirana u frekvenciji koristeći samo 1 frekvenciju).
+Na primer, ako odaberete Frekvenciju umesto Amplitude u ovom AM signalu, pronaći ćete samo 1 frekvenciju (nema načina da informacije modulirane u frekvenciji koriste samo 1 frekvenciju).
 
 ![](<../../.gitbook/assets/image (732).png>)
 
-Ako pronađete mnogo frekvencija, to verovatno neće biti FM, verovatno je frekvencija signala samo modifikovana zbog kanala.
+Ako pronađete mnogo frekvencija, verovatno ovo neće biti FM, verovatno je frekvencija signala samo modifikovana zbog kanala.
 
 #### Sa IQ
 
@@ -126,24 +126,24 @@ Takođe možete naznačiti broj simbola koje ćete odabrati i SigDigger će izra
 
 ### Dobijanje bitova
 
-Nakon što ste otkrili da je ovo **AM modulirani** signal i **simbolna brzina** (i znajući da u ovom slučaju nešto uspon znači 1, a nešto pad znači 0), vrlo je lako **dobiti bitove** kodirane u signalu. Dakle, odaberite signal sa informacijama i konfigurišite uzorkovanje i odluku i pritisnite uzorak (proverite da je **Amplituda** odabrana, otkrivena **Simbolna brzina** je konfigurisana i **Gadnerova oporavka takta** je odabrana):
+Nakon što ste otkrili da je ovo **AM modulisan** signal i **simbolna brzina** (i znajući da u ovom slučaju nešto uspon znači 1, a nešto pad znači 0), vrlo je lako **dobiti bitove** kodirane u signalu. Dakle, odaberite signal sa informacijama i konfigurišite uzorkovanje i odluku i pritisnite uzorak (proverite da je **Amplituda** odabrana, otkrivena **Simbolna brzina** je konfigurisana i **Gadnerova oporavak takta** je odabrana):
 
 ![](<../../.gitbook/assets/image (965).png>)
 
-* **Sinhronizacija sa selekcionim intervalima** znači da ako ste prethodno odabrali intervale da pronađete simbolnu brzinu, ta simbolna brzina će se koristiti.
+* **Sinhronizacija sa selekcijskim intervalima** znači da ako ste prethodno odabrali intervale da pronađete simbolnu brzinu, ta simbolna brzina će se koristiti.
 * **Ručno** znači da će se naznačena simbolna brzina koristiti
 * U **Fiksnoj selekciji intervala** naznačavate broj intervala koji treba odabrati i izračunava simbolnu brzinu iz toga
-* **Gadnerova oporavka takta** je obično najbolja opcija, ali još uvek morate naznačiti neku približnu simbolnu brzinu.
+* **Gadnerova oporavak takta** je obično najbolja opcija, ali još uvek morate naznačiti neku približnu simbolnu brzinu.
 
 Pritiskom na uzorak pojavljuje se ovo:
 
 ![](<../../.gitbook/assets/image (644).png>)
 
-Sada, da bi SigDigger razumeo **gde je opseg** nivoa koji nosi informacije, potrebno je da kliknete na **niži nivo** i držite pritisnuto do najvećeg nivoa:
+Sada, da biste naterali SigDigger da razume **gde je opseg** nivoa koji nosi informacije, morate kliknuti na **niži nivo** i držati pritisnuto dok ne dobijete najveći nivo:
 
 ![](<../../.gitbook/assets/image (439).png>)
 
-Da je, na primer, bilo **4 različita nivoa amplitude**, trebali biste da konfigurišete **Bitove po simbolu na 2** i odaberete od najmanjeg do najvećeg.
+Da je bilo, na primer, **4 različita nivoa amplitude**, trebali biste konfigurisati **Bitove po simbolu na 2** i odabrati od najmanjeg do najvećeg.
 
 Na kraju, **povećavajući** **Zoom** i **menjajući veličinu reda**, možete videti bitove (i možete odabrati sve i kopirati da dobijete sve bitove):
 
@@ -151,7 +151,7 @@ Na kraju, **povećavajući** **Zoom** i **menjajući veličinu reda**, možete v
 
 Ako signal ima više od 1 bita po simbolu (na primer 2), SigDigger **nema načina da zna koji simbol je** 00, 01, 10, 11, tako da će koristiti različite **sive skale** da predstavi svaki (i ako kopirate bitove, koristiće **brojeve od 0 do 3**, moraćete da ih obradite).
 
-Takođe, koristite **kodifikacije** kao što su **Mančesterska**, i **uspon+pad** može biti **1 ili 0**, a pad+uspon može biti 1 ili 0. U tim slučajevima morate **obraditi dobijene usponе (1) i padove (0)** da zamenite parove 01 ili 10 kao 0 ili 1.
+Takođe, koristite **kodifikacije** kao što su **Mančester**, i **uspon+pad** može biti **1 ili 0**, a pad+uspon može biti 1 ili 0. U tim slučajevima morate **obraditi dobijene usponi (1) i padovi (0)** da zamenite parove 01 ili 10 kao 0s ili 1s.
 
 ## FM Primer
 
@@ -181,15 +181,15 @@ Ako je sinhronizovana frekvencija **bliža jednoj frekvenciji nego drugoj**, lak
 
 #### Proveravanje histograma
 
-Proveravajući frekvencijski histogram signala sa informacijama, lako možete videti 2 različita signala:
+Proveravajući histogram frekvencije signala sa informacijama, lako možete videti 2 različita signala:
 
 ![](<../../.gitbook/assets/image (871).png>)
 
-U ovom slučaju, ako proverite **amplitudni histogram**, pronaći ćete **samo jednu amplitudu**, tako da **ne može biti AM** (ako pronađete mnogo amplituda, to može biti zato što je signal gubio snagu duž kanala):
+U ovom slučaju, ako proverite **Histogram Amplituda**, pronaći ćete **samo jednu amplitudu**, tako da **ne može biti AM** (ako pronađete mnogo amplituda, to može biti zato što je signal gubio snagu duž kanala):
 
 ![](<../../.gitbook/assets/image (817).png>)
 
-I ovo bi bio fazni histogram (što jasno pokazuje da signal nije moduliran u fazi):
+I ovo bi bio histogram faze (što jasno pokazuje da signal nije modulisan u fazi):
 
 ![](<../../.gitbook/assets/image (996).png>)
 
@@ -197,7 +197,7 @@ I ovo bi bio fazni histogram (što jasno pokazuje da signal nije moduliran u faz
 
 IQ nema polje za identifikaciju frekvencija (razdaljina do centra je amplituda, a ugao je faza).\
 Stoga, da biste identifikovali FM, trebali biste **samo videti osnovni krug** na ovom grafikonu.\
-Štaviše, različita frekvencija se "predstavlja" na IQ grafikonu kao **brza akceleracija po krugu** (tako da u SysDigger-u, kada odaberete signal, IQ grafikon se popunjava, ako pronađete akceleraciju ili promenu pravca u kreiranom krugu, to može značiti da je ovo FM):
+Štaviše, različita frekvencija se "predstavlja" na IQ grafikonu kao **ubrzanje brzine oko kruga** (tako da u SysDigger-u, kada odaberete signal, IQ grafikon se popunjava, ako pronađete ubrzanje ili promenu pravca u kreiranom krugu, to može značiti da je ovo FM):
 
 ![](<../../.gitbook/assets/image (81).png>)
 
@@ -207,7 +207,7 @@ Možete koristiti **istu tehniku kao u AM primeru** da dobijete simbolnu brzinu 
 
 ### Dobijanje bitova
 
-Možete koristiti **istu tehniku kao u AM primeru** da dobijete bitove kada ste **pronašli da je signal moduliran u frekvenciji** i **simbolna brzina**.
+Možete koristiti **istu tehniku kao u AM primeru** da dobijete bitove kada ste **pronašli da je signal modulisan u frekvenciji** i **simbolna brzina**.
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -215,7 +215,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

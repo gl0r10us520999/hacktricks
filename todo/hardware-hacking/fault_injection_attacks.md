@@ -1,5 +1,5 @@
-# Napadi ubacivanjem greške
+# Fault Injection Attacks
 
-Napadi ubacivanjem greške uključuju unošenje spoljnih smetnji u elektronske kola kako bi se uticalo na njihovo ponašanje, što može rezultirati otkrivanjem informacija ili čak zaobilaskom određenih ograničenja u kolu. Ovi napadi otvaraju mnogo mogućnosti za napade na elektronska kola. Ovaj napad se takođe naziva i "glitching" elektronskih kola.
+Napadi umetanja grešaka uključuju uvođenje spoljnog ometanja u elektronske krugove kako bi se uticalo na njihovo ponašanje, što rezultira otkrivanjem informacija ili čak zaobilaženjem određenih ograničenja u krugu. Ovi napadi otvaraju mnogo mogućnosti za napad na elektronske krugove. Ovaj napad se takođe naziva glitching elektronskih krugova.
 
-Postoji mnogo metoda i sredstava za ubacivanje greške u elektronsko kolo.
+Postoji mnogo metoda i sredstava za umetanje grešaka u elektronski krug.

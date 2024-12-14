@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Overpass The Hash/Pass The Key (PTK)
 
-Napad **Overpass The Hash/Pass The Key (PTK)** je dizajniran za okruženja gde je tradicionalni NTLM protokol ograničen, a Kerberos autentifikacija ima prioritet. Ovaj napad koristi NTLM hash ili AES ključeve korisnika da bi zatražio Kerberos karte, omogućavajući neovlašćen pristup resursima unutar mreže.
+Napad **Overpass The Hash/Pass The Key (PTK)** je dizajniran za okruženja gde je tradicionalni NTLM protokol ograničen, a Kerberos autentifikacija ima prioritet. Ovaj napad koristi NTLM hash ili AES ključeve korisnika da zatraži Kerberos karte, omogućavajući neovlašćen pristup resursima unutar mreže.
 
 Da bi se izvršio ovaj napad, prvi korak uključuje sticanje NTLM hasha ili lozinke ciljanog korisničkog naloga. Nakon obezbeđivanja ovih informacija, može se dobiti Ticket Granting Ticket (TGT) za nalog, što napadaču omogućava pristup uslugama ili mašinama kojima korisnik ima dozvole.
 
@@ -41,7 +41,7 @@ Alternativna komanda koristeći Rubeus.exe demonstrira još jedan aspekt ove teh
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-Ova metoda odražava pristup **Pass the Key**, sa fokusom na preuzimanje i korišćenje karte direktno u svrhe autentifikacije. Važno je napomenuti da pokretanje zahteva za TGT aktivira događaj `4768: A Kerberos authentication ticket (TGT) was requested`, što označava korišćenje RC4-HMAC po defaultu, iako moderni Windows sistemi preferiraju AES256.
+Ova metoda odražava pristup **Pass the Key**, sa fokusom na preuzimanje i korišćenje karte direktno za svrhe autentifikacije. Važno je napomenuti da pokretanje TGT zahteva aktivira događaj `4768: A Kerberos authentication ticket (TGT) was requested`, što označava korišćenje RC4-HMAC po defaultu, iako moderni Windows sistemi preferiraju AES256.
 
 Da bi se pridržavali operativne sigurnosti i koristili AES256, može se primeniti sledeća komanda:
 ```bash

@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Kako to funkcioniše
 
-At omogućava zakazivanje zadataka na hostovima gde znate korisničko ime/(lozinku/Hash). Tako da ga možete koristiti za izvršavanje komandi na drugim hostovima i dobijanje izlaza.
+At omogućava zakazivanje zadataka na hostovima gde znate korisničko ime/(lozinku/Hash). Dakle, možete ga koristiti za izvršavanje komandi na drugim hostovima i dobijanje izlaza.
 ```
 At \\victim 11:00:00PM shutdown -r
 ```
@@ -45,7 +45,7 @@ SharpLateral schedule HOSTNAME C:\Users\Administrator\Desktop\malware.exe TaskNa
 ```
 {% endcode %}
 
-Više informacija o [**korišćenju schtasks sa srebrnim karticama ovde**](../active-directory-methodology/silver-ticket.md#host).
+Više informacija o [**korišćenju schtasks sa srebrnim tiketima ovde**](../active-directory-methodology/silver-ticket.md#host).
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

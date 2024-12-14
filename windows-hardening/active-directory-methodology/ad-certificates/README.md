@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### Components of a Certificate
 
 - **Subjekt** sertifikata označava njegovog vlasnika.
-- **Javni ključ** je uparen sa privatno držanim ključem kako bi povezao sertifikat sa njegovim pravim vlasnikom.
+- **Javni ključ** je uparen sa privatnim ključem kako bi povezao sertifikat sa njegovim pravim vlasnikom.
 - **Period važenja**, definisan datumima **NotBefore** i **NotAfter**, označava efektivno trajanje sertifikata.
 - Jedinstveni **Serijski broj**, koji obezbeđuje Sertifikacijska vlast (CA), identifikuje svaki sertifikat.
 - **Izdavac** se odnosi na CA koja je izdala sertifikat.
@@ -62,42 +62,42 @@ Da bi klijent zatražio sertifikat, **prava na upis** moraju biti dodeljena. Ova
 
 ### Template Enrollment Rights
 
-Ova prava su specificirana kroz Unose kontrole pristupa (ACEs), detaljno opisujući dozvole kao što su:
+Ova prava su specificirana kroz Unose kontrole pristupa (ACE), detaljno opisujući dozvole kao što su:
 - **Prava na upis sertifikata** i **automatski upis sertifikata**, svako povezano sa specifičnim GUID-ovima.
 - **Proširena prava**, omogućavajući sve proširene dozvole.
 - **Potpuna kontrola/GenericAll**, pružajući potpunu kontrolu nad šablonom.
 
 ### Enterprise CA Enrollment Rights
 
-Prava CA su opisana u njenom sigurnosnom descriptoru, dostupnom putem konzole za upravljanje Sertifikacionom vlasti. Neka podešavanja čak omogućavaju korisnicima sa niskim privilegijama daljinski pristup, što može biti bezbednosna briga.
+Prava CA su opisana u njegovom sigurnosnom descriptoru, dostupnom putem konzole za upravljanje Sertifikacionom vlasti. Neka podešavanja čak omogućavaju korisnicima sa niskim privilegijama daljinski pristup, što može biti bezbednosna briga.
 
 ### Additional Issuance Controls
 
 Određene kontrole mogu se primeniti, kao što su:
 - **Odobrenje menadžera**: Postavlja zahteve u stanje čekanja dok ih ne odobri menadžer sertifikata.
-- **Agenti za upis i ovlašćeni potpisi**: Specifikuju broj potrebnih potpisa na CSR-u i potrebne OIDs za aplikacione politike.
+- **Agenti za upis i ovlašćeni potpisi**: Specificiraju broj potrebnih potpisa na CSR-u i potrebne OIDs za aplikacione politike.
 
 ### Methods to Request Certificates
 
 Sertifikati se mogu zatražiti putem:
-1. **Protokola za upis sertifikata Windows klijenta** (MS-WCCE), koristeći DCOM interfejse.
+1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), koristeći DCOM interfejse.
 2. **ICertPassage Remote Protocol** (MS-ICPR), putem imenovanih cevi ili TCP/IP.
 3. **Web interfejsa za upis sertifikata**, sa instaliranom ulogom Web upisa sertifikata.
 4. **Usluge upisa sertifikata** (CES), u kombinaciji sa uslugom politike upisa sertifikata (CEP).
-5. **Usluge upisa mrežnih uređaja** (NDES) za mrežne uređaje, koristeći Protokol za jednostavno upisivanje sertifikata (SCEP).
+5. **Usluge upisa mrežnih uređaja** (NDES) za mrežne uređaje, koristeći Protokol jednostavnog upisa sertifikata (SCEP).
 
 Windows korisnici takođe mogu zatražiti sertifikate putem GUI-a (`certmgr.msc` ili `certlm.msc`) ili alata komandne linije (`certreq.exe` ili PowerShell-ove komande `Get-Certificate`).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Sertifikatna Autentifikacija
+## Autentifikacija putem sertifikata
 
-Active Directory (AD) podržava sertifikatnu autentifikaciju, prvenstveno koristeći **Kerberos** i **Secure Channel (Schannel)** protokole.
+Active Directory (AD) podržava autentifikaciju putem sertifikata, prvenstveno koristeći **Kerberos** i **Secure Channel (Schannel)** protokole.
 
-### Kerberos Proces Autentifikacije
+### Proces autentifikacije putem Kerberosa
 
-U Kerberos procesu autentifikacije, zahtev korisnika za Ticket Granting Ticket (TGT) se potpisuje koristeći **privatni ključ** korisnikovog sertifikata. Ovaj zahtev prolazi kroz nekoliko validacija od strane kontrolera domena, uključujući **validnost** sertifikata, **putanju** i **status opoziva**. Validacije takođe uključuju proveru da li sertifikat dolazi iz pouzdanog izvora i potvrđivanje prisustva izdavaoca u **NTAUTH sertifikat skladištu**. Uspešne validacije rezultiraju izdavanjem TGT-a. **`NTAuthCertificates`** objekat u AD, nalazi se na:
+U procesu autentifikacije putem Kerberosa, zahtev korisnika za Ticket Granting Ticket (TGT) se potpisuje koristeći **privatni ključ** korisničkog sertifikata. Ovaj zahtev prolazi kroz nekoliko validacija od strane kontrolera domena, uključujući **validnost** sertifikata, **putanju** i **status opoziva**. Validacije takođe uključuju proveru da li sertifikat dolazi iz pouzdanog izvora i potvrđivanje prisustva izdavaoca u **NTAUTH sertifikat skladištu**. Uspešne validacije rezultiraju izdavanjem TGT-a. **`NTAuthCertificates`** objekat u AD, nalazi se na:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
@@ -105,11 +105,11 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja, klijent predstavlja sertifikat koji, ako se uspešno validira, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu **S4U2Self** funkciju ili **Subject Alternative Name (SAN)** sertifikata, među drugim metodama.
+Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja, klijent predstavlja sertifikat koji, ako je uspešno validiran, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu **S4U2Self** funkciju ili **Subject Alternative Name (SAN)** sertifikata, među drugim metodama.
 
 ### AD Certificate Services Enumeration
 
-AD-ove sertifikacione usluge mogu se enumerisati putem LDAP upita, otkrivajući informacije o **Enterprise Certificate Authorities (CAs)** i njihovim konfiguracijama. Ovo je dostupno svakom korisniku koji je autentifikovan u domenu bez posebnih privilegija. Alati kao što su **[Certify](https://github.com/GhostPack/Certify)** i **[Certipy](https://github.com/ly4k/Certipy)** se koriste za enumeraciju i procenu ranjivosti u AD CS okruženjima.
+AD-ove usluge sertifikata mogu se enumerisati putem LDAP upita, otkrivajući informacije o **Enterprise Certificate Authorities (CAs)** i njihovim konfiguracijama. Ovo je dostupno svakom korisniku koji je autentifikovan u domenu bez posebnih privilegija. Alati kao što su **[Certify](https://github.com/GhostPack/Certify)** i **[Certipy](https://github.com/ly4k/Certipy)** se koriste za enumeraciju i procenu ranjivosti u AD CS okruženjima.
 
 Commands for using these tools include:
 ```bash
@@ -125,7 +125,7 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-## Reference
+## References
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)

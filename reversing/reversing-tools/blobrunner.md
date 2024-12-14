@@ -14,8 +14,8 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 {% endhint %}
 
 
-Jedina izmenjena linija iz [originalnog koda](https://github.com/OALabs/BlobRunner) je linija 10. 
-Da biste ga kompajlirali, jednostavno **napravite C/C++ projekat u Visual Studio Code, kopirajte i nalepite kod i izgradite ga**.
+Jedina izmenjena linija iz [originalnog koda](https://github.com/OALabs/BlobRunner) je linija 10.
+Da biste ga kompajlirali, samo **napravite C/C++ projekat u Visual Studio Code, kopirajte i nalepite kod i izgradite ga**.
 ```c
 #include <stdio.h>
 #include <windows.h>

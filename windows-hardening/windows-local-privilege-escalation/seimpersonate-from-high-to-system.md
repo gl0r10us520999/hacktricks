@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### Код
 
 Следећи код из [овде](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Омогућава да **наведете ID процеса као аргумент** и CMD **који се извршава као корисник** наведеног процеса ће бити покренут.\
-Извршавајући у процесу високе интегритета, можете **навести PID процеса који се извршава као System** (као winlogon, wininit) и извршити cmd.exe као систем.
+Када се извршава у процесу високе интегритета, можете **навести PID процеса који се извршава као System** (као winlogon, wininit) и извршити cmd.exe као систем.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -169,7 +169,7 @@ U nekim slučajevima možete pokušati da se impersonate-ujete kao System i to n
 [-] CreateProcessWithTokenW Error: 1326
 ```
 To znači da čak i ako radite na visokom integritetu **nemate dovoljno dozvola**.\
-Proverimo trenutne Administrator dozvole nad `svchost.exe` procesima koristeći **processes explorer** (ili možete koristiti i process hacker):
+Proverimo trenutne Administrator dozvole nad `svchost.exe` procesima koristeći **process explorer** (ili možete koristiti i process hacker):
 
 1. Izaberite proces `svchost.exe`
 2. Desni klik --> Svojstva
@@ -180,13 +180,13 @@ Proverimo trenutne Administrator dozvole nad `svchost.exe` procesima koristeći 
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Prethodna slika sadrži sve privilegije koje "Administratori" imaju nad izabranim procesom (kao što možete videti, u slučaju `svchost.exe` oni imaju samo "Query" privilegije)
+Prethodna slika sadrži sve privilegije koje "Administratori" imaju nad izabranim procesom (kao što možete videti, u slučaju `svchost.exe` imaju samo "Upit" privilegije)
 
 Pogledajte privilegije koje "Administratori" imaju nad `winlogon.exe`:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Unutar tog procesa "Administratori" mogu "Čitati memoriju" i "Čitati dozvole" što verovatno omogućava Administratorima da imituju token koji koristi ovaj proces.
+Unutar tog procesa "Administratori" mogu "Pročitati memoriju" i "Pročitati dozvole" što verovatno omogućava Administratorima da imituju token koji koristi ovaj proces.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -22,26 +22,26 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 - **Subjekt** sertifikata označava njegovog vlasnika.
 - **Javni ključ** je uparen sa privatno držanim ključem kako bi povezao sertifikat sa njegovim pravim vlasnikom.
 - **Period važenja**, definisan datumima **NotBefore** i **NotAfter**, označava efektivno trajanje sertifikata.
-- Jedinstveni **serijski broj**, koji obezbeđuje Sertifikaciona vlast (CA), identifikuje svaki sertifikat.
+- Jedinstveni **Serijski broj**, koji obezbeđuje Sertifikacijska vlast (CA), identifikuje svaki sertifikat.
 - **Izdavac** se odnosi na CA koja je izdala sertifikat.
 - **SubjectAlternativeName** omogućava dodatna imena za subjekt, poboljšavajući fleksibilnost identifikacije.
 - **Osnovna ograničenja** identifikuju da li je sertifikat za CA ili krajnji entitet i definišu ograničenja korišćenja.
-- **Proširene svrhe korišćenja ključeva (EKUs)** razdvajaju specifične svrhe sertifikata, kao što su potpisivanje koda ili enkripcija e-pošte, kroz identifikatore objekata (OIDs).
+- **Proširene svrhe korišćenja ključeva (EKUs)** razdvajaju specifične svrhe sertifikata, kao što su potpisivanje koda ili enkripcija e-pošte, kroz Identifikatore objekata (OIDs).
 - **Algoritam potpisa** specificira metodu za potpisivanje sertifikata.
-- **Potpis**, kreiran sa izdavačevim privatnim ključem, garantuje autentičnost sertifikata.
+- **Potpis**, kreiran sa privatnim ključem izdavaoca, garantuje autentičnost sertifikata.
 
 ### Special Considerations
 
-- **Alternativna imena subjekta (SANs)** proširuju primenljivost sertifikata na više identiteta, što je ključno za servere sa više domena. Bezbedni procesi izdavanja su od vitalnog značaja kako bi se izbegli rizici od impersonacije od strane napadača koji manipulišu SAN specifikacijom.
+- **Alternativna imena subjekta (SANs)** proširuju primenljivost sertifikata na više identiteta, što je ključno za servere sa više domena. Sigurni procesi izdavanja su od vitalnog značaja kako bi se izbegli rizici od impersonacije od strane napadača koji manipulišu SAN specifikacijom.
 
 ### Certificate Authorities (CAs) in Active Directory (AD)
 
 AD CS priznaje CA sertifikate u AD šumi kroz određene kontejnere, od kojih svaki ima jedinstvene uloge:
 
-- **Kontejner sertifikacionih vlasti** sadrži poverljive root CA sertifikate.
-- **Kontejner usluga upisa** detaljno opisuje Enterprise CA i njihove šablone sertifikata.
-- **NTAuthCertificates** objekat uključuje CA sertifikate ovlašćene za AD autentifikaciju.
-- **AIA (Informacije o pristupu vlasti)** kontejner olakšava validaciju lanca sertifikata sa međusobnim i prekograničnim CA sertifikatima.
+- Kontejner **Sertifikacione vlasti** sadrži poverljive root CA sertifikate.
+- Kontejner **Usluge upisa** detaljno opisuje Enterprise CA i njihove šablone sertifikata.
+- Objekat **NTAuthCertificates** uključuje CA sertifikate ovlašćene za AD autentifikaciju.
+- Kontejner **AIA (Pristup informacijama o vlasti)** olakšava validaciju lanca sertifikata sa međusobnim i prekograničnim CA sertifikatima.
 
 ### Certificate Acquisition: Client Certificate Request Flow
 
@@ -56,13 +56,13 @@ Definisani unutar AD, ovi šabloni opisuju podešavanja i dozvole za izdavanje s
 
 ## Certificate Enrollment
 
-Proces upisa sertifikata pokreće administrator koji **kreira šablon sertifikata**, koji zatim **objavljuje** Enterprise Sertifikaciona vlast (CA). Ovo čini šablon dostupnim za upis klijenata, što se postiže dodavanjem imena šablona u polje `certificatetemplates` objekta Active Directory.
+Proces upisa sertifikata pokreće administrator koji **kreira šablon sertifikata**, koji zatim **objavljuje** Enterprise Sertifikacijska vlast (CA). Ovo čini šablon dostupnim za upis klijenata, što se postiže dodavanjem imena šablona u polje `certificatetemplates` objekta Active Directory.
 
 Da bi klijent zatražio sertifikat, **prava na upis** moraju biti dodeljena. Ova prava definišu se sigurnosnim descriptorima na šablonu sertifikata i samoj Enterprise CA. Dozvole moraju biti dodeljene na oba mesta kako bi zahtev bio uspešan.
 
 ### Template Enrollment Rights
 
-Ova prava su specificirana kroz unose kontrole pristupa (ACE), detaljno opisujući dozvole kao što su:
+Ova prava su specificirana kroz Unose kontrole pristupa (ACE), detaljno opisujući dozvole kao što su:
 - **Prava na upis sertifikata** i **automatski upis sertifikata**, svako povezano sa specifičnim GUID-ovima.
 - **Proširena prava**, omogućavajući sve proširene dozvole.
 - **Potpuna kontrola/GenericAll**, pružajući potpunu kontrolu nad šablonom.
@@ -80,13 +80,13 @@ Određene kontrole mogu se primeniti, kao što su:
 ### Methods to Request Certificates
 
 Sertifikati se mogu zatražiti putem:
-1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), koristeći DCOM interfejse.
+1. **Protokola za upis sertifikata Windows klijenta** (MS-WCCE), koristeći DCOM interfejse.
 2. **ICertPassage Remote Protocol** (MS-ICPR), putem imenovanih cevi ili TCP/IP.
 3. **Web interfejsa za upis sertifikata**, sa instaliranom ulogom Web upisa sertifikata.
 4. **Usluge upisa sertifikata** (CES), u kombinaciji sa uslugom politike upisa sertifikata (CEP).
-5. **Usluge upisa mrežnih uređaja** (NDES) za mrežne uređaje, koristeći Protokol jednostavnog upisa sertifikata (SCEP).
+5. **Usluge upisa mrežnih uređaja** (NDES) za mrežne uređaje, koristeći Protokol za jednostavno upisivanje sertifikata (SCEP).
 
-Windows korisnici takođe mogu zatražiti sertifikate putem GUI-a (`certmgr.msc` ili `certlm.msc`) ili alata komandne linije (`certreq.exe` ili PowerShell-ove `Get-Certificate` komande).
+Windows korisnici takođe mogu zatražiti sertifikate putem GUI-a (`certmgr.msc` ili `certlm.msc`) ili alata komandne linije (`certreq.exe` ili PowerShell-ove komande `Get-Certificate`).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
@@ -105,7 +105,7 @@ is central to establishing trust for certificate authentication.
 
 ### Secure Channel (Schannel) Authentication
 
-Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja, klijent predstavlja sertifikat koji, ako je uspešno validiran, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu **S4U2Self** funkciju ili **Subject Alternative Name (SAN)** sertifikata, među drugim metodama.
+Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja, klijent predstavlja sertifikat koji, ako se uspešno validira, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu **S4U2Self** funkciju ili **Subject Alternative Name (SAN)** sertifikata, među drugim metodama.
 
 ### AD Certificate Services Enumeration
 
@@ -125,7 +125,7 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-## References
+## Reference
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)

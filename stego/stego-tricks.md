@@ -33,7 +33,7 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Pomaže u prikazivanju metapodataka datoteke, dostupno [ovde](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Pomaže u prikazivanju metapodataka datoteka, dostupno [ovde](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -43,13 +43,13 @@ Slično kao exiftool, za pregled metapodataka. Instalira se putem `apt`, izvor n
 ```bash
 exiv2 file # Shows the metadata
 ```
-### **Fajl**
+### **Datoteka**
 
-Identifikujte tip fajla sa kojim se bavite.
+Identifikujte tip datoteke s kojom se bavite.
 
 ### **Stringovi**
 
-Izvlači čitljive stringove iz fajlova, koristeći različite postavke kodiranja za filtriranje izlaza.
+Izvlači čitljive stringove iz datoteka, koristeći različite postavke kodiranja za filtriranje izlaza.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -63,17 +63,17 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Comparison (cmp)**
 
-Koristan za upoređivanje izmenjene datoteke sa njenom originalnom verzijom koja se nalazi na mreži.
+Koristan za upoređivanje izmenjene datoteke sa njenom originalnom verzijom koja se nalazi online.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Ekstrakcija Skrivenih Podataka u Tekstu**
+## **Izvlačenje Skrivenih Podataka u Tekstu**
 
 ### **Skriveni Podaci u Prostorima**
 
-Nevidljivi karakteri u naizgled praznim prostorima mogu skrivati informacije. Da biste ekstraktovali ove podatke, posetite [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Nevidljivi karakteri u naizgled praznim prostorima mogu skrivati informacije. Da biste izvukli ove podatke, posetite [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Ekstrakcija Podataka iz Slika**
+## **Izvlačenje Podataka iz Slika**
 
 ### **Identifikacija Detalja Slike sa GraphicMagick**
 
@@ -113,7 +113,7 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. I
 
 ### **StegoVeritas i Stegsolve**
 
-**stegoVeritas** proverava metapodatke, vrši transformacije slika i primenjuje LSB brute forcing među ostalim funkcijama. Koristite `stegoveritas.py -h` za punu listu opcija i `stegoveritas.py stego.jpg` da izvršite sve provere.
+**stegoVeritas** proverava metapodatke, vrši transformacije slika i primenjuje LSB brute forcing među ostalim funkcijama. Koristite `stegoveritas.py -h` za punu listu opcija i `stegoveritas.py stego.jpg` za izvršavanje svih provera.
 
 **Stegsolve** primenjuje razne filtere boja kako bi otkrio skrivene tekstove ili poruke unutar slika. Dostupan je na [GitHub-u](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -166,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg se odlično snalazi u skrivanju i ekstrakciji podataka unutar WAV datoteka koristeći strategiju najmanje značajne bit. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
+WavSteg se odlično snalazi u skrivanju i ekstrakciji podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -193,11 +193,11 @@ Binarni podaci koji se kvadriraju u celoj broju mogu predstavljati QR kod. Koris
 import math
 math.sqrt(2500) #50
 ```
-Za konverziju binarnih podataka u sliku, proverite [dcode](https://www.dcode.fr/binary-image). Da biste pročitali QR kodove, koristite [ovaj online čitač barkoda](https://online-barcode-reader.inliteresearch.com/).
+Za konverziju binarnih podataka u sliku, proverite [dcode](https://www.dcode.fr/binary-image). Da biste pročitali QR kodove, koristite [ovaj online čitač barkodova](https://online-barcode-reader.inliteresearch.com/).
 
-### **Prevod na Brajeu**
+### **Prevod na Brajevo pismo**
 
-Za prevođenje Brajeva pisma, [Branah Braille Translator](https://www.branah.com/braille-translator) je odličan resurs.
+Za prevođenje Brajevog pisma, [Branah Braille Translator](https://www.branah.com/braille-translator) je odličan resurs.
 
 ## **Reference**
 
@@ -205,16 +205,16 @@ Za prevođenje Brajeva pisma, [Branah Braille Translator](https://www.branah.com
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

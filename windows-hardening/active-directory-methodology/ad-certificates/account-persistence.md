@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## **Razumevanje krađe aktivnih korisničkih akreditiva pomoću sertifikata – PERSIST1**
 
-U scenariju gde korisnik može da zatraži sertifikat koji omogućava autentifikaciju domena, napadač ima priliku da **zatraži** i **ukrade** ovaj sertifikat kako bi **održao postojanost** na mreži. Po defaultu, `User` šablon u Active Directory-ju omogućava takve zahteve, iako može ponekad biti onemogućen.
+U scenariju gde korisnik može da zatraži sertifikat koji omogućava autentifikaciju domena, napadač ima priliku da **zatraži** i **ukrade** ovaj sertifikat kako bi **održao postojanost** na mreži. Po defaultu, `User` šablon u Active Directory omogućava takve zahteve, iako može ponekad biti onemogućen.
 
 Korišćenjem alata pod nazivom [**Certify**](https://github.com/GhostPack/Certify), može se pretraživati za validnim sertifikatima koji omogućavaju postojan pristup:
 ```bash
@@ -39,18 +39,18 @@ Datoteka `.pfx` se zatim može otpremiti na ciljni sistem i koristiti sa alatom 
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-Važno upozorenje se deli o tome kako ova tehnika, u kombinaciji sa drugom metodom opisano u sekciji **THEFT5**, omogućava napadaču da trajno dobije **NTLM hash** naloga bez interakcije sa Local Security Authority Subsystem Service (LSASS), i iz neuzvišenog konteksta, pružajući diskretniju metodu za dugotrajno krađu akreditiva.
+Važna upozorenja se dele o tome kako ova tehnika, u kombinaciji sa drugom metodom opisano u sekciji **THEFT5**, omogućava napadaču da trajno dobije **NTLM hash** naloga bez interakcije sa Local Security Authority Subsystem Service (LSASS), i iz ne-eleviranog konteksta, pružajući diskretniju metodu za dugoročno krađu akreditiva.
 
 ## **Sticanje mašinske postojanosti sa sertifikatima - PERSIST2**
 
-Druga metoda uključuje registraciju mašinskog naloga kompromitovanog sistema za sertifikat, koristeći podrazumevani `Machine` šablon koji omogućava takve radnje. Ako napadač dobije uzvišene privilegije na sistemu, može koristiti **SYSTEM** nalog za zahtev sertifikata, pružajući oblik **postojanosti**:
+Druga metoda uključuje registraciju mašinskog naloga kompromitovanog sistema za sertifikat, koristeći podrazumevani `Machine` šablon koji omogućava takve akcije. Ako napadač dobije elevirane privilegije na sistemu, može koristiti **SYSTEM** nalog da zatraži sertifikate, pružajući oblik **postojanosti**:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
 Ovaj pristup omogućava napadaču da se autentifikuje na **Kerberos** kao mašinski nalog i koristi **S4U2Self** da dobije Kerberos servisne karte za bilo koju uslugu na hostu, efektivno dajući napadaču postojan pristup mašini.
 
-## **Produženje postojanosti kroz obnovu sertifikata - PERSIST3**
+## **Produženje Postojanosti Kroz Obnovu Sertifikata - PERSIST3**
 
-Poslednja metoda koja se razmatra uključuje korišćenje **važenja** i **perioda obnove** šablona sertifikata. Obnavljanjem sertifikata pre njegovog isteka, napadač može održati autentifikaciju na Active Directory bez potrebe za dodatnim upisima karata, što bi moglo ostaviti tragove na serveru sertifikacione vlasti (CA).
+Poslednja metoda koja se razmatra uključuje korišćenje **važenja** i **perioda obnove** šablona sertifikata. Obnavljanjem sertifikata pre njegovog isteka, napadač može održati autentifikaciju na Active Directory bez potrebe za dodatnim upisima karata, što bi moglo ostaviti tragove na serveru Sertifikacione Autoritete (CA).
 
 Ovaj pristup omogućava **produženu postojanost**, minimizirajući rizik od otkrivanja kroz manje interakcija sa CA serverom i izbegavajući generisanje artefakata koji bi mogli upozoriti administratore na upad.

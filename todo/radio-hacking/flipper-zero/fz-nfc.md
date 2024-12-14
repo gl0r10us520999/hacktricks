@@ -26,7 +26,7 @@ Za informacije o RFID i NFC proverite sledeću stranicu:
 ## Podržane NFC kartice <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
-Osim NFC kartica, Flipper Zero podržava **drugi tip visokofrekventnih kartica** kao što su nekoliko **Mifare** Classic i Ultralight i **NTAG**.
+Osim NFC kartica, Flipper Zero podržava **druge tipove visokofrekventnih kartica** kao što su nekoliko **Mifare** Classic i Ultralight i **NTAG**.
 {% endhint %}
 
 Novi tipovi NFC kartica biće dodati na listu podržanih kartica. Flipper Zero podržava sledeće **NFC kartice tip A** (ISO 14443A):
@@ -66,13 +66,13 @@ Za uvod o NFC [**pročitajte ovu stranicu**](../pentesting-rfid.md#high-frequenc
 
 ### Čitanje
 
-Flipper Zero može **čitati NFC kartice**, međutim, **ne razume sve protokole** koji se zasnivaju na ISO 14443. Međutim, pošto je **UID niska nivo atribut**, možete se naći u situaciji kada je **UID već pročitan, ali je visoko nivo protokol za prenos podataka još uvek nepoznat**. Možete čitati, emulirati i ručno unositi UID koristeći Flipper za primitivne čitače koji koriste UID za autorizaciju.
+Flipper Zero može **čitati NFC kartice**, međutim, **ne razume sve protokole** koji se zasnivaju na ISO 14443. Ipak, pošto je **UID niska nivo atribut**, možete se naći u situaciji kada je **UID već pročitan, ali je visoko nivo protokol za prenos podataka još uvek nepoznat**. Možete čitati, emulirati i ručno unositi UID koristeći Flipper za primitivne čitače koji koriste UID za autorizaciju.
 
 #### Čitanje UID VS Čitanje podataka unutar <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
 <figure><img src="../../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
 
-U Flipperu, čitanje 13.56 MHz oznaka može se podeliti na dva dela:
+U Flipper-u, čitanje 13.56 MHz oznaka može se podeliti na dva dela:
 
 * **Nisko nivo čitanje** — čita samo UID, SAK i ATQA. Flipper pokušava da pogodi visoko nivo protokol na osnovu ovih podataka pročitanih sa kartice. Ne možete biti 100% sigurni u ovo, jer je to samo pretpostavka zasnovana na određenim faktorima.
 * **Visoko nivo čitanje** — čita podatke iz memorije kartice koristeći specifičan visoko nivo protokol. To bi bilo čitanje podataka na Mifare Ultralight, čitanje sektora sa Mifare Classic, ili čitanje atributa kartice sa PayPass/Apple Pay.
@@ -84,7 +84,7 @@ U slučaju da Flipper Zero nije u mogućnosti da pronađe tip kartice iz niskoni
 #### EMV Bankovne Kartice (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
 Osim jednostavnog čitanja UID-a, možete izvući mnogo više podataka sa bankovne kartice. Moguće je **dobiti puni broj kartice** (16 cifara na prednjoj strani kartice), **datum važenja**, i u nekim slučajevima čak i **ime vlasnika** zajedno sa listom **najnovijih transakcija**.\
-Međutim, ne možete na ovaj način pročitati CVV (3 cifre na poleđini kartice). Takođe, **bankovne kartice su zaštićene od replay napada**, tako da kopiranje sa Flipperom i zatim pokušaj emulacije za plaćanje ne funkcioniše.
+Međutim, ne možete čitati CVV na ovaj način** (3 cifre na poleđini kartice). Takođe, **bankovne kartice su zaštićene od replay napada**, tako da kopiranje sa Flipper-om i zatim pokušaj emulacije za plaćanje nečega neće uspeti.
 
 ## Reference
 

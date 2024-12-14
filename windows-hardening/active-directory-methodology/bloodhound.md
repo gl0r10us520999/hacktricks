@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Snapshots
 
-AD Explorer može kreirati snimke AD-a kako biste mogli da ga proverite offline.\
+AD Explorer može kreirati snimke AD-a kako biste mogli da ih proverite offline.\
 Može se koristiti za otkrivanje ranjivosti offline ili za upoređivanje različitih stanja AD DB-a tokom vremena.
 
 Biće vam potrebni korisničko ime, lozinka i pravac za povezivanje (bilo koji AD korisnik je potreban).
@@ -32,7 +32,7 @@ Da biste napravili snimak AD-a, idite na `File` --> `Create Snapshot` i unesite 
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) je alat koji izvlači i kombinuje razne artefakte iz AD okruženja. Informacije se mogu predstaviti u **posebno formatiranom** Microsoft Excel **izveštaju** koji uključuje sažetke sa metrikama kako bi se olakšala analiza i pružila celovita slika trenutnog stanja ciljnog AD okruženja.
+[**ADRecon**](https://github.com/adrecon/ADRecon) je alat koji izvlači i kombinuje razne artefakte iz AD okruženja. Informacije se mogu predstaviti u **specijalno formatiranom** Microsoft Excel **izveštaju** koji uključuje sažetke sa metrikama kako bi se olakšala analiza i pružila holistička slika trenutnog stanja ciljnog AD okruženja.
 ```bash
 # Run it
 .\ADRecon.ps1
@@ -51,10 +51,10 @@ Bloodhound se sastoji od 2 glavne komponente: **sakupljači** i **aplikacija za 
 
 **Sakupljači** se koriste za **enumerisanje domena i ekstrakciju svih informacija** u formatu koji aplikacija za vizualizaciju može razumeti.
 
-**Aplikacija za vizualizaciju koristi neo4j** da prikaže kako su sve informacije povezane i da pokaže različite načine za eskalaciju privilegija u domenu.
+**Aplikacija za vizualizaciju koristi neo4j** da prikaže kako su sve informacije povezane i da prikaže različite načine za eskalaciju privilegija u domenu.
 
 ### Instalacija
-Nakon kreiranja BloodHound CE, ceo projekat je ažuriran radi lakšeg korišćenja sa Docker-om. Najlakši način da se započne je korišćenje unapred konfigurisane Docker Compose konfiguracije.
+Nakon kreiranja BloodHound CE, ceo projekat je ažuriran radi lakšeg korišćenja sa Docker-om. Najlakši način da se započne je korišćenje njegove unapred konfigurirane Docker Compose konfiguracije.
 
 1. Instalirajte Docker Compose. Ovo bi trebalo da bude uključeno u [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalaciju.
 2. Pokrenite:
@@ -64,11 +64,11 @@ curl -L https://ghst.ly/getbhce | docker compose -f - up
 3. Pronađite nasumično generisanu lozinku u izlazu terminala Docker Compose.  
 4. U pretraživaču idite na http://localhost:8080/ui/login. Prijavite se sa korisničkim imenom admin i nasumično generisanom lozinkom iz logova.  
 
-Nakon toga, biće potrebno da promenite nasumično generisanu lozinku i bićete spremni sa novim interfejsom, iz kojeg možete direktno preuzeti ingestor-e.  
+Nakon toga, biće potrebno da promenite nasumično generisanu lozinku i imaćete novi interfejs spreman, iz kojeg možete direktno preuzeti ingestor-e.  
 
 ### SharpHound  
 
-Imaju nekoliko opcija, ali ako želite da pokrenete SharpHound sa računara koji je pridružen domenu, koristeći svog trenutnog korisnika i izvlačeći sve informacije, možete uraditi:
+Imaju nekoliko opcija, ali ako želite da pokrenete SharpHound sa PC-a koji je pridružen domeni, koristeći vaš trenutni korisnički nalog i izvučete sve informacije, možete to učiniti:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
@@ -80,7 +80,6 @@ Ako želite da izvršite SharpHound koristeći različite akreditive, možete kr
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
 [**Saznajte više o Bloodhound-u na ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
-
 
 ## Group3r
 

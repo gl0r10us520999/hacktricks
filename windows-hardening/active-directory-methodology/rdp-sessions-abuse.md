@@ -47,9 +47,9 @@ Check **other ways to steal sessions with other tools** [**in this page.**](../.
 
 ## RDPInception
 
-Ako korisnik pristupi **RDP-u na mašini** gde **napadač** čeka na njega, napadač će moći da **ubaci beacon u RDP sesiju korisnika** i ako je **žrtva montirala svoj disk** prilikom pristupa putem RDP-a, **napadač bi mogao da mu pristupi**.
+If a user access via **RDP into a machine** where an **attacker** is **waiting** for him, the attacker will be able to **inject a beacon in the RDP session of the user** and if the **victim mounted his drive** when accessing via RDP, the **attacker could access it**.
 
-U ovom slučaju, mogli biste samo da **kompromitujete** **originalni računar žrtve** tako što ćete napisati **backdoor** u **startup folder**.
+In this case you could just **compromise** the **victims** **original computer** by writing a **backdoor** in the **statup folder**.
 ```powershell
 # Wait til someone logs in:
 net logons

@@ -2,11 +2,11 @@
 
 ## Spot
 
-Ovo je najosnovniji način trgovanja. Možete **navesti količinu imovine i cenu** koju želite da kupite ili prodate, i kada god ta cena bude dostignuta, operacija se izvršava.
+Ovo je najosnovniji način trgovanja. Možete **naznačiti količinu imovine i cenu** po kojoj želite da kupite ili prodate, i kada god ta cena bude dostignuta, operacija se izvršava.
 
 Obično možete koristiti i **trenutnu tržišnu cenu** kako biste izvršili transakciju što je brže moguće po trenutnoj ceni.
 
-**Stop Loss - Limit**: Takođe možete navesti količinu i cenu imovine koju želite da kupite ili prodate, dok takođe navodite nižu cenu za kupovinu ili prodaju u slučaju da bude dostignuta (da biste zaustavili gubitke).
+**Stop Loss - Limit**: Takođe možete naznačiti količinu i cenu imovine za kupovinu ili prodaju, dok takođe naznačavate nižu cenu za kupovinu ili prodaju u slučaju da bude dostignuta (da zaustavite gubitke).
 
 ## Futures
 
@@ -31,25 +31,25 @@ U slučaju da cena opadne, menadžer fonda će ostvariti dobit jer će prodati i
 
 **Ovo su "futures" koji traju neodređeno** (bez datuma završetka ugovora). Veoma je uobičajeno naći ih, na primer, na kripto berzama gde možete ulaziti i izlaziti iz futures-a na osnovu cene kriptovaluta.
 
-Imajte na umu da u ovim slučajevima dobit i gubitak mogu biti u realnom vremenu, ako cena poraste za 1%, vi dobijate 1%, ako cena opadne za 1%, izgubićete to.
+Imajte na umu da u ovim slučajevima dobit i gubitak mogu biti u realnom vremenu, ako cena poraste 1% vi dobijate 1%, ako cena opadne 1%, izgubićete to.
 
 ### Futures with Leverage
 
-**Leverage** vam omogućava da kontrolišete veću poziciju na tržištu sa manjim iznosom novca. U suštini, omogućava vam da "kladite" mnogo više novca nego što imate, rizikujući samo novac koji zapravo imate.
+**Leverage** vam omogućava da kontrolišete veću poziciju na tržištu sa manjim iznosom novca. U suštini vam omogućava da "kladite" mnogo više novca nego što imate, rizikujući samo novac koji zapravo imate.
 
-Na primer, ako otvorite futures poziciju u BTC/USDT sa 100$ i 50x leverage, to znači da ako cena poraste za 1%, tada biste zarađivali 1x50 = 50% od vaše početne investicije (50$). I stoga ćete imati 150$.\
-Međutim, ako cena opadne za 1%, izgubićete 50% svojih sredstava (59$ u ovom slučaju). A ako cena opadne za 2%, izgubićete celu svoju opkladu (2x50 = 100%).
+Na primer, ako otvorite futures poziciju u BTC/USDT sa 100$ uz 50x leverage, to znači da ako cena poraste 1%, tada biste zarađivali 1x50 = 50% od vaše početne investicije (50$). I stoga ćete imati 150$.\
+Međutim, ako cena opadne 1%, izgubićete 50% svojih sredstava (59$ u ovom slučaju). A ako cena opadne 2%, izgubićete celu svoju opkladu (2x50 = 100%).
 
 Dakle, leverage omogućava kontrolu iznosa novca koji se kladite dok povećava dobitke i gubitke.
 
 ## Differences Futures & Options
 
-Glavna razlika između futures i opcija je ta što je ugovor opcioni za kupca: On može odlučiti da ga izvrši ili ne (obično će to učiniti samo ako će imati koristi od toga). Prodavac mora prodati ako kupac želi da iskoristi opciju.\
+Glavna razlika između futures i opcija je u tome što je ugovor opcionalan za kupca: On može odlučiti da ga izvrši ili ne (obično će to učiniti samo ako će imati koristi od toga). Prodavac mora prodati ako kupac želi da iskoristi opciju.\
 Međutim, kupac će plaćati neku naknadu prodavcu za otvaranje opcije (tako da prodavac, koji očigledno preuzima veći rizik, počinje da zarađuje neki novac).
 
 ### 1. **Obaveza vs. Pravo:**
 
-* **Futures:** Kada kupujete ili prodajete futures ugovor, ulazite u **obavezujući ugovor** da kupite ili prodate imovinu po određenoj ceni na budući datum. I kupac i prodavac su **obavezni** da ispune ugovor na isteku (osim ako se ugovor ne zatvori pre toga).
+* **Futures:** Kada kupujete ili prodajete futures ugovor, ulazite u **obavezujući sporazum** da kupite ili prodate imovinu po određenoj ceni na budući datum. I kupac i prodavac su **obavezni** da ispune ugovor na isteku (osim ako se ugovor ne zatvori pre toga).
 * **Opcije:** Sa opcijama, imate **pravo, ali ne i obavezu**, da kupite (u slučaju **call opcije**) ili prodate (u slučaju **put opcije**) imovinu po određenoj ceni pre ili na određeni datum isteka. **Kupac** ima opciju da izvrši, dok je **prodavac** obavezan da ispuni trgovinu ako kupac odluči da iskoristi opciju.
 
 ### 2. **Rizik:**

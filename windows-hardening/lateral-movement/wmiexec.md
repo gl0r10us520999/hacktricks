@@ -25,7 +25,7 @@ Procesi se mogu otvoriti na hostovima gde su korisničko ime i ili lozinka ili h
 
 ### Namespace
 
-Strukturiran u hijerarhiji sličnoj direktorijumu, WMI-jev najviši kontejner je \root, pod kojim su organizovani dodatni direktorijumi, koji se nazivaju namespaces.
+Strukturiran u hijerarhiji sličnoj direktorijumu, WMI-ov kontejner na vrhu je \root, ispod kojeg su organizovani dodatni direktorijumi, koji se nazivaju namespaces.
 Komande za listanje namespaces:
 ```bash
 # Retrieval of Root namespaces
@@ -37,7 +37,7 @@ Get-WmiObject -Class "__Namespace" -Namespace "Root" -List -Recurse 2> $null | s
 # Listing of namespaces within "root\cimv2"
 Get-WmiObject -Class "__Namespace" -Namespace "root\cimv2" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 ```
-Klase unutar imenskog prostora mogu se nabrojati koristeći:
+Klase unutar imenskog prostora mogu se navesti koristeći:
 ```bash
 gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
@@ -70,9 +70,9 @@ $c.methods
 # Method listing and invocation
 Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Description", $null, "Name", $null, "c:\share\path",0)
 ```
-## WMI Enumeracija
+## WMI Enumaracija
 
-### WMI Status Usluge
+### Status WMI Usluge
 
 Komande za proveru da li je WMI usluga operativna:
 ```bash

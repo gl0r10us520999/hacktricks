@@ -1,36 +1,36 @@
-# Eskalacija privilegija sa Autoruns
+# Privilege Escalation with Autoruns
 
 {% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Savjet za bug bounty**: **prijavite se** za **Intigriti**, premium **bug bounty platformu koju su kreirali hakeri, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
+**Bug bounty tip**: **prijavite se** za **Intigriti**, premium **bug bounty platformu koju su kreirali hakeri, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
-**Wmic** se može koristiti za pokretanje programa pri **pokretanju**. Pogledajte koji su binarni programi programirani da se pokrenu pri pokretanju sa:
+**Wmic** se može koristiti za pokretanje programa pri **pokretanju**. Pogledajte koji su binarni programi podešeni da se pokrenu pri pokretanju sa:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## Zakazane Radnje
+## Zakazani zadaci
 
-**Radnje** mogu biti zakazane da se izvršavaju sa **određenom frekvencijom**. Pogledajte koje su binarne datoteke zakazane za izvršavanje sa:
+**Zadaci** mogu biti zakazani da se izvršavaju sa **određenom frekvencijom**. Pogledajte koji su binarni fajlovi zakazani za izvršavanje sa:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -43,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Folders
 
-Sve binarne datoteke smeštene u **Startup folderima će biti izvršene prilikom pokretanja**. Uobičajeni startup folderi su oni navedeni u nastavku, ali je startup folder označen u registru. [Pročitajte ovo da saznate gde.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Svi binarni fajlovi smešteni u **Startup folderima će biti izvršeni prilikom pokretanja**. Uobičajeni startup folderi su oni navedeni u nastavku, ali je startup folder označen u registru. [Pročitajte ovo da saznate gde.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -55,12 +55,12 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Registry
 
 {% hint style="info" %}
-[Note from here](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** registracija ukazuje na to da koristite 64-bitnu verziju Windows-a. Operativni sistem koristi ovu ključ za prikazivanje odvojene verzije HKEY\_LOCAL\_MACHINE\SOFTWARE za 32-bitne aplikacije koje se pokreću na 64-bitnim verzijama Windows-a.
+[Напомена од овде](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** регистарски унос указује да користите 64-битну верзију Windows-a. Оперативни систем користи овај кључ да прикаже одвојену верзију HKEY\_LOCAL\_MACHINE\SOFTWARE за 32-битне апликације које раде на 64-битним верзијама Windows-a.
 {% endhint %}
 
 ### Runs
 
-**Uobičajeno poznati** AutoRun registry:
+**Обично познати** AutoRun регистар:
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -74,9 +74,9 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Registry ključevi poznati kao **Run** i **RunOnce** su dizajnirani da automatski izvršavaju programe svaki put kada se korisnik prijavi u sistem. Komandna linija dodeljena kao podatkovna vrednost ključa je ograničena na 260 karaktera ili manje.
+Регистарски кључеви познати као **Run** и **RunOnce** су дизајнирани да аутоматски извршавају програме сваки пут када се корисник пријави у систем. Командна линија додељена као вредност кључа је ограничена на 260 знакова или мање.
 
-**Service runs** (mogu kontrolisati automatsko pokretanje servisa tokom podizanja sistema):
+**Service runs** (могу контролисати аутоматско покретање услуга током покретања):
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -92,16 +92,16 @@ Registry ključevi poznati kao **Run** i **RunOnce** su dizajnirani da automatsk
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Na Windows Vista i novijim verzijama, **Run** i **RunOnce** registry ključevi se ne generišu automatski. Unosi u ovim ključevima mogu ili direktno pokrenuti programe ili ih odrediti kao zavisnosti. Na primer, da bi se učitao DLL fajl prilikom prijavljivanja, može se koristiti **RunOnceEx** registry ključ zajedno sa "Depend" ključem. Ovo se demonstrira dodavanjem registracijske stavke za izvršavanje "C:\temp\evil.dll" tokom pokretanja sistema:
+На Windows Vista и новијим верзијама, **Run** и **RunOnce** регистарски кључеви се не генеришу аутоматски. Уноси у овим кључевима могу или директно покренути програме или их одредити као зависности. На пример, да би се учитао DLL фајл при пријави, могло би се користити **RunOnceEx** регистарски кључ заједно са "Depend" кључем. Ово се демонстрира додавањем регистарског уноса за извршавање "C:\temp\evil.dll" током покретања система:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Eksploit 1**: Ako možete da pišete unutar bilo kog od pomenutih registra unutar **HKLM**, možete da eskalirate privilegije kada se prijavi drugi korisnik.
+**Eksploit 1**: Ako možete da pišete unutar bilo kog od pomenutih registra unutar **HKLM**, možete da eskalirate privilegije kada se drugi korisnik prijavi.
 {% endhint %}
 
 {% hint style="info" %}
-**Eksploit 2**: Ako možete da prepišete bilo koji od binarnih fajlova navedenih u bilo kom od registra unutar **HKLM**, možete da modifikujete taj binarni fajl sa backdoor-om kada se prijavi drugi korisnik i eskalirate privilegije.
+**Eksploit 2**: Ako možete da prepišete bilo koji od binarnih fajlova navedenih u bilo kom od registara unutar **HKLM**, možete da modifikujete taj binarni fajl sa backdoor-om kada se drugi korisnik prijavi i eskalirate privilegije.
 {% endhint %}
 ```bash
 #CMD
@@ -168,7 +168,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 Prečice postavljene u **Startup** fasciklu automatski će pokrenuti usluge ili aplikacije tokom prijavljivanja korisnika ili ponovnog pokretanja sistema. Lokacija **Startup** fascikle je definisana u registru za **Local Machine** i **Current User** opsege. To znači da će svaka prečica dodata ovim određenim **Startup** lokacijama osigurati da se povezana usluga ili program pokrene nakon procesa prijavljivanja ili ponovnog pokretanja, što ga čini jednostavnom metodom za zakazivanje programa da se automatski pokreću.
 
 {% hint style="info" %}
-Ako možete prepisati bilo koju \[User] Shell Folder pod **HKLM**, moći ćete da je usmerite na fasciklu koju kontrolišete i postavite backdoor koji će se izvršiti svaki put kada se korisnik prijavi u sistem, čime se povećavaju privilegije.
+Ako možete prepisati bilo koju \[User] Shell Folder pod **HKLM**, moći ćete da je usmerite na fasciklu koju kontrolišete i postavite backdoor koji će se izvršiti svaki put kada se korisnik prijavi u sistem, povećavajući privilegije.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -210,11 +210,11 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 ```
 ### AlternateShell
 
-### Promena komande za bezbedan režim
+### Promena komande za siguran režim
 
-U Windows registru pod `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, postoji **`AlternateShell`** vrednost koja je podrazumevano postavljena na `cmd.exe`. To znači da kada izaberete "Safe Mode with Command Prompt" tokom pokretanja (pritiskom na F8), koristi se `cmd.exe`. Međutim, moguće je postaviti vaš računar da automatski startuje u ovom režimu bez potrebe da pritisnete F8 i ručno ga izaberete.
+U Windows registru pod `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, postoji **`AlternateShell`** vrednost koja je podrazumevano postavljena na `cmd.exe`. To znači da kada izaberete "Siguran režim sa komandnom linijom" tokom pokretanja (pritiskom na F8), koristi se `cmd.exe`. Međutim, moguće je postaviti vaš računar da se automatski pokreće u ovom režimu bez potrebe da pritisnete F8 i ručno ga izaberete.
 
-Koraci za kreiranje opcije za pokretanje koja automatski startuje u "Safe Mode with Command Prompt":
+Koraci za kreiranje opcije za pokretanje u "Sigurnom režimu sa komandnom linijom":
 
 1. Promenite atribute `boot.ini` datoteke da uklonite read-only, system i hidden oznake: `attrib c:\boot.ini -r -s -h`
 2. Otvorite `boot.ini` za uređivanje.
@@ -222,9 +222,9 @@ Koraci za kreiranje opcije za pokretanje koja automatski startuje u "Safe Mode w
 4. Sačuvajte promene u `boot.ini`.
 5. Ponovo primenite originalne atribute datoteke: `attrib c:\boot.ini +r +s +h`
 
-* **Eksploit 1:** Promena **AlternateShell** registry ključa omogućava prilagođenu postavku komandne ljuske, potencijalno za neovlašćen pristup.
-* **Eksploit 2 (PATH Write Permissions):** Imati dozvole za pisanje u bilo koji deo sistema **PATH** promenljive, posebno pre `C:\Windows\system32`, omogućava vam da izvršite prilagođeni `cmd.exe`, što bi mogla biti zadnja vrata ako se sistem pokrene u bezbednom režimu.
-* **Eksploit 3 (PATH i boot.ini Write Permissions):** Pristup za pisanje u `boot.ini` omogućava automatsko pokretanje u bezbednom režimu, olakšavajući neovlašćen pristup prilikom sledećeg ponovnog pokretanja.
+* **Eksploit 1:** Promena **AlternateShell** registracijske ključe omogućava prilagođenu postavku komandne ljuske, potencijalno za neovlašćen pristup.
+* **Eksploit 2 (PATH Write Permissions):** Imati dozvole za pisanje u bilo koji deo sistema **PATH** promenljive, posebno pre `C:\Windows\system32`, omogućava vam da izvršite prilagođeni `cmd.exe`, koji bi mogao biti backdoor ako se sistem pokrene u sigurnom režimu.
+* **Eksploit 3 (PATH i boot.ini Write Permissions):** Pristup za pisanje u `boot.ini` omogućava automatsko pokretanje u sigurnom režimu, olakšavajući neovlašćen pristup prilikom sledećeg ponovnog pokretanja.
 
 Da proverite trenutnu **AlternateShell** postavku, koristite ove komande:
 ```bash
@@ -242,7 +242,7 @@ Active Setup se upravlja kroz sledeće registre:
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Unutar ovih ključeva postoje različiti podključevi, od kojih svaki odgovara određenoj komponenti. Ključne vrednosti od posebnog interesa uključuju:
+Unutar ovih ključeva postoje različiti podključevi, od kojih svaki odgovara određenom komponentu. Ključne vrednosti od posebnog interesa uključuju:
 
 * **IsInstalled:**
 * `0` označava da komanda komponente neće biti izvršena.
@@ -286,7 +286,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\B
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Napomena da će registar sadržati 1 novi unos za svaki dll i biće predstavljen sa **CLSID**. Informacije o CLSID-u možete pronaći u `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+Napomena da će registar sadržati 1 novi unos registra za svaku dll i biće predstavljen sa **CLSID**. Informacije o CLSID-u možete pronaći u `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
 
 ### Font Drivers
 
@@ -315,13 +315,13 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Napomena da su sve lokacije gde možete pronaći autorune **već pretražene od strane**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Međutim, za **opsežniju listu automatski izvršenih** fajlova možete koristiti [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) iz sysinternals:
+Napomena da su sve lokacije gde možete pronaći autorune **već pretražene od strane**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Međutim, za **opsežniju listu automatski izvršenih** fajlova možete koristiti [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)iz sysinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## Više
 
-**Pronađite više Autoruns kao što su registri u** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
+**Pronađite više Autorun-a poput registrija na** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
 ## Reference
 

@@ -1,4 +1,4 @@
-# Lista provere - Lokalna eskalacija privilegija na Windows-u
+# Checklist - Lokalna Windows eskalacija privilegija
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -9,7 +9,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -20,14 +20,14 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 ### [Informacije o sistemu](windows-local-privilege-escalation/#system-info)
 
 * [ ] Pribavite [**informacije o sistemu**](windows-local-privilege-escalation/#system-info)
-* [ ] Pretražujte **kernel** [**eksploite koristeći skripte**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Koristite **Google za pretragu** kernel **eksploita**
-* [ ] Koristite **searchsploit za pretragu** kernel **eksploita**
+* [ ] Pretražujte **kernel** [**eksploate koristeći skripte**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Koristite **Google za pretragu** kernel **eksploata**
+* [ ] Koristite **searchsploit za pretragu** kernel **eksploata**
 * [ ] Zanimljive informacije u [**env vars**](windows-local-privilege-escalation/#environment)?
 * [ ] Lozinke u [**PowerShell istoriji**](windows-local-privilege-escalation/#powershell-history)?
 * [ ] Zanimljive informacije u [**Internet podešavanjima**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Diskovi**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS eksploatacija**](windows-local-privilege-escalation/#wsus)?
+* [ ] [**WSUS eksploat**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Logovanje/AV enumeracija](windows-local-privilege-escalation/#enumeration)
@@ -43,12 +43,12 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**Korisničke privilegije**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Proverite [**trenutne** korisničke **privilegije**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Da li ste [**član neke privilegovane grupe**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Proverite da li imate [neki od ovih tokena aktiviranih](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] Da li ste [**član bilo koje privilegovane grupe**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Proverite da li imate [bilo koji od ovih tokena aktiviranih](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Sesije korisnika**](windows-local-privilege-escalation/#logged-users-sessions)?
 * [ ] Proverite [**korisničke domove**](windows-local-privilege-escalation/#home-folders) (pristup?)
 * [ ] Proverite [**Politiku lozinki**](windows-local-privilege-escalation/#password-policy)
-* [ ] Šta je [**u Clipboard-u**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Šta je [**unutar Clipboard-a**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Mreža](windows-local-privilege-escalation/#network)
 
@@ -60,25 +60,25 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] Binarne datoteke procesa [**dozvole datoteka i foldera**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Rudarenje lozinki iz memorije**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**Neosigurane GUI aplikacije**](windows-local-privilege-escalation/#insecure-gui-apps)
-* [ ] Ukrao kredencijale sa **zanimljivih procesa** putem `ProcDump.exe` ? (firefox, chrome, itd ...)
+* [ ] Ukrao kredencijale sa **zanimljivim procesima** putem `ProcDump.exe` ? (firefox, chrome, itd ...)
 
 ### [Usluge](windows-local-privilege-escalation/#services)
 
-* [ ] [Možete li **modifikovati neku uslugu**?](windows-local-privilege-escalation/#permissions)
-* [ ] [Možete li **modifikovati** **binarne** datoteke koje **izvodi** neka **usluga**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [Možete li **modifikovati bilo koju uslugu**?](windows-local-privilege-escalation/#permissions)
+* [ ] [Možete li **modifikovati** **binarne** datoteke koje **izvodi** bilo koja **usluga**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Možete li **modifikovati** **registru** bilo koje **usluge**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [ ] [Možete li iskoristiti bilo koju **necitiranu uslugu** binarnu **putanju**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Aplikacije**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Dozvole** [**pisanja na instaliranim aplikacijama**](windows-local-privilege-escalation/#write-permissions)
+* [ ] **Pisanje** [**dozvola na instaliranim aplikacijama**](windows-local-privilege-escalation/#write-permissions)
 * [ ] [**Aplikacije pri pokretanju**](windows-local-privilege-escalation/#run-at-startup)
 * [ ] **Ranljive** [**drajvere**](windows-local-privilege-escalation/#drivers)
 
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Možete li **pisati u bilo koju fasciklu unutar PATH-a**?
-* [ ] Da li postoji neka poznata binarna datoteka usluge koja **pokušava da učita neku nepostojeću DLL**?
+* [ ] Da li postoji neka poznata binarna datoteka usluge koja **pokušava da učita bilo koji nepostojeći DLL**?
 * [ ] Možete li **pisati** u bilo koju **fasciklu binarnih datoteka**?
 
 ### [Mreža](windows-local-privilege-escalation/#network)
@@ -90,7 +90,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials) kredencijali
 * [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) kredencijali koje možete koristiti?
-* [ ] Zanimljivi [**DPAPI kredencijali**](windows-local-privilege-escalation/#dpapi)?
+* [ ] Zanimljive [**DPAPI kredencijale**](windows-local-privilege-escalation/#dpapi)?
 * [ ] Lozinke sa sačuvanih [**Wifi mreža**](windows-local-privilege-escalation/#wifi)?
 * [ ] Zanimljive informacije u [**sačuvanim RDP vezama**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Lozinke u [**nedavno pokrenutim komandama**](windows-local-privilege-escalation/#recently-run-commands)?
@@ -103,7 +103,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] **Putty:** [**Kredencijali**](windows-local-privilege-escalation/#putty-creds) **i** [**SSH host ključevi**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**SSH ključevi u registru**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
 * [ ] Lozinke u [**nepridruženim datotekama**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Da li postoji neki [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
+* [ ] Da li postoji bilo koja [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rezervna kopija?
 * [ ] [**Cloud kredencijali**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) datoteka?
 * [ ] [**Keširana GPP lozinka**](windows-local-privilege-escalation/#cached-gpp-pasword)?
@@ -122,7 +122,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ### [Impersonacija klijenta cevi](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Proverite da li možete da to zloupotrebite
+* [ ] Proverite da li možete da ga zloupotrebite
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -133,7 +133,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

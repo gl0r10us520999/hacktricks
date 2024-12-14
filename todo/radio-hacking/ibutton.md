@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Intro
 
-iButton je generički naziv za elektronski identifikacioni ključ smešten u **metalnu posudu u obliku novčića**. Takođe se naziva **Dallas Touch** memorija ili kontaktna memorija. Iako se često pogrešno naziva "magnetnim" ključem, u njemu **nema ničega magnetskog**. U stvari, unutra se nalazi potpuno funkcionalni **mikročip** koji radi na digitalnom protokolu.
+iButton je generički naziv za elektronski identifikacioni ključ smešten u **metalnu kutiju u obliku novčića**. Takođe se naziva **Dallas Touch** memorija ili kontaktna memorija. Iako se često pogrešno naziva "magnetnim" ključem, u njemu **nema ničega magnetskog**. U stvari, unutra se nalazi potpuno funkcionalni **mikročip** koji radi na digitalnom protokolu.
 
 <figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
@@ -27,7 +27,7 @@ Obično, iButton podrazumeva fizički oblik ključa i čitača - okrugli novči�
 
 <figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-Kada ključ dođe do čitača, **kontakti se dodiruju** i ključ se napaja da **prenese** svoj ID. Ponekad ključ **nije odmah pročitan** jer je **kontakt PSD interkoma veći** nego što bi trebao biti. Tako spoljašnji konturi ključa i čitača nisu mogli da se dodirnu. Ako je to slučaj, moraćete da pritisnete ključ na jednu od zidova čitača.
+Kada ključ dođe do čitača, **kontakti se dodiruju** i ključ se napaja da **prenese** svoj ID. Ponekad ključ **nije odmah pročitan** jer je **kontakt PSD interkoma veći** nego što bi trebao biti. Tako spoljašnji konturi ključa i čitača ne mogu dodirnuti. Ako je to slučaj, moraćete da pritisnete ključ na jednu od zidova čitača.
 
 <figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
@@ -37,7 +37,7 @@ Dallas ključevi razmenjuju podatke koristeći 1-wire protokol. Sa samo jednim k
 
 Kada ključ (Slave) kontaktira interkom (Master), čip unutar ključa se uključuje, napajan od strane interkoma, i ključ se inicijalizuje. Nakon toga, interkom zahteva ID ključa. Sledeće, detaljnije ćemo pogledati ovaj proces.
 
-Flipper može raditi i u Master i u Slave režimu. U režimu čitanja ključeva, Flipper deluje kao čitač, to jest, radi kao Master. A u režimu emulacije ključeva, flipper se pretvara da je ključ, u Slave režimu.
+Flipper može raditi i u Master i u Slave režimu. U režimu čitanja ključeva, Flipper deluje kao čitač, to jest, radi kao Master. A u režimu emulacije ključa, flipper se pretvara da je ključ, u Slave režimu.
 
 ### Dallas, Cyfral & Metakom ključevi
 

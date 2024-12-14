@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-## Introduction
+## Uvod
 
 Ako ste otkrili da možete **pisati u folderu System Path** (napomena: ovo neće raditi ako možete pisati u folderu User Path) moguće je da možete **povećati privilegije** u sistemu.
 
@@ -27,9 +27,9 @@ Za više informacija o **onome što je Dll Hijacking** proverite:
 [.](./)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Povećanje privilegija sa Dll Hijacking
 
-### Finding a missing Dll
+### Pronalaženje nedostajuće Dll
 
 Prva stvar koju treba da uradite je da **identifikujete proces** koji se izvršava sa **većim privilegijama** od vas i koji pokušava da **učita Dll iz System Path-a** u koji možete pisati.
 
@@ -54,7 +54,7 @@ $newPath = "$envPath;$folderPath"
 ```
 * Pokrenite **`procmon`** i idite na **`Options`** --> **`Enable boot logging`** i pritisnite **`OK`** u prozoru.
 * Zatim, **ponovo pokrenite**. Kada se računar ponovo pokrene, **`procmon`** će početi **snimati** događaje odmah.
-* Kada se **Windows** **pokrene, ponovo izvršite `procmon`**, reći će vam da je već radio i **pitati vas da li želite da sačuvate** događaje u datoteci. Recite **da** i **sačuvajte događaje u datoteci**.
+* Kada se **Windows** pokrene, ponovo izvršite **`procmon`**, reći će vam da je već radio i **pitati vas da li želite da sačuvate** događaje u datoteku. Recite **da** i **sačuvajte događaje u datoteku**.
 * **Nakon** što je **datoteka** **generisana**, **zatvorite** otvoreni **`procmon`** prozor i **otvorite datoteku sa događajima**.
 * Dodajte ove **filtre** i pronaći ćete sve DLL-ove koje je neki **proces pokušao da učita** iz foldera sa zapisivim sistemskim putem:
 
@@ -74,13 +74,13 @@ U ovom slučaju .exe su beskorisni, pa ih ignorisite, propušteni DLL-ovi su bil
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-Nakon što sam ovo pronašao, našao sam ovaj zanimljiv blog post koji takođe objašnjava kako da [**zloupotrebljavate WptsExtensions.dll za privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Što je ono što **sada planiramo da uradimo**.
+Nakon što sam ovo pronašao, našao sam ovaj zanimljiv blog post koji takođe objašnjava kako da [**zloupotrebite WptsExtensions.dll za privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Što je ono što **sada planiramo da uradimo**.
 
 ### Eksploatacija
 
 Dakle, da bismo **povećali privilegije**, planiramo da preuzmemo biblioteku **WptsExtensions.dll**. Imajući **putanju** i **ime**, samo treba da **generišemo maliciozni dll**.
 
-Možete [**probati da koristite neki od ovih primera**](./#creating-and-compiling-dlls). Možete pokrenuti payload-e kao što su: dobiti rev shell, dodati korisnika, izvršiti beacon...
+Možete [**pokušati da koristite neki od ovih primera**](./#creating-and-compiling-dlls). Možete pokrenuti payload-e kao što su: dobijanje rev shell-a, dodavanje korisnika, izvršavanje beacona...
 
 {% hint style="warning" %}
 Imajte na umu da **nisu sve usluge pokrenute** sa **`NT AUTHORITY\SYSTEM`**, neke se takođe pokreću sa **`NT AUTHORITY\LOCAL SERVICE`** što ima **manje privilegija** i nećete moći da kreirate novog korisnika zloupotrebljavajući njegove dozvole.\

@@ -43,17 +43,17 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Trust Account Attack
 
-Postoji sigurnosna ranjivost kada se uspostavi odnos poverenja između dva domena, ovde identifikovana kao domen **A** i domen **B**, gde domen **B** proširuje svoje poverenje na domen **A**. U ovoj postavci, poseban nalog se kreira u domenu **A** za domen **B**, koji igra ključnu ulogu u procesu autentifikacije između dva domena. Ovaj nalog, povezan sa domenom **B**, koristi se za enkripciju karata za pristup uslugama između domena.
+Postoji sigurnosna ranjivost kada se uspostavi odnos poverenja između dva domena, ovde identifikovana kao domen **A** i domen **B**, gde domen **B** proširuje svoje poverenje na domen **A**. U ovoj postavci, posebni nalog se kreira u domenu **A** za domen **B**, koji igra ključnu ulogu u procesu autentifikacije između dva domena. Ovaj nalog, povezan sa domenom **B**, koristi se za enkripciju karata za pristup uslugama između domena.
 
-Ključni aspekt koji treba razumeti ovde je da se lozinka i hash ovog posebnog naloga mogu izvući iz Kontrolera domena u domenu **A** koristeći alat za komandnu liniju. Komanda za izvršavanje ove radnje je:
+Ključni aspekt koji treba razumeti ovde je da se lozinka i hash ovog posebnog naloga mogu izvući iz kontrolera domena u domenu **A** koristeći alat iz komandne linije. Komanda za izvršavanje ove radnje je:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Ova ekstrakcija je moguća jer je nalog, označen sa **$** nakon svog imena, aktivan i pripada grupi "Domain Users" domena **A**, čime nasleđuje dozvole povezane sa ovom grupom. To omogućava pojedincima da se autentifikuju protiv domena **A** koristeći akreditive ovog naloga.
+Ova ekstrakcija je moguća jer je nalog, identifikovan sa **$** nakon svog imena, aktivan i pripada grupi "Domain Users" domena **A**, čime nasleđuje dozvole povezane sa ovom grupom. To omogućava pojedincima da se autentifikuju protiv domena **A** koristeći akreditive ovog naloga.
 
-**Warning:** Moguće je iskoristiti ovu situaciju da se dobije pristup u domen **A** kao korisnik, iako sa ograničenim dozvolama. Međutim, ovaj pristup je dovoljan za izvođenje enumeracije na domenu **A**.
+**Upozorenje:** Moguće je iskoristiti ovu situaciju da se dobije pristup u domen **A** kao korisnik, iako sa ograničenim dozvolama. Međutim, ovaj pristup je dovoljan za izvođenje enumeracije na domenu **A**.
 
-U scenariju gde je `ext.local` poveravajući domen, a `root.local` povereni domen, korisnički nalog nazvan `EXT$` biće kreiran unutar `root.local`. Kroz specifične alate, moguće je izvući Kerberos ključeve poverenja, otkrivajući akreditive `EXT$` u `root.local`. Komanda za postizanje ovoga je:
+U scenariju gde je `ext.local` poveravajući domen, a `root.local` je povereni domen, korisnički nalog nazvan `EXT$` biće kreiran unutar `root.local`. Kroz specifične alate, moguće je izvući Kerberos ključeve poverenja, otkrivajući akreditive `EXT$` u `root.local`. Komanda za postizanje ovoga je:
 ```bash
 lsadump::trust /patch
 ```

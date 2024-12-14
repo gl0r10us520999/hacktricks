@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 Postoji nekoliko blogova na internetu koji **ističu opasnosti ostavljanja štampača konfiguranih sa LDAP sa podrazumevanjem/slabim** lozinkama.\
 To je zato što bi napadač mogao **prevariti štampač da se autentifikuje protiv lažnog LDAP servera** (tipično je `nc -vv -l -p 444` dovoljno) i da uhvati **lozinke štampača u čistom tekstu**.
 
-Takođe, nekoliko štampača će sadržati **logove sa korisničkim imenima** ili čak mogu biti u mogućnosti da **preuzmu sva korisnička imena** sa Kontrolera domena.
+Takođe, nekoliko štampača će sadržati **logove sa korisničkim imenima** ili čak moći da **preuzmu sva korisnička imena** sa Kontrolera domena.
 
 Sve ove **osetljive informacije** i uobičajeni **nedostatak sigurnosti** čine štampače veoma zanimljivim za napadače.
 

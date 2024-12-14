@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Dobijte perspektivu hakera o vašim web aplikacijama, mreži i oblaku**
 
-**Pronađite i prijavite kritične, eksploatabilne ranjivosti sa stvarnim poslovnim uticajem.** Koristite naših 20+ prilagođenih alata za mapiranje napadačke površine, pronalaženje sigurnosnih problema koji vam omogućavaju da eskalirate privilegije, i koristite automatizovane eksploate za prikupljanje suštinskih dokaza, pretvarajući vaš težak rad u uverljive izveštaje.
+**Pronađite i prijavite kritične, iskoristive ranjivosti sa stvarnim poslovnim uticajem.** Koristite naših 20+ prilagođenih alata za mapiranje napadačke površine, pronalaženje sigurnosnih problema koji vam omogućavaju da eskalirate privilegije, i koristite automatizovane eksploate za prikupljanje suštinskih dokaza, pretvarajući vaš trud u uverljive izveštaje.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -29,7 +29,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Ključne tačke o **SMBExec**
 
-- Deluje tako što kreira privremenu uslugu (na primer, "BTOBTO") na ciljnim mašinama kako bi izvršio komande putem cmd.exe (%COMSPEC%), bez ispuštanja bilo kakvih binarnih datoteka.
+- Deluje tako što kreira privremenu uslugu (na primer, "BTOBTO") na ciljnom računaru da izvrši komande putem cmd.exe (%COMSPEC%), bez ispuštanja bilo kakvih binarnih datoteka.
 - I pored svog diskretnog pristupa, generiše dnevničke zapise za svaku izvršenu komandu, nudeći oblik neinteraktivnog "shell-a".
 - Komanda za povezivanje koristeći **Smbexec** izgleda ovako:
 ```bash
@@ -58,7 +58,7 @@ FOr further details check [https://blog.ropnop.com/using-credentials-to-own-wind
 
 **Dobijte perspektivu hakera o vašim web aplikacijama, mreži i oblaku**
 
-**Pronađite i prijavite kritične, eksploatabilne ranjivosti sa stvarnim poslovnim uticajem.** Koristite naših 20+ prilagođenih alata za mapiranje napadačke površine, pronalaženje sigurnosnih problema koji vam omogućavaju da eskalirate privilegije, i koristite automatizovane eksploate za prikupljanje suštinskih dokaza, pretvarajući vaš trud u uverljive izveštaje.
+**Pronađite i prijavite kritične, iskoristive ranjivosti sa stvarnim poslovnim uticajem.** Koristite naših 20+ prilagođenih alata za mapiranje napadačke površine, pronalaženje sigurnosnih problema koji vam omogućavaju da eskalirate privilegije, i koristite automatizovane eksploate za prikupljanje suštinskih dokaza, pretvarajući vaš trud u uverljive izveštaje.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 

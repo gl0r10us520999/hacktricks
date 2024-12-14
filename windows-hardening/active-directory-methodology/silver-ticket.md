@@ -23,7 +23,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Silver ticket
 
-Napad **Silver Ticket** uključuje eksploataciju servisnih karata u Active Directory (AD) okruženjima. Ova metoda se oslanja na **sticanje NTLM heša servisnog naloga**, kao što je nalog računara, kako bi se falsifikovala Ticket Granting Service (TGS) karta. Sa ovom falsifikovanom kartom, napadač može pristupiti specifičnim uslugama na mreži, **pretvarajući se da je bilo koji korisnik**, obično sa ciljem sticanja administratorskih privilegija. Naglašava se da je korišćenje AES ključeva za falsifikovanje karata sigurnije i manje uočljivo.
+Napad **Silver Ticket** uključuje eksploataciju servisnih karata u Active Directory (AD) okruženjima. Ova metoda se oslanja na **dobijanje NTLM heša servisnog naloga**, kao što je nalog računara, kako bi se falsifikovala Ticket Granting Service (TGS) karta. Sa ovom falsifikovanom kartom, napadač može pristupiti specifičnim uslugama na mreži, **pretvarajući se da je bilo koji korisnik**, obično sa ciljem sticanja administratorskih privilegija. Naglašava se da je korišćenje AES ključeva za falsifikovanje karata sigurnije i manje uočljivo.
 
 Za kreiranje karata koriste se različiti alati u zavisnosti od operativnog sistema:
 
@@ -52,7 +52,7 @@ CIFS servis je istaknut kao uobičajeni cilj za pristupanje fajl sistemu žrtve,
 | Tip Usluge                                 | Usluge Silver Tickets                                                      |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                   |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>U zavisnosti od OS takođe:</p><p>WSMAN</p><p>RPCSS</p> |
+| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>U zavisnosti od OS-a takođe:</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>U nekim slučajevima možete samo tražiti: WINRM</p> |
 | Zakazani Zadaci                            | HOST                                                                      |
 | Windows Deljenje Fajlova, takođe psexec   | CIFS                                                                      |
@@ -60,7 +60,7 @@ CIFS servis je istaknut kao uobičajeni cilj za pristupanje fajl sistemu žrtve,
 | Windows Alati za Udaljenu Administraciju   | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                        |
 | Zlatni Tiketi                             | krbtgt                                                                    |
 
-Koristeći **Rubeus** možete **tražiti sve** ove tikete koristeći parametar:
+Korišćenjem **Rubeus** možete **tražiti sve** ove tikete koristeći parametar:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
@@ -122,7 +122,7 @@ Nađite **više informacija o wmiexec** na sledećoj stranici:
 
 ### HOST + WSMAN (WINRM)
 
-Sa winrm pristupom preko računara možete **pristupiti** i čak dobiti PowerShell:
+Sa winrm pristupom preko računara možete **pristupiti njemu** i čak dobiti PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```

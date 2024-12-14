@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Security Descriptors
 
-[From the docs](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Jezik definicije bezbednosnog deskriptora (SDDL) definiše format koji se koristi za opisivanje bezbednosnog deskriptora. SDDL koristi ACE stringove za DACL i SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
+[From the docs](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Jezik za definisanje bezbednosnog deskriptora (SDDL) definiše format koji se koristi za opisivanje bezbednosnog deskriptora. SDDL koristi ACE stringove za DACL i SACL: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
 **Bezbednosni deskriptori** se koriste za **čuvanje** **dozvola** koje **objekat** ima **nad** **objektom**. Ako možete samo **napraviti** **malo promene** u **bezbednosnom deskriptoru** objekta, možete dobiti veoma zanimljive privilegije nad tim objektom bez potrebe da budete član privilegovane grupe.
 
@@ -39,7 +39,7 @@ Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remo
 ```
 ### Remote access to hashes
 
-Pristupite **registru** i **izvucite hash** kreirajući **Reg backdoor koristeći** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** tako da u bilo kojem trenutku možete preuzeti **hash računara**, **SAM** i bilo koju **keširanu AD** akreditiv na računaru. Dakle, veoma je korisno dati ovu dozvolu **običnom korisniku protiv računara domen kontrolera**:
+Pristupite **registru** i **izvucite hash-e** kreirajući **Reg backdoor koristeći** [**DAMP**](https://github.com/HarmJ0y/DAMP)**,** tako da u bilo kojem trenutku možete preuzeti **hash računara**, **SAM** i bilo koju **keširanu AD** akreditiv na računaru. Dakle, veoma je korisno dati ovu dozvolu **običnom korisniku protiv računara Kontrolera domena**:
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose

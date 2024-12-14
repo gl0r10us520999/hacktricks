@@ -31,21 +31,21 @@ IR protokoli se razlikuju u 3 faktora:
 
 #### Načini kodiranja bitova <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Kodiranje udaljenosti impulsa**
+**1. Kodiranje razmaka impulsa**
 
-Bitovi se kodiraju modulacijom trajanja prostora između impulsa. Širina samog impulsa je konstantna.
+Bitovi se kodiraju modulacijom trajanja razmaka između impulsa. Širina samog impulsa je konstantna.
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
 **2. Kodiranje širine impulsa**
 
-Bitovi se kodiraju modulacijom širine impulsa. Širina prostora nakon niza impulsa je konstantna.
+Bitovi se kodiraju modulacijom širine impulsa. Širina razmaka nakon burst-a impulsa je konstantna.
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
 **3. Kodiranje faze**
 
-Poznato je i kao Mančestersko kodiranje. Logička vrednost se definiše polaritetom prelaza između niza impulsa i prostora. "Prostor do niza impulsa" označava logiku "0", "niz impulsa do prostora" označava logiku "1".
+Poznato je i kao Mančestersko kodiranje. Logička vrednost se definiše polaritetom prelaza između burst-a impulsa i razmaka. "Razmak do burst-a impulsa" označava logiku "0", "burst impulsa do razmaka" označava logiku "1".
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
@@ -63,7 +63,7 @@ Najpouzdaniji način da se vidi kako izgleda IR signal daljinskog upravljača je
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Obično, na početku kodiranog paketa postoji preambula. Ovo omogućava prijemniku da odredi nivo pojačanja i pozadinsku buku. Postoje i protokoli bez preamble, na primer, Sharp.
+Obično, na početku kodiranog paketa postoji preambula. Ovo omogućava prijemniku da odredi nivo pojačanja i pozadinsku buku. Takođe postoje protokoli bez preamble, na primer, Sharp.
 
 Zatim se prenose podaci. Struktura, preambula i način kodiranja bitova određeni su specifičnim protokolom.
 
@@ -73,7 +73,7 @@ NEC **komanda**, pored preamble, se sastoji od bajta adrese i bajta broja komand
 
 **Kod ponavljanja** ima "1" nakon preamble, što je stop bit.
 
-Za **logiku "0" i "1"** NEC koristi kodiranje udaljenosti impulsa: prvo se prenosi niz impulsa nakon kojeg sledi pauza, čija dužina postavlja vrednost bita.
+Za **logiku "0" i "1"** NEC koristi kodiranje razmaka impulsa: prvo se prenosi burst impulsa nakon kojeg sledi pauza, čija dužina postavlja vrednost bita.
 
 ### Klimatizacije
 

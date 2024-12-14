@@ -14,13 +14,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-Veoma jednostavno, ovaj alat će nam pomoći da pronađemo vrednosti za promenljive koje treba da zadovolje određene uslove, a ručno izračunavanje bi bilo veoma dosadno. Stoga, možete Z3 ukazati na uslove koje promenljive treba da zadovolje i on će pronaći neke vrednosti (ako je moguće).
+Veoma osnovno, ovaj alat će nam pomoći da pronađemo vrednosti za promenljive koje treba da zadovolje određene uslove, a ručno izračunavanje bi bilo veoma dosadno. Stoga, možete Z3 ukazati na uslove koje promenljive treba da zadovolje i on će pronaći neke vrednosti (ako je moguće).
 
 **Neki tekstovi i primeri su preuzeti sa [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
 # Osnovne Operacije
 
-## Booleovi/And/Or/Not
+## Booleans/And/Or/Not
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -86,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Potpisani/Ne potpisani brojevi
+## Signed/Unsigned Numbers
 
-Z3 pruža posebne potpisane verzije aritmetičkih operacija gde je važno da li se **bit-vektor tretira kao potpisan ili ne potpisan**. U Z3Py, operatori **<, <=, >, >=, /, % i >>** odgovaraju **potpisanim** verzijama. Odgovarajući **ne potpisani** operatori su **ULT, ULE, UGT, UGE, UDiv, URem i LShR.**
+Z3 pruža posebne potpisane verzije aritmetičkih operacija gde je važno da li se **bit-vektor tretira kao potpisan ili nepodpisan**. U Z3Py, operatori **<, <=, >, >=, /, % i >>** odgovaraju **potpisanim** verzijama. Odgovarajući **nepodpisani** operatori su **ULT, ULE, UGT, UGE, UDiv, URem i LShR.**
 ```python
 from z3 import *
 
@@ -110,7 +110,7 @@ solve(ULT(x, 0))
 
 **Interpretirane funkcije** kao što su aritmetičke gde **funkcija +** ima **fiksnu standardnu interpretaciju** (sabira dva broja). **Neinterpretirane funkcije** i konstante su **maksimalno fleksibilne**; omogućavaju **bilo koju interpretaciju** koja je **dosledna** sa **ograničenjima** nad funkcijom ili konstantom.
 
-Primer: f primenjena dva puta na x rezultira ponovo u x, ali f primenjena jednom na x je drugačija od x.
+Primer: f primenjena dva puta na x rezultira ponovo u x, ali f primenjena jednom na x je različita od x.
 ```python
 from z3 import *
 
@@ -181,7 +181,7 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## Reference
+## References
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 

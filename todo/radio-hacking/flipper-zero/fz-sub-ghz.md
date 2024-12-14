@@ -33,7 +33,7 @@ Flipper Zero ima ugrađeni sub-1 GHz modul zasnovan na [﻿](https://www.st.com/
 ### Analizator frekvencije
 
 {% hint style="info" %}
-Kako pronaći koja frekvencija se koristi za daljinski
+Kako pronaći koja frekvencija koristi daljinski upravljač
 {% endhint %}
 
 Kada analizira, Flipper Zero skenira jačinu signala (RSSI) na svim frekvencijama dostupnim u konfiguraciji frekvencije. Flipper Zero prikazuje frekvenciju sa najvišom vrednošću RSSI, sa jačinom signala višom od -90 [dBm](https://en.wikipedia.org/wiki/DBm).
@@ -42,7 +42,7 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 
 1. Postavite daljinski upravljač vrlo blizu levo od Flipper Zero.
 2. Idite na **Glavni meni** **→ Sub-GHz**.
-3. Izaberite **Analizator frekvencije**, zatim pritisnite i držite dugme na daljinskom upravljaču koje želite da analizirate.
+3. Izaberite **Analizator frekvencije**, zatim pritisnite i držite dugme na daljinskom upravljaču koji želite da analizirate.
 4. Pregledajte vrednost frekvencije na ekranu.
 
 ### Čitanje
@@ -51,17 +51,17 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 Pronađite informacije o korišćenoj frekvenciji (takođe drugi način da saznate koja frekvencija se koristi)
 {% endhint %}
 
-Opcija **Čitanje** **sluša na konfigurisanom frekvenciji** na naznačenoj modulaciji: 433.92 AM po defaultu. Ako **se nešto pronađe** prilikom čitanja, **informacije se daju** na ekranu. Ove informacije mogu se koristiti za repliciranje signala u budućnosti.
+Opcija **Čitanje** **sluša na konfigurisanom frekvenciji** na naznačenoj modulaciji: 433.92 AM po defaultu. Ako **nešto bude pronađeno** prilikom čitanja, **informacije se daju** na ekranu. Ove informacije mogu se koristiti za repliciranje signala u budućnosti.
 
 Dok je Čitanje u upotrebi, moguće je pritisnuti **levo dugme** i **konfigurisati ga**.\
 U ovom trenutku ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **several relevant frequencies** pohranjene:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste **sigurni koja frekvencija** bi mogla biti ona koju koristi vaš daljinski, **postavite Hopping na ON** (Isključeno po defaultu), i pritisnite dugme nekoliko puta dok Flipper ne uhvati i ne pruži vam informacije koje su vam potrebne za postavljanje frekvencije.
+Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste **sigurni koja frekvencija** bi mogla biti ona koju koristi vaš daljinski upravljač, **postavite Hopping na ON** (Isključeno po defaultu), i pritisnite dugme nekoliko puta dok Flipper ne uhvati i ne pruži vam informacije koje su vam potrebne za postavljanje frekvencije.
 
 {% hint style="danger" %}
-Prebacivanje između frekvencija zahteva vreme, stoga se signali koji se prenose u trenutku prebacivanja mogu propustiti. Za bolju prijem signala, postavite fiksnu frekvenciju određenu od strane Analizatora frekvencije.
+Prebacivanje između frekvencija zahteva vreme, stoga se signali koji se prenose u trenutku prebacivanja mogu propustiti. Za bolji prijem signala, postavite fiksnu frekvenciju određenu od strane Analizatora frekvencije.
 {% endhint %}
 
 ### **Čitaj sirovo**
@@ -72,7 +72,7 @@ Ukrao (i ponovo poslao) signal na konfigurisanom frekvenciji
 
 Opcija **Čitaj sirovo** **snima signale** poslati na slušanoj frekvenciji. Ovo se može koristiti za **krađu** signala i **ponavljanje** istog.
 
-Po defaultu **Čitaj sirovo je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje otkrili da signal koji vas zanima je na **drugoj frekvenciji/modulaciji, možete to takođe izmeniti** pritiskom na levo (dok ste unutar opcije Čitaj sirovo).
+Po defaultu **Čitaj sirovo je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje otkrili da signal koji vas zanima je na **drugoj frekvenciji/modulaciji, možete takođe izmeniti to** pritiskom na levo (dok ste unutar opcije Čitaj sirovo).
 
 ### Brute-Force
 

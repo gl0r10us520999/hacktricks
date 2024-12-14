@@ -22,7 +22,7 @@ Kada ga preuzmete i pokrenete, **dobijate** **tutorijal** o tome kako koristiti 
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Ovaj alat je veoma koristan za pronalaženje **gde je neka vrednost** (obično broj) **sačuvana u memoriji** programa.\
+Ovaj alat je veoma koristan za pronalaženje **gde je neki podatak** (obično broj) **sačuvan u memoriji** programa.\
 **Obično se brojevi** čuvaju u **4bajta** formatu, ali ih možete pronaći i u **double** ili **float** formatima, ili možda želite da tražite nešto **drugo osim broja**. Iz tog razloga, morate biti sigurni da **izaberete** ono što želite da **tražite**:
 
 ![](<../../.gitbook/assets/image (324).png>)
@@ -43,11 +43,11 @@ U _**Edit --> Settings --> Hotkeys**_ možete postaviti različite **prečice** 
 
 ## Modifikovanje vrednosti
 
-Kada **pronađete** gde je **vrednost** koju tražite (više o ovome u sledećim koracima), možete je **modifikovati** dvostrukim klikom na nju, a zatim dvostrukim klikom na njenu vrednost:
+Kada **pronađete** gde je **vrednost** koju tražite (više o ovome u sledećim koracima) možete **modifikovati** dvostrukim klikom na nju, a zatim dvostrukim klikom na njenu vrednost:
 
 ![](<../../.gitbook/assets/image (563).png>)
 
-I konačno **označite ček** da biste izvršili modifikaciju u memoriji:
+I konačno **označite** kvačicu da biste izvršili modifikaciju u memoriji:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
@@ -88,7 +88,7 @@ Bićete predstavljeni **sve vrednosti koje su modifikovane na odabrani način**:
 
 Kada pronađete svoju vrednost, možete je modifikovati.
 
-Napomena da postoji **mnogo mogućih promena** i možete raditi ove **korake koliko god želite** da filtrirate rezultate:
+Napomena da postoji **mnogo mogućih promena** i možete ponavljati ove **korake koliko god želite** da filtrirate rezultate:
 
 ![](<../../.gitbook/assets/image (574).png>)
 
@@ -107,7 +107,7 @@ Kada izaberete jednu od tih opcija, **debugger** će biti **priključen** na pro
 
 ![](<../../.gitbook/assets/image (91).png>)
 
-Sada kada ste pronašli adresu koja modifikuje vrednost, možete **modifikovati kod po vašoj želji** (Cheat Engine vam omogućava da ga brzo modifikujete za NOPs):
+Sada kada ste pronašli adresu koja modifikuje vrednost, možete **modifikovati kod po vašoj želji** (Cheat Engine vam omogućava da ga brzo modifikujete u NOPs):
 
 ![](<../../.gitbook/assets/image (1057).png>)
 
@@ -115,7 +115,7 @@ Dakle, sada možete modifikovati tako da kod ne utiče na vaš broj, ili će uve
 
 ### Nasumična adresa u memoriji - Pronalaženje pokazivača
 
-Prateći prethodne korake, pronađite gde se vrednost koja vas zanima nalazi. Zatim, koristeći "**Saznajte šta piše na ovoj adresi**" saznajte koja adresa piše ovu vrednost i dvostruko kliknite na nju da biste dobili prikaz disasembly:
+Prateći prethodne korake, pronađite gde se nalazi vrednost koja vas zanima. Zatim, koristeći "**Saznajte šta piše na ovoj adresi**" saznajte koja adresa piše ovu vrednost i dvostruko kliknite na nju da biste dobili prikaz disasembly:
 
 ![](<../../.gitbook/assets/image (1039).png>)
 
@@ -123,14 +123,14 @@ Zatim, izvršite novo skeniranje **tražeći heksadecimalnu vrednost između "\[
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(_Ako se pojavi više njih, obično vam je potrebna najmanja adresa_)\
+(_Ako se pojavi više njih, obično vam je potrebna ona sa najmanjom adresom_)\
 Sada smo **pronašli pokazivač koji će modifikovati vrednost koja nas zanima**.
 
 Kliknite na "**Dodaj adresu ručno**":
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Sada, kliknite na okvir "Pokazivač" i dodajte pronađenu adresu u tekstualno polje (u ovom scenariju, pronađena adresa na prethodnoj slici je "Tutorial-i386.exe"+2426B0):
+Sada, kliknite na kvačicu "Pokazivač" i dodajte pronađenu adresu u tekstualno polje (u ovom scenariju, pronađena adresa na prethodnoj slici je bila "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (392).png>)
 
@@ -171,19 +171,4 @@ Dakle, umetnite svoj novi assembly kod u sekciju "**newmem**" i uklonite origina
 
 ## **Reference**
 
-* **Cheat Engine tutorijal, završite ga da biste naučili kako da počnete sa Cheat Engine** 
-
-{% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Support HackTricks</summary>
-
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-{% endhint %}
+* **Cheat Engine tutorijal, završite ga da biste naučili kako da počnete sa Cheat Engine**

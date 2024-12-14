@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -25,9 +25,9 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 API za zaštitu podataka (DPAPI) se prvenstveno koristi unutar Windows operativnog sistema za **simetričnu enkripciju asimetričnih privatnih ključeva**, koristeći ili korisničke ili sistemske tajne kao značajan izvor entropije. Ovaj pristup pojednostavljuje enkripciju za programere omogućavajući im da enkriptuju podatke koristeći ključ izveden iz korisničkih lozinki ili, za sistemsku enkripciju, tajne autentifikacije domena sistema, čime se eliminiše potreba da programeri sami upravljaju zaštitom enkripcijskog ključa.
 
-### Zaštićeni Podaci od DPAPI
+### Zaštićeni Podaci putem DPAPI
 
-Među ličnim podacima zaštićenim od DPAPI su:
+Među ličnim podacima zaštićenim putem DPAPI su:
 
 * Lozinke i podaci za automatsko popunjavanje Internet Explorer-a i Google Chrome-a
 * Lozinke za e-mail i interne FTP naloge za aplikacije kao što su Outlook i Windows Mail
@@ -68,7 +68,7 @@ dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
 ## Master Keys
 
-DPAPI ključevi koji se koriste za enkripciju RSA ključeva korisnika čuvaju se u `%APPDATA%\Microsoft\Protect\{SID}` direktorijumu, gde je {SID} [**Identifikator bezbednosti**](https://en.wikipedia.org/wiki/Security\_Identifier) **tog korisnika**. **DPAPI ključ se čuva u istom fajlu kao i glavni ključ koji štiti privatne ključeve korisnika**. Obično je to 64 bajta nasumičnih podataka. (Primetite da je ovaj direktorijum zaštićen, tako da ga ne možete listati koristeći `dir` iz cmd, ali ga možete listati iz PS).
+DPAPI ključevi koji se koriste za enkripciju RSA ključeva korisnika čuvaju se u `%APPDATA%\Microsoft\Protect\{SID}` direktorijumu, gde je {SID} [**Identifikator bezbednosti**](https://en.wikipedia.org/wiki/Security\_Identifier) **tog korisnika**. **DPAPI ključ se čuva u istoj datoteci kao i glavni ključ koji štiti privatne ključeve korisnika**. Obično je to 64 bajta nasumičnih podataka. (Primetite da je ovaj direktorijum zaštićen, tako da ga ne možete listati koristeći `dir` iz cmd, ali ga možete listati iz PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -122,7 +122,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

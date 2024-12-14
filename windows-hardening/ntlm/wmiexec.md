@@ -19,13 +19,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Procesi se mogu otvoriti na hostovima gde su korisničko ime i ili lozinka ili hash poznati putem WMI. Komande se izvršavaju koristeći WMI putem Wmiexec, pružajući polu-interaktivno iskustvo ljuske.
 
-**dcomexec.py:** Korišćenjem različitih DCOM krajnjih tačaka, ovaj skript nudi polu-interaktivnu ljusku sličnu wmiexec.py, posebno koristeći ShellBrowserWindow DCOM objekat. Trenutno podržava MMC20. Aplikaciju, Shell Windows i Shell Browser Window objekte. (izvor: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Korišćenjem različitih DCOM krajnjih tačaka, ovaj skript nudi polu-interaktivnu ljusku sličnu wmiexec.py, posebno koristeći ShellBrowserWindow DCOM objekat. Trenutno podržava MMC20. Application, Shell Windows i Shell Browser Window objekti. (izvor: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## WMI Osnovi
 
 ### Namespace
 
-Strukturiran u hijerarhiji sličnoj direktorijumu, WMI-jev kontejner na vrhu je \root, ispod kojeg su organizovani dodatni direktorijumi, koji se nazivaju namespaces.
+Strukturiran u hijerarhiji sličnoj direktorijumu, WMI-ov kontejner na vrhu je \root, ispod kojeg su organizovani dodatni direktorijumi, koji se nazivaju namespaces.
 Komande za listanje namespaces:
 ```bash
 # Retrieval of Root namespaces
@@ -100,7 +100,7 @@ wmic sysaccount list /format:list
 ```
 Daljinsko upitovanje WMI za specifične informacije, kao što su lokalni administratori ili prijavljeni korisnici, je izvodljivo uz pažljivo konstruisanje komandi.
 
-### **Ručno Daljinsko WMI Upitovanje**
+### **Ručno daljinsko WMI upitovanje**
 
 Diskretno identifikovanje lokalnih administratora na daljinskoj mašini i prijavljenih korisnika može se postići kroz specifične WMI upite. `wmic` takođe podržava čitanje iz tekstualne datoteke za izvršavanje komandi na više čvorova istovremeno.
 

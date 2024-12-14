@@ -15,8 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Sledeći koraci se preporučuju za modifikaciju konfiguracija pokretanja uređaja i bootloader-a kao što je U-boot:
 
-1. **Pristupite Bootloader-ovom Interpreter Shell-u**:
-- Tokom pokretanja, pritisnite "0", razmak ili druge identifikovane "magijske kodove" da biste pristupili bootloader-ovom interpreter shell-u.
+1. **Pristup Bootloader-ovom Interpreter Shell-u**:
+- Tokom pokretanja, pritisnite "0", razmak ili druge identifikovane "magične kodove" da biste pristupili bootloader-ovom interpreter shell-u.
 
 2. **Modifikujte Boot Argumente**:
 - Izvršite sledeće komande da dodate '`init=/bin/sh`' boot argumentima, omogućavajući izvršavanje shell komande:
@@ -35,20 +35,20 @@ Sledeći koraci se preporučuju za modifikaciju konfiguracija pokretanja uređaj
 #saveenv
 #reset
 #ping 192.168.2.1 #proverite pristup mreži
-#tftp ${loadaddr} uImage-3.6.35 #loadaddr uzima adresu za učitavanje datoteke i naziv datoteke slike na TFTP serveru
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr uzima adresu za učitavanje fajla i ime fajla slike na TFTP serveru
 %%%
 
 4. **Iskoristite `ubootwrite.py`**:
-- Koristite `ubootwrite.py` za pisanje U-boot slike i slanje modifikovanog firmvera za dobijanje root pristupa.
+- Koristite `ubootwrite.py` da napišete U-boot sliku i gurnete modifikovani firmware za dobijanje root pristupa.
 
 5. **Proverite Debug Funkcije**:
 - Proverite da li su debug funkcije kao što su detaljno logovanje, učitavanje proizvoljnih kernela ili pokretanje sa nepouzdanih izvora omogućene.
 
 6. **Opasna Hardverska Interferencija**:
-- Budite oprezni prilikom povezivanja jednog pina na masu i interakcije sa SPI ili NAND flash čipovima tokom sekvence pokretanja uređaja, posebno pre nego što se kernel dekompresuje. Konsultujte se sa tehničkim listom NAND flash čipa pre nego što kratko spojite pinove.
+- Budite oprezni prilikom povezivanja jednog pina na masu i interakcije sa SPI ili NAND flash čipovima tokom sekvence pokretanja uređaja, posebno pre nego što se kernel dekompresuje. Konsultujte tehnički list NAND flash čipa pre nego što kratko spojite pinove.
 
 7. **Konfigurišite Rogue DHCP Server**:
-- Postavite rogue DHCP server sa zlonamernim parametrima koje uređaj može da preuzme tokom PXE pokretanja. Iskoristite alate kao što je Metasploit-ov (MSF) DHCP pomoćni server. Modifikujte 'FILENAME' parametar sa komandama za injekciju kao što su `'a";/bin/sh;#'` da biste testirali validaciju unosa za procedure pokretanja uređaja.
+- Postavite rogue DHCP server sa zlonamernim parametrima koje uređaj može da prihvati tokom PXE pokretanja. Iskoristite alate kao što je Metasploit-ov (MSF) DHCP pomoćni server. Modifikujte 'FILENAME' parametar sa komandom za injekciju kao što je `'a";/bin/sh;#'` da biste testirali validaciju unosa za procedure pokretanja uređaja.
 
 **Napomena**: Koraci koji uključuju fizičku interakciju sa pinovima uređaja (*označeni zvezdicama) treba da se pristupaju sa ekstremnim oprezom kako bi se izbeglo oštećenje uređaja.
 

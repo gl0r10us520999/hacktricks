@@ -14,10 +14,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% endhint %}
 
 
-# DSRM Credentials
+# DSRM Kredencijali
 
 Postoji **lokalni administrator** nalog unutar svakog **DC**. Imajući administratorske privilegije na ovoj mašini, možete koristiti mimikatz da **izvučete hash lokalnog Administratora**. Zatim, modifikovanjem registra da **aktivirate ovu lozinku** kako biste mogli daljinski pristupiti ovom lokalnom Administratoru.\
-Prvo moramo da **izvučemo** **hash** lokalnog Administratora unutar DC-a:
+Prvo moramo da **izvučemo** **hash** korisnika **lokalnog Administratora** unutar DC-a:
 ```bash
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'
 ```

@@ -1,34 +1,34 @@
-# Constrained Delegation
+# Ograničena Delegacija
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
 
-## Constrained Delegation
+## Ograničena Delegacija
 
-Korišćenjem ovoga, administrator domena može **dozvoliti** računaru da **imitira korisnika ili računar** prema **servisu** mašine.
+Korišćenjem ovoga, domen administrator može **dozvoliti** računaru da **imituje korisnika ili računar** protiv **usluge** mašine.
 
-* **Servis za korisnika da se sam (**_**S4U2self**_**):** Ako **račun servis** ima _userAccountControl_ vrednost koja sadrži [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), onda može dobiti TGS za sebe (servis) u ime bilo kog drugog korisnika.
-* **Servis za korisnika da proxy(**_**S4U2proxy**_**):** **Račun servis** može dobiti TGS u ime bilo kog korisnika za servis postavljen u **msDS-AllowedToDelegateTo.** Da bi to uradio, prvo mu je potreban TGS od tog korisnika za sebe, ali može koristiti S4U2self da dobije taj TGS pre nego što zatraži drugi.
+* **Usluga za korisnika da se sam imituje (**_**S4U2self**_**):** Ako **račun usluge** ima _userAccountControl_ vrednost koja sadrži [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), onda može dobiti TGS za sebe (uslugu) u ime bilo kog drugog korisnika.
+* **Usluga za korisnika da bude posrednik (**_**S4U2proxy**_**):** **Račun usluge** može dobiti TGS u ime bilo kog korisnika za uslugu postavljenu u **msDS-AllowedToDelegateTo.** Da bi to uradio, prvo mu je potrebna TGS od tog korisnika za sebe, ali može koristiti S4U2self da dobije tu TGS pre nego što zatraži drugu.
 
 **Napomena**: Ako je korisnik označen kao ‘_Račun je osetljiv i ne može se delegirati_’ u AD, nećete **moći da imitirate** njih.
 
-To znači da ako **kompromitujete hash servisa** možete **imitirati korisnike** i dobiti **pristup** u njihovo ime do **konfigurisane usluge** (moguća **privesc**).
+To znači da ako **kompromitujete hash usluge** možete **imitirati korisnike** i dobiti **pristup** u njihovo ime do **konfigurisane usluge** (moguća **privesc**).
 
-Štaviše, **nećete imati samo pristup usluzi koju korisnik može imitirati, već i bilo kojoj usluzi** jer se SPN (ime usluge koja se zahteva) ne proverava, samo privilegije. Stoga, ako imate pristup **CIFS servisu** možete takođe imati pristup **HOST servisu** koristeći `/altservice` flag u Rubeus-u.
+Štaviše, **nećete imati samo pristup usluzi koju korisnik može imitirati, već i bilo kojoj usluzi** jer se SPN (ime usluge koja se zahteva) ne proverava, samo privilegije. Stoga, ako imate pristup **CIFS usluzi**, možete takođe imati pristup **HOST usluzi** koristeći `/altservice` flag u Rubeus-u.
 
-Takođe, **pristup LDAP servisu na DC**, je ono što je potrebno za eksploataciju **DCSync**.
+Takođe, **pristup LDAP usluzi na DC-u**, je ono što je potrebno za eksploataciju **DCSync**.
 
 {% code title="Enumerate" %}
 ```bash
@@ -65,7 +65,7 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% hint style="warning" %}
 Postoje **drugi načini za dobijanje TGT karte** ili **RC4** ili **AES256** bez da budete SYSTEM na računaru, kao što su Printer Bug i nekontrolisana delegacija, NTLM preusmeravanje i zloupotreba Active Directory Certificate Service.
 
-**Samo posedujući tu TGT kartu (ili heš) možete izvršiti ovaj napad bez kompromitovanja celog računara.**
+**Samo imajući tu TGT kartu (ili hash) možete izvršiti ovaj napad bez kompromitovanja celog računara.**
 {% endhint %}
 
 {% code title="Using Rubeus" %}

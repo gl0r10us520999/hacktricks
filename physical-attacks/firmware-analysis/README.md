@@ -23,7 +23,7 @@ Firmware je osnovni softver koji omogućava uređajima da ispravno funkcionišu 
 
 **Prikupljanje informacija** je kritičan početni korak u razumevanju sastava uređaja i tehnologija koje koristi. Ovaj proces uključuje prikupljanje podataka o:
 
-- CPU arhitekturi i operativnom sistemu koji koristi
+- Arhitekturi CPU-a i operativnom sistemu koji koristi
 - Specifikacijama bootloader-a
 - Rasporedu hardvera i tehničkim listovima
 - Metrikama koda i lokacijama izvora
@@ -39,7 +39,7 @@ U tu svrhu, **alatke za otvorene izvore (OSINT)** su neprocenjive, kao i analiza
 Dobijanje firmvera može se pristupiti na različite načine, svaki sa svojim nivoom složenosti:
 
 - **Direktno** od izvora (razvijača, proizvođača)
-- **Kreiranje** na osnovu datih uputstava
+- **Kreiranje** iz datih uputstava
 - **Preuzimanje** sa zvaničnih sajtova podrške
 - Korišćenje **Google dork** upita za pronalaženje hostovanih firmver fajlova
 - Pristupanje **cloud storage** direktno, uz alate poput [S3Scanner](https://github.com/sa7mon/S3Scanner)
@@ -61,7 +61,7 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-Ako ne pronađete mnogo sa tim alatima, proverite **entropiju** slike sa `binwalk -E <bin>`, ako je entropija niska, verovatno nije enkriptovana. Ako je entropija visoka, verovatno je enkriptovana (ili na neki način kompresovana).
+Ako ne pronađete mnogo sa tim alatima, proverite **entropiju** slike sa `binwalk -E <bin>`, ako je entropija niska, verovatno nije enkriptovana. Ako je entropija visoka, verovatno je enkriptovana (ili kompresovana na neki način).
 
 Pored toga, možete koristiti ove alate za ekstrakciju **datoteka ugrađenih unutar firmvera**:
 
@@ -73,7 +73,7 @@ Ili [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archiv
 
 ### Dobijanje Datotečnog Sistema
 
-Sa prethodno komentarisanim alatima kao što je `binwalk -ev <bin>`, trebali biste biti u mogućnosti da **izvučete datotečni sistem**.\
+Sa prethodno pomenutim alatima kao što je `binwalk -ev <bin>`, trebali biste biti u mogućnosti da **izvučete datotečni sistem**.\
 Binwalk obično izvlači unutar **foldera nazvanog po tipu datotečnog sistema**, koji obično može biti jedan od sledećih: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
 #### Ručna Ekstrakcija Datotečnog Sistema
@@ -127,11 +127,11 @@ Fajlovi će biti u "`squashfs-root`" direktorijumu nakon toga.
 
 ## Analiza Firmvera
 
-Kada se firmver dobije, bitno je da se razloži kako bi se razumeo njegova struktura i potencijalne ranjivosti. Ovaj proces uključuje korišćenje raznih alata za analizu i ekstrakciju vrednih podataka iz slike firmvera.
+Kada se firmver dobije, od suštinske je važnosti da se razloži kako bi se razumeo njegova struktura i potencijalne ranjivosti. Ovaj proces uključuje korišćenje raznih alata za analizu i ekstrakciju vrednih podataka iz slike firmvera.
 
 ### Alati za Početnu Analizu
 
-Set komandi je obezbeđen za početnu inspekciju binarnog fajla (naziva `<bin>`). Ove komande pomažu u identifikaciji tipova fajlova, ekstrakciji stringova, analizi binarnih podataka i razumevanju detalja particija i fajl sistema:
+Set komandi je obezbeđen za početnu inspekciju binarnog fajla (naziva se `<bin>`). Ove komande pomažu u identifikaciji tipova fajlova, ekstrakciji stringova, analizi binarnih podataka i razumevanju detalja particija i fajl sistema:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -146,7 +146,7 @@ Za ekstrakciju **ugrađenih fajlova**, preporučuju se alati i resursi kao što 
 
 ### Ekstrakcija Fajl Sistema
 
-Korišćenjem `binwalk -ev <bin>`, obično se može ekstraktovati fajl sistem, često u direktorijum nazvan po tipu fajl sistema (npr. squashfs, ubifs). Međutim, kada **binwalk** ne prepozna tip fajl sistema zbog nedostajućih magic bajtova, ručna ekstrakcija je neophodna. To uključuje korišćenje `binwalk` za lociranje ofseta fajl sistema, a zatim `dd` komandu za izdvajanje fajl sistema:
+Korišćenjem `binwalk -ev <bin>`, obično se može ekstraktovati fajl sistem, često u direktorijum nazvan po tipu fajl sistema (npr. squashfs, ubifs). Međutim, kada **binwalk** ne prepozna tip fajl sistema zbog nedostajućih magičnih bajtova, ručna ekstrakcija je neophodna. To uključuje korišćenje `binwalk` za lociranje ofseta fajl sistema, a zatim `dd` komandu za izdvajanje fajl sistema:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
@@ -166,10 +166,10 @@ Sa izvučenim datotečnim sistemom, počinje potraga za sigurnosnim propustima. 
 - Ugrađene binarne datoteke za dalju analizu
 - Uobičajene web servere i binarne datoteke IoT uređaja
 
-Nekoliko alata pomaže u otkrivanju osetljivih informacija i ranjivosti unutar datotečnog sistema:
+NSeveral tools assist in uncovering sensitive information and vulnerabilities within the filesystem:
 
 - [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) i [**Firmwalker**](https://github.com/craigz28/firmwalker) za pretragu osetljivih informacija
-- [**Alat za analizu i poređenje firmvera (FACT)**](https://github.com/fkie-cad/FACT\_core) za sveobuhvatnu analizu firmvera
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) za sveobuhvatnu analizu firmvera
 - [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), i [**EMBA**](https://github.com/e-m-b-a/emba) za statičku i dinamičku analizu
 
 ### Provere sigurnosti na kompajliranim binarnim datotekama
@@ -206,7 +206,7 @@ Alati kao što su [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware
 
 ## Dinamička analiza u praksi
 
-U ovoj fazi koristi se stvarno ili emulirano okruženje uređaja za analizu. Ključno je održati pristup shell-u operativnom sistemu i datotečnom sistemu. Emulacija možda neće savršeno oponašati interakcije hardvera, što zahteva povremena ponovna pokretanja emulacije. Analiza treba da ponovo pregleda datotečni sistem, iskoristi izložene veb stranice i mrežne usluge, i istraži ranjivosti bootloader-a. Testovi integriteta firmvera su ključni za identifikaciju potencijalnih ranjivosti backdoor-a.
+U ovoj fazi koristi se stvarno ili emulirano okruženje uređaja za analizu. Bitno je održati pristup shell-u operativnom sistemu i datotečnom sistemu. Emulacija možda neće savršeno oponašati interakcije hardvera, što zahteva povremena ponovna pokretanja emulacije. Analiza treba da ponovo pregleda datotečni sistem, iskoristi izložene veb stranice i mrežne usluge, i istraži ranjivosti bootloader-a. Testovi integriteta firmvera su ključni za identifikaciju potencijalnih ranjivosti backdoor-a.
 
 ## Tehnike analize u vreme izvođenja
 

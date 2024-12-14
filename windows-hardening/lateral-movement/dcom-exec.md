@@ -49,7 +49,7 @@ ls \\10.10.10.10\c$\Users
 
 **Za više informacija o ovoj tehnici pogledajte originalni post [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Objekat **MMC20.Application** je identifikovan kao onaj koji nema eksplicitne "LaunchPermissions," podrazumevajući dozvole koje omogućavaju pristup Administratorima. Za dodatne detalje, može se istražiti tema [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitne dozvole za pokretanje.
+Objekat **MMC20.Application** je identifikovan kao onaj koji nema eksplicitne "LaunchPermissions," podrazumevajući dozvole koje omogućavaju pristup Administratorima. Za dalje detalje, može se istražiti tema [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitne dozvole za pokretanje.
 
 Dva specifična objekta, `ShellBrowserWindow` i `ShellWindows`, su istaknuta zbog nedostatka eksplicitnih dozvola za pokretanje. Odsustvo `LaunchPermission` registracione stavke pod `HKCR:\AppID\{guid}` označava da nema eksplicitnih dozvola.
 
@@ -67,7 +67,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 Lateral movement može se postići iskorišćavanjem DCOM Excel objekata. Za detaljne informacije, preporučuje se da pročitate diskusiju o korišćenju Excel DDE za lateralno kretanje putem DCOM na [Cybereasonovom blogu](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Empire projekat pruža PowerShell skriptu, koja demonstrira korišćenje Excela za daljinsko izvršavanje koda (RCE) manipulacijom DCOM objekata. Ispod su isječci iz skripte dostupne na [Empire-ovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), koji prikazuju različite metode zloupotrebe Excela za RCE:
+Empire projekat pruža PowerShell skriptu, koja demonstrira korišćenje Excela za daljinsko izvršavanje koda (RCE) manipulacijom DCOM objekata. Ispod su isječci iz skripte dostupne na [Empireovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), koji prikazuju različite metode zloupotrebe Excela za RCE:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -118,7 +118,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -24,14 +24,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Kerberos "Double Hop" problem se pojavljuje kada napadač pokušava da koristi **Kerberos autentifikaciju preko dva** **hopa**, na primer koristeći **PowerShell**/**WinRM**.
 
-Kada se **autentifikacija** vrši putem **Kerberos-a**, **akreditivi** **nisu** keširani u **memoriji.** Stoga, ako pokrenete mimikatz, **nećete pronaći akreditive** korisnika na mašini čak i ako on pokreće procese.
+Kada se **autentifikacija** vrši putem **Kerberos-a**, **akreditivi** **nisu** keširani u **memoriji.** Stoga, ako pokrenete mimikatz nećete **pronaći akreditive** korisnika na mašini čak i ako on pokreće procese.
 
-To je zato što su koraci prilikom povezivanja sa Kerberos-om sledeći:
+To je zato što su koraci prilikom povezivanja sa Kerberos-om:
 
 1. User1 pruža akreditive i **kontroler domena** vraća Kerberos **TGT** korisniku User1.
 2. User1 koristi **TGT** da zatraži **servisni tiket** za **povezivanje** sa Server1.
 3. User1 **povezuje** sa **Server1** i pruža **servisni tiket**.
-4. **Server1** **nema** **akreditive** korisnika User1 keširane ili **TGT** korisnika User1. Stoga, kada User1 sa Server1 pokušava da se prijavi na drugi server, on **nije u mogućnosti da se autentifikuje**.
+4. **Server1** **nema** **akreditive** korisnika User1 keširane ili **TGT** korisnika User1. Stoga, kada korisnik User1 sa Server1 pokušava da se prijavi na drugi server, on **nije u mogućnosti da se autentifikuje**.
 
 ### Unconstrained Delegation
 
@@ -81,7 +81,7 @@ netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP lo
 ```
 #### winrs.exe
 
-`winrs.exe` se može koristiti za prosleđivanje WinRM zahteva, potencijalno kao manje uočljiva opcija ako je praćenje PowerShell-a zabrinjavajuće. Komanda ispod prikazuje njegovu upotrebu:
+`winrs.exe` se može koristiti za prosleđivanje WinRM zahteva, potencijalno kao manje uočljiva opcija ako je praćenje PowerShell-a zabrinjavajuće. Ispod je prikazana njegova upotreba:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```

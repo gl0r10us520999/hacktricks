@@ -32,15 +32,15 @@ $Cert.EnhancedKeyUsageList
 # cmd
 certutil.exe -dump -v cert.pfx
 ```
-## Exporting Certificates Using the Crypto APIs – THEFT1
+## Izvoz Sertifikata Korišćenjem Crypto API-a – THEFT1
 
 U **interaktivnoj desktop sesiji**, ekstrakcija korisničkog ili mašinskog sertifikata, zajedno sa privatnim ključem, može se lako izvršiti, posebno ako je **privatni ključ izvoziv**. To se može postići navigacijom do sertifikata u `certmgr.msc`, desnim klikom na njega i izborom `All Tasks → Export` za generisanje .pfx datoteke zaštićene lozinkom.
 
-Za **programatski pristup**, dostupni su alati kao što su PowerShell `ExportPfxCertificate` cmdlet ili projekti poput [TheWover’s CertStealer C# project](https://github.com/TheWover/CertStealer). Ovi alati koriste **Microsoft CryptoAPI** (CAPI) ili Cryptography API: Next Generation (CNG) za interakciju sa skladištem sertifikata. Ove API pružaju niz kriptografskih usluga, uključujući one potrebne za skladištenje i autentifikaciju sertifikata.
+Za **programatski pristup**, dostupni su alati kao što su PowerShell `ExportPfxCertificate` cmdlet ili projekti poput [TheWover-ovog CertStealer C# projekta](https://github.com/TheWover/CertStealer). Ovi alati koriste **Microsoft CryptoAPI** (CAPI) ili Cryptography API: Next Generation (CNG) za interakciju sa skladištem sertifikata. Ove API pružaju niz kriptografskih usluga, uključujući one potrebne za skladištenje i autentifikaciju sertifikata.
 
-Međutim, ako je privatni ključ postavljen kao neizvoziv, CAPI i CNG obično će blokirati ekstrakciju takvih sertifikata. Da bi se zaobišla ova ograničenja, mogu se koristiti alati poput **Mimikatz**. Mimikatz nudi `crypto::capi` i `crypto::cng` komande za patchovanje odgovarajućih API, omogućavajući izvoz privatnih ključeva. Konkretno, `crypto::capi` patchuje CAPI unutar trenutnog procesa, dok `crypto::cng` cilja memoriju **lsass.exe** za patchovanje.
+Međutim, ako je privatni ključ postavljen kao neizvoziv, CAPI i CNG obično će blokirati ekstrakciju takvih sertifikata. Da bi se zaobišla ova ograničenja, mogu se koristiti alati poput **Mimikatz**. Mimikatz nudi `crypto::capi` i `crypto::cng` komande za patch-ovanje odgovarajućih API-a, omogućavajući izvoz privatnih ključeva. Konkretno, `crypto::capi` patch-uje CAPI unutar trenutnog procesa, dok `crypto::cng` cilja memoriju **lsass.exe** za patch-ovanje.
 
-## User Certificate Theft via DPAPI – THEFT2
+## Krađa Korisničkog Sertifikata putem DPAPI – THEFT2
 
 Više informacija o DPAPI u:
 
@@ -48,11 +48,11 @@ Više informacija o DPAPI u:
 [dpapi-extracting-passwords.md](../../windows-local-privilege-escalation/dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-U Windows-u, **privatni ključevi sertifikata su zaštićeni DPAPI**. Ključno je prepoznati da su **lokacije skladištenja privatnih ključeva korisnika i mašine** različite, a strukture datoteka variraju u zavisnosti od kriptografskog API koji koristi operativni sistem. **SharpDPAPI** je alat koji može automatski navigirati ovim razlikama prilikom dekriptovanja DPAPI blobova.
+U Windows-u, **privatni ključevi sertifikata su zaštićeni DPAPI**. Ključno je prepoznati da su **lokacije skladištenja privatnih ključeva korisnika i mašine** različite, a strukture datoteka variraju u zavisnosti od kriptografskog API-a koji koristi operativni sistem. **SharpDPAPI** je alat koji može automatski navigirati ovim razlikama prilikom dekriptovanja DPAPI blob-ova.
 
 **Korisnički sertifikati** se pretežno nalaze u registru pod `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, ali neki se takođe mogu naći u direktorijumu `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. Odgovarajući **privatni ključevi** za ove sertifikate obično se skladište u `%APPDATA%\Microsoft\Crypto\RSA\User SID\` za **CAPI** ključeve i `%APPDATA%\Microsoft\Crypto\Keys\` za **CNG** ključeve.
 
-Da bi se **izvadio sertifikat i njegov pripadajući privatni ključ**, proces uključuje:
+Da bi se **izvukao sertifikat i njegov pripadajući privatni ključ**, proces uključuje:
 
 1. **Izbor ciljnog sertifikata** iz korisničkog skladišta i preuzimanje njegovog imena skladišta ključeva.
 2. **Lociranje potrebnog DPAPI masterključa** za dekriptovanje odgovarajućeg privatnog ključa.
@@ -66,7 +66,7 @@ dpapi::masterkey /in:"C:\PATH\TO\KEY" /rpc
 # With mimikatz, if the user's password is known
 dpapi::masterkey /in:"C:\PATH\TO\KEY" /sid:accountSid /password:PASS
 ```
-Da bi se pojednostavila dekripcija masterkey datoteka i datoteka privatnih ključeva, komanda `certificates` iz [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) se pokazuje korisnom. Prihvaća `/pvk`, `/mkfile`, `/password` ili `{GUID}:KEY` kao argumente za dekripciju privatnih ključeva i povezanih sertifikata, a zatim generiše `.pem` datoteku.
+Da bi se pojednostavila dekripcija masterkey datoteka i datoteka privatnih ključeva, `certificates` komanda iz [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) se pokazuje korisnom. Prihvaća `/pvk`, `/mkfile`, `/password` ili `{GUID}:KEY` kao argumente za dekripciju privatnih ključeva i povezanih sertifikata, a zatim generiše `.pem` datoteku.
 ```bash
 # Decrypting using SharpDPAPI
 SharpDPAPI.exe certificates /mkfile:C:\temp\mkeys.txt
@@ -76,7 +76,7 @@ openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provid
 ```
 ## Krađa mašinskih sertifikata putem DPAPI – THEFT3
 
-Mašinski sertifikati koje Windows čuva u registru na `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates` i povezani privatni ključevi smešteni u `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\RSA\MachineKeys` (za CAPI) i `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\Keys` (za CNG) su enkriptovani koristeći DPAPI master ključeve mašine. Ovi ključevi se ne mogu dekriptovati pomoću DPAPI rezervnog ključa domena; umesto toga, potreban je **DPAPI_SYSTEM LSA tajni**, kojem može pristupiti samo korisnik SYSTEM.
+Mašinski sertifikati koje Windows čuva u registru na `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates` i povezani privatni ključevi smešteni u `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\RSA\MachineKeys` (za CAPI) i `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\Keys` (za CNG) su enkriptovani koristeći DPAPI master ključeve mašine. Ovi ključevi se ne mogu dekriptovati pomoću DPAPI rezervnog ključa domena; umesto toga, potreban je **DPAPI_SYSTEM LSA tajni**, kojem može pristupiti samo SYSTEM korisnik.
 
 Ručno dekriptovanje može se postići izvršavanjem komande `lsadump::secrets` u **Mimikatz** za ekstrakciju DPAPI_SYSTEM LSA tajne, a zatim korišćenjem ovog ključa za dekriptovanje mašinskih master ključeva. Alternativno, Mimikatz-ova komanda `crypto::certificates /export /systemstore:LOCAL_MACHINE` može se koristiti nakon zakrivanja CAPI/CNG kao što je prethodno opisano.
 
@@ -85,7 +85,7 @@ Ručno dekriptovanje može se postići izvršavanjem komande `lsadump::secrets` 
 
 ## Pronalaženje sertifikat fajlova – THEFT4
 
-Sertifikati se ponekad nalaze direktno unutar fajl sistema, kao što su u deljenim fajlovima ili u Downloads folderu. Najčešće vrste sertifikat fajlova koje se susreću u Windows okruženjima su `.pfx` i `.p12` fajlovi. Iako ređe, fajlovi sa ekstenzijama `.pkcs12` i `.pem` takođe se pojavljuju. Dodatne značajne ekstenzije fajlova vezanih za sertifikate uključuju:
+Sertifikati se ponekad nalaze direktno unutar fajl sistema, kao što su u deljenim fajlovima ili u Downloads folderu. Najčešće vrste sertifikat fajlova usmerenih ka Windows okruženjima su `.pfx` i `.p12` fajlovi. Iako ređe, fajlovi sa ekstenzijama `.pkcs12` i `.pem` takođe se pojavljuju. Dodatne značajne ekstenzije fajlova vezanih za sertifikate uključuju:
 - `.key` za privatne ključeve,
 - `.crt`/`.cer` za samo sertifikate,
 - `.csr` za Zahteve za potpisivanje sertifikata, koji ne sadrže sertifikate ili privatne ključeve,
@@ -108,15 +108,15 @@ john --wordlist=passwords.txt hash.txt
 
 Data objašnjava metodu krađe NTLM akreditiva putem PKINIT, posebno kroz metodu krađe označenu kao THEFT5. Evo ponovnog objašnjenja u pasivnom glasu, sa sadržajem anonimnim i sažetim gde je to primenljivo:
 
-Da bi se podržala NTLM autentifikacija [MS-NLMP] za aplikacije koje ne omogućavaju Kerberos autentifikaciju, KDC je dizajniran da vrati NTLM jednosmernu funkciju (OWF) korisnika unutar sertifikata privilegija (PAC), posebno u `PAC_CREDENTIAL_INFO` baferu, kada se koristi PKCA. Shodno tome, ukoliko se nalog autentifikuje i obezbedi Ticket-Granting Ticket (TGT) putem PKINIT, inherentno je obezbeđen mehanizam koji omogućava trenutnom hostu da izvuče NTLM hash iz TGT-a kako bi podržao nasleđene autentifikacione protokole. Ovaj proces podrazumeva dekripciju `PAC_CREDENTIAL_DATA` strukture, koja je suštinski NDR serijalizovana predstava NTLM običnog teksta.
+Da bi se podržala NTLM autentifikacija [MS-NLMP] za aplikacije koje ne omogućavaju Kerberos autentifikaciju, KDC je dizajniran da vrati NTLM jednosmernu funkciju (OWF) korisnika unutar sertifikata privilegija (PAC), posebno u `PAC_CREDENTIAL_INFO` baferu, kada se koristi PKCA. Kao rezultat, ukoliko se nalog autentifikuje i obezbedi Ticket-Granting Ticket (TGT) putem PKINIT, mehanizam je inherentno obezbeđen koji omogućava trenutnom hostu da izvuče NTLM hash iz TGT-a kako bi podržao nasleđene autentifikacione protokole. Ovaj proces podrazumeva dekripciju `PAC_CREDENTIAL_DATA` strukture, koja je suštinski NDR serijalizovana prikaz NTLM običnog teksta.
 
-Alat **Kekeo**, dostupan na [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), pominje se kao sposoban da zatraži TGT koji sadrži ove specifične podatke, čime se olakšava preuzimanje NTLM-a korisnika. Komanda koja se koristi u tu svrhu je sledeća:
+Alat **Kekeo**, dostupan na [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), se pominje kao sposoban da zatraži TGT koji sadrži ove specifične podatke, čime se olakšava preuzimanje NTLM-a korisnika. Komanda koja se koristi u tu svrhu je sledeća:
 ```bash
 tgt::pac /caname:generic-DC-CA /subject:genericUser /castore:current_user /domain:domain.local
 ```
 Dodatno, primećeno je da Kekeo može obraditi sertifikate zaštićene pametnom karticom, pod uslovom da se pin može dobiti, uz referencu na [https://github.com/CCob/PinSwipe](https://github.com/CCob/PinSwipe). Ista sposobnost se navodi da podržava **Rubeus**, dostupan na [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus).
 
-Ovo objašnjenje obuhvata proces i alate uključene u krađu NTLM akreditiva putem PKINIT-a, fokusirajući se na preuzimanje NTLM heševa kroz TGT dobijen korišćenjem PKINIT-a, i alate koji olakšavaju ovaj proces.
+Ovo objašnjenje obuhvata proces i alate uključene u krađu NTLM akreditiva putem PKINIT-a, fokusirajući se na preuzimanje NTLM hash-eva kroz TGT dobijen korišćenjem PKINIT-a, i alate koji olakšavaju ovaj proces.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

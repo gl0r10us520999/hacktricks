@@ -12,7 +12,7 @@ LangChain je okvir dizajniran za izgradnju aplikacija sa LLM-ovima. Omogućava p
 
 ### [**LitGPT**](https://github.com/Lightning-AI/litgpt)
 
-LitGPT je projekat koji je razvila Lightning AI i koji koristi Lightning okvir za olakšavanje obučavanja, fino podešavanja i implementacije modela zasnovanih na GPT-u. Besprekorno se integriše sa drugim alatima Lightning AI, pružajući optimizovane radne tokove za upravljanje velikim jezičkim modelima sa poboljšanim performansama i skalabilnošću.
+LitGPT je projekat razvijen od strane Lightning AI koji koristi Lightning okvir za olakšavanje obučavanja, fino podešavanja i implementacije modela zasnovanih na GPT-u. Besprekorno se integriše sa drugim alatima Lightning AI, pružajući optimizovane radne tokove za upravljanje velikim jezičkim modelima sa poboljšanim performansama i skalabilnošću.
 
 ### [**LitServe**](https://github.com/Lightning-AI/LitServe)
 
@@ -32,11 +32,11 @@ Nudi nekoliko sekcija kao što su:
 
 * **Models**: Ogroman repozitorij **unapred obučenih modela mašinskog učenja** gde korisnici mogu pretraživati, preuzimati i integrisati modele za razne zadatke kao što su generisanje teksta, prevođenje, prepoznavanje slika i još mnogo toga.
 * **Datasets:** Sveobuhvatna **kolekcija skupova podataka** korišćenih za obučavanje i evaluaciju modela. Olakšava lak pristup raznolikim izvorima podataka, omogućavajući korisnicima da pronađu i koriste podatke za svoje specifične projekte mašinskog učenja.
-* **Spaces:** Platforma za hostovanje i deljenje **interaktivnih aplikacija mašinskog učenja** i demo verzija. Omogućava programerima da **prikažu** svoje modele u akciji, kreiraju korisnički prijateljske interfejse i sarađuju sa drugima deljenjem uživo demo verzija.
+* **Spaces:** Platforma za hostovanje i deljenje **interaktivnih aplikacija mašinskog učenja** i demo verzija. Omogućava programerima da **prikažu** svoje modele u akciji, kreiraju korisnički prijateljske interfejse i sarađuju sa drugima deljenjem live demo verzija.
 
 ## [**TensorFlow Hub**](https://www.tensorflow.org/hub) **&** [**Kaggle**](https://www.kaggle.com/)
 
-**TensorFlow Hub** je sveobuhvatan repozitorij ponovo upotrebljivih modula mašinskog učenja koje je razvio Google. Fokusira se na olakšavanje deljenja i implementacije modela mašinskog učenja, posebno onih izgrađenih sa TensorFlow-om.
+**TensorFlow Hub** je sveobuhvatan repozitorij ponovo upotrebljivih modula mašinskog učenja razvijenih od strane Google-a. Fokusira se na olakšavanje deljenja i implementacije modela mašinskog učenja, posebno onih izgrađenih sa TensorFlow-om.
 
 * **Modules:** Ogromna kolekcija unapred obučenih modela i komponenti modela gde korisnici mogu pretraživati, preuzimati i integrisati module za zadatke kao što su klasifikacija slika, ugradnja teksta i još mnogo toga.
 * **Tutorials:** Vodiči i primeri korak po korak koji pomažu korisnicima da razumeju kako da implementiraju i fino podešavaju modele koristeći TensorFlow Hub.
@@ -46,5 +46,5 @@ Nudi nekoliko sekcija kao što su:
 
 **Replicate** je platforma koja omogućava programerima da pokreću modele mašinskog učenja u oblaku putem jednostavnog API-ja. Fokusira se na to da ML modeli budu lako dostupni i implementabilni bez potrebe za opsežnim postavljanjem infrastrukture.
 
-* **Models:** Repozitorij modela mašinskog učenja koje je doprinela zajednica, gde korisnici mogu pretraživati, isprobavati i integrisati modele u svoje aplikacije uz minimalan trud.
+* **Models:** Repozitorij modela mašinskog učenja koje je doprinela zajednica, a koji korisnici mogu pretraživati, isprobavati i integrisati modele u svoje aplikacije uz minimalan trud.
 * **API Access:** Jednostavni API-ji za pokretanje modela koji omogućavaju programerima da lako implementiraju i skaliraju modele unutar svojih aplikacija.

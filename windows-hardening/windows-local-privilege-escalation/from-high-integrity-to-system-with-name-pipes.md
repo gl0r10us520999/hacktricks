@@ -17,7 +17,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 **Tok koda:**
 
 1. Kreirajte novu cev
-2. Kreirajte i pokrenite servis koji će se povezati na kreiranu cev i napisati nešto. Kod servisa će izvršiti ovaj kod u PS: `$pipe = new-object System.IO.Pipes.NamedPipeClientStream("piper"); $pipe.Connect(); $sw = new-object System.IO.StreamWriter($pipe); $sw.WriteLine("Go"); $sw.Dispose();`
+2. Kreirajte i pokrenite servis koji će se povezati na kreiranu cev i nešto napisati. Kod servisa će izvršiti ovaj kod u PS: `$pipe = new-object System.IO.Pipes.NamedPipeClientStream("piper"); $pipe.Connect(); $sw = new-object System.IO.StreamWriter($pipe); $sw.WriteLine("Go"); $sw.Dispose();`
 3. Servis prima podatke od klijenta u cevi, poziva ImpersonateNamedPipeClient i čeka da servis završi
 4. Na kraju, koristi token dobijen od servisa da pokrene novi _cmd.exe_
 

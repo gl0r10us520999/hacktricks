@@ -22,7 +22,7 @@ Prva stvar koju treba da uradite je da imate [**Proxmark3**](https://proxmark.co
 ### Napad na MIFARE Classic 1KB
 
 Ima **16 sektora**, svaki od njih ima **4 bloka** i svaki blok sadrži **16B**. UID se nalazi u sektoru 0 bloku 0 (i ne može se menjati).\
-Da biste pristupili svakom sektoru, potrebna su vam **2 ključa** (**A** i **B**) koja su smeštena u **bloku 3 svakog sektora** (sektorski trailer). Sektorski trailer takođe čuva **pristupne bitove** koji daju **dozvole za čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
+Da biste pristupili svakom sektoru, potrebna su vam **2 ključa** (**A** i **B**) koja su smeštena u **bloku 3 svakog sektora** (sektorski trailer). Sektorski trailer takođe čuva **bitove pristupa** koji daju **dozvole za čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
 2 ključa su korisna za davanje dozvola za čitanje ako znate prvi i pisanje ako znate drugi (na primer).
 
 Mogu se izvršiti nekoliko napada
@@ -44,7 +44,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 omogućava izvođenje drugih akcija kao što je **prisluškivanje** komunikacije između **Tag-a i Čitača** kako bi se pokušalo pronaći osetljive podatke. Na ovoj kartici možete jednostavno presresti komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije slabe** i poznavajući običan i šifrovani tekst možete ga izračunati (alat `mfkey64`).
+Proxmark3 omogućava izvođenje drugih radnji kao što je **prisluškivanje** komunikacije između **Tag-a i čitača** kako bi se pokušalo pronaći osetljive podatke. Na ovoj kartici možete jednostavno presresti komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije slabe** i poznavajući običan i šifrovani tekst možete ga izračunati (`mfkey64` alat).
 
 ### Raw Commands
 
@@ -66,7 +66,7 @@ Proxmark3 softver dolazi sa unapred učitanom listom **automatskih skripti** koj
 ```
 proxmark3> script run mfkeys
 ```
-Možete kreirati skriptu za **fuzz tag čitače**, tako što ćete kopirati podatke sa **validne kartice** jednostavno napišite **Lua skriptu** koja **randomizuje** jedan ili više nasumičnih **bajtova** i proverite da li **čitač pada** sa bilo kojom iteracijom.
+Možete kreirati skriptu za **fuzz tag čitače**, tako što ćete kopirati podatke sa **validne kartice** jednostavno napišite **Lua skriptu** koja **randomizuje** jedan ili više nasumičnih **bajtova** i proverava da li **čitač pada** sa bilo kojom iteracijom.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

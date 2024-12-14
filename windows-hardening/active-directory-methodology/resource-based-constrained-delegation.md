@@ -21,32 +21,32 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Osnovi Resource-based Constrained Delegation
 
-Ovo je slično osnovnoj [Constrained Delegation](constrained-delegation.md) ali **umesto** davanja dozvola **objektu** da **imituje bilo kog korisnika prema servisu**. Resource-based Constrained Delegation **postavlja** u **objektu ko može da imituje bilo kog korisnika prema njemu**.
+Ovo je slično osnovnom [Constrained Delegation](constrained-delegation.md) ali **umesto** davanja dozvola **objektu** da **imituje bilo kog korisnika prema servisu**. Resource-based Constrained Delegation **postavlja** u **objektu ko može da imituje bilo kog korisnika prema njemu**.
 
 U ovom slučaju, ograničeni objekat će imati atribut pod nazivom _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ sa imenom korisnika koji može da imituje bilo kog drugog korisnika prema njemu.
 
-Još jedna važna razlika između ovog Constrained Delegation i drugih delegacija je da bilo koji korisnik sa **dozvolama za pisanje nad računom mašine** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc) može postaviti _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (U drugim oblicima Delegacije potrebne su privilegije domen administratora).
+Još jedna važna razlika između ovog Constrained Delegation i drugih delegacija je da bilo koji korisnik sa **dozvolama za pisanje nad računom mašine** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) može postaviti _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (U drugim oblicima Delegacije potrebne su privilegije domen administratora).
 
 ### Novi koncepti
 
 U Constrained Delegation je rečeno da je **`TrustedToAuthForDelegation`** oznaka unutar _userAccountControl_ vrednosti korisnika potrebna za izvođenje **S4U2Self.** Ali to nije potpuno tačno.\
 Stvarnost je da čak i bez te vrednosti, možete izvesti **S4U2Self** protiv bilo kog korisnika ako ste **servis** (imate SPN) ali, ako imate **`TrustedToAuthForDelegation`** vraćeni TGS će biti **Forwardable** i ako **nemate** tu oznaku vraćeni TGS **neće** biti **Forwardable**.
 
-Međutim, ako je **TGS** korišćen u **S4U2Proxy** **NISU Forwardable** pokušaj zloupotrebe **osnovne Constrain Delegation** neće **uspeti**. Ali ako pokušavate da iskoristite **Resource-Based constrain delegation, to će uspeti** (ovo nije ranjivost, to je funkcija, očigledno).
+Međutim, ako je **TGS** korišćen u **S4U2Proxy** **NISU Forwardable** pokušaj zloupotrebe **osnovne Constrained Delegation** neće **uspeti**. Ali ako pokušavate da iskoristite **Resource-Based constrained delegation, to će uspeti** (ovo nije ranjivost, to je funkcija, očigledno).
 
 ### Struktura napada
 
 > Ako imate **dozvole za pisanje ekvivalentne privilegijama** nad **računom računara** možete dobiti **privilegovan pristup** na toj mašini.
 
-Pretpostavimo da je napadač već **dobio dozvole za pisanje ekvivalentne privilegijama nad računarom žrtve**.
+Pretpostavimo da napadač već ima **dozvole za pisanje ekvivalentne privilegijama nad računarom žrtve**.
 
 1. Napadač **kompromituje** nalog koji ima **SPN** ili **kreira jedan** (“Servis A”). Imajte na umu da **bilo koji** _Admin User_ bez bilo kojih drugih posebnih privilegija može **kreirati** do 10 **računarskih objekata (**_**MachineAccountQuota**_**)** i postaviti im **SPN**. Tako da napadač može jednostavno kreirati računar i postaviti SPN.
 2. Napadač **zloupotrebljava svoje DOZVOLE ZA PISANJE** nad računarom žrtve (ServisB) da konfiguriše **resource-based constrained delegation da omogući Servisu A da imituje bilo kog korisnika** prema tom računaru žrtve (ServisB).
 3. Napadač koristi Rubeus da izvede **potpun S4U napad** (S4U2Self i S4U2Proxy) od Servisa A do Servisa B za korisnika **sa privilegovanim pristupom Servisu B**.
-1. S4U2Self (iz SPN kompromitovanog/kreativnog naloga): Zatraži **TGS od Administratora za mene** (Nije Forwardable).
-2. S4U2Proxy: Koristi **ne Forwardable TGS** iz prethodnog koraka da zatraži **TGS** od **Administratora** za **računar žrtve**.
+1. S4U2Self (iz SPN kompromitovanog/kreativnog naloga): Traži **TGS od Administratora za mene** (Nije Forwardable).
+2. S4U2Proxy: Koristi **ne Forwardable TGS** iz prethodnog koraka da traži **TGS** od **Administratora** za **računar žrtve**.
 3. Čak i ako koristite ne Forwardable TGS, pošto zloupotrebljavate Resource-based constrained delegation, to će uspeti.
-4. Napadač može **proći kroz tiket** i **imitirati** korisnika da dobije **pristup žrtvi Servisu B**.
+4. Napadač može **proći kroz tiket** i **imitirati** korisnika da dobije **pristup žrtvovanom Servisu B**.
 
 Da biste proverili _**MachineAccountQuota**_ domena možete koristiti:
 ```powershell
@@ -97,15 +97,15 @@ Sada se napad može izvršiti:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-Možete generisati više karata jednostavno tražeći jednom koristeći `/altservice` parametar Rubeus:
+Možete generisati više karata jednostavno postavljanjem pitanja jednom koristeći `/altservice` parametar Rubeus:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-Napomena da korisnici imaju atribut pod nazivom "**Ne može biti delegiran**". Ako korisnik ima ovaj atribut postavljen na True, nećete moći da se pretvarate da je on. Ova svojstvo se može videti unutar bloodhound.
+Napomena da korisnici imaju atribut pod nazivom "**Ne može biti delegiran**". Ako korisnik ima ovaj atribut postavljen na True, nećete moći da ga imitirate. Ova svojstvo se može videti unutar bloodhound.
 {% endhint %}
 
-### Pristupanje
+### Pristup
 
 Poslednja komanda će izvršiti **potpun S4U napad i injektovaće TGS** od Administratora na žrtvovanu mašinu u **memoriji**.\
 U ovom primeru je zatražen TGS za **CIFS** servis od Administratora, tako da ćete moći da pristupite **C$**:
@@ -138,8 +138,8 @@ Saznajte više o [**dostupnim servisnim kartama ovde**](silver-ticket.md#availab
 {% embed url="https://websec.nl/" %}
 
 {% hint style="success" %}
-Saznajte i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Saznajte i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

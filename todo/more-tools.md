@@ -45,7 +45,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [https://builtwith.com/](https://builtwith.com)
 * [https://www.spiderfoot.net/](https://www.spiderfoot.net)
 * [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
-* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8 alata za pronalaženje poddomena, sublist3r, amass i još mnogo toga
+* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : 8 alata za pronalaženje poddomena, sublist3r, amass i još
 
 # **WEB**
 
@@ -72,21 +72,21 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : BurpSuite dodatak za pronalaženje ranjivosti (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Chrome ekstenzija za praćenje post-messages funkcija
 * [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Automatski testovi autentifikacije (uklonite kolačiće i pokušajte da pošaljete zahtev)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross je rekonstrukcija, skener i alat za penetraciju / BugBounty testiranje. Ovaj alat je napravljen za testiranje (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) ranjivosti
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross je rekonstrukcija, skener i alat za penetraciono / BugBounty testiranje. Ovaj alat je napravljen za testiranje (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) ranjivosti
 
 # Windows
 
 * [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Lateralni pokreti
-* [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL binarije
+* [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL binovi
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Postojanost
-* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Tehnike injekcije procesa u Windows-u
+* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Tehnike injekcije Windows procesa
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Red Team skripte
 * [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : pronađite bezbednosne greške u Active Directory Group Policy.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Securestring obfuscation
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Lažiranje roditeljskog PID-a
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Enkriptovanje Powershell payload-a
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
-* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Serija logova o Windows Internals
+* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Serija logova o Windows internals
 * [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Pratite ko otvara dokument
 * [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Active Directory Cheat Sheet
 

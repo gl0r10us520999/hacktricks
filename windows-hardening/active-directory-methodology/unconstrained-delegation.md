@@ -17,9 +17,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Unconstrained delegation
 
-Ovo je funkcija koju Administrator domena može postaviti na bilo koji **računar** unutar domena. Tada, svaki put kada se **korisnik prijavi** na računar, **kopija TGT-a** tog korisnika će biti **poslata unutar TGS-a** koji obezbeđuje DC **i sačuvana u memoriji u LSASS-u**. Dakle, ako imate privilegije Administratora na mašini, moći ćete da **izvučete karte i pretvarate se da ste korisnici** na bilo kojoj mašini.
+Ovo je funkcija koju Administrator domena može postaviti na bilo koji **računar** unutar domena. Tada, svaki put kada se **korisnik prijavi** na računar, **kopija TGT-a** tog korisnika će biti **poslata unutar TGS-a** koji obezbeđuje DC **i sačuvana u memoriji u LSASS-u**. Dakle, ako imate administratorske privilegije na mašini, moći ćete da **izvučete karte i pretvarate se da ste korisnici** na bilo kojoj mašini.
 
-Dakle, ako se administrator domena prijavi na računar sa aktiviranom funkcijom "Unconstrained Delegation", a vi imate lokalne admin privilegije unutar te mašine, moći ćete da izvučete kartu i pretvarate se da ste Administrator domena bilo gde (domen privesc).
+Dakle, ako se administrator domena prijavi na računar sa aktiviranom funkcijom "Unconstrained Delegation", a vi imate lokalne administratorske privilegije unutar te mašine, moći ćete da izvučete kartu i pretvarate se da ste administrator domena bilo gde (domen privesc).
 
 Možete **pronaći objekte računara sa ovom atributom** proveravajući da li atribut [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) sadrži [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx). To možete uraditi sa LDAP filtrima ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’, što je ono što powerview radi:
 
@@ -43,7 +43,7 @@ Više informacija: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](ht
 ### **Force Authentication**
 
 Ako napadač može da **kompromituje računar koji je dozvoljen za "Unconstrained Delegation"**, mogao bi da **prevari** **Print server** da **automatski prijavi** protiv njega **čuvajući TGT** u memoriji servera.\
-Tada bi napadač mogao da izvrši **Pass the Ticket napad da se pretvara** da je korisnički račun Print servera.
+Tada bi napadač mogao da izvrši **Pass the Ticket napad da se pretvara** da je korisnički račun Print server računara.
 
 Da biste naterali print server da se prijavi na bilo koju mašinu, možete koristiti [**SpoolSample**](https://github.com/leechristensen/SpoolSample):
 ```bash
@@ -69,7 +69,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

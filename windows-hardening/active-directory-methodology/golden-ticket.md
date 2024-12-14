@@ -6,7 +6,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -17,11 +17,11 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ## Zlatna karta
 
-Napad **Zlatna karta** se sastoji od **kreiranja legitimne Karte za dodeljivanje karata (TGT) koja imitira bilo kog korisnika** korišćenjem **NTLM heša Active Directory (AD) krbtgt naloga**. Ova tehnika je posebno korisna jer **omogućava pristup bilo kojoj usluzi ili mašini** unutar domena kao imitiranog korisnika. Važno je zapamtiti da se **akreditivi krbtgt naloga nikada automatski ne ažuriraju**.
+Napad **Zlatna karta** se sastoji od **kreiranja legitimne Karte za dodeljivanje karata (TGT) koja imitira bilo kog korisnika** korišćenjem **NTLM heša Active Directory (AD) krbtgt naloga**. Ova tehnika je posebno korisna jer **omogućava pristup bilo kojoj usluzi ili mašini** unutar domena kao imitiranog korisnika. Ključno je zapamtiti da se **akreditivi krbtgt naloga nikada automatski ne ažuriraju**.
 
 Da bi se **dobio NTLM heš** krbtgt naloga, mogu se koristiti različite metode. Može se izvući iz **procesa Local Security Authority Subsystem Service (LSASS)** ili iz **NT Directory Services (NTDS.dit) datoteke** koja se nalazi na bilo kom Kontroloru domena (DC) unutar domena. Pored toga, **izvođenje DCsync napada** je još jedna strategija za dobijanje ovog NTLM heša, koja se može izvesti korišćenjem alata kao što su **lsadump::dcsync modul** u Mimikatz ili **secretsdump.py skripta** od Impacket. Važno je naglasiti da za izvođenje ovih operacija, **obično su potrebne privilegije domen admina ili sličan nivo pristupa**.
 
-Iako NTLM heš služi kao izvodljiva metoda za ovu svrhu, **snažno se preporučuje** da se **falsifikuju karte koristeći ključeve Kerberos sa naprednom enkripcijom (AES) (AES128 i AES256)** iz razloga operativne sigurnosti.
+Iako NTLM heš služi kao izvodljiva metoda za ovu svrhu, **snažno se preporučuje** da se **falsifikuju karte koristeći ključeve za Kerberos sa naprednom enkripcijom (AES) (AES128 i AES256)** iz razloga operativne sigurnosti.
 
 
 {% code title="Iz Linux-a" %}
@@ -44,7 +44,7 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**Kada** imate **injektovani zlatni tiket**, možete pristupiti deljenim datotekama **(C$)**, i izvršavati usluge i WMI, tako da možete koristiti **psexec** ili **wmiexec** da dobijete shell (izgleda da ne možete dobiti shell putem winrm).
+**Jednom** kada imate **injektovani zlatni tiket**, možete pristupiti deljenim datotekama **(C$)**, i izvršavati usluge i WMI, tako da možete koristiti **psexec** ili **wmiexec** da dobijete shell (izgleda da ne možete dobiti shell putem winrm).
 
 ### Zaobilaženje uobičajenih detekcija
 
@@ -52,11 +52,11 @@ Najčešći načini za detekciju zlatnog tiketa su **inspekcija Kerberos saobra�
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-Koristite parametre `/startoffset`, `/endin` i `/renewmax` da kontrolišete početni offset, trajanje i maksimalne obnove (sve u minutima).
+Koristite parametre `/startoffset`, `/endin` i `/renewmax` da kontrolišete početni offset, trajanje i maksimalne obnavljanja (sve u minutima).
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-Nažalost, TGT-ov životni vek nije zabeležen u 4769, tako da ovu informaciju nećete pronaći u Windows dnevnicima događaja. Međutim, ono što možete korelirati je **videti 4769 bez prethodnog 4768**. **Nije moguće zatražiti TGS bez TGT**, i ako nema zapisa o izdatom TGT-u, možemo zaključiti da je falsifikovan offline.
+Nažalost, TGT-ov životni vek nije zabeležen u 4769, tako da ovu informaciju nećete pronaći u Windows dnevnicima događaja. Međutim, ono što možete korelirati je **videti 4769 bez prethodnog 4768**. **Nije moguće zatražiti TGS bez TGT-a**, i ako nema zapisa o izdatom TGT-u, možemo zaključiti da je falsifikovan offline.
 
 Da biste **zaobišli ovu detekciju**, proverite dijamantske karte:
 

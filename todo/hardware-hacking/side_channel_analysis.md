@@ -1,7 +1,7 @@
-# Napadi analize bočnih kanala
+# Side Channel Analysis Attacks
 
-Napadi analize bočnih kanala odnose se na određivanje informacija sa uređaja ili entiteta putem nekog drugog kanala ili izvora koji ima indirektan uticaj na njega i informacije mogu biti izvučene iz njega. Ovo se može bolje objasniti na primeru:
+Napadi analize bočnih kanala se odnose na određivanje informacija sa uređaja ili entiteta putem nekog drugog kanala ili izvora koji ima indirektan uticaj na njega i iz kojeg se informacije mogu izvući. Ovo se može bolje objasniti primerom:
 
-Analiziranje vibracija u staklenim pločama koje su blizu izvora zvuka, ali izvor zvuka nije dostupan. Vibracije u staklu su pod uticajem izvora zvuka i ako se prate i analiziraju, zvuk može biti dekodiran i tumačen.
+Analiziranje vibracija u staklenim pločama koje su blizu izvora zvuka, ali izvor zvuka nije dostupan. Vibracije u staklu su pod uticajem izvora zvuka i ako se prate i analiziraju, zvuk se može dekodirati i interpretirati.
 
-Ovi napadi su vrlo popularni u slučaju curenja podataka poput privatnih ključeva ili pronalaženja operacija u procesorima. Elektronski krug ima mnogo kanala iz kojih informacije neprestano cure. Praćenje i analiza mogu biti korisni za otkrivanje mnogo informacija o krugu i njegovim unutrašnjostima.
+Ovi napadi su veoma popularni u slučaju curenja podataka kao što su privatni ključevi ili pronalaženje operacija u procesorima. Elektronski krug ima mnogo kanala iz kojih se informacije konstantno ispuštaju. Praćenje i analiziranje može biti korisno za otkrivanje mnogih informacija o krugu i njegovim unutrašnjim delovima.

@@ -395,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Napomena da simbolička datoteka može takođe sadržati konstantne podatke pomešane sa simboličkim podacima:
+Napomena da simbolička datoteka takođe može sadržati konstantne podatke spojene sa simboličkim podacima:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -499,7 +499,7 @@ U nekim scenarijima možete aktivirati **veritesting**, koji će spojiti slične
 {% endhint %}
 
 {% hint style="info" %}
-Još jedna stvar koju možete uraditi u ovim scenarijima je da **hook-ujete funkciju dajući angr nešto što može lakše da razume**.
+Još jedna stvar koju možete uraditi u ovim scenarijima je da **hook-ujete funkciju dajući angr-u nešto što može lakše da razume**.
 {% endhint %}
 
 ### Menadžeri simulacije
@@ -825,8 +825,8 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Red Team Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Red Team Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

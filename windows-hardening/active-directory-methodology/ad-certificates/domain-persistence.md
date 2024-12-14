@@ -15,7 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Ovo je sažetak tehnika postojanosti domena podeljenih u [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Proverite za dodatne detalje.
+**Ovo je sažetak tehnika postojanosti domena podeljenih na [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Proverite za dodatne detalje.
 
 ## Forging Certificates with Stolen CA Certificates - DPERSIST1
 
@@ -63,16 +63,16 @@ Sertifikat CA sa sopstvenim potpisom može biti dodat u objekat `NTAuthCertifica
 
 Ova sposobnost je posebno relevantna kada se koristi u kombinaciji sa prethodno opisanim metodom koja uključuje ForgeCert za dinamičko generisanje sertifikata.
 
-## Zloćudna Konfiguracija - DPERSIST3
+## Maliciozna Konfiguracija - DPERSIST3
 
-Mogućnosti za **postojanost** kroz **modifikacije bezbednosnog deskriptora AD CS** komponenti su brojne. Modifikacije opisane u odeljku "[Domain Escalation](domain-escalation.md)" mogu biti zloćudno implementirane od strane napadača sa povišenim pristupom. Ovo uključuje dodavanje "kontrolnih prava" (npr., WriteOwner/WriteDACL/itd.) osetljivim komponentama kao što su:
+Mogućnosti za **postojanost** kroz **modifikacije bezbednosnog deskriptora AD CS** komponenti su brojne. Modifikacije opisane u odeljku "[Domain Escalation](domain-escalation.md)" mogu biti maliciozno implementirane od strane napadača sa povišenim pristupom. Ovo uključuje dodavanje "kontrolnih prava" (npr., WriteOwner/WriteDACL/itd.) osetljivim komponentama kao što su:
 
 - **AD računar objekat CA servera**
 - **RPC/DCOM server CA servera**
 - Bilo koji **potomak AD objekta ili kontejnera** u **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (na primer, kontejner za šablone sertifikata, kontejner za sertifikacione autoritete, objekat NTAuthCertificates, itd.)
 - **AD grupe kojima su dodeljena prava za kontrolu AD CS** po defaultu ili od strane organizacije (kao što je ugrađena grupa Cert Publishers i bilo koji od njenih članova)
 
-Primer zloćudne implementacije bi uključivao napadača, koji ima **povišene dozvole** u domenu, koji dodaje **`WriteOwner`** dozvolu na podrazumevani **`User`** šablon sertifikata, pri čemu je napadač glavni za to pravo. Da bi to iskoristio, napadač bi prvo promenio vlasništvo nad **`User`** šablonom na sebe. Nakon toga, **`mspki-certificate-name-flag`** bi bio postavljen na **1** na šablonu kako bi omogućio **`ENROLLEE_SUPPLIES_SUBJECT`**, omogućavajući korisniku da pruži Subject Alternative Name u zahtevu. Nakon toga, napadač bi mogao **da se upiše** koristeći **šablon**, birajući ime **domen administratora** kao alternativno ime, i koristiti stečeni sertifikat za autentifikaciju kao DA.
+Primer maliciozne implementacije bi uključivao napadača, koji ima **povišene dozvole** u domenu, koji dodaje **`WriteOwner`** dozvolu na podrazumevani **`User`** šablon sertifikata, pri čemu je napadač glavni za to pravo. Da bi to iskoristio, napadač bi prvo promenio vlasništvo nad **`User`** šablonom na sebe. Nakon toga, **`mspki-certificate-name-flag`** bi bio postavljen na **1** na šablonu kako bi omogućio **`ENROLLEE_SUPPLIES_SUBJECT`**, omogućavajući korisniku da pruži Subject Alternative Name u zahtevu. Nakon toga, napadač bi mogao **da se upiše** koristeći **šablon**, birajući ime **domen administratora** kao alternativno ime, i koristiti stečeni sertifikat za autentifikaciju kao DA.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

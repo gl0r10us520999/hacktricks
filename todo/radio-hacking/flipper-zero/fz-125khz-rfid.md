@@ -45,12 +45,12 @@ Možete kreirati **lažne kartice u Flipper Zero označavajući podatke** koje r
 
 #### ID-ovi na karticama
 
-Ponekad, kada dobijete karticu, pronaći ćete ID (ili deo) napisano na kartici vidljivo.
+Ponekad, kada dobijete karticu, pronaći ćete ID (ili deo) napisano na vidljivom delu kartice.
 
 * **EM Marin**
 
-Na primer, na ovoj EM-Marin kartici na fizičkoj kartici je moguće **pročitati poslednja 3 od 5 bajtova u čistom obliku**.\
-Ostala 2 se mogu probiti ako ih ne možete pročitati sa kartice.
+Na primer, na ovoj EM-Marin kartici moguće je **pročitati poslednja 3 od 5 bajtova u čistom obliku**.\
+Ostala 2 mogu se otkriti brute-force metodom ako ih ne možete pročitati sa kartice.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
