@@ -1,23 +1,23 @@
-# Ρύπανση Κλάσεων (Prototype Pollution της Python)
+# Class Pollution (Python's Prototype Pollution)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκινγκ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Βασικό Παράδειγμα
+## Basic Example
 
-Ελέγξτε πώς είναι δυνατόν να ρυπαίνουμε κλάσεις αντικειμένων με συμβολοσειρές:
+Δείτε πώς είναι δυνατόν να μολυνθούν οι κλάσεις αντικειμένων με συμβολοσειρές:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -129,7 +129,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Ρύπανση άλλων κλάσεων και παγκόσμιων μεταβλητών μέσω του <code>globals</code></summary>
+<summary>Μολύνοντας άλλες κλάσεις και παγκόσμιες μεταβλητές μέσω <code>globals</code></summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -161,7 +161,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Αυθαίρετη εκτέλεση υποδιεργασίας</summary>
+<summary>Αυθαίρετη εκτέλεση υποδιεργασιών</summary>
 ```python
 import subprocess, json
 
@@ -193,9 +193,9 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <details>
 
-<summary>Αντικατάσταση του <strong><code>__kwdefaults__</code></strong></summary>
+<summary>Επικαλύπτοντας <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** είναι ένα ειδικό χαρακτηριστικό όλων των συναρτήσεων, βάσει της [τεκμηρίωσης της Python](https://docs.python.org/3/library/inspect.html), είναι ένα "χαρτογράφηση οποιωνδήποτε προεπιλεγμένων τιμών για παραμέτρους μόνο με λέξεις-κλειδιά". Η μόλυνση αυτού του χαρακτηριστικού μας επιτρέπει να ελέγχουμε τις προεπιλεγμένες τιμές των παραμέτρων μόνο με λέξεις-κλειδιά μιας συνάρτησης, αυτές είναι οι παράμετροι της συνάρτησης που ακολουθούν μετά το \* ή \*args.
+**`__kwdefaults__`** είναι ένα ειδικό χαρακτηριστικό όλων των συναρτήσεων, βασισμένο στην τεκμηρίωση της Python [documentation](https://docs.python.org/3/library/inspect.html), είναι μια “χαρτογράφηση οποιωνδήποτε προεπιλεγμένων τιμών για **μόνο-λέξεις-κλειδιά** παραμέτρους”. Η ρύπανση αυτού του χαρακτηριστικού μας επιτρέπει να ελέγχουμε τις προεπιλεγμένες τιμές των παραμέτρων μόνο-λέξεις-κλειδιά μιας συνάρτησης, αυτές είναι οι παράμετροι της συνάρτησης που έρχονται μετά το \* ή \*args.
 ```python
 from os import system
 import json
@@ -236,23 +236,25 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Αντικατάσταση του μυστικού του Flask σε διαφορετικά αρχεία</summary>
+<summary>Επικαλύπτοντας το μυστικό του Flask σε διάφορα αρχεία</summary>
 
-Έτσι, αν μπορείτε να κάνετε μια κλάση ρύπανση πάνω σε ένα αντικείμενο που έχει οριστεί στο κύριο αρχείο Python της ιστοσελίδας αλλά **η κλάση του έχει οριστεί σε διαφορετικό αρχείο** από το κύριο. Επειδή για να έχετε πρόσβαση στο \_\_globals\_\_ στα προηγούμενα φορτία, πρέπει να έχετε πρόσβαση στην κλάση του αντικειμένου ή στις μεθόδους της κλάσης, θα μπορείτε να **έχετε πρόσβαση στα globals σε αυτό το αρχείο, αλλά όχι στο κύριο**. \
-Συνεπώς, **δεν θα μπορείτε να έχετε πρόσβαση στο γενικό αντικείμενο της εφαρμογής Flask** που έχει ορίσει το **μυστικό κλειδί** στην κύρια σελίδα:
+Έτσι, αν μπορείτε να κάνετε μια κλάση ρύπανσης σε ένα αντικείμενο που ορίζεται στο κύριο αρχείο python του ιστότοπου αλλά **η κλάση του οποίου ορίζεται σε διαφορετικό αρχείο** από το κύριο. Επειδή για να αποκτήσετε πρόσβαση στο \_\_globals\_\_ στις προηγούμενες payloads πρέπει να αποκτήσετε πρόσβαση στην κλάση του αντικειμένου ή στις μεθόδους της κλάσης, θα μπορείτε να **έχετε πρόσβαση στα globals σε αυτό το αρχείο, αλλά όχι στο κύριο**. \
+Επομένως, **δεν θα μπορείτε να αποκτήσετε πρόσβαση στο παγκόσμιο αντικείμενο της εφαρμογής Flask** που ορίζει το **μυστικό κλειδί** στην κύρια σελίδα:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Σε αυτό το σενάριο χρειάζεστε ένα γκατζετ για να διατρέξετε αρχεία για να φτάσετε στο κύριο αρχείο για **πρόσβαση στον παγκόσμιο αντικείμενο `app.secret_key`** για να αλλάξετε το μυστικό κλειδί του Flask και να είστε σε θέση να [**εξελίξετε δικαιώματα** γνωρίζοντας αυτό το κλειδί](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+Σε αυτό το σενάριο χρειάζεστε μια συσκευή για να διασχίσετε αρχεία ώστε να φτάσετε στο κύριο για να **πρόσβαση στο παγκόσμιο αντικείμενο `app.secret_key`** για να αλλάξετε το μυστικό κλειδί του Flask και να μπορείτε να [**κλιμακώσετε τα δικαιώματα** γνωρίζοντας αυτό το κλειδί](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Ένα φορτίο σαν κι αυτό [από αυτήν την ανάλυση](https://ctftime.org/writeup/36082):
+Ένα payload όπως αυτό [από αυτή την αναφορά](https://ctftime.org/writeup/36082):
+
+{% code overflow="wrap" %}
 ```python
 __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.secret_key
 ```
 {% endcode %}
 
-Χρησιμοποιήστε αυτό το φορτίο για **να αλλάξετε το `app.secret_key`** (το όνομα στην εφαρμογή σας μπορεί να είναι διαφορετικό) ώστε να μπορείτε να υπογράφετε νέα και πιο προνομιούχα cookies του Flask.
+Χρησιμοποιήστε αυτό το payload για να **αλλάξετε το `app.secret_key`** (το όνομα στην εφαρμογή σας μπορεί να είναι διαφορετικό) ώστε να μπορείτε να υπογράφετε νέα και πιο προνομιακά cookies flask.
 
 </details>
 
@@ -275,8 +277,8 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 <summary>Υποστηρίξτε το HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

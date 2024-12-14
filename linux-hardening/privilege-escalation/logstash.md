@@ -36,7 +36,7 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Αυτό το αρχείο αποκαλύπτει πού βρίσκονται τα αρχεία **.conf**, που περιέχουν ρυθμίσεις pipeline. Όταν χρησιμοποιείται ένα **Elasticsearch output module**, είναι συνηθισμένο τα **pipelines** να περιλαμβάνουν **Elasticsearch credentials**, οι οποίες συχνά διαθέτουν εκτενή δικαιώματα λόγω της ανάγκης του Logstash να γράφει δεδομένα στο Elasticsearch. Οι χαρακτήρες μπαλαντέρ σε διαδρομές ρύθμισης επιτρέπουν στο Logstash να εκτελεί όλα τα αντίστοιχα pipelines στον καθορισμένο φάκελο.
+Αυτό το αρχείο αποκαλύπτει πού βρίσκονται τα αρχεία **.conf**, που περιέχουν ρυθμίσεις pipeline. Όταν χρησιμοποιείται ένα **Elasticsearch output module**, είναι συνηθισμένο τα **pipelines** να περιλαμβάνουν **Elasticsearch credentials**, οι οποίες συχνά διαθέτουν εκτενείς δικαιοδοσίες λόγω της ανάγκης του Logstash να γράφει δεδομένα στο Elasticsearch. Οι χαρακτήρες μπαλαντέρ στις διαδρομές ρύθμισης επιτρέπουν στο Logstash να εκτελεί όλα τα αντίστοιχα pipelines στον καθορισμένο φάκελο.
 
 ### Privilege Escalation via Writable Pipelines
 
@@ -45,7 +45,7 @@ pipeline.workers: 6
 - Έχετε **δικαίωμα εγγραφής** σε ένα αρχείο pipeline **.conf** **ή**
 - Το αρχείο **/etc/logstash/pipelines.yml** χρησιμοποιεί έναν χαρακτήρα μπαλαντέρ και μπορείτε να γράψετε στον στόχο φάκελο
 
-Επιπλέον, **μία** από αυτές τις συνθήκες πρέπει να πληρούται:
+Επιπλέον, **μία** από αυτές τις προϋποθέσεις πρέπει να πληρούται:
 
 - Δυνατότητα επανεκκίνησης της υπηρεσίας Logstash **ή**
 - Το αρχείο **/etc/logstash/logstash.yml** έχει ρυθμιστεί σε **config.reload.automatic: true**

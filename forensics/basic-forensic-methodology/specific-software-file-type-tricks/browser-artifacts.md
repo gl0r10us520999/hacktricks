@@ -32,8 +32,8 @@ Get Access Today:
 * **Ιστορικό Πλοήγησης**: Παρακολουθεί τις επισκέψεις του χρήστη σε ιστότοπους, χρήσιμο για την αναγνώριση επισκέψεων σε κακόβουλους ιστότοπους.
 * **Δεδομένα Αυτόματης Συμπλήρωσης**: Προτάσεις βασισμένες σε συχνές αναζητήσεις, προσφέροντας πληροφορίες όταν συνδυάζονται με το ιστορικό πλοήγησης.
 * **Σελιδοδείκτες**: Ιστότοποι που αποθηκεύει ο χρήστης για γρήγορη πρόσβαση.
-* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις ή πρόσθετα του προγράμματος περιήγησης που εγκαθιστά ο χρήστης.
-* **Cache**: Αποθηκεύει περιεχόμενο ιστού (π.χ., εικόνες, αρχεία JavaScript) για να βελτιώσει τους χρόνους φόρτωσης των ιστότοπων, πολύτιμο για την εγκληματολογική ανάλυση.
+* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις προγράμματος περιήγησης ή πρόσθετα που εγκαθιστά ο χρήστης.
+* **Cache**: Αποθηκεύει περιεχόμενο ιστού (π.χ., εικόνες, αρχεία JavaScript) για να βελτιώσει τους χρόνους φόρτωσης ιστότοπων, πολύτιμο για την εγκληματολογική ανάλυση.
 * **Συνδέσεις**: Αποθηκευμένα διαπιστευτήρια σύνδεσης.
 * **Favicons**: Εικονίδια που σχετίζονται με ιστότοπους, που εμφανίζονται σε καρτέλες και σελιδοδείκτες, χρήσιμα για επιπλέον πληροφορίες σχετικά με τις επισκέψεις του χρήστη.
 * **Συνεδρίες Προγράμματος Περιήγησης**: Δεδομένα που σχετίζονται με ανοιχτές συνεδρίες προγράμματος περιήγησης.
@@ -44,13 +44,13 @@ Get Access Today:
 
 ## Firefox
 
-Ο Firefox οργανώνει τα δεδομένα του χρήστη εντός προφίλ, αποθηκευμένα σε συγκεκριμένες τοποθεσίες ανάλογα με το λειτουργικό σύστημα:
+Ο Firefox οργανώνει τα δεδομένα του χρήστη εντός προφίλ, που αποθηκεύονται σε συγκεκριμένες τοποθεσίες ανάλογα με το λειτουργικό σύστημα:
 
 * **Linux**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Ένα αρχείο `profiles.ini` εντός αυτών των καταλόγων καταγράφει τα προφίλ χρηστών. Τα δεδομένα κάθε προφίλ αποθηκεύονται σε έναν φάκελο που ονομάζεται στη μεταβλητή `Path` εντός του `profiles.ini`, που βρίσκεται στον ίδιο κατάλογο με το ίδιο το `profiles.ini`. Εάν λείπει ο φάκελος ενός προφίλ, μπορεί να έχει διαγραφεί.
+Ένα αρχείο `profiles.ini` εντός αυτών των καταλόγων καταγράφει τα προφίλ χρηστών. Τα δεδομένα κάθε προφίλ αποθηκεύονται σε έναν φάκελο που ονομάζεται στη μεταβλητή `Path` εντός του `profiles.ini`, που βρίσκεται στον ίδιο κατάλογο με το `profiles.ini` αυτό καθαυτό. Εάν λείπει ο φάκελος ενός προφίλ, μπορεί να έχει διαγραφεί.
 
 Μέσα σε κάθε φάκελο προφίλ, μπορείτε να βρείτε αρκετά σημαντικά αρχεία:
 
@@ -73,7 +73,7 @@ Get Access Today:
 Επιπλέον, η έρευνα για τις ρυθμίσεις κατά της phishing του προγράμματος περιήγησης μπορεί να γίνει αναζητώντας τις εγγραφές `browser.safebrowsing` στο `prefs.js`, υποδεικνύοντας εάν οι δυνατότητες ασφαλούς πλοήγησης είναι ενεργοποιημένες ή απενεργοποιημένες.
 
 Για να προσπαθήσετε να αποκρυπτογραφήσετε τον κύριο κωδικό πρόσβασης, μπορείτε να χρησιμοποιήσετε [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Με το παρακάτω σενάριο και κλήση μπορείτε να καθορίσετε ένα αρχείο κωδικών πρόσβασης για brute force:
+Με το παρακάτω σενάριο και κλήση μπορείτε να καθορίσετε ένα αρχείο κωδικού πρόσβασης για brute force:
 
 {% code title="brute.sh" %}
 ```bash
@@ -109,14 +109,14 @@ done < $passfile
 * **Login Data**: Περιλαμβάνει διαπιστευτήρια σύνδεσης όπως ονόματα χρηστών και κωδικούς πρόσβασης.
 * **Current Session**/**Current Tabs**: Δεδομένα σχετικά με την τρέχουσα συνεδρία περιήγησης και τις ανοιχτές καρτέλες.
 * **Last Session**/**Last Tabs**: Πληροφορίες σχετικά με τους ιστότοπους που ήταν ενεργοί κατά την τελευταία συνεδρία πριν κλείσει ο Chrome.
-* **Extensions**: Κατάλογοι για επεκτάσεις και addons του προγράμματος περιήγησης.
+* **Extensions**: Κατάλογοι για επεκτάσεις και πρόσθετα του προγράμματος περιήγησης.
 * **Thumbnails**: Αποθηκεύει μικρογραφίες ιστοσελίδων.
-* **Preferences**: Ένα αρχείο πλούσιο σε πληροφορίες, συμπεριλαμβανομένων ρυθμίσεων για plugins, επεκτάσεις, αναδυόμενα παράθυρα, ειδοποιήσεις και άλλα.
-* **Browser’s built-in anti-phishing**: Για να ελέγξετε αν η προστασία κατά του phishing και του κακόβουλου λογισμικού είναι ενεργοποιημένη, εκτελέστε `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Αναζητήστε `{"enabled: true,"}` στην έξοδο.
+* **Preferences**: Ένα αρχείο πλούσιο σε πληροφορίες, συμπεριλαμβανομένων ρυθμίσεων για πρόσθετα, επεκτάσεις, αναδυόμενα παράθυρα, ειδοποιήσεις και άλλα.
+* **Browser’s built-in anti-phishing**: Για να ελέγξετε αν είναι ενεργοποιημένη η προστασία κατά του phishing και του κακόβουλου λογισμικού, εκτελέστε `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Αναζητήστε `{"enabled: true,"}` στην έξοδο.
 
 ## **SQLite DB Data Recovery**
 
-Όπως μπορείτε να παρατηρήσετε στις προηγούμενες ενότητες, τόσο ο Chrome όσο και ο Firefox χρησιμοποιούν βάσεις δεδομένων **SQLite** για να αποθηκεύσουν τα δεδομένα. Είναι δυνατόν να **ανακτήσετε διαγραμμένες εγγραφές χρησιμοποιώντας το εργαλείο** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ή** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Όπως μπορείτε να παρατηρήσετε στις προηγούμενες ενότητες, τόσο ο Chrome όσο και ο Firefox χρησιμοποιούν βάσεις δεδομένων **SQLite** για να αποθηκεύσουν τα δεδομένα. Είναι δυνατόν να **ανακτηθούν διαγραμμένες εγγραφές χρησιμοποιώντας το εργαλείο** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ή** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
@@ -132,7 +132,7 @@ done < $passfile
 
 ### Cookies Management
 
-Τα cookies μπορούν να εξερευνηθούν χρησιμοποιώντας το [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), με τα μεταδεδομένα να περιλαμβάνουν ονόματα, URLs, αριθμούς πρόσβασης και διάφορες λεπτομέρειες σχετικές με τον χρόνο. Τα μόνιμα cookies αποθηκεύονται στο `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, με τα session cookies να βρίσκονται στη μνήμη.
+Τα cookies μπορούν να εξερευνηθούν χρησιμοποιώντας το [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), με μεταδεδομένα που περιλαμβάνουν ονόματα, URLs, αριθμούς πρόσβασης και διάφορες λεπτομέρειες σχετικές με τον χρόνο. Τα μόνιμα cookies αποθηκεύονται στο `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, με τα session cookies να βρίσκονται στη μνήμη.
 
 ### Download Details
 
@@ -144,7 +144,7 @@ done < $passfile
 
 ### Typed URLs
 
-Τα πληκτρολογημένα URLs και οι χρόνοι χρήσης τους αποθηκεύονται στο μητρώο κάτω από `NTUSER.DAT` στο `Software\Microsoft\InternetExplorer\TypedURLs` και `Software\Microsoft\InternetExplorer\TypedURLsTime`, παρακολουθώντας τα τελευταία 50 URLs που εισήγαγε ο χρήστης και τους τελευταίους χρόνους εισόδου τους.
+Τα πληκτρολογημένα URLs και οι χρόνοι χρήσης τους αποθηκεύονται μέσα στη μητρώο κάτω από το `NTUSER.DAT` στο `Software\Microsoft\InternetExplorer\TypedURLs` και `Software\Microsoft\InternetExplorer\TypedURLsTime`, παρακολουθώντας τα τελευταία 50 URLs που εισήγαγε ο χρήστης και τους τελευταίους χρόνους εισόδου τους.
 
 ## Microsoft Edge
 
@@ -171,7 +171,7 @@ done < $passfile
 
 ## Opera
 
-Τα δεδομένα του Opera βρίσκονται στο `/Users/$USER/Library/Application Support/com.operasoftware.Opera` και μοιράζονται τη μορφή του Chrome για ιστορικό και λήψεις.
+Τα δεδομένα του Opera βρίσκονται στο `/Users/$USER/Library/Application Support/com.operasoftware.Opera` και μοιράζεται τη μορφή του Chrome για το ιστορικό και τις λήψεις.
 
 * **Browser’s built-in anti-phishing**: Επαληθεύστε ελέγχοντας αν το `fraud_protection_enabled` στο αρχείο Preferences είναι ρυθμισμένο σε `true` χρησιμοποιώντας `grep`.
 
@@ -187,22 +187,22 @@ done < $passfile
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

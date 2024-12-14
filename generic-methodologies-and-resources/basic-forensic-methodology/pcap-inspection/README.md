@@ -70,17 +70,17 @@ sudo apt-get install xplico
 ```
 Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
 
-Then create a **new case**, create a **new session** inside the case and **upload the pcap** file.
+Then create a **νέα υπόθεση**, create a **νέα συνεδρία** inside the case and **ανεβάστε το pcap** file.
 
 ### NetworkMiner
 
-Like Xplico it is a tool to **analyze and extract objects from pcaps**. It has a free edition that you can **download** [**here**](https://www.netresec.com/?page=NetworkMiner). It works with **Windows**.\
-This tool is also useful to get **other information analysed** from the packets in order to be able to know what was happening in a **quicker** way.
+Like Xplico it is a tool to **αναλύει και εξάγει αντικείμενα από pcaps**. It has a free edition that you can **κατεβάσετε** [**εδώ**](https://www.netresec.com/?page=NetworkMiner). It works with **Windows**.\
+This tool is also useful to get **άλλες πληροφορίες που αναλύονται** from the packets in order to be able to know what was happening in a **ταχύτερη** way.
 
 ### NetWitness Investigator
 
 You can download [**NetWitness Investigator from here**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(It works in Windows)**.\
-This is another useful tool that **analyses the packets** and sorts the information in a useful way to **know what is happening inside**.
+This is another useful tool that **αναλύει τα πακέτα** and sorts the information in a useful way to **γνωρίζετε τι συμβαίνει μέσα**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
@@ -208,7 +208,7 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
-### Πληροφορίες DNS
+### DNS πληροφορίες
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -243,7 +243,7 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) είναι η πιο σχετική εκδήλωση κυβερνοασφάλειας στην **Ισπανία** και μία από τις πιο σημαντικές στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένα καυτό σημείο συνάντησης για επαγγελματίες της τεχνολογίας και της κυβερνοασφάλειας σε κάθε πειθαρχία.
+[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό γεγονός κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένα καυτό σημείο συνάντησης για επαγγελματίες της τεχνολογίας και της κυβερνοασφάλειας σε κάθε πειθαρχία.
 
 {% embed url="https://www.rootedcon.com/" %}
 

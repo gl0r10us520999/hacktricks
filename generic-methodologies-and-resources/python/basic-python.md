@@ -1,31 +1,31 @@
-# Βασικό Python
+# Basic Python
 
 {% hint style="success" %}
-Μάθε & εξάσκησε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθε & εξάσκησε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Βασικά του Python
+## Python Basics
 
-### Χρήσιμες πληροφορίες
+### Useful information
 
-list(xrange()) == range() --> Στο python3 το range είναι το xrange του python2 (δεν είναι μια λίστα αλλά ένας γεννήτορας)\
-Η διαφορά μεταξύ ενός Tuple και μιας Λίστας είναι ότι η θέση μιας τιμής σε ένα tuple της δίνει νόημα, ενώ οι λίστες είναι απλά ταξινομημένες τιμές. Τα Tuples έχουν δομές, ενώ οι λίστες έχουν μια σειρά.
+list(xrange()) == range() --> Στην python3 το range είναι το xrange της python2 (δεν είναι λίστα αλλά γεννήτρια)\
+Η διαφορά μεταξύ ενός Tuple και μιας List είναι ότι η θέση μιας τιμής σε ένα tuple της δίνει νόημα, ενώ οι λίστες είναι απλώς ταξινομημένες τιμές. Τα tuples έχουν δομές αλλά οι λίστες έχουν μια σειρά.
 
-### Κύριες λειτουργίες
+### Main operations
 
-Για να υψώσετε έναν αριθμό χρησιμοποιείτε: 3\*\*2 (όχι 3^2)\
-Αν κάνετε 2/3 επιστρέφει 1 επειδή διαιρείτε δύο ακέραιους (integers). Αν θέλετε δεκαδικούς αριθμούς θα πρέπει να διαιρέσετε δεκαδικούς (2.0/3.0).\
+To raise a number you use: 3\*\*2 (not 3^2)\
+If you do 2/3 it returns 1 because you are dividing two ints (integers). If you want decimals you should divide floats (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
@@ -47,34 +47,34 @@ isinstance(1, int) = True\
 "abcdef".contains("abc") = True\
 "abc\n".strip() = "abc"\
 "apbc".replace("p","") = "abc"\
-dir(str) = Λίστα με όλες τις διαθέσιμες μεθόδους\
-help(str) = Ορισμός της κλάσης str\
+dir(str) = List of all the available methods\
+help(str) = Definition of the class str\
 "a".upper() = "A"\
 "A".lower() = "a"\
 "abc".capitalize() = "Abc"\
 sum(\[1,2,3]) = 6\
 sorted(\[1,43,5,3,21,4])
 
-**Ένωση χαρακτήρων**\
+**Join chars**\
 3 \* ’a’ = ‘aaa’\
 ‘a’ + ‘b’ = ‘ab’\
 ‘a’ + str(3) = ‘a3’\
 \[1,2,3]+\[4,5]=\[1,2,3,4,5]
 
-**Μέρη μιας λίστας**\
+**Parts of a list**\
 ‘abc’\[0] = ‘a’\
 'abc’\[-1] = ‘c’\
 'abc’\[1:3] = ‘bc’ από \[1] έως \[2]\
 "qwertyuiop"\[:-1] = 'qwertyuio'
 
-**Σχόλια**\
-\# Σχόλιο μιας γραμμής\
+**Comments**\
+\# One line comment\
 """\
-Πολλαπλές γραμμές σχολίων\
-Άλλο ένα\
+Several lines comment\
+Another one\
 """
 
-**Βρόχοι**
+**Loops**
 ```
 if a:
 #somethig
@@ -92,62 +92,62 @@ for i in range(0,100):
 for letter in "hola":
 #something with a letter in "hola"
 ```
-### Πλειάδες
+### Tuples
 
-t1 = (1, '2', 'τρία')\
-t2 = (5, 6)\
-t3 = t1 + t2 = (1, '2', 'τρία', 5, 6)\
+t1 = (1,'2,'three')\
+t2 = (5,6)\
+t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
 (4,) = Singelton\
-d = () κενή πλειάδα\
-d += (4,) --> Προσθήκη σε μια πλειάδα\
-CANT! --> t1\[1] == 'Νέα τιμή'\
-list(t2) = \[5, 6] --> Από πλειάδα σε λίστα
+d = () κενό tuple\
+d += (4,) --> Προσθήκη σε ένα tuple\
+CANT! --> t1\[1] == 'New value'\
+list(t2) = \[5,6] --> Από tuple σε λίστα
 
-### Λίστα (πίνακας)
+### List (array)
 
-d = \[] κενή\
-a = \[1, 2, 3]\
-b = \[4, 5]\
-a + b = \[1, 2, 3, 4, 5]\
-b.append(6) = \[4, 5, 6]\
-tuple(a) = (1, 2, 3) --> Από λίστα σε πλειάδα
+d = \[] κενό\
+a = \[1,2,3]\
+b = \[4,5]\
+a + b = \[1,2,3,4,5]\
+b.append(6) = \[4,5,6]\
+tuple(a) = (1,2,3) --> Από λίστα σε tuple
 
-### Λεξικό
+### Dictionary
 
 d = {} κενό\
-monthNumbers={1: 'Ιαν', 2: 'φεβ', 'φεβ': 2} --> monthNumbers -> {1: 'Ιαν', 2: 'φεβ', 'φεβ': 2}\
-monthNumbers\[1] = 'Ιαν'\
-monthNumbers\['φεβ'] = 2\
-list(monthNumbers) = \[1, 2, 'φεβ']\
-monthNumbers.values() = \['Ιαν', 'φεβ', 2]\
+monthNumbers={1:’Jan’, 2: ‘feb’,’feb’:2}—> monthNumbers ->{1:’Jan’, 2: ‘feb’,’feb’:2}\
+monthNumbers\[1] = ‘Jan’\
+monthNumbers\[‘feb’] = 2\
+list(monthNumbers) = \[1,2,’feb’]\
+monthNumbers.values() = \[‘Jan’,’feb’,2]\
 keys = \[k for k in monthNumbers]\
-a={'9': 9}\
-monthNumbers.update(a) = {'9': 9, 1: 'Ιαν', 2: 'φεβ', 'φεβ': 2}\
-mN = monthNumbers.copy() #Ανεξάρτητο αντίγραφο\
-monthNumbers.get('key', 0) #Έλεγχος αν υπάρχει το κλειδί, Επιστροφή τιμής του monthNumbers\["key"] ή 0 αν δεν υπάρχει
+a={'9':9}\
+monthNumbers.update(a) = {'9':9, 1:’Jan’, 2: ‘feb’,’feb’:2}\
+mN = monthNumbers.copy() #Ανεξάρτητη αντιγραφή\
+monthNumbers.get('key',0) #Έλεγχος αν υπάρχει το κλειδί, Επιστροφή της τιμής του monthNumbers\["key"] ή 0 αν δεν υπάρχει
 
-### Σύνολα
+### Set
 
 Στα σύνολα δεν υπάρχουν επαναλήψεις\
-myset = set(\['α', 'β']) = {'α', 'β'}\
-myset.add('γ') = {'α', 'β', 'γ'}\
-myset.add('α') = {'α', 'β', 'γ'} #Χωρίς επαναλήψεις\
-myset.update(\[1, 2, 3]) = set(\['α', 1, 2, 'β', 'γ', 3])\
-myset.discard(10) #Αν υπάρχει, αφαίρεσέ το, αλλιώς τίποτα\
-myset.remove(10) #Αν υπάρχει, αφαίρεσέ το, αλλιώς εμφάνισε εξαίρεση\
+myset = set(\['a', 'b']) = {'a', 'b'}\
+myset.add('c') = {'a', 'b', 'c'}\
+myset.add('a') = {'a', 'b', 'c'} #Χωρίς επαναλήψεις\
+myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.discard(10) #Αν υπάρχει, αφαιρέστε το, αν όχι, τίποτα\
+myset.remove(10) #Αν υπάρχει, αφαιρέστε το, αν όχι, ρίξτε εξαίρεση\
 myset2 = set(\[1, 2, 3, 4])\
-myset.union(myset2) #Τιμές στο myset Ή myset2\
-myset.intersection(myset2) #Τιμές στο myset ΚΑΙ myset2\
-myset.difference(myset2) #Τιμές στο myset αλλά όχι στο myset2\
-myset.symmetric\_difference(myset2) #Τιμές που δεν είναι ούτε στο myset ΟΥΤΕ στο myset2 (όχι σε κανένα)\
-myset.pop() #Πάρε το πρώτο στοιχείο του συνόλου και αφαίρεσέ το\
+myset.union(myset2) #Τιμές που είναι myset Ή myset2\
+myset.intersection(myset2) #Τιμές σε myset ΚΑΙ myset2\
+myset.difference(myset2) #Τιμές σε myset αλλά όχι σε myset2\
+myset.symmetric\_difference(myset2) #Τιμές που δεν είναι σε myset ΚΑΙ myset2 (όχι και στα δύο)\
+myset.pop() #Πάρτε το πρώτο στοιχείο του συνόλου και αφαιρέστε το\
 myset.intersection\_update(myset2) #myset = Στοιχεία και στα δύο myset και myset2\
-myset.difference\_update(myset2) #myset = Στοιχεία στο myset αλλά όχι στο myset2\
-myset.symmetric\_difference\_update(myset2) #myset = Στοιχεία που δεν είναι σε κανένα από τα δύο
+myset.difference\_update(myset2) #myset = Στοιχεία σε myset αλλά όχι σε myset2\
+myset.symmetric\_difference\_update(myset2) #myset = Στοιχεία που δεν είναι και στα δύο
 
-### Κλάσεις
+### Classes
 
-Η μέθοδος στο \_\_It\_\_ θα είναι αυτή που θα χρησιμοποιηθεί από τη συνάρτηση sort για να συγκρίνει αν ένα αντικείμενο αυτής της κλάσης είναι μεγαλύτερο από ένα άλλο
+Η μέθοδος στο \_\_It\_\_ θα είναι αυτή που θα χρησιμοποιηθεί από το sort για να συγκρίνει αν ένα αντικείμενο αυτής της κλάσης είναι μεγαλύτερο από άλλο
 ```python
 class Person(name):
 def __init__(self,name):
@@ -175,20 +175,20 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted και μία γραμμή
+### map, zip, filter, lambda, sorted and one-liners
 
-**Map** είναι σαν: \[f(x) για x σε iterable] --> map(tutple,\[α,β]) = \[(1,2,3),(4,5)]\
+**Map** είναι όπως: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**Zip** σταματά όταν το μικρότερο από το foo ή το bar σταματήσει:
+**zip** σταματά όταν το πιο σύντομο από το foo ή το bar σταματά:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
 ```
-**Lambda** χρησιμοποιείται για να ορίσετε μια συνάρτηση\
+**Lambda** χρησιμοποιείται για να ορίσει μια συνάρτηση\
 (lambda x,y: x+y)(5,3) = 8 --> Χρησιμοποιήστε το lambda ως απλή **συνάρτηση**\
 **sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Χρησιμοποιήστε το lambda για να ταξινομήσετε μια λίστα\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Χρησιμοποιήστε το lambda για φιλτράρισμα\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Χρησιμοποιήστε το lambda για να φιλτράρετε\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
 ```
 def make_adder(n):
@@ -200,11 +200,9 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```html
-mult1 = \[x για x σε \[1, 2, 3, 4, 5, 6, 7, 8, 9] αν x%3 == 0 ]
+mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 
 ### Εξαιρέσεις
-```
 ```
 def divide(x,y):
 try:
@@ -220,24 +218,23 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-Αν η συνθήκη είναι ψευδής, το string θα εκτυπωθεί στην οθόνη
+Αν η συνθήκη είναι ψευδής, η συμβολοσειρά θα εκτυπωθεί στην οθόνη.
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
 assert len(grades) == 'wrong number grades'
 ```
-### Γεννήτορες, yield
+### Γεννήτριες, yield
 
-Ένας γεννήτορας, αντί να επιστρέφει κάτι, "αποδίδει" κάτι. Όταν τον προσπελάσετε, θα "επιστρέψει" την πρώτη τιμή που δημιουργήθηκε, στη συνέχεια, μπορείτε να τον προσπελάσετε ξανά και θα επιστρέψει την επόμενη τιμή που δημιουργήθηκε. Έτσι, όλες οι τιμές δεν δημιουργούνται ταυτόχρονα και μπορεί να εξοικονομηθεί πολύς χώρος μνήμης χρησιμοποιώντας αυτό αντί για μια λίστα με όλες τις τιμές.
+Μια γεννήτρια, αντί να επιστρέφει κάτι, "παραδίδει" κάτι. Όταν την προσπελάσετε, θα "επιστρέψει" την πρώτη τιμή που δημιουργήθηκε, στη συνέχεια, μπορείτε να την προσπελάσετε ξανά και θα επιστρέψει την επόμενη τιμή που δημιουργήθηκε. Έτσι, όλες οι τιμές δεν δημιουργούνται ταυτόχρονα και μπορεί να σωθεί πολύ μνήμη χρησιμοποιώντας αυτό αντί για μια λίστα με όλες τις τιμές.
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
-```html
 g = myGen(6) --> 6\
 next(g) --> 7\
-next(g) --> Error
+next(g) --> Σφάλμα
 
 ### Κανονικές Εκφράσεις
 
@@ -246,50 +243,49 @@ re.search("\w","hola").group() = "h"\
 re.findall("\w","hola") = \['h', 'o', 'l', 'a']\
 re.findall("\w+(la)","hola caracola") = \['la', 'la']
 
-**Ειδικές Σημασίες:**\
+**Ειδικές σημασίες:**\
 . --> Όλα\
 \w --> \[a-zA-Z0-9\_]\
 \d --> Αριθμός\
-\s --> Χαρακτήρας κενού\[ \n\r\t\f]\
-\S --> Μη-χαρακτήρας κενού\
+\s --> Χαρακτήρας κενής θέσης\[ \n\r\t\f]\
+\S --> Μη κενός χαρακτήρας\
 ^ --> Ξεκινά με\
 $ --> Τελειώνει με\
-\+ --> Ένας ή περισσότεροι\
-\* --> 0 ή περισσότεροι\
+\+ --> Ένα ή περισσότερα\
+\* --> 0 ή περισσότερα\
 ? --> 0 ή 1 εμφανίσεις
 
 **Επιλογές:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Επιτρέπει στο τελείστη να ταιριάζει με νέα γραμμή\
-MULTILINE --> Επιτρέπει στο ^ και $ να ταιριάζουν σε διαφορετικές γραμμές
+DOTALL --> Επιτρέπει την τελεία να ταιριάζει με νέα γραμμή\
+MULTILINE --> Επιτρέπει το ^ και $ να ταιριάζουν σε διαφορετικές γραμμές
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> Δημιουργεί συνδυασμούς μεταξύ 1 ή περισσότερων λιστών, ίσως επαναλαμβάνοντας τιμές, καρτεσιανό γινόμενο (ιδιότητα διανομής)\
+from **itertools** import product --> Δημιουργεί συνδυασμούς μεταξύ 1 ή περισσότερων λιστών, ίσως επαναλαμβάνοντας τιμές, καρτεσιανός προϊόν (διανεμητική ιδιότητα)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
 **permutations**\
 from **itertools** import **permutations** --> Δημιουργεί συνδυασμούς όλων των χαρακτήρων σε κάθε θέση\
-print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Κάθε δυνατός συνδυασμός\
-print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Κάθε δυνατός συνδυασμός μήκους 2
+print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), ('2', '1', '3'),... Κάθε πιθανός συνδυασμός\
+print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Κάθε πιθανός συνδυασμός μήκους 2
 
 **combinations**\
-from itertools import **combinations** --> Δημιουργεί όλους τους δυνατούς συνδυασμούς χωρίς επανάληψη χαρακτήρων (αν υπάρχει "ab", δεν δημιουργεί "ba")\
+from itertools import **combinations** --> Δημιουργεί όλους τους πιθανούς συνδυασμούς χωρίς επαναλαμβανόμενους χαρακτήρες (αν υπάρχει "ab", δεν δημιουργεί "ba")\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Δημιουργεί όλους τους δυνατούς συνδυασμούς από τον χαρακτήρα και μετά (για παράδειγμα, το 3ο ανακατεύεται από το 3ο και μετά αλλά όχι με το 2ο ή το 1ο)\
-print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3)']
+from itertools import **combinations\_with\_replacement** --> Δημιουργεί όλους τους πιθανούς συνδυασμούς από τον χαρακτήρα και μετά (για παράδειγμα, ο 3ος είναι μίξη από τον 3ο και μετά αλλά όχι με τον 2ο ή τον πρώτο)\
+print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
 ### Διακοσμητές
 
-Διακοσμητής που μετρά τον χρόνο που χρειάζεται μια συνάρτηση για να εκτελεστεί (από [εδώ](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
-```
+Διακοσμητής που μετράει τον χρόνο που χρειάζεται μια συνάρτηση για να εκτελεστεί (από [εδώ](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
 ```python
 from functools import wraps
 import time
@@ -307,23 +303,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-Εάν το εκτελέσετε, θα δείτε κάτι παρόμοιο με το παρακάτω:
+Αν το εκτελέσετε, θα δείτε κάτι σαν το παρακάτω:
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε τεχνικές χάκινγκ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

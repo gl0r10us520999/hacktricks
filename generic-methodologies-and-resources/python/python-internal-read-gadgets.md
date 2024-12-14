@@ -1,36 +1,36 @@
-# Εσωτερικά Gadgets ανάγνωσης σε Python
+# Python Internal Read Gadgets
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Βασικές Πληροφορίες
+## Basic Information
 
-Διάφορες ευπάθειες όπως τα [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) ή η [**Ρύπανση Κλάσεων**](class-pollution-pythons-prototype-pollution.md) μπορεί να σας επιτρέψουν να **διαβάσετε εσωτερικά δεδομένα της Python αλλά δεν θα σας επιτρέψουν να εκτελέσετε κώδικα**. Συνεπώς, ένας pentester θα πρέπει να εκμεταλλευτεί αυτές τις δικαιώματα ανάγνωσης για να **αποκτήσει ευαίσθητα προνόμια και να εξελίξει την ευπάθεια**.
+Διαφορετικές ευπάθειες όπως [**Python Format Strings**](bypass-python-sandboxes/#python-format-string) ή [**Class Pollution**](class-pollution-pythons-prototype-pollution.md) μπορεί να σας επιτρέψουν να **διαβάσετε τα εσωτερικά δεδομένα του python αλλά δεν θα σας επιτρέψουν να εκτελέσετε κώδικα**. Επομένως, ένας pentester θα χρειαστεί να εκμεταλλευτεί αυτές τις άδειες ανάγνωσης για να **αποκτήσει ευαίσθητα προνόμια και να κλιμακώσει την ευπάθεια**.
 
-### Flask - Διάβασμα μυστικού κλειδιού
+### Flask - Read secret key
 
-Η κύρια σελίδα μιας εφαρμογής Flask πιθανότατα θα έχει το **`app`** παγκόσμιο αντικείμενο όπου αυτό το **μυστικό είναι ρυθμισμένο**.
+Η κύρια σελίδα μιας εφαρμογής Flask θα έχει πιθανώς το **`app`** παγκόσμιο αντικείμενο όπου αυτή η **μυστική ρύθμιση είναι διαμορφωμένη**.
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Σε αυτήν την περίπτωση είναι δυνατή η πρόσβαση σε αυτό το αντικείμενο χρησιμοποιώντας οποιοδήποτε gadget για **πρόσβαση σε παγκόσμια αντικείμενα** από τη [σελίδα **Παράκαμψης των αμμοθονών της Python**](bypass-python-sandboxes/).
+Σε αυτή την περίπτωση είναι δυνατό να αποκτήσετε πρόσβαση σε αυτό το αντικείμενο χρησιμοποιώντας οποιοδήποτε gadget για **πρόσβαση σε παγκόσμια αντικείμενα** από τη σελίδα [**Bypass Python sandboxes**](bypass-python-sandboxes/).
 
-Στην περίπτωση όπου **η ευπάθεια βρίσκεται σε διαφορετικό αρχείο Python**, χρειάζεστε ένα gadget για να διασχίσετε αρχεία και να φτάσετε στο κύριο αρχείο για **πρόσβαση στο παγκόσμιο αντικείμενο `app.secret_key`** για να αλλάξετε το μυστικό κλειδί του Flask και να είστε σε θέση να [**αναβαθμίσετε δικαιώματα** γνωρίζοντας αυτό το κλειδί](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+Στην περίπτωση όπου **η ευπάθεια είναι σε διαφορετικό αρχείο python**, χρειάζεστε ένα gadget για να διασχίσετε τα αρχεία ώστε να φτάσετε στο κύριο για να **πρόσβαση στο παγκόσμιο αντικείμενο `app.secret_key`** για να αλλάξετε το μυστικό κλειδί του Flask και να μπορείτε να [**κλιμακώσετε δικαιώματα** γνωρίζοντας αυτό το κλειδί](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Ένα φορτίο όπως αυτό από αυτό το [άρθρο](https://ctftime.org/writeup/36082):
+Ένα payload όπως αυτό [από αυτή τη γραφή](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -38,32 +38,32 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Χρησιμοποιήστε αυτό το φορτίο για **να αλλάξετε το `app.secret_key`** (το όνομα στην εφαρμογή σας μπορεί να είναι διαφορετικό) ώστε να μπορείτε να υπογράψετε νέα και περισσότερα προνόμια στα cookies του flask.
+Χρησιμοποιήστε αυτό το payload για να **αλλάξετε το `app.secret_key`** (το όνομα στην εφαρμογή σας μπορεί να είναι διαφορετικό) ώστε να μπορείτε να υπογράφετε νέα και πιο προνομιακά cookies flask.
 
 ### Werkzeug - machine\_id και node uuid
 
-[**Χρησιμοποιώντας αυτό το φορτίο από αυτήν την ανάλυση**](https://vozec.fr/writeups/tweedle-dum-dee/) θα μπορείτε να έχετε πρόσβαση στο **machine\_id** και το **uuid** node, τα οποία είναι τα **κύρια μυστικά** που χρειάζεστε για [**να δημιουργήσετε το Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md) που μπορείτε να χρησιμοποιήσετε για να έχετε πρόσβαση στην python κονσόλα στο `/console` αν η **λειτουργία αποσφαλμάτωσης είναι ενεργοποιημένη:**
+[**Χρησιμοποιώντας αυτά τα payload από αυτήν την αναφορά**](https://vozec.fr/writeups/tweedle-dum-dee/) θα μπορείτε να αποκτήσετε πρόσβαση στο **machine\_id** και το **uuid** node, τα οποία είναι τα **κύρια μυστικά** που χρειάζεστε για να [**δημιουργήσετε το Werkzeug pin**](../../network-services-pentesting/pentesting-web/werkzeug.md) που μπορείτε να χρησιμοποιήσετε για να αποκτήσετε πρόσβαση στην κονσόλα python στο `/console` αν είναι **ενεργοποιημένη η λειτουργία αποσφαλμάτωσης:**
 ```python
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug]._machine_id}
 {ua.__class__.__init__.__globals__[t].sys.modules[werkzeug.debug].uuid._node}
 ```
 {% hint style="warning" %}
-Σημειώστε ότι μπορείτε να λάβετε τη **τοπική διαδρομή των διακομιστών προς το `app.py`** δημιουργώντας κάποιο **σφάλμα** στην ιστοσελίδα που θα **σας δώσει τη διαδρομή**.
+Σημειώστε ότι μπορείτε να αποκτήσετε την **τοπική διαδρομή του διακομιστή για το `app.py`** δημιουργώντας κάποιο **σφάλμα** στη σελίδα web που θα **δώσει τη διαδρομή**.
 {% endhint %}
 
-Αν η ευπάθεια βρίσκεται σε διαφορετικό αρχείο Python, ελέγξτε το προηγούμενο κόλπο του Flask για πρόσβαση στα αντικείμενα από το κύριο αρχείο Python.
+Αν η ευπάθεια είναι σε διαφορετικό αρχείο python, ελέγξτε το προηγούμενο κόλπο Flask για να αποκτήσετε πρόσβαση στα αντικείμενα από το κύριο αρχείο python.
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

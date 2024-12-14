@@ -1,53 +1,53 @@
-# Ανάλυση Android
+# Android Forensics
 
 {% hint style="success" %}
-Μάθε & εξάσκησε το Hacking στο AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθε & εξάσκησε το Hacking στο GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Κλειδωμένη Συσκευή
+## Κλειδωμένη Σ συσκευή
 
-Για να ξεκινήσετε την εξαγωγή δεδομένων από μια συσκευή Android πρέπει να είναι ξεκλείδωτη. Αν είναι κλειδωμένη μπορείτε:
+Για να ξεκινήσετε την εξαγωγή δεδομένων από μια συσκευή Android, πρέπει να είναι ξεκλειδωμένη. Αν είναι κλειδωμένη, μπορείτε να:
 
-* Να ελέγξετε αν η συσκευή έχει ενεργοποιημένη την αποσφαλμάτωση μέσω USB.
-* Να ελέγξετε για πιθανή [επίθεση με αποτυπώματα](https://www.usenix.org/legacy/event/woot10/tech/full\_papers/Aviv.pdf)
-* Να δοκιμάσετε με [Brute-force](https://www.cultofmac.com/316532/this-brute-force-device-can-crack-any-iphones-pin-code/)
+* Ελέγξετε αν η συσκευή έχει ενεργοποιημένη την αποσφαλμάτωση μέσω USB.
+* Ελέγξετε για μια πιθανή [smudge attack](https://www.usenix.org/legacy/event/woot10/tech/full_papers/Aviv.pdf)
+* Δοκιμάστε με [Brute-force](https://www.cultofmac.com/316532/this-brute-force-device-can-crack-any-iphones-pin-code/)
 
 ## Απόκτηση Δεδομένων
 
-Δημιουργήστε ένα [αντίγραφο ασφαλείας Android χρησιμοποιώντας το adb](mobile-pentesting/android-app-pentesting/adb-commands.md#backup) και εξάγετε το χρησιμοποιώντας το [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/): `java -jar abe.jar unpack file.backup file.tar`
+Δημιουργήστε ένα [android backup using adb](mobile-pentesting/android-app-pentesting/adb-commands.md#backup) και εξάγετε το χρησιμοποιώντας το [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/): `java -jar abe.jar unpack file.backup file.tar`
 
-### Αν υπάρχει ριζική πρόσβαση ή φυσική σύνδεση στη διεπαφή JTAG
+### Αν έχετε πρόσβαση root ή φυσική σύνδεση στη διεπαφή JTAG
 
-* `cat /proc/partitions` (αναζητήστε τη διαδρομή προς τη μνήμη flash, συνήθως η πρώτη καταχώρηση είναι _mmcblk0_ και αντιστοιχεί στην ολόκληρη μνήμη flash).
-* `df /data` (Ανακαλύψτε το μέγεθος του τμήματος του συστήματος).
-* dd if=/dev/block/mmcblk0 of=/sdcard/blk0.img bs=4096 (εκτελέστε το με τις πληροφορίες που συγκεντρώθηκαν από το μέγεθος του τμήματος).
+* `cat /proc/partitions` (αναζητήστε τη διαδρομή στη μνήμη flash, γενικά η πρώτη καταχώρηση είναι _mmcblk0_ και αντιστοιχεί σε ολόκληρη τη μνήμη flash).
+* `df /data` (Ανακαλύψτε το μέγεθος μπλοκ του συστήματος).
+* dd if=/dev/block/mmcblk0 of=/sdcard/blk0.img bs=4096 (εκτελέστε το με τις πληροφορίες που συγκεντρώθηκαν από το μέγεθος μπλοκ).
 
 ### Μνήμη
 
-Χρησιμοποιήστε το Linux Memory Extractor (LiME) για να εξάγετε τις πληροφορίες RAM. Είναι μια επέκταση πυρήνα που πρέπει να φορτωθεί μέσω adb. 
+Χρησιμοποιήστε το Linux Memory Extractor (LiME) για να εξάγετε τις πληροφορίες RAM. Είναι μια επέκταση πυρήνα που πρέπει να φορτωθεί μέσω adb.
 
 {% hint style="success" %}
-Μάθε & εξάσκησε το Hacking στο AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθε & εξάσκησε το Hacking στο GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστήριξε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

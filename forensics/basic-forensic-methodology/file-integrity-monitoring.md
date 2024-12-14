@@ -1,32 +1,32 @@
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Βάση
+# Βασική Γραμμή
 
-Μια βάση αποτελείται από τη λήψη ενός στιγμιότυπου ορισμένων τμημάτων ενός συστήματος για να **συγκριθεί με μελλοντική κατάσταση για να τονίσει αλλαγές**.
+Μια βασική γραμμή συνίσταται στη λήψη μιας στιγμιότυπης εικόνας ορισμένων τμημάτων ενός συστήματος για **να τη συγκρίνουμε με μια μελλοντική κατάσταση ώστε να επισημάνουμε τις αλλαγές**.
 
-Για παράδειγμα, μπορείτε να υπολογίσετε και να αποθηκεύσετε το hash κάθε αρχείου του συστήματος αρχείων για να μπορείτε να ανακαλύψετε ποια αρχεία τροποποιήθηκαν.\
-Αυτό μπορεί επίσης να γίνει με τους λογαριασμούς χρηστών που δημιουργήθηκαν, τις διεργασίες που εκτελούνται, τις υπηρεσίες που εκτελούνται και οτιδήποτε άλλο που δεν πρέπει να αλλάξει πολύ, ή καθόλου.
+Για παράδειγμα, μπορείτε να υπολογίσετε και να αποθηκεύσετε το hash κάθε αρχείου του συστήματος αρχείων για να μπορέσετε να διαπιστώσετε ποια αρχεία έχουν τροποποιηθεί.\
+Αυτό μπορεί επίσης να γίνει με τους λογαριασμούς χρηστών που έχουν δημιουργηθεί, τις διαδικασίες που εκτελούνται, τις υπηρεσίες που εκτελούνται και οτιδήποτε άλλο δεν θα έπρεπε να αλλάξει πολύ ή καθόλου.
 
 ## Παρακολούθηση Ακεραιότητας Αρχείων
 
-Η Παρακολούθηση Ακεραιότητας Αρχείων (File Integrity Monitoring - FIM) είναι μια κρίσιμη τεχνική ασφαλείας που προστατεύει τα περιβάλλοντα IT και τα δεδομένα παρακολουθώντας τις αλλαγές στα αρχεία. Περιλαμβάνει δύο βασικά βήματα:
+Η Παρακολούθηση Ακεραιότητας Αρχείων (FIM) είναι μια κρίσιμη τεχνική ασφάλειας που προστατεύει τα IT περιβάλλοντα και τα δεδομένα παρακολουθώντας τις αλλαγές στα αρχεία. Περιλαμβάνει δύο βασικά βήματα:
 
-1. **Σύγκριση Βάσης:** Δημιουργία μιας βάσης χρησιμοποιώντας τα χαρακτηριστικά των αρχείων ή κρυπτογραφικούς ελέγχους (όπως MD5 ή SHA-2) για μελλοντικές συγκρίσεις για την ανίχνευση τροποποιήσεων.
-2. **Ειδοποίηση Αλλαγής σε Πραγματικό Χρόνο:** Λάβετε άμεσες ειδοποιήσεις όταν τα αρχεία προσπελαύνονται ή τροποποιούνται, συνήθως μέσω επεκτάσεων πυρήνα OS.
+1. **Σύγκριση Βασικής Γραμμής:** Καθιερώστε μια βασική γραμμή χρησιμοποιώντας χαρακτηριστικά αρχείων ή κρυπτογραφικούς ελέγχους (όπως MD5 ή SHA-2) για μελλοντικές συγκρίσεις ώστε να ανιχνεύσετε τροποποιήσεις.
+2. **Ειδοποίηση Αλλαγών σε Πραγματικό Χρόνο:** Λάβετε άμεσες ειδοποιήσεις όταν τα αρχεία προσπελάζονται ή τροποποιούνται, συνήθως μέσω επεκτάσεων πυρήνα OS.
 
 ## Εργαλεία
 
@@ -39,16 +39,16 @@
 
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

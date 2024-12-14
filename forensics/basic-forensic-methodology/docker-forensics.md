@@ -29,7 +29,7 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-Μπορείτε εύκολα **να βρείτε τις τροποποιήσεις που έγιναν σε αυτό το κοντέινερ σε σχέση με την εικόνα** με:
+Μπορείτε εύκολα **να βρείτε τις τροποποιήσεις που έχουν γίνει σε αυτό το κοντέινερ σε σχέση με την εικόνα** με:
 ```bash
 docker diff wordpress
 C /var
@@ -58,7 +58,7 @@ diff original_shadow shadow
 ```bash
 docker exec -it wordpress bash
 ```
-## Images modifications
+## Επεξεργασία εικόνων
 
 Όταν σας δοθεί μια εξαγόμενη εικόνα docker (πιθανώς σε μορφή `.tar`), μπορείτε να χρησιμοποιήσετε [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) για να **εξαγάγετε μια περίληψη των τροποποιήσεων**:
 ```bash
@@ -77,7 +77,7 @@ tar -xf image.tar
 ```bash
 docker inspect <image>
 ```
-Μπορείτε επίσης να αποκτήσετε μια περίληψη **ιστορικό αλλαγών** με:
+Μπορείτε επίσης να αποκτήσετε μια περίληψη **ιστορίας αλλαγών** με:
 ```bash
 docker history --no-trunc <image>
 ```
@@ -105,11 +105,11 @@ sudo dive flask:latest
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## Διαπιστευτήρια από τη μνήμη
+## Διαπιστευτήρια από μνήμη
 
-Σημειώστε ότι όταν εκτελείτε ένα docker container μέσα σε έναν host **μπορείτε να δείτε τις διαδικασίες που εκτελούνται στο container από τον host** απλά εκτελώντας `ps -ef`
+Σημειώστε ότι όταν εκτελείτε ένα docker container μέσα σε έναν host **μπορείτε να δείτε τις διεργασίες που εκτελούνται στο container από τον host** απλά εκτελώντας `ps -ef`
 
-Επομένως (ως root) μπορείτε να **dump την μνήμη των διαδικασιών** από τον host και να αναζητήσετε **διαπιστευτήρια** απλά [**όπως στο παρακάτω παράδειγμα**](../../linux-hardening/privilege-escalation/#process-memory).
+Επομένως (ως root) μπορείτε να **dumpάρετε τη μνήμη των διεργασιών** από τον host και να αναζητήσετε **διαπιστευτήρια** ακριβώς [**όπως στο παρακάτω παράδειγμα**](../../linux-hardening/privilege-escalation/#process-memory).
 
 <figure><img src="/.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 

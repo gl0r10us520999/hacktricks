@@ -1,43 +1,43 @@
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 
-# Σύνοψη της επίθεσης
+# Περίληψη της επίθεσης
 
-Φανταστείτε ένα διακομιστή που **υπογράφει** κάποια **δεδομένα** με το **προσάρτημα** ενός **μυστικού** σε κάποια γνωστά καθαρά δεδομένα και στη συνέχεια κάνει hash αυτά τα δεδομένα. Αν γνωρίζετε:
+Φανταστείτε έναν διακομιστή που **υπογράφει** κάποια **δεδομένα** προσθέτοντας ένα **μυστικό** σε κάποια γνωστά καθαρά δεδομένα και στη συνέχεια κατακερματίζοντας αυτά τα δεδομένα. Αν γνωρίζετε:
 
-* **Το μήκος του μυστικού** (αυτό μπορεί επίσης να αναζητηθεί με brute force από ένα δεδομένο εύρος μήκους)
+* **Το μήκος του μυστικού** (αυτό μπορεί επίσης να βρεθεί με brute force από μια δεδομένη περιοχή μήκους)
 * **Τα καθαρά δεδομένα**
-* **Τον αλγόριθμο (και την ευπάθειά του σε αυτήν την επίθεση)**
-* **Το padding είναι γνωστό**
-* Συνήθως χρησιμοποιείται ένα προεπιλεγμένο, οπότε αν πληρούνται τα άλλα 3 απαιτήματα, αυτό επίσης είναι
-* Το padding διαφέρει ανάλογα με το μήκος του μυστικού+δεδομένων, γι' αυτό χρειάζεται το μήκος του μυστικού
+* **Ο αλγόριθμος (και είναι ευάλωτος σε αυτή την επίθεση)**
+* **Η προσθήκη είναι γνωστή**
+* Συνήθως χρησιμοποιείται μια προεπιλεγμένη, οπότε αν πληρούνται οι άλλες 3 απαιτήσεις, αυτό ισχύει επίσης
+* Η προσθήκη ποικίλλει ανάλογα με το μήκος του μυστικού + δεδομένα, γι' αυτό χρειάζεται το μήκος του μυστικού
 
-Τότε, είναι δυνατό για έναν **εισβολέα** να **προσθέσει** **δεδομένα** και να **δημιουργήσει** ένα έγκυρο **υπογραφή** για τα **προηγούμενα δεδομένα + τα προσαρτημένα δεδομένα**.
+Τότε, είναι δυνατό για έναν **επιτιθέμενο** να **προσθέσει** **δεδομένα** και να **δημιουργήσει** μια έγκυρη **υπογραφή** για τα **προηγούμενα δεδομένα + προστιθέμενα δεδομένα**.
 
 ## Πώς;
 
-Βασικά, οι ευάλωτοι αλγόριθμοι δημιουργούν τα hashes με το να **κάνουν hash ενός τμήματος δεδομένων** και στη συνέχεια, **από** το **προηγούμενα** δημιουργημένο **hash** (κατάσταση), **προσθέτουν το επόμενο τμήμα δεδομένων** και το **κάνουν hash**.
+Βασικά, οι ευάλωτοι αλγόριθμοι δημιουργούν τους κατακερματισμούς πρώτα **κατακερματίζοντας ένα μπλοκ δεδομένων**, και στη συνέχεια, **από** τον **προηγουμένως** δημιουργημένο **κατακερματισμό** (κατάσταση), **προσθέτουν το επόμενο μπλοκ δεδομένων** και **το κατακερματίζουν**.
 
-Έτσι, φανταστείτε ότι το μυστικό είναι "μυστικό" και τα δεδομένα είναι "δεδομένα", το MD5 του "μυστικόδεδομένα" είναι 6036708eba0d11f6ef52ad44e8b74d5b.\
-Αν ένας εισβολέας θέλει να προσθέσει τη συμβολοσειρά "προσάρτημα" μπορεί:
+Τότε, φανταστείτε ότι το μυστικό είναι "secret" και τα δεδομένα είναι "data", το MD5 του "secretdata" είναι 6036708eba0d11f6ef52ad44e8b74d5b.\
+Αν ένας επιτιθέμενος θέλει να προσθέσει τη συμβολοσειρά "append" μπορεί να:
 
-* Να δημιουργήσει ένα MD5 από 64 "Α"
-* Να αλλάξει την κατάσταση του προηγουμένως αρχικοποιημένου hash σε 6036708eba0d11f6ef52ad44e8b74d5b
-* Να προσθέσει τη συμβολοσειρά "προσάρτημα"
-* Να ολοκληρώσει το hash και το τελικό hash θα είναι ένα **έγκυρο για το "μυστικό" + "δεδομένα" + "padding" + "προσάρτημα"**
+* Δημιουργήσει ένα MD5 από 64 "A"s
+* Αλλάξει την κατάσταση του προηγουμένως αρχικοποιημένου κατακερματισμού σε 6036708eba0d11f6ef52ad44e8b74d5b
+* Προσθέσει τη συμβολοσειρά "append"
+* Ολοκληρώσει τον κατακερματισμό και ο προκύπτων κατακερματισμός θα είναι **έγκυρος για "secret" + "data" + "padding" + "append"**
 
 ## **Εργαλείο**
 
@@ -45,20 +45,20 @@
 
 ## Αναφορές
 
-Μπορείτε να βρείτε αυτήν την επίθεση καλά εξηγημένη στο [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+Μπορείτε να βρείτε αυτή την επίθεση καλά εξηγημένη στο [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -35,7 +35,7 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ### FreeIPA
 
-Το FreeIPA είναι μια ανοιχτού κώδικα **εναλλακτική** λύση για το Microsoft Windows **Active Directory**, κυρίως για **Unix** περιβάλλοντα. Συνδυάζει έναν πλήρη **LDAP κατάλογο** με ένα MIT **Kerberos** Κέντρο Κατανομής Κλειδιών για διαχείριση παρόμοια με το Active Directory. Χρησιμοποιεί το Dogtag **Certificate System** για τη διαχείριση πιστοποιητικών CA & RA, υποστηρίζει **πολλαπλούς παράγοντες** αυθεντικοποίησης, συμπεριλαμβανομένων των smartcards. Το SSSD είναι ενσωματωμένο για διαδικασίες αυθεντικοποίησης Unix. Μάθετε περισσότερα γι' αυτό στην:
+Το FreeIPA είναι μια ανοιχτού κώδικα **εναλλακτική** λύση για το Microsoft Windows **Active Directory**, κυρίως για **Unix** περιβάλλοντα. Συνδυάζει έναν πλήρη **LDAP κατάλογο** με ένα MIT **Kerberos** Key Distribution Center για διαχείριση παρόμοια με το Active Directory. Χρησιμοποιεί το Dogtag **Certificate System** για τη διαχείριση πιστοποιητικών CA & RA, υποστηρίζει **πολλαπλούς παράγοντες** αυθεντικοποίησης, συμπεριλαμβανομένων των smartcards. Το SSSD είναι ενσωματωμένο για διαδικασίες αυθεντικοποίησης Unix. Μάθετε περισσότερα γι' αυτό στην:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -53,9 +53,9 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 ### CCACHE ticket reuse από /tmp
 
-Τα αρχεία CCACHE είναι δυαδικές μορφές για **αποθήκευση πιστοποιητικών Kerberos** που συνήθως αποθηκεύονται με δικαιώματα 600 στο `/tmp`. Αυτά τα αρχεία μπορούν να αναγνωριστούν από τη **μορφή ονόματος τους, `krb5cc_%{uid}`,** που σχετίζεται με το UID του χρήστη. Για την επαλήθευση του ticket αυθεντικοποίησης, η **μεταβλητή περιβάλλοντος `KRB5CCNAME`** θα πρέπει να οριστεί στη διαδρομή του επιθυμητού αρχείου ticket, επιτρέποντας την επαναχρησιμοποίησή του.
+Τα αρχεία CCACHE είναι δυαδικές μορφές για **αποθήκευση Kerberos credentials** και συνήθως αποθηκεύονται με δικαιώματα 600 στο `/tmp`. Αυτά τα αρχεία μπορούν να αναγνωριστούν από τη **μορφή ονόματος τους, `krb5cc_%{uid}`,** που σχετίζεται με το UID του χρήστη. Για την επαλήθευση του ticket αυθεντικοποίησης, η **μεταβλητή περιβάλλοντος `KRB5CCNAME`** θα πρέπει να οριστεί στη διαδρομή του επιθυμητού αρχείου ticket, επιτρέποντας την επαναχρησιμοποίησή του.
 
-Λίστα με το τρέχον ticket που χρησιμοποιείται για αυθεντικοποίηση με `env | grep KRB5CCNAME`. Η μορφή είναι φορητή και το ticket μπορεί να **επαναχρησιμοποιηθεί ορίζοντας τη μεταβλητή περιβάλλοντος** με `export KRB5CCNAME=/tmp/ticket.ccache`. Η μορφή ονόματος του kerberos ticket είναι `krb5cc_%{uid}` όπου uid είναι το UID του χρήστη.
+Λίστα με το τρέχον ticket που χρησιμοποιείται για αυθεντικοποίηση με `env | grep KRB5CCNAME`. Η μορφή είναι φορητή και το ticket μπορεί να **επανχρησιμοποιηθεί ορίζοντας τη μεταβλητή περιβάλλοντος** με `export KRB5CCNAME=/tmp/ticket.ccache`. Η μορφή ονόματος του kerberos ticket είναι `krb5cc_%{uid}` όπου uid είναι το UID του χρήστη.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -66,9 +66,9 @@ export KRB5CCNAME=/tmp/krb5cc_1000
 ```
 ### CCACHE ticket reuse from keyring
 
-**Τα αποθηκευμένα Kerberos tickets στη μνήμη μιας διαδικασίας μπορούν να εξαχθούν**, ιδιαίτερα όταν η προστασία ptrace της μηχανής είναι απενεργοποιημένη (`/proc/sys/kernel/yama/ptrace_scope`). Ένα χρήσιμο εργαλείο για αυτόν τον σκοπό βρίσκεται στο [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), το οποίο διευκολύνει την εξαγωγή με την ένεση σε συνεδρίες και την εκφόρτωση των tickets στο `/tmp`.
+**Τα Kerberos tickets που αποθηκεύονται στη μνήμη μιας διαδικασίας μπορούν να εξαχθούν**, ιδιαίτερα όταν η προστασία ptrace της μηχανής είναι απενεργοποιημένη (`/proc/sys/kernel/yama/ptrace_scope`). Ένα χρήσιμο εργαλείο για αυτόν τον σκοπό βρίσκεται στο [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), το οποίο διευκολύνει την εξαγωγή με την ένεση σε συνεδρίες και την εκφόρτωση των tickets στο `/tmp`.
 
-Για να ρυθμίσετε και να χρησιμοποιήσετε αυτό το εργαλείο, ακολουθούνται τα παρακάτω βήματα:
+Για να ρυθμίσετε και να χρησιμοποιήσετε αυτό το εργαλείο, ακολουθούν τα παρακάτω βήματα:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey

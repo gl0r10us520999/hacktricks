@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 
 ![](<../../../.gitbook/assets/image (962).png>)
 
-Μπορείτε να χρησιμοποιήσετε το εργαλείο [**ctf-usb-keyboard-parser**](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser) για να δείτε τι γράφτηκε στην επικοινωνία:
+Μπορείτε να χρησιμοποιήσετε το εργαλείο [**ctf-usb-keyboard-parser**](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser) για να αποκτήσετε ό,τι γράφτηκε στην επικοινωνία:
 ```bash
 tshark -r ./usb.pcap -Y 'usb.capdata && usb.data_len == 8' -T fields -e usb.capdata | sed 's/../:&/g2' > keystrokes.txt
 python3 usbkeyboard.py ./keystrokes.txt
@@ -35,7 +35,7 @@ python3 usbkeyboard.py ./keystrokes.txt
 
 <details>
 
-<summary>Υποστήριξη HackTricks</summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

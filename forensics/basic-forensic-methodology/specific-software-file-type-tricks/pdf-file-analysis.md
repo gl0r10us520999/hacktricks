@@ -1,8 +1,8 @@
 # Ανάλυση αρχείων PDF
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -25,9 +25,9 @@
 
 **Για περισσότερες λεπτομέρειες ελέγξτε:** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
-Η μορφή PDF είναι γνωστή για την πολυπλοκότητά της και την πιθανότητα απόκρυψης δεδομένων, καθιστώντας την κεντρικό σημείο για προκλήσεις ψηφιακής εγκληματολογίας CTF. Συνδυάζει στοιχεία απλού κειμένου με δυαδικά αντικείμενα, τα οποία μπορεί να είναι συμπιεσμένα ή κρυπτογραφημένα, και μπορεί να περιλαμβάνει σενάρια σε γλώσσες όπως JavaScript ή Flash. Για να κατανοήσετε τη δομή του PDF, μπορείτε να ανατρέξετε στο [εισαγωγικό υλικό του Didier Stevens](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), ή να χρησιμοποιήσετε εργαλεία όπως ένας επεξεργαστής κειμένου ή ένας ειδικός επεξεργαστής PDF όπως το Origami.
+Η μορφή PDF είναι γνωστή για την πολυπλοκότητά της και την πιθανότητα απόκρυψης δεδομένων, καθιστώντας την κεντρικό σημείο για προκλήσεις CTF forensics. Συνδυάζει στοιχεία απλού κειμένου με δυαδικά αντικείμενα, τα οποία μπορεί να είναι συμπιεσμένα ή κρυπτογραφημένα, και μπορεί να περιλαμβάνει σενάρια σε γλώσσες όπως JavaScript ή Flash. Για να κατανοήσετε τη δομή του PDF, μπορείτε να ανατρέξετε στο [εισαγωγικό υλικό του Didier Stevens](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), ή να χρησιμοποιήσετε εργαλεία όπως ένας επεξεργαστής κειμένου ή ένας ειδικός επεξεργαστής PDF όπως το Origami.
 
-Για σε βάθος εξερεύνηση ή χειρισμό PDF, είναι διαθέσιμα εργαλεία όπως το [qpdf](https://github.com/qpdf/qpdf) και το [Origami](https://github.com/mobmewireless/origami-pdf). Τα κρυμμένα δεδομένα μέσα σε PDF μπορεί να είναι κρυμμένα σε:
+Για σε βάθος εξερεύνηση ή χειρισμό PDF, είναι διαθέσιμα εργαλεία όπως το [qpdf](https://github.com/qpdf/qpdf) και το [Origami](https://github.com/mobmewireless/origami-pdf). Κρυφά δεδομένα μέσα σε PDF μπορεί να είναι κρυμμένα σε:
 
 * Αόρατα επίπεδα
 * Μορφή μεταδεδομένων XMP από την Adobe
@@ -39,8 +39,8 @@
 Για προσαρμοσμένη ανάλυση PDF, μπορούν να χρησιμοποιηθούν βιβλιοθήκες Python όπως το [PeepDF](https://github.com/jesparza/peepdf) για τη δημιουργία ειδικών σεναρίων ανάλυσης. Επιπλέον, η δυνατότητα του PDF για αποθήκευση κρυφών δεδομένων είναι τόσο εκτενής που πόροι όπως ο οδηγός της NSA για τους κινδύνους και τα μέτρα κατά των PDF, αν και δεν φιλοξενούνται πλέον στην αρχική τους τοποθεσία, προσφέρουν ακόμα πολύτιμες πληροφορίες. Ένας [αντίγραφος του οδηγού](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) και μια συλλογή από [κόλπα μορφής PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md) από τον Ange Albertini μπορούν να προσφέρουν περαιτέρω ανάγνωση στο θέμα.
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

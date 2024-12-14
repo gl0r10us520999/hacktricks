@@ -52,7 +52,7 @@ mkdir rootfs
 runc run demo
 ```
 {% hint style="danger" %}
-Αυτό δεν θα λειτουργεί πάντα καθώς η προεπιλεγμένη λειτουργία του runc είναι να εκτελείται ως root, οπότε η εκτέλεσή του ως μη προνομιούχος χρήστη απλά δεν μπορεί να λειτουργήσει (εκτός αν έχετε μια ρύθμιση χωρίς root). Η ρύθμιση χωρίς root ως προεπιλεγμένη δεν είναι γενικά καλή ιδέα επειδή υπάρχουν αρκετοί περιορισμοί μέσα σε κοντέινερ χωρίς root που δεν ισχύουν έξω από κοντέινερ χωρίς root.
+Αυτό δεν θα λειτουργεί πάντα καθώς η προεπιλεγμένη λειτουργία του runc είναι να εκτελείται ως root, οπότε η εκτέλεσή του ως μη προνομιούχου χρήστη απλά δεν μπορεί να λειτουργήσει (εκτός αν έχετε μια ρύθμιση χωρίς root). Η ρύθμιση χωρίς root ως προεπιλεγμένη δεν είναι γενικά καλή ιδέα επειδή υπάρχουν αρκετοί περιορισμοί μέσα σε κοντέινερ χωρίς root που δεν ισχύουν έξω από κοντέινερ χωρίς root.
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

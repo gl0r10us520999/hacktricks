@@ -20,7 +20,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Tutorials
 
-Τα παρακάτω tutorials είναι καταπληκτικά για να μάθετε μερικά βασικά κόλπα:
+The following tutorials are amazing to learn some cool basic tricks:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -31,73 +31,73 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Expert Information**
 
-Κάνοντας κλικ στο _**Analyze** --> **Expert Information**_ θα έχετε μια **επισκόπηση** του τι συμβαίνει στα πακέτα **που αναλύθηκαν**:
+Clicking on _**Analyze** --> **Expert Information**_ you will have an **overview** of what is happening in the packets **analyzed**:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Resolved Addresses**
 
-Κάτω από _**Statistics --> Resolved Addresses**_ μπορείτε να βρείτε πολλές **πληροφορίες** που "έχουν **επιλυθεί**" από το wireshark όπως θύρα/μεταφορά σε πρωτόκολλο, MAC στον κατασκευαστή, κ.λπ. Είναι ενδιαφέρον να γνωρίζετε τι εμπλέκεται στην επικοινωνία.
+Under _**Statistics --> Resolved Addresses**_ you can find several **information** that was "**resolved**" by wireshark like port/transport to protocol, MAC to the manufacturer, etc. It is interesting to know what is implicated in the communication.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-Κάτω από _**Statistics --> Protocol Hierarchy**_ μπορείτε να βρείτε τα **πρωτόκολλα** **που εμπλέκονται** στην επικοινωνία και δεδομένα σχετικά με αυτά.
+Under _**Statistics --> Protocol Hierarchy**_ you can find the **protocols** **involved** in the communication and data about them.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-Κάτω από _**Statistics --> Conversations**_ μπορείτε να βρείτε μια **σύνοψη των συνομιλιών** στην επικοινωνία και δεδομένα σχετικά με αυτές.
+Under _**Statistics --> Conversations**_ you can find a **summary of the conversations** in the communication and data about them.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-Κάτω από _**Statistics --> Endpoints**_ μπορείτε να βρείτε μια **σύνοψη των endpoints** στην επικοινωνία και δεδομένα σχετικά με το καθένα από αυτά.
+Under _**Statistics --> Endpoints**_ you can find a **summary of the endpoints** in the communication and data about each of them.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS info**
 
-Κάτω από _**Statistics --> DNS**_ μπορείτε να βρείτε στατιστικά σχετικά με το DNS αίτημα που καταγράφηκε.
+Under _**Statistics --> DNS**_ you can find statistics about the DNS request captured.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O Graph**
 
-Κάτω από _**Statistics --> I/O Graph**_ μπορείτε να βρείτε ένα **γράφημα της επικοινωνίας.**
+Under _**Statistics --> I/O Graph**_ you can find a **graph of the communication.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filters
 
-Εδώ μπορείτε να βρείτε φίλτρα wireshark ανάλογα με το πρωτόκολλο: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Άλλα ενδιαφέροντα φίλτρα:
+Here you can find wireshark filter depending on the protocol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Other interesting filters:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP και αρχική κίνηση HTTPS
+* HTTP and initial HTTPS traffic
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP και αρχική κίνηση HTTPS + TCP SYN
+* HTTP and initial HTTPS traffic + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP και αρχική κίνηση HTTPS + TCP SYN + DNS αιτήματα
+* HTTP and initial HTTPS traffic + TCP SYN + DNS requests
 
 ### Search
 
-Αν θέλετε να **αναζητήσετε** **περιεχόμενο** μέσα στα **πακέτα** των συνεδριών πατήστε _CTRL+f_. Μπορείτε να προσθέσετε νέα επίπεδα στη βασική γραμμή πληροφοριών (No., Χρόνος, Πηγή, κ.λπ.) πατώντας το δεξί κουμπί και στη συνέχεια την επεξεργασία στήλης.
+If you want to **search** for **content** inside the **packets** of the sessions press _CTRL+f_. You can add new layers to the main information bar (No., Time, Source, etc.) by pressing the right button and then the edit column.
 
 ### Free pcap labs
 
-**Εξασκηθείτε με τις δωρεάν προκλήσεις του:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Practice with the free challenges of:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifying Domains
 
-Μπορείτε να προσθέσετε μια στήλη που να δείχνει την κεφαλίδα Host HTTP:
+You can add a column that shows the Host HTTP header:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-Και μια στήλη που προσθέτει το όνομα του διακομιστή από μια αρχική σύνδεση HTTPS (**ssl.handshake.type == 1**):
+And a column that add the Server name from an initiating HTTPS connection (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -105,7 +105,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### From DHCP
 
-Στην τρέχουσα έκδοση του Wireshark αντί για `bootp` πρέπει να αναζητήσετε `DHCP`
+In current Wireshark instead of `bootp` you need to search for `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -121,25 +121,25 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Πατήστε _Edit_ και προσθέστε όλα τα δεδομένα του διακομιστή και το ιδιωτικό κλειδί (_IP, Θύρα, Πρωτόκολλο, Αρχείο κλειδιού και κωδικό πρόσβασης_)
+Press _Edit_ and add all the data of the server and the private key (_IP, Port, Protocol, Key file and password_)
 
 ### Decrypting https traffic with symmetric session keys
 
-Και οι δύο Firefox και Chrome έχουν τη δυνατότητα να καταγράφουν τα κλειδιά συνεδρίας TLS, τα οποία μπορούν να χρησιμοποιηθούν με το Wireshark για να αποκρυπτογραφήσουν την κίνηση TLS. Αυτό επιτρέπει σε βάθος ανάλυση των ασφαλών επικοινωνιών. Περισσότερες λεπτομέρειες σχετικά με το πώς να εκτελέσετε αυτήν την αποκρυπτογράφηση μπορείτε να βρείτε σε έναν οδηγό στο [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Both Firefox and Chrome have the capability to log TLS session keys, which can be used with Wireshark to decrypt TLS traffic. This allows for in-depth analysis of secure communications. More details on how to perform this decryption can be found in a guide at [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Για να το ανιχνεύσετε αναζητήστε μέσα στο περιβάλλον τη μεταβλητή `SSLKEYLOGFILE`
+To detect this search inside the environment for to variable `SSLKEYLOGFILE`
 
-Ένα αρχείο κοινών κλειδιών θα φαίνεται έτσι:
+A file of shared keys will look like this:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Για να το εισάγετε στο wireshark πηγαίνετε στο \_edit > preference > protocol > ssl > και εισάγετε το στο (Pre)-Master-Secret log filename:
+To import this in wireshark go to \_edit > preference > protocol > ssl > and import it in (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
 ## ADB communication
 
-Εξαγάγετε ένα APK από μια επικοινωνία ADB όπου το APK στάλθηκε:
+Extract an APK from an ADB communication where the APK was sent:
 ```python
 from scapy.all import *
 

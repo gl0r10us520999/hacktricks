@@ -1,14 +1,14 @@
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ κάνοντας υποβολή PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -16,65 +16,81 @@
 
 # ECB
 
-(ECB) Ηλεκτρονικό Βιβλίο Κωδικοποίησης - συμμετρικό σχήμα κρυπτογράφησης που **αντικαθιστά κάθε μπλοκ του καθαρού κειμένου** με το **μπλοκ του κρυπτοκειμένου**. Είναι το **απλούστερο** σχήμα κρυπτογράφησης. Η βασική ιδέα είναι να **διαιρέσετε** το καθαρό κείμενο σε **μπλοκ των N bits** (εξαρτάται από το μέγεθος του μπλοκ των δεδομένων εισόδου, αλγόριθμο κρυπτογράφησης) και στη συνέχεια να κρυπτογραφήσετε (αποκρυπτογραφήσετε) κάθε μπλοκ καθαρού κειμένου χρησιμοποιώντας το μόνο κλειδί.
+(ECB) Ηλεκτρονικό Βιβλίο Κωδικών - συμμετρικό σχήμα κρυπτογράφησης που **αντικαθιστά κάθε μπλοκ του καθαρού κειμένου** με το **μπλοκ του κρυπτογραφημένου κειμένου**. Είναι το **απλούστερο** σχήμα κρυπτογράφησης. Η κύρια ιδέα είναι να **χωρίσουμε** το καθαρό κείμενο σε **μπλοκ N bit** (εξαρτάται από το μέγεθος του μπλοκ των εισερχόμενων δεδομένων, αλγόριθμο κρυπτογράφησης) και στη συνέχεια να κρυπτογραφήσουμε (αποκρυπτογραφήσουμε) κάθε μπλοκ του καθαρού κειμένου χρησιμοποιώντας το μόνο κλειδί.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
 Η χρήση του ECB έχει πολλές επιπτώσεις στην ασφάλεια:
 
-* **Μπορούν να αφαιρεθούν μπλοκ από το κρυπτογραφημένο μήνυμα**
+* **Μπλοκ από το κρυπτογραφημένο μήνυμα μπορούν να αφαιρεθούν**
 * **Μπλοκ από το κρυπτογραφημένο μήνυμα μπορούν να μετακινηθούν**
 
-# Εντοπισμός της ευπάθειας
+# Ανίχνευση της ευπάθειας
 
-Φανταστείτε ότι συνδέεστε σε μια εφαρμογή αρκετές φορές και πάντα λαμβάνετε το ίδιο cookie. Αυτό συμβαίνει επειδή το cookie της εφαρμογής είναι **`<username>|<password>`**.\
-Στη συνέχεια, δημιουργείτε δύο νέους χρήστες, οι οποίοι και οι δύο έχουν το **ίδιο μεγάλο password** και **σχεδόν** το **ίδιο** **username**.\
-Ανακαλύπτετε ότι τα **μπλοκ των 8B** όπου η **πληροφορία και των δύο χρηστών** είναι ίδια είναι **ίδια**. Τότε, φαντάζεστε ότι αυτό μπορεί να οφείλεται στο γεγονός ότι χρησιμοποιείται **ECB**.
+Φανταστείτε ότι συνδέεστε σε μια εφαρμογή πολλές φορές και **πάντα λαμβάνετε το ίδιο cookie**. Αυτό συμβαίνει επειδή το cookie της εφαρμογής είναι **`<username>|<password>`**.\
+Στη συνέχεια, δημιουργείτε δύο νέους χρήστες, και οι δύο με το **ίδιο μακρύ κωδικό πρόσβασης** και **σχεδόν** το **ίδιο** **όνομα χρήστη**.\
+Ανακαλύπτετε ότι τα **μπλοκ των 8B** όπου οι **πληροφορίες και των δύο χρηστών** είναι οι ίδιες είναι **ίσα**. Στη συνέχεια, φαντάζεστε ότι αυτό μπορεί να συμβαίνει επειδή **χρησιμοποιείται το ECB**.
 
-Όπως στο ακόλουθο παράδειγμα. Παρατηρήστε πώς αυτά τα **2 αποκωδικοποιημένα cookies** έχουν αρκετές φορές το μπλοκ **`\x23U\xE45K\xCB\x21\xC8`**
+Όπως στο παρακάτω παράδειγμα. Παρατηρήστε πώς αυτά τα **2 αποκωδικοποιημένα cookies** έχουν πολλές φορές το μπλοκ **`\x23U\xE45K\xCB\x21\xC8`**.
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
-Αυτό συμβαίνει επειδή το **όνομα χρήστη και ο κωδικός αυτών των cookies περιείχαν αρκετές φορές το γράμμα "α"** (για παράδειγμα). Τα **τμήματα** που είναι **διαφορετικά** είναι τμήματα που περιείχαν **τουλάχιστον 1 διαφορετικό χαρακτήρα** (ίσως το διαχωριστικό "|" ή κάποια απαραίτητη διαφορά στο όνομα χρήστη).
+Αυτό συμβαίνει επειδή το **όνομα χρήστη και ο κωδικός πρόσβασης αυτών των cookies περιείχαν πολλές φορές το γράμμα "a"** (για παράδειγμα). Τα **μπλοκ** που είναι **διαφορετικά** είναι μπλοκ που περιείχαν **τουλάχιστον 1 διαφορετικό χαρακτήρα** (ίσως το διαχωριστικό "|" ή κάποια απαραίτητη διαφορά στο όνομα χρήστη).
 
-Τώρα, ο επιτιθέμενος χρειάζεται απλώς να ανακαλύψει αν η μορφή είναι `<όνομα χρήστη><διαχωριστικό><κωδικός>` ή `<κωδικός><διαχωριστικό><όνομα χρήστη>`. Για να το κάνει αυτό, μπορεί απλά να **δημιουργήσει αρκετά ονόματα χρηστών** με **παρόμοια και μεγάλα ονόματα χρηστών και κωδικούς μέχρι να βρει τη μορφή και το μήκος του διαχωριστικού:**
+Τώρα, ο επιτιθέμενος χρειάζεται απλώς να ανακαλύψει αν η μορφή είναι `<username><delimiter><password>` ή `<password><delimiter><username>`. Για να το κάνει αυτό, μπορεί απλώς να **δημιουργήσει αρκετά ονόματα χρήστη** με **παρόμοια και μακριά ονόματα χρήστη και κωδικούς πρόσβασης μέχρι να βρει τη μορφή και το μήκος του διαχωριστικού:**
 
-| Μήκος Ονόματος Χρήστη: | Μήκος Κωδικού: | Συνολικό Μήκος Ονόματος Χρήστη+Κωδικού: | Μήκος Cookie (μετά την αποκωδικοποίηση): |
-| ---------------- | ---------------- | ------------------------- | --------------------------------- |
-| 2                | 2                | 4                         | 8                                 |
-| 3                | 3                | 6                         | 8                                 |
-| 3                | 4                | 7                         | 8                                 |
-| 4                | 4                | 8                         | 16                                |
-| 7                | 7                | 14                        | 16                                |
+| Μήκος ονόματος χρήστη: | Μήκος κωδικού πρόσβασης: | Μήκος ονόματος χρήστη + Κωδικού πρόσβασης: | Μήκος cookie (μετά την αποκωδικοποίηση): |
+| ----------------------- | ------------------------ | -------------------------------------------- | ---------------------------------------- |
+| 2                       | 2                        | 4                                          | 8                                        |
+| 3                       | 3                        | 6                                          | 8                                        |
+| 3                       | 4                        | 7                                          | 8                                        |
+| 4                       | 4                        | 8                                          | 16                                       |
+| 7                       | 7                        | 14                                         | 16                                       |
 
 # Εκμετάλλευση της ευπάθειας
 
-## Αφαίρεση ολόκληρων τμημάτων
+## Αφαίρεση ολόκληρων μπλοκ
 
-Γνωρίζοντας τη μορφή του cookie (`<όνομα χρήστη>|<κωδικός>`), προκειμένου να παριστάνει το όνομα χρήστη `admin` δημιουργήστε ένα νέο χρήστη με το όνομα `aaaaaaaaadmin` και ανακτήστε το cookie και αποκωδικοποιήστε το:
+Γνωρίζοντας τη μορφή του cookie (`<username>|<password>`), προκειμένου να προσποιηθεί τον χρήστη `admin`, δημιουργήστε έναν νέο χρήστη με το όνομα `aaaaaaaaadmin` και αποκτήστε το cookie και αποκωδικοποιήστε το:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-Μπορούμε να δούμε το πρότυπο `\x23U\xE45K\xCB\x21\xC8` που δημιουργήθηκε προηγουμένως με το όνομα χρήστη που περιείχε μόνο το `a`.\
-Στη συνέχεια, μπορείτε να αφαιρέσετε τον πρώτο τετράγωνο 8B και θα λάβετε ένα έγκυρο cookie για το όνομα χρήστη `admin`:
+Μπορούμε να δούμε το μοτίβο `\x23U\xE45K\xCB\x21\xC8` που δημιουργήθηκε προηγουμένως με το όνομα χρήστη που περιείχε μόνο `a`.\
+Στη συνέχεια, μπορείτε να αφαιρέσετε το πρώτο μπλοκ των 8B και θα αποκτήσετε ένα έγκυρο cookie για το όνομα χρήστη `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-## Μετακίνηση τμημάτων
+## Μετακίνηση μπλοκ
 
-Σε πολλές βάσεις δεδομένων είναι το ίδιο να αναζητείτε `WHERE username='admin';` ή `WHERE username='admin    ';` _(Σημειώστε τα επιπλέον κενά)_
+Σε πολλές βάσεις δεδομένων είναι το ίδιο να αναζητάς `WHERE username='admin';` ή `WHERE username='admin    ';` _(Σημειώστε τα επιπλέον κενά)_
 
-Έτσι, ένας άλλος τρόπος να υποκριθείτε τον χρήστη `admin` θα ήταν:
+Έτσι, ένας άλλος τρόπος για να προσποιηθείς τον χρήστη `admin` θα ήταν να:
 
-* Δημιουργήστε ένα όνομα χρήστη που: `len(<username>) + len(<delimiter) % len(block)`. Με μέγεθος block `8B` μπορείτε να δημιουργήσετε ένα όνομα χρήστη που ονομάζεται: `username       `, με τον διαχωριστικό `|` το τμήμα `<username><delimiter>` θα δημιουργήσει 2 blocks των 8Bs.
-* Στη συνέχεια, δημιουργήστε έναν κωδικό πρόσβασης που θα γεμίσει έναν ακριβή αριθμό blocks που περιέχουν το όνομα χρήστη που θέλουμε να υποκριθούμε και κενά, όπως: `admin   `
+* Δημιουργήσεις ένα όνομα χρήστη που: `len(<username>) + len(<delimiter) % len(block)`. Με μέγεθος μπλοκ `8B` μπορείς να δημιουργήσεις ένα όνομα χρήστη που ονομάζεται: `username       `, με τον διαχωριστή `|` το κομμάτι `<username><delimiter>` θα δημιουργήσει 2 μπλοκ των 8Bs.
+* Στη συνέχεια, να δημιουργήσεις έναν κωδικό πρόσβασης που θα γεμίσει έναν ακριβή αριθμό μπλοκ που περιέχουν το όνομα χρήστη που θέλουμε να προσποιηθούμε και κενά, όπως: `admin   `
 
-Το cookie αυτού του χρήστη θα αποτελείται από 3 blocks: τα πρώτα 2 είναι τα blocks του ονόματος χρήστη + διαχωριστικό και το τρίτο είναι του κωδικού πρόσβασης (που προσποιείται το όνομα χρήστη): `username       |admin   `
+Το cookie αυτού του χρήστη θα αποτελείται από 3 μπλοκ: τα πρώτα 2 είναι τα μπλοκ του ονόματος χρήστη + διαχωριστής και το τρίτο από τον κωδικό πρόσβασης (ο οποίος προσποιείται το όνομα χρήστη): `username       |admin   `
 
-**Στη συνέχεια, απλά αντικαταστήστε το πρώτο block με το τελευταίο και θα υποκριθείτε τον χρήστη `admin`: `admin          |username`**
+**Στη συνέχεια, απλώς αντικατέστησε το πρώτο μπλοκ με το τελευταίο και θα προσποιείσαι τον χρήστη `admin`: `admin          |username`**
 
 ## Αναφορές
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

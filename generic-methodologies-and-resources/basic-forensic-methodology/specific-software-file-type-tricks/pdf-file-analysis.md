@@ -1,8 +1,8 @@
 # Ανάλυση αρχείων PDF
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -36,11 +36,11 @@
 * Κείμενο πίσω από εικόνες ή επικαλυπτόμενες εικόνες
 * Μη εμφανιζόμενα σχόλια
 
-Για προσαρμοσμένη ανάλυση PDF, μπορείτε να χρησιμοποιήσετε βιβλιοθήκες Python όπως το [PeepDF](https://github.com/jesparza/peepdf) για να δημιουργήσετε ειδικά σενάρια ανάλυσης. Επιπλέον, η δυνατότητα του PDF για αποθήκευση κρυφών δεδομένων είναι τόσο εκτενής που πόροι όπως ο οδηγός της NSA για τους κινδύνους και τα μέτρα κατά των PDF, αν και δεν φιλοξενούνται πλέον στην αρχική τους τοποθεσία, προσφέρουν ακόμα πολύτιμες πληροφορίες. Ένας [αντίγραφος του οδηγού](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) και μια συλλογή από [κόλπα μορφής PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md) από τον Ange Albertini μπορούν να προσφέρουν περαιτέρω ανάγνωση στο θέμα.
+Για προσαρμοσμένη ανάλυση PDF, μπορούν να χρησιμοποιηθούν βιβλιοθήκες Python όπως το [PeepDF](https://github.com/jesparza/peepdf) για να δημιουργηθούν ειδικά σενάρια ανάλυσης. Επιπλέον, η δυνατότητα του PDF για αποθήκευση κρυφών δεδομένων είναι τόσο εκτενής που πόροι όπως ο οδηγός της NSA για τους κινδύνους και τα μέτρα κατά των PDF, αν και δεν φιλοξενούνται πλέον στην αρχική τους τοποθεσία, προσφέρουν ακόμα πολύτιμες πληροφορίες. Ένας [αντίγραφος του οδηγού](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) και μια συλλογή από [κόλπα μορφής PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md) από τον Ange Albertini μπορούν να προσφέρουν περαιτέρω ανάγνωση στο θέμα.
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

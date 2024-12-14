@@ -1,77 +1,108 @@
-# Ενδιαφέροντα Κλειδιά του Μητρώου των Windows
+# Interesting Windows Registry Keys
 
-### Ενδιαφέροντα Κλειδιά του Μητρώου των Windows
+### Interesting Windows Registry Keys
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκινγκ υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### **Έκδοση των Windows και Πληροφορίες Κατόχου**
-- Στο **`Software\Microsoft\Windows NT\CurrentVersion`**, θα βρείτε την έκδοση των Windows, το Service Pack, την ώρα εγκατάστασης και το όνομα του εγγεγραμμένου κατόχου με απλό τρόπο.
 
-### **Όνομα Υπολογιστή**
-- Το όνομα του υπολογιστή βρίσκεται στο **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+### **Windows Version and Owner Info**
+- Βρίσκεται στο **`Software\Microsoft\Windows NT\CurrentVersion`**, θα βρείτε την έκδοση των Windows, το Service Pack, τον χρόνο εγκατάστασης και το όνομα του καταχωρημένου ιδιοκτήτη με σαφή τρόπο.
 
-### **Ρύθμιση Ζώνης Ώρας**
+### **Computer Name**
+- Το όνομα υπολογιστή βρίσκεται κάτω από **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+
+### **Time Zone Setting**
 - Η ζώνη ώρας του συστήματος αποθηκεύεται στο **`System\ControlSet001\Control\TimeZoneInformation`**.
 
-### **Καταγραφή Χρόνου Πρόσβασης**
-- Από προεπιλογή, η καταγραφή του τελευταίου χρόνου πρόσβασης είναι απενεργοποιημένη (**`NtfsDisableLastAccessUpdate=1`**). Για να την ενεργοποιήσετε, χρησιμοποιήστε:
+### **Access Time Tracking**
+- Από προεπιλογή, η παρακολούθηση του τελευταίου χρόνου πρόσβασης είναι απενεργοποιημένη (**`NtfsDisableLastAccessUpdate=1`**). Για να την ενεργοποιήσετε, χρησιμοποιήστε:
 `fsutil behavior set disablelastaccess 0`
 
-### Έκδοσεις Windows και Service Packs
-- Η **έκδοση των Windows** υποδεικνύει την έκδοση (π.χ., Home, Pro) και την κυκλοφορία της (π.χ., Windows 10, Windows 11), ενώ τα **Service Packs** είναι ενημερώσεις που περιλαμβάνουν διορθώσεις και, μερικές φορές, νέα χαρακτηριστικά.
+### Windows Versions and Service Packs
+- Η **έκδοση των Windows** υποδεικνύει την έκδοση (π.χ. Home, Pro) και την κυκλοφορία της (π.χ. Windows 10, Windows 11), ενώ τα **Service Packs** είναι ενημερώσεις που περιλαμβάνουν διορθώσεις και, μερικές φορές, νέες δυνατότητες.
 
-### Ενεργοποίηση Χρόνου Τελευταίας Πρόσβασης
-- Η ενεργοποίηση της καταγραφής του τελευταίου χρόνου πρόσβασης σας επιτρέπει να δείτε πότε ανοίχτηκαν τελευταία τα αρχεία, κάτι που μπορεί να είναι κρίσιμο για αναλύσεις ψηφιακής δικονομίας ή παρακολούθηση συστήματος.
+### Enabling Last Access Time
+- Η ενεργοποίηση της παρακολούθησης του τελευταίου χρόνου πρόσβασης σας επιτρέπει να δείτε πότε άνοιξαν τελευταία τα αρχεία, κάτι που μπορεί να είναι κρίσιμο για την εγκληματολογική ανάλυση ή την παρακολούθηση του συστήματος.
 
-### Λεπτομέρειες Πληροφοριών Δικτύου
-- Το μητρώο περιέχει εκτεταμένα δεδομένα σχετικά με τις ρυθμίσεις δικτύου, συμπεριλαμβανομένων των **τύπων δικτύων (ασύρματα, καλώδια, 3G)** και των **κατηγοριών δικτύου (Δημόσιο, Ιδιωτικό/Οικιακό, Domain/Εργασίας)**, τα οποία είναι ζωτικής σημασίας για την κατανόηση των ρυθμίσεων ασφαλείας δικτύου και των δικαιωμάτων.
+### Network Information Details
+- Η μητρώο περιέχει εκτενή δεδομένα σχετικά με τις ρυθμίσεις δικτύου, συμπεριλαμβανομένων **τύπων δικτύων (ασύρματα, καλωδιακά, 3G)** και **κατηγοριών δικτύου (Δημόσιο, Ιδιωτικό/Σπίτι, Τομέας/Εργασία)**, που είναι ζωτικής σημασίας για την κατανόηση των ρυθμίσεων ασφαλείας δικτύου και των δικαιωμάτων.
 
-### Πρόγραμμα Αυτόματης Εκκίνησης
-- Τα προγράμματα που αναφέρονται σε διάφορα κλειδιά του μητρώου `Run` και `RunOnce` εκκινούν αυτόματα κατά την εκκίνηση, επηρεάζοντας τον χρόνο εκκίνησης του συστήματος και ενδεχομένως αποτελώντας σημεία ενδιαφέροντος για την αναγνώριση κακόβουλου λογισμικού ή μη επιθυμητού λογισμικού.
+### Client Side Caching (CSC)
+- **CSC** βελτιώνει την πρόσβαση σε αρχεία εκτός σύνδεσης αποθηκεύοντας αντίγραφα κοινών αρχείων. Διαφορετικές ρυθμίσεις **CSCFlags** ελέγχουν πώς και ποια αρχεία αποθηκεύονται στην κρυφή μνήμη, επηρεάζοντας την απόδοση και την εμπειρία του χρήστη, ειδικά σε περιβάλλοντα με διαλείπουσα συνδεσιμότητα.
+
+### AutoStart Programs
+- Τα προγράμματα που αναφέρονται σε διάφορα κλειδιά μητρώου `Run` και `RunOnce` εκκινούν αυτόματα κατά την εκκίνηση, επηρεάζοντας τον χρόνο εκκίνησης του συστήματος και ενδεχομένως αποτελώντας σημεία ενδιαφέροντος για την αναγνώριση κακόβουλου λογισμικού ή ανεπιθύμητου λογισμικού.
 
 ### Shellbags
-- Τα **Shellbags** όχι μόνο αποθηκεύουν προτιμήσεις για την προβολή φακέλων, αλλά παρέχουν επίσης αποδεικτικά στοιχεία ψηφιακής δικονομίας για την πρόσβαση σε φάκελο ακόμα και αν ο φάκελος δεν υπάρχει πλέον. Είναι ανεκτίμητα για έρευνες, αποκαλύπτοντας δραστηριότητες χρήστη που δεν είναι προφανείς με άλλα μέσα.
+- **Shellbags** όχι μόνο αποθηκεύουν προτιμήσεις για τις προβολές φακέλων αλλά παρέχουν επίσης εγκληματολογικά στοιχεία πρόσβασης φακέλων ακόμη και αν ο φάκελος δεν υπάρχει πια. Είναι ανεκτίμητα για τις έρευνες, αποκαλύπτοντας δραστηριότητα χρηστών που δεν είναι προφανής μέσω άλλων μέσων.
 
-### Πληροφορίες USB και Ψηφιακή Δικονομία
-- Οι λεπτομέρειες που αποθηκεύονται στο μητρώο σχετικά με τις συσκευές USB μπορούν να βοηθήσουν στην εντοπισμό των συσκευών που συνδέθηκαν σε έναν υπολογιστή, πιθανώς συνδέοντας μια συσκευή με ευαίσθητες μεταφορές αρχείων ή περιστατικά μη εξουσιοδοτημένης πρόσβασης.
+### USB Information and Forensics
+- Οι λεπτομέρειες που αποθηκεύονται στο μητρώο σχετικά με τις συσκευές USB μπορούν να βοηθήσουν στην ανίχνευση ποια συσκευές συνδέθηκαν σε έναν υπολογιστή, ενδεχομένως συνδέοντας μια συσκευή με ευαίσθητες μεταφορές αρχείων ή περιστατικά μη εξουσιοδοτημένης πρόσβασης.
 
-### Αριθμός Σειριακού Όγκου
-- Ο **Αριθμός Σειριακού Όγκου** μπορεί να είναι κρίσιμος για την παρακολούθηση της συγκεκριμένης περίπτωσης ενός συστήματος αρχείων, χρήσιμος σε ψηφιακά σενάρια όπου χρειάζεται να καθοριστεί η προέλευση του αρχείου σε διαφορετικές συσκευές.
+### Volume Serial Number
+- Ο **Αριθμός Σειράς Όγκου** μπορεί να είναι κρίσιμος για την παρακολούθηση της συγκεκριμένης περίπτωσης ενός συστήματος αρχείων, χρήσιμος σε εγκληματολογικά σενάρια όπου πρέπει να καθοριστεί η προέλευση ενός αρχείου σε διάφορες συσκευές.
 
-### **Λεπτομέρειες Κλειδώματος**
-- Ο χρόνος κλεισίματος και ο αριθμός (μόνο για XP) κρατούνται στα **`System\ControlSet001\Control\Windows`** και **`System\ControlSet001\Control\Watchdog\Display`**.
+### **Shutdown Details**
+- Ο χρόνος και ο αριθμός τερματισμού (ο τελευταίος μόνο για XP) διατηρούνται στο **`System\ControlSet001\Control\Windows`** και **`System\ControlSet001\Control\Watchdog\Display`**.
 
-### **Ρύθμιση Δικτύου**
-- Για λεπτομερείς πληροφορίες διεπαφής δικτύου, ανατρέξτε στο **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- Οι πρώτες και τελευταίες χρόνοι σύνδεσης στο δίκτυο, συμπεριλαμβανομένων των συνδέσεων VPN, καταγράφονται σε διάφορα μονοπάτια στο **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **Network Configuration**
+- Για λεπτομερείς πληροφορίες σχετικά με τη διεπαφή δικτύου, ανατρέξτε στο **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- Οι πρώτοι και τελευταίοι χρόνοι σύνδεσης δικτύου, συμπεριλαμβανομένων των συνδέσεων VPN, καταγράφονται κάτω από διάφορες διαδρομές στο **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-### **Κοινόχρηστοι Φάκελοι**
-- Οι κοινόχρηστοι φάκελοι και οι ρυθμίσεις βρίσκονται στο **`System\ControlSet001\Services\lanmanserver\Shares`**. Οι ρυθμίσεις Κοινής Πλευράς Κρυφής (CSC) καθορίζουν τη διαθεσιμότητα αρχείων εκτός σύνδεσης.
+### **Shared Folders**
+- Οι κοινόχρηστοι φάκελοι και οι ρυθμίσεις βρίσκονται κάτω από **`System\ControlSet001\Services\lanmanserver\Shares`**. Οι ρυθμίσεις Client Side Caching (CSC) καθορίζουν τη διαθεσιμότητα αρχείων εκτός σύνδεσης.
 
-### **Προγράμματα που Ξεκινούν Αυτόματα**
-- Μονοπάτια όπως **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** και παρόμοιες καταχωρήσεις κάτω από `Software\Microsoft\Windows\CurrentVersion` λεπτομερούν προγράμματα που έχουν οριστεί να τρέχουν κατά την εκκίνηση.
+### **Programs that Start Automatically**
+- Διαδρομές όπως **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** και παρόμοιες καταχωρήσεις κάτω από `Software\Microsoft\Windows\CurrentVersion` περιγράφουν προγράμματα που έχουν ρυθμιστεί να εκκινούν κατά την εκκίνηση.
 
-### **Αναζητήσεις και Πληκτρολογημένα Μονοπάτια**
-- Οι αναζητήσεις του Explorer και τα πληκτρολογημένα μονοπάτια καταγράφονται στο μητρώο κάτω από **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** για τα WordwheelQuery και TypedPaths, αντίστοιχα.
+### **Searches and Typed Paths**
+- Οι αναζητήσεις του Explorer και οι πληκτρολογημένες διαδρομές παρακολουθούνται στο μητρώο κάτω από **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** για WordwheelQuery και TypedPaths, αντίστοιχα.
 
-### **Πρόσφατα Έγγραφα και Αρχεία Office**
-- Τα πρόσφατα έγγραφα και τα αρχεία Office που έχουν ανατεθεί πρόσβαση καταγράφονται στο `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` και σε συγκεκριμένα μονοπάτια εκδόσεων Office.
+### **Recent Documents and Office Files**
+- Τα πρόσφατα έγγραφα και τα αρχεία Office που έχουν προσπελαστεί σημειώνονται στο `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` και σε συγκεκριμένες διαδρομές έκδοσης Office.
 
-### **Στοιχεία Που Χρησιμοποιήθηκαν Πρόσφατα (MRU)**
-- Οι λίστες MRU, που υποδεικνύουν πρόσφατα μονοπάτια αρχείων και εντολές, αποθηκεύονται σε διάφορα υποκλειδιά `ComDlg32` και `Explorer` κάτω από το `NTUSER.DAT`.
+### **Most Recently Used (MRU) Items**
+- Οι λίστες MRU, που υποδεικνύουν πρόσφατες διαδρομές αρχείων και εντολές, αποθηκεύονται σε διάφορους υποκλειδικούς `ComDlg32` και `Explorer` κάτω από `NTUSER.DAT`.
 
-### **Καταγραφή Δραστηριότητας Χρήστη**
-- Το χαρακτηριστικό User Assist καταγράφει λεπτομερείς στατιστικές χρ
+### **User Activity Tracking**
+- Η δυνατότητα User Assist καταγράφει λεπτομερείς στατιστικές χρήσης εφαρμογών, συμπεριλαμβανομένου του αριθμού εκτελέσεων και του τελευταίου χρόνου εκτέλεσης, στο **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
+
+### **Shellbags Analysis**
+- Τα Shellbags, που αποκαλύπτουν λεπτομέρειες πρόσβασης φακέλων, αποθηκεύονται στο `USRCLASS.DAT` και `NTUSER.DAT` κάτω από `Software\Microsoft\Windows\Shell`. Χρησιμοποιήστε **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** για ανάλυση.
+
+### **USB Device History**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** και **`HKLM\SYSTEM\ControlSet001\Enum\USB`** περιέχουν πλούσιες λεπτομέρειες σχετικά με τις συνδεδεμένες συσκευές USB, συμπεριλαμβανομένου του κατασκευαστή, του ονόματος προϊόντος και των χρονικών σημείων σύνδεσης.
+- Ο χρήστης που σχετίζεται με μια συγκεκριμένη συσκευή USB μπορεί να προσδιοριστεί αναζητώντας τις βάσεις `NTUSER.DAT` για το **{GUID}** της συσκευής.
+- Η τελευταία τοποθετημένη συσκευή και ο αριθμός σειράς όγκου της μπορούν να ανιχνευθούν μέσω των `System\MountedDevices` και `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, αντίστοιχα.
+
+This guide condenses the crucial paths and methods for accessing detailed system, network, and user activity information on Windows systems, aiming for clarity and usability.
+
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
