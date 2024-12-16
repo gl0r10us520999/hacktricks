@@ -18,7 +18,7 @@ Impara e pratica GCP Hacking: <img src="../.gitbook/assets/grte.png" alt="" data
 ## Suggerimento Nmap
 
 {% hint style="warning" %}
-**ICMP** e **SYN** scans non possono essere tunnelizzati attraverso proxy socks, quindi dobbiamo **disabilitare la scoperta ping** (`-Pn`) e specificare **scans TCP** (`-sT`) affinché questo funzioni.
+**ICMP** e **SYN** scans non possono essere tunnelizzati attraverso proxy socks, quindi dobbiamo **disabilitare la scoperta ping** (`-Pn`) e specificare **scansioni TCP** (`-sT`) affinché questo funzioni.
 {% endhint %}
 
 ## **Bash**
@@ -65,7 +65,7 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-Porta locale --> Host compromesso (SSH) --> Ovunque
+Porto locale --> Host compromesso (SSH) --> Ovunque
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-In questo caso, il **porto è aperto nell'host beacon**, non nel Team Server e il traffico viene inviato al Team Server e da lì all'host:porto indicato.
+In questo caso, il **porto è aperto nell'host beacon**, non nel Team Server e il traffico viene inviato al Team Server e da lì all'host:port indicato.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -191,7 +191,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 Puoi scaricarlo dalla pagina delle release di [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
-Devi usare la **stessa versione per client e server**
+Devi utilizzare **la stessa versione per client e server**
 
 ### socks
 ```bash
@@ -243,12 +243,18 @@ listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
 ```
+### Accedi alle porte locali dell'agente
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
+```
 ## Rpivot
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
-Tunnel inverso. Il tunnel è avviato dalla vittima.\
-Un proxy socks4 è creato su 127.0.0.1:1080
+Tunnel inverso. Il tunnel viene avviato dalla vittima.\
+Viene creato un proxy socks4 su 127.0.0.1:1080
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
 ```
@@ -353,20 +359,20 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-Devi avere **accesso RDP sul sistema**.\
+È necessario avere **accesso RDP sul sistema**.\
 Scarica:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Questo strumento utilizza `Dynamic Virtual Channels` (`DVC`) dalla funzione Remote Desktop Service di Windows. DVC è responsabile per **il tunneling dei pacchetti sulla connessione RDP**.
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Questo strumento utilizza `Dynamic Virtual Channels` (`DVC`) dalla funzionalità Remote Desktop Service di Windows. DVC è responsabile per **il tunneling dei pacchetti sulla connessione RDP**.
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
-Nel tuo computer client carica **`SocksOverRDP-Plugin.dll`** in questo modo:
+Nel computer client carica **`SocksOverRDP-Plugin.dll`** in questo modo:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
 Ora possiamo **connetterci** alla **vittima** tramite **RDP** utilizzando **`mstsc.exe`**, e dovremmo ricevere un **messaggio** che dice che il **plugin SocksOverRDP è abilitato**, e che **ascolterà** su **127.0.0.1:1080**.
 
-**Connetti** tramite **RDP** e carica ed esegui nella macchina della vittima il file binario `SocksOverRDP-Server.exe`:
+**Connettersi** tramite **RDP** e caricare ed eseguire nella macchina della vittima il file binario `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -393,7 +399,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Autenticato contro un proxy e collega una porta localmente che viene inoltrata al servizio esterno specificato. Poi, puoi utilizzare lo strumento di tua scelta attraverso questa porta.\
+Si autentica contro un proxy e associa una porta localmente che viene inoltrata al servizio esterno specificato. Poi, puoi utilizzare lo strumento di tua scelta attraverso questa porta.\
 Ad esempio, inoltra la porta 443.
 ```
 Username Alice
@@ -452,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Cambiare DNS di proxychains
 
-Proxychains intercetta la chiamata `gethostbyname` della libc e instrada la richiesta DNS tcp attraverso il proxy socks. Per **default** il server **DNS** che proxychains utilizza è **4.2.2.2** (hardcoded). Per cambiarlo, modifica il file: _/usr/lib/proxychains3/proxyresolv_ e cambia l'IP. Se sei in un **ambiente Windows** puoi impostare l'IP del **domain controller**.
+Proxychains intercetta la chiamata `gethostbyname` della libc e instrada la richiesta DNS tcp attraverso il proxy socks. Per **default** il server **DNS** che proxychains utilizza è **4.2.2.2** (hardcoded). Per cambiarlo, modifica il file: _/usr/lib/proxychains3/proxyresolv_ e cambia l'IP. Se sei in un **ambiente Windows** potresti impostare l'IP del **domain controller**.
 
 ## Tunnel in Go
 
