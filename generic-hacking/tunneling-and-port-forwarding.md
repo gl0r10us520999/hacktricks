@@ -1,8 +1,8 @@
 # Tunneling et Port Forwarding
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -243,6 +243,12 @@ listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
 ```
+### Accéder aux ports locaux de l'agent
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
+```
 ## Rpivot
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
@@ -332,7 +338,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 C'est comme une version console de PuTTY (les options sont très similaires à celles d'un client ssh).
 
-Comme ce binaire sera exécuté sur la victime et qu'il s'agit d'un client ssh, nous devons ouvrir notre service ssh et le port afin de pouvoir établir une connexion inversée. Ensuite, pour rediriger uniquement un port accessible localement vers un port de notre machine :
+Comme ce binaire sera exécuté sur la victime et qu'il s'agit d'un client ssh, nous devons ouvrir notre service ssh et notre port afin d'avoir une connexion inversée. Ensuite, pour rediriger uniquement un port accessible localement vers un port de notre machine :
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -452,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Changer le DNS de proxychains
 
-Proxychains intercepte l'appel `gethostbyname` de la libc et tunnelise la requête DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** que proxychains utilise est **4.2.2.2** (codé en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et changez l'IP. Si vous êtes dans un **environnement Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
+Proxychains intercepte l'appel `gethostbyname` de la libc et tunnelise la requête DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** utilisé par proxychains est **4.2.2.2** (codé en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et changez l'IP. Si vous êtes dans un **environnement Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
 
 ## Tunnels en Go
 
@@ -490,7 +496,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ## ngrok
 
 [**ngrok**](https://ngrok.com/) **est un outil pour exposer des solutions à Internet en une ligne de commande.**\
-&#xNAN;_&#x45;xposition URI sont comme:_ **UID.ngrok.io**
+&#xNAN;_&#x45;xposition URI sont comme :_ **UID.ngrok.io**
 
 ### Installation
 
