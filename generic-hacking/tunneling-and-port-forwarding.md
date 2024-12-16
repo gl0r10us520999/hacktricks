@@ -169,7 +169,7 @@ Zu beachten:
 
 * Beacons Reverse-Port-Forwarding ist dafür ausgelegt, **Verkehr zum Team-Server zu tunneln, nicht um zwischen einzelnen Maschinen weiterzuleiten**.
 * Der Verkehr wird **innerhalb des C2-Verkehrs von Beacon getunnelt**, einschließlich P2P-Links.
-* **Admin-Rechte sind nicht erforderlich**, um Reverse-Port-Forwarding auf hohen Ports zu erstellen.
+* **Admin-Rechte sind nicht erforderlich**, um Reverse-Port-Forwards auf hohen Ports zu erstellen.
 
 ### rPort2Port lokal
 
@@ -242,6 +242,12 @@ interface_list
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### Zugriff auf die lokalen Ports des Agents
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -332,7 +338,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 Es ist wie eine Konsolen-PuTTY-Version (die Optionen sind sehr ähnlich zu einem ssh-Client).
 
-Da dieses Binary auf dem Opfer ausgeführt wird und es sich um einen ssh-Client handelt, müssen wir unseren ssh-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung haben können. Dann, um nur einen lokal zugänglichen Port auf einen Port in unserer Maschine weiterzuleiten:
+Da dieses Binary auf dem Opfer ausgeführt wird und es ein ssh-Client ist, müssen wir unseren ssh-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung haben können. Dann, um nur lokal zugänglichen Port auf einen Port in unserer Maschine weiterzuleiten:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -364,7 +370,7 @@ Laden Sie in Ihrem Client-Computer **`SocksOverRDP-Plugin.dll`** wie folgt:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Jetzt können wir uns über **RDP** mit dem **Opfer** verbinden, indem wir **`mstsc.exe`** verwenden, und wir sollten eine **Aufforderung** erhalten, die besagt, dass das **SocksOverRDP-Plugin aktiviert ist**, und es wird auf **127.0.0.1:1080** **lauschen**.
+Jetzt können wir uns über **RDP** mit dem **Opfer** verbinden, indem wir **`mstsc.exe`** verwenden, und wir sollten eine **Aufforderung** erhalten, die besagt, dass das **SocksOverRDP-Plugin aktiviert ist** und es auf **127.0.0.1:1080** **lauschen** wird.
 
 **Verbinden** Sie sich über **RDP** und laden Sie die `SocksOverRDP-Server.exe`-Binärdatei auf dem Opfercomputer hoch und führen Sie sie aus:
 ```
@@ -374,7 +380,7 @@ Jetzt bestätigen Sie auf Ihrer Maschine (Angreifer), dass der Port 1080 lauscht
 ```
 netstat -antb | findstr 1080
 ```
-Jetzt können Sie [**Proxifier**](https://www.proxifier.com/) **verwenden, um den Datenverkehr über diesen Port zu proxyen.**
+Jetzt können Sie [**Proxifier**](https://www.proxifier.com/) **verwenden, um den Verkehr über diesen Port zu proxyen.**
 
 ## Windows GUI-Apps proxifizieren
 
@@ -394,7 +400,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
 Es authentifiziert sich gegen einen Proxy und bindet einen Port lokal, der an den externen Dienst weitergeleitet wird, den Sie angeben. Dann können Sie das Tool Ihrer Wahl über diesen Port verwenden.\
-Zum Beispiel, um Port 443 weiterzuleiten.
+Zum Beispiel den weitergeleiteten Port 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -402,12 +408,12 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Jetzt, wenn Sie beispielsweise im Opfer den **SSH**-Dienst so einstellen, dass er auf Port 443 lauscht. Sie können sich über den Angreifer-Port 2222 mit ihm verbinden.\
-Sie könnten auch einen **meterpreter** verwenden, der sich mit localhost:443 verbindet und der Angreifer auf Port 2222 lauscht.
+Jetzt, wenn Sie beispielsweise den **SSH**-Dienst im Opfer auf Port 443 einstellen, können Sie sich über den Angreifer-Port 2222 damit verbinden.\
+Sie könnten auch einen **meterpreter** verwenden, der sich mit localhost:443 verbindet und der Angreifer hört auf Port 2222.
 
 ## YARP
 
-Ein Reverse-Proxy, der von Microsoft erstellt wurde. Sie finden ihn hier: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
+Ein Reverse-Proxy, der von Microsoft erstellt wurde. Sie finden es hier: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
 ## DNS Tunneling
 
