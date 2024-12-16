@@ -71,7 +71,7 @@ ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port
 ```
 ### Ters Port Yönlendirme
 
-Bu, DMZ üzerinden iç hostlardan kendi hostunuza ters shell almak için faydalıdır:
+Bu, iç hostlardan DMZ üzerinden kendi hostunuza ters shell almak için faydalıdır:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and capture it in localhost:7000
@@ -82,7 +82,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tüneli
 
-Her iki cihazda da **root erişimine ihtiyacınız var** (çünkü yeni arayüzler oluşturacaksınız) ve sshd yapılandırması root girişine izin vermelidir:\
+Her iki cihazda da **root erişimine** ihtiyacınız var (çünkü yeni arayüzler oluşturacaksınız) ve sshd yapılandırması root girişine izin vermelidir:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -169,7 +169,7 @@ Not edilmesi gerekenler:
 
 * Beacon'ın ters port yönlendirmesi, **bireysel makineler arasında iletim için değil, Team Server'a trafik tünellemek için tasarlanmıştır**.
 * Trafik, **Beacon'ın C2 trafiği içinde tünellenir**, P2P bağlantıları dahil.
-* Yüksek portlarda ters port yönlendirmeleri oluşturmak için **yönetici ayrıcalıkları gerekmez**.
+* **Yönetici ayrıcalıkları gerekmemektedir** yüksek portlarda ters port yönlendirmeleri oluşturmak için.
 
 ### rPort2Port yerel
 
@@ -242,6 +242,12 @@ interface_list
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### Erişim Ajanının Yerel Portları
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -353,7 +359,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-**Sistemde RDP erişimine sahip olmalısınız.**\
+Sistemde **RDP erişimine sahip olmalısınız**.\
 İndirin:
 
 1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Bu araç, Windows'un Uzak Masaüstü Servisi özelliğinden `Dynamic Virtual Channels` (`DVC`) kullanır. DVC, **RDP bağlantısı üzerinden paketleri tünellemekten** sorumludur.
@@ -366,11 +372,11 @@ C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
 Artık **`mstsc.exe`** kullanarak **RDP** üzerinden **kurban** ile **bağlanabiliriz** ve **SocksOverRDP eklentisinin etkin olduğu** ve **127.0.0.1:1080** adresinde **dinleyeceği** ile ilgili bir **istem** alacağız.
 
-**RDP** üzerinden **bağlanın** ve kurban makinesine `SocksOverRDP-Server.exe` ikili dosyasını yükleyip çalıştırın:
+**RDP** üzerinden **bağlanın** ve kurban makinesine `SocksOverRDP-Server.exe` ikilisini yükleyip çalıştırın:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Şimdi, makinenizde (saldırgan) 1080 numaralı portun dinlediğini doğrulayın:
+Şimdi, makinenizde (saldırgan) 1080 numaralı portun dinlendiğini doğrulayın:
 ```
 netstat -antb | findstr 1080
 ```
@@ -379,8 +385,8 @@ netstat -antb | findstr 1080
 ## Windows GUI Uygulamalarını Proxify Etme
 
 Windows GUI uygulamalarının bir proxy üzerinden gezinmesini sağlamak için [**Proxifier**](https://www.proxifier.com/) kullanabilirsiniz.\
-**Profil -> Proxy Sunucuları** kısmına SOCKS sunucusunun IP'sini ve portunu ekleyin.\
-**Profil -> Proxification Kuralları** kısmına proxify etmek istediğiniz programın adını ve proxify etmek istediğiniz IP'lere olan bağlantıları ekleyin.
+**Profile -> Proxy Servers** kısmına SOCKS sunucusunun IP'sini ve portunu ekleyin.\
+**Profile -> Proxification Rules** kısmına proxify etmek istediğiniz programın adını ve proxify etmek istediğiniz IP'lere olan bağlantıları ekleyin.
 
 ## NTLM proxy atlatma
 
@@ -402,14 +408,14 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Şimdi, eğer kurban üzerinde **SSH** hizmetini 443 numaralı portta dinleyecek şekilde ayarlarsanız, ona saldırganın 2222 numaralı portu üzerinden bağlanabilirsiniz.\
+Şimdi, eğer kurban üzerinde **SSH** hizmetini 443 numaralı portta dinleyecek şekilde ayarlarsanız, buna saldırganın 2222 numaralı portu üzerinden bağlanabilirsiniz.\
 Ayrıca, localhost:443'e bağlanan bir **meterpreter** kullanabilir ve saldırgan 2222 numaralı portta dinliyor olabilir.
 
 ## YARP
 
-Microsoft tarafından oluşturulan bir ters proxy. Bunu burada bulabilirsiniz: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
+Microsoft tarafından oluşturulmuş bir ters proxy. Bunu burada bulabilirsiniz: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
-## DNS Tünelleme
+## DNS Tunneling
 
 ### Iodine
 
@@ -452,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Proxychains DNS'ini Değiştir
 
-Proxychains `gethostbyname` libc çağrısını keser ve tcp DNS isteğini socks proxy üzerinden tüneller. **Varsayılan** olarak proxychains'in kullandığı **DNS** sunucusu **4.2.2.2**'dir (hardcoded). Bunu değiştirmek için dosyayı düzenleyin: _/usr/lib/proxychains3/proxyresolv_ ve IP'yi değiştirin. **Windows ortamında** iseniz, **domain controller**'ın IP'sini ayarlayabilirsiniz.
+Proxychains, `gethostbyname` libc çağrısını keser ve tcp DNS isteğini socks proxy üzerinden tüneller. **Varsayılan** olarak proxychains'in kullandığı **DNS** sunucusu **4.2.2.2**'dir (hardcoded). Bunu değiştirmek için dosyayı düzenleyin: _/usr/lib/proxychains3/proxyresolv_ ve IP'yi değiştirin. **Windows ortamında** iseniz, **domain controller**'ın IP'sini ayarlayabilirsiniz.
 
 ## Go'da Tüneller
 
@@ -538,7 +544,7 @@ Doğrudan stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.
 3 tünel açar:
 
 * 2 TCP
-* 1 HTTP, /tmp/httpbin/ dizininden statik dosya sergilemesi ile
+* 1 HTTP, /tmp/httpbin/ dizininden statik dosyaların sergilenmesiyle
 ```yaml
 tunnels:
 mytcp:
